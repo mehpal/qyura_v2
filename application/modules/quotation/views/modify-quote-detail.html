@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="assets/images/fevicon-m.ico" rel="shortcut icon">
+    <title>Quotation-Detail</title>
+    <link href="assets/vendor/timepicker/bootstrap-timepicker.min.css" rel="stylesheet" />
+    <link href="assets/css/framework.css" rel="stylesheet">
+    <link href="assets/css/datepicker.css" rel="stylesheet">
+    <link href="assets/css/custom-g.css" rel="stylesheet">
+    <link href="assets/css/custom-r.css" rel="stylesheet">
+    <link href="assets/css/overlay2.css" rel="stylesheet" />
+    <link href="assets/vendor/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+    <link href="assets/css/responsive-r.css" rel="stylesheet" />
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <![endif]-->
+
+    <script src="assets/js/modernizr.min.js"></script>
+</head>
+
+<body class="fixed-left">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <!-- Top Bar Start -->
+        <div class="topbar">
+            <!-- Logo -->
+            <div class="topbar-left">
+
+
+            </div>
+            <!-- Button mobile view to collapse sidebar menu -->
+            <div class="navbar navbar-default" role="navigation">
+                <div class="container row">
+                    <div class="clearfix">
+                        <div class="pull-left">
+                            <div class="mlogo visible-xs visible-sm"><a href="#"><i class="md"></i></a></div>
+
+                            <div class="hidden-xs hidden-sm">
+                                <a class="logo" href="#"><img src="assets/images/qyura-f-l.png"></a>
+
+                                <button class="button-menu-mobile open-left"><i class="fa fa-bars"></i></button> <span class="clearfix"></span>
+                            </div>
+
+                            <button class="button-menu-mobile open-left hidden-lg hidden-md"><i class="fa fa-bars"></i></button> <span class="clearfix"></span>
+                        </div>
+
+                        <form class="navbar-form pull-left visible-md" role="search">
+                            <div class="form-group">
+                                <input class="form-control search-bar" placeholder="Type here for search..." type="text">
+                            </div>
+                            <button class="btn btn-search" type="submit"><i class="fa fa-search"></i></button>
+                        </form>
+                        <ul class="nav navbar-nav navbar-right pull-right">
+                            <li class="dropdown">
+                                <a aria-expanded="true" class="dropdown-toggle profile" data-toggle="dropdown" href=""><img alt="user-img" class="img-circle" src="assets/images/users/avatar-1.jpg"> Ramesh K
+                                    <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="javascript:void(0)"><i class=
+                                    "md md-face-unlock"></i> Profile</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)"><i class=
+                                    "md md-settings"></i> Settings</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)"><i class=
+                                    "md md-lock"></i> Lock screen</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)"><i class=
+                                    "md md-settings-power"></i> Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown hidden-xs">
+                                <a aria-expanded="true" class="dropdown-toggle waves-effect waves-light" data-target="#" data-toggle="dropdown" href="#"><i class="md md-notifications"></i>
+                           <span class=
+                              "badge badge-xs badge-danger">3</span></a>
+                                <ul class="dropdown-menu dropdown-menu-lg">
+                                    <li class="text-center notifi-title">
+                                        Notification
+                                    </li>
+                                    <li class="list-group">
+                                        <a class="list-group-item" href="javascript:void(0);">
+                                            <div class="media">
+                                                <div class="pull-left">
+                                                    <em class="fa fa-user-plus fa-2x text-info">
+                                          </em>
+                                                </div>
+                                                <div class="media-body clearfix">
+                                                    <div class="media-heading">
+                                                        New user registered
+                                                    </div>
+                                                    <p class="m-0"><small>You have
+                                             10 unread messages</small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a class="list-group-item" href="javascript:void(0);">
+                                            <div class="media">
+                                                <div class="pull-left">
+                                                    <em class="fa fa-diamond fa-2x text-primary">
+                                          </em>
+                                                </div>
+                                                <div class="media-body clearfix">
+                                                    <div class="media-heading">
+                                                        New settings
+                                                    </div>
+                                                    <p class="m-0"><small>There are
+                                             new settings
+                                             available</small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a class="list-group-item" href="javascript:void(0);">
+                                            <div class="media">
+                                                <div class="pull-left">
+                                                    <em class="fa fa-bell-o fa-2x text-danger">
+                                          </em>
+                                                </div>
+                                                <div class="media-body clearfix">
+                                                    <div class="media-heading">
+                                                        Updates
+                                                    </div>
+                                                    <p class="m-0"><small>There are
+                                             <span class=
+                                                "text-primary">2</span> new
+                                             updates available</small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a class="list-group-item" href="javascript:void(0);"><small>See
+                                 all notifications</small></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- <li class="hidden-xs">
+                           <a href="#" class="right-bar-toggle waves-effect waves-light"><i class="md md-settings"></i></a>
+                           </li> -->
+                            <li class="hidden-xs hidden-sm">
+                                <a class="waves-effect waves-light" href="#" id="btn-fullscreen"><i class=
+                              "md md-crop-free"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- nav-collapse -->
+                </div>
+            </div>
+        </div>
+        <!-- Top Bar End -->
+        <!-- Left Sidebar Start -->
+        <div class="left side-menu">
+            <div class="sidebar-inner slimscrollleft">
+                <!--- Divider -->
+                <div id="sidebar-menu">
+                    <ul>
+                        <li>
+                            <a href="dashboard.html" class="waves-effect"><i class="ion-ios7-keypad-outline"></i><span>Dashboard</span></a>
+                        </li>
+
+                        <li class="has_sub">
+                            <a class="waves-effect" href="#"><i class="ion-ios7-albums-outline"></i>
+                        <span>Appointments</span><span class="pull-right"><i class="md md-add"></i></span></a>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="consultation.html"> Consulting</a></li>
+                                <li>
+                                    <a href="diagnostic.html">Diagnostic</a>
+                                </li>
+                                <li>
+                                    <a href="addappointment.html">Add Appointment</a>
+                                </li>
+                                <li>
+                                    <a href="upload-reports.html">Upload Test Report</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="has_sub">
+                            <a class="waves-effect active" href="#"><i class="ion-clipboard"></i> 
+                            <span>Quotations</span><span class="pull-right"><i class="md md-add"></i></span></a>
+                            <ul class="list-unstyled">
+                                <li class="active"><a href="quotelist.html">Quotation Requests</a></li>
+                                <li><a href="send-quote.html">Send a Quote</a></li>
+                                <li><a href="quote-history.html">Quotation History</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="has_sub">
+                            <a class="waves-effect" href="#"><i class="fa fa-newspaper-o"></i><span>Healthcare Packag.</span><span class="pull-right"><i class="md md-add"></i></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="health-packages.html">Healthcare Package</a></li>
+                                <li><a href="add-health-package.html">Add New Package</a></li>
+                                <li><a href="health-package-booking.html">Package Booking</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="has_sub">
+                            <a class="waves-effect" href="#"><i class="fa fa-newspaper-o"></i><span>Medicart</span><span class="pull-right"><i class="md md-add"></i></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="medicart-booking.html">Booking Requests</a></li>
+                                <li><a href="medicart-enquiry.html">Enquiries</a></li>
+                                <li><a href="add-medicat-offer.html">Add New Offer</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="call-tracking.html" class="waves-effect"><i class="ion-ios7-telephone-outline"></i><span>Call Tracking</span></a>
+                        </li>
+                        <li class="has_sub">
+                            <a class="waves-effect" href="#"><i class="md md-account-circle"></i><span>Doctor Mgment</span><span class="pull-right"><i class="md md-add"></i></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="all-doctor.html">Doctor List</a></li>
+                                <li><a href="add-doctor.html">Add New Doctor</a></li>
+                                <li><a href="secheduling.html">Schedule & Availability</a></li>
+                            </ul>
+                        </li>
+                        <li class="has_sub">
+                            <a class="waves-effect" href="#"><i class="md md-account-circle"></i><span>Patient Mgment</span><span class="pull-right"><i class="md md-add"></i></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="all-patient.html">All Patient</a></li>
+                                <li><a href="add-new-patient.html">Add New Patient</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="review-management.html" class="waves-effect"><i class="fa fa-star-o"></i><span>Rate & Reviews</span></a>
+                        </li>
+                        <li>
+                            <a href="favouriteby.html" class="waves-effect"><i class="fa fa-star-o"></i><span>Favourite By</span></a>
+                        </li>
+                        <li>
+                            <a href="#" class="waves-effect"><i class="fa fa-bar-chart-o"></i><span>Analytics</span></a>
+
+                        </li>
+                        <li class="has_sub">
+                            <a class="waves-effect" href="#"><i class="md md-trending-up"></i><span>Finance</span><span class="pull-right"><i class="md md-add"></i></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="#">Fianacial Accounts</a></li>
+                                <li><a href="#">Invoice List</a></li>
+                                <li><a href="#">Payment Transaction</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="has_sub">
+                            <a class="waves-effect" href="#"><i class="fa fa-gift"></i> <span>Promo Coupons</span><span class="pull-right"><i class="md md-add"></i></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="promo-coupon.html">Coupons List</a></li>
+                                <li><a href="create-coupon.html">Create a Coupon</a></li>
+                            </ul>
+                        </li>
+
+
+                        <li>
+                            <a href="sponser-healthtip.html" class="waves-effect"><i class="fa fa-medkit"></i><span>Sponsor Health Tips</span></a>
+
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="#"><i class="fa fa-cog"></i><span>Reporting</span></a>
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="setting.html"><i class="fa fa-cog"></i><span>Settings</span></a>
+                        </li>
+
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- Left Sidebar End -->
+        <!-- Start right Content here -->
+        <div class="content-page">
+            <!-- Start content -->
+            <div class="content">
+                <div class="container row">
+                    <div class="clearfix">
+                        <div class="col-md-12">
+                            <h3 class="pull-left page-title">Modify Quotation Request Detail</h3>
+                            <a href="quotation-detail.html" class="btn  btn-back waves-effect waves-light pull-right"><i class="fa fa-angle-left"></i> Back</a>
+
+                        </div>
+                    </div>
+
+                    <!-- Main Div Start -->
+                    <section class="clearfix detailbox">
+
+
+                        <div class="bg-white">
+                            <!-- Table Section Start -->
+
+                            <!-- Top Section Start -->
+                            <article class="clearfix p-t-20 appt-detail">
+                                <aside class="col-md-6 col-sm-6">
+                                    <div class="clearfix m-t-10">
+                                        <label class="col-md-4 col-sm-4">Quotation Id :</label>
+                                        <p class="col-md-8 col-sm-8">
+                                            <input type="text" class="form-control" name="refferedBy" value="AHT5853" />
+                                        </p>
+                                    </div>
+
+                                    <div class="clearfix m-t-10">
+                                        <label class="col-md-4 col-sm-4">Referred by :</label>
+                                        <p class="col-md-8 col-sm-8">
+                                            <input type="text" class="form-control" name="refferedBy" value="Dr. Anuj Dixit" />
+                                        </p>
+                                    </div>
+
+
+                                    <div class="clearfix m-t-10">
+                                        <label class="col-md-4 col-sm-4">HMS Id :</label>
+                                        <p class="col-md-8 col-sm-8">
+                                            <input type="text" class="form-control" name="hmsId" value="NA" />
+                                        </p>
+                                    </div>
+
+                                    <div class="clearfix m-t-10">
+                                        <label class="col-md-4 col-sm-4">Appointment Type :</label>
+                                        <p class="col-md-8 col-sm-8">
+                                            <input type="text" class="form-control" name="apptType" value="Consutation" />
+                                        </p>
+                                    </div>
+
+
+                                    <div class="clearfix m-t-10">
+                                        <label class="col-md-4 col-sm-4">Pref. Appt. Date :</label>
+                                        <p class="col-md-8 col-sm-8">
+                                            <div class="input-group" style="padding:5px 15px;">
+                                                <input class="form-control" placeholder="dd/mm/yyyy" value="17/12/2015" id="date-5" type="text" name="dateofJoining" onkeydown="return false;">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </p>
+                                    </div>
+
+                                    <div class="clearfix m-t-10">
+                                        <label class="col-md-4 col-sm-4">Pref. Session :</label>
+                                        <p class="col-md-8 col-sm-8">
+                                            <select class="selectpicker" data-width="100%" name="prefSession">
+                                                <option value="">Morning | 08:00 - 12:00</option>
+                                                <option value="">Afternoon | 12:00 - 04:00</option>
+                                                <option value="">Evening | 04:00 - 09:00</option>
+                                            </select>
+
+                                        </p>
+                                    </div>
+
+                                    <div class="clearfix m-t-10">
+                                        <label class="col-md-4 col-sm-4">Prescription :</label>
+                                        <div class="col-md-8 col-sm-8 text-right">
+                                            <input id="uploadFile" class="showUpload" disabled="disabled" />
+                                            <div class="fileUpload btn btn-sm btn-upload">
+                                                <span><i class="fa fa-cloud-upload fa-3x"></i></span>
+                                                <input id="uploadBtn" type="file" class="upload" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <section id="effect-3" class="effects clearfix">
+                                        <aside class="col-md-12">
+                                            <article class="img m-t-10">
+                                                <img src="assets/images/prescription.jpg" alt="">
+                                                <div class="overlay">
+                                                    <a href=""><i class="fa fa-search"></i></a>&nbsp;
+                                                    <a href="#"><i class="fa fa-download"></i></a>
+                                                    <a class="close-overlay hidden">x</a>
+                                                </div>
+                                            </article>
+                                            <article class="img m-t-10">
+                                                <img src="assets/images/prescription.jpg" alt="">
+                                                <div class="overlay">
+                                                    <a href=""><i class="fa fa-search"></i></a>&nbsp;
+                                                    <a href="#"><i class="fa fa-download"></i></a>
+                                                    <a class="close-overlay hidden">x</a>
+                                                </div>
+                                            </article>
+                                            <article class="img m-t-10">
+                                                <img src="assets/images/prescription.jpg" alt="">
+                                                <div class="overlay">
+                                                    <a href=""><i class="fa fa-search"></i></a>&nbsp;
+                                                    <a href="#"><i class="fa fa-download"></i></a>
+                                                    <a class="close-overlay hidden">x</a>
+                                                </div>
+                                            </article>
+                                        </aside>
+
+                                    </section>
+                                </aside>
+                                <aside class="col-md-6 col-sm-6">
+                                    <div class="clearfix m-t-20">
+                                        <article class="col-md-2 p-0 pull-right m-r-20">
+                                            <img src="assets/images/doctor-pic.jpg" alt="" class="img-responsive patient-pic">
+                                        </article>
+                                        <article class="col-md-5 text-right pull-right">
+                                            <h3>Rajesh Mitra</h3>
+                                            <p>M | 26 Year</p>
+                                            <p>9893000134</p>
+                                        </article>
+                                    </div>
+
+                                    <div class="clearfix m-t-20">
+                                        <article class="col-md-2 p-0 pull-right m-r-20">
+                                            <img src="assets/images/dc.jpg" alt="" class="img-responsive patient-pic">
+                                        </article>
+                                        <article class="col-md-5 text-right pull-right">
+                                            <h3>Surya Diagnostic Center</h3>
+                                            <p>9893000134</p>
+                                        </article>
+                                    </div>
+                                    <div class="clearfix m-t-20 text-right">
+                                        <a href="quote-history.html" class="btn btn-danger waves-effect m-r-10">Reject</a>
+                                        <a href="modify-quote-detail.html" class="btn btn-success waves-effect waves-light m-r-10">Modify Quotation</a>
+                                        <a href="quotelist.html" class="btn btn-appointment waves-effect waves-light m-tb-sm-3 m-r-10">Send Quotation</a>
+                                    </div>
+                                </aside>
+                            </article>
+
+
+                            <!-- Top Secton Ends-->
+                            <hr class="hr-appt-detail" />
+
+                            <!-- Bottom Section Start -->
+                            <article class="clearfix m-r-20 p-b-20 m-r-xs-0">
+                                <aside class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-borderd quotation-table">
+                                            <tr>
+                                                <th>Category</th>
+                                                <th>Test Name</th>
+                                                <th>Date</th>
+                                                <th>Time</th>
+                                                <th>Instruction</th>
+                                                <th>Pricing</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <select class="selectpicker" data-width="100%" name="diagnosticType">
+                                                        <option>Blood Test</option>
+                                                        <option>X-Ray</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="selectpicker" data-width="100%" name="testName">
+                                                        <option>RBC</option>
+                                                        <option>CBC</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <input class="form-control" placeholder="dd/mm/yyyy" value="17/12/2015" id="date-3" type="text" name="dateofJoining" onkeydown="return false;">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="bootstrap-timepicker input-group">
+                                                        <input id="timepicker4" type="text" class="form-control timepicker" value="04:00 PM" />
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <textarea class="form-control">Lorem Ipsum is simply dummy text of the printing</textarea>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" value="350.00" />
+                                                </td>
+                                                <td>
+                                                    <p><a class="btn btn-danger btn-sm waves-effect waves-light m-tb-sm-3" href="#">Delete</a></p>
+                                                    <a class="btn btn-success btn-sm waves-effect waves-light m-tb-sm-3" href="#">Update</a>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <select class="selectpicker" data-width="100%" name="diagnosticType">
+                                                        <option>Blood Test</option>
+                                                        <option>X-Ray</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="selectpicker" data-width="100%" name="testName">
+                                                        <option>RBC</option>
+                                                        <option>CBC</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <input class="form-control" placeholder="dd/mm/yyyy" value="17/12/2015" id="date-4" type="text" name="dateofJoining" onkeydown="return false;">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="bootstrap-timepicker input-group">
+                                                        <input id="timepicker4" type="text" class="form-control timepicker" value="04:00 PM" />
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <textarea class="form-control">Lorem Ipsum is simply dummy text of the printing</textarea>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" value="350.00" />
+                                                </td>
+                                                <td>
+                                                    <p><a class="btn btn-danger btn-sm waves-effect waves-light m-tb-sm-3" href="#">Delete</a></p>
+                                                    <a class="btn btn-success btn-sm waves-effect waves-light m-tb-sm-3" href="#">Update</a>
+                                                </td>
+                                            </tr>
+
+
+                                        </table>
+                                    </div>
+                                    <h5 class="h5-title text-right">Total Quotation Amount : 2100.00</h5>
+                                </aside>
+                            </article>
+
+                            <!-- Bottom Secton Ends-->
+                        </div>
+                    </section>
+
+                    <!-- container -->
+                </div>
+                <!-- content -->
+                <footer class="footer text-right">
+                    2015 © Qyura.
+                </footer>
+            </div>
+            <!-- End Right content here -->
+        </div>
+        <!-- END wrapper -->
+
+
+
+
+
+
+        <script>
+            var resizefunc = [];
+
+            $('.selectpicker').selectpicker({
+                style: 'btn-info',
+                size: "auto",
+                width: "100%"
+            });
+        </script>
+        <script src="assets/js/framework.js">
+        </script>
+        <script src="assets/vendor/timepicker/bootstrap-timepicker.min.js">
+        </script>
+        <script src="assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript">
+        </script>
+        <script src="assets/js/bootstrap-datepicker.js">
+        </script>
+        <script src="assets/js/pages/modify-quotation-detail.js" type="text/javascript">
+        </script>
+</body>
+
+</html>

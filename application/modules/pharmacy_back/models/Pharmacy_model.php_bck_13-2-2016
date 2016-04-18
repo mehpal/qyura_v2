@@ -1,0 +1,51 @@
+<?php
+class Pharmacy_model extends CI_Model {
+    
+    function __construct() {
+        parent::__construct();
+    }
+    
+    function fetchStates() {
+        $this->db->select('state_id,state_statename');
+        $this->db->from('qyura_state');
+        $this->db->order_by("state_statename","asc");
+        return $this->db->get()->result();
+    }
+    
+    function fetchCity ($stateId=NULL){
+
+        $this->db->select('city_id,city_name');
+        $this->db->from('qyura_city');
+        $this->db->where('city_stateid',$stateId);
+        $this->db->order_by("city_name","asc");
+        return $this->db->get()->result();
+    }
+        
+    function insertPharmacyUser($insertData){
+      $this->db->insert('qyura_users', $insertData); 
+       $insert_id = $this->db->insert_id();
+       // echo $this->db->last_query();exit;
+        return  $insert_id;
+    }
+    
+    function insertPharmacy($insertData){
+        //echo "here";exit;
+        $this->db->insert('qyura_pharmacy', $insertData); 
+      
+        $insert_id = $this->db->insert_id();
+       // echo $this->db->last_query();exit;
+        return  $insert_id;
+    }
+    
+    function fetchpharmacyData(){
+         $this->db->select('pharmacy.pharmacy_id,pharmacy.pharmacy_userid,pharmacy.pharmacy_name,pharmacy.pharmacy_phn,pharmacy.pharmacy_address,City.city_name,pharmacy.pharmacy_img');
+     $this->db->from('qyura_pharmacy AS pharmacy');
+     $this->db->join('qyura_city AS City','City.city_id = pharmacy.pharmacy_cityId','left');
+    $this->db->where(array('pharmacy.pharmacy_deleted'=> 0));
+       $this->db->order_by("pharmacy.creationTime", "desc"); 
+      $data= $this->db->get(); 
+     // echo $this->db->last_query();exit;
+     return $data->result();
+    }
+}   
+
