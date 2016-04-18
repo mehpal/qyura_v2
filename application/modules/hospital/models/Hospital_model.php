@@ -286,7 +286,7 @@ class Hospital_model extends CI_Model {
         $this->db->from('qyura_hospitalSpecialities AS Hspl');
         $this->db->join('qyura_specialities AS Spl', 'Spl.specialities_id = Hspl.hospitalSpecialities_specialitiesId', 'left');
         $this->db->where(array('Hspl.hospitalSpecialities_hospitalId' => $hospitalId, 'Hspl.hospitalSpecialities_deleted' => 0, 'Spl.specialities_deleted' => 0));
-        $this->db->order_by("Hspl.creationTime", "desc");
+        $this->db->order_by("Hspl.hospitalSpecialities_orderForHos", "asc");
         $data = $this->db->get();
         //echo $this->db->last_query(); exit;
         return $data->result();

@@ -1278,11 +1278,38 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
 
         $data = $this->Hospital_model->fetchhospitalSpecialityData($hospitalId);
         $allocatedSpecialist = '';
+        $count= 1;
         foreach ($data as $key => $val) {
-            $allocatedSpecialist .='<li >' . $val->specialities_name . '<input type=checkbox class=specialityAllocCheck name=allocSpeciality value=' . $val->hospitalSpecialities_id . ' /></li>';
+            $allocatedSpecialist .='<li class="ui-state-default" id="' . $val->hospitalSpecialities_id . '" >  '. $val->specialities_name . '<input type=checkbox class=specialityAllocCheck name=allocSpeciality value=' . $val->hospitalSpecialities_id . ' /></li>';
+            $count++;
         }
         echo $allocatedSpecialist;
         exit;
+    }
+    
+    function hospitalSpecialitiesOrder()
+    {
+        if(!empty($_POST))
+            {
+                $count=0;
+                foreach($_POST as $hospitalSpecialities_id => $order)
+                {
+                    
+                    $hospitalSpecialitiesData = array('hospitalSpecialities_orderForHos'=>$order);
+                    $con = array('hospitalSpecialities_id'=>$hospitalSpecialities_id);
+                    $return = $this->Hospital_model->UpdateTableData($hospitalSpecialitiesData, $con, 'qyura_hospitalSpecialities');
+                    
+                    if($return)
+                        $count++;
+                }
+                if($count==  count($_POST))
+                    echo 1;
+                
+            }
+            else
+            {
+                echo 0;
+            }
     }
 
     function hospitalFetchDiagnostics($hospitalId) {
