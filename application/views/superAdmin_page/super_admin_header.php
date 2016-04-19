@@ -28,10 +28,13 @@
 	width: 100%;
 	height: 100%;
 	z-index: 9999;
-        opacity:0.81;
-        background: url('<?php echo base_url('assets/images/loader') ?>/Doctors_symbol.gif') 50% 50% no-repeat rgb(249,249,249);
-        background-color: white;
-}
+	opacity:0.81;
+	background: url('<?php echo base_url('assets/images/loader') ?>/Doctors_symbol.gif') 50% 50% no-repeat rgb(249,249,249);
+	background-color: white;
+        }
+	.danger{
+	    color: red;
+	}
     </style>
     
 </head>

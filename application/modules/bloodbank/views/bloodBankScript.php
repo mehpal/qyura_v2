@@ -150,7 +150,7 @@ if($current == 'detailBloodBank'):?>
                 "url": "<?php echo site_url('bloodbank/getBloodBankDl'); ?>",
                 "type": "POST",
                 "data": function (d) {
-                    d.hosStateId = $("#stateId").val();
+                    d.status = $("#status").val();
                     d.cityId = $("#cityId").val();
                     d.bloodBank_name = $("#search").val();
                     
@@ -168,7 +168,7 @@ if($current == 'detailBloodBank'):?>
             ],
         });
 
-        $('#cityId,#stateId').change(function () {
+        $('#cityId,#status').change(function () {
             oTable.draw();
         });
         $('#search').on('keyup', function () {
