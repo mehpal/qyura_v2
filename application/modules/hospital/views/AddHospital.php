@@ -33,8 +33,30 @@
                         </figure>
                         <!-- Table Section End -->
                         <div class="clearfix m-t-20 p-b-20">
+                            
+                            
+                             <article class="clearfix m-t-10">
+                                <label for="cname" class="control-label col-md-4  col-sm-4">Select Name :</label>
+                                <div class="col-md-8 col-sm-8">
+                                    <?php $publishHospital[] = (object) array('hospital_id' =>0, 'hospital_name' => 'Other') ?>
+                                    <select class="form-control selectpicker" data-width="100%" name="hospital_id" id="hospital_id" onchange="getHospitaldetail(this.value)" >
+                                        <option value="">Select Hospital</option>
+                                        <?php if (!empty($publishHospital)) {
+                                            
+                                            foreach ($publishHospital as $key => $val) {
+                                                ?>
+                                                <option <?php echo set_select('hospital_id', $val->hospital_id); ?> value="<?php echo $val->hospital_id; ?>"> <?php echo $val->hospital_name; ?></option>
+                                            <?php }
+                                        }
+                                        ?>
+                                       <!--<option value="0">Other</option>-->
+                                    </select>
+                                    <label class="error" style="display:none;" id="error-hospital_id"> please select hospital name</label>
+                                    <label class="error" > <?php echo form_error("hospital_id"); ?></label>
+                                </div>
+                            </article>
 
-                            <article class="clearfix m-t-10">
+                            <article class="clearfix m-t-10" style="<?php if(isset($hospital_id) && $hospital_id == 0){ echo 'display:block'; }else{ echo 'display:none'; } ?>" id="hospitalName">
                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Hospital Name :</label>
                                 <div class="col-md-8 col-sm-8">
                                     <input class="form-control" id="hospital_name" name="hospital_name" type="text" value="<?php echo set_value('hospital_name'); ?>">
@@ -73,7 +95,8 @@
                                     <label class="error" > <?php echo form_error("avatar_file"); ?></label>
                                 </div>
                             </article>
-
+                            
+                            <div id="addressDiv">
 
                             <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4 col-sm-4">Address:</label>
@@ -148,19 +171,21 @@
                             </article>
 
 
-                            <article class="clearfix">
+                          <!--  <article class="clearfix">
                                 <label class="control-label col-md-4" for="cname">Manual:</label>
                                 <div class="col-md-8">
                                     <aside class="radio radio-info radio-inline">
-                                        <input <?php echo set_radio('isManual', '1', TRUE); ?> type="radio"  name="isManual" value="1" id="isManual" onclick="IsAdrManual(this.value)">
+                                        <input <?php // echo set_radio('isManual', '1', TRUE); ?> type="radio"  name="isManual" value="1" id="isManual" onclick="IsAdrManual(this.value)">
                                         <label for="inlineRadio1"> Yes</label>
                                     </aside>
                                     <aside class="radio radio-info radio-inline">
-                                        <input <?php echo set_radio('isManual', '0'); ?> type="radio" name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.value)">
+                                        <input <?php // echo set_radio('isManual', '0'); ?> type="radio" name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.value)">
                                         <label for="inlineRadio2"> No</label>
                                     </aside>
                                 </div>
-                            </article>
+                            </article> -->
+                          
+                           <input  type="hidden" name="isManual" value="1" id="isManual">
 
 
                             <article class="clearfix m-t-10">
@@ -191,6 +216,8 @@
                                     </aside>
                                 </div>
                             </article>
+                           
+                         </div>  
 
                             <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4  col-sm-4">Phone:</label>
@@ -198,19 +225,19 @@
                                     <!--<a href="javascript:void(0)" class="add pull-right" onclick="countPhoneNumber()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus"></i></a>-->
                                     <div id="multuple_phone_load">
                                         <aside class="row clone">
-                                            <div class="col-lg-3 col-md-4 col-sm-3 col-sm-4 col-xs-12 m-t-xs-10" id="multiPreNumber">
+                                           <!-- <div class="col-lg-3 col-md-4 col-sm-3 col-sm-4 col-xs-12 m-t-xs-10" id="multiPreNumber">
                                                 <select class="selectpicker" data-width="100%" name="pre_number[]" id="multiPreNumber">
                                                     <option value ='91'>+91</option>
                                                 </select>
-                                            </div>
+                                            </div> -->
 
-                                            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12 m-t-xs-10">
-                                                <input type="text" onkeypress="return isNumberKey(event)" onblur="checkNumber('midNumber', 1)" maxlength="5" value="<?php set_value('midNumber[0]'); ?>"  id="midNumber" name="midNumber[]" class="form-control" requird>
-                                                <label class="error" > <?php echo form_error("midNumber"); ?></label>
-                                            </div>
+                                            <!--<div class="col-lg-4 col-md-4 col-sm-3 col-xs-12 m-t-xs-10">
+                                                <input type="text" onkeypress="return isNumberKey(event)" onblur="checkNumber('midNumber', 1)" maxlength="5" value="<?php // set_value('midNumber[0]'); ?>"  id="midNumber" name="midNumber[]" class="form-control" requird>
+                                                <label class="error" > <?php // echo form_error("midNumber"); ?></label>
+                                            </div> -->
 
-                                            <div class="col-md-5 col-sm-5 col-xs-10 m-t-xs-10" id="multiPhoneNumber">
-                                                <input type="text" class="form-control" name="hospital_phn[]" id="hospital_phn1" maxlength="8" onkeypress="return isNumberKey(event)" requird value="<?php set_value('hospital_phn'); ?>" />
+                                            <div class="col-xs-10 m-t-xs-10" id="multiPhoneNumber">
+                                                <input type="text" class="form-control" name="hospital_phn" id="hospital_phn1" maxlength="10" onkeypress="return isNumberKey(event)" requird value="<?php echo set_value('hospital_phn'); ?>" minlength="10" pattern=".{10,10}"/>
                                                 <label class="error" style="display:none;" id="error-hospital_phn"> please enter a valid phone number</label>
                                                 <label class="error" > <?php echo form_error("hospital_phn"); ?></label>
                                             </div>
@@ -221,16 +248,16 @@
                                 </div>
                             </article>
 
-                            <article class="clearfix m-t-10">
+                           <!-- <article class="clearfix m-t-10">
                                 <label class="control-label col-md-4 col-sm-4" for="cname">Mobile no. :</label>
                                 <div class="col-md-8 col-sm-8">
-                                    <input type="text" value="<?php set_value('hospital_mbl'); ?>" onkeypress="return isNumberKey(event)" maxlength="10" placeholder="" name="hospital_mbl" id="hospital_mbl" class="form-control">
+                                    <input type="text" value="<?php // set_value('hospital_mbl'); ?>" onkeypress="return isNumberKey(event)" maxlength="10" placeholder="" name="hospital_mbl" id="hospital_mbl" class="form-control">
 
                                     <label id="error-hospital_mbl" style="display:none;" class="error">please enter digits only!</label>
-                                    <label class="error" > <?php echo form_error("hospital_mbl"); ?></label>
+                                    <label class="error" > <?php // echo form_error("hospital_mbl"); ?></label>
 
                                 </div>
-                            </article>
+                            </article> -->
 
                             <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4  col-sm-4">Hospital Services:</label>

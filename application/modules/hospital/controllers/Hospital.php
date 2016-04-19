@@ -12,7 +12,8 @@ class Hospital extends MY_Controller {
 
     function index() {
         $data = array();
-        $data['allStates'] = $this->Hospital_model->fetchStates();
+       // $data['allStates'] = $this->Hospital_model->fetchStates();
+        $data['allCities'] = $this->Hospital_model->allCities();
         $data['hospitalData'] = $this->Hospital_model->fetchHospitalData();
         $data['title'] = 'All Hospital';
         $data['hospitalId'] = 0;
@@ -53,6 +54,7 @@ class Hospital extends MY_Controller {
         $data = array();
         $data['allCountry'] = $this->Hospital_model->fetchCountry();
         $data['allStates'] = $this->Hospital_model->fetchStates();
+        $data['publishHospital'] = $this->Hospital_model->fetchPublishHospital();
         $data['hospitalType'] = $this->Hospital_model->getHospitalType();
         $data['title'] = 'Add Hospital';
         $this->load->super_admin_template('AddHospital', $data, 'hospitalScript');
@@ -70,10 +72,10 @@ class Hospital extends MY_Controller {
     }
 
     // get hospital detail
-    function detailHospital($hospitalId = '', $active='general') {
+    function detailHospital($hospitalId = '', $active = 'general') {
         $data = array();
         $data['hospitalData'] = $this->Hospital_model->fetchHospitalData($hospitalId);
-        if(count($data['hospitalData']) == 0){
+        if (count($data['hospitalData']) == 0) {
             redirect('hospital');
         }
         $data['hospitalType'] = $this->Hospital_model->getHospitalType();
@@ -314,7 +316,7 @@ class Hospital extends MY_Controller {
         $stateId = $this->input->post('stateId');
         $cityData = $this->Hospital_model->fetchCity($stateId);
         $cityOption = '';
-         $cityOption .='<option value=>Select Your City</option>';
+        $cityOption .='<option value=>Select Your City</option>';
         foreach ($cityData as $key => $val) {
             $cityOption .= '<option value=' . $val->city_id . '>' . strtoupper($val->city_name) . '</option>';
         }
@@ -345,10 +347,10 @@ class Hospital extends MY_Controller {
         $this->bf_form_validation->set_rules('hospital_countryId', 'Hospital Country', 'required|trim');
         $this->bf_form_validation->set_rules('hospital_stateId', 'Hospital StateId', 'required|trim');
         $this->bf_form_validation->set_rules('hospital_cityId', 'hospital City', 'required|trim');
-$this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital Service Name', 'required|trim');
+        $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital Service Name', 'required|trim');
         $this->bf_form_validation->set_rules('hospital_mblNo', 'Hospital Mobile No', 'required|trim');
 
-        $this->bf_form_validation->set_rules('hospital_mbl', 'Mobile No', 'trim');
+       // $this->bf_form_validation->set_rules('hospital_mbl', 'Mobile No', 'trim');
 
         $this->bf_form_validation->set_rules('hospital_zip', 'Hospital Zip', 'required|trim');
         $this->bf_form_validation->set_rules('hospital_dsgn', 'Hospital Designation', 'required|trim');
@@ -360,20 +362,21 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
 
         $this->bf_form_validation->set_rules('lat', 'Latitude', 'required|trim');
         $this->bf_form_validation->set_rules('lng', 'Longitude', 'required|trim');
+
+        //$this->bf_form_validation->set_rules('midNumber[]', 'Please enter std code', 'trim|required');
+        // checkboxes
+        $this->bf_form_validation->set_rules('bloodbank_chk', 'blood bank checkbox', 'trim');
+        $this->bf_form_validation->set_rules('bloodBank_name', 'blood bank name', 'trim');
+
+        $this->bf_form_validation->set_rules('pharmacy_chk', 'pharmacy checkbox', 'trim');
+        $this->bf_form_validation->set_rules('pharmacy_name', 'pharmacy name', 'trim');
+
+        $this->bf_form_validation->set_rules('ambulance_chk', 'ambulance checkbox', 'trim');
+        $this->bf_form_validation->set_rules('ambulance_name', 'ambulance name', 'trim');
+
+        $this->bf_form_validation->set_rules('isEmergency', 'isEmergency', 'trim');
         
-         //$this->bf_form_validation->set_rules('midNumber[]', 'Please enter std code', 'trim|required');
-         
-         // checkboxes
-         $this->bf_form_validation->set_rules('bloodbank_chk', 'blood bank checkbox', 'trim');
-         $this->bf_form_validation->set_rules('bloodBank_name', 'blood bank name', 'trim');
-         
-         $this->bf_form_validation->set_rules('pharmacy_chk', 'pharmacy checkbox', 'trim');
-         $this->bf_form_validation->set_rules('pharmacy_name', 'pharmacy name', 'trim');
-         
-         $this->bf_form_validation->set_rules('ambulance_chk', 'ambulance checkbox', 'trim');
-         $this->bf_form_validation->set_rules('ambulance_name', 'ambulance name', 'trim');
-         
-         $this->bf_form_validation->set_rules('isEmergency', 'isEmergency', 'trim');
+        $this->bf_form_validation->set_rules('hospital_phn', 'Hospital Phon No.', 'required|trim');
 
 
         // if (empty($_FILES['hospital_img']['name']))
@@ -388,17 +391,19 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
             $data = array();
             $data['allCountry'] = $this->Hospital_model->fetchCountry();
             $hospital_countryId = $this->input->post('hospital_countryId');
-            if($hospital_countryId != ''){
+            if ($hospital_countryId != '') {
                 $data['allStates'] = $this->Hospital_model->fetchStates($hospital_countryId);
             }
-            
+
             $hospital_stateId = $this->input->post('hospital_stateId');
-            if($hospital_stateId != ''){
-               $data['allCities'] = $this->Hospital_model->fetchCity($hospital_stateId); 
+            if ($hospital_stateId != '') {
+                $data['allCities'] = $this->Hospital_model->fetchCity($hospital_stateId);
             }
-          //  $data['allCities'] = $this->Hospital_model->fetchCity($data['hospitalData'][0]->hospital_stateId);
+            //  $data['allCities'] = $this->Hospital_model->fetchCity($data['hospitalData'][0]->hospital_stateId);
             //$data['allStates'] = $this->Hospital_model->fetchStates($data['hospitalData'][0]->hospital_countryId);
             $data['hospitalType'] = $this->Hospital_model->getHospitalType();
+            $data['publishHospital'] = $this->Hospital_model->fetchPublishHospital();
+            $data['hospital_id'] = $this->input->post('hospital_id');
             $data['allStates'] = $this->Hospital_model->fetchStates();
             $data['title'] = 'Add Hospital';
             $this->load->super_admin_template('AddHospital', $data, 'hospitalScript');
@@ -426,7 +431,7 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
 
 
 
-            $hospital_phn = $this->input->post('hospital_phn');
+         /*   $hospital_phn = $this->input->post('hospital_phn');
             $pre_number = $this->input->post('pre_number');
             $midNumber = $this->input->post('midNumber');
             $countPnone = $this->input->post('countPnone');
@@ -439,15 +444,16 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
                     else
                         $finalNumber .= $pre_number[$i] . ' ' . $midNumber[$i] . ' ' . $hospital_phn[$i] . '|';
                 }
-            }
+            }  */
 
             // echo $finalNumber;
             // exit();
+            $hospital_id = $this->input->post('hospital_id');
             $hospital_name = $this->input->post('hospital_name');
             $hospital_type = $this->input->post('hospital_type');
             $hospital_address = $this->input->post('hospital_address');
             $isManual = $this->input->post('isManual');
-            $hospital_phn = $this->input->post('hospital_phn');
+            $hospital_phn = ltrim($this->input->post('hospital_phn'), 0);
             $hospital_cntPrsn = $this->input->post('hospital_cntPrsn');
             $hospital_dsgn = $this->input->post('hospital_dsgn');
             $hospital_mmbrTyp = $this->input->post('hospital_mmbrTyp');
@@ -457,7 +463,7 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
             $hospital_mblNo = $this->input->post('hospital_mblNo');
             $hospital_aboutUs = $this->input->post('hospital_aboutUs');
             $hospital_zip = $this->input->post('hospital_zip');
-            $hospital_mbl = $this->input->post('hospital_mbl');
+           // $hospital_mbl = $this->input->post('hospital_mbl');
             $isEmergency = 0;
             if (isset($_POST['isEmergency']))
                 $isEmergency = $_POST['isEmergency'];
@@ -466,8 +472,8 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
                 'hospital_type' => $hospital_type,
                 'hospital_address' => $hospital_address,
                 'isManual' => $isManual,
-                'hospital_phn' => rtrim($finalNumber, "|"),
-                'hospital_mbl' => $hospital_mbl,
+                'hospital_phn' => $hospital_phn,
+               // 'hospital_mbl' => $hospital_mbl,
                 'hospital_cntPrsn' => $hospital_cntPrsn,
                 'hospital_dsgn' => $hospital_dsgn,
                 'hospital_mmbrTyp' => $hospital_mmbrTyp,
@@ -494,8 +500,7 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
                     'users_mobile' => $this->input->post('hospital_mblNo'),
                     'creationTime' => strtotime(date("Y-m-d H:i:s"))
                 );
-
-
+                
                 $hospital_usersId = $this->Hospital_model->inserHospitalUser($hospitalInsert);
                 $usersRoles_parentId = 0;
             } else {
@@ -505,7 +510,20 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
             if ($hospital_usersId) {
 
                 $inserData['hospital_usersId'] = $hospital_usersId;
-                $hospitalId = $this->Hospital_model->insertHospital($inserData);
+                
+                if($hospital_id == 0){
+                     $hospitalId = $this->Hospital_model->insertHospital($inserData);
+                }elseif($hospital_id != 0 && $hospital_id != '' && $hospital_id != NULL){
+                     $hospitalId = $hospital_id;
+                     unset($inserData['creationTime']);
+                     $inserData['modifyTime'] = strtotime(date("Y-m-d H:i:s"));
+                     $inserData['status'] = 0;
+                     $where = array(
+                        'hospital_id' => $hospital_id
+                    );
+                    $response = $this->Hospital_model->UpdateTableData($inserData, $where, 'qyura_hospital');
+                }
+                
                 $insertusersRoles = array(
                     'usersRoles_userId' => $hospital_usersId,
                     'usersRoles_roleId' => 1,
@@ -801,9 +819,11 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
         $this->bf_form_validation->set_rules('lat', 'Latitude', 'required|trim');
         $this->bf_form_validation->set_rules('lng', 'Longitude', 'required|trim');
 
-        $this->bf_form_validation->set_rules('hospital_mbl', 'Mobile No', 'required|trim');
-        
+       // $this->bf_form_validation->set_rules('hospital_mbl', 'Mobile No', 'required|trim');
+
         $this->bf_form_validation->set_rules('hospital_aboutUs', 'about us', 'required|trim');
+        
+        $this->bf_form_validation->set_rules('hospital_phn', 'Hospital Phon No.', 'required|trim|max_length[10]|min_length[10]');
 
 
         if ($this->bf_form_validation->run($this) === FALSE) {
@@ -847,7 +867,8 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
 
             return false;
         } else {
-            $hospital_phn = $this->input->post('hospital_phn');
+           // print_r($_POST); exit;
+           /* $hospital_phn = $this->input->post('hospital_phn');
             $midNumber = $this->input->post('midNumber');
             $pre_number = $this->input->post('pre_number');
             //$countPnone = $this->input->post('countPnone');
@@ -860,7 +881,8 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
                     else
                         $finalNumber .= $pre_number[$i] . ' ' . $midNumber[$i] . ' ' . $hospital_phn[$i] . '|';
                 }
-            }
+            } */
+            
             $hospital_address = $this->input->post('hospital_address');
             $isManual = $this->input->post('isManual');
             $hospital_lat = $this->input->post('lat');
@@ -874,10 +896,10 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
                 'hospital_stateId' => $this->input->post('hospital_stateId'),
                 'hospital_cityId' => $this->input->post('hospital_cityId'),
                 'hospital_zip' => $this->input->post('hospital_zip'),
-                'hospital_mbl' => $this->input->post('hospital_mbl'),
+              //  'hospital_mbl' => $this->input->post('hospital_mbl'),
                 'hospital_address' => $hospital_address,
                 'isManual' => $isManual,
-                'hospital_phn' => rtrim($finalNumber, "|"),
+                'hospital_phn' => ltrim($this->input->post('hospital_phn'),0),
                 'hospital_cntPrsn' => $this->input->post('hospital_cntPrsn'),
                 'hospital_dsgn' => $this->input->post('hospital_dsgn'),
                 'isEmergency' => $this->input->post('isEmergency'),
@@ -886,7 +908,7 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
                 'modifyTime' => strtotime(date("Y-m-d H:i:s")),
                 'hospital_dsgn' => $this->input->post('hospital_dsgn')
             );
-          //  print_r($updateHospital); exit;
+            //  print_r($updateHospital); exit;
             $where = array(
                 'hospital_id' => $hospitalId
             );
@@ -1129,7 +1151,7 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
 
     function updatePassword() {
         //echo "here";exit;
-      //  $users_email = $this->input->post('users_email');
+        //  $users_email = $this->input->post('users_email');
         // echo $users_email;
         // exit;
         //$existingPassword = $this->input->post('existingPassword');
@@ -1160,7 +1182,7 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
         );
         $userTableData = array(
             'users_mobile' => $users_mobile,
-           // 'users_email' => $users_email,
+            // 'users_email' => $users_email,
             'modifyTime' => strtotime(date("Y-m-d H:i:s"))
         );
         $return = $this->Hospital_model->UpdateTableData($userTableData, $where, 'qyura_users');
@@ -1278,38 +1300,11 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
 
         $data = $this->Hospital_model->fetchhospitalSpecialityData($hospitalId);
         $allocatedSpecialist = '';
-        $count= 1;
         foreach ($data as $key => $val) {
-            $allocatedSpecialist .='<li class="ui-state-default" id="' . $val->hospitalSpecialities_id . '" >  '. $val->specialities_name . '<input type=checkbox class=specialityAllocCheck name=allocSpeciality value=' . $val->hospitalSpecialities_id . ' /></li>';
-            $count++;
+            $allocatedSpecialist .='<li >' . $val->specialities_name . '<input type=checkbox class=specialityAllocCheck name=allocSpeciality value=' . $val->hospitalSpecialities_id . ' /></li>';
         }
         echo $allocatedSpecialist;
         exit;
-    }
-    
-    function hospitalSpecialitiesOrder()
-    {
-        if(!empty($_POST))
-            {
-                $count=0;
-                foreach($_POST as $hospitalSpecialities_id => $order)
-                {
-                    
-                    $hospitalSpecialitiesData = array('hospitalSpecialities_orderForHos'=>$order);
-                    $con = array('hospitalSpecialities_id'=>$hospitalSpecialities_id);
-                    $return = $this->Hospital_model->UpdateTableData($hospitalSpecialitiesData, $con, 'qyura_hospitalSpecialities');
-                    
-                    if($return)
-                        $count++;
-                }
-                if($count==  count($_POST))
-                    echo 1;
-                
-            }
-            else
-            {
-                echo 0;
-            }
     }
 
     function hospitalFetchDiagnostics($hospitalId) {
@@ -1813,20 +1808,20 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
         $hospital_stateId = '';
         $hospital_cityId = '';
         $search = '';
-        
+
         if (isset($_POST['hospital_stateId']))
             $hospital_stateId = $this->input->post('hospital_stateId');
-        
+
         if (isset($_POST['hospital_cityId']))
             $hospital_cityId = $this->input->post('hospital_cityId');
-        
+
         if (isset($_POST['search']))
             $search = $this->input->post('search');
-            $orWhere = array('hospital_name' => $search, 'hospital_phn' => $search, 'hospital_address' => $search);
+        $orWhere = array('hospital_name' => $search, 'hospital_phn' => $search, 'hospital_address' => $search);
 
         $where = array('hospital_deleted' => 0, 'hospital_cityId' => $hospital_cityId, 'hospital_stateId' => $hospital_stateId);
         $array[] = array('Hospital Name', 'City', 'Phone Number', 'Address');
-        $data = $this->Hospital_model->createCSVdata($where,$orWhere);
+        $data = $this->Hospital_model->createCSVdata($where, $orWhere);
 
         $arrayFinal = array_merge($array, $data);
 
@@ -1980,10 +1975,10 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
 
     function isValidLatitude($latitude) {
         if (preg_match("/^-?([1-8]?[1-9]|[1-9]0)\.{1}\d{2,20}$/", $latitude)) {
-           
+
             return true;
         } else {
-             $this->bf_form_validation->set_message('isValidLatitude', 'Please enter the correct format for latitude');
+            $this->bf_form_validation->set_message('isValidLatitude', 'Please enter the correct format for latitude');
             return false;
         }
     }
@@ -1994,6 +1989,39 @@ $this->bf_form_validation->set_rules('hospitalServices_serviceName[]', 'hospital
         } else {
             $this->bf_form_validation->set_message('isValidLongitude', 'Please enter the correct format for longitude');
             return false;
+        }
+    }
+
+    function activeDeactive() {
+
+        $id = $this->input->post('id');
+        $status = $this->input->post('status');
+
+        if ($status == 1) {
+            $setStatus = 0;
+        } else {
+            $setStatus = 1;
+        }
+        $option = array(
+            'table' => 'qyura_hospital',
+            'data' => array('status' => $setStatus),
+            'where' => array('hospital_id' => $id)
+        );
+        $response = $this->common_model->customUpdate($option);
+       // echo $this->db->last_query(); exit;
+
+        if ($response) {
+            echo 1;
+        } else {
+            echo 0;
+        }
+    }
+    
+    
+    function getHospitaldetail(){
+        $hospitalId = $this->input->post('hospitalId');
+        if($hospitalId != ''){
+            $response = $this->Hospital_model->getHospitaldetail($hospitalId);
         }
     }
 

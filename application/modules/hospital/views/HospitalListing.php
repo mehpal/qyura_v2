@@ -22,21 +22,24 @@
                         <aside class="col-lg-1 col-md-2 col-sm-2">
                             <a href="<?php echo site_url('hospital/addHospital') ?>" class="btn btn-appointment waves-effect waves-light" title="Add New Hospital"><i class="fa fa-plus"></i> Add</a>
                         </aside>
-                        <aside class="col-md-2 col-sm-2 m-t-xs-2">
+                        
+                        <!--<aside class="col-md-2 col-sm-2 m-t-xs-2">
                             <select class="form-control selectpicker" data-width="100%" name="hospital_stateId" id="hospital_stateId" data-size="4" onchange ="fetchCity(this.value)">
 
                                 <option value="">Select State</option>
-                                <?php foreach ($allStates as $key => $val) { ?>
-                                    <option value="<?php echo $val->state_id; ?>"><?php echo $val->state_statename; ?></option>
-                                <?php } ?>
+                                <?php // foreach ($allStates as $key => $val) { ?>
+                                    <option value="<?php // echo $val->state_id; ?>"><?php // echo $val->state_statename; ?></option>
+                                <?php // } ?>
                             </select>
 
-                        </aside>
+                        </aside> -->
+                        
                         <aside class="col-md-3 col-sm-3 m-tb-xs-3">
                             <select type="text" name="hospital_cityId" class="form-control selectpicker" data-width="100%"  placeholder="Search" id="hospital_cityId" data-size="4" />
                             <option value=>Select Your City</option>
-                            <!-- <option>Delhi</option>
-                             <option>Kolkata</option> -->
+                             <?php foreach ($allCities as $key => $val) { ?>
+                                    <option value="<?php echo $val->city_id; ?>"><?php echo $val->city_name; ?></option>
+                                <?php } ?>
                             </select>
                         </aside>
                         <aside class="col-md-3 col-sm-4 m-tb-xs-3">
@@ -46,9 +49,9 @@
                             </div>
                         </aside>
                        
-                        <aside class="col-md-2 col-sm-2 pull-right">
+                        <!--<aside class="col-md-2 col-sm-2 pull-right">
                             <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit" onclick="createCSV()">Export</button>
-                        </aside>
+                        </aside> -->
 
                     </form>
                 </article>
@@ -66,6 +69,7 @@
                                         <th>City</th>
                                         <th>Phone</th>
                                         <th>Address</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>

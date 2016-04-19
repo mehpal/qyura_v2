@@ -12,6 +12,26 @@ class Hospital_model extends CI_Model {
         $this->db->order_by("country", "asc");
         return $this->db->get()->result();
     }
+    
+   // fetch all cities associated to hospital
+   function allCities() {
+        $this->db->select('city_id,city_name');
+        $this->db->from('qyura_city');
+        $this->db->join('qyura_hospital', 'qyura_hospital.hospital_cityId=qyura_city.city_id', 'right');
+        $this->db->order_by("city_name", "asc");
+        $this->db->group_by("city_id");
+        return $this->db->get()->result();
+    }
+    
+   // fetch all publish hospital 
+   function fetchPublishHospital() {
+        $this->db->select('hospital_id,hospital_name');
+        $this->db->from('qyura_hospital');
+        $this->db->where('status', 2);
+        $this->db->order_by("hospital_name", "asc");
+        $this->db->group_by("hospital_id");
+        return $this->db->get()->result();
+    }
 
     function fetchStates($countryId = NULL) {
         $this->db->select('state_id,state_statename');
@@ -190,7 +210,7 @@ class Hospital_model extends CI_Model {
         $imgUrl = base_url() . 'assets/hospitalsImages/thumb/thumb_100/$1';
 
         $this->datatables->select('Hos.hospital_id,Hos.hospital_zip,Hos.hospital_usersId,Hos.hospital_name,Hos.hospital_address,City.city_name,Hos.hospital_img,Hos.hospital_cntPrsn,usr.users_email,Hos.hospital_lat,Hos.hospital_long,usr.users_id,
-        Hos.hospital_countryId,Hos.hospital_stateId,Hos.hospital_cityId,Hos.hospital_phn');
+        Hos.hospital_countryId,Hos.hospital_stateId,Hos.hospital_cityId,Hos.hospital_phn,Hos.status');
         $this->datatables->from('qyura_hospital AS Hos');
         $this->datatables->join('qyura_city AS City', 'City.city_id = Hos.hospital_cityId', 'left');
         $this->datatables->join('qyura_users AS usr', 'usr.users_id = Hos.hospital_usersId', 'left');
@@ -222,7 +242,12 @@ class Hospital_model extends CI_Model {
         $this->datatables->add_column('hospital_address', '$1 </br><a  href="hospital/map/$2" class="btn btn-info btn-xs waves-effect waves-light" target="_blank">View Map</a>', 'hospital_address,hospital_id');
 
         $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="hospital/detailHospital/$1">View Detail</a>', 'hospital_id');
+         
+        
+         $this->datatables->add_column('status', '$1', 'checkStatus(status,hospital_id)');
+        
         $this->datatables->order_by("Hos.creationTime");
+        
         return $this->datatables->generate();
         // echo $this->datatables->last_query();
     }
@@ -286,7 +311,7 @@ class Hospital_model extends CI_Model {
         $this->db->from('qyura_hospitalSpecialities AS Hspl');
         $this->db->join('qyura_specialities AS Spl', 'Spl.specialities_id = Hspl.hospitalSpecialities_specialitiesId', 'left');
         $this->db->where(array('Hspl.hospitalSpecialities_hospitalId' => $hospitalId, 'Hspl.hospitalSpecialities_deleted' => 0, 'Spl.specialities_deleted' => 0));
-        $this->db->order_by("Hspl.hospitalSpecialities_orderForHos", "asc");
+        $this->db->order_by("Hspl.creationTime", "desc");
         $data = $this->db->get();
         //echo $this->db->last_query(); exit;
         return $data->result();
@@ -514,5 +539,66 @@ class Hospital_model extends CI_Model {
         }
         return $result;
     }
+    
+    
+   function getHospitaldetail($hospitalId){
+        $this->db->select('hospital_address,isManual,hospital_zip,hospital_countryId,hospital_stateId,hospital_cityId,hospital_lat,hospital_long,hospital_name');
+        $this->db->from('qyura_hospital');
+        $this->db->where("hospital_id", "$hospitalId");
+        $rows =  $this->db->get()->row();
+      
+         
+        if (!empty($rows)) {
+             
+        // selected country
+        $this->db->select('country_id,country');
+        $this->db->from('qyura_country');
+        $this->db->order_by("country", "asc");
+        $allCountry = $this->db->get()->result();
+        
+        $countrySelected = '<option>Select Country</option>';
+        foreach ($allCountry as $key=>$val){
+            $selected = '';
+            if($val->country_id == $rows->hospital_countryId)$selected = 'selected="selected"';
+            $countrySelected .= '<option '.$selected.' value="'.$val->country_id.'">'.$val->country.'</option>';
+            
+        }
+        
+        // selected state
+        $this->db->select('state_id,state_statename');
+        $this->db->from('qyura_state');
+        $this->db->where('state_countryid', $rows->hospital_countryId);
+        $this->db->order_by("state_statename", "asc");
+        $allState = $this->db->get()->result();
+        
+        $stateSelected = '';
+       
+        foreach ($allState as $key=>$val){
+             $selected = '';
+            if($val->state_id == $rows->hospital_stateId)$selected = 'selected="selected"';
+            $stateSelected .= '<option '.$selected.' value="'.$val->state_id.'">'.$val->state_statename.'</option>';
+        }
+        
+        // selected city
+        $this->db->select('city_id,city_name');
+        $this->db->from('qyura_city');
+        $this->db->where('city_stateid', $rows->hospital_stateId);
+        $this->db->order_by("city_name", "asc");
+        $allCity =  $this->db->get()->result();
+        
+        $citySelected = '';
+       
+        foreach ($allCity as $key=>$val){
+            $selected = '';
+            if($val->city_id == $rows->hospital_cityId)$selected = 'selected="selected"';
+            $citySelected .= '<option '.$selected.' value="'.$val->city_id.'">'.$val->city_name.'</option>';
+        }
+        
+            echo json_encode(array('status' => 1, 'hospital_address' => $rows->hospital_address, 'country' => $countrySelected, 'state' => $stateSelected, 'city' => $citySelected, 'zipCode' => $rows->hospital_zip, 'lat' => $rows->hospital_lat, 'lng' => $rows->hospital_long, 'hospital_name' => $rows->hospital_name));
+        } else {
+            echo json_encode(array('status' => 0));
+        }
+        
+   }
 
 }

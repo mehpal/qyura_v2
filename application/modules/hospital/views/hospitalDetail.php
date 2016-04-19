@@ -98,9 +98,9 @@
                                         <li class="<?php if(isset($active) && $active == 'specialities'){echo "active";}?>">
                                             <a data-toggle="tab" href="#specialities">Specialities</a>
                                         </li>
-                                        <li class="<?php if(isset($active) && $active == 'gallery'){echo "active";}?>">
+                                       <!-- <li class="<?php // if(isset($active) && $active == 'gallery'){echo "active";}?>">
                                             <a data-toggle="tab" href="#gallery">Gallery</a>
-                                        </li>
+                                        </li>-->
                                         <li class="<?php if(isset($active) && $active == 'timeslot'){echo "active";}?>">
                                             <a data-toggle="tab" href="#timeslot">Time Slot</a>
                                         </li>
@@ -161,10 +161,10 @@
                                                                 </aside>
                                                             </article>
                                                             
-                                                             <article class="clearfix m-b-10">
+                                                            <!-- <article class="clearfix m-b-10">
                                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Mobile Number :</label>
-                                                                <p class="col-md-8 col-sm-8 t-xs-left"><?php if(isset($hospitalData[0]->hospital_mbl) && $hospitalData[0]->hospital_mbl != 0){ echo $hospitalData[0]->hospital_mbl; }?> </p>
-                                                            </article>
+                                                                <p class="col-md-8 col-sm-8 t-xs-left"><?php // if(isset($hospitalData[0]->hospital_mbl) && $hospitalData[0]->hospital_mbl != 0){ echo $hospitalData[0]->hospital_mbl; }?> </p>
+                                                            </article> -->
                                                            
                                                           
                                                             <article class="clearfix m-b-10">
@@ -404,82 +404,42 @@
                                                             <article class="clearfix m-t-10 ">
                                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
                                                                 <div class="col-md-8 col-sm-8">
-                                                                    <!--<a onclick="countPhoneNumber()" class="add pull-right" href="javascript:void(0)"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus"></i></a>-->
-                                                                    <?php 
-                                                                   // echo $hospitalData[0]->hospital_phn;
-                                                                     if(isset($hospitalData[0]->hospital_phn) && !empty($hospitalData[0]->hospital_phn)  ){
-                                                                    $explodes= explode('|',$hospitalData[0]->hospital_phn); 
-                                                                    for($i= 0; $i< count($explodes);$i++){
-                                                                    $moreExpolde = explode(' ',$explodes[$i]);
-                                                                    
-                                                                    ?>
+                                                                  
                                                                     
                                                                     <div id="multuple_phone_load">
                                                                         
-                                                                    <?php if($i == 0){ ?>    
+                                                                   
                                                                     <aside class="row cllone">
-                                                                        <div class="col-lg-3 col-md-4 col-sm-3 col-xs-12">
-                                                                            <select class="selectpicker" data-width="100%" name="pre_number[]">
-                                                                                <option value="91" <?php if($moreExpolde[0] == '91'){ echo 'selected';}?>>+91</option>
-                                                                                <!--<option value="1" <?php // if($moreExpolde[0] == '1'){ echo 'selected';}?>>+1</option> -->
-                                                                            </select>
-                                                                        </div>
+                                                                      
                                                                         
-                                                                         <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12 m-t-xs-10">
-                                                                            <input type="text" onkeypress="return isNumberKey(event)" onblur="checkNumber(this.value)" maxlength="5" value="<?php if(isset($moreExpolde[1]) && $moreExpolde[1] != ''){ echo $moreExpolde[1]; } ?>"  id="midNumber" name="midNumber[]" class="form-control" requird>
-                                                                                <label class="error" > <?php echo form_error("midNumber"); ?></label>
-                                                                            </div>
-                                                                        
-                                                                        <div class="col-md-5 col-sm-4 col-xs-10 m-t-xs-10">
-                                                                            <input type="text" class="form-control" name="hospital_phn[]" onkeypress="return isNumberKey(event)" id="hospital_phn<?php echo ($i+1);?>" value="<?php if(isset($moreExpolde[2]) && $moreExpolde[2] != ''){ echo $moreExpolde[2]; } ?>" maxlength="8" onblur="checkNumber(<?php echo $i;?>)"/>
+                                                                        <div class="col-xs-10 m-t-xs-10">
+                                                                            <input type="text" class="form-control" name="hospital_phn" onkeypress="return isNumberKey(event)" id="hospital_phn" value="<?php if(isset($hospitalData[0]->hospital_phn) && $hospitalData[0]->hospital_phn != ''  ){ echo $hospitalData[0]->hospital_phn; } ?>" maxlength="10" minlength="10" pattern=".{10,10}"/>
+                                                                             <label class="error" > <?php  echo form_error("hospital_phn"); ?></label>
                                                                         </div>
                                                                        
                                                                     </aside>
                                                                         
-                                                                    <?php }else{ ?>
-                                                                        
-                                                                           <!--<a class="remove" href="#" onclick="$(this).parent().slideUp(function(){ $(this).remove() }); return false"> <i class="fa fa-minus-circle fa-2x m-t-5 label-plus"></i></a> -->
-                                                                        <aside class="row cllone">
-                                                                         
-                                                                        <div class="col-lg-3 col-md-4 col-sm-3 col-xs-12">
-                                                                            <select class="selectpicker" data-width="100%" name="pre_number[]">
-                                                                                <option value="91" <?php if($moreExpolde[0] == '91'){ echo 'selected';}?>>+91</option>
-                                                                                <!--<option value="1" <?php // if($moreExpolde[0] == '1'){ echo 'selected';}?>>+1</option> -->
-                                                                            </select>
-                                                                        </div>
-                                                                            
-                                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 m-t-xs-10">
-                                                                            <input type="text" onkeypress="return isNumberKey(event)" onblur="checkNumber('midNumber',1)" maxlength="5" value="<?php if(isset($moreExpolde[1]) && $moreExpolde[1] != ''){ echo $moreExpolde[1]; } ?>"  id="midNumber" name="midNumber[]" class="form-control" requird>
-                                                                                <label class="error" > <?php echo form_error("midNumber"); ?></label>
-                                                                            </div>
-                                                                            
-                                                                        <div class="col-md-4 col-sm-4 col-xs-10 m-t-xs-10">
-                                                                            <input type="text" class="form-control" name="hospital_phn[]" id="hospital_phn<?php echo ($i+1);?>" value="<?php if(isset($moreExpolde[2]) && $moreExpolde[2] != ''){ echo $moreExpolde[2]; } ?>" maxlength="8" onblur="checkNumber(<?php echo $i;?>)"/>
-                                                                        </div>
-                                                                       
-                                                                    </aside>
-                                                                        
-                                                                        
-                                                                    <?php } ?>
+                                                                    
                                                                     </div>
-                                                                    <br />
-                                                                     <?php $moreExpolde =''; } }?>
+                                                                    
+                                                                    
+                                                                    
                                                                
                                                                    <p class="m-t-0">* The number above is going to be your primary number.</p>
                                                                 </div>
                                                             </article>
                                                             
-                                                             <article class="clearfix m-t-10">
+                                                             <!--<article class="clearfix m-t-10">
                                                                     <label class="control-label col-md-4 col-sm-4" for="cname">Mobile no. :</label>
                                                                     <div class="col-md-8 col-sm-8">
-                                                                        <input type="text" onkeypress="return isNumberKey(event)" maxlength="10" placeholder="" name="hospital_mbl" id="hospital_mbl" class="form-control" value="<?php if(isset($hospitalData[0]->hospital_mbl) && $hospitalData[0]->hospital_mbl != 0){ echo $hospitalData[0]->hospital_mbl; } ?>">
+                                                                        <input type="text" onkeypress="return isNumberKey(event)" maxlength="10" placeholder="" name="hospital_mbl" id="hospital_mbl" class="form-control" value="<?php // if(isset($hospitalData[0]->hospital_mbl) && $hospitalData[0]->hospital_mbl != 0){ echo $hospitalData[0]->hospital_mbl; } ?>">
 
                                                                        <label id="error-hospital_mbl" style="display:none;" class="error">please enter digits only!</label>
-                                                                       <label class="error" > <?php echo form_error("hospital_mbl"); ?></label>
+                                                                       <label class="error" > <?php // echo form_error("hospital_mbl"); ?></label>
                                                                        <label class="error"> </label>
 
                                                                     </div>
-                                                                </article>
+                                                                </article> -->
                                                             
                                                             <article class="clearfix m-t-10">
                                                                 <label class="control-label col-md-4 col-sm-4" for="cname">About Us :</label>
