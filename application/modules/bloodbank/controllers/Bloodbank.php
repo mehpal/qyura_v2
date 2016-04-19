@@ -16,6 +16,7 @@ class Bloodbank extends MY_Controller {
         $data = array();
         $data['allStates'] = $this->Bloodbank_model->fetchStates();
         $data['bloodBankData'] = $this->Bloodbank_model->fetchbloodBankData();
+        $data['city'] = $this->getCityByMI(1);
         $data['title'] = 'BloodBank';
         $this->load->super_admin_template('bloodBankList', $data, 'bloodBankScript');
     }
