@@ -207,9 +207,7 @@ if ($msg != "" || $msg != NULL) {
         });
     }
     
-    $(window).load(function() {
-	$(".page-loader").fadeOut("slow");
-    });
+   
     
     
     //change status enable or disable funciton for all
@@ -241,5 +239,9 @@ if ($msg != "" || $msg != NULL) {
         });
         
     }
+    
+     $(window).load(function() {
+	$(".page-loader").fadeOut("slow");
+    });
 </script>
 
