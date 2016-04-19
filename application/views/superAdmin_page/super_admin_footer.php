@@ -29,7 +29,6 @@ if ($msg != "" || $msg != NULL) {
     <?php }
 ?>
 <script>
-
     $('#search').bind('keypress', function (e)
     {
         if (e.keyCode == 13)
