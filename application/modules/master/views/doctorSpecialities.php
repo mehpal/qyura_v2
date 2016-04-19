@@ -5,7 +5,7 @@
         <div class="container">
             <div class="clearfix">
                 <div class="col-md-12">
-                    <h3 class="pull-left page-title">MI Specialities</h3>
+                    <h3 class="pull-left page-title">Doctor Specialities</h3>
                     <div id="load_consulting" class="text-center text-success " style="display: none"><image alt="Please wait data is loading" src="<?php echo base_url('assets/images/loader/Heart_beat.gif'); ?>" /></div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
             <section class="col-md-7 detailbox m-b-20">
                 <aside class="bg-white">
                     <figure class="clearfix">
-                        <h3>MI Specialities Available</h3>
+                        <h3> Doctor Specialities Available</h3>
                         <article class="clearfix">
                             <div class="input-group m-b-5">
                                 <span class="input-group-btn">
@@ -42,8 +42,8 @@
                                         </article>
                                         <article class="col-md-4 text-right">
                                             <h6>
-                                                <a class="btn btn-success waves-effect waves-light m-b-5" href="<?php echo site_url('master/editSpecialitiesView/' . $val->specialities_id); ?>"><i class="fa fa-pencil"></i></a>
-                                                <button onclick="enableFn('master', 'specialityPublish', '<?php echo $val->specialities_id; ?>','<?php echo $val->status; ?>')" title='<?php if($val->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Speciality' type="button" class="btn btn-success waves-effect waves-light m-b-5"><i class="fa fa-thumbs-<?php if($val->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
+                                                <a class="btn btn-success waves-effect waves-light m-b-5" href="<?php echo site_url('master/doceditSpecialitiesView/' . $val->specialities_id); ?>"><i class="fa fa-pencil"></i></a>
+						<button onclick="enableFn('master', 'specialityPublish', '<?php echo $val->specialities_id; ?>','<?php echo $val->status; ?>')" title='<?php if($val->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Doctor Speciality' type="button" class="btn btn-success waves-effect waves-light m-b-5"><i class="fa fa-thumbs-<?php if($val->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                             </h6>
                                         </article>
                                         <article class="col-md-8">
@@ -65,12 +65,12 @@
                     <aside class="clearfix">
                         <!-- Appointment Chart -->
                         <figure>
-                            <h3>Add MI Specialities</h3>
+                            <h3>Add Doctor Specialities</h3>
                         </figure>
                         <!-- Add Specialities -->
                         <div class="col-sm-12">
                             <form  class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" name="addSpecialityForm" method="post" action="#" novalidate="novalidate" enctype="multipart/form-data">
-				<input type="hidden" name="specialityType" value="0" />
+                                  <input type="hidden" name="specialityType" value="1" />
                                 <article class="clearfix m-t-10">
                                     <label for="" class="control-label">Scientific Name :</label>
                                     <div class="">
@@ -84,7 +84,7 @@
                                     <div class="">
                                         <input class="form-control m-t-5" id="specialityNamedoctor" type="text" name="specialityNamedoctor" required="" value="<?php echo set_value('specialityNamedoctor'); ?>">
 
-                                        <label class="error" id="err_specialityNamedoctor" > <?php echo form_error("specialityName"); ?></label>
+                                        <label class="error" id="err_specialityNamedoctor" > <?php echo form_error("specialityNamedoctor"); ?></label>
                                     </div>
                                 </article>
                                 <article class="form-group m-lr-0 ">

@@ -41,6 +41,7 @@ class Master extends MY_Controller {
             $records_array = array(
                 'degree_SName' => $degree_SName,
                 'degree_FName' => $degree_FName,
+		'status'       => 2,
                 'creationTime' => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
@@ -100,21 +101,26 @@ class Master extends MY_Controller {
         }
     }
 
-    function degreeDelete() {
-        $del_id = $this->input->post('id');
-
-        if ($del_id) {
+    function degreePublish() {
+        $ena_id = $this->input->post('id');
+        $status = $this->input->post('status');
+        if ($ena_id != '' && $status != '') {
             //Group
-            $where = array('degree_id' => $del_id);
-            $update_data['degree_deleted'] = 1;
+            if ($status == 2) {
+                $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
+            }
+            $where = array('degree_id' => $ena_id);
             $updateOptions = array
                 (
                 'where' => $where,
-                'data' => $update_data,
+                'data'  => $update_data,
                 'table' => 'qyura_degree'
             );
 
             $update = $this->common_model->customUpdate($updateOptions);
+
             if ($update)
                 echo $update;
             else
@@ -173,6 +179,7 @@ class Master extends MY_Controller {
                 'insurance_Name' => $insurance_Name,
                 'insurance_detail' => $insurance_detail,
                 'insurance_img' => $imagesname,
+		'status'       => 2,
                 'creationTime' => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
@@ -188,32 +195,6 @@ class Master extends MY_Controller {
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
             echo json_encode($responce);
-        }
-    }
-    
-    function insuranceDelete() {
-
-        $del_id = $this->input->post('id');
-
-        if ($del_id) {
-            //Group
-            $where = array('insurance_id' => $del_id);
-            $update_data['insurance_deleted'] = 1;
-            $updateOptions = array
-                (
-                'where' => $where,
-                'data'  => $update_data,
-                'table' => 'qyura_insurance'
-            );
-
-            $update = $this->common_model->customUpdate($updateOptions);
-            if ($update)
-                echo $update;
-            else
-                echo '0';
-        }
-        else {
-            echo 0;
         }
     }
     
@@ -292,6 +273,36 @@ class Master extends MY_Controller {
             }
         }
     }
+
+    function insurancePublish() {
+        $ena_id = $this->input->post('id');
+        $status = $this->input->post('status');
+        if ($ena_id != '' && $status != '') {
+            //Group
+            if ($status == 2) {
+                $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
+            }
+            $where = array('insurance_id' => $ena_id);
+            $updateOptions = array
+                (
+                'where' => $where,
+                'data'  => $update_data,
+                'table' => 'qyura_insurance'
+            );
+
+            $update = $this->common_model->customUpdate($updateOptions);
+
+            if ($update)
+                echo $update;
+            else
+                echo '0';
+        }
+        else {
+            echo 0;
+        }
+    }
     //Insurance End
     
     //Specialities
@@ -299,7 +310,7 @@ class Master extends MY_Controller {
         $option = array(
             'table' => 'qyura_specialities',
             'select' => '*',
-            'where' => array('qyura_specialities.specialities_deleted' => 0),
+            'where' => array('qyura_specialities.specialities_deleted' => 0,'qyura_specialities.type' => 0),
             'order' => array('specialities_name' => 'asc'),
             'single' => FALSE
         );
@@ -311,7 +322,7 @@ class Master extends MY_Controller {
     function saveSpecialities() {
         $this->bf_form_validation->set_rules("specialityName", "Speciality", 'required|xss_clean');
         $this->bf_form_validation->set_rules("specialityNamedoctor", "Doctor name", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("keywords", "Keywords/Tags", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("keywords", "Keywords/Tags", 'xss_clean');
         if (empty($_FILES['avatar_file']['name'])) {
             $this->bf_form_validation->set_rules('avatar_file', 'File', 'required');
         }
@@ -338,11 +349,15 @@ class Master extends MY_Controller {
             $specialityName = $this->input->post('specialityName');
             $specialityNamedoctor = $this->input->post('specialityNamedoctor');
             $keywords = $this->input->post('keywords');
+	    $type = $this->input->post('specialityType');
+
             $records_array = array(
                 'specialities_name' => $specialityName,
                 'speciality_tag' => $keywords,
                 'specialities_drName' => $specialityNamedoctor,
                 'specialities_img' => $imagesname,
+		'type' => $type,
+		'status' => 2,
                 'creationTime' => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
@@ -365,7 +380,7 @@ class Master extends MY_Controller {
         $option = array(
             'table' => 'qyura_specialities',
             'select' => '*',
-            'where' => array('qyura_specialities.specialities_deleted' => 0, 'qyura_specialities.specialities_id' => $specialityId),
+            'where' => array('qyura_specialities.specialities_deleted' => 0, 'qyura_specialities.specialities_id' => $specialityId, 'qyura_specialities.type' => 0),
             'order' => array('specialities_name' => 'asc'),
             'single' => FALSE
         );
@@ -496,6 +511,7 @@ class Master extends MY_Controller {
             $records_array = array(
                 'hospitalType_name' => $hospitalType_name,
                 'hospitalType_miRole' => $hospitalType_miRole,
+		'status' => 2,
                 'creationTime' => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
@@ -554,13 +570,17 @@ class Master extends MY_Controller {
         }
     }
     
-    function mitypeDelete() {
-        $del_id = $this->input->post('id');
-
-        if ($del_id) {
+    function miTypePublish() {
+        $ena_id = $this->input->post('id');
+        $status = $this->input->post('status');
+        if ($ena_id != '' && $status != '') {
             //Group
-            $where = array('hospitalType_id' => $del_id);
-            $update_data['hospitalType_deleted'] = 1;
+            if ($status == 2) {
+                $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
+            }
+            $where = array('hospitalType_id' => $ena_id);
             $updateOptions = array
                 (
                 'where' => $where,
@@ -569,6 +589,7 @@ class Master extends MY_Controller {
             );
 
             $update = $this->common_model->customUpdate($updateOptions);
+
             if ($update)
                 echo $update;
             else
@@ -621,6 +642,7 @@ class Master extends MY_Controller {
             $records_array = array(
                 'diagnosticsCat_catName' => $diagnosticName,
                 'diagnosticsCat_catImage' => $imagesname,
+		'status' => 2,
                 'creationTime' => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
@@ -714,18 +736,203 @@ class Master extends MY_Controller {
         }
     }
 
-    function diagnosticsDelete() {
-        $del_id = $this->input->post('id');
-
-        if ($del_id) {
+    function diagSpecPublish() {
+        $ena_id = $this->input->post('id');
+        $status = $this->input->post('status');
+        if ($ena_id != '' && $status != '') {
             //Group
-            $where = array('diagnosticsCat_catId' => $del_id);
-            $update_data['diagnosticsCat_deleted'] = 1;
+            if ($status == 2) {
+                $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
+            }
+            $where = array('diagnosticsCat_catId' => $ena_id);
             $updateOptions = array
                 (
                 'where' => $where,
                 'data'  => $update_data,
                 'table' => 'qyura_diagnosticsCat'
+            );
+
+            $update = $this->common_model->customUpdate($updateOptions);
+
+            if ($update)
+                echo $update;
+            else
+                echo '0';
+        }
+        else {
+            echo 0;
+        }
+    }
+    //Specialities End
+
+    //doctor speciality
+    function docspecialities() {
+        $option = array(
+            'table' => 'qyura_specialities',
+            'select' => '*',
+            'where' => array('qyura_specialities.specialities_deleted' => 0, 'qyura_specialities.type' => 1,),
+            'order' => array('specialities_name' => 'asc'),
+            'single' => FALSE
+        );
+        $data['specialityList'] = $this->common_model->customGet($option);
+        $data['title'] = 'Doctor Speciality List';
+        $this->load->super_admin_template('doctorSpecialities', $data, 'masterScript');
+    }
+
+    function docsaveSpecialities() {
+        $this->bf_form_validation->set_rules("specialityName", "Scientific Name", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("specialityNamedoctor", "General Name", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("keywords", "Keywords/Tags", 'xss_clean');
+        if (empty($_FILES['avatar_file']['name'])) {
+            $this->bf_form_validation->set_rules('avatar_file', 'File', 'required');
+        }
+
+        if ($this->bf_form_validation->run() == FALSE) {
+            $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
+            echo json_encode($responce);
+        } else {
+            $imagesname = '';
+            if ($_FILES['avatar_file']['name']) {
+                $path = realpath(FCPATH . 'assets/specialityImages/3x/');
+                $upload_data = $this->input->post('avatar_data');
+                $upload_data = json_decode($upload_data);
+
+                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/specialityImages/', './assets/specialityImages/3x/', 'special');
+
+                if (empty($original_imagesname)) {
+                    $this->session->set_flashdata('valid_upload', $this->error_message);
+                } else {
+                    $imagesname = $original_imagesname;
+                }
+            }
+
+            $specialityName = $this->input->post('specialityName');
+            $specialityNamedoctor = $this->input->post('specialityNamedoctor');
+            $keywords = $this->input->post('keywords');
+            $type = $this->input->post('specialityType'); 
+            $records_array = array(
+                'specialities_name' => $specialityName,
+                'speciality_tag' => $keywords,
+                'specialities_drName' => $specialityNamedoctor,
+                'specialities_img' => $imagesname,
+                'type' => $type,
+		'status' => 2,
+                'creationTime' => strtotime(date("d-m-Y H:i:s"))
+            );
+            $options = array
+                (
+                'data' => $records_array,
+                'table' => 'qyura_specialities'
+            );
+            $degree_insert = $this->common_model->customInsert($options);
+            if ($degree_insert) {
+                $responce = array('status' => 1, 'msg' => "Doctor Speciality added successfully", 'url' => "master/docspecialities/");
+            } else {
+                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
+            }
+            echo json_encode($responce);
+        }
+    }
+
+    function doceditSpecialitiesView($specialityId) {
+        $option = array(
+            'table' => 'qyura_specialities',
+            'select' => '*',
+            'where' => array('qyura_specialities.specialities_deleted' => 0, 'qyura_specialities.specialities_id' => $specialityId, 'qyura_specialities.type' => 1, ),
+            'order' => array('specialities_name' => 'asc'),
+            'single' => FALSE
+        );
+        $data['specialityList'] = $this->common_model->customGet($option);
+        $data['title'] = 'Edit Doctor Speciality';
+        $this->load->super_admin_template('doctorspecialityEdit', $data, 'masterScript');
+    }
+
+    function doceditspeciality() {
+
+        $id = $this->input->post('specialityId');
+
+        $this->bf_form_validation->set_rules("specialityName", "Scientific Name", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("specialityNamedoctor", "General Name", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("keywords", "Keywords/Tags", 'xss_clean');
+        
+        if ($this->bf_form_validation->run() === False) {
+
+            $option = array(
+                'table' => 'qyura_specialities',
+                'select' => '*',
+                'where' => array('qyura_specialities.specialities_deleted' => 0, 'qyura_specialities.specialities_id' => $id, 'qyura_specialities.type' => 1,),
+                'order' => array('specialities_name' => 'asc'),
+                'single' => FALSE
+            );
+            $data['specialityList'] = $this->common_model->customGet($option);
+            $data['title'] = 'Edit Doctor Speciality';
+
+            $this->load->super_admin_template('specialityEdit', $data, 'masterScript');
+        } else {
+            
+            $imagesname = '';
+            if (isset($_FILES['avatar_file']['name']) && $_FILES['avatar_file']['name'] != NULL) {
+                $path = realpath(FCPATH . 'assets/specialityImages/3x/');
+                $upload_data = $this->input->post('avatar_data');
+                $upload_data = json_decode($upload_data);
+
+                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/specialityImages/', './assets/specialityImages/3x/', 'special');
+
+                if (empty($original_imagesname)) {
+                    $this->session->set_flashdata('valid_upload', $this->error_message);
+                } else {
+                    $imagesname = $original_imagesname;
+                }
+            }
+            
+            $specialityName = $this->input->post('specialityName');
+            $specialityNamedoctor = $this->input->post('specialityNamedoctor');
+            $keywords = $this->input->post('keywords');
+            $type = $this->input->post('specialityType'); 
+            $records_array = array(
+                'specialities_name' => $specialityName,
+                'speciality_tag' => $keywords,
+                'specialities_drName' => $specialityNamedoctor,
+                'type' => $type,
+                'modifyTime' => strtotime(date("d-m-Y H:i:s"))
+            );
+            if(isset($imagesname) && $imagesname != ''){
+                $records_array['specialities_img'] = $imagesname;
+            }
+            $where = array(
+                'specialities_id' => $id
+            );
+            $option = array(
+                'table' => 'qyura_specialities',
+                'where' => $where,
+                'data' => $records_array
+            );
+            $response = $this->common_model->customUpdate($option);
+            if ($response) {
+                $this->session->set_flashdata('message', 'Record has been updated successfully!');
+                redirect('master/docspecialities');
+            } else {
+                $this->session->set_flashdata('error', 'Failed to updated records!');
+                redirect('master/docspecialities');
+            }
+        }
+    }
+
+    function docspecialitydelete() {
+        $del_id = $this->input->post('id');
+
+        if ($del_id) {
+            //Group
+            $where = array('specialities_id' => $del_id);
+            $update_data['specialities_deleted'] = 1;
+            $updateOptions = array
+                (
+                'where' => $where,
+                'data' => $update_data,
+                'table' => 'qyura_specialities'
             );
 
             $update = $this->common_model->customUpdate($updateOptions);
@@ -738,5 +945,380 @@ class Master extends MY_Controller {
             echo 0;
         }
     }
-    //Specialities End
+    // doctor speciality end
+
+    function specialityPublish() {
+        $ena_id = $this->input->post('id');
+        $status = $this->input->post('status');
+        if ($ena_id != '' && $status != '') {
+            //Group
+            if ($status == 2) {
+                $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
+            }
+            $where = array('specialities_id' => $ena_id);
+            $updateOptions = array
+                (
+                'where' => $where,
+                'data'  => $update_data,
+                'table' => 'qyura_specialities'
+            );
+
+            $update = $this->common_model->customUpdate($updateOptions);
+
+            if ($update)
+                echo $update;
+            else
+                echo '0';
+        }
+        else {
+            echo 0;
+        }
+    }    
+
+    //award agency
+    function awardAgency() {
+        $option = array(
+            'table' => 'qyura_awardAgency',
+            'select' => '*',
+            'where' => array('qyura_awardAgency.agency_deleted' => 0),
+            'order' => array('agency_name' => 'asc'),
+            'single' => FALSE
+        );
+        $data['awardAgency_list'] = $this->common_model->customGet($option);
+        $data['title'] = 'Award Agency List';
+        $this->load->super_admin_template('awardAgency', $data, 'masterScript');
+    }
+    
+    function saveawardAgency() {
+        $this->bf_form_validation->set_rules("agency_name", "Award Agency Name", 'required|xss_clean');
+      
+
+        if ($this->bf_form_validation->run() == FALSE) {
+            $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
+            echo json_encode($responce);
+        } else {
+            $agency_name = $this->input->post('agency_name');
+         
+            $records_array = array(
+                'agency_name' => $agency_name,
+		'status' => 2, 
+                'creationTime' => strtotime(date("d-m-Y H:i:s"))
+            );
+            $options = array
+                (
+                'data' => $records_array,
+                'table' => 'qyura_awardAgency'
+            );
+            $degree_insert = $this->common_model->customInsert($options);
+            if ($degree_insert) {
+                $responce = array('status' => 1, 'msg' => "Award Agency added successfully", 'url' => "master/awardAgency/");
+            } else {
+                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
+            }
+            echo json_encode($responce);
+        }
+    }
+    
+    function editawardAgency(){
+        $total_count = $this->input->post("total_count");
+        for($i = 1;$i < $total_count; $i++){
+            $this->bf_form_validation->set_rules("awardAgency_id_$i", "Degree Id", 'xss_clean');
+            $this->bf_form_validation->set_rules("agency_name_$i", "Award Agency Name", 'xss_clean');
+            
+        }
+        $this->bf_form_validation->set_rules("total_count", "Count", 'xss_clean');
+        if ($this->bf_form_validation->run() == FALSE) {
+            $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
+            echo json_encode($responce);
+        } else {
+            
+            for($j = 1; $j < $total_count; $j++){
+                $awardAgency_id = $this->input->post("awardAgency_id_$j");
+                $agencyName = $this->input->post("agency_name_$j");
+                $records_array = array(
+                    'agency_name' => $agencyName,
+                    'modifyTime' => strtotime(date("d-m-Y H:i:s"))
+                );
+
+                $options = array
+                (
+                    'where' => array('awardAgency_id' => $awardAgency_id),
+                    'data'  => $records_array,
+                    'table' => 'qyura_awardAgency'
+                );
+                $response = $this->common_model->customUpdate($options);
+            }
+            if ($response) {
+                $responce = array('status' => 1, 'msg' => "Record Updated successfully", 'url' => "master/awardAgency/");
+            } else {
+                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
+            }
+            echo json_encode($responce);
+        }
+    }
+
+    function awardAgencyPublish() {
+        $ena_id = $this->input->post('id');
+        $status = $this->input->post('status');
+        if ($ena_id != '' && $status != '') {
+            //Group
+            if ($status == 2) {
+                $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
+            }
+            $where = array('awardAgency_id' => $ena_id);
+            $updateOptions = array
+                (
+                'where' => $where,
+                'data'  => $update_data,
+                'table' => 'qyura_awardAgency'
+            );
+
+            $update = $this->common_model->customUpdate($updateOptions);
+
+            if ($update)
+                echo $update;
+            else
+                echo '0';
+        }
+        else {
+            echo 0;
+        }
+    }
+    //award agency end
+    
+    //Department starts
+    function department() {
+        $option = array(
+            'table' => 'qyura_department',
+            'select' => '*',
+            'where' => array('qyura_department.department_deleted' => 0),
+            'order' => array('department_name' => 'asc'),
+            'single' => FALSE
+        );
+        $data['departmentList'] = $this->common_model->customGet($option);
+        $data['title'] = "Departments";
+        $this->load->super_admin_template('department', $data, 'masterScript');
+    }
+
+    function departmentSave() {
+        $this->bf_form_validation->set_rules("department_name", "Name", 'required|xss_clean');
+        if ($this->bf_form_validation->run() == FALSE) {
+            $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
+            echo json_encode($response);
+        } else {
+            $department_id = $this->input->post('department_id');
+            $department_name = $this->input->post('department_name');
+            $records_array = array(
+                'department_name' => $department_name,
+                'creationTime' => strtotime(date("d-m-Y H:i:s"))
+            );
+            $options = array
+                (
+                'data' => $records_array,
+                'table' => 'qyura_department'
+            );
+            $response = $this->common_model->customInsert($options);
+            if ($response) {
+                $response = array('status' => 2, 'msg' => "Record Added successfully", 'url' => "master/department");
+            } else {
+                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
+            }
+            echo json_encode($response);
+        }
+    }
+
+    function departmentEdit() {
+        $total_count = $this->input->post("total_count");
+        for ($i = 1; $i < $total_count; $i++) {
+            $this->bf_form_validation->set_rules("department_id_$i", "Id", 'xss_clean');
+            $this->bf_form_validation->set_rules("department_name_$i", "Name", 'required|xss_clean');
+        }
+        $this->bf_form_validation->set_rules("total_count", "Count", 'xss_clean');
+        if ($this->bf_form_validation->run() == FALSE) {
+            $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
+            echo json_encode($response);
+        } else {
+            for ($j = 1; $j < $total_count; $j++) {
+                $department_id = $this->input->post("department_id_$j");
+                $department_name = $this->input->post("department_name_$j");
+                $records_array = array(
+                    'department_name' => $department_name,
+                    'modifyTime' => strtotime(date("d-m-Y H:i:s"))
+                );
+                $options = array
+                    (
+                    'where' => array('department_id' => $department_id),
+                    'data' => $records_array,
+                    'table' => 'qyura_department'
+                );
+                $response = $this->common_model->customUpdate($options);
+            }
+            if ($response) {
+                $response = array('status' => 2, 'msg' => "Record Update successfully", 'url' => "master/department");
+            } else {
+                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
+            }
+            echo json_encode($response);
+        }
+    }
+    
+    function departmentPublish() {
+        $ena_id = $this->input->post('id');
+        $status = $this->input->post('status');
+        if ($ena_id != '' && $status != '') {
+            //Group
+            if ($status == 2) {
+                $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
+            }
+            $where = array('department_id' => $ena_id);
+            $updateOptions = array
+                (
+                'where' => $where,
+                'data'  => $update_data,
+                'table' => 'qyura_department'
+            );
+
+            $update = $this->common_model->customUpdate($updateOptions);
+
+            if ($update)
+                echo $update;
+            else
+                echo '0';
+        }
+        else {
+            echo 0;
+        }
+    }
+    //Department ends
+
+    //Designation starts
+    function designation() {
+        $option = array(
+            'table' => 'qyura_designation',
+            'select' => '*',
+            'where' => array('qyura_designation.designation_deleted' => 0),
+            'order' => array('designation_name' => 'asc'),
+            'single' => FALSE
+        );
+        $data['designationList'] = $this->common_model->customGet($option);
+        $data['title'] = "Designations";
+        $data['allDepartments'] = $this->Master_model->fetchAllDepartments();
+
+        $department_id = $this->input->post('designation_departmentId');
+        $data['Departments'] = $this->Master_model->fetchDepartments($department_id);
+        $this->load->super_admin_template('designation', $data, 'masterScript');
+    }
+
+    function designationSave() {
+        $this->bf_form_validation->set_rules("designation_departmentId", "Designation Department Id", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("designation_name", "Designation Name", 'required|xss_clean');
+
+        if ($this->bf_form_validation->run() == FALSE) {
+            $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
+            echo json_encode($response);
+        } else {
+            $designation_id = $this->input->post('designation_id');
+            $department_id = $this->input->post('designation_departmentId');
+            $designation_name = $this->input->post('designation_name');
+            $records_array = array(
+                'designation_departmentId' => $department_id,
+                'designation_name' => $designation_name,
+                'creationTime' => strtotime(date("d-m-Y H:i:s"))
+            );
+            $options = array
+                (
+                'data' => $records_array,
+                'table' => 'qyura_designation'
+            );
+            $response = $this->common_model->customInsert($options);
+            if ($response) {
+                $response = array('status' => 2, 'msg' => "Record Added successfully", 'url' => "master/designation");
+            } else {
+                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
+            }
+            echo json_encode($response);
+        }
+    }
+
+    function designationEdit() {
+
+        $total_count = $this->input->post("total_count");
+        for ($i = 1; $i < $total_count; $i++) {
+            $this->bf_form_validation->set_rules("designation_id_$i", "Designation Id", 'xss_clean');
+            $this->bf_form_validation->set_rules("designation_departmentId_$i", "Designation Department Id", 'xss_clean');
+            $this->bf_form_validation->set_rules("designation_name_$i", "Designation Name", 'required|xss_clean');
+        }
+        $this->bf_form_validation->set_rules("total_count", "Count", 'xss_clean');
+        if ($this->bf_form_validation->run() == FALSE) {
+            $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
+            echo json_encode($response);
+        } else {
+            for ($j = 1; $j < $total_count; $j++) {
+                $designation_id = $this->input->post("designation_id_$j");
+                $department_id = $this->input->post("designation_departmentId_$j");
+                $designation_name = $this->input->post("designation_name_$j");
+                $records_array = array(
+                    'designation_departmentId' => $department_id,
+                    'designation_name' => $designation_name,
+                    'modifyTime' => strtotime(date("d-m-Y H:i:s"))
+                );
+                $options = array
+                    (
+                    'where' => array('designation_id' => $designation_id),
+                    'data' => $records_array,
+                    'table' => 'qyura_designation'
+                );
+                $response = $this->common_model->customUpdate($options);
+            }
+            if ($response) {
+                $response = array('status' => 2, 'msg' => "Record Update successfully", 'url' => "master/designation");
+            } else {
+                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
+            }
+            echo json_encode($response);
+        }
+    }
+    
+    function designationPublish() {
+        $ena_id = $this->input->post('id');
+        $status = $this->input->post('status');
+        if ($ena_id != '' && $status != '') {
+            //Group
+            if ($status == 2) {
+                $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
+            }
+            $where = array('designation_id' => $ena_id);
+            $updateOptions = array
+                (
+                'where' => $where,
+                'data'  => $update_data,
+                'table' => 'qyura_designation'
+            );
+
+            $update = $this->common_model->customUpdate($updateOptions);
+
+            if ($update)
+                echo $update;
+            else
+                echo '0';
+        }
+        else {
+            echo 0;
+        }
+    }
+    //designation ends
 }

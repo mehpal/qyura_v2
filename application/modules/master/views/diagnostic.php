@@ -42,7 +42,7 @@
                                         <article class="col-md-4">
                                             <h6 class="pull-right">
                                                 <a class="btn btn-success waves-effect waves-light m-b-5 m-r-10" href="<?php echo site_url('master/editDiagnosticsView/' . $val->diagnosticsCat_catId); ?>"><i class="fa fa-pencil"></i></a>
-                                                <button class="pull-right btn btn-outline btn-xs" onclick="deleteFn('master', 'diagnosticsDelete', '<?php echo $val->diagnosticsCat_catId; ?>')" type="button"><img src="<?php echo base_url(); ?>/assets/images/delete.png"></button>
+                                                <button onclick="enableFn('master', 'diagSpecPublish', '<?php echo $val->diagnosticsCat_catId; ?>','<?php echo $val->status; ?>')" title='<?php if($val->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Diagnostic' type="button" class="btn btn-success waves-effect waves-light m-b-5"><i class="fa fa-thumbs-<?php if($val->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                             </h6>
                                         </article>
                                     </aside>

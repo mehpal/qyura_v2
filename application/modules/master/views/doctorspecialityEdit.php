@@ -2,12 +2,13 @@
     <div class="content">
 	<div class="clearfix">
             <div class="col-md-12 m-t-10">
-                <h3 class="pull-left page-title m-l-10">Edit MI Speciality</h3>
+                <h3 class="pull-left page-title m-l-10">Edit Doctor Speciality</h3>
                 <a href="<?php echo site_url() ?>/master/specialities/" class="btn btn-appointment btn-back waves-effect waves-light pull-right m-r-10"><i class="fa fa-angle-left"></i> Back</a>
             </div>
         </div>
         <div class="container row " style="width: 500px; margin: 0 auto ; background:whitesmoke;">
-            <form  class="cmxform form-horizontal tasi-form avatar-form"  name="editSpecialityForm" method="post"  action="<?php echo site_url(); ?>/master/editspeciality" novalidate="novalidate" enctype="multipart/form-data" id="submitForm">
+            <form  class="cmxform form-horizontal tasi-form avatar-form"  name="editSpecialityForm" method="post"  action="<?php echo site_url(); ?>/master/doceditspeciality" novalidate="novalidate" enctype="multipart/form-data" id="submitForm">
+                <input type="hidden" name="specialityType" value="1" />
                 <?php if (isset($specialityList) && !empty($specialityList)) {
                     foreach ($specialityList as $key => $val) { ?>
                         <input type="hidden" name="specialityId" value="<?php echo $val->specialities_id; ?>" />
