@@ -184,10 +184,7 @@ if ($msg != "" || $msg != NULL) {
 //Load Custom enable View for all
     function enableFn(controller, cfunction, id, status)
     {
-        if (status == 1)
-            var con_mess = "Desable";
-        else
-            con_mess = "Enable";
+        if(status == 1){var con_mess = "Desable";}else if(status == 2){var con_mess = "Publish";}else if(status == 3){var con_mess = "Unpublish";}else{ con_mess = "Enable"}; 
         var url = '<?php echo site_url(); ?>/' + controller + '/' + cfunction;
         bootbox.confirm('Do you want to ' + con_mess.toLowerCase() + ' it?', function (result) {
             if (result) {
@@ -207,9 +204,7 @@ if ($msg != "" || $msg != NULL) {
         });
     }
     
-    $(window).load(function() {
-	$(".page-loader").fadeOut("slow");
-    });
+   
     
     
     //change status enable or disable funciton for all
@@ -241,5 +236,9 @@ if ($msg != "" || $msg != NULL) {
         });
         
     }
+    
+     $(window).load(function() {
+	$(".page-loader").fadeOut("slow");
+    });
 </script>
 
