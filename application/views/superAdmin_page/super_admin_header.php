@@ -323,6 +323,14 @@
                         <li>
                             <a class="waves-effect" href="#"><i class="fa fa-list-alt"></i><span>Reporting</span></a>
                         </li>-->
+			<li class="has_sub">
+                            <a class="waves-effect <?php if($this->router->fetch_class() == 'faq'):echo 'boldTitle  active';endif;?>" href="#"><i class="fa fa-question"></i> 
+                        <span>FAQ</span><span class="pull-right"><i class="md md-add"></i></span></a>
+                            <ul class="list-unstyled">
+                                <li class="<?php if($this->router->fetch_class() == 'faq' && $this->router->fetch_method() != 'addFaq'):echo"boldTitle  active";endif;?>"><a href="<?php echo site_url('faq');?>">All FAQ</a></li>
+                                <li class="<?php if($this->router->fetch_class() == 'faq' && $this->router->fetch_method() == 'addFaq'):echo"boldTitle  active";endif;?>"><a href="<?php echo site_url('faq/addFaq');?>">Add New Doctor</a></li>
+                            </ul>
+                        </li>
                         <li class="has_sub">
                             <a class="waves-effect <?php if($this->router->fetch_class() == 'healthtip' && ($this->router->fetch_method() == 'index' OR $this->router->fetch_method() == 'addHealthtip')):echo"boldTitle  active";endif; ?>" href=""><i class="fa fa-gift"></i> <span>Health Tips</span><span class="pull-right"><i class="md md-add"></i></span></a>
                             <ul class="list-unstyled">
@@ -344,6 +352,16 @@
                                 <li class="<?php if($this->router->fetch_class() == 'healthcategory' && ($this->router->fetch_method() == 'index' OR $this->router->fetch_method() == 'addHealthCategory')):echo"boldTitle  active";endif; ?>"><a href="<?php echo base_url();?>index.php/healthcategory">Healthtip Category</a></li>
                                 <li class="<?php if($this->router->fetch_class() == 'master' && ($this->router->fetch_method() == 'index' OR $this->router->fetch_method() == 'insurance')):echo"boldTitle  active";endif; ?>" ><a href="<?php echo base_url();?>index.php/master/insurance">Insurance</a></li>
 				<li class="<?php if($this->router->fetch_class() == 'membership' && $this->router->fetch_method() == 'index' OR $this->router->fetch_method() == 'membershipAdd' OR $this->router->fetch_method() == 'membershipEditView'):echo"boldTitle  active";endif;?>"><a href="<?php echo site_url('membership/');?>">Membership</a></li>
+
+				<li class="<?php if($this->router->fetch_class() == 'mi_master' && $this->router->fetch_method() == 'index' OR $this->router->fetch_method() == 'hospital' OR $this->router->fetch_method() == 'addHospital'):echo"boldTitle  active";endif;?>"><a href="<?php echo site_url('master/mi_master/hospital/');?>">Hospital Master</a></li>
+
+                                <li class="<?php if($this->router->fetch_class() == 'mi_master' && $this->router->fetch_method() == 'index' OR $this->router->fetch_method() == 'diagnosticList' OR $this->router->fetch_method() == 'addDiagnostic'):echo"boldTitle  active";endif;?>"><a href="<?php echo site_url('master/mi_master/diagnosticList/');?>">Diagnostic Master</a></li>
+
+                                <li class="<?php if($this->router->fetch_class() == 'city_master' && $this->router->fetch_method() == 'index' ):echo"boldTitle  active";endif;?>"><a href="<?php echo site_url('master/city_master/');?>">City Master</a></li>
+
+                                 <li class="<?php if($this->router->fetch_class() == 'master' && $this->router->fetch_method() == 'index' OR $this->router->fetch_method() == 'awardAgency'):echo"boldTitle  active";endif;?>"><a href="<?php echo site_url('master/awardAgency/');?>">Award Agency</a></li>
+                                 <li class="<?php if($this->router->fetch_class() == 'master' && $this->router->fetch_method() == 'index' OR $this->router->fetch_method() == 'department'):echo"boldTitle  active";endif;?>"><a href="<?php echo site_url('master/department/');?>">Department</a></li>
+                                 <li class="<?php if($this->router->fetch_class() == 'master' && $this->router->fetch_method() == 'index' OR $this->router->fetch_method() == 'designation'):echo"boldTitle  active";endif;?>"><a href="<?php echo site_url('master/designation/');?>">Designation</a></li>
                                 <!--<li><a href="#">Transaction Configuration</a></li>-->
                             </ul>
                         </li>

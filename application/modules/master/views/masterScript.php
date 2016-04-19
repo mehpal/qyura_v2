@@ -71,6 +71,17 @@ if ($current != 'detailDoctor'): ?>
     });
     <?php } ?>
 
+    //Doctor Specialities
+    <?php if($this->router->fetch_method() == 'docspecialities'){ ?>
+    $(document).ready(function (){
+        $("#submitForm").submit(function (event) {
+            event.preventDefault();
+            var url = '<?php echo site_url(); ?>/master/docsaveSpecialities/';
+            var formData = new FormData(this);
+            submitData(url,formData);
+        });
+    });
+    <?php } ?>
     //Diagnostic
     <?php if($this->router->fetch_method() == 'diagnostic'){ ?>
     $(document).ready(function (){
@@ -226,4 +237,174 @@ if ($current != 'detailDoctor'): ?>
         $(".newmembership6").toggle();
     });
     var resizefunc = [];
+</script>
+<script>
+    
+    <?php if($this->router->fetch_method() == 'addHospital'){ ?>
+    $(document).ready(function (){
+        $("#miForm").submit(function (event) {
+            event.preventDefault();
+            var url = '<?php echo site_url(); ?>/master/mi_master/saveHospital/';
+            var formData = new FormData(this);
+            submitData(url,formData);
+        });
+    });
+    <?php } ?>
+    <?php if($this->router->fetch_method() == 'addDiagnostic'){ ?>
+    $(document).ready(function (){
+        $("#miForm").submit(function (event) {
+            event.preventDefault();
+            var url = '<?php echo site_url(); ?>/master/mi_master/saveDiagnostic/';
+            var formData = new FormData(this);
+            submitData(url,formData);
+        });
+    });
+    <?php } ?>
+    
+    $(document).ready(function (){
+        $("#cityForm").submit(function (event) {
+            event.preventDefault();
+            var url = '<?php echo site_url(); ?>/master/city_master/saveCity/';
+            var formData = new FormData(this);
+            submitData(url,formData);
+        });
+    });
+
+    //award agency
+    $(document).ready(function (){
+        $("#awardAgencyform").submit(function (event) {
+            event.preventDefault();
+            var url = '<?php echo site_url(); ?>/master/saveawardAgency/';
+            var formData = new FormData(this);
+            submitData(url,formData);
+        });
+    });
+    
+    $(document).ready(function (){
+        $("#awardAgencyEdit").submit(function (event) {
+            event.preventDefault();
+            var url = '<?php echo site_url(); ?>/master/editawardAgency/';
+            var formData = new FormData(this);
+            submitData(url,formData);
+        });
+    });    
+    
+    //Department
+    $(document).ready(function (){
+        $("#departmentaddForm").submit(function (event) {
+            event.preventDefault();
+            var url = '<?php echo site_url(); ?>/master/departmentSave/';
+            var formData = new FormData(this);
+            submitData(url,formData);
+        });
+    });
+    $(document).ready(function (){
+        $("#departmentEditForm").submit(function (event) {
+            event.preventDefault();
+            var url = '<?php echo site_url(); ?>/master/departmentEdit/';
+            var formData = new FormData(this);
+            submitData(url,formData);
+        });
+    });
+    //Designation
+    $(document).ready(function (){
+        $("#designationaddForm").submit(function (event) {
+            event.preventDefault();
+            var url = '<?php echo site_url(); ?>/master/designationSave/';
+            var formData = new FormData(this);
+            submitData(url,formData);
+        });
+    });
+    $(document).ready(function (){
+        $("#designationEditForm").submit(function (event) {
+            event.preventDefault();
+            var url = '<?php echo site_url(); ?>/master/designationEdit/';
+            var formData = new FormData(this);
+            submitData(url,formData);
+        });
+    });
+
+    function fetchCity(stateId) {
+        $.ajax({
+            url: "<?php echo site_url() ?>" + '/master/mi_master/fetchCity',
+            type: 'POST',
+            data: {'stateId': stateId},
+            success: function (datas) {
+                $('#cityId').html(datas);
+                $('#cityId').selectpicker('refresh');
+            }
+        });
+
+    }
+
+    function fetchState(countryId) {
+        $.ajax({
+            url: "<?php echo site_url() ?>" + '/master/mi_master/fetchStates',
+            type: 'POST',
+            data: {'countryId': countryId},
+            success: function (datas) {
+                $('#stateId').html(datas);
+                $('#stateId').selectpicker('refresh');
+            }
+        });
+
+    }
+    
+    function isNumberKey(evt, id) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode == 46 || charCode > 31 && (charCode < 48 || charCode > 57)) {
+            $("#" + id).html("Please enter number key");
+            return false;
+        } else {
+            $("#" + id).html('');
+            return true;
+        }
+    }
+    
+</script>
+<script type="text/javascript">
+   /*diagnostic list*/
+   
+   
+   $(document).ready(function() {
+   
+   var jobCount = $('#list .in').length;
+   $('.list-count').text(jobCount + ' items');
+   $("#search-text").keyup(function () {
+    //$(this).addClass('hidden');
+   var searchTerm = $("#search-text").val();
+   var listItem = $('#list').children('li');
+   var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+     //extends :contains to be case insensitive
+   $.extend($.expr[':'], {
+   'containsi': function(elem, i, match, array)
+   {
+   return (elem.textContent || elem.innerText || '').toLowerCase()
+   .indexOf((match[3] || "").toLowerCase()) >= 0;
+   }
+   });
+   $("#list li").not(":containsi('" + searchSplit + "')").each(function(e)   {
+     $(this).addClass('hiding out').removeClass('in');
+     setTimeout(function() {
+         $('.out').addClass('hidden');
+       }, 300);
+   });
+   
+   $("#list li:containsi('" + searchSplit + "')").each(function(e) {
+     $(this).removeClass('hidden out').addClass('in');
+     setTimeout(function() {
+         $('.in').removeClass('hiding');
+       }, 1);
+   });
+     var jobCount = $('#list .in').length;
+   $('.list-count').text(jobCount + ' items');
+   //shows empty state text when no jobs found
+   if(jobCount == '0') {
+     $('#list').addClass('empty');
+   }
+   else {
+     $('#list').removeClass('empty');
+   }
+   });                 
+   });
 </script>

@@ -26,7 +26,7 @@
                                 <article class="col-md-4 text-right">
                                     <h6>
                                         <a class="btn btn-success waves-effect waves-light m-b-5" href="<?php echo site_url('master/editInsuranceView/' . $insurance->insurance_id); ?>"><i class="fa fa-pencil"></i></a>
-                                        <button title="Delete Advertisement" onclick="deleteFn('master','insuranceDelete','<?php echo $insurance->insurance_id; ?>')" type="button" class="pull-right btn btn-outline btn-xs "><img src="<?php echo base_url(); ?>/assets/images/delete.png"></button>
+                                        <button onclick="enableFn('master', 'insurancePublish', '<?php echo $insurance->insurance_id; ?>','<?php echo $insurance->status; ?>')" title='<?php if($insurance->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Insurance' type="button" class="btn btn-success waves-effect waves-light m-b-5"><i class="fa fa-thumbs-<?php if($insurance->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                     </h6>
                                 </article>
                             </aside>

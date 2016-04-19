@@ -25,8 +25,8 @@
                                         <?php echo $degrees->degree_FName; ?>
                                     </aside>
                                     <aside class="col-lg-2 col-sm-2 col-xs-2">
-                                        <a href="#"><i class="md md-edit membership-btn"></i></a>
-                                        <button title="Delete Advertisement" onclick="deleteFn('master','degreeDelete','<?php echo $degrees->degree_id; ?>')" type="button" class="pull-right btn btn-outline btn-xs "><img src="<?php echo base_url(); ?>/assets/images/delete.png"></button>
+                                        <a href="#" style="line-height: 1.8"><i class="md md-edit membership-btn"></i></a>
+                                        <button onclick="enableFn('master', 'degreePublish', '<?php echo $degrees->degree_id; ?>','<?php echo $degrees->status; ?>')" title='<?php if($degrees->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Degree' type="button" class="btn"><i class="fa fa-thumbs-<?php if($degrees->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                     </aside>
                                 </article>
                                 <div class="newmembership" style="display:none">
