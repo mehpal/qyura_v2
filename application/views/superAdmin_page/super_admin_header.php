@@ -21,6 +21,17 @@
         .boldTitle {
             /*font-weight: bold !important;*/
         }
+        .page-loader {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+        opacity:0.81;
+        background: url('<?php echo base_url('assets/images/loader') ?>/Doctors_symbol.gif') 50% 50% no-repeat rgb(249,249,249);
+        background-color: white;
+}
     </style>
     
 </head>
@@ -30,6 +41,7 @@
     </div>
   -->
     <!-- Begin page -->
+    <div style="display: block" class="page-loader"></div>
     <div id="wrapper">
         <!-- Top Bar Start -->
         <div class="topbar">
