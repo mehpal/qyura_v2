@@ -47,18 +47,31 @@
                                                     </select>
                                                 </div>
                                             </article>
-                                            <article class="clearfix m-t-10 avatar-view">
-                                                <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
-                                                <div class="col-md-8 col-sm-8 text-right">
-                                                        <label for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
-                                                     <input type="file" style="display:none;" class="no-display " id="file-input11" name="bloodBank_photo">
-<!--                                                   <input type="file" style="display:none;" class="no-display" id="file-input" name="ambulance_img">-->     
-                                                
-                                              <img src="<?php echo base_url().'assets/default-images/ambulance_logo.png'?>" width="70" height="65" class="image-preview-show"/>
-                                            <label class="error" > <?php echo form_error("avatar_file"); ?></label>
-                                            <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
-                                                </div>
-                                            </article>
+                         
+                                            
+                                            
+                            <article class="clearfix m-t-10">
+                                <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
+                                
+                                <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
+                                    <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
+
+                                    <div class="pre col-md-4 col-sm-4 ">
+                                    <div id="preImgLogo" class="avatar-preview preview-md">
+                                        
+                                   <img src="<?php echo base_url() ?>assets/default-images/ambulance_logo.png"  class="image-preview-show"/>
+                                        
+                                    </div>
+                                    </div>
+
+                                    <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                    <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
+                                    
+                                    
+                                    
+                                </div>
+                                
+                            </article>
 
 
                                             <article class="clearfix m-t-10">

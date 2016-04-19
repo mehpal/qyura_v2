@@ -92,7 +92,7 @@ class Bloodbank_model extends CI_Model {
     }
     
     function fetchbloodBankData( $condition = NULL){
-         $this->db->select('blood.bloodBank_id,blood.users_id,blood.bloodBank_name,blood.bloodBank_phn,blood.bloodBank_add,City.city_name,'
+         $this->db->select('blood.bloodBank_id,blood.users_id,blood.bloodBank_name,blood.bloodBank_phn,blood.bloodBank_add,City.city_name,blood.bloodBank_docatId,'
                  . 'blood.bloodBank_photo,usr.users_email,usr.users_password, usr.users_mobile, blood.bloodBank_cntPrsn,blood.bloodBank_lat,blood.bloodBank_long,blood.bloodBank_background_img, blood.bloodBank_mbl, blood.bloodBank_isManual,blood.bloodBank_zip, blood.countryId, blood.stateId, blood.cityId');
      $this->db->from('qyura_bloodBank AS blood');
      $this->db->join('qyura_city AS City','City.city_id = blood.cityId','left');
@@ -111,9 +111,10 @@ class Bloodbank_model extends CI_Model {
     function fetchbloodBankDataTables( $condition = NULL){
             
          $imgUrl = base_url().'assets/BloodBank/thumb/thumb_100/$1';    
+         $table ="qyura_bloodBank";
          
-     $this->datatables->select('blood.bloodBank_id,blood.users_id,blood.bloodBank_name,blood.bloodBank_phn,blood.bloodBank_add,City.city_name,'
-                 . 'blood.bloodBank_photo,usr.users_email,usr.users_password ,blood.bloodBank_cntPrsn,blood.bloodBank_lat,blood.bloodBank_long,blood.bloodBank_photo ');
+     $this->datatables->select('blood.bloodBank_id as id,blood.users_id,blood.bloodBank_name,blood.bloodBank_phn,blood.bloodBank_add,City.city_name,'
+                 . 'blood.bloodBank_photo,usr.users_email,usr.users_password ,blood.bloodBank_cntPrsn,blood.bloodBank_lat,blood.bloodBank_long,blood.bloodBank_photo,blood.status as sts ');
          
      $this->datatables->from('qyura_bloodBank AS blood');
      $this->datatables->join('qyura_city AS City','City.city_id = blood.cityId','left');
@@ -133,10 +134,11 @@ class Bloodbank_model extends CI_Model {
         $city = $this->input->post('cityId');
         isset($city) && $city != '' ? $this->datatables->where('cityId', $city) : '';
         
-        $states = $this->input->post('hosStateId');
-        isset($states) && $states != '' ? $this->datatables->where('stateId', $states) : '';
+        $states = $this->input->post('status');
+        $states != '' ? $this->datatables->where('blood.status', $states) : '';
         
-      $this->datatables->order_by('bloodBank_id');
+     
+     $this->datatables->order_by('bloodBank_id');
         
      if($condition)
      {
@@ -149,12 +151,18 @@ class Bloodbank_model extends CI_Model {
               /*$this->datatables->add_column('open','08 AM-12 AM');
               $this->datatables->add_column('call','03 PM-08 PM');*/
        
-       $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="bloodbank/detailBloodBank/$1">View Detail</a>', 'bloodBank_id');
+       
+       
+       
+       $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="bloodbank/detailBloodBank/$1">View Detail</a>', 'id');
+       
+        $this->datatables->add_column('status', '$1', 'statusCheck(bloodbank,qyura_bloodBank,bloodBank_id,id,sts)');
        
        $this->datatables->add_column('bloodBank_add', '$1 </br><a  href="bloodbank/map/$2" class="btn btn-info btn-xs waves-effect waves-light" target="_blank">View Map</a>', 'bloodBank_add,bloodBank_id');
+       
        $this->datatables->order_by("blood.creationTime");
-        return $this->datatables->generate(); 
-      //echo $this->datatables->last_query();
+       return $this->datatables->generate(); 
+      //return $this->datatables->last_query();
 
     }
     

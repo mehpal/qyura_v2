@@ -21,6 +21,7 @@ if($current == 'detailAmbulance'):?>
 
 <script src="<?php echo base_url(); ?>assets/js/reCopy.js"></script>
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+<script src="<?php echo base_url();?>assets/vendor/select2/select2.min.js" type="text/javascript"></script> 
 <!-- <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>-->
 <script src="<?php echo base_url(); ?>assets/js/jquery.geocomplete.min.js"></script>
@@ -78,11 +79,12 @@ if(isset($ambulanceId) && !empty($ambulanceId)){
     var ambulanceId = "<?php echo $check?>";
     $('#date-3').datepicker();
     
-    $('.selectpicker').selectpicker({
-    style: 'btn-default',
-    size: "auto",
-    width: "100%"
-   });
+//    $('.selectpicker').selectpicker({
+//    style: 'btn-default',
+//    size: "auto",
+//    width: "100%"
+//   });
+   $('.selectpicker').select2();
 
     $("#edit").click(function () {
     $("#detail").toggle();
@@ -381,6 +383,10 @@ if(isset($ambulanceId) && !empty($ambulanceId)){
                 var oTable = $('#ambulance_datatable').DataTable({
                     "processing": true,
                     "bServerSide": true,
+                     "columnDefs": [{
+                    "targets": [0,1,2,3,4,5,6],
+                    "orderable": false
+                     }],
                    // "searching": true,
                     "bLengthChange": false,
                     "bProcessing": true,
@@ -393,7 +399,8 @@ if(isset($ambulanceId) && !empty($ambulanceId)){
                         {"data": "city_name"},
                         {"data": "ambulance_phn"},
                         {"data": "ambulance_address"},
-                        {"data": "view"},
+                        {"data": "status"},
+                        {"data": "view" ,'searchable' : false},
                     ],
                     
                     "ajax": {
@@ -402,15 +409,15 @@ if(isset($ambulanceId) && !empty($ambulanceId)){
                         "data": function ( d ) {
                                          d.cityId = $("#ambulance_cityId").val();
                                          d.bloodBank_name = $("#search").val();
-                                         if($("#ambulance_stateId").val() != ' '){
-                                         d.hosStateId = $("#ambulance_stateId").val();
+                                         if($("#status").val() != ' '){
+                                         d.status = $("#status").val();
                                         }
                                          d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
                                     } 
                     }
                 });
                 
-                  $('#ambulance_cityId,#ambulance_stateId').change( function() {
+                  $('#ambulance_cityId,#status').change( function() {
                         oTable.draw();
                   } );
                      $('#search').on('keyup', function() {

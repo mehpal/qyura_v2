@@ -21,6 +21,20 @@
         .boldTitle {
             /*font-weight: bold !important;*/
         }
+        .page-loader {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	opacity:0.81;
+	background: url('<?php echo base_url('assets/images/loader') ?>/Doctors_symbol.gif') 50% 50% no-repeat rgb(249,249,249);
+	background-color: white;
+        }
+	.danger{
+	    color: red;
+	}
     </style>
     
 </head>
@@ -30,6 +44,7 @@
     </div>
   -->
     <!-- Begin page -->
+    <div style="display: block" class="page-loader"></div>
     <div id="wrapper">
         <!-- Top Bar Start -->
         <div class="topbar">
@@ -308,6 +323,14 @@
                         <li>
                             <a class="waves-effect" href="#"><i class="fa fa-list-alt"></i><span>Reporting</span></a>
                         </li>-->
+			<li class="has_sub">
+                            <a class="waves-effect <?php if($this->router->fetch_class() == 'faq'):echo 'boldTitle  active';endif;?>" href="#"><i class="fa fa-question"></i> 
+                        <span>FAQ</span><span class="pull-right"><i class="md md-add"></i></span></a>
+                            <ul class="list-unstyled">
+                                <li class="<?php if($this->router->fetch_class() == 'faq' && $this->router->fetch_method() != 'addFaq'):echo"boldTitle  active";endif;?>"><a href="<?php echo site_url('faq');?>">All FAQ</a></li>
+                                <li class="<?php if($this->router->fetch_class() == 'faq' && $this->router->fetch_method() == 'addFaq'):echo"boldTitle  active";endif;?>"><a href="<?php echo site_url('faq/addFaq');?>">Add New Doctor</a></li>
+                            </ul>
+                        </li>
                         <li class="has_sub">
                             <a class="waves-effect <?php if($this->router->fetch_class() == 'healthtip' && ($this->router->fetch_method() == 'index' OR $this->router->fetch_method() == 'addHealthtip')):echo"boldTitle  active";endif; ?>" href=""><i class="fa fa-gift"></i> <span>Health Tips</span><span class="pull-right"><i class="md md-add"></i></span></a>
                             <ul class="list-unstyled">

@@ -16,6 +16,7 @@ class Bloodbank extends MY_Controller {
         $data = array();
         $data['allStates'] = $this->Bloodbank_model->fetchStates();
         $data['bloodBankData'] = $this->Bloodbank_model->fetchbloodBankData();
+        $data['city'] = $this->getCityByMI(1);
         $data['title'] = 'BloodBank';
         $this->load->super_admin_template('bloodBankList', $data, 'bloodBankScript');
     }
@@ -117,6 +118,7 @@ class Bloodbank extends MY_Controller {
      * @return boolean
      */
     function SaveBloodbank() {
+        
 
         $this->bf_form_validation->set_rules('bloodBank_name', 'BloodBank Name', 'required|trim');
 
@@ -126,7 +128,7 @@ class Bloodbank extends MY_Controller {
 
         $this->bf_form_validation->set_rules('bloodBank_mblNo', 'BloodBank Mobile No', 'required|trim');
         
-        $this->bf_form_validation->set_rules('bloodBank_mbl', 'mobile no', 'trim|max_length[10]|min_length[10]');
+        $this->bf_form_validation->set_rules('bloodbank_docatId', 'Docat Id', 'required|trim');
         
         $this->bf_form_validation->set_rules('bloodBank_zip', 'BloodBank Zip', 'required|trim');
         $this->bf_form_validation->set_rules('bloodBank_add', 'BloodBank Address', 'required|trim');
@@ -140,14 +142,16 @@ class Bloodbank extends MY_Controller {
        $this->bf_form_validation->set_rules('lng', 'Longitude', 'required|trim');
        
        $this->bf_form_validation->set_rules('isManual', 'Is manual', 'required|trim');
-       $this->bf_form_validation->set_rules('midNumber[]', 'STD code', 'required|trim');
-       $this->bf_form_validation->set_rules('bloodBank_phn[]', 'Phon Number', 'required|trim');
+      // $this->bf_form_validation->set_rules('midNumber[]', 'STD code', 'required|trim');
+       $this->bf_form_validation->set_rules('bloodBank_phn', 'Phon Number', 'required|trim');
         
         if (empty($_FILES['avatar_file']['name'])) {
             $this->bf_form_validation->set_rules('avatar_file', 'File', 'required');
         }
+   
         if ($this->bf_form_validation->run($this) === FALSE) {
             $data = array();
+    
             // echo validation_errors(); exit;
             $data['allStates'] = $this->Bloodbank_model->fetchStates();
             
@@ -164,6 +168,7 @@ class Bloodbank extends MY_Controller {
                 $path = realpath(FCPATH . 'assets/BloodBank/');
                 $upload_data = $this->input->post('avatar_data');
                 $upload_data = json_decode($upload_data);
+                
                 $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/BloodBank/', './assets/BloodBank/thumb/','blood');
 
                 if (empty($original_imagesname)) {
@@ -178,20 +183,7 @@ class Bloodbank extends MY_Controller {
 
 
             $bloodBank_phn = $this->input->post('bloodBank_phn');
-            $pre_number = $this->input->post('pre_number');
-            $midNumber = $this->input->post('midNumber');
-
-            $finalNumber = '';
-            for ($i = 0; $i < count($pre_number); $i++) {
-                    if($i == count($pre_number)-1)
-                          $finalNumber .= $pre_number[$i].' '.$midNumber[$i].' '.$bloodBank_phn[$i];
-                        else        
-                       $finalNumber .= $pre_number[$i].' '.$midNumber[$i].' '.$bloodBank_phn[$i].'|'; 
-                
-            }
-
-            // echo $finalNumber.'===';
-            //exit();
+            $docatId = $this->input->post('bloodbank_docatId');
             $bloodBank_name = $this->input->post('bloodBank_name');
             $countryId = $this->input->post('countryId');
             $stateId = $this->input->post('stateId');
@@ -203,7 +195,7 @@ class Bloodbank extends MY_Controller {
             $isEmergency = $this->input->post('isEmergency');
             $bloodBank_zip = $this->input->post('bloodBank_zip');
             
-            $bloodBank_mbl = $this->input->post('bloodBank_mbl');
+            //$bloodBank_mbl = $this->input->post('bloodBank_mbl');
 
             $userId = $this->input->post('userId');
             if($userId == ''){
@@ -247,14 +239,15 @@ class Bloodbank extends MY_Controller {
                     'bloodBank_mbrTyp' => $bloodBank_mbrTyp,
                     'isEmergency' => $isEmergency,
                     'bloodBank_zip' => $bloodBank_zip,
-                    'bloodBank_mbl' => $bloodBank_mbl,
+                    'bloodBank_docatId' => $docatId,
                     'bloodBank_photo' => $imagesname,
                     'bloodBank_isManual' => $this->input->post('isManual'),
                     'creationTime' => strtotime(date("Y-m-d H:i:s")),
-                    'bloodBank_phn' => $finalNumber,
+                    'bloodBank_phn' => $bloodBank_phn,
                     'bloodBank_lat' => $this->input->post('lat'),
                     'bloodBank_long' => $this->input->post('lng'),
-                    'users_id' => $bloodbank_usersId
+                    'users_id' => $bloodbank_usersId,
+                    'status' => 0
                 );
                 $bloodBankId = $this->Bloodbank_model->insertBloodBank($insertData);
                             $conditions = array();
@@ -324,7 +317,7 @@ class Bloodbank extends MY_Controller {
     function saveDetailBloodBank($bloodBankId) {
 
         $this->bf_form_validation->set_rules('bloodBank_name', 'BloodBank Name', 'required|trim');
-
+        $this->bf_form_validation->set_rules('bloodbank_docatId', 'Docat Id', 'required|trim');
         $this->bf_form_validation->set_rules('bloodBank_add', 'Bloodbank Address', 'required|trim');
         $this->bf_form_validation->set_rules('users_email', 'Users Email', 'required|valid_email|trim');
         $this->bf_form_validation->set_rules('bloodBank_cntPrsn', 'BloodBank Contact Person', 'required|trim');
@@ -367,32 +360,20 @@ class Bloodbank extends MY_Controller {
             $this->load->super_admin_template('bloodBankDetail', $data, 'bloodBankScript');
         } else {
             $bloodBank_phn = $this->input->post('bloodBank_phn');
-            $pre_number = $this->input->post('pre_number');
-            $midNumber = $this->input->post('midNumber');
 
-            $finalNumber = '';
-            for ($i = 0; $i < count($bloodBank_phn); $i++) {
-                /*if ($bloodBank_phn[$i] != '' && $pre_number[$i] != '') {
-                    $finalNumber .= $pre_number[$i] . ' ' . $bloodBank_phn[$i] . '|';
-                }*/
-                
-                if($bloodBank_phn[$i] != '' && $pre_number[$i] != '') {
-                        if($i == count($bloodBank_phn)-1)
-                          $finalNumber .= $pre_number[$i].' '.$midNumber[$i].' '.$bloodBank_phn[$i];
-                        else        
-                       $finalNumber .= $pre_number[$i].' '.$midNumber[$i].' '.$bloodBank_phn[$i].'|'; 
-                    }
-            }
-
+       
+            
+            $docatId = $this->input->post('bloodbank_docatId');
+            
             $updateBloodBank = array(
                 'bloodBank_name' => $this->input->post('bloodBank_name'),
                 'bloodBank_add' => $this->input->post('bloodBank_add'),
-                'bloodBank_phn' => $finalNumber,
+                'bloodBank_phn' => $bloodBank_phn,
                 'bloodBank_cntPrsn' => $this->input->post('bloodBank_cntPrsn'),
                 'bloodBank_mbl' => $this->input->post('bloodBank_mbl'),
                 'bloodBank_lat' => $this->input->post('lat'),
                 'bloodBank_long' => $this->input->post('lng'),
-                
+                'bloodBank_docatId' => $docatId,
                 'countryId' => $this->input->post('countryId'),
                 'stateId' => $this->input->post('stateId'),
                 'cityId' => $this->input->post('cityId'),

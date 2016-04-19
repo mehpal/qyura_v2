@@ -96,8 +96,8 @@ class Ambulance_model extends CI_Model {
             
          $imgUrl = base_url().'assets/ambulanceImages/thumb/thumb_100/$1';    
          
-         $this->datatables->select('ambulance.ambulance_id,ambulance.ambulance_usersId,City.city_name,ambulance.ambulance_name,ambulance.ambulance_address,ambulance.ambulance_phn,ambulance.ambulance_img,'
-                 . 'usr.users_email,usr.users_password ,ambulance.ambulance_cntPrsn,ambulance.ambulance_lat,ambulance.ambulance_long,usr.users_mobile'
+         $this->datatables->select('ambulance.ambulance_id as id,ambulance.ambulance_usersId,City.city_name,ambulance.ambulance_name,ambulance.ambulance_address,ambulance.ambulance_phn,ambulance.ambulance_img,'
+                 . 'usr.users_email,usr.users_password ,ambulance.ambulance_cntPrsn,ambulance.ambulance_lat,ambulance.ambulance_long,usr.users_mobile,ambulance.status as sts'
                  . ',ambulance.ambulance_27Src,ambulance.ambulanceType,ambulance.ambulance_mmbrTyp');
         $this->datatables->from('qyura_ambulance AS ambulance');
         $this->datatables->join('qyura_city AS City','City.city_id = ambulance.ambulance_cityId','left');
@@ -115,8 +115,8 @@ class Ambulance_model extends CI_Model {
         $city = $this->input->post('cityId');
         isset($city) && $city != '' ? $this->datatables->where('ambulance_cityId', $city) : '';
         
-        $states = $this->input->post('hosStateId');
-        isset($states) && $states != '' ? $this->datatables->where('ambulance_stateId', $states) : '';
+        $states = $this->input->post('status');
+        isset($states) && $states != '' ? $this->datatables->where('ambulance.status', $states) : '';
         
       
         $this->datatables->order_by('ambulance_id');
@@ -128,9 +128,11 @@ class Ambulance_model extends CI_Model {
         
        $this->datatables->add_column('ambulance_img', '<img class="img-responsive" height="80px;" width="80px;" src='.$imgUrl.'>', 'ambulance_img');
        
-              $this->datatables->add_column('ambulance_address', '$1 </br><a  href="ambulance/map/$2" class="btn btn-info btn-xs waves-effect waves-light" target="_blank">View Map</a>', 'ambulance_address,ambulance_id');
+       $this->datatables->add_column('status', '$1', 'statusCheck(ambulance,qyura_ambulance,ambulance_id,id,sts)');
+        
+              $this->datatables->add_column('ambulance_address', '$1 </br><a  href="ambulance/map/$2" class="btn btn-info btn-xs waves-effect waves-light" target="_blank">View Map</a>', 'ambulance_address,id');
        
-         $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="ambulance/detailAmbulance/$1">View Detail</a>', 'ambulance_id');
+         $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="ambulance/detailAmbulance/$1">View Detail</a>', 'id');
 
         return $this->datatables->generate(); 
         // echo $this->datatables->last_query();

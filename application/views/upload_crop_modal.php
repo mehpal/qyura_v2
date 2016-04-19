@@ -1,5 +1,5 @@
 <!-- Cropping modal -->
-<div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+<div class="modal fade pre" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <!--                              <form class="avatar-form" action="#" enctype="multipart/form-data" method="post">-->
@@ -13,7 +13,7 @@
                         <label for="avatarInput">File upload</label>
                         <input type="file" class="avatar-input" id="avatarInput" name="avatar_file">
                     </div>
-                     <div id="message_upload"></div>
+                
                     <!-- Crop and preview -->
                     <div class="row">
                         <div class="col-md-9">
@@ -31,7 +31,7 @@
 
                         </div>
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-primary btn-block avatar-save" id="savebtnUpload" onClick="checkValidFileUploads('<?php echo base_url();?>');">Done</button>
+                            <button type="button" class="btn btn-primary btn-block avatar-save" id="savebtnUpload" data-dismiss="modal">Done</button>
                         </div>
                     </div>
                 </div>

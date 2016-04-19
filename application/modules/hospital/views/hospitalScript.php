@@ -457,7 +457,25 @@ if (isset($mapData) && !empty($mapData)) {
             // alert('callback function implementation');
         });
         $('#list3').load(urls + 'index.php/hospital/hospitalAllocatedSpecialities/' + hospitalId, function () {
-            // alert('callback function implementation');
+
+            
+            $("#list3").sortable({
+                stop: function (e, ui) {
+                    var obj = {};
+                    $.map($(this).find('li'), function (el) {
+                        obj[el.id] = $(el).index();
+                    });
+                    var order = $(this).sortable('serialize');
+                    
+                    var url = "<?php echo site_url('hospital/hospitalSpecialitiesOrder') ?>";
+                    $.ajax({type: "POST", async: false, url: url, data: obj,beforeSend: function (xhr) {
+                        qyuraLoader.startLoader();
+                    }, success: function (data) {
+                        qyuraLoader.stopLoader();
+                    }});
+                }
+            });
+
         });
 
     }
