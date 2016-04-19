@@ -1,59 +1,69 @@
 <footer class="footer text-right">
-      2016 © Qyura.
+    2016 © Qyura.
 </footer>
 </div>
 <!-- End Right content here -->
-    </div>
-    <!-- END wrapper -->
+</div>
+<!-- END wrapper -->
 <script>
-var resizefunc = [];
+    var resizefunc = [];
 
 </script>
-     <script src="<?php echo base_url();?>assets/jquery-1.8.2.min.js"> </script>
-     <script src="<?php echo base_url();?>assets/js/framework.js"></script>
+<script src="<?php echo base_url(); ?>assets/jquery-1.8.2.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/framework.js"></script>
 
 <!--     <script type= 'text/javascript' src="<?php echo base_url(); ?>assets/js/jquery.dataTables.js"></script>-->
-     <script src="<?php echo base_url(); ?>assets/js/datatables/jquery.dataTables.min.js"></script>
-     <script src="<?php echo base_url(); ?>assets/js/datatables/dataTables.bootstrap.js"></script>
-     <script src="<?php echo base_url();?>assets/bootbox/bootbox.min.js"> </script>
+<script src="<?php echo base_url(); ?>assets/js/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/datatables/dataTables.bootstrap.js"></script>
+<script src="<?php echo base_url(); ?>assets/bootbox/bootbox.min.js"></script>
 <!--     <script type= 'text/javascript' src="<?php echo base_url(); ?>assets/js/jquery.dataTables.min.js"></script>-->
-        <?php
-    $msg = $this->session->flashdata('message');
-    if( $msg != "" || $msg != NULL) 
-    {
-        ?>
+<?php
+$msg = $this->session->flashdata('message') || $this->session->flashdata('valid_upload') || $this->session->flashdata('error');
+if ($msg != "" || $msg != NULL) {
+    ?>
     <script type="text/javascript">
-        $(document).ready(function(){
-           	bootbox.alert("<?php echo $msg; ?>");
-          });
+        $(document).ready(function () {
+            bootbox.alert("<?php echo $msg; ?>");
+        });
     </script>
-    <?php
+    <?php }
+?>
+<script>
 
-    }?>
- <script>
-     
-     $('#search').bind('keypress', function(e)
+    $('#search').bind('keypress', function (e)
     {
-       if(e.keyCode == 13)
-       {
-          return false;
-       }
+        if (e.keyCode == 13)
+        {
+            return false;
+        }
     });
 </script>       
 <script>
+    
+    var qyuraLoader = {
+        startLoader:function()
+        {
+            $('.page-loader').show();
+        },
+        stopLoader:function ()
+        {
+            $('.page-loader').fadeOut('slow');
+        }
+    };
+    
     //Submit Data for add and edit for all
     function removeError(obj)
     {
-        var id =obj.id;
-        $('#'+id).removeClass('error');
+        var id = obj.id;
+        $('#' + id).removeClass('error');
     }
-    function submitData(url,formData){
+    function submitData(url, formData) {
         var formData = formData;
-        
+
         $.ajax({
             type: "POST",
             url: url,
-	    async:false,
+            async: false,
             data: formData, //only input
             processData: false,
             contentType: false,
@@ -88,22 +98,22 @@ var resizefunc = [];
                             $('#addLoad .progress-bar').css('width', '00%');
                             console.log(data.errors);
                             $.each(data.errors, function (index, value) {
-                                if(typeof data.custom == 'undefined'){
-                                $('#err_' + index).html(value);
+                                if (typeof data.custom == 'undefined') {
+                                    $('#err_' + index).html(value);
                                 }
                                 else
                                 {
                                     $('#err_' + index).addClass('error');
-                                    
-                                    if(index == 'TopError')
+
+                                    if (index == 'TopError')
                                     {
                                         $('#er_' + index).html(value);
                                     }
-                                    else{
-                                        $('#er_TopError').append('<p>'+value+'</p>');
+                                    else {
+                                        $('#er_TopError').append('<p>' + value + '</p>');
                                     }
                                 }
-                                
+
                             });
                             $('#er_TopError').show();
                             $('#er_TopError').html(data.errors.TopError);
@@ -116,25 +126,25 @@ var resizefunc = [];
                         {
                             $('#headLogin').html(data.loginMod);
                         }
-                    }else {
+                    } else {
 //                        document.getElementById("setData").reset();
                         $('#myModal').modal('hide');
                         $('#successTop').show();
                         $('#successTop').html(data.msg);
-                        if(data.msg != '' && data.msg != "undefined"){
+                        if (data.msg != '' && data.msg != "undefined") {
                             alert(data.msg);
-                        }else{
+                        } else {
                             alert("Success");
                         }
                         setTimeout(function () {
                             $('#successTop').hide();
                             $('#successTop').html('');
-                            if(data.url){
-                                window.location.href = '<?php echo site_url() ?>'+'/'+data.url;
-                            }else{
+                            if (data.url) {
+                                window.location.href = '<?php echo site_url() ?>' + '/' + data.url;
+                            } else {
                                 location.reload(true);
-                            }                    
-                        },1000);
+                            }
+                        }, 1000);
                     }
                 } catch (e) {
                     $('#er_TopError').show();
@@ -147,50 +157,61 @@ var resizefunc = [];
             }
         });
     }
-    
+
     //Load Custom delete View for all
-    function deleteFn(controller,cfunction,id)
-    {   
-        var url = '<?php echo site_url();?>/'+controller+'/'+cfunction;
-        bootbox.confirm("Do you want to delete it?", function(result) {
-           if(result)
-           {
-            $.ajax({
-                type:'post',
-                data:{'id':id},
-                url:url,
-                async:false,
-                success:function(data){
-                        if(data)
+    function deleteFn(controller, cfunction, id)
+    {
+        var url = '<?php echo site_url(); ?>/' + controller + '/' + cfunction;
+        bootbox.confirm("Do you want to delete it?", function (result) {
+            if (result)
+            {
+                $.ajax({
+                    type: 'post',
+                    data: {'id': id},
+                    url: url,
+                    async: false,
+                    success: function (data) {
+                        if (data)
                         {
                             location.reload(true);
                         }
                     }
-                }); 
+                });
             }
-        }); 
+        });
     }
 
 //Load Custom enable View for all
-    function enableFn(controller,cfunction,id,status)
-    {   if(status == 1)var con_mess = "Desable";else con_mess = "Enable";      
-           var url = '<?php echo site_url();?>/'+controller+'/'+cfunction;
-            bootbox.confirm('Do you want to ' + con_mess.toLowerCase() + ' it?', function(result) {
-            if(result) {
+    function enableFn(controller, cfunction, id, status)
+    {
+        if (status == 1)
+            var con_mess = "Desable";
+        else
+            con_mess = "Enable";
+        var url = '<?php echo site_url(); ?>/' + controller + '/' + cfunction;
+        bootbox.confirm('Do you want to ' + con_mess.toLowerCase() + ' it?', function (result) {
+            if (result) {
                 $.ajax({
-                    type:'post',
-                    data:{'id': id,'status': status},
-                    url:url,
-                    async:false,
-                    success:function(data){
-                        if(data)
+                    type: 'post',
+                    data: {'id': id, 'status': status},
+                    url: url,
+                    async: false,
+                    success: function (data) {
+                        if (data)
                         {
                             location.reload(true);
                         }
                     }
-                }); 
+                });
             }
-        }); 
+        });
     }
+    
+    $(window).load(function() {
+	$(".page-loader").fadeOut("slow");
+    });
+    
+    
+    
 </script>
 
