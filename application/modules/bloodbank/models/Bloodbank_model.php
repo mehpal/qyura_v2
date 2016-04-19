@@ -134,10 +134,11 @@ class Bloodbank_model extends CI_Model {
         $city = $this->input->post('cityId');
         isset($city) && $city != '' ? $this->datatables->where('cityId', $city) : '';
         
-        $states = $this->input->post('hosStateId');
-        isset($states) && $states != '' ? $this->datatables->where('stateId', $states) : '';
+        $states = $this->input->post('status');
+        $states != '' ? $this->datatables->where('blood.status', $states) : '';
         
-      $this->datatables->order_by('bloodBank_id');
+     
+     $this->datatables->order_by('bloodBank_id');
         
      if($condition)
      {
@@ -160,8 +161,8 @@ class Bloodbank_model extends CI_Model {
        $this->datatables->add_column('bloodBank_add', '$1 </br><a  href="bloodbank/map/$2" class="btn btn-info btn-xs waves-effect waves-light" target="_blank">View Map</a>', 'bloodBank_add,bloodBank_id');
        
        $this->datatables->order_by("blood.creationTime");
-        return $this->datatables->generate(); 
-      //echo $this->datatables->last_query();
+       return $this->datatables->generate(); 
+      //return $this->datatables->last_query();
 
     }
     

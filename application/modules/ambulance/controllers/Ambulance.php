@@ -15,6 +15,7 @@ class Ambulance extends MY_Controller {
         $data = array();
         $data['allStates'] = $this->Ambulance_model->fetchStates();
         $data['ambulanceData'] = $this->Ambulance_model->fetchambulanceData();
+        $data['city'] = $this->getCityByMI(2);
         $data['title'] = 'Ambulance';
         $this->load->super_admin_template('ambulanceListing', $data, 'ambulanceScript');
     }

@@ -212,7 +212,7 @@ class MY_Controller extends CI_Controller {
 
     /**
      * @method status
-     * @description 
+     * @description active inactive common function 
      * @access public
      * @param int
      * @return boolean
@@ -246,6 +246,65 @@ class MY_Controller extends CI_Controller {
         }else {
             echo 0;
         }
+    }
+    
+       /**
+     * @method getCityByMI
+     * @description get city by MI
+     * @access public
+     * @param int
+     * @return boolean
+     */
+    
+    function getCityByMI($id = ''){
+        
+          $this->db->select('city.city_id,city.city_name,city.city_center');
+          $this->db->from('qyura_city AS city');
+          
+          switch($id){
+           
+              case 1:
+                  $this->db->join('qyura_bloodBank AS blood','blood.cityId = city.city_id','inner');
+                  $this->db->where(array('blood.bloodBank_deleted'=> 0));
+                  break;
+              
+              case 2:
+                  $this->db->join('qyura_ambulance AS ambulance','ambulance.ambulance_cityId = city.city_id','inner');
+                  $this->db->where(array('ambulance.ambulance_deleted'=> 0));
+                  break;
+              
+              case 3:
+                  $this->db->join('qyura_diagnostic AS diag','diag.diagnostic_cityId = city.city_id','inner');
+                  $this->db->where(array('diag.diagnostic_deleted'=> 0));
+                  break;
+              
+              case 4:
+                  $this->db->join('qyura_doctors AS doctor','doctor.doctors_cityId = city.city_id','inner');
+                  $this->db->where(array('doctor.doctors_deleted'=> 0));
+                  break;
+              
+              case 5:
+                  $this->db->join('qyura_hospital AS hospital','hospital.hospital_cityId = city.city_id','inner');
+                  $this->db->where(array('hospital.hospital_deleted'=> 0));
+                  break;
+              
+              case 6:
+                  $this->db->join('qyura_medicartOffer AS medicart','medicart.medicartOffer_cityId = city.city_id','inner');
+                  $this->db->where(array('medicart.medicartOffer_deleted'=> 0));
+                  break;
+              
+               case 7:
+                  $this->db->join('qyura_pharmacy AS pharmacy','pharmacy.pharmacy_cityId = city.city_id','inner');
+                  $this->db->where(array('pharmacy.pharmacy_deleted'=> 0));
+                  break;
+                  
+          }
+
+          $this->db->order_by("city.city_name", "asc");  
+          $this->db->group_by('city.city_name');
+          $data= $this->db->get();
+          return $data->result();
+
     }
 
 }
