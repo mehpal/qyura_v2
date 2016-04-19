@@ -8,12 +8,13 @@
 if(isset($bloodBankId) && !empty($bloodBankId)){
     $check = $bloodBankId; 
 }?>
-<link href="<?php echo base_url();?>assets/cropper/cropper.min.css" rel="stylesheet">
+<link href="<?php echo base_url(); ?>assets/cropper_new/dist/cropper.css" rel="stylesheet">
 <!--<link href="<?php echo base_url();?>assets/vendor/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />-->
 <link href="<?php echo base_url();?>assets/cropper/main.css" rel="stylesheet">
 <script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.js"></script>
 <!--<script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>-->
-<script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
+<script src="<?php echo base_url(); ?>assets/cropper_new/dist/cropper.js"></script>
+
 <?php $current = $this->router->fetch_method();
 if($current == 'detailBloodBank'):?>
 <script src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
@@ -135,7 +136,7 @@ if($current == 'detailBloodBank'):?>
             "processing": true,
             "bServerSide": true,
            "columnDefs": [{
-                    "targets": [0,1,2,3,4,5],
+                    "targets": [0,1,2,3,4,5,6],
                     "orderable": false
                 }],
             "bLengthChange": false,
@@ -162,9 +163,8 @@ if($current == 'detailBloodBank'):?>
                 {"data": "bloodBank_phn"},
                 {"data": "city_name"},
                 {"data": "bloodBank_add"},
-                //{"data": "open"},
-                // {"data": "call"},
-               {"data": "view" ,'searchable' : false},
+                {"data": "status"},
+                {"data": "view" ,'searchable' : false},
             ],
         });
 
@@ -246,7 +246,7 @@ if($current == 'detailBloodBank'):?>
         var emails = $.trim($('#users_email').val());
         var cpname = $.trim($('#bloodBank_cntPrsn').val())
         
-        var phn= $.trim($('#bloodBank_phn1').val());
+        var phn= $.trim($('#bloodBank_phn').val());
         var myzip = $.trim($('#bloodBank_zip').val());
         var cityId =$.trim($('#cityId').val());
         var stateIds = $.trim($('#stateId').val());
@@ -265,7 +265,21 @@ if($current == 'detailBloodBank'):?>
                 status = 0;
             }
             
-              
+            if(!$.isNumeric(phn) && phn == ''){
+                
+                $('#bloodBank_phn').addClass('bdr-error');
+                $('#error-bloodBank_phn').fadeIn().delay(3000).fadeOut('slow');
+                // $('#hospital_phn').focus();
+                status = 0;
+            }else{
+                if(phn.length != 10){
+                    
+                     
+                $('#bloodBank_phn').addClass('bdr-error');
+                $('#error-bloodBank_phn').fadeIn().delay(3000).fadeOut('slow'); 
+                }
+            }
+            
 //            if(!$.isNumeric(phn)){
 //                $('#bloodBank_phn1').addClass('bdr-error');
 //                $('#error-bloodBank_phn').fadeIn().delay(3000).fadeOut('slow');
@@ -281,6 +295,14 @@ if($current == 'detailBloodBank'):?>
                
                status = 0;
             }
+            
+            if($('#bloodbank_docatId').val()==''){
+                $('#bloodbank_docatId').addClass('bdr-error');
+                $('#error-bloodbank_docatId').fadeIn().delay(3000).fadeOut('slow');
+               
+               status = 0;
+            }
+            
              if(!check.test(cpname)){
                 $('#bloodBank_cntPrsn').addClass('bdr-error');
                 $('#error-bloodBank_cntPrsn').fadeIn().delay(3000).fadeOut('slow');
@@ -530,13 +552,13 @@ if($current == 'detailBloodBank'):?>
         
         var isValid = $('#isValid').val();
         
-        var phn= $.trim($('#bloodBank_phn1').val());
+        var phn= $.trim($('#bloodBank_phn').val());
         var myzip = $.trim($('#bloodBank_zip').val());
         var cityId =$.trim($('#cityId').val());
         var stateIds = $.trim($('#stateId').val());
         var bloodBank_mblNo = $.trim($('#bloodBank_mblNo').val());
         var status = 1;
-   
+ 
             if($('#bloodBank_name').val()==''){
                 $('#bloodBank_name').addClass('bdr-error');
                 $('#error-bloodBank_name').fadeIn().delay(3000).fadeOut('slow');
@@ -588,10 +610,11 @@ if($current == 'detailBloodBank'):?>
                // $('#hospital_address').focus();
                status = 0;
             }
+         
             
-            
-            if(!$.isNumeric(phn)){
-                $('#bloodBank_phn1').addClass('bdr-error');
+            if(!$.isNumeric(phn) && phn == ''){
+                
+                $('#bloodBank_phn').addClass('bdr-error');
                 $('#error-bloodBank_phn').fadeIn().delay(3000).fadeOut('slow');
                 // $('#hospital_phn').focus();
                 status = 0;

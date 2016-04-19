@@ -98,12 +98,10 @@
                                     <article class="clearfix m-b-10 ">
                                         <label for="cemail" class="control-label col-md-4 col-sm-4">Landline Phone:</label>
                                     <aside class="col-md-8 col-sm-8 text-right t-xs-left">
-                                    <?php
-                                    $explode = explode('|', $bloodBankData[0]->bloodBank_phn);
-                                    for ($i = 0; $i < count($explode); $i++) { ?>
-                                       <label for="cemail" class="control-label col-md-4 col-sm-4"><?php if($i == 0){ ?><?php } ?></label>
-                                       <?php if ($explode[$i] != '')?><p>+<?php echo $explode[$i];?></p>
-                                          <?php }?>
+                                 
+                                      
+                                       <p>0<?php echo $bloodBankData[0]->bloodBank_phn;?></p>
+                                        
                                        </aside>
                                     </article>
                                     <article class="clearfix m-b-10">
@@ -113,6 +111,10 @@
                                     <article class="clearfix m-b-10">
                                        <label for="cemail" class="control-label col-md-4 col-sm-4">Contact Person:</label>
                                        <p class="col-md-8  col-sm-8 text-right t-xs-left"> <?php if(isset($bloodBankData[0]->bloodBank_cntPrsn)){ echo $bloodBankData[0]->bloodBank_cntPrsn; }?> </p>
+                                    </article>
+                                      <article class="clearfix m-b-10">
+                                       <label for="cemail" class="control-label col-md-4 col-sm-4">Docat Id:</label>
+                                       <p class="col-md-8  col-sm-8 text-right t-xs-left"> <?php if(isset($bloodBankData[0]->bloodBank_docatId)){ echo $bloodBankData[0]->bloodBank_docatId; }?> </p>
                                     </article>
                                  </aside>
                                  <form name="submitForm" action="<?php echo site_url('bloodbank/saveDetailBloodBank/'.$bloodBankId); ?>" id="submitForm" method="post">
@@ -217,32 +219,19 @@
                                         <label for="cname" class="control-label col-md-4  col-sm-4">Phone:</label>
                                         <div class="col-md-8 col-sm-8">
                                             
-                                            <?php 
-                                                $explodes= explode('|',$bloodBankData[0]->bloodBank_phn); 
-                                                if(!empty($explodes)){
-                                                for($i= 0; $i< count($explodes);$i++){
-                                                $moreExpolde = explode(' ',$explodes[$i]);?>
+                                 
                                             
-                                            <aside class="row clone">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-sm-4 col-xs-12 m-t-xs-10" id="multiPreNumber">
-                                                    <select class="selectpicker" data-width="100%" name="pre_number[]" id="multiPreNumber">
-                                                        <option <?php if($moreExpolde[0] == '91'){ echo 'selected';}?> value ='91'>+91</option>
-                                                    </select>
-                                                </div>
+                                            <aside class="row">
+
                                                 
-                                                <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12 m-t-xs-10">
-                                                    <input type="text" class="form-control" name="midNumber[]" id="midNumber1" maxlength="5" onkeypress="return isNumberKey(event)" value="<?php if(isset($moreExpolde[1]) && $moreExpolde[1] != ''){ echo $moreExpolde[1]; } ?>" />
-                                                     <label class="error" > <?php echo form_error("midNumber"); ?></label>
-                                                </div>
-                                                
-                                                <div class="col-md-5 col-sm-5 col-xs-10 m-t-xs-10 " id="multiPhoneNumber">
-                                                    <input type="text" class="form-control" name="bloodBank_phn[]" id="bloodBank_phn1" maxlength="8" onkeypress="return isNumberKey(event)" value="<?php if(isset($moreExpolde[2]) && $moreExpolde[2] != ''){ echo $moreExpolde[2]; } ?>" />
-                                                    <label class="error" style="display:none;" id="error-bloodBank_phn"> please enter a valid phone number</label>
+                                           
+                                                    <input type="text" class="form-control" name="bloodBank_phn" id="bloodBank_phn" maxlength="10" minlength="10" onkeypress="return isNumberKey(event)" value="<?php echo $bloodBankData[0]->bloodBank_phn; ?>" />
+                                                      <label class="error" style="display:none;" id="error-bloodBank_phn"> please enter a valid phone min length should be min 10 and max 10</label>
                                                     <label class="error" > <?php echo form_error("bloodBank_phn"); ?></label>
-                                                </div>
+                                               
                                                 
                                             </aside>
-                                            <?php $moreExpolde ='';} }?>
+                                           
                                             <p class="m-t-0">* The number above is going to be your primary number.</p>
                                         </div>
                                         
@@ -256,7 +245,9 @@
                                              <label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>
                                              <label class="error" > <?php echo form_error("users_email"); ?></label>
                                           </div>
+                                          
                                        </article>
+                                        
                                        <article class="clearfix">
                                           <label for="cemail" class="control-label col-md-4 col-sm-4">Contact Person:</label>
                                           <div class="col-md-8 col-sm-8">
@@ -265,6 +256,16 @@
                                           </div>
                                           <label class="error" > <?php echo form_error("bloodBank_cntPrsn"); ?></label>
                                        </article>
+                                        
+                                <article class="clearfix m-t-10">
+                                <label for="cname" class="control-label col-md-4">Docat Id : </label>
+                                <div class="col-md-8 col-sm-8">
+                                    <input class="form-control" name="bloodbank_docatId" type="text" required="" id="bloodbank_docatId" value="<?php if(isset($bloodBankData[0]->bloodBank_docatId)){ echo $bloodBankData[0]->bloodBank_docatId; }?>">
+                                    <label class="error" style="display:none;" id="error-bloodbank_docatId">please enter Docat Id.</label>
+                                    <label class="error" > <?php echo form_error("bloodbank_docatId"); ?></label>
+                                </div>
+                            </article>
+                                        
                                        <article class="clearfix m-t-10">
                                           <div class="col-md-12">
                                              <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" onclick="return validationBloodbank();">Submit</button>
