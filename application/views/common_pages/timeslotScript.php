@@ -20,7 +20,7 @@
         var flag = 0;
         for (i = 1; i < 11; i++) {
             var totalSlot = $("#totalSlot_" + i).val();
-            alert(totalSlot);
+           // alert(totalSlot);
             for(k = 1;k <= totalSlot; k++){
                 if ($("#check_" + i + "_" + k ).prop("checked") == true) {
                     var day1 = $("#openTime_" + i + "_" + k).val();
