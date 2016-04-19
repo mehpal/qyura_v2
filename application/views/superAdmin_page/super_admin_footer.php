@@ -192,5 +192,35 @@ var resizefunc = [];
             }
         }); 
     }
+    
+     //change status enable or disable funciton for all
+    function statusFn(controller, table_name, table_field_name, table_field_value, status_value)
+    {
+        if (status_value == 1)
+            var con_mess = "Inactive";
+        else
+            con_mess = "Active";
+        var url = '<?php echo site_url();?>/'+controller+'/status';
+
+        bootbox.confirm('Do you want to ' + con_mess.toLowerCase() + ' it?', function (result) {
+            if (result) {
+                $.ajax({
+                    type: 'post',
+                    data: {'table_field_name': table_field_name, 'status': status_value, 'table': table_name, 'field_value': table_field_value},
+                    url: url,
+                    success: function (response) {
+                        if (response) {
+                           // bootbox.alert("Successfully update records.");
+                            location.reload(true);
+                        }else{
+                           // bootbox.alert("Failed to update records."); 
+                            location.reload(true);
+                        }
+                    }
+                });
+            }
+        });
+        
+    }
 </script>
 
