@@ -35,6 +35,7 @@ if ($current != 'detailPharmacy'):
 <script src="<?php echo base_url(); ?>assets/js/jquery.geocomplete.min.js"></script>
 <script type="text/javascript" src="http://localhost/qyura/assets/vendor/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script type="text/javascript" src="http://localhost/qyura/assets/vendor/x-editable/jquery.xeditable.js"></script>
+<script src="<?php echo base_url();?>assets/vendor/select2/select2.min.js" type="text/javascript"></script> 
 <!--<script type= 'text/javascript' src="<?php echo base_url(); ?>assets/js/jquery.dataTables.js"></script>-->
 <script src="<?php echo base_url(); ?>assets/js/common_js.js"></script>
 <script type="text/javascript"> var pharmacyId = <?php echo $check; ?></script>
@@ -83,11 +84,7 @@ if (isset($mapData) && !empty($mapData)) {
     }
 
     /*-- Selectpicker --*/
-    $('.selectpicker').selectpicker({
-        style: 'btn-default',
-        size: "auto",
-        width: "100%"
-    });
+    $('.selectpicker').select2();
 
 
     $(function () {
@@ -104,12 +101,12 @@ if (isset($mapData) && !empty($mapData)) {
     });
 
 
-    $(function () {
-        var removeLink = '<a class="remove" href="#" onclick="$(this).parent().slideUp(function(){ $(this).remove() }); return false"> <i class="fa fa-minus-circle fa-2x m-t-5 label-plus"></i></a>';
-        $('a.add').relCopy({append: removeLink});
-
-
-    });
+//    $(function () {
+//        var removeLink = '<a class="remove" href="#" onclick="$(this).parent().slideUp(function(){ $(this).remove() }); return false"> <i class="fa fa-minus-circle fa-2x m-t-5 label-plus"></i></a>';
+//        $('a.add').relCopy({append: removeLink});
+//
+//
+//    });
 
     function isNumberKey(evt, id) {
         var charCode = (evt.which) ? evt.which : event.keyCode
@@ -159,7 +156,7 @@ if (isset($mapData) && !empty($mapData)) {
         var numcheck = /^[0-9]+$/;
         var emails = $.trim($('#users_email').val());
         var cpname = $.trim($('#pharmacy_cntPrsn').val());
-        var phn = $.trim($('#pharmacy_phn1').val());
+        var phn = $.trim($('#pharmacy_phn').val());
         var myzip = $.trim($('#pharmacy_zip').val());
         var cityId = $.trim($('#pharmacy_cityId').val());
         var stateIds = $.trim($('#pharmacy_stateId').val());
@@ -222,8 +219,8 @@ if (isset($mapData) && !empty($mapData)) {
 
 
         if (!$.isNumeric(phn)) {
-            $('#pharmacy_phn1').addClass('bdr-error');
-            $('#error-pharmacy_phn1').fadeIn().delay(3000).fadeOut('slow');
+            $('#pharmacy_phn').addClass('bdr-error');
+            $('#error-pharmacy_phn').fadeIn().delay(3000).fadeOut('slow');
             status = 0;
             // $('#hospital_phn').focus();
         }
@@ -272,6 +269,30 @@ if (isset($mapData) && !empty($mapData)) {
             }, 3000);
             status = 0;
         }
+        
+         if($('#pharmacy_docatId').val()==''){
+                $('#pharmacy_docatId').addClass('bdr-error');
+                $('#error-pharmacy_docatId').fadeIn().delay(3000).fadeOut('slow');
+               
+               status = 0;
+            }
+            
+            
+             if(!$.isNumeric(phn) && phn == ''){
+                
+                $('#pharmacy_phn').addClass('bdr-error');
+                $('#error-pharmacy_phn').fadeIn().delay(3000).fadeOut('slow');
+                // $('#hospital_phn').focus();
+                status = 0;
+            }else{
+                if(phn.length != 10){
+                    
+                     
+                $('#pharmacy_phn').addClass('bdr-error');
+                $('#error-pharmacy_phn').fadeIn().delay(3000).fadeOut('slow'); 
+                 status = 0;
+                }
+            }
 
         /* if(status == 0){
          return false;
@@ -295,7 +316,7 @@ if (isset($mapData) && !empty($mapData)) {
         var emails = $.trim($('#users_email').val());
         var cpname = $.trim($('#pharmacy_cntPrsn').val());
         var myzip = $.trim($('#pharmacy_zip').val());
-        var phn = $.trim($('#pharmacy_phn1').val());
+        var phn = $.trim($('#pharmacy_phn').val());
         var myzip = $.trim($('#pharmacy_zip').val());
         var cityId = $.trim($('#pharmacy_cityId').val());
         var stateIds = $.trim($('#StateId').val());
@@ -334,6 +355,30 @@ if (isset($mapData) && !empty($mapData)) {
             }, 3000);
             status = 0;
         }
+        
+          if($('#pharmacy_docatId').val()==''){
+                $('#pharmacy_docatId').addClass('bdr-error');
+                $('#error-pharmacy_docatId').fadeIn().delay(3000).fadeOut('slow');
+               
+               status = 0;
+            }
+            
+            
+             if(!$.isNumeric(phn) && phn == ''){
+                
+                $('#pharmacy_phn').addClass('bdr-error');
+                $('#error-pharmacy_phn').fadeIn().delay(3000).fadeOut('slow');
+                // $('#hospital_phn').focus();
+                status = 0;
+            }else{
+                if(phn.length != 10){
+                    
+                     
+                $('#pharmacy_phn').addClass('bdr-error');
+                $('#error-pharmacy_phn').fadeIn().delay(3000).fadeOut('slow'); 
+                 status = 0;
+                }
+            }
 
         if ($('#lng').val() == '') {
             $('#lng').addClass('bdr-error');
@@ -410,122 +455,6 @@ if (isset($mapData) && !empty($mapData)) {
 
     $(document).ready(function () {
 
-        $("#submitForm").validate({
-            rules: {
-                medicartOffer_title: {
-                    required: true
-                },
-                medicartOffer_cityId: {
-                    required: true
-                },
-                medicartOffer_MIId: {
-                    required: true
-                },
-                medicartOffer_offerCategory: {
-                    required: true
-                },
-                medicartOffer_description: {
-                    required: true
-                },
-                medicartOffer_allowBooking: {
-                    required: true
-                },
-                medicartOffer_maximumBooking: {
-                    required: true,
-                    number: true
-                },
-                medicartOffer_startDate: {
-                    required: true
-                },
-                medicartOffer_endDate: {
-                    required: true
-                },
-                medicartOffer_discount: {
-                    required: true,
-                    number: true
-                },
-                medicartOffer_ageDiscount: {
-                    required: true
-                },
-                medicartOffer_actualPrice: {
-                    required: true,
-                    number: true
-                },
-                medicartOffer_discountPrice: {
-                    required: true,
-                    number: true,
-                    minlength: 1,
-                    maxlength: 2
-                },
-                miType: {
-                    required: true
-                },
-                medicartOffer_range: {
-                    required: true
-                },
-                medicartOffer_totalPrice: {
-                    required: true,
-                    number: true,
-                }
-            },
-            messages: {
-                medicartOffer_title: "Please enter offer title",
-                medicartOffer_cityId: {
-                    required: "Please select city",
-                },
-                medicartOffer_discountPrice: {
-                    required: "Please enter discount",
-                    number: "Please enter only number formate",
-                },
-                medicartOffer_actualPrice: {
-                    required: "Please enter actual prize",
-                    number: "Please enter only number formate",
-                },
-                medicartOffer_ageDiscount: {
-                    required: "Please select age",
-                },
-                medicartOffer_discount: {
-                    required: "Please enter discount",
-                    number: "Please enter only number formate",
-                },
-                medicartOffer_startDate: {
-                    required: "Please enter start date",
-                },
-                medicartOffer_endDate: {
-                    required: "Please enter end date",
-                },
-                medicartOffer_maximumBooking: {
-                    required: "Please enter maximum booking limit ",
-                    number: "Please enter only number formate",
-                },
-                medicartOffer_allowBooking: {
-                    required: "Please enter select allow booking",
-                },
-                medicartOffer_description: {
-                    required: "Please enter description",
-                },
-                medicartOffer_offerCategory: {
-                    required: "Please select offer category",
-                },
-                medicartOffer_MIId: {
-                    required: "Please select MI name",
-                },
-                miType: {
-                    required: "Please select MI type",
-                },
-                medicartOffer_range: {
-                    required: "Please select range",
-                },
-                medicartOffer_totalPrice: {
-                    required: "Please enter total price",
-                }
-            },
-            submitHandler: function (form) {
-                // alert('start submitHandler');
-                form.submit();
-            },
-        });
-        // 
         var oTable = $('#pharmacy_datatable').DataTable({
             "processing": true,
             "bServerSide": true,
@@ -536,7 +465,7 @@ if (isset($mapData) && !empty($mapData)) {
             "bPaginate": true,
             "sPaginationType": "full_numbers",
             "columnDefs": [{
-                    "targets": [0, 1, 2, 3, 4, 5],
+                    "targets": [0, 1, 2, 3, 4, 5, 6],
                     "orderable": false
                 }],
             "columns": [
@@ -545,27 +474,26 @@ if (isset($mapData) && !empty($mapData)) {
                 {"data": "city_name"},
                 {"data": "pharmacy_phn"},
                 {"data": "pharmacy_address"},
+                {"data": "status"},
                 {"data": "view", "searchable": false, "order": false, orderable: false, width: "8%"},
             ],
             "ajax": {
                 "url": "<?php echo site_url('pharmacy/getPharmacyDl'); ?>",
                 "type": "POST",
                 "data": function (d) {
-                    d.cityId = $("#pharmacy_cityId").val();
+                    d.cityId = $("#cityId").val();
+                    d.status = $("#status").val();
                     d.name = $("#search").val();
-                    if ($("#pharmacy_stateId").val() != ' ') {
-                        d.hosStateId = $("#pharmacy_stateId").val();
-                    }
                     d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
                 }
             }
         });
 
-        $('#pharmacy_cityId,#pharmacy_stateId').change(function () {
+        $('#cityId,#status').change(function () {
             oTable.draw();
         });
         $('#search').on('keyup', function () {
-            oTable.search($(this).val()).draw();
+            oTable.columns( 5 ).search($(this).val()).draw();
         });
 
     });
