@@ -384,10 +384,10 @@ class MY_Controller extends CI_Controller {
 
         if (true) {
             $this->session->set_flashdata('message', 'Time Slot Update successfully!');
-            redirect($redirectUrl.'/'.$miId);
+            redirect($redirectUrl.'/'.$miId.'/timeSlot');
         } else {
             $this->session->set_flashdata('error', 'Time Slot Update failed !');
-             redirect($redirectUrl.'/'.$miId);
+             redirect($redirectUrl.'/'.$miId.'/timeSlot');
         }
     }
     
@@ -435,10 +435,10 @@ class MY_Controller extends CI_Controller {
 
         if ($insertId) {
             $this->session->set_flashdata('message', 'Time Slot insert successfully!');
-             redirect($redirectUrl.'/'.$miId);
+             redirect($redirectUrl.'/'.$miId.'/timeSlot');
         } else {
             $this->session->set_flashdata('error', 'Time Slot insert failed !');
-             redirect($redirectUrl.'/'.$miId);
+             redirect($redirectUrl.'/'.$miId.'/timeSlot');
         }
     }
 

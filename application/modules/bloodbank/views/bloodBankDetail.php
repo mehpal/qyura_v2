@@ -62,16 +62,16 @@
                </section>
                <article class="text-center clearfix m-t-50">
                   <ul class="nav nav-tab nav-setting">
-                     <li class="active">
+                     <li class="<?php if(isset($active) && $active == 'general'){echo "active";}?>" >
                         <a data-toggle="tab" href="#general">General Detail</a>
                      </li>
-                     <li class=" ">
+                     <li class="<?php if(isset($active) && $active == 'ba'){echo "active";}?>">
                         <a data-toggle="tab" href="#ba">Blood Availability</a>
                      </li>
-                      <li class=" ">
+                      <li class="<?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>">
                         <a data-toggle="tab" href="#timeSlot">Time Slot</a>
                      </li>
-                     <li class=" ">
+                     <li class="<?php if(isset($active) && $active == 'account'){echo "active";}?>">
                         <a data-toggle="tab" href="#account">Account</a>
                      </li>
                   </ul>
@@ -79,7 +79,7 @@
                <article class="tab-content p-b-20 m-t-50">
                   <!-- General Detail Starts -->
                   <div class="map_canvas"></div>
-                  <section class="tab-pane fade in active" id="general">
+                  <section class="tab-pane fade in <?php if(isset($active) && $active == 'general'){echo "active";}?>" id="general">
                      <article class="detailbox">
                         <div class="mi-form-section">
                            <!-- Table Section End -->
@@ -286,7 +286,7 @@
                   </section>
                   <!-- General Detail Ends -->
                   <!--diagnostic Starts -->
-                  <section class="tab-pane fade in" id="ba">
+                  <section class="tab-pane fade in <?php if(isset($active) && $active == 'ba'){echo "active";}?>" id="ba">
                      <div class="clearfix">
                         <article class="col-md-8">
                            <aside class="table-responsive">
@@ -413,7 +413,7 @@
                      </div>
                   </section>
                   <!-- diagnostic Ends -->
-                     <section class="tab-pane fade in" id="timeSlot">
+                     <section class="tab-pane fade in <?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>" id="timeSlot">
                      <div class="clearfix m-t-20 p-b-20 doctor-description">
                          
                  <?php if(isset($timeSlot) && !empty($timeSlot)):?>
@@ -454,7 +454,7 @@
                      </div>
                   </section>
                   <!--Account Starts -->
-                  <section class="tab-pane fade in" id="account">
+                  <section class="tab-pane fade in <?php if(isset($active) && $active == 'account'){echo "active";}?>" id="account">
                      <div class="clearfix m-t-20 p-b-20 doctor-description">
                         <article class="clearfix m-b-10">
                            <label for="cemail" class="control-label col-md-4 col-sm-5">Registered Email Id :</label>

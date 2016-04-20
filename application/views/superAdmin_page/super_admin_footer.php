@@ -251,4 +251,5 @@ if ($msg != "" || $msg != NULL) {
 	$(".page-loader").fadeOut("slow");
     });
 </script>
+ <?php echo $this->load->view('common_pages/timeslotScript');?>
 
