@@ -83,7 +83,7 @@
         } else {
             //$("#" + textId).hide();
             $("#" + textId + " input").prop('required', false);
-            $("#" + textId + " input[type=text]").val('');
+            //$("#" + textId + " input[type=text]").val('');
         }
     }
     

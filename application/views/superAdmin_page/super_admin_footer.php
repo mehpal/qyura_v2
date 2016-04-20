@@ -18,12 +18,23 @@
 <script src="<?php echo base_url(); ?>assets/bootbox/bootbox.min.js"></script>
 <!--     <script type= 'text/javascript' src="<?php echo base_url(); ?>assets/js/jquery.dataTables.min.js"></script>-->
 <?php
+$message = "";
 $msg = $this->session->flashdata('message') || $this->session->flashdata('valid_upload') || $this->session->flashdata('error');
 if ($msg != "" || $msg != NULL) {
+    
+    if($this->session->flashdata('message') != ''){
+      $message = $this->session->flashdata('message');  
+    }
+    if($this->session->flashdata('error') != ''){
+      $message = $this->session->flashdata('error');  
+    }
+    if($this->session->flashdata('valid_upload') != ''){
+      $message = $this->session->flashdata('valid_upload');  
+    }
     ?>
     <script type="text/javascript">
         $(document).ready(function () {
-            bootbox.alert("<?php echo $msg; ?>");
+            bootbox.alert("<?php echo $message; ?>");
         });
     </script>
     <?php }
