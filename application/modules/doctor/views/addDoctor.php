@@ -93,19 +93,11 @@
                                     </article>
                                     <div id="multiplePhoneNumber">
                                     <article class="form-group m-lr-0">
-                                        <label for="cname" class="control-label col-md-4 col-sm-4">Landline Phone:</label>
+                                        <label for="cname" class="control-label col-md-4 col-sm-4">Contact No.:</label>
                                         <div class="col-md-8 col-sm-8">
                                             <aside class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                    <select class="selectpicker" data-width="100%" name='preNumber[]' id="preNumber">
-                                                        <option value='91'>+91</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-lg-4 col-md-3 col-sm-3 col-xs-12 m-t-xs-10">
-                                                    <input type="text" class="form-control" name="midNumber[]" id="midNumber1" placeholder="STD" maxlength="4" onblur="checkNumber('midNumber',1)" onkeypress="return isNumberKey(event)" />
-                                                </div>
-                                                <div class="col-md-5 col-sm-4 col-xs-10 m-t-xs-10 ">
-                                                    <input type="text" class="form-control" name="doctors_phn[]" id="doctors_phn1" maxlength="8" placeholder="Land Line Number" onblur="checkNumber('doctors_phn',1)" onkeypress="return isNumberKey(event)" />
+                                                <div class="col-md-12 col-sm-4 col-xs-10 m-t-xs-10 ">
+                                                    <input type="text" class="form-control" name="doctors_phn" id="doctors_phn" maxlength="10" placeholder="Contact Number" onblur="checkNumber('doctors_phn',1)" onkeypress="return isNumberKey(event)" />
                                                 </div>
 <!--                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 m-t-xs-10"><a onclick="addPhoneNumber()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus"></i></a></div>-->
                                             </aside>
@@ -113,31 +105,6 @@
                                         </div>
                                     </article>
                                     </div>    
-                                    <div id='multipleMobile'>
-                                    <article class="form-group m-lr-0">
-                                        <label for="cname" class="control-label col-md-4 col-sm-4">Mobile:</label>
-                                        <div class="col-md-8 col-sm-8">
-                                            <aside class="row">
-                                                <div class="col-lg-4 col-md-3 col-sm-3 col-xs-12">
-                                                    <select class="selectpicker" data-width="100%" name="preMobileNumber[]" id="preMobileNumber1">
-                                                        <option value="91">+91</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-lg-8 col-md-7 col-sm-7 col-xs-10 m-t-xs-10">
-                                                    <input type="text" class="form-control" name="doctors_mobile[]" id="doctors_mobile1" placeholder="Mobile Number" onblur="checkNumber('doctors_mobile',1)" maxlength="10" onkeypress="return isNumberKey(event)" />
-                                                </div>
-<!--                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 m-t-xs-10"><a  onclick="addMobileNumber()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus"></i></a></div>-->
-                                               <label class="error" style="display:none;" id="error-doctors_mobile1"> Please select your mobile number</label>
-                                            </aside>
-                                            <aside class="checkbox checkbox-success" style="display: none">
-                                                <input type="checkbox" id="checkbox1" name="checkbox1" value="1">
-                                                <label for="checkbox3">
-                                                    Make this number primary
-                                                </label>
-                                            </aside>
-                                        </div>
-                                    </article>
-                                    </div>     
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Address:</label>
                                         <div class="col-md-8 col-sm-8">
@@ -174,19 +141,6 @@
                                                     <label class="error" style="display:none;" id="error-doctors_pinn"> Zip code should be numeric and 6 digit long</label>
                                                     <label class="error" > <?php echo form_error("doctors_pinn"); ?></label>
                                                 </div>
-                                            </aside>
-                                        </div>
-                                    </article>
-                                    <article class="clearfix">
-                                        <label class="control-label col-md-4" for="cname">Manual:</label>
-                                        <div class="col-md-8">
-                                            <aside class="radio radio-info radio-inline">
-                                                <input type="radio"  name="isManual" value="1" id="isManual" onclick="IsAdrManual(this.value)">
-                                                <label for="inlineRadio1"> Yes</label>
-                                            </aside>
-                                            <aside class="radio radio-info radio-inline">
-                                                <input type="radio" checked="" name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.value)">
-                                                <label for="inlineRadio2"> No</label>
                                             </aside>
                                         </div>
                                     </article>
