@@ -826,7 +826,14 @@ if (isset($mapData) && !empty($mapData)) {
     }
     function validationHospital() {
         //$("form[name='hospitalForm']").submit();
-
+        
+        var isAddressDisabled = $('#isAddressDisabled').val();
+        if(isAddressDisabled == 1){
+            $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", false);
+        }else{
+             $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", true);
+        }
+        
         var check = /^[a-zA-Z\s]+$/;
         var numcheck = /^[0-9]+$/;
         var emails = $.trim($('#users_email').val());
@@ -1907,9 +1914,12 @@ if (isset($mapData) && !empty($mapData)) {
                         $("#lat").val(obj.lat);
                         $("#lng").val(obj.lng);
                         $("#hospital_name").val(obj.hospital_name);
+                        
+                        $("#isAddressDisabled").val(1);
+                        
                         //$("#addressDiv").css("display","none");
                         $("#geocomplete1,#hospital_zip,#lat,#lng").attr("readonly", true);
-                        $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("readonly", true);
+                        $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", true);
                     } else {
                         $("#hospitalName").css("display", "block");
                         $("#geocomplete1").val('');
@@ -1920,9 +1930,12 @@ if (isset($mapData) && !empty($mapData)) {
                         $("#lat").val('');
                         $("#lng").val('');
                         $("#hospital_name").val('');
+                        
+                        $("#isAddressDisabled").val(0);
+                        
                         $('#hospital_cityId,#hospital_stateId,#hospital_countryId').selectpicker('refresh');
                         $("#geocomplete1,#hospital_zip,#lat,#lng").removeAttr("readonly");
-                        $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("readonly", false);
+                        $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", false);
                     }
                 }
             });
@@ -1936,9 +1949,12 @@ if (isset($mapData) && !empty($mapData)) {
             $("#lat").val('');
             $("#lng").val('');
             $("#hospital_name").val('');
+            
+            $("#isAddressDisabled").val(0);
+            
             // $('#hospital_cityId,#hospital_stateId,#hospital_countryId').selectpicker('refresh');
             $("#geocomplete1,#hospital_zip,#lat,#lng").removeAttr("readonly");
-            $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("readonly", false);
+            $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", false);
         }
     }
 </script>
