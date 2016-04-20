@@ -416,8 +416,23 @@
                      <section class="tab-pane fade in" id="timeSlot">
                      <div class="clearfix m-t-20 p-b-20 doctor-description">
                          
-                 
-                    <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('bloodbank/setTimeSlotMi');?>">
+                 <?php if(isset($timeSlot) && !empty($timeSlot)):?>
+                         
+                    <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('bloodbank/updateTimeSlot');?>">
+                        <input type="hidden" name="mi_user_id" value="<?php if(isset($bloodBankData[0]->users_id)){ echo $bloodBankData[0]->users_id; }?>" />
+                         <input type="hidden" name="mi_id" value="<?php if(isset($bloodBankData[0]->bloodBank_id)){ echo $bloodBankData[0]->bloodBank_id; }?>" />
+                        
+                        <?php echo $this->load->view('common_pages/edit_time_slot_view');?>
+                        
+                        <article class="clearfix m-t-10">
+                            <div class="col-md-12">
+                              <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit" onclick="return timeSlotCheck()">Update</button>
+                            </div>
+                            </article>
+                    </form>
+                    <?php else: ?>
+                        
+                       <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('bloodbank/setTimeSlotMi');?>">
                         <input type="hidden" name="mi_user_id" value="<?php if(isset($bloodBankData[0]->users_id)){ echo $bloodBankData[0]->users_id; }?>" />
                          <input type="hidden" name="mi_id" value="<?php if(isset($bloodBankData[0]->bloodBank_id)){ echo $bloodBankData[0]->bloodBank_id; }?>" />
                         
@@ -429,6 +444,8 @@
                             </div>
                             </article>
                     </form>
+                         
+                    <?php endif;?>     
                          
                      </div>
                   </section>
