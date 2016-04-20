@@ -31,8 +31,8 @@ class Bloodbank extends MY_Controller {
     function getBloodBankDl() {
         echo $this->Bloodbank_model->fetchbloodBankDataTables();
     }
-    
-     /**
+
+    /**
      * @project Qyura
      * @method checkExisting
      * @description get records in listing using datatables
@@ -40,7 +40,7 @@ class Bloodbank extends MY_Controller {
      * @return array
      */
     function checkExisting() {
-        $emailId= $this->input->post('emailId');
+        $emailId = $this->input->post('emailId');
         $this->Bloodbank_model->checkExisting($emailId);
     }
 
@@ -65,23 +65,23 @@ class Bloodbank extends MY_Controller {
      * @param bloodBankId
      * @return array
      */
-   function detailBloodBank($bloodBankId = '') {
+    function detailBloodBank($bloodBankId = '') {
         $data = array();
         $data['bloodBankData'] = $this->Bloodbank_model->fetchbloodBankData($bloodBankId);
         $data['bloodBankId'] = $bloodBankId;
-        $bllodBankSelect=array('users_id');
+        $bllodBankSelect = array('users_id');
         $bllodBankCondition = array('bloodBank_id' => $bloodBankId);
-        $Blooddata = $this->Bloodbank_model->fetchTableData($bllodBankSelect,'qyura_bloodBank',$bllodBankCondition);
+        $Blooddata = $this->Bloodbank_model->fetchTableData($bllodBankSelect, 'qyura_bloodBank', $bllodBankCondition);
         $conditions = array();
-       // print_r($data['bloodBankData']); exit;
+        // print_r($data['bloodBankData']); exit;
         $data['allCountry'] = $this->Bloodbank_model->fetchCountry();
         $data['allStates'] = $this->Bloodbank_model->fetchStates($data['bloodBankData'][0]->countryId);
         $data['allCities'] = $this->Bloodbank_model->fetchCity($data['bloodBankData'][0]->stateId);
-        
+
         $conditions['Bllcat.bloodBank_id'] = $Blooddata[0]->users_id;
         $conditions['Blood.bloodCat_deleted'] = 0;
-        $select = array('Bllcat.bloodCatBank_id','Bllcat.bloodCatBank_Unit','Blood.bloodCat_name');
-         $data['bloodBankCatData'] = $this->Bloodbank_model->fetchbloodBankCategoryData($conditions);
+        $select = array('Bllcat.bloodCatBank_id', 'Bllcat.bloodCatBank_Unit', 'Blood.bloodCat_name');
+        $data['bloodBankCatData'] = $this->Bloodbank_model->fetchbloodBankCategoryData($conditions);
         // $this->Bloodbank_model->fetchbloodBankCategoryData();        
         $data['showStatus'] = 'none';
         $data['detailShow'] = 'block';
@@ -118,7 +118,7 @@ class Bloodbank extends MY_Controller {
      * @return boolean
      */
     function SaveBloodbank() {
-        
+
 
         $this->bf_form_validation->set_rules('bloodBank_name', 'BloodBank Name', 'required|trim');
 
@@ -127,9 +127,9 @@ class Bloodbank extends MY_Controller {
         $this->bf_form_validation->set_rules('cityId', 'BloodBank City', 'required|trim');
 
         $this->bf_form_validation->set_rules('bloodBank_mblNo', 'BloodBank Mobile No', 'required|trim');
-        
+
         $this->bf_form_validation->set_rules('bloodbank_docatId', 'Docat Id', 'required|trim');
-        
+
         $this->bf_form_validation->set_rules('bloodBank_zip', 'BloodBank Zip', 'required|trim');
         $this->bf_form_validation->set_rules('bloodBank_add', 'BloodBank Address', 'required|trim');
         $this->bf_form_validation->set_rules('bloodBank_cntPrsn', 'Contact Person', 'required|trim');
@@ -137,27 +137,27 @@ class Bloodbank extends MY_Controller {
         $this->bf_form_validation->set_rules('users_email', 'Users Email', 'required|valid_email|trim|callback__checkUserExist');
         $this->bf_form_validation->set_rules('users_password', 'Password', 'trim|required|matches[cnfPassword]');
         $this->bf_form_validation->set_rules('cnfPassword', 'Password Confirmation', 'trim|required');
-        
-       $this->bf_form_validation->set_rules('lat', 'Latitude', 'required|trim');
-       $this->bf_form_validation->set_rules('lng', 'Longitude', 'required|trim');
-       
-       $this->bf_form_validation->set_rules('isManual', 'Is manual', 'required|trim');
-      // $this->bf_form_validation->set_rules('midNumber[]', 'STD code', 'required|trim');
-       $this->bf_form_validation->set_rules('bloodBank_phn', 'Phon Number', 'required|trim');
-        
+
+        $this->bf_form_validation->set_rules('lat', 'Latitude', 'required|trim');
+        $this->bf_form_validation->set_rules('lng', 'Longitude', 'required|trim');
+
+        $this->bf_form_validation->set_rules('isManual', 'Is manual', 'required|trim');
+        // $this->bf_form_validation->set_rules('midNumber[]', 'STD code', 'required|trim');
+        $this->bf_form_validation->set_rules('bloodBank_phn', 'Phon Number', 'required|trim');
+
         if (empty($_FILES['avatar_file']['name'])) {
             $this->bf_form_validation->set_rules('avatar_file', 'File', 'required');
         }
-   
+
         if ($this->bf_form_validation->run($this) === FALSE) {
             $data = array();
-    
+
             // echo validation_errors(); exit;
             $data['allStates'] = $this->Bloodbank_model->fetchStates();
-            
+
             $stateId = $this->input->post('stateId');
-            if($stateId != ''){
-              $data['allCities'] = $this->Bloodbank_model->fetchCity($stateId);
+            if ($stateId != '') {
+                $data['allCities'] = $this->Bloodbank_model->fetchCity($stateId);
             }
             $data['title'] = 'Add BloodBank';
             $this->load->super_admin_template('Addbloodbank', $data, 'bloodBankScript');
@@ -168,8 +168,8 @@ class Bloodbank extends MY_Controller {
                 $path = realpath(FCPATH . 'assets/BloodBank/');
                 $upload_data = $this->input->post('avatar_data');
                 $upload_data = json_decode($upload_data);
-                
-                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/BloodBank/', './assets/BloodBank/thumb/','blood');
+
+                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/BloodBank/', './assets/BloodBank/thumb/', 'blood');
 
                 if (empty($original_imagesname)) {
                     $data['allStates'] = $this->Bloodbank_model->fetchStates();
@@ -194,25 +194,24 @@ class Bloodbank extends MY_Controller {
             $bloodBank_mbrTyp = $this->input->post('bloodBank_mbrTyp');
             $isEmergency = $this->input->post('isEmergency');
             $bloodBank_zip = $this->input->post('bloodBank_zip');
-            
+
             //$bloodBank_mbl = $this->input->post('bloodBank_mbl');
 
             $userId = $this->input->post('userId');
-            if($userId == ''){
-            $users_email = $this->input->post('users_email');
-            $users_password = md5($this->input->post('users_password'));
-            $bloodBankInsert = array(
-                'users_email' => $users_email,
-                'users_password' => $this->common_model->encryptPassword($users_password),
-                'users_ip_address' => $this->input->ip_address(),
-                'users_mobile' => $this->input->post('bloodBank_mblNo'),
-                'creationTime' => strtotime(date("Y-m-d H:i:s"))
-            );
+            if ($userId == '') {
+                $users_email = $this->input->post('users_email');
+                $users_password = md5($this->input->post('users_password'));
+                $bloodBankInsert = array(
+                    'users_email' => $users_email,
+                    'users_password' => $this->common_model->encryptPassword($users_password),
+                    'users_ip_address' => $this->input->ip_address(),
+                    'users_mobile' => $this->input->post('bloodBank_mblNo'),
+                    'creationTime' => strtotime(date("Y-m-d H:i:s"))
+                );
                 $bloodbank_usersId = $this->Bloodbank_model->insertBloodBankUser($bloodBankInsert);
                 $usersRoles_parentId = 0;
                 $usersRoles_parentRole = 0;
-            }
-            else {
+            } else {
                 $bloodbank_usersId = $userId;
                 $usersRoles_parentId = $userId;
                 $usersRoles_parentRole = ROLE_HOSPITAL;
@@ -250,22 +249,21 @@ class Bloodbank extends MY_Controller {
                     'status' => 0
                 );
                 $bloodBankId = $this->Bloodbank_model->insertBloodBank($insertData);
-                            $conditions = array();
-                             $conditions['bloodCat_deleted'] = 0;
-                            $select = array('bloodCat_name','bloodCat_id');
-                            $bloodBankCatData = $this->Bloodbank_model->fetchTableData($select,'qyura_bloodCat',$conditions);
-                      
-                            foreach ($bloodBankCatData as $key => $val){
-                                $bloodCatData = array(
-                                   'bloodBank_id'=>  $bloodbank_usersId,
-                                   'bloodCats_id' => $val->bloodCat_id,
-                                   'bloodCatBank_Unit' => 0,
-                                   'creationTime' => strtotime(date("Y-m-d H:i:s"))
-                                );
-                                $this->Bloodbank_model->insertTableData('qyura_bloodCatBank',$bloodCatData);
-                                $bloodCatData='';
-                            }
-                
+                $conditions = array();
+                $conditions['bloodCat_deleted'] = 0;
+                $select = array('bloodCat_name', 'bloodCat_id');
+                $bloodBankCatData = $this->Bloodbank_model->fetchTableData($select, 'qyura_bloodCat', $conditions);
+
+                foreach ($bloodBankCatData as $key => $val) {
+                    $bloodCatData = array(
+                        'bloodBank_id' => $bloodbank_usersId,
+                        'bloodCats_id' => $val->bloodCat_id,
+                        'bloodCatBank_Unit' => 0,
+                        'creationTime' => strtotime(date("Y-m-d H:i:s"))
+                    );
+                    $this->Bloodbank_model->insertTableData('qyura_bloodCatBank', $bloodCatData);
+                    $bloodCatData = '';
+                }
             }
             $this->session->set_flashdata('message', 'Data inserted successfully !');
             redirect('bloodbank');
@@ -288,18 +286,18 @@ class Bloodbank extends MY_Controller {
             $user_table_id = $this->input->post('user_table_id');
         }
         $email = $this->Bloodbank_model->fetchEmail($users_email, $user_table_id);
-        if($email == 1)
-        echo $email;
-        else{
+        if ($email == 1)
+            echo $email;
+        else {
             $select = array('users_id');
-            $where = array('users_email'=> $users_email,
-                'users_deleted'=>0);
-            $return = $this->Bloodbank_model->fetchTableData($select,'qyura_users',$where);
+            $where = array('users_email' => $users_email,
+                'users_deleted' => 0);
+            $return = $this->Bloodbank_model->fetchTableData($select, 'qyura_users', $where);
             $data = 0;
-            if(!empty($return)){
+            if (!empty($return)) {
                 $data = $return[0]->users_id;
                 echo $data;
-            }else{
+            } else {
                 echo $data;
             }
         }
@@ -321,50 +319,50 @@ class Bloodbank extends MY_Controller {
         $this->bf_form_validation->set_rules('bloodBank_add', 'Bloodbank Address', 'required|trim');
         $this->bf_form_validation->set_rules('users_email', 'Users Email', 'required|valid_email|trim');
         $this->bf_form_validation->set_rules('bloodBank_cntPrsn', 'BloodBank Contact Person', 'required|trim');
-        
+
         $this->bf_form_validation->set_rules('bloodBank_mbl', 'mobile no', 'trim|max_length[10]|min_length[10]');
-        
-       $this->bf_form_validation->set_rules('lat', 'Latitude', 'required|trim');
-       $this->bf_form_validation->set_rules('lng', 'Longitude', 'required|trim');
-       
-       $this->bf_form_validation->set_rules('isManual', 'Is manual', 'required|trim');
-       
-       
+
+        $this->bf_form_validation->set_rules('lat', 'Latitude', 'required|trim');
+        $this->bf_form_validation->set_rules('lng', 'Longitude', 'required|trim');
+
+        $this->bf_form_validation->set_rules('isManual', 'Is manual', 'required|trim');
+
+
         $this->bf_form_validation->set_rules('countryId', 'Bloodbank Country', 'required|trim');
         $this->bf_form_validation->set_rules('stateId', 'BloodBank StateId', 'required|trim');
         $this->bf_form_validation->set_rules('cityId', 'BloodBank City', 'required|trim');
-        
+
         if ($this->bf_form_validation->run() === FALSE) {
-           
+
             $data = array();
-           /* $data['bloodBankData'] = $this->Bloodbank_model->fetchbloodBankData($bloodBankId);
-            $data['bloodBankId'] = $bloodBankId; */
+            /* $data['bloodBankData'] = $this->Bloodbank_model->fetchbloodBankData($bloodBankId);
+              $data['bloodBankId'] = $bloodBankId; */
             $data['showStatus'] = 'block';
             $data['detailShow'] = 'none';
-            
+
             $data['bloodBankData'] = $this->Bloodbank_model->fetchbloodBankData($bloodBankId);
             $data['bloodBankId'] = $bloodBankId;
-            $bllodBankSelect=array('users_id');
+            $bllodBankSelect = array('users_id');
             $bllodBankCondition = array('bloodBank_id' => $bloodBankId);
-            $Blooddata = $this->Bloodbank_model->fetchTableData($bllodBankSelect,'qyura_bloodBank',$bllodBankCondition);
+            $Blooddata = $this->Bloodbank_model->fetchTableData($bllodBankSelect, 'qyura_bloodBank', $bllodBankCondition);
             $conditions = array();
-        
+
             $conditions['Bllcat.bloodBank_id'] = $Blooddata[0]->users_id;
             $conditions['Blood.bloodCat_deleted'] = 0;
-            $select = array('Bllcat.bloodCatBank_id','Bllcat.bloodCatBank_Unit','Blood.bloodCat_name');
+            $select = array('Bllcat.bloodCatBank_id', 'Bllcat.bloodCatBank_Unit', 'Blood.bloodCat_name');
             $data['bloodBankCatData'] = $this->Bloodbank_model->fetchbloodBankCategoryData($conditions);
-            
-            
+
+
             $data['title'] = 'BloodBank';
             // $this->load->view('bloodBankDetail', $data);
             $this->load->super_admin_template('bloodBankDetail', $data, 'bloodBankScript');
         } else {
             $bloodBank_phn = $this->input->post('bloodBank_phn');
 
-       
-            
+
+
             $docatId = $this->input->post('bloodbank_docatId');
-            
+
             $updateBloodBank = array(
                 'bloodBank_name' => $this->input->post('bloodBank_name'),
                 'bloodBank_add' => $this->input->post('bloodBank_add'),
@@ -377,7 +375,6 @@ class Bloodbank extends MY_Controller {
                 'countryId' => $this->input->post('countryId'),
                 'stateId' => $this->input->post('stateId'),
                 'cityId' => $this->input->post('cityId'),
-                
                 'bloodBank_isManual' => $this->input->post('isManual'),
                 'modifyTime' => strtotime(date("Y-m-d H:i:s"))
             );
@@ -448,29 +445,29 @@ class Bloodbank extends MY_Controller {
             $path = realpath(FCPATH . 'assets/BloodBank/');
             $upload_data = $this->input->post('avatar_data');
             $upload_data = json_decode($upload_data);
-                if($upload_data->width > 120){
-            $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/BloodBank/', './assets/BloodBank/thumb/','blood');
+            if ($upload_data->width > 120) {
+                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/BloodBank/', './assets/BloodBank/thumb/', 'blood');
 
-            if (empty($original_imagesname)) {
-                $response = array('state' => 400, 'message' => $this->error_message);
-            } else {
-
-                $option = array(
-                    'bloodBank_photo' => $original_imagesname,
-                    'modifyTime' => strtotime(date("Y-m-d H:i:s"))
-                );
-                $where = array(
-                    'bloodBank_id' => $this->input->post('avatar_id')
-                );
-                $response = $this->Bloodbank_model->UpdateTableData($option, $where, 'qyura_bloodBank');
-                if ($response) {
-                    $response = array('state' => 200, 'message' => 'Successfully update avtar');
+                if (empty($original_imagesname)) {
+                    $response = array('state' => 400, 'message' => $this->error_message);
                 } else {
-                    $response = array('state' => 400, 'message' => 'Failed to update avtar');
+
+                    $option = array(
+                        'bloodBank_photo' => $original_imagesname,
+                        'modifyTime' => strtotime(date("Y-m-d H:i:s"))
+                    );
+                    $where = array(
+                        'bloodBank_id' => $this->input->post('avatar_id')
+                    );
+                    $response = $this->Bloodbank_model->UpdateTableData($option, $where, 'qyura_bloodBank');
+                    if ($response) {
+                        $response = array('state' => 200, 'message' => 'Successfully update avtar');
+                    } else {
+                        $response = array('state' => 400, 'message' => 'Failed to update avtar');
+                    }
                 }
-            }
-             }else{
-               $response = array('state' => 400, 'message' => 'Height and Width must exceed 150px.');  
+            } else {
+                $response = array('state' => 400, 'message' => 'Height and Width must exceed 150px.');
             }
             echo json_encode($response);
         } else {
@@ -478,11 +475,12 @@ class Bloodbank extends MY_Controller {
             echo json_encode($response);
         }
     }
-    function getUpdateAvtar($bloodBankId){
-        if(!empty($bloodBankId)){
-          $data = $this->Bloodbank_model->fetchbloodBankData($bloodBankId);
-          echo "<img src='".base_url()."assets/BloodBank/thumb/original/".$data[0]->bloodBank_photo."'alt='' class='logo-img' />";
-          exit();
+
+    function getUpdateAvtar($bloodBankId) {
+        if (!empty($bloodBankId)) {
+            $data = $this->Bloodbank_model->fetchbloodBankData($bloodBankId);
+            echo "<img src='" . base_url() . "assets/BloodBank/thumb/original/" . $data[0]->bloodBank_photo . "'alt='' class='logo-img' />";
+            exit();
         }
     }
 
@@ -493,8 +491,8 @@ class Bloodbank extends MY_Controller {
         $data = base64_decode($img);
         return $data;
     }
-    
-    function bloodUnitUpdate(){
+
+    function bloodUnitUpdate() {
         $bloodCatBank_id = $this->input->post('bloodCatBank_id');
         $bloodCatBank_Unit = $this->input->post('bloodCatBank_Unit');
         $updateBloodBank = array(
@@ -509,36 +507,36 @@ class Bloodbank extends MY_Controller {
         echo $return;
         exit;
     }
-    
-    function createCSV(){
-       
-        $stateId='';
-        $cityId ='';
-        $search='';
-        
+
+    function createCSV() {
+
+        $stateId = '';
+        $cityId = '';
+        $search = '';
+
         $search = $this->input->post('search');
-        
-       if(isset($_POST['stateId']))
-        $stateId = $this->input->post('stateId');
-       if(isset($_POST['cityId']))
-        $cityId = $this->input->post('cityId');
-       
-       if ($search != '' && $search != null)
-            $search= $this->input->post('search');
-       
-       $orWhere = array('bloodBank_name' => $search, 'bloodBank_add' => $search, 'bloodBank_phn' => $search);
-       
-        $where=array('bloodBank_deleted'=> 0,'cityId'=> $cityId,'stateId'=>$stateId);
-        $array[]= array('BloodBank Name','City','Phone Number','Address');
+
+        if (isset($_POST['stateId']))
+            $stateId = $this->input->post('stateId');
+        if (isset($_POST['cityId']))
+            $cityId = $this->input->post('cityId');
+
+        if ($search != '' && $search != null)
+            $search = $this->input->post('search');
+
+        $orWhere = array('bloodBank_name' => $search, 'bloodBank_add' => $search, 'bloodBank_phn' => $search);
+
+        $where = array('bloodBank_deleted' => 0, 'cityId' => $cityId, 'stateId' => $stateId);
+        $array[] = array('BloodBank Name', 'City', 'Phone Number', 'Address');
         $data = $this->Bloodbank_model->createCSVdata($where, $orWhere);
-       
-        $arrayFinal = array_merge($array,$data);
-       
-        array_to_csv($arrayFinal,'BloodbankDetail.csv');
+
+        $arrayFinal = array_merge($array, $data);
+
+        array_to_csv($arrayFinal, 'BloodbankDetail.csv');
         return True;
         exit;
     }
-    
+
     function uploadImages($imageName, $folderName, $newName) {
         $path = realpath(FCPATH . 'assets/' . $folderName . '/');
         $config['upload_path'] = $path;
@@ -563,8 +561,8 @@ class Bloodbank extends MY_Controller {
         }
     }
 
-  function bloodbankBackgroundUpload($bloodBankId) {
-          if (isset($_FILES["file"]["name"])) {
+    function bloodbankBackgroundUpload($bloodBankId) {
+        if (isset($_FILES["file"]["name"])) {
 
             $temp = explode(".", $_FILES['file']["name"]);
             $microtime = round(microtime(true));
@@ -574,10 +572,10 @@ class Bloodbank extends MY_Controller {
             if ($uploadData['status']) {
                 $imageName = $uploadData['imageData']['file_name'];
 
-                    $data = array('bloodBank_background_img' => $imageName);
-                    $where = array('bloodBank_id' => $bloodBankId);
-             
-                $response = $this->Bloodbank_model->UpdateTableData($data,$where,'qyura_bloodBank');
+                $data = array('bloodBank_background_img' => $imageName);
+                $where = array('bloodBank_id' => $bloodBankId);
+
+                $response = $this->Bloodbank_model->UpdateTableData($data, $where, 'qyura_bloodBank');
                 if ($response) {
                     $result = array('status' => 200, 'messsage' => "successfully update image");
                     echo json_encode($result);
@@ -588,21 +586,19 @@ class Bloodbank extends MY_Controller {
             }
         }
     }
-    
+
     function getBackgroundImage($bloodBankId) {
         $select = array('bloodBank_background_img');
         $where = array('bloodBank_id' => $bloodBankId);
 
-        $response = $this->Bloodbank_model->fetchTableData($select,'qyura_bloodBank',$where);
+        $response = $this->Bloodbank_model->fetchTableData($select, 'qyura_bloodBank', $where);
         if ($response) {
-          echo  $image = base_url().'assets/BloodBank/'.$response[0]->bloodBank_background_img;
-        
-
+            echo $image = base_url() . 'assets/BloodBank/' . $response[0]->bloodBank_background_img;
         }
         exit;
     }
-    
-      function map($id){
+
+    function map($id) {
         $option = array(
             'table' => 'qyura_bloodBank',
             'select' => 'bloodBank_lat,bloodBank_long,bloodBank_add,bloodBank_name,bloodBank_photo',
@@ -612,36 +608,130 @@ class Bloodbank extends MY_Controller {
         $data['title'] = 'Bloodbank Map';
         $this->load->super_admin_template('map', $data, 'bloodBankScript');
     }
-    
-    function _checkUserExist($email = ''){
-        $query = 'SELECT count(users_id) as isExit FROM qyura_users INNER JOIN qyura_usersRoles ON qyura_users.users_id = qyura_usersRoles.usersRoles_userId WHERE users_email = "'.$email.'" AND usersRoles_roleId = '.ROLE_HOSPITAL.' AND (SELECT count(users_id) FROM qyura_users INNER JOIN qyura_usersRoles ON qyura_users.users_id = qyura_usersRoles.usersRoles_userId WHERE users_email = "'.$email.'" AND usersRoles_roleId = '.ROLE_BLOODBANK.' ) > 0 ' ;
-         
-      $data =  $this->db->query($query)->result();
-    
-      if($data[0]->isExit == 1){
-          
-          $this->bf_form_validation->set_message('_checkUserExist', 'blood bank already exist');
-          return false;
-          
-      }elseif($data[0]->isExit == 0){
-          
-            $query2 = 'SELECT count(users_id) userId, hospital_address, hospital_lat, hospital_long FROM qyura_users INNER JOIN qyura_usersRoles ON qyura_users.users_id = qyura_usersRoles.usersRoles_userId INNER JOIN qyura_hospital ON qyura_hospital.hospital_usersId = qyura_users.users_id WHERE users_email = "'.$email.'" AND usersRoles_roleId = '.ROLE_HOSPITAL.' ';
-          $getData = $this->db->query($query2)->result();
-          
-          if($getData[0]->userId == 1){
-              
-              return true;
-              
-          }else{
-              
-               return true;;
-               
-          }
-      
-          
-      }
 
-}
+    function _checkUserExist($email = '') {
+        $query = 'SELECT count(users_id) as isExit FROM qyura_users INNER JOIN qyura_usersRoles ON qyura_users.users_id = qyura_usersRoles.usersRoles_userId WHERE users_email = "' . $email . '" AND usersRoles_roleId = ' . ROLE_HOSPITAL . ' AND (SELECT count(users_id) FROM qyura_users INNER JOIN qyura_usersRoles ON qyura_users.users_id = qyura_usersRoles.usersRoles_userId WHERE users_email = "' . $email . '" AND usersRoles_roleId = ' . ROLE_BLOODBANK . ' ) > 0 ';
 
-     
+        $data = $this->db->query($query)->result();
+
+        if ($data[0]->isExit == 1) {
+
+            $this->bf_form_validation->set_message('_checkUserExist', 'blood bank already exist');
+            return false;
+        } elseif ($data[0]->isExit == 0) {
+
+            $query2 = 'SELECT count(users_id) userId, hospital_address, hospital_lat, hospital_long FROM qyura_users INNER JOIN qyura_usersRoles ON qyura_users.users_id = qyura_usersRoles.usersRoles_userId INNER JOIN qyura_hospital ON qyura_hospital.hospital_usersId = qyura_users.users_id WHERE users_email = "' . $email . '" AND usersRoles_roleId = ' . ROLE_HOSPITAL . ' ';
+            $getData = $this->db->query($query2)->result();
+
+            if ($getData[0]->userId == 1) {
+
+                return true;
+            } else {
+
+                return true;
+                ;
+            }
+        }
+    }
+
+    function setTimeSlotMi() {
+        $bloodBankId = $this->input->post('mi_id');
+        $timeSlotsIds = array();
+        for ($j = 1; $j < 8; $j++) {
+
+            $totalSlot = $this->input->post("totalSlot_$j");
+            for ($k = 1; $k <= $totalSlot; $k++) {
+                if ($this->input->post("check_" . $j . "_" . $k) == 1) {
+                    $charge_ids = $this->input->post("charge_ids_" . $j . "_" . $k);
+                    $hour_label = $this->input->post("hour_label_" . $j . "_" . $k);
+                    $openTime = $this->input->post("openTime_" . $j . "_" . $k);
+                    $closeTime = $this->input->post("closeTime_" . $j . "_" . $k);
+
+                    $slot = array(
+                        'mi_user_id' => $this->input->post('mi_user_id'),
+                        'dayNumber' => $j,
+                        'hourLabel' => $hour_label,
+                        'openingHours' => $openTime,
+                        'closingHours' => $closeTime,
+                        'creationTime' => strtotime(date('Y-m-d H:i:s'))
+                    );
+                    
+                    $options = array
+                            (
+                            'data' => $slot,
+                            'table' => 'qyura_miTimeSlot'
+                        );
+                    $insertId = $this->common_model->customInsert($options);
+                    
+                  } 
+                }
+            }
+            
+            if($insertId){
+                 $this->session->set_flashdata('message', 'Time Slot insert successfully!');
+                 redirect("bloodbank/detailBloodBank/$bloodBankId");
+            }else{
+                 $this->session->set_flashdata('error', 'Time Slot insert failed !');
+                 redirect("bloodbank/detailBloodBank/$bloodBankId");
+            }
+            
+                    
+                    //exit();
+//                    //find a ids behalf of string
+//                    $option = array(
+//                        'table' => 'qyura_miTimeSlot',
+//                        'select' => 'id',
+//                        'where' => array('fkcityServiceId' => $fkcityServiceId, 'id' => $charge_ids, 'hourLabel' => $hour_label, 'enabled' => 1),
+//                        'single' => TRUE
+//                    );
+
+//                    $venderTimesSlots = $this->common_model->customGet($option);
+//                    if (isset($venderTimesSlots) && $venderTimesSlots != NULL) {
+//                        array_push($timeSlotsIds, $venderTimesSlots->id);
+//                    }
+//                    $timeArray = array(
+//                        'fkCityServiceId' => $fkcityServiceId,
+//                        'dayNumber' => $j,
+//                        'hourLabel' => $hour_label,
+//                        'openingHours' => $openTime,
+//                        'closingHours' => $closeTime,
+//                    );
+//                    $updateTimeId = $this->common_model->checkTimeTag($hour_label, $fkcityServiceId, $timeArray, $charge_ids);
+//                    if (!$updateTimeId) {
+//                        $timeArray['createdAt'] = date('Y-m-d');
+//                        $options = array
+//                            (
+//                            'data' => $timeArray,
+//                            'table' => 'qyura_miTimeSlot'
+//                        );
+//                        $insertAerobicId = $insertTimeId = $this->common_model->customInsert($options);
+//                        array_push($timeSlotsIds, $insertTimeId);
+//                    }
+//                }
+//           // }
+//        }
+
+        //find all ids behalf of this fkcityserviceid
+//        $option = array(
+//            'table' => 'qyura_miTimeSlot',
+//            'select' => 'id',
+//            'where' => array('fkcityServiceId' => $fkcityServiceId, 'enabled' => 1, 'deleted' => 0),
+//            'single' => FALSE
+//        );
+//        $venderTimeSlot = $this->common_model->customGet($option);
+//        //delete unlisted ids
+//        foreach ($venderTimeSlot as $ids) {
+//            if (!in_array($ids->id, $timeSlotsIds)) {
+//                $deleteArray['deleted'] = 1;
+//                $updateOptions = array(
+//                    'where' => array("fkcityServiceId" => $fkcityServiceId, 'id' => $ids->id),
+//                    'data' => $deleteArray,
+//                    'table' => 'qyura_miTimeSlot'
+//                );
+//                $insertAerobicId = $this->common_model->customUpdate($updateOptions);
+//            }
+//        }
+//    }
+
+ }
 }

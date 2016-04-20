@@ -12,7 +12,7 @@ if (isset($hospitalId) && !empty($hospitalId)) {
     $check = $hospitalId;
 }
 ?>
-
+  <script src="<?php echo base_url(); ?>assets/ui_1.11.4_jquery-ui.js"></script>
 <link href="<?php echo base_url(); ?>assets/cropper/cropper.min.css" rel="stylesheet">
 <!--<link href="<?php echo base_url(); ?>assets/vendor/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />-->
 <link href="<?php echo base_url(); ?>assets/cropper/main.css" rel="stylesheet">

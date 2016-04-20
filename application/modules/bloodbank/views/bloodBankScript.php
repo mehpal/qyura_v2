@@ -888,3 +888,4 @@ function imageIsLoaded(e) {
    }
 
     </script>
+ <?php echo $this->load->view('common_pages/timeslotScript');?>

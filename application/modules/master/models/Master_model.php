@@ -21,6 +21,25 @@ class Master_model extends CI_Model {
         return $this->db->get()->result();
     }
 
+    function getStates($countryId = NULL) {
+        $this->db->select('state_id,state_statename');
+        $this->db->from('qyura_state');
+        if ($countryId != null)
+            $this->db->where('state_countryid', $countryId);
+
+        $this->db->order_by("state_statename", "asc");
+        return $this->db->get()->result();
+    }
+    
+    function getCity($stateId = NULL) {
+        $this->db->select('city_id,city_name');
+        $this->db->from('qyura_city');
+        if ($stateId != null)
+            $this->db->where('city_stateid', $stateId);
+        $this->db->order_by("city_name", "asc");
+        return $this->db->get()->result();
+    }
+
     function fetchSpeciality() {
         /* $this->db->select('specialitiesCat_id,specialitiesCat_name');
           $this->db->from('qyura_specialitiesCat');
@@ -77,8 +96,6 @@ class Master_model extends CI_Model {
         //return $this->db->last_query();
     }
     
-  
-
     function insertDoctorUser($insertData) {
         $this->db->insert('qyura_users', $insertData);
         $insert_id = $this->db->insert_id();
@@ -119,7 +136,8 @@ class Master_model extends CI_Model {
         //echo $this->db->last_query(); exit;
         return $data->result();
     }
-  function getDoctorAvailability($where = array()) {
+    
+    function getDoctorAvailability($where = array()) {
         
         $doctorAvailability = $this->getDoctorAvailableOnDays($where);
         $result     = array();
@@ -177,7 +195,6 @@ class Master_model extends CI_Model {
         return (object)$result;
         
     }
-
     
     function getDoctorAvailabilityBK($where = array()) {
         
@@ -249,7 +266,6 @@ class Master_model extends CI_Model {
 //        dump($this->db->last_query());
         return $response;
     }
-
 
     function fetchAcademic($doctorId) {
         $this->db->select('qyura_degree.degree_FName AS degreeFullName,qyura_degree.degree_SName AS degreeSmallName, qyura_doctorAcademic.doctorAcademic_id as academic_id, qyura_doctorAcademic.doctorAcademic_degreeId as degreeId, qyura_doctorAcademic.doctorSpecialities_specialitiesCatId as specialitiesCatId, qyura_doctorAcademic.doctorAcademic_doctorsId as doctorsId, qyura_doctorAcademic.doctorAcademic_degreeInsAddress as degreeInsAddress, qyura_doctorAcademic.doctorAcademic_degreeYear as degreeYear');
@@ -365,5 +381,25 @@ class Master_model extends CI_Model {
         return $doctorAvailability;
     }
       
+    function fetchDepartments($department_id = NULL) {
+        $this->db->select('dsgn.status as dsgnStatus,dpt.department_id,dpt.department_name,dsgn.designation_id,dsgn.designation_name,dsgn.designation_departmentId');
+        $this->db->from('qyura_designation AS dsgn');
+        $this->db->join('qyura_department AS dpt', 'dpt.department_id = dsgn.designation_departmentId', 'left');
+        if ($department_id != NULL)
+            $this->db->where(array('dsgn.designation_id' => $department_id));
+        $this->db->where(array('dsgn.designation_deleted' => 0));
+        $this->db->order_by("dpt.department_name", "asc");
+        $data = $this->db->get();
+        return $data->result();
+    }
+
+    function fetchAllDepartments() {
+        $this->db->select('department_id,department_name');
+        $this->db->from('qyura_department');
+        $this->db->where(array('department_deleted' => 0));
+        $this->db->order_by("department_name", "asc");
+        $data = $this->db->get();
+        return $data->result();
+    }
 
 }

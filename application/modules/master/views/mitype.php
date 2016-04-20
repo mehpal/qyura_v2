@@ -1,3 +1,8 @@
+<style>
+    .l-height{
+        line-height: 1.6
+    }
+</style>
 <div class="content-page">
     <!-- Start content -->
     <div class="content">
@@ -47,8 +52,8 @@
                                                             <?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>
                                                         </aside>
                                                         <aside class="col-md-2">
-                                                            <a href="#"><i class="md md-edit membership-btn"></i></a>
-                                                            <button class="pull-right btn btn-outline btn-xs" onclick="deleteFn('master', 'mitypeDelete', '<?php echo $list->hospitalType_id; ?>')" type="button"><img src="<?php echo base_url(); ?>/assets/images/delete.png"></button>
+                                                            <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
+                                                            <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                                         </aside>
                                                     </div>
                                                     <div class="newmembership" style="display:none">
@@ -116,8 +121,8 @@
                                                         <?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>
                                                     </aside>
                                                     <aside class="col-md-2">
-                                                        <a href="#"><i class="md md-edit membership-btn"></i></a>
-                                                        <button class="pull-right btn btn-outline btn-xs" onclick="deleteFn('master', 'mitypeDelete', '<?php echo $list->hospitalType_id; ?>')" type="button"><img src="<?php echo base_url(); ?>/assets/images/delete.png"></button>
+                                                        <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
+                                                        <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                                     </aside>
                                                 </div>
                                                 <div class="newmembership" style="display:none">
@@ -244,8 +249,8 @@
                                                         <?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>
                                                     </aside>
                                                     <aside class="col-md-2">
-                                                        <a href="#"><i class="md md-edit membership-btn"></i></a>
-                                                        <button class="pull-right btn btn-outline btn-xs" onclick="deleteFn('master', 'mitypeDelete', '<?php echo $list->hospitalType_id; ?>')" type="button"><img src="<?php echo base_url(); ?>/assets/images/delete.png"></button>
+                                                        <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
+                                                        <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                                     </aside>
                                                 </div>
                                                 <div class="newmembership" style="display:none">
@@ -312,8 +317,8 @@
                                                         <?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>
                                                     </aside>
                                                     <aside class="col-md-2">
-                                                        <a href="#"><i class="md md-edit membership-btn"></i></a>
-                                                        <button class="pull-right btn btn-outline btn-xs" onclick="deleteFn('master', 'mitypeDelete', '<?php echo $list->hospitalType_id; ?>')" type="button"><img src="<?php echo base_url(); ?>/assets/images/delete.png"></button>
+                                                        <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
+                                                        <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                                     </aside>
                                                 </div>
                                                 <div class="newmembership" style="display:none">
@@ -380,8 +385,8 @@
                                                         <?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>
                                                     </aside>
                                                     <aside class="col-md-2">
-                                                        <a href="#"><i class="md md-edit membership-btn"></i></a>
-                                                        <button class="pull-right btn btn-outline btn-xs" onclick="deleteFn('master', 'mitypeDelete', '<?php echo $list->hospitalType_id; ?>')" type="button"><img src="<?php echo base_url(); ?>/assets/images/delete.png"></button>
+                                                        <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
+                                                        <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                                     </aside>
                                                 </div>
                                                 <div class="newmembership" style="display:none">
