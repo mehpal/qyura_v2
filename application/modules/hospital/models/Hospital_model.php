@@ -166,7 +166,7 @@ class Hospital_model extends CI_Model {
     function fetchHospitalData($conditionId = NULL) {
         $this->db->select('Hos.hospital_id,Hos.hospital_zip,Hos.hospital_usersId,Hos.hospital_name,Hos.hospital_phn,Hos.hospital_address,City.city_name,Hos.hospital_img,Hos.hospital_cntPrsn,usr.users_email,Hos.hospital_lat,Hos.hospital_long,usr.users_id,
         Hos.hospital_countryId,Hos.hospital_stateId,Hos.hospital_cityId,Hos.isEmergency,Blood.bloodBank_name,Blood.bloodBank_phn
-        , Pharmacy.pharmacy_name,Pharmacy.pharmacy_phn,Hos.hospital_type,Hos.hospital_dsgn,usr.users_mobile,Hos.hospital_mmbrTyp,Hos.hospital_background_img,Ambu.ambulance_name,Ambu.ambulance_phn,Hos.hospital_type as hosTypeId, hosType.hospitalType_name as hosType, Hos.isManual as isManual, Hos.hospital_mbl, Hos.hospital_aboutUs, Hos.availibility_24_7, Hos.hasPharmacy, Ambu.docOnBoard , Hos.docatId');
+        , Pharmacy.pharmacy_name,Pharmacy.pharmacy_phn,Hos.hospital_type,Hos.hospital_dsgn,usr.users_mobile,Hos.hospital_mmbrTyp,Hos.hospital_background_img,Ambu.ambulance_name,Ambu.ambulance_phn,Hos.hospital_type as hosTypeId, hosType.hospitalType_name as hosType, Hos.isManual as isManual, Hos.hospital_mbl, Hos.hospital_aboutUs, Hos.availibility_24_7, Hos.hasPharmacy, Ambu.docOnBoard , Hos.docatId, Hos.specialityNameFormate');
         $this->db->from('qyura_hospital AS Hos');
         $this->db->join('qyura_city AS City', 'City.city_id = Hos.hospital_cityId', 'left');
         $this->db->join('qyura_users AS usr', 'usr.users_id = Hos.hospital_usersId', 'left');
@@ -230,11 +230,14 @@ class Hospital_model extends CI_Model {
 
         $states = $this->input->post('hosStateId');
         isset($states) && $states != '' ? $this->datatables->where('hospital_stateId', $states) : '';
+        
+        $status = $this->input->post('status');
+        isset($status) && $status != '' ? $this->datatables->where('Hos.status', $status) : '';
 
 
 
         if ($condition)
-            $this->datatables->where(array('Hos.hospital_id' => $condition));
+        $this->datatables->where(array('Hos.hospital_id' => $condition));
         $this->datatables->where(array('Hos.hospital_deleted' => 0));
 
         $this->datatables->add_column('hospital_img', '<img class="img-responsive" height="80px;" width="80px;" src=' . $imgUrl . '>', 'hospital_img');

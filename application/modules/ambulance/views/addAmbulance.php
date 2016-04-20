@@ -174,35 +174,21 @@
                                             <label class="error" > <?php echo form_error("users_email"); ?></label>
                                         </div>
                                     </article>
-                                           <article class="clearfix m-t-10">
-                                        <label for="cname" class="control-label col-md-4  col-sm-4">Phone:</label>
-                                        <div class="col-md-8 col-sm-8">
-                                           <!-- <a href="javascript:void(0)" onclick="countPhoneNumber()" class="add pull-right" rel=".clone"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus"></i></a>-->
-<!--                                            <a href="javascript:void(0)" class="add pull-right" rel=".clone"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus"></i></a>-->
-                                            <aside class="row clone">
-                                                <div class="col-lg-3 col-md-4 col-sm-3 col-sm-4 col-xs-12 m-t-xs-10" id="multiPreNumber">
-                                                    <select class="selectpicker" data-width="100%" name="pre_number[]" id="multiPreNumber">
-                                                        <option value ='91'>+91</option>
-                                                  
-                                                    </select>
-                                                </div>
-                                                   <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12 m-t-xs-10">
-                                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="5" value="<?php echo set_value('midNumber[0]'); ?>"  id="midNumber" name="midNumber[]" class="form-control" >
-                                                    
-                                                  <label class="error" style="display:none;" id="error-midNumber"> please enter a valid STD code</label>
-                                                </div>
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-10 m-t-xs-10" id="multiPhoneNumber">
-                                                    <input type="text" class="form-control" name="ambulance_phn[]" id="ambulance_phn1" placeholder="" maxlength="10"  oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" value="<?php echo set_value('ambulance_phn[0]'); ?>"/>
-                                                    <label class="error" style="display:none;" id="error-ambulance_phn1"> please enter a valid phone number</label>
-                                                    
-                                                </div>
-                                               
-                                            </aside> <label class="error" > <?php echo form_error("midNumber[]"); ?></label>
-                                            <label class="error" > <?php echo form_error("ambulance_phn[]"); ?></label>
-                                            <p class="m-t-0">* The number above is going to be your primary number.</p>
-                                        </div>
-                                    </article>
                                             
+                                      <article class="clearfix m-t-10">
+                                <label class="control-label col-md-4 col-sm-4" for="cname"> Phone :</label>
+                                <div class="col-md-8 col-sm-8">
+                                     <input type="text" class="form-control" name="ambulance_phn" id="ambulance_phn" maxlength="10" minlength="10" onkeypress="return isNumberKey(event)" <?php set_value('ambulance_phn') ?> />
+
+                                    <label class="error" style="display:none;" id="error-ambulance_phn"> please enter a valid phone min length should be min 10 and max 10</label>
+                                  
+                                    <label class="error" > <?php echo form_error("ambulance_phn"); ?></label>
+                                    <label class="error"> </label>
+  <p class="m-t-0">* The number above is going to be your primary number.</p>
+                                </div>
+                            </article>
+                                            
+<!--                                            
                                              <article class="clearfix m-t-10">
                                         <label for="cname" class="control-label col-md-4  col-sm-4">Mobile No. :</label>
                                         <div class="col-md-8 col-sm-8">
@@ -213,7 +199,7 @@
                                                     <label class="error" > <?php echo form_error("users_mobile"); ?></label>
                                             
                                         </div>
-                                    </article>
+                                    </article>-->
                                             
                                             <article class="form-group m-lr-0 ">
                                         <label for="cemail" class="control-label col-md-4 col-sm-4">Contact Person :</label>
@@ -249,6 +235,14 @@
                                         </div>
                                     </article>
 
+                             <article class="clearfix m-t-10">
+                                <label for="cname" class="control-label col-md-4">Docat Id : </label>
+                                <div class="col-md-8 col-sm-8">
+                                    <input class="form-control" name="ambulance_docatId" type="text" required="" id="ambulance_docatId" value="<?php echo set_value('ambulance_docatId'); ?>">
+                                    <label class="error" style="display:none;" id="error-ambulance_docatId">please enter Docat Id.</label>
+                                    <label class="error" > <?php echo form_error("ambulance_docatId"); ?></label>
+                                </div>
+                            </article>
                                     </aside>
                                 </article>
                                 </div>

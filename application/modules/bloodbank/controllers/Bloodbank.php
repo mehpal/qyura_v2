@@ -65,9 +65,9 @@ class Bloodbank extends MY_Controller {
      * @param bloodBankId
      * @return array
      */
-    function detailBloodBank($bloodBankId = '') {
+    function detailBloodBank($bloodBankId = '',$active='general') {
         $data = array();
-        $data['bloodBankData'] = $this->Bloodbank_model->fetchbloodBankData($bloodBankId);
+        $data['bloodBankData'] = $bloodBankData = $this->Bloodbank_model->fetchbloodBankData($bloodBankId);
         $data['bloodBankId'] = $bloodBankId;
         $bllodBankSelect = array('users_id');
         $bllodBankCondition = array('bloodBank_id' => $bloodBankId);
@@ -81,11 +81,21 @@ class Bloodbank extends MY_Controller {
         $conditions['Bllcat.bloodBank_id'] = $Blooddata[0]->users_id;
         $conditions['Blood.bloodCat_deleted'] = 0;
         $select = array('Bllcat.bloodCatBank_id', 'Bllcat.bloodCatBank_Unit', 'Blood.bloodCat_name');
-        $data['bloodBankCatData'] = $this->Bloodbank_model->fetchbloodBankCategoryData($conditions);
-        // $this->Bloodbank_model->fetchbloodBankCategoryData();        
+        $data['bloodBankCatData'] = $this->Bloodbank_model->fetchbloodBankCategoryData($conditions);  
+        $mi_userId="";
+        if(!empty($bloodBankData)):
+         $mi_userId = $bloodBankData[0]->users_id;
+        endif;
+        $option = array(
+            'select' => '*',
+            'table'=> 'qyura_miTimeSlot',
+            'where'=> array('mi_user_id' => $mi_userId),
+        );
+        $data['timeSlot'] = $this->common_model->customGet($option);
         $data['showStatus'] = 'none';
         $data['detailShow'] = 'block';
         $data['title'] = 'BloodBank';
+        $data['active'] = $active;
         $this->load->super_admin_template('bloodBankDetail', $data, 'bloodBankScript');
     }
 
@@ -633,105 +643,6 @@ class Bloodbank extends MY_Controller {
             }
         }
     }
+    
 
-    function setTimeSlotMi() {
-        $bloodBankId = $this->input->post('mi_id');
-        $timeSlotsIds = array();
-        for ($j = 1; $j < 8; $j++) {
-
-            $totalSlot = $this->input->post("totalSlot_$j");
-            for ($k = 1; $k <= $totalSlot; $k++) {
-                if ($this->input->post("check_" . $j . "_" . $k) == 1) {
-                    $charge_ids = $this->input->post("charge_ids_" . $j . "_" . $k);
-                    $hour_label = $this->input->post("hour_label_" . $j . "_" . $k);
-                    $openTime = $this->input->post("openTime_" . $j . "_" . $k);
-                    $closeTime = $this->input->post("closeTime_" . $j . "_" . $k);
-
-                    $slot = array(
-                        'mi_user_id' => $this->input->post('mi_user_id'),
-                        'dayNumber' => $j,
-                        'hourLabel' => $hour_label,
-                        'openingHours' => $openTime,
-                        'closingHours' => $closeTime,
-                        'creationTime' => strtotime(date('Y-m-d H:i:s'))
-                    );
-                    
-                    $options = array
-                            (
-                            'data' => $slot,
-                            'table' => 'qyura_miTimeSlot'
-                        );
-                    $insertId = $this->common_model->customInsert($options);
-                    
-                  } 
-                }
-            }
-            
-            if($insertId){
-                 $this->session->set_flashdata('message', 'Time Slot insert successfully!');
-                 redirect("bloodbank/detailBloodBank/$bloodBankId");
-            }else{
-                 $this->session->set_flashdata('error', 'Time Slot insert failed !');
-                 redirect("bloodbank/detailBloodBank/$bloodBankId");
-            }
-            
-                    
-                    //exit();
-//                    //find a ids behalf of string
-//                    $option = array(
-//                        'table' => 'qyura_miTimeSlot',
-//                        'select' => 'id',
-//                        'where' => array('fkcityServiceId' => $fkcityServiceId, 'id' => $charge_ids, 'hourLabel' => $hour_label, 'enabled' => 1),
-//                        'single' => TRUE
-//                    );
-
-//                    $venderTimesSlots = $this->common_model->customGet($option);
-//                    if (isset($venderTimesSlots) && $venderTimesSlots != NULL) {
-//                        array_push($timeSlotsIds, $venderTimesSlots->id);
-//                    }
-//                    $timeArray = array(
-//                        'fkCityServiceId' => $fkcityServiceId,
-//                        'dayNumber' => $j,
-//                        'hourLabel' => $hour_label,
-//                        'openingHours' => $openTime,
-//                        'closingHours' => $closeTime,
-//                    );
-//                    $updateTimeId = $this->common_model->checkTimeTag($hour_label, $fkcityServiceId, $timeArray, $charge_ids);
-//                    if (!$updateTimeId) {
-//                        $timeArray['createdAt'] = date('Y-m-d');
-//                        $options = array
-//                            (
-//                            'data' => $timeArray,
-//                            'table' => 'qyura_miTimeSlot'
-//                        );
-//                        $insertAerobicId = $insertTimeId = $this->common_model->customInsert($options);
-//                        array_push($timeSlotsIds, $insertTimeId);
-//                    }
-//                }
-//           // }
-//        }
-
-        //find all ids behalf of this fkcityserviceid
-//        $option = array(
-//            'table' => 'qyura_miTimeSlot',
-//            'select' => 'id',
-//            'where' => array('fkcityServiceId' => $fkcityServiceId, 'enabled' => 1, 'deleted' => 0),
-//            'single' => FALSE
-//        );
-//        $venderTimeSlot = $this->common_model->customGet($option);
-//        //delete unlisted ids
-//        foreach ($venderTimeSlot as $ids) {
-//            if (!in_array($ids->id, $timeSlotsIds)) {
-//                $deleteArray['deleted'] = 1;
-//                $updateOptions = array(
-//                    'where' => array("fkcityServiceId" => $fkcityServiceId, 'id' => $ids->id),
-//                    'data' => $deleteArray,
-//                    'table' => 'qyura_miTimeSlot'
-//                );
-//                $insertAerobicId = $this->common_model->customUpdate($updateOptions);
-//            }
-//        }
-//    }
-
- }
 }
