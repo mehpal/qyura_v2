@@ -421,6 +421,8 @@
                     <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('bloodbank/updateTimeSlot');?>">
                         <input type="hidden" name="mi_user_id" value="<?php if(isset($bloodBankData[0]->users_id)){ echo $bloodBankData[0]->users_id; }?>" />
                          <input type="hidden" name="mi_id" value="<?php if(isset($bloodBankData[0]->bloodBank_id)){ echo $bloodBankData[0]->bloodBank_id; }?>" />
+                         
+                          <input type="hidden" name="redirectControllerMethod" value="bloodbank/detailBloodBank" />
                         
                         <?php echo $this->load->view('common_pages/edit_time_slot_view');?>
                         
@@ -436,6 +438,8 @@
                         <input type="hidden" name="mi_user_id" value="<?php if(isset($bloodBankData[0]->users_id)){ echo $bloodBankData[0]->users_id; }?>" />
                          <input type="hidden" name="mi_id" value="<?php if(isset($bloodBankData[0]->bloodBank_id)){ echo $bloodBankData[0]->bloodBank_id; }?>" />
                         
+                          <input type="hidden" name="redirectControllerMethod" value="bloodbank/detailBloodBank" />
+                         
                         <?php echo $this->load->view('common_pages/time_slot_view');?>
                         
                         <article class="clearfix m-t-10">
