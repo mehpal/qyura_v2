@@ -1350,6 +1350,31 @@ class Hospital extends MY_Controller {
         exit;
     }
 
+    function hospitalSpecialitiesOrder()
+    {
+        if(!empty($_POST))
+            {
+                $count=0;
+                foreach($_POST as $hospitalSpecialities_id => $order)
+                {
+                    
+                    $hospitalSpecialitiesData = array('hospitalSpecialities_orderForHos'=>$order);
+                    $con = array('hospitalSpecialities_id'=>$hospitalSpecialities_id);
+                    $return = $this->Hospital_model->UpdateTableData($hospitalSpecialitiesData, $con, 'qyura_hospitalSpecialities');
+                    
+                    if($return)
+                        $count++;
+                }
+                if($count==  count($_POST))
+                    echo 1;
+                
+            }
+            else
+            {
+                echo 0;
+            }
+    }
+
     function hospitalFetchDiagnostics($hospitalId) {
         $data = $this->Hospital_model->fetchhospitalDiagonasticData($hospitalId);
         $allocatedSpecialist = '';
@@ -2065,6 +2090,20 @@ class Hospital extends MY_Controller {
         $hospitalId = $this->input->post('hospitalId');
         if($hospitalId != ''){
             $response = $this->Hospital_model->getHospitaldetail($hospitalId);
+        }
+    }
+    
+    function setSpecialityNameFormate(){
+        $hospitalId = $this->input->post('hospitalId');
+        $specialityFormate = $this->input->post('specialityFormate');
+        
+        if($hospitalId != ''){
+            $option = array(
+                'table' => 'qyura_hospital',
+                'where' => array('hospital_id' => $hospitalId),
+                'data' => array('specialityNameFormate' => $specialityFormate)
+            );
+           echo $response = $this->Hospital_model->customUpdate($option);
         }
     }
 
