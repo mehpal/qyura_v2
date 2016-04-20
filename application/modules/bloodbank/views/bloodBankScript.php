@@ -3,7 +3,8 @@
     {
         display:none;
     }
-</style>
+</style> 
+
 <?php $check= 0; 
 if(isset($bloodBankId) && !empty($bloodBankId)){
     $check = $bloodBankId; 
