@@ -436,6 +436,37 @@ if (isset($mapData) && !empty($mapData)) {
     }
     function sendSpeciality() {
         var specialityId = [];
+        var checkValues = [];
+        
+        var checkValues = $('.myCheckbox:input:checkbox:checked').map(function() {
+                return this.value;
+            }).get();
+            
+      // alert(checkValues.length);
+       if(checkValues.length > 1){
+        var reYesNo = true;   
+        $.ajax({
+                    url: urls + 'index.php/hospital/checkSpeciality',
+                    type: 'POST',
+                    async: false, //=>>>>>>>>>>> here >>>>>>>>>>>
+                    data: {'hospitalId': hospitalId, 'allValuers': checkValues},
+                    success: function (datas) {
+                        if (datas == 0) {
+                             reYesNo = false;
+                           //  console.log(reYesNo,'andar');
+                             bootbox.alert("Sorry, you can't add more than three specialities!");
+                             
+                        }
+                    }
+                });
+                
+              //  console.log(reYesNo,'bahar');
+                if(!reYesNo)
+                   return false; 
+         
+       }
+       
+
         $('.specialityCheck').each(function () {
 
             if ($(this).is(':checked')) {
@@ -443,10 +474,13 @@ if (isset($mapData) && !empty($mapData)) {
                 $.ajax({
                     url: urls + 'index.php/hospital/addSpeciality',
                     type: 'POST',
+                   // async: true, //blocks window close
                     data: {'hospitalId': hospitalId, 'hospitalSpecialities_specialitiesId': $(this).val()},
                     success: function (datas) {
                         if (datas == 0) {
-                            bootbox.alert("Sorry, you can't add more than three specialities!");
+                             bootbox.alert("Sorry, you can't add more than three specialities!");
+                             return false;
+                             
                         } else {
                             loadSpeciality();
                         }
@@ -830,8 +864,6 @@ if (isset($mapData) && !empty($mapData)) {
         var isAddressDisabled = $('#isAddressDisabled').val();
         if(isAddressDisabled == 1){
             $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", false);
-        }else{
-             $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", true);
         }
         
         var check = /^[a-zA-Z\s]+$/;

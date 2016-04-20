@@ -26,7 +26,7 @@
                 <input type="hidden" id="StateId" name="StateId" value="" />
                 <input type="hidden" id="countServiceName" name="countServiceName" value="1" />
                 <input type="hidden" id="isBloodBankOutsource" name="isBloodBankOutsource" value="0" />
-                <input type="hidden" id="isAddressDisabled" name="isAddressDisabled" value="0" />
+                <input type="hidden" id="isAddressDisabled" name="isAddressDisabled" value="<?php if(isset($hospital_id) && $hospital_id != 0){ echo  1; }else{ echo 0; } ?>" />
                 <!-- Left Section Start -->
                 <section class="col-md-6 detailbox">
                     <div class="bg-white mi-form-section">
@@ -123,7 +123,7 @@
                                 <label for="cname" class="control-label col-md-4 col-sm-4">Address:</label>
                                 <div class="col-md-8 col-sm-8">
 
-                                    <select class="form-control selectpicker" data-width="100%" name="hospital_countryId" id="hospital_countryId" onchange ="fetchState(this.value)">
+                                    <select class="form-control selectpicker" data-width="100%" name="hospital_countryId" id="hospital_countryId" onchange ="fetchState(this.value)" <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'disabled'; } ?>>
                                         <option value="">Select Country</option>
                                         <?php
                                         if (isset($allCountry) && !empty($allCountry)) {
@@ -144,7 +144,7 @@
 
                             <article class="clearfix">
                                 <div class="col-md-8  col-sm-8 col-sm-offset-4">
-                                    <select class="selectpicker form-control" data-width="100%" name="hospital_stateId" id="hospital_stateId" data-size="4" onchange ="fetchCity(this.value)">
+                                    <select class="selectpicker form-control" data-width="100%" name="hospital_stateId" id="hospital_stateId" data-size="4" onchange ="fetchCity(this.value)" <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'disabled'; } ?>>
 
                                         <option value="">Select State</option>
                                         <?php
@@ -164,7 +164,7 @@
                             <article class="clearfix">
                                 <div class="col-md-8  col-sm-8 col-sm-offset-4">
 
-                                    <select class="form-control selectpicker" data-width="100%" name="hospital_cityId" id="hospital_cityId" data-size="4">
+                                    <select class="form-control selectpicker" data-width="100%" name="hospital_cityId" id="hospital_cityId" data-size="4" <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'disabled'; } ?>>
                                         <option value="">Select City</option>
                                         <?php
                                         if (isset($allCities) && !empty($allCities)) {
@@ -183,7 +183,7 @@
 
                             <article class="clearfix m-t-10">
                                 <div class="col-md-8  col-sm-8 col-sm-offset-4">
-                                    <input type="text" class="form-control" id="hospital_zip" name="hospital_zip" placeholder="Zipcode" onkeypress="return isNumberKey(event)" maxlength="6" value="<?php echo set_value('hospital_zip'); ?>" />
+                                    <input type="text" class="form-control" id="hospital_zip" name="hospital_zip" placeholder="Zipcode" onkeypress="return isNumberKey(event)" maxlength="6" value="<?php echo set_value('hospital_zip'); ?>" <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'readonly'; } ?>/>
                                     <label class="error" style="display:none;" id="error-hospital_zip"> please enter a zip code</label>
                                     <label class="error" style="display:none;" id="error-hospital_zip_check">Please enter numeric digits only!</label>
                                     <label class="error" style="display:none;" id="error-hospital_zip_long"> zip code should be 6 digit long</label>
@@ -211,7 +211,7 @@
 
                             <article class="clearfix m-t-10">
                                 <div class="col-md-8  col-sm-8 col-sm-offset-4">
-                                    <input type="text" class="form-control geocomplete" id="geocomplete1" name="hospital_address" placeholder="Address" value="<?php echo set_value('hospital_address'); ?>" />
+                                    <input type="text" class="form-control geocomplete" id="geocomplete1" name="hospital_address" placeholder="Address" value="<?php echo set_value('hospital_address'); ?>" <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'readonly'; } ?>/>
                                     <label class="error" style="display:none;" id="error-hospital_address"> please enter an address</label>
 
                                     <label class="error" > <?php echo form_error("hospital_address"); ?></label>
@@ -223,13 +223,13 @@
                                     <aside class="row">
 
                                         <div class="col-sm-6">
-                                            <input name="lat" onkeypress="return isNumberKey(event)" class="form-control" type="text" value="<?php echo set_value('lat'); ?>"  id="lat" placeholder="Latitude" <?php if (set_radio('isManual', '0') == 'checked="checked"') { echo 'readonly'; } ?> />
+                                            <input name="lat" onkeypress="return isNumberKey(event)" class="form-control" type="text" value="<?php echo set_value('lat'); ?>"  id="lat" placeholder="Latitude"  <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'readonly'; } ?>/>
                                             <label class="error" > <?php echo form_error("lat"); ?></label>
                                             <label class="error" style="display:none;" id="error-lat">Please enter the correct format for latitude</label>
                                         </div>
 
                                         <div class="col-sm-6">
-                                            <input name="lng" onkeypress="return isNumberKey(event)" type="text" value="<?php echo set_value('lng'); ?>"  id="lng" class="form-control" placeholder="Longitude" <?php if (set_radio('isManual', '0') == 'checked="checked"') { echo 'readonly'; } ?> />
+                                            <input name="lng" onkeypress="return isNumberKey(event)" type="text" value="<?php echo set_value('lng'); ?>"  id="lng" class="form-control" placeholder="Longitude"  <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'readonly'; } ?>/>
                                             <label class="error" > <?php echo form_error("lng"); ?></label>
                                             <label class="error" style="display:none;" id="error-lng"> Please enter the correct format for longitude</label>
                                         </div>

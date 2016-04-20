@@ -74,7 +74,7 @@ class Hospital extends MY_Controller {
     // get hospital detail
     function detailHospital($hospitalId = '', $active = 'general') {
         $data = array();
-        $data['hospitalData'] = $this->Hospital_model->fetchHospitalData($hospitalId);
+        $data['hospitalData'] = $hospitalData = $this->Hospital_model->fetchHospitalData($hospitalId);
         if (count($data['hospitalData']) == 0) {
             redirect('hospital');
         }
@@ -104,6 +104,18 @@ class Hospital extends MY_Controller {
                 $insurance_condition[] = $val->hospitalInsurance_insuranceId;
             }
         }
+        
+        
+        $mi_userId="";
+        if(!empty($hospitalData)):
+         $mi_userId = $hospitalData[0]->hospital_usersId;
+        endif;
+        $option = array(
+            'select' => '*',
+            'table'=> 'qyura_miTimeSlot',
+            'where'=> array('mi_user_id' => $mi_userId),
+        );
+        $data['timeSlot'] = $this->common_model->customGet($option);
 
         $data['allInsurance'] = $this->Hospital_model->fetchAllInsurance($insurance_condition);
 
@@ -1273,7 +1285,7 @@ class Hospital extends MY_Controller {
         $data = $this->Hospital_model->fetchTableData($selectTableData, 'qyura_specialities', $where, $notIn, 'specialities_id');
         $specialist = '';
         foreach ($data as $key => $val) {
-            $specialist .='<li >' . $val->specialities_name . '<input type=checkbox class=specialityCheck name=speciality value=' . $val->specialities_id . ' /></li>';
+            $specialist .='<li >' . $val->specialities_name . '<input type=checkbox class="specialityCheck myCheckbox" name=speciality value=' . $val->specialities_id . ' /></li>';
         }
 
         echo $specialist;
@@ -1323,6 +1335,22 @@ class Hospital extends MY_Controller {
         $return = $this->Hospital_model->insertTableData('qyura_hospitalDiagnosticsCat', $insertData);
         echo $return;
         exit;
+    }
+    
+    
+     function checkSpeciality() {
+        $hospitalId = $this->input->post('hospitalId');
+       // $allValuers = explode(',',$this->input->post('allValuers'));
+        
+        $sql = 'select hospitalSpecialities_id from qyura_hospitalSpecialities where hospitalSpecialities_hospitalId = '.$hospitalId.' AND hospitalSpecialities_deleted = 0 ';
+        
+        $numRows = $this->common_model->customQueryCount($sql);
+       // echo $this->db->last_query(); exit;
+        if($numRows >= 3){
+             echo 0; exit;
+        }else{
+            echo 1; exit;
+        }
     }
 
     function addSpeciality() {

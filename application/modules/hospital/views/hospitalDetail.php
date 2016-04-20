@@ -1152,170 +1152,41 @@
                                     
                                     <!-- Timeslot start -->
                                       <!-- Timeslot Starts Section -->
-                                  <section class="tab-pane fade in <?php if(isset($active) && $active == 'timeslot'){echo "active";}?>" id="timeslot">
-                                        <div class="col-md-10 p-b-20">
-                                            <?php //echo '<pre>';
-                                             // print_r($AlltimeSlot);
-                                          //  echo '</pre>';
-                                          //  echo $AlltimeSlot[1]->hospitalTimeSlot_endTime;
-                                              if(empty($AlltimeSlot) || count($AlltimeSlot) == 0){
-                                            ?>
-                                            <form class="form-horizontal" action="<?php echo site_url("hospital/hospitalAddTimeSlot/$hospitalId"); ?>" method="post">
-
-                                                <aside id="session">
-                                                   <article class="clearfix m-t-10">
-                                                        <label for="" class="control-label col-md-4 col-sm-4">Morning Session:</label>
-                                                        <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                            <div class="bootstrap-timepicker input-group w-full">
-                                                                <input id="timepickerMorStart" type="text" class="form-control timepicker" value="6:00 AM" name="morningStartTime" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                            <div class="bootstrap-timepicker input-group w-full">
-                                                                <input id="timepickerMorEnd" type="text" class="form-control timepicker" value="11:59 AM" name="morningEndTime" />
-                                                            </div>
-                                                        </div>
-                                                    </article>
-
-                                                    <article class="clearfix m-t-10">
-                                                        <label for="" class="control-label col-md-4 col-sm-4">Afternoon Session :</label>
-                                                        <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                            <div class="bootstrap-timepicker input-group w-full">
-                                                                <input id="timepickernoonStart" type="text" class="form-control timepicker" value="12:00 PM" name="afternoonStartTime" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                            <div class="bootstrap-timepicker input-group w-full">
-                                                                <input id="timepickernoonEnd" type="text" class="form-control timepicker" value="05:59 PM" name="afternoonEndTime" />
-                                                            </div>
-                                                        </div>
-                                                    </article>
-
-
-                                                    <article class="clearfix m-t-10">
-                                                        <label for="" class="control-label col-md-4 col-sm-4">Evening Session :</label>
-                                                        <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                            <div class="bootstrap-timepicker input-group w-full">
-                                                                <input id="timepickerEveStart" type="text" class="form-control timepicker" value="06:00 PM" name="eveningStartTime" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                            <div class="bootstrap-timepicker input-group w-full">
-                                                                <input id="timepickerEveEnd" type="text" class="form-control timepicker" value="10:59 PM" name="eveningEndTime" />
-                                                            </div>
-                                                        </div>
-                                                    </article>
-
-                                                    <!--<article class="clearfix m-t-10">
-                                                        <label for="" class="control-label col-md-4 col-sm-4">Night Session :</label>
-                                                        <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                            <div class="bootstrap-timepicker input-group w-full">
-                                                                <input id="timepickerNgtStart" type="text" class="form-control timepicker" value="11:00 PM" name="nightStartTime" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                            <div class="bootstrap-timepicker input-group w-full">
-                                                                <input id="timepickerNgtEnd" type="text" class="form-control timepicker" value="5:00 AM" name="nightEndTime" />
-                                                            </div>
-                                                        </div>
-                                                    </article> -->
-
-                                                </aside>
-                                                
-                                            <input type="hidden" name="morningSession" value="0">
-                                            <input type="hidden" name="afternoonSession" value="1">
-                                            <input type="hidden" name="eveningSession" value="2">
-                                            <!--<input type="hidden" name="nightSession" value="3">-->
-                                            <input type="hidden" name="hospitalId" value="<?php echo $hospitalId ?>">
-                                       
-                                        
-                                                <article class="clearfix ">
-                                                    <div class="col-md-12 m-t-20 m-b-20">
-<!--                                                        <button class="btn btn-danger waves-effect pull-right" type="button">Reset</button>-->
-                                                        <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit">Submit</button>
-                                                    </div>
-                                                </article>
-                                            </form>
-                                            <?php }else{ ?>
-                                            
-                                               <form class="form-horizontal" action="<?php echo site_url("hospital/UpdateHospitalTimeSlot/$hospitalId"); ?>" method="post">
-
-                                                <aside id="session">
-                                                   <article class="clearfix m-t-10">
-                                                        <label for="" class="control-label col-md-4 col-sm-4">Morning Session:</label>
-                                                        <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                            <div class="bootstrap-timepicker input-group w-full">
-                                                                <input id="timepickerMorStart" type="text" class="form-control timepicker" value="<?php if(isset($AlltimeSlot[0]->hospitalTimeSlot_startTime) && $AlltimeSlot[0]->hospitalTimeSlot_startTime != '' ){ echo date('h:i:s A', strtotime($AlltimeSlot[0]->hospitalTimeSlot_startTime)); }else{ echo '06:00 AM'; } ?> " name="morningStartTime" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                            <div class="bootstrap-timepicker input-group w-full">
-                                                                <input id="timepickerMorEnd" type="text" class="form-control timepicker" value="<?php if(isset($AlltimeSlot[0]->hospitalTimeSlot_endTime) && $AlltimeSlot[0]->hospitalTimeSlot_endTime != '' ){ echo date('h:i:s A', strtotime($AlltimeSlot[0]->hospitalTimeSlot_endTime)); }else{ echo '11:59 AM'; } ?> " name="morningEndTime" />
-                                                            </div>
-                                                        </div>
-                                                    </article>
-
-                                                    <article class="clearfix m-t-10">
-                                                        <label for="" class="control-label col-md-4 col-sm-4">Afternoon Session :</label>
-                                                        <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                            <div class="bootstrap-timepicker input-group w-full">
-                                                                <input id="timepickernoonStart" type="text" class="form-control timepicker" value="<?php if(isset($AlltimeSlot[1]->hospitalTimeSlot_startTime) && $AlltimeSlot[1]->hospitalTimeSlot_startTime != '' ){ echo date('h:i:s A', strtotime($AlltimeSlot[1]->hospitalTimeSlot_startTime) ); }else{ echo '12:00 PM'; } ?> " name="afternoonStartTime" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                            <div class="bootstrap-timepicker input-group w-full">
-                                                                <input id="timepickernoonEnd" type="text" class="form-control timepicker" value="<?php if(isset($AlltimeSlot[1]->hospitalTimeSlot_endTime) && $AlltimeSlot[1]->hospitalTimeSlot_endTime != '' ){ echo date('h:i:s A', strtotime($AlltimeSlot[1]->hospitalTimeSlot_endTime)); }else{ echo '5:59 PM'; } ?> " name="afternoonEndTime" />
-                                                            </div>
-                                                        </div>
-                                                    </article>
-
-
-                                                    <article class="clearfix m-t-10">
-                                                        <label for="" class="control-label col-md-4 col-sm-4">Evening Session :</label>
-                                                        <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                            <div class="bootstrap-timepicker input-group w-full">
-                                                                <input id="timepickerEveStart" type="text" class="form-control timepicker" value="<?php if(isset($AlltimeSlot[2]->hospitalTimeSlot_startTime) && $AlltimeSlot[2]->hospitalTimeSlot_startTime != '' ){ echo date('h:i:s A', strtotime($AlltimeSlot[2]->hospitalTimeSlot_startTime)); }else{ echo '06:00 PM'; } ?> " name="eveningStartTime" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                            <div class="bootstrap-timepicker input-group w-full">
-                                                                <input id="timepickerEveEnd" type="text" class="form-control timepicker" value="<?php if(isset($AlltimeSlot[2]->hospitalTimeSlot_endTime) && $AlltimeSlot[2]->hospitalTimeSlot_endTime != '' ){ echo date('h:i:s A', strtotime($AlltimeSlot[2]->hospitalTimeSlot_endTime)); }else{ echo '10:59 PM'; } ?>" name="eveningEndTime" />
-                                                            </div>
-                                                        </div>
-                                                    </article>
-
-                                                    <!--<article class="clearfix m-t-10">
-                                                        <label for="" class="control-label col-md-4 col-sm-4">Night Session :</label>
-                                                        <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                            <div class="bootstrap-timepicker input-group w-full">
-                                                                <input id="timepickerNgtStart" type="text" class="form-control timepicker" value="<?php // if(isset($AlltimeSlot[3]->hospitalTimeSlot_startTime) && $AlltimeSlot[3]->hospitalTimeSlot_startTime != '' ){ echo date('h:i:s A', strtotime($AlltimeSlot[3]->hospitalTimeSlot_startTime)); }else{ echo '11:00 PM'; } ?>" name="nightStartTime" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                            <div class="bootstrap-timepicker input-group w-full">
-                                                                <input id="timepickerNgtEnd" type="text" class="form-control timepicker" value="<?php // if(isset($AlltimeSlot[3]->hospitalTimeSlot_endTime) && $AlltimeSlot[3]->hospitalTimeSlot_endTime != '' ){ echo date('h:i:s A', strtotime($AlltimeSlot[3]->hospitalTimeSlot_endTime)); }else{ echo '05:00 AM'; } ?>" name="nightEndTime" />
-                                                            </div>
-                                                        </div>
-                                                    </article> -->
-
-                                                </aside>
-                                                
-                                            <input type="hidden" name="morningSession" value="0">
-                                            <input type="hidden" name="afternoonSession" value="1">
-                                            <input type="hidden" name="eveningSession" value="2">
-                                            <!--<input type="hidden" name="nightSession" value="3">-->
-                                            <input type="hidden" name="hospitalId" value="<?php echo $hospitalId ?>">
-                                       
-                                        
-                                                <article class="clearfix ">
-                                                    <div class="col-md-12 m-t-20 m-b-20">
-<!--                                                        <button class="btn btn-danger waves-effect pull-right" type="button">Reset</button>-->
-                                                        <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit">Submit</button>
-                                                    </div>
-                                                </article>
-                                            </form>
-                                            <?php } ?>
-                                        </div>
+                                  <section class="tab-pane fade in <?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>" id="timeslot">
+                                        <?php if(isset($timeSlot) && !empty($timeSlot)):?>
+                         
+                    <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('hospital/updateTimeSlot');?>">
+                        <input type="hidden" name="mi_user_id" value="<?php if(isset($hospitalData[0]->hospital_usersId)){ echo $hospitalData[0]->hospital_usersId; }?>" />
+                         <input type="hidden" name="mi_id" value="<?php if(isset($hospitalData[0]->hospital_id)){ echo $hospitalData[0]->hospital_id; }?>" />
+                         
+                          <input type="hidden" name="redirectControllerMethod" value="hospital/detailHospital" />
+                        
+                        <?php echo $this->load->view('common_pages/edit_time_slot_view');?>
+                        
+                        <article class="clearfix m-t-10">
+                            <div class="col-md-12">
+                              <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit" onclick="return timeSlotCheck()">Update</button>
+                            </div>
+                            </article>
+                    </form>
+                    <?php else: ?>
+                        
+                       <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('hospital/setTimeSlotMi');?>">
+                         <input type="hidden" name="mi_user_id" value="<?php if(isset($hospitalData[0]->hospital_usersId)){ echo $hospitalData[0]->hospital_usersId; }?>" />
+                         <input type="hidden" name="mi_id" value="<?php if(isset($hospitalData[0]->hospital_id)){ echo $hospitalData[0]->hospital_id; }?>" />
+                         
+                          <input type="hidden" name="redirectControllerMethod" value="hospital/detailHospital" />
+                         
+                        <?php echo $this->load->view('common_pages/time_slot_view');?>
+                        
+                        <article class="clearfix m-t-10">
+                            <div class="col-md-12">
+                              <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit" onclick="return timeSlotCheck()">Submit</button>
+                            </div>
+                            </article>
+                    </form>
+                         
+                    <?php endif;?>
                                        
                                     </section>
                                     <!-- Timeslot Ends -->
