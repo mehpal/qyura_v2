@@ -26,6 +26,7 @@
                 <input type="hidden" id="StateId" name="StateId" value="" />
                 <input type="hidden" id="countServiceName" name="countServiceName" value="1" />
                 <input type="hidden" id="isBloodBankOutsource" name="isBloodBankOutsource" value="0" />
+                <input type="hidden" id="isAddressDisabled" name="isAddressDisabled" value="0" />
                 <!-- Left Section Start -->
                 <section class="col-md-6 detailbox">
                     <div class="bg-white mi-form-section">
