@@ -13,8 +13,6 @@ if (isset($hospitalId) && !empty($hospitalId)) {
 }
 ?>
 
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
 <link href="<?php echo base_url(); ?>assets/cropper/cropper.min.css" rel="stylesheet">
 <!--<link href="<?php echo base_url(); ?>assets/vendor/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />-->
 <link href="<?php echo base_url(); ?>assets/cropper/main.css" rel="stylesheet">
@@ -24,8 +22,7 @@ if (isset($hospitalId) && !empty($hospitalId)) {
 <script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
 
 
-<?php
-$current = $this->router->fetch_method();
+<?php $current = $this->router->fetch_method();
 if ($current != 'detailHospital'):
     ?>
     <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
@@ -64,75 +61,75 @@ if (isset($mapData) && !empty($mapData)) {
 
     <script>
 
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 18,
-            center: new google.maps.LatLng(<?php echo $lat; ?>, <?php echo $lang; ?>),
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        });
-        var infowindow = new google.maps.InfoWindow();
-        var marker, i;
-        marker = new google.maps.Marker({
-            position: new google.maps.LatLng(<?php echo $lat; ?>, <?php echo $lang; ?>),
-            map: map,
-            icon: '<?php echo base_url(); ?>assets/images/pins/q2.png'
-        });
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 18,
+      center: new google.maps.LatLng(<?php echo $lat; ?>, <?php echo $lang; ?>),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+    var infowindow = new google.maps.InfoWindow();
+    var marker, i;
+    marker = new google.maps.Marker({
+      position: new google.maps.LatLng(<?php echo $lat; ?>, <?php echo $lang; ?>),
+      map: map,
+      icon: '<?php echo base_url(); ?>assets/images/pins/q2.png'
+    });
 
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                infowindow.setContent('<?php echo $templates; ?>');
-                infowindow.open(map, marker);
-            }
-        })(marker, i));
+    google.maps.event.addListener(marker, 'click', (function (marker, i) {
+      return function () {
+          infowindow.setContent('<?php echo $templates; ?>');
+          infowindow.open(map, marker);
+      }
+    })(marker, i));
 
     </script>
 <?php } ?>
 <script>
-
-
-    function checkValidFileUploads(urls) {
-
-        var avatar_file = $(".avatar-data").val();
-        $.ajax({
-            url: urls + 'index.php/hospital/checkFileUploadValidation',
-            type: 'POST',
-            data: {'avatar_file': avatar_file},
-            success: function (data) {
+    
+    
+    function checkValidFileUploads(urls){
+       
+           var avatar_file = $(".avatar-data").val();
+            $.ajax({
+              url : urls + 'index.php/hospital/checkFileUploadValidation',
+              type: 'POST',
+              data:{'avatar_file' : avatar_file},
+             success:function(data){
                 var obj = $.parseJSON(data);
-
-                if (obj.state == 400) {
-                    $("#message_upload").html("<div class='alert alert-danger'>" + obj.message + "</div>");
+                
+                if(obj.state == 400){
+                    $("#message_upload").html("<div class='alert alert-danger'>"+obj.message+"</div>");
                     $(".close").hide();
-                } else {
+                }else{
                     $("#avatar-modal").modal('hide');
-                    $("#message_upload").html("");
+                     $("#message_upload").html("");
                 }
-            }
-        });
-    }
+             }
+          });
+   }
 
 
     function deletInsurance(insuranceId) {
         var insuranceId = insuranceId;
-        bootbox.confirm("Are you sure want to remove this insurance?", function (result) {
-            if (result) {
-                $.ajax({
-                    url: urls + 'index.php/hospital/deletInsurance',
-                    type: 'POST',
-                    datatype: 'json',
-                    data: {'insuranceId': insuranceId},
-                    success: function (data, status, xhr) {
-                        var obj = JSON.parse(data);
-                        if (obj.status == 1) {
-                            window.location.reload();
-                            return true;
-                        } else if (obj.status == 0) {
-                            return false;
-                        }
+        bootbox.confirm("Are you sure want to remove this insurance?", function(result) {
+        if (result) {
+            $.ajax({
+                url: urls + 'index.php/hospital/deletInsurance',
+                type: 'POST',
+                datatype: 'json',
+                data: {'insuranceId': insuranceId},
+                success: function (data, status, xhr) {
+                    var obj = JSON.parse(data);
+                    if (obj.status == 1) {
+                         window.location.reload();
+                        return true;
+                    } else if (obj.status == 0) {
+                        return false;
                     }
-                });
-            }
-
-        });
+                }
+            });
+        }
+        
+      });
     }
 
     function checkUserExistence(email) {
@@ -225,7 +222,7 @@ if (isset($mapData) && !empty($mapData)) {
             "processing": true,
             "bServerSide": true,
             "columnDefs": [{
-                    "targets": [0, 1, 2, 3, 4, 5],
+                    "targets": [0,1,2,3,4,5],
                     "orderable": false
                 }],
             // "searching": true,
@@ -234,13 +231,16 @@ if (isset($mapData) && !empty($mapData)) {
             "iDisplayLength": 10,
             "bPaginate": true,
             "sPaginationType": "full_numbers",
+      
             "columns": [
                 {"data": "hospital_img", "searchable": false, "order": false, orderable: false, width: "8%"},
                 {"data": "hospital_name", "searchable": false, "order": false},
                 {"data": "city_name"},
                 {"data": "hospital_phn"},
                 {"data": "hospital_address"},
+                {"data": "status", "searchable": true},
                 {"data": "view", "searchable": false, "order": false, orderable: false, width: "8%"},
+               
             ],
             "ajax": {
                 "url": "<?php echo site_url('hospital/getHospitalDl'); ?>",
@@ -303,9 +303,9 @@ if (isset($mapData) && !empty($mapData)) {
         "processing": true,
         "bServerSide": true,
         "columnDefs": [{
-                "targets": [0, 1, 2, 3, 4, 5, 6],
-                "orderable": false
-            }],
+                    "targets": [0,1,2,3,4,5,6],
+                    "orderable": false
+                }],
         "searching": false,
         "bLengthChange": false,
         "bProcessing": true,
@@ -330,13 +330,13 @@ if (isset($mapData) && !empty($mapData)) {
         }
     });
 
-    $('#search').on('keyup', function () {
-        oTableDr.columns(5).search($(this).val()).draw();
-        // oTableDr.search($(this).val()).draw();
-        // oTableDr.draw();
-
-    });
-
+   $('#search').on('keyup', function () {
+            oTableDr.columns( 5 ).search($(this).val()).draw();
+          // oTableDr.search($(this).val()).draw();
+            // oTableDr.draw();
+            
+           });
+        
 
     function addDiagnostic() {
 
@@ -452,11 +452,12 @@ if (isset($mapData) && !empty($mapData)) {
 
 
     function loadSpeciality() {
-
+  
         $('#list2').load(urls + 'index.php/hospital/hospitalSpecialities/' + hospitalId, function () {
             // alert('callback function implementation');
         });
         $('#list3').load(urls + 'index.php/hospital/hospitalAllocatedSpecialities/' + hospitalId, function () {
+
             
             $("#list3").sortable({
                 stop: function (e, ui) {
@@ -474,6 +475,7 @@ if (isset($mapData) && !empty($mapData)) {
                     }});
                 }
             });
+
         });
 
     }
@@ -481,62 +483,73 @@ if (isset($mapData) && !empty($mapData)) {
     function addAwards() {
         var check = /^[a-zA-Z\s]+$/;
         var hospitalAwards_awardsName = $.trim($('#hospitalAwards_awardsName').val());
+        var hospitalAwards_agencyName = $.trim($('#hospitalAwards_agencyName').val());
         var hospital_awardsyear = $.trim($('#hospital_awardsyear').val());
         var currentYear = new Date().getFullYear();
-
-        if (hospitalAwards_awardsName == '') {
-            if (!check.test(hospitalAwards_awardsName)) {
-                $('#error-awards').fadeIn().delay(3000).fadeOut('slow');
+        
+         if(hospitalAwards_awardsName == ''){
+             if(!check.test(hospitalAwards_awardsName)){
+              $('#error-awards').fadeIn().delay(3000).fadeOut('slow');
             }
-        } else if (hospital_awardsyear == '') {
-
+        }else if(hospitalAwards_agencyName == ''){
+             if(!check.test(hospitalAwards_agencyName)){
+              $('#error-hospitalAwards_agencyName').fadeIn().delay(3000).fadeOut('slow');
+            }
+             
+        }else if(hospital_awardsyear == '' ){
+            
+           $('#error-years').fadeIn().delay(3000).fadeOut('slow');
+            
+        }else if(hospital_awardsyear.length != 4){
             $('#error-years').fadeIn().delay(3000).fadeOut('slow');
-
-        } else if (hospital_awardsyear.length != 4) {
-            $('#error-years').fadeIn().delay(3000).fadeOut('slow');
-        } else if (hospital_awardsyear > currentYear || hospital_awardsyear < 1920) {
-
-            $('#hospital_awardsyear').val('');
-            $("#error-years-valid").fadeIn().delay(3000).fadeOut('slow');
-
-        } else {
+         }else if(hospital_awardsyear > currentYear || hospital_awardsyear < 1920){
+            
+             $('#hospital_awardsyear').val('');
+             $("#error-years-valid").fadeIn().delay(3000).fadeOut('slow');
+             
+        }else{
             $.ajax({
                 url: urls + 'index.php/hospital/addHospitalAwards',
                 type: 'POST',
-                data: {'hospitalId': hospitalId, 'hospitalAwards_awardsName': hospitalAwards_awardsName, 'hospitalAwards_awardYear': hospital_awardsyear},
+                data: {'hospitalId': hospitalId, 'hospitalAwards_awardsName': hospitalAwards_awardsName, 'hospitalAwards_awardYear' : hospital_awardsyear, 'hospitalAwards_agencyName' : hospitalAwards_agencyName},
                 success: function (datas) {
                     // console.log(datas);
                     loadAwards();
                     $('#hospitalAwards_awardsName').val('');
                     $('#hospital_awardsyear').val('');
-
+                    
                     $('#error-awards').fadeOut().delay(3).fadeOut('slow');
-                    $('#error-years').fadeOut().delay(3).fadeOut('slow');
+                     $('#error-years').fadeOut().delay(3).fadeOut('slow');
                 }
             });
         }
     }
     function editAwards(awardsId) {
         var edit_awardsName = $.trim($('#' + awardsId).val());
+        var edit_awardsAgency = $.trim($('#agency' + awardsId).val());
         var edit_awardsYear = $.trim($('#year' + awardsId).val());
-
-        if (edit_awardsName == '') {
-
-            $('#error-awards' + awardsId).fadeIn().delay(3000).fadeOut('slow');
-
-        } else if (edit_awardsYear == '') {
-
-            $('#error-years' + awardsId).fadeIn().delay(3000).fadeOut('slow');
-
-        } else if (edit_awardsYear.length != 4) {
-
-            $('#error-years' + awardsId).fadeIn().delay(3000).fadeOut('slow');
+        
+         if(edit_awardsName == ''){
+           
+            $('#error-awards'+awardsId).fadeIn().delay(3000).fadeOut('slow');
+            
+        }else if(edit_awardsAgency == '' ){
+            
+           $('#error-agency'+awardsId).fadeIn().delay(3000).fadeOut('slow');
+            
+        }else if(edit_awardsYear == '' ){
+            
+           $('#error-years'+awardsId).fadeIn().delay(3000).fadeOut('slow');
+            
+        }else if(edit_awardsYear.length != 4){
+            
+            $('#error-years'+awardsId).fadeIn().delay(3000).fadeOut('slow');
         }
-        else {
+        else{
             $.ajax({
                 url: urls + 'index.php/hospital/editHospitalAwards',
                 type: 'POST',
-                data: {'awardsId': awardsId, 'hospitalAwards_awardsName': edit_awardsName, 'hospitalAwards_awardYear': edit_awardsYear},
+                data: {'awardsId': awardsId, 'hospitalAwards_awardsName': edit_awardsName, 'hospitalAwards_awardYear': edit_awardsYear, 'hospitalAwards_agencyName' : edit_awardsAgency},
                 success: function (datas) {
                     console.log(datas);
                     loadAwards();
@@ -545,19 +558,19 @@ if (isset($mapData) && !empty($mapData)) {
         }
     }
     function deleteAwards(awardsId) {
-        bootbox.confirm("Are you sure want to remove this award?", function (result) {
-            if (result) {
-                $.ajax({
-                    url: urls + 'index.php/hospital/deleteHospitalAwards',
-                    type: 'POST',
-                    data: {'awardsId': awardsId},
-                    success: function (datas) {
-                        console.log(datas);
-                        loadAwards();
-                    }
-                });
+       bootbox.confirm("Are you sure want to remove this award?", function(result) {
+        if(result){
+        $.ajax({
+            url: urls + 'index.php/hospital/deleteHospitalAwards',
+            type: 'POST',
+            data: {'awardsId': awardsId},
+            success: function (datas) {
+                console.log(datas);
+                loadAwards();
             }
         });
+         }
+       });
     }
     function loadAwards() {
 
@@ -613,19 +626,19 @@ if (isset($mapData) && !empty($mapData)) {
     }
 
     function deleteServices(serviceId) {
-        bootbox.confirm("Are you sure want to remove this service?", function (result) {
-            if (result) {
-                $.ajax({
-                    url: urls + 'index.php/hospital/deleteHospitalService',
-                    type: 'POST',
-                    data: {'serviceId': serviceId},
-                    success: function (datas) {
-                        console.log(datas);
-                        loadServices();
-                    }
-                });
+         bootbox.confirm("Are you sure want to remove this service?", function(result) {
+        if(result){
+        $.ajax({
+            url: urls + 'index.php/hospital/deleteHospitalService',
+            type: 'POST',
+            data: {'serviceId': serviceId},
+            success: function (datas) {
+                console.log(datas);
+                loadServices();
             }
         });
+      }
+       });
     }
     $('#date-3').datepicker();
 
@@ -963,28 +976,28 @@ if (isset($mapData) && !empty($mapData)) {
                 status = 0;
             }
         }
-
-        if ($('#lat').val() == '') {
-            $('#lat').addClass('bdr-error');
-            $('#error-lat').fadeIn().delay(3000).fadeOut('slow');
-            setTimeout(function () {
-                $('#lat').removeClass('bdr-error');
-            }, 3000);
-            status = 0;
-        }
-
-        if ($('#lng').val() == '') {
-            $('#lng').addClass('bdr-error');
-            $('#error-lng').fadeIn().delay(3000).fadeOut('slow');
-            setTimeout(function () {
-                $('#lng').removeClass('bdr-error');
-            }, 3000);
-            status = 0;
-        }
-
-
-
-
+        
+         if($('#lat').val()==''){
+                $('#lat').addClass('bdr-error');
+                $('#error-lat').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){
+                    $('#lat').removeClass('bdr-error');
+                 }, 3000);
+               status = 0;
+             }
+            
+              if($('#lng').val()==''){
+                $('#lng').addClass('bdr-error');
+                $('#error-lng').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){
+                    $('#lng').removeClass('bdr-error');
+                 }, 3000);
+               status = 0;
+             }
+             
+            
+            
+            
         //debugger;
         if (emails != '' && status == 1) {
             check_email(emails);
@@ -1112,28 +1125,28 @@ if (isset($mapData) && !empty($mapData)) {
                 status = 0;
             }
         }
-
-
-        if ($('#lat').val() == '') {
-            $('#lat').addClass('bdr-error');
-            $('#error-lat').fadeIn().delay(3000).fadeOut('slow');
-            setTimeout(function () {
-                $('#lat').removeClass('bdr-error');
-            }, 3000);
-            status = 0;
-        }
-
-        if ($('#lng').val() == '') {
-            $('#lng').addClass('bdr-error');
-            $('#error-lng').fadeIn().delay(3000).fadeOut('slow');
-            setTimeout(function () {
-                $('#lng').removeClass('bdr-error');
-            }, 3000);
-            status = 0;
-        }
-
-
-
+        
+        
+            if($('#lat').val()==''){
+                $('#lat').addClass('bdr-error');
+                $('#error-lat').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){
+                    $('#lat').removeClass('bdr-error');
+                 }, 3000);
+               status = 0;
+             }
+            
+              if($('#lng').val()==''){
+                $('#lng').addClass('bdr-error');
+                $('#error-lng').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){
+                    $('#lng').removeClass('bdr-error');
+                 }, 3000);
+               status = 0;
+             }
+             
+  
+             
         if (status == 0)
             return false;
         else
@@ -1154,92 +1167,92 @@ if (isset($mapData) && !empty($mapData)) {
         var pswd = $.trim($("#users_password").val());
         var cnfpswd = $.trim($("#cnfPassword").val());
         var mobile = $('#users_mobile').val();
-        // var emails = $('#users_email').val();
+       // var emails = $('#users_email').val();
         var user_tables_id = $('#user_tables_id').val();
         var users_mobile = $('#users_mobile').val();
         var returnValue = 0;
 
         var status = 1;
-        //  if (emails === '') {
-        //      $('#error-users_emailBlank').fadeIn().delay(3000).fadeOut('slow');
-        //     status = 0;
-        //  }
+      //  if (emails === '') {
+      //      $('#error-users_emailBlank').fadeIn().delay(3000).fadeOut('slow');
+       //     status = 0;
+      //  }
         if (users_mobile === '') {
             $('#error-users_mobile').fadeIn().delay(3000).fadeOut('slow');
             status = 0;
         }
         if (pswd === '') {
-            $('#users_password').addClass('bdr-error');
-            $('#error-users_password').fadeIn().delay(3000).fadeOut('slow');
-            status = 0;
+             $('#users_password').addClass('bdr-error');
+             $('#error-users_password').fadeIn().delay(3000).fadeOut('slow');
+             status = 0;   
         }
 
-
-        if (pswd != cnfpswd) {
-            $('#cnfPassword').addClass('bdr-error');
-            $('#error-cnfPassword').fadeIn().delay(3000).fadeOut('slow');
-            status = 0;
+      
+        if(pswd != cnfpswd){
+                $('#cnfPassword').addClass('bdr-error');
+                $('#error-cnfPassword').fadeIn().delay(3000).fadeOut('slow');
+                status = 0;  
         }
-
+        
         /*var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-         var email = $('#users_email').val();
-         if (email !== '') {
-         if (!filter.test(email)) {
-         
-         $('#users_email').addClass('bdr-error');
-         $('#error-users_email').fadeIn().delay(3000).fadeOut('slow');
-         status = 0; 
-         
-         }
-         } */
+        var email = $('#users_email').val();
+        if (email !== '') {
+            if (!filter.test(email)) {
 
+                $('#users_email').addClass('bdr-error');
+                $('#error-users_email').fadeIn().delay(3000).fadeOut('slow');
+                status = 0; 
+
+            }
+        } */
+        
         if (status == 0)
             return false;
         else {
-            $.ajax({
-                url: urls + 'index.php/hospital/updatePassword',
-                type: 'POST',
-                //data: {'currentPassword' : pswd,'existingPassword' : password,'user_tables_id' : user_tables_id}, password updated from another user except super admin
-                data: $('#acccountForm').serialize(),
-                async: false,
-                success: function (insertData) {
+                  $.ajax({
+                            url: urls + 'index.php/hospital/updatePassword',
+                            type: 'POST',
+                            //data: {'currentPassword' : pswd,'existingPassword' : password,'user_tables_id' : user_tables_id}, password updated from another user except super admin
+                            data: $('#acccountForm').serialize(),
+                            async: false,
+                            success: function (insertData) {
 
-                    if (insertData == 1) {
-                        $('#users_password').val('');
-                        $('#cnfPassword').val('');
+                                if (insertData == 1) {
+                                    $('#users_password').val('');
+                                    $('#cnfPassword').val('');
 
-                        setTimeout(function () {
-                            $('#error-password_email_check_success').fadeIn().delay(300).fadeOut(function () {
-                                window.location.href = urls + "index.php/hospital/detailHospital/" +<?php echo $check; ?> + "/account";
+                                    setTimeout(function () {
+                                        $('#error-password_email_check_success').fadeIn().delay(300).fadeOut(function () {
+                                        window.location.href=urls+"index.php/hospital/detailHospital/"+<?php echo $check; ?>+"/account";
 
-                            });
-                        }, 30);
+                                        });
+                                    }, 30);
 
-                        return true;
-                    }
+                                    return true;
+                                }
 
-                }
-            });
+                            }
+                        });
+                    } 
+
         }
-
-    }
 
 
 
     function deleteGalleryImage(id) {
-        bootbox.confirm("Are you sure want to remove this image?", function (result) {
-            if (result) {
-                $.ajax({
-                    url: urls + 'index.php/hospital/deleteGalleryImage',
-                    type: 'POST',
-                    data: {'id': id},
-                    success: function (datas) {
-                        loadGallery();
-                    }
-                });
+        bootbox.confirm("Are you sure want to remove this image?", function(result) {
+        if (result) {
+            $.ajax({
+                url: urls + 'index.php/hospital/deleteGalleryImage',
+                type: 'POST',
+                data: {'id': id},
+                success: function (datas) {
+                    loadGallery();
+                }
+            });
 
-            }
-        });
+        }
+       });
     }
 
     function loadGallery() {
@@ -1643,7 +1656,7 @@ if (isset($mapData) && !empty($mapData)) {
         $.ajax({
             url: urls + 'index.php/hospital/createCSV',
             type: 'POST',
-            data: {'hospital_stateId': hospital_stateId, 'hospital_cityId': hospital_cityId, 'search': search},
+            data: {'hospital_stateId': hospital_stateId, 'hospital_cityId': hospital_cityId, 'search' : search},
             success: function (datas) {
                 console.log(datas)
             }
@@ -1723,9 +1736,9 @@ if (isset($mapData) && !empty($mapData)) {
         });
 
     }
-
+    
     function checkEmailExits() {
-
+        
         var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
         var email = $('#doctorEmail').val();
         var hospiId = $("#hospiId").val();
@@ -1734,13 +1747,13 @@ if (isset($mapData) && !empty($mapData)) {
                 $('#doctorEmail').addClass('bdr-error');
                 $('#error-doctorEmail').fadeIn().delay(3000).fadeOut('slow');
             }
-
+            
             $.ajax({
                 url: urls + 'index.php/hospital/check_email_exits',
                 type: 'POST',
-                data: {'users_email': email, 'hospiId': hospiId},
+                data: {'users_email': email,'hospiId':hospiId},
                 success: function (datas) {
-
+                    
                     if (datas > 0) {
 //                        $('#doctorEmail').addClass('bdr-error');
 //                        $('#error-users_email_check').fadeIn().delay(5000).fadeOut('slow');
@@ -1748,11 +1761,11 @@ if (isset($mapData) && !empty($mapData)) {
                         $("#checkDoctor").hide();
                         $("#AddDocHospi").show();
                         $("#AddNewDoc").hide();
-                    } else if (datas == "already") {
-                        $('#doctorEmail').addClass('bdr-error');
-                        $('#error-users_email_check').html("doctor is already registered with you");
-                        $('#error-users_email_check').fadeIn().delay(5000).fadeOut('slow');
-                    } else {
+                    }else if (datas == "already"){
+                          $('#doctorEmail').addClass('bdr-error');
+                          $('#error-users_email_check').html("doctor is already registered with you");
+                          $('#error-users_email_check').fadeIn().delay(5000).fadeOut('slow');
+                    }else {
                         $("#checkDoctor").hide();
                         $("#AddDocHospi").hide();
                         $("#AddNewDoc").show();
@@ -1761,7 +1774,7 @@ if (isset($mapData) && !empty($mapData)) {
             });
         }
     }
-    function switchButton() {
+    function switchButton(){
         $("#checkDoctor").show();
         $("#AddDocHospi").hide();
         $("#AddNewDoc").hide();
@@ -1770,52 +1783,137 @@ if (isset($mapData) && !empty($mapData)) {
         event.preventDefault();
         var url = '<?php echo site_url(); ?>/hospital/addHospiDoc/';
         var formData = new FormData(this);
-        submitData(url, formData);
+        submitData(url,formData);
     });
-    function newDoctor() {
+    function newDoctor(){
         var hospiId = $("#hospiId").val();
         var email = $('#doctorEmail').val();
         var url = encodeURIComponent(email)
-        window.location.href = '<?php echo site_url() ?>/doctor/addDoctor/' + url + '/' + hospiId + '/' + 1;
+        window.location.href = '<?php echo site_url() ?>/doctor/addDoctor/'+url+'/'+hospiId+'/'+1;
     }
+    
+    function latChack(str){
+          
+            
+               var filter = /^-?([1-8]?[1-9]|[1-9]0)\.{1}\d{6,7}$/;
+                if(str!==''){
+                    if (!filter.test(str)){
+                        
+                         //$('#lat').addClass('bdr-error');
+                        $('#error-lat').fadeIn().delay(3000).fadeOut('slow');
+                        return false;
 
-    function latChack(str) {
-
-
-        var filter = /^-?([1-8]?[1-9]|[1-9]0)\.{1}\d{6,7}$/;
-        if (str !== '') {
-            if (!filter.test(str)) {
-
-                //$('#lat').addClass('bdr-error');
-                $('#error-lat').fadeIn().delay(3000).fadeOut('slow');
-                return false;
-
-            } else {
-                //$('#lng').removeClass('bdr-error');
-                return true;
+                    }else{
+                            //$('#lng').removeClass('bdr-error');
+                        return true;
+                    }
             }
+            
         }
+        
+         function lngChack(str){
+          
+            
+               var filter = /^-?([1]?[1-7][1-9]|[1]?[1-8][0]|[1-9]?[0-9])\.{1}\d{6,14}$/;
+                if(str!==''){
+                    if (!filter.test(str)){
+                        
+                         //$('#lat').addClass('bdr-error');
+                         $('#error-lng').fadeIn().delay(3000).fadeOut('slow');
+                        return false;
 
-    }
-
-    function lngChack(str) {
-
-
-        var filter = /^-?([1]?[1-7][1-9]|[1]?[1-8][0]|[1-9]?[0-9])\.{1}\d{6,14}$/;
-        if (str !== '') {
-            if (!filter.test(str)) {
-
-                //$('#lat').addClass('bdr-error');
-                $('#error-lng').fadeIn().delay(3000).fadeOut('slow');
-                return false;
-
-            } else {
-                //$('#lng').removeClass('bdr-error');
-                return true;
+                    }else{
+                            //$('#lng').removeClass('bdr-error');
+                        return true;
+                    }
             }
+            
         }
-
+        
+        
+        //Load Custom enable View for all
+    function enableDisableFn(status,id)
+    {   
+          if(status == 1)var con_mess = "Inactivate";else con_mess = "Activate";      
+           var url = '<?php echo site_url();?>/hospital/activeDeactive';
+            bootbox.confirm('Do you want to ' + con_mess.toLowerCase() + ' this hospital?', function(result) {
+            if(result) {
+                $.ajax({
+                    type:'post',
+                    data:{'id': id,'status': status},
+                    url:url,
+                    async:false,
+                    success:function(data){
+                        if(data)
+                        {
+			   // bootbox.alert("Successfully update");	
+                            location.reload(true);
+                        }
+                    }
+                }); 
+           }
+        }); 
     }
+    
+    
+    
+   function getHospitaldetail(hospitalId){
+       
+            var hospitalId = hospitalId;
+            if(hospitalId != '' && hospitalId != 0){
+            $("#hospitalName").css("display","none");
+            $.ajax({
+              url : urls + 'index.php/hospital/getHospitaldetail',
+              type: 'POST',
+              data:{'hospitalId' : hospitalId},
+             success:function(data){
+                var obj = $.parseJSON(data);
+                
+                if(obj.status == 1){
+                     $("#geocomplete1").val(obj.hospital_address);
+                     $("#hospital_countryId").html(obj.country);
+                     $("#hospital_stateId").html(obj.state);
+                     $("#hospital_cityId").html(obj.city);
+                     $('#hospital_cityId,#hospital_stateId,#hospital_countryId').selectpicker('refresh');
+                     
+                     $("#hospital_zip").val(obj.zipCode);
+                     $("#lat").val(obj.lat);
+                     $("#lng").val(obj.lng);
+                     $("#hospital_name").val(obj.hospital_name);
+                     //$("#addressDiv").css("display","none");
+                     $("#geocomplete1,#hospital_zip,#lat,#lng").attr("readonly", true);
+                     $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("readonly", true);
+                }else{
+                      $("#hospitalName").css("display","block");
+                        $("#geocomplete1").val('');
+                        $("#hospital_countryId").html();
+                        $("#hospital_stateId").html();
+                        $("#hospital_cityId").html();
+                        $("#hospital_zip").val('');
+                        $("#lat").val('');
+                        $("#lng").val('');
+                        $("#hospital_name").val('');
+                        $('#hospital_cityId,#hospital_stateId,#hospital_countryId').selectpicker('refresh');
+                        $("#geocomplete1,#hospital_zip,#lat,#lng").removeAttr("readonly");
+                        $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("readonly", false);
+                }
+             }
+          });
+       }else if(hospitalId == 0){
+            $("#hospitalName").css("display","block");
+            $("#geocomplete1").val('');
+            $("#hospital_countryId").html();
+            $("#hospital_stateId").html();
+            $("#hospital_cityId").html();
+            $("#hospital_zip").val('');
+            $("#lat").val('');
+            $("#lng").val('');
+            $("#hospital_name").val('');
+           // $('#hospital_cityId,#hospital_stateId,#hospital_countryId').selectpicker('refresh');
+            $("#geocomplete1,#hospital_zip,#lat,#lng").removeAttr("readonly");
+            $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("readonly", false);
+       }
+   }
 </script>
 </body>
 </html>
