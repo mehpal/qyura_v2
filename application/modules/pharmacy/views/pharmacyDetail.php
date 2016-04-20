@@ -489,7 +489,7 @@ if (!empty($explodes)) {
                         <input type="hidden" name="mi_user_id" value="<?php if(isset($pharmacyData[0]->pharmacy_usersId)){ echo $pharmacyData[0]->pharmacy_usersId; }?>" />
                          <input type="hidden" name="mi_id" value="<?php if(isset($pharmacyData[0]->pharmacy_id)){ echo $pharmacyData[0]->pharmacy_id; }?>" />
                          
-                          <input type="hidden" name="redirectControllerMethod" value="pharmacy/detailAmbulance" />
+                          <input type="hidden" name="redirectControllerMethod" value="pharmacy/detailPharmacy" />
                         
                         <?php echo $this->load->view('common_pages/edit_time_slot_view');?>
                         
@@ -505,7 +505,7 @@ if (!empty($explodes)) {
                         <input type="hidden" name="mi_user_id" value="<?php if(isset($pharmacyData[0]->pharmacy_usersId)){ echo $pharmacyData[0]->pharmacy_usersId; }?>" />
                          <input type="hidden" name="mi_id" value="<?php if(isset($pharmacyData[0]->pharmacy_id)){ echo $pharmacyData[0]->pharmacy_id; }?>" />
                         
-                          <input type="hidden" name="redirectControllerMethod" value="pharmacy/detailAmbulance" />
+                          <input type="hidden" name="redirectControllerMethod" value="pharmacy/detailPharmacy" />
                          
                         <?php echo $this->load->view('common_pages/time_slot_view');?>
                         
