@@ -12,7 +12,7 @@ if (isset($hospitalId) && !empty($hospitalId)) {
     $check = $hospitalId;
 }
 ?>
-
+  <script src="<?php echo base_url(); ?>assets/ui_1.11.4_jquery-ui.js"></script>
 <link href="<?php echo base_url(); ?>assets/cropper/cropper.min.css" rel="stylesheet">
 <!--<link href="<?php echo base_url(); ?>assets/vendor/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />-->
 <link href="<?php echo base_url(); ?>assets/cropper/main.css" rel="stylesheet">
@@ -130,6 +130,28 @@ if (isset($mapData) && !empty($mapData)) {
         }
         
       });
+    }
+    
+    
+    function setSpecialityNameFormate(specialityFormate){
+        var hospitalId = <?php echo $check; ?>;
+        if (hospitalId != '') {
+        var specialityFormate = specialityFormate;
+            $.ajax({
+                url: urls + 'index.php/hospital/setSpecialityNameFormate',
+                type: 'POST',
+                data: {'hospitalId': hospitalId, 'specialityFormate' : specialityFormate},
+                success: function (data) {
+                    if (data) {
+                        // $('#users_email').addClass('bdr-error');
+                        return false;
+                    } else if (obj.status == 1) {
+
+                        return true;
+                    }
+                }
+            });
+        }
     }
 
     function checkUserExistence(email) {
