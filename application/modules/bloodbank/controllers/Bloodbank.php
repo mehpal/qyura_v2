@@ -65,7 +65,7 @@ class Bloodbank extends MY_Controller {
      * @param bloodBankId
      * @return array
      */
-    function detailBloodBank($bloodBankId = '') {
+    function detailBloodBank($bloodBankId = '',$active='general') {
         $data = array();
         $data['bloodBankData'] = $bloodBankData = $this->Bloodbank_model->fetchbloodBankData($bloodBankId);
         $data['bloodBankId'] = $bloodBankId;
@@ -95,6 +95,7 @@ class Bloodbank extends MY_Controller {
         $data['showStatus'] = 'none';
         $data['detailShow'] = 'block';
         $data['title'] = 'BloodBank';
+        $data['active'] = $active;
         $this->load->super_admin_template('bloodBankDetail', $data, 'bloodBankScript');
     }
 

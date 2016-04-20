@@ -174,43 +174,7 @@ if ($current != 'detailDoctor'):
             return false;
         }
     }
-    
-    function checkExperience(formId,startExp,endExp,totalCount){
-        
-        var count = 0;
-        var todayDate = Date.parse(new Date());
-        var currentYear = new Date().getFullYear();
-        var countsExpe = $("#"+totalCount).val();
-        for(b=1; b <= countsExpe; b++){
-            var professionalExp_end = Date.parse($('#'+formId).find('input[id="'+endExp+b+'"]').val());
-            var professionalExp_start = Date.parse($('#'+formId).find('input[id="'+startExp+b+'"]').val());
-            
-            if (professionalExp_end > todayDate) {
-                $('#'+endExp+b).addClass('bdr-error');
-                $("#err_"+endExp+b).text("Please Select Correct Exp End Date");
-                $("#err_"+endExp+b).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-            
-            if (professionalExp_start > todayDate) {
-                $('#'+startExp+b).addClass('bdr-error');
-                $("#err_"+startExp+b).text("Please Select Correct Exp Start Date");
-                $("#err_"+startExp+b).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-            if (professionalExp_start > professionalExp_end) {
-                $('#'+startExp+b).addClass('bdr-error');
-                $("#err_"+startExp+b).text("Exp Start Date must be less than End Date");
-                $("#err_"+startExp+b).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-            if(count == 0){
-                return true;
-            }else{
-                return false;
-            }
-        }
-    }
+   
     $(function () {
 
         $("#setData").submit(function (event) {
@@ -278,18 +242,6 @@ if ($current != 'detailDoctor'):
 
     }
 
-    function addMobileNumber() {
-        j = parseInt(j + 1);
-        $('#multipleMobile').append('<div id=' + j + '><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4"></label><div class="col-md-8 col-sm-8"><aside class="row"> <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"><select class="selectpicker" data-width="100%" name="preMobileNumber[]" id=preMobileNumber' + j + '><option value="91">+91</option></select></div><div class="col-lg-7 col-md-7 col-sm-7 col-xs-10 m-t-xs-10"><input type="text" class="form-control" name="doctors_mobile[]" id=doctors_mobile' + j + ' placeholder="9837000123" maxlength="10" onkeypress="return isNumberKey(event)" onblur=checkNumber("doctors_mobile",' + j + ') /></div></aside><br /> <aside class="checkbox checkbox-success"><input type="checkbox" value="1" id="checkbox' + j + '" name="checkbox' + j + '"><label for="checkbox3">Make this number primary</label></aside></div></article></div>');
-        $('#preMobileNumber' + j).selectpicker('refresh');
-    }
-    
-    function addPhoneNumber() {
-        k = parseInt(k + 1);
-        $('#multiplePhoneNumber').append('<div id=phoneDiv' + k + '<article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4"></label><div class="col-md-8 col-sm-8"><aside class="row"><div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"><select class="selectpicker" data-width="100%" name="preNumber[]" id=preNumber' + k + '><option value=91>+91</option></select></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 m-t-xs-10"> <input type="text" class="form-control" name="midNumber[]" id=midNumber' + k + ' placeholder="731" maxlength="3" onkeypress="return isNumberKey(event)" onblur=checkNumber("midNumber",' + k + ') /></div> <div class="col-md-4 col-sm-4 col-xs-10 m-t-xs-10 "><input type="text" class="form-control" name="doctors_phn[]" id=doctors_phn' + k + ' placeholder="7000123" maxlength="8" onkeypress="return isNumberKey(event)" onblur=checkNumber("doctors_phn",' + k + ') /></div><div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 m-t-xs-10"></div></aside></div></article></div>');
-        $('#preNumber' + k).selectpicker('refresh');
-    }
-
     function checkNumber(inputName, ids) {
 
         var mobileNumber = 0;
@@ -312,7 +264,32 @@ if ($current != 'detailDoctor'):
             // $('#hospital_phn').focus();
         }
     }
+    
+    function check_qap() {
+        var qapId = $("#qapId").val();
+        $.ajax({
+            url: urls + 'index.php/doctor/check_qap',
+            type: 'POST',
+            async: false,
+            data: {'qapId': qapId},
+            success: function (datas) {
+                if (datas == 0) {
+                    $("#qapIdTb").val('');
+                    $('#qapId').addClass('bdr-error');
+                    $('#error-qapIdTb').fadeIn().delay(3000).fadeOut('slow');
+                    return false;
+                }else {
+                    $('#qapId').removeClass('bdr-error');
+                    $('#error-qapIdTb').hide();
+                    $("#qapIdTb").val(datas);
+                    return true;
+                }
+            }
+        });
+    }
+    
     function validationDoctor() {
+        
         // $("form[name='doctorForm']").submit();
         var todayDate = Date.parse(new Date());
         var currentYear = new Date().getFullYear();
@@ -322,18 +299,18 @@ if ($current != 'detailDoctor'):
         var doctors_lName = $.trim($('#doctors_lName').val());
         var emails = $.trim($('#users_email').val());
         var doctorSpecialities_specialitiesId = $.trim($('#doctorSpecialities_specialitiesId').val());
-        var midNumber1 = $('#midNumber1').val();
         var doctors_phn1 = $('#doctors_phn1').val();
-        var doctors_mobile1 = $('#doctors_mobile1').val();
         var doctors_pinn = $.trim($('#doctors_pinn').val());
         var doctors_cityId = $.trim($('#doctors_cityId').val());
         var doctors_stateId = $.trim($('#doctors_stateId').val());
-        var doctors_consultaionFee = $.trim($('#doctors_consultaionFee').val());
+        
         var pswd = $.trim($("#users_password").val());
         var cnfpswd = $.trim($("#cnfPassword").val());
         var users_mobile = $.trim($('#users_mobile').val());
         var image = $("#avatarInput").val();
-        
+        var exp_year = $("#exp_year").val();
+        var docatId = $("#docatId").val();
+        var qapId = $("#qapId").val();
         var count = 0;
         
         if (image == '') {
@@ -377,29 +354,11 @@ if ($current != 'detailDoctor'):
             // $('#hospital_countryId').focus();
         }
         if (doctorSpecialities_specialitiesId === '') {
-            // console.log("in state");
             $('#s2id_autogen1').addClass('bdr-error');
             $('#error-doctorSpecialities_specialitiesId').fadeIn().delay(3000).fadeOut('slow');
             count++;
-            //status= 0;
-            // $('#hospital_stateId').focus();
         }
 
-        if (!$.isNumeric(midNumber1) && !$.isNumeric(doctors_phn1)) {
-            $('#doctors_phn1').addClass('bdr-error');
-            $('#midNumber1').addClass('bdr-error');
-            $('#error-doctors_phn1').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-            //status= 0;
-            // $('#hospital_cityId').focus();
-        }
-        if (!$.isNumeric(doctors_mobile1)) {
-            $('#doctors_mobile1').addClass('bdr-error');
-            $('#error-doctors_mobile1').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-            //status= 0;
-            // $('#hospital_cityId').focus();
-        }
         if (doctors_stateId === '') {
             $('#doctors_stateId').addClass('bdr-error');
             $('#error-doctors_stateId').fadeIn().delay(3000).fadeOut('slow');
@@ -429,13 +388,7 @@ if ($current != 'detailDoctor'):
             //status= 0;
             // $('#hospital_address').focus();
         }
-        if (!$.isNumeric(doctors_consultaionFee)) {
-            $('#doctors_consultaionFee').addClass('bdr-error');
-            $('#error-doctors_consultaionFee').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-            //status= 0;
-            // $('#hospital_phn').focus();
-        }
+        
         //Academic Start
         countsAccademic = parseInt(countsAccademic);
         for(a=1; a <= countsAccademic; a++){
@@ -469,58 +422,25 @@ if ($current != 'detailDoctor'):
         }
         //Academic End
         //experieans start 
-        for(b=1; b <= counts; b++){
-            if ($('#professionalExp_end'+b).val() === '') {
-                $('#professionalExp_end'+b).addClass('bdr-error');
-                $('#error-professionalExp_end'+b).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-            var professionalExp_end = Date.parse($('#professionalExp_end'+b).val());
-            if (professionalExp_end > todayDate) {
-                $('#professionalExp_end'+b).addClass('bdr-error');
-                $("#error-professionalExp_end"+b).text("Please Select Correct Exp End Date");
-                $('#error-professionalExp_end'+b).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-            if ($('#professionalExp_start'+b).val() === '') {
-                $('#professionalExp_start'+b).addClass('bdr-error');
-                $('#error-professionalExp_start'+b).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-            var professionalExp_start = Date.parse($('#professionalExp_start'+b).val());
-            if (professionalExp_start > todayDate) {
-                $('#professionalExp_start'+b).addClass('bdr-error');
-                $("#error-professionalExp_start"+b).text("Please Select Correct Exp Start Date");
-                $('#error-professionalExp_start'+b).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-            
-            var professionalExp_end = Date.parse($('#professionalExp_end'+b).val());
-            var professionalExp_start = Date.parse($('#professionalExp_start'+b).val());
-            if (professionalExp_start > professionalExp_end) {
-                $('#professionalExp_start'+b).addClass('bdr-error');
-                $("#error-professionalExp_start"+b).text("Exp Start Date must be less than End Date");
-                $('#error-professionalExp_start'+b).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-            
-            if ($('#HospitalSpecialityId'+b).val() === '') {
-                $('#HospitalSpecialityId'+b).addClass('bdr-error');
-                $('#error-HospitalSpecialityId'+b).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-            if ($('#specialityDropdown'+b).val() === '') {
-                $('#specialityDropdown'+b).addClass('bdr-error');
-                $('#error-specialityDropdown'+b).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-            if ($('#designation'+b).val() === '') {
-                $('#designation'+b).addClass('bdr-error');
-                $('#error-designation'+b).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
+        if (exp_year === '') {
+            $('#exp_year').addClass('bdr-error');
+            $('#error-exp_year').fadeIn().delay(4000).fadeOut('slow');
+            count++;
+            //$('#users_email').focus();
         }
         //Experience End
+        if (docatId === '') {
+            $('#docatId').addClass('bdr-error');
+            $('#error-docatId').fadeIn().delay(4000).fadeOut('slow');
+            count++;
+            //$('#users_email').focus();
+        }
+        if (qapId === '') {
+            $('#qapId').addClass('bdr-error');
+            $('#error-qapId').fadeIn().delay(4000).fadeOut('slow');
+            count++;
+            //$('#users_email').focus();
+        }
         if (emails === '') {
             $('#users_email').addClass('bdr-error');
             $('#error-users_email').fadeIn().delay(4000).fadeOut('slow');
@@ -578,7 +498,15 @@ if ($current != 'detailDoctor'):
                 if (datas == 0) {
                     $('#users_email_status').val(datas);
                     if(count == 0){
-                        $("form[name='doctorForm']").submit();
+                        var erlength = $("form[name='doctorForm']").find('.bdr-error').length;
+                        if(erlength > 0){
+                            $("#qapIdTb").val('');
+                            $('#qapId').addClass('bdr-error');
+                            $('#error-qapIdTb').fadeIn().delay(3000).fadeOut('slow');
+                            return false;
+                        }else{
+                            $("form[name='doctorForm']").submit();
+                        }
                     }
                     return true;
                 }else if (datas == 1) {
