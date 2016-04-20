@@ -67,7 +67,7 @@ class Bloodbank extends MY_Controller {
      */
     function detailBloodBank($bloodBankId = '') {
         $data = array();
-        $data['bloodBankData'] = $this->Bloodbank_model->fetchbloodBankData($bloodBankId);
+        $data['bloodBankData'] = $bloodBankData = $this->Bloodbank_model->fetchbloodBankData($bloodBankId);
         $data['bloodBankId'] = $bloodBankId;
         $bllodBankSelect = array('users_id');
         $bllodBankCondition = array('bloodBank_id' => $bloodBankId);
@@ -81,8 +81,17 @@ class Bloodbank extends MY_Controller {
         $conditions['Bllcat.bloodBank_id'] = $Blooddata[0]->users_id;
         $conditions['Blood.bloodCat_deleted'] = 0;
         $select = array('Bllcat.bloodCatBank_id', 'Bllcat.bloodCatBank_Unit', 'Blood.bloodCat_name');
-        $data['bloodBankCatData'] = $this->Bloodbank_model->fetchbloodBankCategoryData($conditions);
-        // $this->Bloodbank_model->fetchbloodBankCategoryData();        
+        $data['bloodBankCatData'] = $this->Bloodbank_model->fetchbloodBankCategoryData($conditions);  
+        $mi_userId="";
+        if(!empty($bloodBankData)):
+         $mi_userId = $bloodBankData[0]->users_id;
+        endif;
+        $option = array(
+            'select' => '*',
+            'table'=> 'qyura_miTimeSlot',
+            'where'=> array('mi_user_id' => $mi_userId),
+        );
+        $data['timeSlot'] = $this->common_model->customGet($option);
         $data['showStatus'] = 'none';
         $data['detailShow'] = 'block';
         $data['title'] = 'BloodBank';
@@ -633,8 +642,91 @@ class Bloodbank extends MY_Controller {
             }
         }
     }
+    
+    function updateTimeSlot(){
+        
+        $mi_user_id = $this->input->post('mi_user_id');
+        $bloodBankId = $this->input->post('mi_id');
+        $timeSlotsIds = array();
+        for ($j = 1; $j < 8; $j++) {
+
+            $totalSlot = $this->input->post("totalSlot_$j");
+            for ($k = 1; $k <= $totalSlot; $k++) {
+                if ($this->input->post("check_" . $j . "_" . $k) == 1) {
+                    
+                    $charge_ids = $this->input->post("charge_ids_" . $j . "_" . $k);
+                    $hour_label = $this->input->post("hour_label_" . $j . "_" . $k);
+                    $openTime = $this->input->post("openTime_" . $j . "_" . $k);
+                    $closeTime = $this->input->post("closeTime_" . $j . "_" . $k);
+                    $dayNUmber  = $this->input->post('dayNumber_'.$j);
+                    
+                    $option = array(
+                    'table' => 'qyura_miTimeSlot',
+                    'select' => 'slot_id',
+                    'where' => array('mi_user_id' => $mi_user_id, 'dayNumber' => $dayNUmber)
+                     );
+                    $isSlotData  = $this->common_model->customGet($option);
+                    
+                    if(!empty($isSlotData)){
+                        
+                        $options = array(
+                        'table' => 'qyura_miTimeSlot',
+                        'data' => array(
+                              'hourLabel' => $hour_label,
+                              'openingHours' => $openTime,
+                              'closingHours' => $closeTime,
+                              'modifyTime' => strtotime(date('Y-m-d H:i:s'))
+                         ),
+                        'where' => array(
+                            'mi_user_id' => $mi_user_id, 
+                            'dayNumber' => $dayNUmber, 
+                            'slot_id' => $isSlotData[0]->slot_id)
+                         );
+                       
+                        $update  = $this->common_model->customUpdate($options);
+                        
+                    }else{
+                       
+                        $options = array(
+                        'table' => 'qyura_miTimeSlot',
+                        'data' => array(
+                                    'mi_user_id' => $mi_user_id,
+                                    'dayNumber' => $dayNUmber,
+                                    'hourLabel' => $hour_label,
+                                    'openingHours' => $openTime,
+                                    'closingHours' => $closeTime,
+                                    'creationTime' => strtotime(date('Y-m-d H:i:s'))
+                            ),
+                         );
+                        $insert  = $this->common_model->customInsert($options);
+                        
+                    }
+  
+                }else{
+                    
+                    $dayNumber  = $this->input->post('dayNumber_'.$j);
+                    
+                    $option = array(
+                    'table' => 'qyura_miTimeSlot',
+                    'where' => array('mi_user_id' => $mi_user_id, 'dayNumber' => $dayNumber)
+                     );
+                    $isSlotData  = $this->common_model->customDelete($option);
+                 }
+            }
+         
+        }
+        
+        if(true){
+                $this->session->set_flashdata('message', 'Time Slot insert successfully!');
+                redirect("bloodbank/detailBloodBank/$bloodBankId");
+           }else{
+                $this->session->set_flashdata('error', 'Time Slot insert failed !');
+                redirect("bloodbank/detailBloodBank/$bloodBankId");
+           }
+    }
 
     function setTimeSlotMi() {
+
         $bloodBankId = $this->input->post('mi_id');
         $timeSlotsIds = array();
         for ($j = 1; $j < 8; $j++) {
@@ -649,7 +741,7 @@ class Bloodbank extends MY_Controller {
 
                     $slot = array(
                         'mi_user_id' => $this->input->post('mi_user_id'),
-                        'dayNumber' => $j,
+                        'dayNumber' => $this->input->post('dayNumber_'.$j),
                         'hourLabel' => $hour_label,
                         'openingHours' => $openTime,
                         'closingHours' => $closeTime,
