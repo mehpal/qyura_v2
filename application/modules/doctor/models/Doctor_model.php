@@ -28,7 +28,7 @@ class Doctor_model extends CI_Model {
          */
         $this->db->select('specialities_id,specialities_name');
         $this->db->from('qyura_specialities');
-        $this->db->where(array('specialities_deleted' => 0));
+        $this->db->where(array('specialities_deleted' => 0,'type' => 1));
         $this->db->order_by("specialities_name", "asc");
         return $this->db->get()->result();
     }
