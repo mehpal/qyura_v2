@@ -7,7 +7,20 @@ $('.selectpicker').selectpicker({
 });
 
 $("#bloodbank").click(function () {
-    $("#bloodbankOption").fadeToggle();
+    if($(this).is(':checked')){
+     bootbox.confirm("Do you outsource the blood?", function(result) {
+        if (result) {
+            $('#isBloodBankOutsource').val(1);
+            $("#bloodbankOption").fadeIn();
+        }else{
+            $("#bloodbankOption").fadeOut();
+            $('#isBloodBankOutsource').val(0);
+        }
+      });
+    }else{
+        $("#bloodbankOption").fadeOut();
+        $('#isBloodBankOutsource').val(0);
+    }
 });
 
 $("#pharmacy").click(function () {
