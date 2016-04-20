@@ -90,7 +90,7 @@ class Doctor extends MY_Controller {
     }
     
     function saveDoctor() {
-        
+        print_r($_POST);exit;
         $message = 'The value in &quot;%s&quot; is already being used....';
         $erOption = array(
             'select' => 'userInsurance_insuranceNo as insuranceNo',
@@ -102,16 +102,12 @@ class Doctor extends MY_Controller {
         );
 
         $this->bf_form_validation->set_rules('doctors_fName', 'Doctors First Name', 'required|trim');
-
         $this->bf_form_validation->set_rules('doctors_lName', 'Doctors Last Name', 'required|trim');
         $this->bf_form_validation->set_rules('doctors_dob', 'Date of Birth', 'required|trim');
-
         $this->bf_form_validation->set_rules('doctors_stateId', 'State', 'required|trim');
         $this->bf_form_validation->set_rules('doctors_cityId', 'City', 'required|trim');
-
         $this->bf_form_validation->set_rules('doctors_pinn', 'Pin', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('doctor_addr', 'Address', 'required|trim');
-        $this->bf_form_validation->set_rules('doctors_consultaionFee', 'Consultaion Fees', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('users_mobile', 'User Mobile', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('users_email', 'Users Email', "required|valid_email|trim");//||MUnique[{$Moption}]
         $this->bf_form_validation->set_rules('users_password', 'Password', 'trim|required|matches[cnfPassword]');
@@ -133,7 +129,6 @@ class Doctor extends MY_Controller {
             return false;
         } else {
            
-
             $imagesname = '';
             if ($_FILES['avatar_file']['name']) {
                 $path = realpath(FCPATH . 'assets/doctorsImages/');
@@ -158,38 +153,11 @@ class Doctor extends MY_Controller {
             }
             
             $doctors_phn = $this->input->post('doctors_phn');
-            $pre_number = $this->input->post('preNumber');
-            $midNumber = $this->input->post('midNumber');
-
-            $finalNumber = '';
-            for ($i = 0; $i < count($pre_number); $i++) {
-                if ($doctors_phn[$i] != '' && $pre_number[$i] != '' && $midNumber[$i] != '') {
-
-                    if ($i == count($pre_number) - 1)
-                        $finalNumber .= $pre_number[$i] . ' ' . $midNumber[$i] . ' ' . $doctors_phn[$i];
-                    else
-                        $finalNumber .= $pre_number[$i] . ' ' . $midNumber[$i] . ' ' . $doctors_phn[$i] . '|';
-                }
-            }
-            $doctors_mobile_number = $this->input->post('doctors_mobile');
-            $pre_mobile_number = $this->input->post('preMobileNumber');
-            $finalMobileNumber = '';
-            $checkbox = 1;
-            for ($i = 0; $i < count($pre_mobile_number); $i++) {
-                if ($doctors_mobile_number[$i] != '' && $pre_mobile_number[$i] != '') {
-                    if ($i == count($pre_mobile_number) - 1) {
-                        if (isset($_POST['checkbox' . $checkbox]) == 1)
-                            $finalMobileNumber .= $pre_mobile_number[$i] . ' ' . $doctors_mobile_number[$i] . '*' . $checkbox;
-                        else
-                            $finalMobileNumber .= $pre_mobile_number[$i] . ' ' . $doctors_mobile_number[$i] . '*' . '0';
-                    }else {
-                        if (isset($_POST['checkbox' . $checkbox]) == 1)
-                            $finalMobileNumber .= $pre_mobile_number[$i] . ' ' . $doctors_mobile_number[$i] . '*' . $checkbox . '|';
-                        else
-                            $finalMobileNumber .= $pre_mobile_number[$i] . ' ' . $doctors_mobile_number[$i] . '*' . '0' . '|';
-                    }
-                }
-                $checkbox ++;
+            $doctors_phnNo = explode("0", $doctors_phn);
+            if(isset($doctors_phnNo[1])){ 
+                $doctors_phn = $doctors_phnNo[1];
+            }else{
+                $doctors_phn = $doctors_phnNo[0];
             }
             $users_email_status = $this->input->post('users_email_status');
             if ($users_email_status == 0) {
@@ -225,8 +193,6 @@ class Doctor extends MY_Controller {
             $doctors_fName = $this->input->post('doctors_fName');
             $doctors_lName = $this->input->post('doctors_lName');
             $doctors_dob = $this->input->post('doctors_dob');
-            $doctors_phn = $finalNumber;
-            $doctors_mobile = $finalMobileNumber;
 
             $doctors_countryId = $this->input->post('doctors_countryId');
             $doctors_stateId = $this->input->post('doctors_stateId');
@@ -236,17 +202,27 @@ class Doctor extends MY_Controller {
             $doctors_pin = $this->input->post('doctors_pinn');
             $doctors_lat = $this->input->post('lat');
             $doctors_long = $this->input->post('lng');
-            $doctors_consultaionFee = $this->input->post('doctors_consultaionFee');
+            
             $doctors_27Src = $this->input->post('doctors_27Src');
+            
             $doctor_addr = $this->input->post('doctor_addr');
-            $isManual = $this->input->post('isManual');
+            
+            $home_visit = $this->input->post('home_visit');
+            $show_exp = $this->input->post('show_exp');
+            $exp_year = $this->input->post('exp_year');
+            
+            $date = date('Y-m-d');
+            $newdate = strtotime ( "-$exp_year year" , strtotime ( $date ) ) ;
+            $exp_year = $newdate;
+            
+            $docatId = $this->input->post('docatId');
+            $qapId = $this->input->post('qapIdTb');
             
             $doctorsinserData = array(
                 'doctors_fName' => $doctors_fName,
                 'doctors_lName' => $doctors_lName,
                 'doctors_dob' => strtotime($doctors_dob),
                 'doctors_phn' => $doctors_phn,
-                'doctors_mobile' => $doctors_mobile,
                 'doctors_countryId' => $doctors_countryId,
                 'doctors_stateId' => $doctors_stateId,
                 'doctors_27Src' => $isEmergency,
@@ -255,7 +231,6 @@ class Doctor extends MY_Controller {
                 'doctors_registeredMblNo' => $this->input->post('users_mobile'),
                 'doctors_lat' => $doctors_lat,
                 'doctors_long' => $doctors_long,
-                'doctors_consultaionFee' => $doctors_consultaionFee,
                 'doctors_27Src' => $doctors_27Src,
                 'doctors_img' => $imagesname,
                 'creationTime' => strtotime(date('Y-m-d')),
@@ -263,7 +238,13 @@ class Doctor extends MY_Controller {
                 'doctors_userId' => $doctors_usersId,
                 'doctors_unqId' => 'DOC' . round(microtime(true)),
                 'doctor_addr' => $doctor_addr,
-                'isManual' => $isManual
+                'doctors_homeVisit' => $home_visit,
+                'doctors_showExp' => $show_exp,
+                'doctors_expYear' => $exp_year,
+                'doctors_docatId' => $docatId,
+                'doctors_qapId' => $qapId,
+                'doctors_joiningDate' => strtotime(date('Y-m-d')),
+                
             );
             $doctorsProfileId = $this->Doctor_model->insertDoctorData($doctorsinserData, 'qyura_doctors');
             //dump($this->db->last_query());
@@ -302,59 +283,6 @@ class Doctor extends MY_Controller {
                     //dump($this->db->last_query());
                     unset($doctorAcademicData);
                 }
-            }
-            $countsProfessionalExpCount = $this->input->post('ProfessionalExpCount');
-
-            for ($i = 1; $i <= $countsProfessionalExpCount; $i++) {
-                /* here one more table insertion needed for academic image load on qyura_doctorAcademicImage table,
-                 *  but write now it is not here
-                 */
-                if (isset($_POST['professionalExp_start' . $i]))
-                    $professionalExp_start = strtotime($_POST['professionalExp_start' . $i]);
-
-                if (isset($_POST['professionalExp_end' . $i]))
-                    $professionalExp_end = strtotime($_POST['professionalExp_end' . $i]);
-
-                if (isset($_POST['professionalExp_hospitalId' . $i]))
-                    $professionalExp_hospitalId = $_POST['professionalExp_hospitalId' . $i];
-                
-                if (isset($_POST['designation' . $i]))
-                    $designation = $_POST['designation' . $i];
-
-                $doctorSpecialities_specialitiesId = '';
-                if (isset($_POST['doctorSpecialities_specialitiesId' . $i]))
-                    $doctorSpecialities_specialitiesId = $_POST['doctorSpecialities_specialitiesId' . $i];
-
-                //foreach ($doctorSpecialities_specialitiesId as $key => $val) {
-                    $dataProfessional = array(
-                        'professionalExp_usersId' => $doctorsProfileId,
-                        'professionalExp_hospitalId' => $professionalExp_hospitalId,
-                        'professionalExp_designation' => $designation,
-                        'professionalExp_start' => $professionalExp_start,
-                        'professionalExp_end' => $professionalExp_end,
-                        'creationTime' => strtotime(date('Y-m-d'))
-                    );
-
-                    $profExId = $this->Doctor_model->insertDoctorData($dataProfessional, 'qyura_professionalExp');
-                    
-                    for($j=0;$j<count($doctorSpecialities_specialitiesId);$j++){
-                        if($doctorSpecialities_specialitiesId[$j] != ''){
-                            $records_array = array(
-                                'proExpCategory_professionalExp_id' => $profExId,
-                                'proExpCategory_hospitalId' => $professionalExp_hospitalId,
-                                'proExpCategory_specilitycat_id'=> $doctorSpecialities_specialitiesId[$j],
-                                'creationTime'    => strtotime(date("d-m-Y H:i:s"))
-                            );
-                            $options = array
-                            (
-                                'data'  => $records_array,
-                                'table' => 'qyura_proExpCategory'
-                            );
-                            $exp_insert_new = $this->common_model->customInsert($options);
-                        }
-                    }
-                    //dump($this->db->last_query());
-                //}
             }
             
             $totalService = $this->input->post('totalService');
@@ -578,6 +506,7 @@ $MainSlot= array();
         $this->load->super_admin_template('doctorDetails', $data, 'doctorScript');
         
     }
+    
     function availability() {
 
         $selectedDays = array();
@@ -709,8 +638,6 @@ $MainSlot= array();
         }
         $this->db->trans_complete();
     }
-
-   
 
     function checkMorningTime($satrt, $end, $session, $day, $sessionInx, $dayIndex) {
 
@@ -1335,6 +1262,22 @@ $MainSlot= array();
             echo 0;
         }
     }
-
-
+    
+    function check_qap(){
+        $qapId = $this->input->post('qapId');
+        $data = 0;
+        $option = array(
+            'table' => 'qyura_qap',
+            'select' => '*',
+            'where' => array('qyura_qap.qap_deleted' => 0,'qyura_qap.qap_code' => $qapId),
+            'single' => TRUE
+        );
+        $qap_data = $this->common_model->customGet($option);
+        if(!empty($qap_data)){
+            $data = $qap_data->qap_id;
+            echo $data;
+        }else{
+            echo $data;
+        }
+    }
 }
