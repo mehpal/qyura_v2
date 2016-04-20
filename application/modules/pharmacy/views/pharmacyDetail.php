@@ -36,7 +36,7 @@
                                         <!-- image -->
                                         <?php if (!empty($pharmacyData[0]->pharmacy_img)) {
                                             ?>
-                                            <img src="<?php echo base_url() ?>assets/pharmacyImages/<?php echo $pharmacyData[0]->pharmacy_img; ?>" alt=""  class="logo-img" />
+                                            <img src="<?php echo base_url() ?>assets/pharmacyImages/thumb/thumb_100/<?php echo $pharmacyData[0]->pharmacy_img; ?>" alt=""  class="logo-img" />
                                         <?php } else { ?>
                                             <img src="<?php echo base_url() ?>assets/default-images/Pharmacy-logo.png" alt="" class="logo-img" />
                                             <?php } ?>
@@ -92,8 +92,23 @@
                             </ul>
                         </article>
                         -->
-
-                        <article class="tab-content p-b-20 m-t-50">
+                        
+                        
+                            <article class="text-center clearfix m-t-50">
+                                <ul class="nav nav-tab nav-setting">
+                                   <li class="<?php if(isset($active) && $active == 'general'){echo "active";}?>" >
+                                      <a data-toggle="tab" href="#general">General Detail</a>
+                                   </li>
+                                 
+                                    <li class="<?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>">
+                                      <a data-toggle="tab" href="#timeSlot">Time Slot</a>
+                                   </li>
+                                  
+                                </ul>
+                             </article>
+                        
+                        <section class="tab-pane fade in <?php if(isset($active) && $active == 'general'){echo "active";}?>" id="general">
+                               <article class="tab-content p-b-20 m-t-50">
 
                             <!-- General Detail Starts -->
                             <div class="map_canvas"></div>
@@ -142,12 +157,12 @@ for ($i = 0; $i < count($explode); $i++) {
                                                         </aside>
                                                     </article>
 
-                                                    <article class="clearfix m-b-10">
+<!--                                                    <article class="clearfix m-b-10">
                                                         <label for="mobile" class="control-label col-md-4 col-sm-4">Mobile no. :</label>
                                                         <p class="col-md-8 col-sm-8 t-xs-left"><?php if (isset($pharmacyData[0]->pharmacy_mobl) && $pharmacyData[0]->pharmacy_mobl != 0) {
     echo $pharmacyData[0]->pharmacy_mobl;
 } ?> </p>
-                                                    </article>
+                                                    </article>-->
 
                                                     <article class="clearfix m-b-10">
                                                         <label for="cemail" class="control-label col-md-4 col-sm-4">Email Id :</label>
@@ -171,6 +186,10 @@ for ($i = 0; $i < count($explode); $i++) {
                                                         <p class="col-md-8  col-sm-8 text-right t-xs-left"> <?php if (isset($pharmacyData[0]->pharmacy_27Src)) {
     echo $pharmacyData[0]->pharmacy_27Src;
 } ?> </p>
+                                                    </article>
+ <article class="clearfix m-b-10">
+                                                        <label for="cemail" class="control-label col-md-4 col-sm-4">Docat Id :</label>
+                                                        <p class="col-md-8  col-sm-8 text-right t-xs-left"> <?php echo $pharmacyData[0]->pharmacy_docatId; ?> </p>
                                                     </article>
                                                 </aside>
                                                 <!--edit-->
@@ -352,7 +371,7 @@ if (!empty($explodes)) {
                                                             </div>
                                                         </article>
 
-                                                        <article class="clearfix m-t-10">
+<!--                                                        <article class="clearfix m-t-10">
                                                             <label class="control-label col-md-4 col-sm-4" for="cname">Mobile no. :</label>
 
                                                             <div class="col-md-8 col-sm-8">
@@ -365,7 +384,7 @@ if (!empty($explodes)) {
                                                                 <label class="error"> </label>
 
                                                             </div>
-                                                        </article>
+                                                        </article>-->
 
                                                         <article class="clearfix m-t-10">
                                                             <label for="cemail" class="control-label col-md-4 col-sm-4">Email Id :</label>
@@ -424,6 +443,17 @@ if (!empty($explodes)) {
                                                                 <label class="error" > <?php echo form_error("pharmacy_27Src"); ?></label>
                                                             </div>    
                                                         </article>
+                                                        
+                                                        <article class="clearfix m-t-10">
+                                        <label for="cname" class="control-label col-md-4">Docat Id : </label>
+                                        <div class="col-md-8 col-sm-8">
+                                            <input class="form-control" name="pharmacy_docatId" type="text" required="" id="pharmacy_docatId"  value="<?php if (isset($pharmacyData[0]->pharmacy_docatId)) {
+    echo $pharmacyData[0]->pharmacy_docatId;
+} ?>">
+                                            <label class="error" style="display:none;" id="error-pharmacy_docatId">please enter Docat Id.</label>
+                                            <label class="error" > <?php echo form_error("pharmacy_docatId"); ?></label>
+                                        </div>
+                                    </article>
                                                         <article class="clearfix m-t-10">
 
                                                             <div class="col-md-12">
@@ -446,6 +476,54 @@ if (!empty($explodes)) {
                             </section>       
 
                         </article>
+                        
+                        
+                        </section>
+                        
+                        <section class="tab-pane fade in <?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>" id="timeSlot">
+                            <article class="tab-content p-b-20 m-t-50">
+                            
+                     <?php if(isset($timeSlot) && !empty($timeSlot)):?>
+                         
+                    <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('pharmacy/updateTimeSlot');?>">
+                        <input type="hidden" name="mi_user_id" value="<?php if(isset($pharmacyData[0]->pharmacy_usersId)){ echo $pharmacyData[0]->pharmacy_usersId; }?>" />
+                         <input type="hidden" name="mi_id" value="<?php if(isset($pharmacyData[0]->pharmacy_id)){ echo $pharmacyData[0]->pharmacy_id; }?>" />
+                         
+                          <input type="hidden" name="redirectControllerMethod" value="pharmacy/detailAmbulance" />
+                        
+                        <?php echo $this->load->view('common_pages/edit_time_slot_view');?>
+                        
+                        <article class="clearfix m-t-10">
+                            <div class="col-md-12">
+                              <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit" onclick="return timeSlotCheck()">Update</button>
+                            </div>
+                            </article>
+                    </form>
+                    <?php else: ?>
+                        
+                       <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('pharmacy/setTimeSlotMi');?>">
+                        <input type="hidden" name="mi_user_id" value="<?php if(isset($pharmacyData[0]->pharmacy_usersId)){ echo $pharmacyData[0]->pharmacy_usersId; }?>" />
+                         <input type="hidden" name="mi_id" value="<?php if(isset($pharmacyData[0]->pharmacy_id)){ echo $pharmacyData[0]->pharmacy_id; }?>" />
+                        
+                          <input type="hidden" name="redirectControllerMethod" value="pharmacy/detailAmbulance" />
+                         
+                        <?php echo $this->load->view('common_pages/time_slot_view');?>
+                        
+                        <article class="clearfix m-t-10">
+                            <div class="col-md-12">
+                              <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit" onclick="return timeSlotCheck()">Submit</button>
+                            </div>
+                            </article>
+                    </form>
+                         
+                    <?php endif;?>   
+                        
+                        </article>
+                    </section>
+                        
+                        
+
+                 
 
                     </section>
 
