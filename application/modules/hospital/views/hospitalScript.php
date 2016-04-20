@@ -131,6 +131,28 @@ if (isset($mapData) && !empty($mapData)) {
         
       });
     }
+    
+    
+    function setSpecialityNameFormate(specialityFormate){
+        var hospitalId = <?php echo $check; ?>;
+        if (hospitalId != '') {
+        var specialityFormate = specialityFormate;
+            $.ajax({
+                url: urls + 'index.php/hospital/setSpecialityNameFormate',
+                type: 'POST',
+                data: {'hospitalId': hospitalId, 'specialityFormate' : specialityFormate},
+                success: function (data) {
+                    if (data) {
+                        // $('#users_email').addClass('bdr-error');
+                        return false;
+                    } else if (obj.status == 1) {
+
+                        return true;
+                    }
+                }
+            });
+        }
+    }
 
     function checkUserExistence(email) {
         var email = email;

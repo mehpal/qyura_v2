@@ -2067,5 +2067,19 @@ class Hospital extends MY_Controller {
             $response = $this->Hospital_model->getHospitaldetail($hospitalId);
         }
     }
+    
+    function setSpecialityNameFormate(){
+        $hospitalId = $this->input->post('hospitalId');
+        $specialityFormate = $this->input->post('specialityFormate');
+        
+        if($hospitalId != ''){
+            $option = array(
+                'table' => 'qyura_hospital',
+                'where' => array('hospital_id' => $hospitalId),
+                'data' => array('specialityNameFormate' => $specialityFormate)
+            );
+           echo $response = $this->Hospital_model->customUpdate($option);
+        }
+    }
 
 }
