@@ -83,18 +83,9 @@
                             </div>
 
                         </section>
-                        <!--
-                        <article class="text-center clearfix m-t-50">
-                            <ul class="nav nav-tab nav-setting">
-                                <li class="active">
-                                    <a data-toggle="tab" href="#general">General Detail</a>
-                                </li>
-                            </ul>
-                        </article>
-                        -->
                         
                         
-                            <article class="text-center clearfix m-t-50">
+                           <article class="text-center clearfix m-t-50">
                                 <ul class="nav nav-tab nav-setting">
                                    <li class="<?php if(isset($active) && $active == 'general'){echo "active";}?>" >
                                       <a data-toggle="tab" href="#general">General Detail</a>
@@ -107,7 +98,13 @@
                                 </ul>
                              </article>
                         
-                        <section class="tab-pane fade in <?php if(isset($active) && $active == 'general'){echo "active";}?>" id="general">
+                        
+                                 <article class="tab-content p-b-20 m-t-50">
+                  <!-- General Detail Starts -->
+               
+                  <section class="tab-pane fade in <?php if(isset($active) && $active == 'general'){echo "active";}?>" id="general">
+                               
+                      <section class="tab-pane fade in <?php if(isset($active) && $active == 'general'){echo "active";}?>" id="general">
                                <article class="tab-content p-b-20 m-t-50">
 
                             <!-- General Detail Starts -->
@@ -477,11 +474,15 @@ if (!empty($explodes)) {
 
                         </article>
                         
-                        
                         </section>
+                      
+                      
+                  </section>
+                  
+                   <section class="tab-pane fade in <?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>" id="timeSlot">
+                       
+           <section class="tab-pane fade in <?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>" id="timeSlot">
                         
-                        <section class="tab-pane fade in <?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>" id="timeSlot">
-                            <article class="tab-content p-b-20 m-t-50">
                             
                      <?php if(isset($timeSlot) && !empty($timeSlot)):?>
                          
@@ -489,7 +490,7 @@ if (!empty($explodes)) {
                         <input type="hidden" name="mi_user_id" value="<?php if(isset($pharmacyData[0]->pharmacy_usersId)){ echo $pharmacyData[0]->pharmacy_usersId; }?>" />
                          <input type="hidden" name="mi_id" value="<?php if(isset($pharmacyData[0]->pharmacy_id)){ echo $pharmacyData[0]->pharmacy_id; }?>" />
                          
-                          <input type="hidden" name="redirectControllerMethod" value="pharmacy/detailAmbulance" />
+                          <input type="hidden" name="redirectControllerMethod" value="pharmacy/detailPharmacy" />
                         
                         <?php echo $this->load->view('common_pages/edit_time_slot_view');?>
                         
@@ -505,7 +506,7 @@ if (!empty($explodes)) {
                         <input type="hidden" name="mi_user_id" value="<?php if(isset($pharmacyData[0]->pharmacy_usersId)){ echo $pharmacyData[0]->pharmacy_usersId; }?>" />
                          <input type="hidden" name="mi_id" value="<?php if(isset($pharmacyData[0]->pharmacy_id)){ echo $pharmacyData[0]->pharmacy_id; }?>" />
                         
-                          <input type="hidden" name="redirectControllerMethod" value="pharmacy/detailAmbulance" />
+                          <input type="hidden" name="redirectControllerMethod" value="pharmacy/detailPharmacy" />
                          
                         <?php echo $this->load->view('common_pages/time_slot_view');?>
                         
@@ -518,11 +519,14 @@ if (!empty($explodes)) {
                          
                     <?php endif;?>   
                         
-                        </article>
-                    </section>
-                        
-                        
-
+                
+                        </section>
+   
+                       
+                       
+                       
+                  </section>
+                                </article>
                  
 
                     </section>
