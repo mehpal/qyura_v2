@@ -40,15 +40,18 @@
                                             <input type="hidden" class="form-control" id="users_email_status" name="users_email_status" value="" />
                                         </div>
                                     </article>
-                                    <article class="form-group m-lr-0 ">
+                                    <article class="clearfix m-t-10">
                                         <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
-                                        <div class="col-md-8 col-sm-8 text-right avatar-view">
-                                            <label for="file-input"><i id="image_select" style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x "></i></label>
-                                            <img src="<?php echo base_url('assets/default-images/Doctor-logo.png'); ?>" width="70" height="65" class="image-preview-show"/>
+                                        <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
+                                            <label class="col-md-4 col-sm-4 pull-right" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
+                                            <div class="pre col-md-4 col-sm-4 pull-right" style="margin-top: -10%">
+                                                <div id="preImgLogo" class="avatar-preview preview-md">
+                                                    <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png"  class="image-preview-show" width="80px" height="80px" style="margin-top: 0"/>
+                                                </div>
+                                            </div>
+                                            <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                            <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
                                         </div>
-                                        <label class="error pull-right" id="error-avatarInput" style="display: none">Please Select Image</label>
-                                        <label class="error" > <?php echo form_error("avatar_file"); ?></label>
-                                        <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
                                     </article>
                                     <article class="form-group m-lr-0">
                                         <label for="" class="control-label col-md-4 col-sm-4">First Name :</label>
@@ -97,14 +100,14 @@
                                         <div class="col-md-8 col-sm-8">
                                             <aside class="row">
                                                 <div class="col-md-12 col-sm-4 col-xs-10 m-t-xs-10 ">
-                                                    <input type="text" class="form-control" name="doctors_phn" id="doctors_phn1" maxlength="10" placeholder="Number" onblur="checkNumber('doctors_phn',1)" onkeypress="return isNumberKey(event)" />
+                                                    <input type="text" class="form-control" name="doctors_phn" id="doctors_phn1" maxlength="10" placeholder="Number" onkeypress="return isNumberKey(event)" value="<?php echo set_value('doctors_phn'); ?>"/>
                                                 </div>
                                             </aside>
                                             <label class="error" style="display:none;" id="error-doctors_phn1"> Please select your phone number</label>
                                         </div>
                                     </article>
                                     </div>    
-                                    <article class="form-group m-lr-0">
+                                    <article class="form-group m-lr-0 m-t-30">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Address:</label>
                                         <div class="col-md-8 col-sm-8">
                                             <aside class="row">
@@ -181,7 +184,7 @@
                                             <button class="btn btn-success waves-effect waves-light m-r-20" type="button" onclick="multipleService()">Add More</button>
                                         </div>
                                     </article>
-                                    <article class="form-group m-lr-0" >
+                                    <article class="form-group m-lr-0 m-t-30" >
                                         <label for="" class="control-label col-md-4 col-sm-4">Docate Id :</label>
                                         <div class="col-md-8 col-sm-8">
                                             
@@ -214,7 +217,7 @@
                                             </aside>
                                         </div>
                                     </article>
-                                    <article class="form-group m-lr-0">
+                                    <article class="form-group m-lr-0 m-t-30 m-b-20">
                                         <label for="cname" class="control-label col-md-4 col-sm-4"> Home Visit ? </label>
                                         <div class="col-md-8 col-sm-8">
                                             <aside class="radio radio-info radio-inline">
@@ -296,7 +299,7 @@
                                         <aside class="row">
                                             <label for="cname" class="control-label col-md-4 m-t-10 m-l-10">No of Year</label>
                                             <div class="col-md-7 col-sm-7 m-b-20 m-t-10">
-                                                <input type="number" class="form-control" name="exp_year" required="" id="exp_year" placeholder="Experience" min="1" max="50">
+                                                <input type="number" class="form-control" name="exp_year" required="" id="exp_year" placeholder="Experience" min="1" max="50" value="<?php echo set_value('exp_year'); ?>">
                                                 <label class="error" style="display:none;" id="error-exp_year"> please fill Experience</label>
                                             </div>
                                         </aside>
@@ -322,7 +325,7 @@
                                         <article class="form-group m-lr-0">
                                             <label for="cname" class="control-label col-md-4  col-sm-4">Registered Mobile no. :</label>
                                             <div class="col-md-8 col-sm-8">
-                                                <input type="text" class="form-control" id="users_mobile" name="users_mobile" placeholder="Mobile Number" maxlength="10" value="<?php echo set_value('users_mobile'); ?>" onblur="checkNumber('users_mobile','')" onkeypress="return isNumberKey(event)"/>
+                                                <input type="text" class="form-control" id="users_mobile" name="users_mobile" placeholder="Mobile Number" maxlength="10" value="<?php echo set_value('users_mobile'); ?>" onkeypress="return isNumberKey(event)"/>
                                                 <label class="error" style="display:none;" id="error-users_mobile"> please enter your mobile number properly</label>
                                                 <label class="error" > <?php echo form_error("users_mobile"); ?></label>
                                             </div>
@@ -351,7 +354,6 @@
                         <section class="clearfix ">
                             <div class="col-md-12 m-t-20 m-b-20">
                                 <div id="load_consulting" class="text-center text-success " style="display: none"><image alt="Please wait data is loading" src="<?php echo base_url('assets/images/loader/Heart_beat.gif'); ?>" /></div>
-                                <button class="btn btn-danger waves-effect pull-right" type="button">Reset</button>
                                 <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return validationDoctor()">Submit</button>
                             </div>
                         </section>
