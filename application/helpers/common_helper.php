@@ -449,4 +449,22 @@ if (!function_exists('puStatusCheck')) {
     }
 
 }
+
+if ( ! function_exists('expYear'))
+{
+    function expYear($date1 = NULL)
+    {
+        
+        $date2 = date('Y-m-d');
+        if(isset($date1) && $date1 != NULL){ $date1 = $date1; }else{ $date1 = strtotime(date('Y-m-d'));}
+        $diff = abs(strtotime($date2) - $date1);
+        $years = floor($diff / (365*60*60*24));
+                
+        if($years != NULL){ 
+            return $years;
+        }else{
+            return FALSE;    
+        }
+    }
+}
 ?>
