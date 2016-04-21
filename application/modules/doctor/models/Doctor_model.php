@@ -503,6 +503,14 @@ class Doctor_model extends CI_Model {
         $doctorAvailability = $this->db->get()->result();
         return $doctorAvailability;
     }
+    
+    function fetchDiagnostic() {
+        $this->db->select('diagnostic_id,diagnostic_name');
+        $this->db->from('qyura_diagnostic');
+        $this->db->where(array('diagnostic_deleted' => 0));
+        $this->db->order_by("diagnostic_name", "asc");
+        return $this->db->get()->result();
+    }
 }
 
 

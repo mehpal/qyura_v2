@@ -448,16 +448,6 @@ $MainSlot= array();
         $avWhere = array('doctorAvailability_docUsersId' => $data['doctorDetail'][0]->doctors_userId);
         $data['doctorAvailability'] = $doctorAvailability = $this->Doctor_model->getDoctorAvailability($avWhere);
 
-        $explodeStartTime = explode(',', $data['doctorDetail'][0]->startTime);
-        $years = 0;
-        for ($i = 0; $i < count($explodeStartTime); $i++) {
-            $explodeEndTime = explode(',', $data['doctorDetail'][0]->endTime);
-            if(isset($data['doctorDetail'][0]->endTime) && $data['doctorDetail'][0]->endTime !=NULL){
-            $midTime = $explodeEndTime[$i] - $explodeStartTime[$i];
-            $years += floor($midTime / (60 * 60 * 24 * 30 * 12));}
-        }
-        $data['years'] = $years;
-
         $data['showStatus'] = 'none';
         $data['detailShow'] = 'block';
         $option = array(
@@ -820,6 +810,7 @@ $MainSlot= array();
             $user_updated = $this->common_model->customUpdate($updateOption);
             $doctorAjaxId = $this->input->post('doctorAjaxId');
             if ($user_updated) {
+                $this->session->set_flashdata('active_tag', 5);
                 $responce =  array('status'=>1,'msg'=>"Information update successfully",'url' =>"doctor/doctorDetails/$doctorAjaxId");
             }else
             {
@@ -868,7 +859,7 @@ $MainSlot= array();
             }
             
             if ($user_insert) {
-                
+                $this->session->set_flashdata('active_tag', 2);
                 $responce =  array('status'=>1,'msg'=>"Academic added successfully",'url' =>"doctor/doctorDetails/$doctorAjaxId");
             }else
             {
@@ -914,7 +905,7 @@ $MainSlot= array();
                 $user_updated = $this->common_model->customUpdate($updateOption);
             }
             $doctorAjaxId = $this->input->post('doctorAjaxId');
-           
+            $this->session->set_flashdata('active_tag', 2);
             $responce =  array('status'=>1,'msg'=>"Academic update successfully",'url' =>"doctor/doctorDetails/$doctorAjaxId");
             
             echo json_encode($responce);
@@ -950,6 +941,7 @@ $MainSlot= array();
                 }
             }
             if ($id) {
+                $this->session->set_flashdata('active_tag', 3);
                 $responce =  array('status'=>1,'msg'=>"Services added successfully",'url' =>"doctor/doctorDetails/$doctorsProfileId");
             }else
             {
@@ -991,7 +983,7 @@ $MainSlot= array();
                 $services_update = $this->common_model->customUpdate($options);
             }
             if ($services_update) {
-                
+                $this->session->set_flashdata('active_tag', 3);
                 $responce =  array('status'=>1,'msg'=>"Services update successfully",'url' =>"doctor/doctorDetails/$doctorAjaxId");
             }else
             {
@@ -1084,7 +1076,7 @@ $MainSlot= array();
                     $doctorSpecilityDelete = $this->common_model->customUpdate($updateOptions);
                 }
             }
-            echo "hiiiii";exit;
+            
             $userId = $this->input->post('userId');
             $doctors_fName = $this->input->post('doctors_fName');
             $doctors_lName = $this->input->post('doctors_lName');
@@ -1164,6 +1156,7 @@ $MainSlot= array();
             $user_updated = $this->common_model->customUpdate($updateOptions);
             
             if ($doctor_update || $user_updated) {
+                $this->session->set_flashdata('active_tag', 1);
                 $responce =  array('status'=>1,'msg'=>"Profile update successfully",'url' =>"doctor/doctorDetails/$doctorAjaxId");
             }else
             {
@@ -1214,10 +1207,12 @@ $MainSlot= array();
             );
 
             $update = $this->common_model->customUpdate($updateOptions);
-            if ($update)
+            if ($update){
+                $this->session->set_flashdata('active_tag', 2);
                 echo $update;
-            else
+            }else{
                 echo '0';
+            }
         }
         else {
             echo 0;
@@ -1240,10 +1235,12 @@ $MainSlot= array();
 
             $update = $this->common_model->customUpdate($updateOptions);
             
-            if ($update)
+            if ($update){
+                $this->session->set_flashdata('active_tag', 3);
                 echo $update;
-            else
+            }else{
                 echo '0';
+            }
         }
         else {
             echo 0;
