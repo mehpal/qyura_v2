@@ -434,4 +434,19 @@ if (!function_exists('statusCheck')) {
     }
 
 }
+if (!function_exists('puStatusCheck')) {
+
+    function puStatusCheck($controller, $table_name, $table_field_name, $table_field_value, $status_value) {
+        $template = '';
+        if ($status_value == 3) {
+            $template = '<a class="btn btn-success waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)" onclick="puStatusFn(\'' . $controller . '\',\'' . $table_name . '\',\'' . $table_field_name . '\',\'' . $table_field_value . '\',\'' . $status_value . '\')">Publish</a>';
+        } else {
+
+            $template = '<a class="btn btn-danger waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)" onclick="puStatusFn(\'' . $controller . '\',\'' . $table_name . '\',\'' . $table_field_name . '\',\'' . $table_field_value . '\',\'' . $status_value . '\')">Unpublish</a>';
+        }
+
+        return $template;
+    }
+
+}
 ?>

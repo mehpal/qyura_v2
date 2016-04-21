@@ -38,7 +38,10 @@ class City_master extends MY_Controller {
         $data['title'] = 'List City';
         $this->load->super_admin_template('city_view', $data, 'masterScript');
     }
-    
+    function getCityDl() {
+
+        echo $this->Master_model->fetchCityDataTables();
+    }
     function saveCity() {
        
         $this->bf_form_validation->set_rules("city_countryid", "Country", 'required|xss_clean');

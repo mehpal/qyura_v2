@@ -17,7 +17,7 @@
     <script src="<?php echo base_url();?>assets/js/modernizr.min.js"></script>
     <link href="<?php echo base_url();?>assets/vendor/timepicker/bootstrap-timepicker.min.css" rel="stylesheet" />
 <!--    <link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>assets/jquery.dataTables.min.css"/> -->
-    <style>
+  <style>
         .boldTitle {
             /*font-weight: bold !important;*/
         }

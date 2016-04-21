@@ -9,6 +9,12 @@
                     <a href="<?php echo site_url() ?>/doctor/" class="btn btn-appointment btn-back waves-effect waves-light pull-right"><i class="fa fa-angle-left"></i> Back</a>
                 </div>
             </div>
+            <?php
+                $date2 = date('Y-m-d');
+                if(isset($doctorDetail[0]->doctors_expYear) && $doctorDetail[0]->doctors_expYear != NULL){ $date1 = $doctorDetail[0]->doctors_expYear; }else{ $date1 = strtotime(date('Y-m-d'));}
+                $diff = abs(strtotime($date2) - $date1);
+                $years = floor($diff / (365*60*60*24));
+            ?>
             <!-- Left Section Start -->
             <div class="col-md-12 bg-white">
                 <section class="clearfix detailbox">
@@ -30,9 +36,13 @@
                         </aside>
                         <form class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" method="post" action="#" novalidate="novalidate" name="doctorForm" enctype="multipart/form-data">
                             <aside class="col-md-5 col-sm-5 col-xs-12 text-right t-xs-left">
-                                <div class="col-md-8 col-sm-8 text-right avatar-view pull-right">
-                                    <label for="file-input" id="image_select"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x "></i></label>
-                                    <img src="<?php echo base_url('assets/default-images/Doctor-logo.png'); ?>" width="70" height="65" class="image-preview-show"/>
+                                <div class="col-md-8 col-sm-8 pull-right" data-target="#modal" data-toggle="modal">
+                                    <label class="col-md-5 col-sm-5 pull-right" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
+                                    <div class="pre col-md-4 col-sm-4 pull-right" style="margin-top: -10%">
+                                        <div id="preImgLogo" class="avatar-preview preview-md">
+                                            <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png"  class="image-preview-show" width="80px" height="80px" style="margin-top: 0"/>
+                                        </div>
+                                    </div>
                                 </div>
                                 <label class="error pull-right" id="error-avatarInput" style="display: none">Please Select Image</label>
                                 <label class="error" > <?php echo form_error("avatar_file"); ?></label>
@@ -58,7 +68,7 @@
                                 <a data-toggle="tab" href="#academic">Academic Detail</a>
                             </li>
                             <li class=" ">
-                                <a data-toggle="tab" href="#experience">Experience</a>
+                                <a data-toggle="tab" href="#experience">Services</a>
                             </li>
 <!--                            <li class=" ">
                                 <a data-toggle="tab" href="#appointment">Appointment History</a>
@@ -97,7 +107,7 @@
 
                                             <article class="form-group m-lr-0 ">
                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Date of Joining :</label>
-                                                <p class="col-md-8 col-sm-8"><?php if(isset($doctorDetail[0]->creationTime) && $doctorDetail[0]->creationTime != NULL){ echo date('F j Y', $doctorDetail[0]->creationTime); } ?></p>
+                                                <p class="col-md-8 col-sm-8"><?php if(isset($doctorDetail[0]->doctors_joiningDate) && $doctorDetail[0]->doctors_joiningDate != NULL){ echo date('F j Y', $doctorDetail[0]->doctors_joiningDate); } ?></p>
                                             </article>
                                             <article class="form-group m-lr-0 ">
                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Date of Birth :</label>
@@ -108,37 +118,32 @@
                                                 <p class="col-md-8 col-sm-8"><?php if(isset($doctorDetail[0]->users_email) && $doctorDetail[0]->users_email != NULL){ echo $doctorDetail[0]->users_email; }else{ echo "NA"; } ?></p>
                                             </article>
                                             <article class="form-group m-lr-0 ">
-                                                
-                                                <?php
-                                                $explode = explode('|', $doctorDetail[0]->doctors_phn);
-                                                for ($i = 0; $i < count($explode); $i++) { ?>
-                                                <label for="cemail" class="control-label col-md-4 col-sm-4"><?php if($i == 0){ ?>Landline Phone :<?php } ?></label>
-                                                    <?php if ($explode[$i] != '')?>
-                                                    <p class="col-md-8 col-sm-8">+<?php echo $explode[$i]; ?></p>
-                                                <?php } ?>
-                                            </article>
-                                            <article class="form-group m-lr-0 ">
-                                                <?php
-                                                $explode2 = explode('|', $doctorDetail[0]->doctors_mobile);
-                                                for ($i = 0; $i < count($explode2); $i++) { ?>
-                                                    <label for="cemail" class="control-label col-md-4 col-sm-4"><?php if($i == 0){ ?>Mobile :<?php } ?></label>
-                                                    <?php $againexplode = explode('*', $explode2[$i]);
-                                                    ?>
-                                                    <p class="col-md-8 col-sm-8">+<?php echo $againexplode[0]; ?></p>
-
-                                                <?php } ?>
+                                                <label for="cemail" class="control-label col-md-4 col-sm-4">Phone :</label>
+                                                <p class="col-md-8 col-sm-8"><?php if(isset($doctorDetail[0]->doctors_phn) && $doctorDetail[0]->doctors_phn != NULL){ echo $doctorDetail[0]->doctors_phn; }else{ echo "NA"; } ?></p>
                                             </article>
 					    <article class="form-group m-lr-0 ">
                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Doctor On Call :</label>
                                                 <p class="col-md-8 col-sm-8" style="width: 40%" ><?php if(isset($doctorDetail[0]->doctors_27Src) && $doctorDetail[0]->doctors_27Src != NULL){ if($doctorDetail[0]->doctors_27Src == 1) {echo "24x7";}else{echo "No";} } ?></p>
                                             </article>
-					    <article class="form-group m-lr-0 ">
-                                                <label for="cemail" class="control-label col-md-4 col-sm-4">Consultation Fee :</label>
-                                                <p class="col-md-8 col-sm-8" style="width: 40%" ><?php if(isset($doctorDetail[0]->doctors_consultaionFee) && $doctorDetail[0]->doctors_consultaionFee != NULL){ echo $doctorDetail[0]->doctors_consultaionFee; } ?></p>
+                                            <article class="form-group m-lr-0 ">
+                                                <label for="cemail" class="control-label col-md-4 col-sm-4">Home Visit :</label>
+                                                <p class="col-md-8 col-sm-8" style="width: 40%" ><?php if(isset($doctorDetail[0]->doctors_homeVisit) && $doctorDetail[0]->doctors_homeVisit != NULL){ if($doctorDetail[0]->doctors_homeVisit == 1) { echo "Yes";}else{echo "No";} } ?></p>
                                             </article>
                                             <article class="form-group m-lr-0 ">
                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Address :</label>
                                                 <p class="col-md-8 col-sm-8" style="width: 40%" ><?php if(isset($doctorDetail[0]->doctor_addr) && $doctorDetail[0]->doctor_addr != NULL){ echo $doctorDetail[0]->doctor_addr; } ?></p>
+                                            </article>
+                                            <article class="form-group m-lr-0 ">
+                                                <label for="cemail" class="control-label col-md-4 col-sm-4">Years of Experience :</label>
+                                                <p class="col-md-8 col-sm-8" style="width: 40%" ><?php if(isset($years) && $years != NULL){ echo $years; } ?> Years</p>
+                                            </article>
+                                            <article class="form-group m-lr-0 ">
+                                                <label for="cemail" class="control-label col-md-4 col-sm-4">DocatId :</label>
+                                                <p class="col-md-8 col-sm-8" style="width: 40%" ><?php if(isset($doctorDetail[0]->doctors_docatId) && $doctorDetail[0]->doctors_docatId != NULL){ echo $doctorDetail[0]->doctors_docatId; } ?></p>
+                                            </article>
+                                            <article class="form-group m-lr-0 ">
+                                                <label for="cemail" class="control-label col-md-4 col-sm-4">QAP Id :</label>
+                                                <p class="col-md-8 col-sm-8" style="width: 40%" ><?php if(isset($doctorDetail[0]->qap_code) && $doctorDetail[0]->qap_code != NULL){ echo $doctorDetail[0]->qap_code; } ?></p>
                                             </article>
                                         </section>
                                         <section id="newDetail" style="display:<?php echo $showStatus; ?>;">
@@ -168,7 +173,7 @@
                                                     <label for="" class="control-label col-md-3 col-sm-4">Date of Birth :</label>
                                                     <div class="col-md-4 col-sm-5">
                                                         <div class="input-group">
-                                                            <input class="form-control pickDate" placeholder="dd/mm/yyyy" id="doctors_dob" type="text" name="doctors_dob" value="<?php echo (set_value('doctors_dob')) ? set_value('doctors_dob') : date('d/m/Y', $doctorDetail[0]->doctors_dob) ?>">
+                                                            <input class="form-control pickDate" placeholder="mm/dd/yyyy" id="doctors_dob" type="text" name="doctors_dob" value="<?php echo (set_value('doctors_dob')) ? set_value('doctors_dob') : date('m/d/Y', $doctorDetail[0]->doctors_dob) ?>">
                                                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                                         </div>
                                                         <label class="error" id="err_doctors_dob" > <?php echo form_error("doctors_dob"); ?></label>
@@ -178,7 +183,7 @@
                                                     <label for="cname" class="control-label col-md-3 col-sm-4">Date of Joining :</label>
                                                     <div class="col-md-4 col-sm-5">
                                                         <div class="input-group">
-                                                            <input class="form-control pickDate" placeholder="dd/mm/yyyy" id="doctors_creationTime" type="text" readonly="" name="creationTime" value="<?php if(isset($doctorDetail[0]->creationTime) && $doctorDetail[0]->creationTime != NULL){ echo date('d/m/Y', $doctorDetail[0]->creationTime); } ?>">
+                                                            <input class="form-control pickDate" placeholder="mm/dd/yyyy" id="doctors_creationTime" type="text" readonly="" name="creationTime" value="<?php if(isset($doctorDetail[0]->doctors_joiningDate) && $doctorDetail[0]->doctors_joiningDate != NULL){ echo date('m/d/Y', $doctorDetail[0]->doctors_joiningDate); } ?>">
                                                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                                         </div>
                                                         <label class="error" id="err_creationTime" > <?php echo form_error("creationTime"); ?></label>
@@ -191,159 +196,83 @@
                                                         <label class="error" id="err_users_email" > <?php echo form_error("users_email"); ?></label>
                                                     </div>
                                                 </article>
-						<article class="clearfix m-t-10">
-				                        <label for="cname" class="control-label col-md-3 col-sm-4"> Doctor On Call ? </label>
-				                        <div class="col-md-4 col-sm-5">
-				                            <aside class="radio radio-info radio-inline">
-
-				                                 <input type="radio"  name="doctors_27Src" value="1" id="inlineRadio1" <?php if(isset($doctorDetail[0]->doctors_27Src)){ if($doctorDetail[0]->doctors_27Src == 1){ echo "checked"; } } ?> >
-				                                <label for="inlineRadio1"> Yes</label>
-				                            </aside>
-				                            <aside class="radio radio-info radio-inline">
-
-				                                <input type="radio"  name="doctors_27Src" value="0" id="inlineRadio2" <?php if(isset($doctorDetail[0]->doctors_27Src)){ if($doctorDetail[0]->doctors_27Src == 0){ echo "checked"; } } ?> >
-				                                <label for="inlineRadio2"> No</label>
-				                            </aside>
-				                        </div>
-				                    </article>
-						<article class="clearfix m-t-10">
-				                    <label for="" class="control-label col-md-3 col-sm-4">Consultation Fee :</label>
-				                    <div class="col-md-4 col-sm-5">
-				                        <input class="form-control" id="doctors_consultaionFee" name="doctors_consultaionFee" type="text" onkeypress="return isNumberKey(event)" value="<?php if(isset($doctorDetail[0]->doctors_consultaionFee) && $doctorDetail[0]->doctors_consultaionFee != NULL){ echo $doctorDetail[0]->doctors_consultaionFee; } ?>" maxlength="7" placeholder="Consultation Fee"/>
-				                        <label class="error" id="err_doctors_consultaionFee" > <?php echo form_error("doctors_consultaionFee"); ?></label>
-				                     </div>
-				                </article>
+                                                <article class="clearfix m-t-10">
+                                                    <label for="" class="control-label col-md-3 col-sm-3">Speciality:</label>
+                                                    <div class="col-md-4 col-sm-4">
+                                                        <select  multiple="" class="bs-select form-control-select2 " data-width="100%" name="doctorSpecialities_specialitiesId[]" Id="doctorSpecialities_specialitiesId" data-size="4">
+                                                            <?php foreach($speciality as $key=>$val) {?>
+                                                            <option <?php if(isset($qyura_doctorSpecialities) && $qyura_doctorSpecialities != NULL){ if(in_array($val->specialities_id, $qyura_doctorSpecialities)){ echo "selected";} } ?> value="<?php echo $val->specialities_id;?>"><?php echo $val->specialities_name;?></option>
+                                                              <?php }?>
+                                                        </select>
+                                                        <div class='setValues'></div>
+                                                        <label class="error" style="display:none;" id="error-doctorSpecialities_specialitiesId"> Please select speciality(s)</label>
+                                                        <label class="error" > <?php echo form_error("doctorSpecialities_specialitiesId"); ?></label>
+                                                    </div>
+                                                </article>
                                                 <div id="multiplePhoneNumber">
                                                     <article class="form-group m-lr-0 ">
-                                                        <?php $count_phone = count($doctorDetail[0]->doctors_phn); ?>
-                                                        <input type="hidden" name="total_phone" id="total_phone" value="<?php if(count($count_phone) != ''){ echo count($count_phone); }else{ echo "1"; } ?>" >       
-                                                        <?php
-                                                        if(isset($doctorDetail[0]->doctors_phn) && $doctorDetail[0]->doctors_phn != NULL){
-                                                        $explode = explode('|', $doctorDetail[0]->doctors_phn); 
-                                                        for ($j = 1; $j <= count($explode); $j++) { ?>
-                                                        <label for="cemail" class="control-label col-md-3 col-sm-3"><?php if($j == 1){ ?>Landline Phone :<?php } ?></label>
-                                                        <?php $check_prefix_p = explode(' ', $explode[$j-1]); ?>
+                                                        <label for="cemail" class="control-label col-md-3 col-sm-3">Phone :</label>
                                                         <div class="col-md-8 col-sm-8">
                                                             <aside class="row">
-                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                                    <select class="selectpicker" data-width="100%" name='preNumber[]' id="preNumber">
-                                                                        <option <?php if($check_prefix_p[0] == "91"){ echo "selected"; } ?> value="91">+91</option>
-                                                                        <option <?php if($check_prefix_p[0] == "1"){ echo "selected"; } ?>  value="1">+1</option>
-                                                                    </select>
-                                                                    <label class="error" id="err_preNumber" > <?php echo form_error("preNumber[]"); ?></label>
+                                                                <div class="col-md-6 col-sm-12 col-xs-10 m-t-xs-10 ">
+                                                                    <input type="text" class="form-control" name="doctors_phn" id="doctors_phn1" maxlength="10" placeholder="Number" onblur="checkNumber('doctors_phn', 1)" onkeypress="return isNumberKey(event)" value="<?php if(isset($doctorDetail[0]->doctors_phn) && $doctorDetail[0]->doctors_phn != NULL){ echo $doctorDetail[0]->doctors_phn; } ?>" />
+                                                                    <label class="error" id="err_doctors_phn" > <?php echo form_error("doctors_phn"); ?></label>
                                                                 </div>
-                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 m-t-xs-10">
-                                                                    <input type="text" class="form-control" name="midNumber[]" id="midNumber1" placeholder="731" maxlength="3" onblur="checkNumber('midNumber', 1)" onkeypress="return isNumberKey(event)" value="<?php echo $check_prefix_p[1]; ?>" />
-                                                                    <label class="error" id="err_midNumber" > <?php echo form_error("midNumber[]"); ?></label>
-                                                                </div>
-                                                                <div class="col-md-2 col-sm-2 col-xs-10 m-t-xs-10 ">
-                                                                    <input type="text" class="form-control" name="doctors_phn[]" id="doctors_phn1" maxlength="8" placeholder="7000123" onblur="checkNumber('doctors_phn', 1)" onkeypress="return isNumberKey(event)" value="<?php echo $check_prefix_p[2]; ?>" />
-                                                                    <label class="error" id="err_doctors_phn" > <?php echo form_error("doctors_phn[]"); ?></label>
-                                                                </div>
-<!--                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 m-t-xs-10"><a onclick="addPhoneNumberGen()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus"></i></a></div>-->
                                                             </aside>
                                                         </div>
-                                                        <?php } }else{ ?>
-                                                        <label for="cemail" class="control-label col-md-3 col-sm-3">Landline Phone :</label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <aside class="row">
-                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                                    <select class="selectpicker" data-width="100%" name='preNumber[]' id="preNumber">
-                                                                        <option value='91'>+91</option>
-                                                                        <option value='1'>+1</option>
-                                                                    </select>
-                                                                    <label class="error" id="err_preNumber" > <?php echo form_error("preNumber[]"); ?></label>
-                                                                </div>
-                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 m-t-xs-10">
-                                                                    <input type="text" class="form-control" name="midNumber[]" id="midNumber1" placeholder="731" maxlength="3" onblur="checkNumber('midNumber', 1)" onkeypress="return isNumberKey(event)" />
-                                                                    <label class="error" id="err_midNumber" > <?php echo form_error("midNumber[]"); ?></label>
-                                                                </div>
-                                                                <div class="col-md-2 col-sm-2 col-xs-10 m-t-xs-10 ">
-                                                                    <input type="text" class="form-control" name="doctors_phn[]" id="doctors_phn1" maxlength="8" placeholder="7000123" onblur="checkNumber('doctors_phn', 1)" onkeypress="return isNumberKey(event)" />
-                                                                    <label class="error" id="err_doctors_phn" > <?php echo form_error("doctors_phn[]"); ?></label>
-                                                                </div>
-<!--                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 m-t-xs-10"><a onclick="addPhoneNumberGen()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus"></i></a></div>-->
-                                                            </aside>
-                                                        </div>
-                                                        <?php } ?>
                                                     </article>
                                                 </div>
-                                                <div id='multipleMobile'>
-                                                    <article class="form-group m-lr-0 ">
-                                                        <?php $count = count($doctorDetail[0]->doctors_mobile); ?>
-                                                        <input type="hidden" name="total_mobile" id="total_mobile" value="<?php if(count($count) != ''){ echo count($count); }else{ echo "1"; } ?>" >       
-                                                        <?php
-                                                        if(isset($doctorDetail[0]->doctors_mobile) && $doctorDetail[0]->doctors_mobile != NULL){
-                                                        $explode2 = explode('|', $doctorDetail[0]->doctors_mobile); 
-                                                        for ($i = 1; $i <= count($explode2); $i++) { ?>
-                                                        <label for="cemail" class="control-label col-md-3 col-sm-3"><?php if($i == 1){ ?>Mobile :<?php } ?></label>
-                                                        <?php $check_prefix = explode(' ', $explode2[$i-1]);
-                                                        $check_primary = explode('*', $explode2[$i-1]);
-                                                        $check_mobile = explode(' ', $check_primary[0]); ?>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <aside class="row">
-                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                                    <select class="selectpicker" data-width="100%" name="preMobileNumber[]" id="preMobileNumber1">
-                                                                        <option <?php if($check_prefix[0] == "91"){ echo "selected"; } ?> value="91">+91</option>
-                                                                        <option <?php if($check_prefix[0] == "1"){ echo "selected"; } ?>  value="1">+1</option>
-                                                                    </select>
-                                                                    <label class="error" id="err_preMobileNumber" > <?php echo form_error("preMobileNumber[]"); ?></label>
-                                                                </div>
-                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-10 m-t-xs-10">
-                                                                    <input type="text" class="form-control" name="doctors_mobile[]" id="doctors_mobile1" placeholder="9837000123" onblur="checkNumber('doctors_mobile', 1)" maxlength="10" onkeypress="return isNumberKey(event)" value="<?php echo $check_mobile[1]; ?>"/>
-                                                                    <label class="error" id="err_doctors_mobile" > <?php echo form_error("doctors_mobile[]"); ?></label>
-                                                                </div>
-<!--                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 m-t-xs-10"><a  onclick="addMobileNumberGen()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus"></i></a></div>-->
-                                                            </aside>
-                                                            <aside class="checkbox checkbox-success" style="display: none">
-                                                                <input type="checkbox" id="checkbox<?php echo $i; ?>" name="checkbox<?php echo $i; ?>" value="1" <?php if($check_primary[1] == 1){ echo "checked"; } ?> >
-                                                                <label for="checkbox3">
-                                                                    Make this number primary
-                                                                </label>
-                                                            </aside>
+                                                <article class="form-group m-lr-0">
+                                                    <label for="cname" class="control-label col-md-3 col-sm-3">Address:</label>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <aside class="row">
+                                                            <div class="col-md-3 col-sm-3">
+                                                                <select class="selectpicker" data-width="100%" name="doctors_countryId" id="doctors_countryId">
+                                                                    <option value="">Select Country</option>
+                                                                    <?php if(isset($qyura_country) && $qyura_country != NULL){
+                                                                       foreach($qyura_country as $key=>$val) { ?>
+                                                                        <option <?php if($doctorDetail[0]->doctors_countryId == $val->country_id){ echo "selected"; } ?> value="<?php echo $val->country_id;?>"><?php echo $val->country;?></option>
+                                                                    <?php } } ?>
+                                                                </select>
+                                                            </div>
+                                                             <div class="col-md-3 col-sm-3 m-t-xs-10">
+                                                                <select class="selectpicker" data-width="100%" name="doctors_stateId" Id="doctors_stateId" data-size="4" onchange ="fetchCity(this.value)">
+                                                                <option value="">Select State</option>
+                                                                <?php if(isset($qyura_state) && $qyura_state != NULL){
+                                                                   foreach($qyura_state as $key=>$val) { ?>
+                                                                    <option <?php if($doctorDetail[0]->doctors_stateId == $val->state_id){ echo "selected"; } ?> value="<?php echo $val->state_id;?>"><?php echo $val->state_statename;?></option>
+                                                                <?php } } ?>
+                                                            </select>
+                                                            <label class="error" style="display:none;" id="error-doctors_stateId"> please select a state</label>
+                                                            <label class="error" > <?php echo form_error("doctors_stateId"); ?></label>
                                                         </div>
-                                                        <?php } }else{ ?>
-                                                        <label for="cemail" class="control-label col-md-3 col-sm-3">Mobile :</label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <aside class="row">
-                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                                    <select class="selectpicker" data-width="100%" name="preMobileNumber[]" id="preMobileNumber1">
-                                                                        <option value="91">+91</option>
-                                                                        <option value="1">+1</option>
-                                                                    </select>
-                                                                    <label class="error" id="err_preMobileNumber" > <?php echo form_error("preMobileNumber[]"); ?></label>
-                                                                </div>
-                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-10 m-t-xs-10">
-                                                                    <input type="text" class="form-control" name="doctors_mobile[]" id="doctors_mobile1" placeholder="9837000123" onblur="checkNumber('doctors_mobile', 1)" maxlength="10" onkeypress="return isNumberKey(event)" />
-                                                                    <label class="error" id="err_doctors_mobile" > <?php echo form_error("doctors_mobile[]"); ?></label>
-                                                                </div>
-<!--                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 m-t-xs-10"><a  onclick="addMobileNumberGen()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus"></i></a></div>-->
-                                                            </aside>
-                                                            <aside class="checkbox checkbox-success" style="display: none">
-                                                                <input type="checkbox" id="checkbox1" name="checkbox1" value="1">
-                                                                <label for="checkbox3">
-                                                                    Make this number primary
-                                                                </label>
-                                                            </aside>
-                                                        </div>
-                                                        <?php } ?>
-                                                    </article>
-                                                </div> 
-                                                <article class="clearfix m-t-30">
-                                                    <label class="control-label col-md-3" for="cname">Manual:</label>
-                                                    <div class="col-md-8">
-                                                        <aside class="radio radio-info radio-inline">
-                                                            <input type="radio"  name="isManual" value="1" id="isManual" onclick="IsAdrManual(this.value)" <?php if(isset($doctorDetail[0]->isManual)){ if($doctorDetail[0]->isManual == 1){ echo "checked"; } } ?> >
-                                                            <label for="inlineRadio1"> Yes</label>
                                                         </aside>
-                                                        <aside class="radio radio-info radio-inline">
-                                                            <input type="radio" <?php if(isset($doctorDetail[0]->isManual)){ if($doctorDetail[0]->isManual == 0){ echo "checked"; } } ?> name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.value)">
-                                                            <label for="inlineRadio2"> No</label>
+                                                    </div>
+                                                </article>
+                                                <article class="form-group m-lr-0">
+                                                    <div class="col-md-8 col-md-offset-3 col-sm-3 col-sm-offset-4">
+                                                        <aside class="row">
+                                                            <div class="col-md-3 col-sm-3">
+                                                                <select class="selectpicker" data-width="100%" name="doctors_cityId" id="doctors_cityId" data-size="4" >
+                                                                    <option value="">Select City</option>
+                                                                    <?php if(isset($qyura_city) && $qyura_city != NULL){
+                                                                       foreach($qyura_city as $key=>$val) { ?>
+                                                                        <option <?php if($doctorDetail[0]->doctors_cityId == $val->city_id){ echo "selected"; } ?> value="<?php echo $val->city_id;?>"><?php echo $val->city_name;?></option>
+                                                                    <?php } } ?>
+                                                                </select>
+                                                                 <label class="error" style="display:none;" id="error-doctors_cityId"> please select a state</label>
+                                                                <label class="error" > <?php echo form_error("doctors_cityId"); ?></label>
+                                                            </div>
+                                                            <div class="col-md-3 col-sm-3 m-t-xs-10">
+                                                                <input type="text" class="form-control" id="doctors_pinn" name="doctors_pinn" placeholder="Pin Code" maxlength="6" onkeypress="return isNumberKey(event)" value="<?php if(isset($doctorDetail[0]->doctors_pin) && $doctorDetail[0]->doctors_pin != NULL){ echo $doctorDetail[0]->doctors_pin; } ?>" />
+                                                                <label class="error" style="display:none;" id="error-doctors_pinn"> Zip code should be numeric and 6 digit long</label>
+                                                                <label class="error" > <?php echo form_error("doctors_pinn"); ?></label>
+                                                            </div>
                                                         </aside>
                                                     </div>
                                                 </article>
                                                 <article class="form-group m-lr-0 m-t-10">
-                                                    <div class="col-md-8 col-md-offset-3 col-sm-8 col-sm-offset-3">
+                                                    <div class="col-md-4 col-md-offset-3 col-sm-8 col-sm-offset-3">
                                                         <input type="text" class="form-control" id="geocomplete1" name="doctor_addr" placeholder="Address" value="<?php if(isset($doctorDetail[0]->doctor_addr) && $doctorDetail[0]->doctor_addr != NULL){ echo $doctorDetail[0]->doctor_addr; } ?>" />
                                                         <label class="error" style="display:none;" id="error-doctor_addr"> please select a pin number</label>
                                                         <label class="error" > <?php echo form_error("doctor_addr"); ?></label>
@@ -353,21 +282,88 @@
                                                     <div class="col-md-8  col-sm-8 col-sm-offset-3">
                                                         <aside class="row">
                                                         <div class="col-sm-3">
-                                                            <input name="lat" class="form-control" required="" type="text" value="<?php if(isset($doctorDetail[0]->doctors_lat) && $doctorDetail[0]->doctors_lat != NULL){ echo $doctorDetail[0]->doctors_lat; } ?>"  id="lat" <?php if(isset($doctorDetail[0]->isManual)){ if($doctorDetail[0]->isManual == 0){ echo "readonly"; } } ?> placeholder="Latitude" onchange="latChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
+                                                            <input name="lat" class="form-control" required="" type="text" value="<?php if(isset($doctorDetail[0]->doctors_lat) && $doctorDetail[0]->doctors_lat != NULL){ echo $doctorDetail[0]->doctors_lat; } ?>"  id="lat" placeholder="Latitude" onchange="latChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
                                                             <label class="error" > <?php echo form_error("lat"); ?></label>
                                                             <label class="error" style="display:none;" id="error-lat">Please enter the correct format for latitude</label>
                                                         </div>
                                                         <div class="col-sm-3">
-                                                            <input name="lng" required="" type="text" value="<?php if(isset($doctorDetail[0]->doctors_long) && $doctorDetail[0]->doctors_long != NULL){ echo $doctorDetail[0]->doctors_long; } ?>"  id="lng" <?php if(isset($doctorDetail[0]->isManual)){ if($doctorDetail[0]->isManual == 0){ echo "readonly"; } } ?> class="form-control" placeholder="Longitude" onChange="lngChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
+                                                            <input name="lng" required="" type="text" value="<?php if(isset($doctorDetail[0]->doctors_long) && $doctorDetail[0]->doctors_long != NULL){ echo $doctorDetail[0]->doctors_long; } ?>"  id="lng" class="form-control" placeholder="Longitude" onChange="lngChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
                                                             <label class="error" > <?php echo form_error("lng"); ?></label>
                                                             <label class="error" style="display:none;" id="error-lng"> Please enter the correct format for longitude</label>
                                                          </div>
                                                       </aside>
                                                     </div>
                                                 </article>
+                                                <article class="clearfix m-lr-0" >
+                                                    <label for="" class="control-label col-md-3 col-sm-3">Docate Id :</label>
+                                                    <div class="col-md-4 col-sm-4">
+
+                                                        <input class="form-control" id="docatId" name="docatId" type="text" value="<?php if(isset($doctorDetail[0]->doctors_docatId) && $doctorDetail[0]->doctors_docatId != NULL){ echo $doctorDetail[0]->doctors_docatId; } ?>" maxlength="50"/>
+                                                        <label class="error" style="display:none;" id="error-docatId"> please enter Docate Id</label>
+                                                        <label class="error" > <?php echo form_error("docatId"); ?></label>
+                                                    </div>
+                                                </article>
+                                                <article class="clearfix m-lr-0" >
+                                                    <label for="" class="control-label col-md-3 col-sm-3">QAP Id :</label>
+                                                    <div class="col-md-4 col-sm-4">
+
+                                                        <input class="form-control" id="qapId" name="qapId" type="text" value="<?php if(isset($doctorDetail[0]->qap_code) && $doctorDetail[0]->qap_code != NULL){ echo $doctorDetail[0]->qap_code; } ?>" maxlength="10" onblur="return check_qap()"/>
+                                                        <input class="form-control" id="qapIdTb" name="qapIdTb" type="hidden" value="<?php if(isset($doctorDetail[0]->doctors_qapId) && $doctorDetail[0]->doctors_qapId != NULL){ echo $doctorDetail[0]->doctors_qapId; } ?>"/>
+                                                        <label class="error" style="display:none;" id="error-qapId"> please enter QAP Id</label>
+                                                        <label class="error" style="display:none;" id="error-qapIdTb"> please enter Correct QAP Id</label>
+                                                        <label class="error" > <?php echo form_error("qapId"); ?></label>
+                                                    </div>
+                                                </article>
+                                                <article class="clearfix m-t-10">
+                                                    <label for="cname" class="control-label col-md-3 col-sm-4"> Doctor On Call ? </label>
+                                                    <div class="col-md-4 col-sm-5">
+                                                        <aside class="radio radio-info radio-inline">
+
+                                                             <input type="radio"  name="doctors_27Src" value="1" id="inlineRadio1" <?php if(isset($doctorDetail[0]->doctors_27Src)){ if($doctorDetail[0]->doctors_27Src == 1){ echo "checked"; } } ?> >
+                                                            <label for="inlineRadio1"> Yes</label>
+                                                        </aside>
+                                                        <aside class="radio radio-info radio-inline">
+
+                                                            <input type="radio"  name="doctors_27Src" value="0" id="inlineRadio2" <?php if(isset($doctorDetail[0]->doctors_27Src)){ if($doctorDetail[0]->doctors_27Src == 0){ echo "checked"; } } ?> >
+                                                            <label for="inlineRadio2"> No</label>
+                                                        </aside>
+                                                    </div>
+                                                </article>
+                                                <article class="clearfix m-t-10">
+                                                    <label for="cname" class="control-label col-md-3 col-sm-3"> Home Visit ? </label>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <aside class="radio radio-info radio-inline">
+                                                            <input type="radio" id="inlineRadio5" value="1" name="home_visit" <?php if(isset($doctorDetail[0]->doctors_homeVisit)){ if($doctorDetail[0]->doctors_homeVisit == 1){ echo "checked"; } } ?> >
+                                                            <label for="inlineRadio5"> Yes</label>
+                                                        </aside>
+                                                        <aside class="radio radio-info radio-inline">
+                                                            <input type="radio" id="inlineRadio6" value="0" name="home_visit" <?php if(isset($doctorDetail[0]->doctors_homeVisit)){ if($doctorDetail[0]->doctors_homeVisit == 0){ echo "checked"; } } ?> >
+                                                            <label for="inlineRadio6"> No</label>
+                                                        </aside>
+                                                    </div>
+                                                </article>
+                                                <article class="clearfix m-t-10">
+                                                    <label for="cname" class="control-label col-md-3 col-sm-3">Show experience ?</label>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <aside class="radio radio-info radio-inline">
+                                                            <input type="radio" id="inlineRadio3" value="1" name="show_exp" <?php if(isset($doctorDetail[0]->doctors_showExp)){ if($doctorDetail[0]->doctors_showExp == 1){ echo "checked"; } } ?> >
+                                                            <label for="inlineRadio3"> Yes</label>
+                                                        </aside>
+                                                        <aside class="radio radio-info radio-inline">
+                                                            <input type="radio" id="inlineRadio4" value="0" name="show_exp" <?php if(isset($doctorDetail[0]->doctors_showExp)){ if($doctorDetail[0]->doctors_showExp == 0){ echo "checked"; } } ?>>
+                                                            <label for="inlineRadio4"> No</label>
+                                                        </aside>
+                                                    </div>
+                                                </article>
+                                                <article class="clearfix m-t-10">
+                                                    <label for="cname" class="control-label col-md-3 m-t-10">Years of Experience</label>
+                                                    <div class="col-md-4 col-sm-4 m-b-20 m-t-10">
+                                                        <input type="number" class="form-control" name="exp_year" required="" id="exp_year" placeholder="Experience" min="1" max="50" value="<?php echo $years; ?>">
+                                                        <label class="error" style="display:none;" id="error-exp_year"> please fill Experience</label>
+                                                    </div>
+                                                </article>
                                                 <section class="clearfix ">
                                                     <div class="col-md-12 m-t-20 m-b-20 text-right">
-                                                        <button type="button" class="btn btn-danger waves-effect ">Reset</button>
                                                         <button type="submit" class="btn btn-success waves-effect waves-light  m-r-20" onclick="return doctorDetail()">Submit</button>
                                                     </div>
                                                 </section>
@@ -493,39 +489,18 @@
                                     <aside class="col-md-6 col-sm-6">
                                         <article class="clearfix m-t-20">
                                             <div id="newexp" style="display:none">
-                                                <form name="addExperienceForm" action="#" id="addExperienceForm" method="post">
-                                                    <input type="hidden" name="total_add_exp" id="total_add_exp" value="1">
-                                                    <input type="hidden" id="doctorAjaxId" name="doctorAjaxId" value="<?php if(isset($doctorDetail[0]->doctors_id) && $doctorDetail[0]->doctors_id != NULL){ echo $doctorDetail[0]->doctors_id; }?>" />
+                                                <form name="addServicesForm" action="#" id="addServicesForm" method="post">
+                                                    <input type="text" id="doctorAjaxId" name="doctorAjaxId" value="<?php if(isset($doctorDetail[0]->doctors_id) && $doctorDetail[0]->doctors_id != NULL){ echo $doctorDetail[0]->doctors_id; }?>" />
                                                     <div id="expDiv">
-                                                        <aside class="clearfix m-t-10">
-                                                            <select class="selectpicker" data-width="100%" name="hospital_addid_1" id="hospital_addid_1" onchange="find_speciality(1)">
-                                                                <option value="">Select Hospital</option>
-                                                                <?php if(isset($qyura_hospital) && $qyura_hospital != NULL){
-                                                                    foreach ($qyura_hospital as $hospital){  ?>
-                                                                <option value="<?php echo $hospital->hospital_id ?>"><?php echo $hospital->hospital_name; ?></option>
-                                                                <?php } } ?>
-                                                            </select>
-                                                            <label class="error" id="err_hospital_addid_1" > <?php echo form_error("hospital_addid_1"); ?></label>
-                                                        </aside>
-                                                        <aside class="clearfix m-t-10">
-                                                            <input class="form-control" name="designation_1" id="designation_1" required="" value="" placeholder="Designation">
-                                                            <label class="error" id="err_designation_1" > <?php echo form_error("designation_1"); ?></label>
-                                                        </aside>
-                                                        <aside class="clearfix m-t-10">
-                                                            <select class="select2" data-placeholder="Choose a Speciality" data-width="100%" multiple="" id="speciality_1" name="speciality1[]">
-                                                            </select>
-                                                            <label class="error" id="err_speciality_1" > <?php echo form_error("speciality_1"); ?></label>
-                                                        </aside>
-                                                        <aside class="row row-minus m-t-10">
-                                                            <div class="col-sm-6">
-                                                                <input class="form-control datepicker pickDate" name="exp_start_1" id="exp_start_1" required="" value="<?php echo date("d-m-Y"); ?>" >
-                                                                <label class="error" id="err_exp_start_1" > <?php echo form_error("exp_start_1"); ?></label>
+                                                        <article class="form-group m-lr-0" id="doctorService">
+                                                            <label for="" class="control-label col-md-4 col-sm-4">Doctor Services :</label>
+                                                            <div class="col-md-6 col-sm-6">
+                                                                <input type="hidden" id="totalService" name="totalService" value="1">
+                                                                <input class="form-control" id="doctors_service_1" name="doctors_service_1" type="text" value="<?php echo set_value('doctors_service_1'); ?>" maxlength="50"/>
+                                                                <label class="error" style="display:none;" id="error-doctors_service"> please enter Service</label>
+                                                                <label class="error" > <?php echo form_error("doctors_service_1"); ?></label>
                                                             </div>
-                                                            <div class="col-sm-6">
-                                                                <input class="form-control datepicker pickDate" name="exp_end_1" id="exp_end_1" required="" value="<?php echo date("d-m-Y" , strtotime('+ 1 days')); ?>">
-                                                                <label class="error" id="err_exp_end_1" > <?php echo form_error("exp_end_1"); ?></label>
-                                                            </div>
-                                                        </aside>
+                                                        </article>
                                                     </div>
                                                     <article class="clearfix m-t-20">
                                                         <aside class="col-sm-12 m-t-10" >
@@ -533,78 +508,42 @@
                                                         </aside>
                                                     </article>
                                                 </form>
-                                                <button class="btn btn-appointment waves-effect waves-light m-t-10" onclick="addExprNumberGen()" >Add New</button>
+                                                <article class="form-group m-lr-0">
+                                                    <div class="col-md-8 ">
+                                                        <button class="btn btn-success waves-effect waves-light m-r-20" type="button" onclick="multipleService()">Add More</button>
+                                                    </div>
+                                                </article>
                                             </div>
                                         </article>
                                     </aside>
                                 </section>
                                
                                 <div class="col-md-12">
-                                    <?php if(isset($doctor_final_array) && $doctor_final_array != NULL){
-                                        foreach($doctor_final_array as $experience){ ?>
+                                    <?php if(isset($qyura_services) && $qyura_services != NULL){
+                                        foreach($qyura_services as $services){ ?>
                                         <div class="col-md-6">
-                                        <article class="clerfix detailexp">
-                                            <h6><?php if(isset($experience['hospital_name']) && $experience['hospital_name'] != NULL){ echo $experience['hospital_name']; } ?><button title="Delete Advertisement" onclick="deleteFn('doctor','experienceDelete','<?php echo $experience['professionalExp_id']; ?>')" type="button" class="pull-right btn btn-outline btn-xs "><img src="<?php echo base_url(); ?>/assets/images/delete.png"></button></h6>
-                                            <p><?php if(isset($experience['hospital_address']) && $experience['hospital_address'] != NULL){ echo $experience['hospital_address']; } ?></p>
-                                            <p><?php if(isset($experience['professionalExp_designation']) && $experience['professionalExp_designation'] != NULL){ echo $experience['professionalExp_designation']; } ?></p>
-                                            <h6><?php if(isset($experience['professionalExp_start']) && $experience['professionalExp_start'] != NULL){ echo date("F Y", $experience['professionalExp_start']); } ?> - <?php if(isset($experience['professionalExp_end']) && $experience['professionalExp_end'] != NULL){ echo date("F Y", $experience['professionalExp_end']); } ?></h6>
-                                            <p>
-                                            <?php if(isset($experience['category']) && $experience['category'] != NULL){ 
-                                                foreach ($experience['category'] as $category){ ?>
-                                                <label class="label doctor-label label-specialist"><?php echo $category['specialitiesCat_name'] ?></label>
-                                            <?php } } ?>
-                                            </p>
-                                        </article>
+                                            <article class="clerfix detailexp">
+                                                <h6><?php if(isset($services->doctorServices_serviceName) && $services->doctorServices_serviceName != NULL){ echo $services->doctorServices_serviceName; } ?><button title="Delete Service" onclick="deleteFn('doctor','serviceDelete','<?php echo $services->doctorServices_id; ?>')" type="button" class="pull-right btn btn-outline btn-xs "><img src="<?php echo base_url(); ?>/assets/images/delete.png"></button></h6>
+                                            </article>
                                         </div>
                                     <?php } } ?>
                                 </div>
                                 
-                                <aside class="col-md-6 col-sm-6">
+                                <aside class="col-md-12 col-sm-12">
                                     <section class="clearfix">
                                         <article class="clearfix m-t-20">
                                             <div class="col-sm-9 detailexpnew" style="display:none">
-                                                <form name="editExperienceForm" action="#" id="editExperienceForm" method="post">
-                                                <?php if(isset($doctor_final_array) && $doctor_final_array != NULL){
-                                                    $countEdit = 1; $doctor_edit_count = count($doctor_final_array); ?>
-                                                <input type="hidden" name="total_edit_exp" id="total_edit_exp" value="<?php echo $doctor_edit_count; ?>">
+                                                <form name="editServiceForm" action="#" id="editServiceForm" method="post">
+                                                <?php if(isset($qyura_services) && $qyura_services != NULL){
+                                                    $countEdit = 1; $doctor_edit_count = count($qyura_services); ?>
+                                                <input type="hidden" name="total_edit_services" id="total_edit_services" value="<?php echo $doctor_edit_count; ?>">
                                                 <input type="hidden" id="doctorAjaxId" name="doctorAjaxId" value="<?php if(isset($doctorDetail[0]->doctors_id) && $doctorDetail[0]->doctors_id != NULL){ echo $doctorDetail[0]->doctors_id; }?>" />
-                                                <?php foreach($doctor_final_array as $experience){ ?>
-                                                <input type="hidden" name="professionalExp_id_<?php echo $countEdit; ?>" id="professionalExp_id_<?php echo $countEdit; ?>" value="<?php echo $experience['professionalExp_id']; ?>">
+                                                <?php foreach($qyura_services as $services){ ?>
+                                                <input type="hidden" name="doctorServices_id_<?php echo $countEdit; ?>" id="doctorServices_id_<?php echo $countEdit; ?>" value="<?php echo $services->doctorServices_id; ?>">
                                                 
-                                                    <aside class="clearfix m-t-10">
-                                                        <select class="selectpicker" data-width="100%" name="hospital_id_<?php echo $countEdit; ?>" id="hospital_id_<?php echo $countEdit; ?>" onchange="find_speciality_edit('<?php echo $countEdit; ?>')">
-                                                            <option value="">Select Hospital</option>
-                                                            <?php if(isset($qyura_hospital) && $qyura_hospital != NULL){
-                                                                foreach ($qyura_hospital as $hospital){  ?>
-                                                            <option <?php if($experience['professionalExp_hospitalId'] == $hospital->hospital_id ){ echo "selected"; } ?> value="<?php echo $hospital->hospital_id ?>"><?php echo $hospital->hospital_name; ?></option>
-                                                            <?php } } ?>
-                                                        </select>
-                                                        <label class="error" id="err_hospital_id_<?php echo $countEdit; ?>" > <?php echo form_error("hospital_id_".$countEdit); ?></label>
-                                                    </aside>
-                                                    <aside class="clearfix m-t-10">
-                                                        <input class="form-control" name="designation_edit_<?php echo $countEdit; ?>" id="designation_edit_<?php echo $countEdit; ?>" required="" value="<?php echo $experience['professionalExp_designation']; ?>" placeholder="Designation">
-                                                        <label class="error" id="err_designation_<?php echo $countEdit; ?>" > <?php echo form_error("designation_".$countEdit); ?></label>
-                                                    </aside>
-                                                    <aside class="clearfix m-t-10">
-                                                        <select class="select2" data-placeholder="Choose a Speciality" data-width="100%" multiple="" id="speciality_edit<?php echo $countEdit; ?>" name="speciality_edit<?php echo $countEdit; ?>[]">
-                                                            <?php if(isset($experience['category']) && $experience['category'] != NULL){
-                                                                foreach($experience['category'] as $cate){ ?>
-                                                            <option selected="" value="<?php echo $cate['proExpCategory_specilitycat_id'].",".$cate['proExpCategory_id'] ?>"><?php echo $cate['specialitiesCat_name']; ?></option>
-                                                            <?php } }  ?>
-                                                        </select>
-                                                        <label class="error" id="err_speciality_edit<?php echo $countEdit; ?>[]" > <?php echo form_error("speciality_edit".$countEdit); ?></label>
-                                                    </aside>
-                                                    <aside class="row row-minus m-t-10">
-                                                        <aside class="row row-minus m-t-10">
-                                                            <div class="col-sm-6">
-                                                                <input class="form-control datepicker pickDate" name="exp_edit_start_<?php echo $countEdit; ?>" id="exp_edit_start_<?php echo $countEdit; ?>" required="" value="<?php echo date("d/m/Y", $experience['professionalExp_start']); ?>" >
-                                                                <label class="error" id="err_exp_edit_start_<?php echo $countEdit; ?>" > <?php echo form_error("exp_edit_start_".$countEdit); ?></label>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <input class="form-control datepicker pickDate" name="exp_edit_end_<?php echo $countEdit; ?>" id="exp_edit_end_<?php echo $countEdit; ?> required="" value="<?php echo date("d/m/Y", $experience['professionalExp_end']); ?>">
-                                                                <label class="error" id="err_exp_edit_end_<?php echo $countEdit; ?>" > <?php echo form_error("exp_edit_end_".$countEdit); ?></label>
-                                                            </div>
-                                                        </aside>
+                                                    <aside class="clearfix m-t-10 col-md-6">
+                                                        <input class="form-control" name="services_name_edit_<?php echo $countEdit; ?>" id="services_name_edit_<?php echo $countEdit; ?>" required="" value="<?php echo $services->doctorServices_serviceName; ?>" placeholder="Services">
+                                                        <label class="error" id="err_services_name_edit_<?php echo $countEdit; ?>" > <?php echo form_error("services_name_edit_".$countEdit); ?></label>
                                                     </aside>
                                                 <?php $countEdit++;} } ?>
                                                     <article class="clearfix m-t-20">
@@ -773,8 +712,6 @@
                                     </article>
                                     <article class="clearfix m-t-10">
                                         <label for="cemail" class="control-label col-md-4 col-sm-4">Change Password:</label>
-
-                                        
                                     </article>
                                 </section>
                                 <section id="newdetailaccount" style="display:none">
