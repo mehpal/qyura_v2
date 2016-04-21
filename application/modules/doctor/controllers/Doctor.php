@@ -248,7 +248,7 @@ class Doctor extends MY_Controller {
                 
             );
             $doctorsProfileId = $this->Doctor_model->insertDoctorData($doctorsinserData, 'qyura_doctors');
-            //dump($this->db->last_query());
+
             $specialitiesIds = $this->input->post('doctorSpecialities_specialitiesId');
 
             foreach ($specialitiesIds as $key => $val) {
@@ -392,7 +392,7 @@ class Doctor extends MY_Controller {
     }
 
     function doctorDetails($doctorId) {
-       $data = array();
+        $data = array();
         $data['MI_reffralId'] =$MI_reffralId= (isset($_GET['reffralId']) && $_GET['reffralId'] != "") ? $_GET['reffralId'] : "";
         
 $MainSlot= array();
@@ -402,8 +402,22 @@ $MainSlot= array();
         }else{
             $data['MainSlot'] = defalutTimeSlots();
         }
-
+        $data['speciality'] = $this->Doctor_model->fetchSpeciality();
         $data['doctorDetail'] = $doctorDetail = $this->Doctor_model->fetchDoctorData($doctorId);
+        
+        $option = array(
+            'table' => 'qyura_doctorSpecialities',
+            'select' => 'doctorSpecialities_specialitiesId',
+            'where' => array('qyura_doctorSpecialities.doctorSpecialities_deleted' => 0,'qyura_doctorSpecialities.doctorSpecialities_doctorsId' => $doctorId),
+            'single' => FALSE
+        );
+        $doctorSpecialities = $this->common_model->customGet($option);
+        
+        $qyura_doctorSpecialities = array();
+        foreach($doctorSpecialities as $Specialities){
+            array_push($qyura_doctorSpecialities, $Specialities->doctorSpecialities_specialitiesId);
+        }
+        $data['qyura_doctorSpecialities'] = $qyura_doctorSpecialities;
         
         $option = array(
             'table' => 'qyura_country',
@@ -999,7 +1013,8 @@ $MainSlot= array();
         $this->bf_form_validation->set_rules("doctor_addr","Address", 'required|xss_clean');
         $this->bf_form_validation->set_rules("lat","Lat", 'required|xss_clean');
         $this->bf_form_validation->set_rules("lng","Long", 'required|xss_clean');
-
+        
+        $this->bf_form_validation->set_rules("doctorSpecialities_specialitiesId[]","Specility", 'required|xss_clean');
         $this->bf_form_validation->set_rules("doctors_phn","Phone", 'required|xss_clean');
         
         
@@ -1007,7 +1022,69 @@ $MainSlot= array();
             $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
             echo json_encode($responce);
         } else {
+            
+            $doctorAjaxId = $this->input->post('doctorAjaxId');
             $doctor_id = $this->input->post('doctorAjaxId');
+            $option = array(
+                'table' => 'qyura_doctorSpecialities',
+                'select' => 'doctorSpecialities_specialitiesId',
+                'where' => array('qyura_doctorSpecialities.doctorSpecialities_deleted' => 0,'qyura_doctorSpecialities.doctorSpecialities_doctorsId' => $doctor_id),
+                'single' => FALSE
+            );
+            $doctorSpecialities = $this->common_model->customGet($option);
+            $oldSpecialities = array();
+            foreach($doctorSpecialities as $Specialities){
+                array_push($oldSpecialities, $Specialities->doctorSpecialities_specialitiesId);
+            }
+            $newSpecility = $this->input->post('doctorSpecialities_specialitiesId');
+            
+            foreach ($newSpecility as $specility) {
+                if (!in_array($specility, $oldSpecialities)) {
+                    $option = array(
+                        'table' => 'qyura_doctorSpecialities',
+                        'select' => '*',
+                        'where' => array('doctorSpecialities_specialitiesId' => $specility,'doctorSpecialities_doctorsId' => $doctor_id),
+                        'single' => TRUE
+                    );
+                    $oldData = $this->common_model->customGet($option);
+                    if (isset($oldData) && $oldData != NULL) {
+
+                        $whereUpdate = array('doctorSpecialities_specialitiesId' => $specility,'doctorSpecialities_doctorsId' => $doctor_id);
+                        $arrayResumeData = array('doctorSpecialities_deleted' => 0);
+                        $updateOptions = array(
+                            'where' => $whereUpdate,
+                            'data'  => $arrayResumeData,
+                            'table' => 'qyura_doctorSpecialities'
+                        );
+
+                        $specilityOldDataResume = $this->common_model->customUpdate($updateOptions);
+
+                    } else {
+                       
+                        $new_specility_array = array('creationTime' => strtotime(date('Y-m-d h:i:s')),'status' => 3, 'doctorSpecialities_doctorsId' => $doctorAjaxId, 'doctorSpecialities_specialitiesId' => $specility);
+                        $options = array
+                            (
+                            'data'  => $new_specility_array,
+                            'table' => 'qyura_doctorSpecialities'
+                        );
+                        $this->common_model->customInsert($options);
+                    }
+                }
+            }
+            
+            foreach ($oldSpecialities as $specility) {
+                if (!in_array($specility, $newSpecility)) {
+                    $whereUpdate = array('doctorSpecialities_specialitiesId' => $specility,'doctorSpecialities_doctorsId' => $doctor_id);
+                    $deleteOldSpecility = array('doctorSpecialities_deleted' => 1);
+                    $updateOptions = array(
+                        'where' => $whereUpdate,
+                        'data'  => $deleteOldSpecility,
+                        'table' => 'qyura_doctorSpecialities'
+                    );
+                    $doctorSpecilityDelete = $this->common_model->customUpdate($updateOptions);
+                }
+            }
+            echo "hiiiii";exit;
             $userId = $this->input->post('userId');
             $doctors_fName = $this->input->post('doctors_fName');
             $doctors_lName = $this->input->post('doctors_lName');
@@ -1085,7 +1162,7 @@ $MainSlot= array();
                 'table' => 'qyura_users'
             );
             $user_updated = $this->common_model->customUpdate($updateOptions);
-            $doctorAjaxId = $this->input->post('doctorAjaxId');
+            
             if ($doctor_update || $user_updated) {
                 $responce =  array('status'=>1,'msg'=>"Profile update successfully",'url' =>"doctor/doctorDetails/$doctorAjaxId");
             }else

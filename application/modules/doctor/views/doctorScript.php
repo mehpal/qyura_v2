@@ -215,8 +215,10 @@ if ($current != 'detailDoctor'):
         width: '100%'
     });
 
-    $(".bs-select").select2({placeholder: "Select a Speciality",
-        allowClear: true
+    $(".bs-select").select2({
+        placeholder: "Select a Speciality",
+        //allowClear: true,
+        tags: true
     });
 
 </script>

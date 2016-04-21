@@ -36,9 +36,13 @@
                         </aside>
                         <form class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" method="post" action="#" novalidate="novalidate" name="doctorForm" enctype="multipart/form-data">
                             <aside class="col-md-5 col-sm-5 col-xs-12 text-right t-xs-left">
-                                <div class="col-md-8 col-sm-8 text-right avatar-view pull-right">
-                                    <label for="file-input" id="image_select"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x "></i></label>
-                                    <img src="<?php echo base_url('assets/default-images/Doctor-logo.png'); ?>" width="70" height="65" class="image-preview-show"/>
+                                <div class="col-md-8 col-sm-8 pull-right" data-target="#modal" data-toggle="modal">
+                                    <label class="col-md-5 col-sm-5 pull-right" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
+                                    <div class="pre col-md-4 col-sm-4 pull-right" style="margin-top: -10%">
+                                        <div id="preImgLogo" class="avatar-preview preview-md">
+                                            <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png"  class="image-preview-show" width="80px" height="80px" style="margin-top: 0"/>
+                                        </div>
+                                    </div>
                                 </div>
                                 <label class="error pull-right" id="error-avatarInput" style="display: none">Please Select Image</label>
                                 <label class="error" > <?php echo form_error("avatar_file"); ?></label>
@@ -190,6 +194,19 @@
                                                     <div class="col-md-4 col-sm-5">
                                                         <input class="form-control" id="users_email" name="users_email" placeholder="abc@gmail.com" value="<?php if(isset($doctorDetail[0]->users_email) && $doctorDetail[0]->users_email != NULL){ echo $doctorDetail[0]->users_email; } ?>" onblur="checkEmailFormat()"/>
                                                         <label class="error" id="err_users_email" > <?php echo form_error("users_email"); ?></label>
+                                                    </div>
+                                                </article>
+                                                <article class="clearfix m-t-10">
+                                                    <label for="" class="control-label col-md-3 col-sm-3">Speciality:</label>
+                                                    <div class="col-md-4 col-sm-4">
+                                                        <select  multiple="" class="bs-select form-control-select2 " data-width="100%" name="doctorSpecialities_specialitiesId[]" Id="doctorSpecialities_specialitiesId" data-size="4">
+                                                            <?php foreach($speciality as $key=>$val) {?>
+                                                            <option <?php if(isset($qyura_doctorSpecialities) && $qyura_doctorSpecialities != NULL){ if(in_array($val->specialities_id, $qyura_doctorSpecialities)){ echo "selected";} } ?> value="<?php echo $val->specialities_id;?>"><?php echo $val->specialities_name;?></option>
+                                                              <?php }?>
+                                                        </select>
+                                                        <div class='setValues'></div>
+                                                        <label class="error" style="display:none;" id="error-doctorSpecialities_specialitiesId"> Please select speciality(s)</label>
+                                                        <label class="error" > <?php echo form_error("doctorSpecialities_specialitiesId"); ?></label>
                                                     </div>
                                                 </article>
                                                 <div id="multiplePhoneNumber">
