@@ -36,7 +36,7 @@
                                         <!-- image -->
                                         <?php if (!empty($pharmacyData[0]->pharmacy_img)) {
                                             ?>
-                                            <img src="<?php echo base_url() ?>assets/pharmacyImages/<?php echo $pharmacyData[0]->pharmacy_img; ?>" alt=""  class="logo-img" />
+                                            <img src="<?php echo base_url() ?>assets/pharmacyImages/thumb/thumb_100/<?php echo $pharmacyData[0]->pharmacy_img; ?>" alt=""  class="logo-img" />
                                         <?php } else { ?>
                                             <img src="<?php echo base_url() ?>assets/default-images/Pharmacy-logo.png" alt="" class="logo-img" />
                                             <?php } ?>
@@ -83,17 +83,29 @@
                             </div>
 
                         </section>
-                        <!--
-                        <article class="text-center clearfix m-t-50">
-                            <ul class="nav nav-tab nav-setting">
-                                <li class="active">
-                                    <a data-toggle="tab" href="#general">General Detail</a>
-                                </li>
-                            </ul>
-                        </article>
-                        -->
-
-                        <article class="tab-content p-b-20 m-t-50">
+                        
+                        
+                           <article class="text-center clearfix m-t-50">
+                                <ul class="nav nav-tab nav-setting">
+                                   <li class="<?php if(isset($active) && $active == 'general'){echo "active";}?>" >
+                                      <a data-toggle="tab" href="#general">General Detail</a>
+                                   </li>
+                                 
+                                    <li class="<?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>">
+                                      <a data-toggle="tab" href="#timeSlot">Time Slot</a>
+                                   </li>
+                                  
+                                </ul>
+                             </article>
+                        
+                        
+                                 <article class="tab-content p-b-20 m-t-50">
+                  <!-- General Detail Starts -->
+               
+                  <section class="tab-pane fade in <?php if(isset($active) && $active == 'general'){echo "active";}?>" id="general">
+                               
+                      <section class="tab-pane fade in <?php if(isset($active) && $active == 'general'){echo "active";}?>" id="general">
+                               <article class="tab-content p-b-20 m-t-50">
 
                             <!-- General Detail Starts -->
                             <div class="map_canvas"></div>
@@ -133,7 +145,7 @@
 $explode = explode('|', $pharmacyData[0]->pharmacy_phn);
 for ($i = 0; $i < count($explode); $i++) {
     ?>
-                                                                <p>+<?php echo $explode[$i]; ?></p>
+                                                                <p>0<?php echo $explode[$i]; ?></p>
 
 <?php } ?>
  <!-- <p>+91-011-123456</p>
@@ -142,12 +154,12 @@ for ($i = 0; $i < count($explode); $i++) {
                                                         </aside>
                                                     </article>
 
-                                                    <article class="clearfix m-b-10">
+<!--                                                    <article class="clearfix m-b-10">
                                                         <label for="mobile" class="control-label col-md-4 col-sm-4">Mobile no. :</label>
                                                         <p class="col-md-8 col-sm-8 t-xs-left"><?php if (isset($pharmacyData[0]->pharmacy_mobl) && $pharmacyData[0]->pharmacy_mobl != 0) {
     echo $pharmacyData[0]->pharmacy_mobl;
 } ?> </p>
-                                                    </article>
+                                                    </article>-->
 
                                                     <article class="clearfix m-b-10">
                                                         <label for="cemail" class="control-label col-md-4 col-sm-4">Email Id :</label>
@@ -172,6 +184,20 @@ for ($i = 0; $i < count($explode); $i++) {
     echo $pharmacyData[0]->pharmacy_27Src;
 } ?> </p>
                                                     </article>
+                                                    <article class="clearfix m-b-10">
+                                                        <label for="cemail" class="control-label col-md-4 col-sm-4">Docat Id :</label>
+                                                        <p class="col-md-8  col-sm-8 text-right t-xs-left"> <?php echo $pharmacyData[0]->pharmacy_docatId; ?> </p>
+                                                    </article>
+<?php if(isset($pharmacyData[0]->pharmacy_qapCode) && !empty($pharmacyData[0]->pharmacy_qapCode)):?>
+   <article class="clearfix m-b-10">
+                                                        <label for="cemail" class="control-label col-md-4 col-sm-4">Qap Code :</label>
+                                                        <p class="col-md-8  col-sm-8 text-right t-xs-left"> <?php echo $pharmacyData[0]->pharmacy_qapCode; ?> </p>
+                                                    </article>
+   <article class="clearfix m-b-10">
+                                                        <label for="cemail" class="control-label col-md-4 col-sm-4">Qap Date :</label>
+                                                        <p class="col-md-8  col-sm-8 text-right t-xs-left"> <?php echo date('d/m/Y',$pharmacyData[0]->pharmacy_qapDate); ?> </p>
+                                                    </article>
+<?php endif;?>
                                                 </aside>
                                                 <!--edit-->
                                                 <form name="pharmacyDetail" action="<?php echo site_url(); ?>/pharmacy/saveDetailPharmacy/<?php echo $pharmacyId; ?>" id="pharmacyDetail" method="post">
@@ -307,52 +333,26 @@ endif; ?> name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.valu
                                                                 </aside>
                                                             </div>
                                                         </article>
-                                                        <article class="clearfix m-t-10 ">
-                                                            <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
-                                                            <div class="col-md-8 col-sm-8">
-<?php
-$explodes = explode('|', $pharmacyData[0]->pharmacy_phn);
-if (!empty($explodes)) {
-    for ($i = 0; $i < count($explodes); $i++) {
-        $moreExpolde = explode(' ', $explodes[$i]);
-        ?>
+                                     
 
+                                                        
+                                     <article class="clearfix m-t-10">
+                                        <label class="control-label col-md-4 col-sm-4" for="cname"> Phone :</label>
+                                        <div class="col-md-8 col-sm-8">
+                                            <input type="text" class="form-control" name="pharmacy_phn" id="pharmacy_phn" maxlength="10" minlength="10" onkeypress="return isNumberKey(event)" value="<?php echo $pharmacyData[0]->pharmacy_phn;?>"/>
 
-                                                                        <aside class="row">
-                                                                            <div class="col-lg-3 col-md-4 col-sm-3 col-xs-12">
-                                                                                <select class="selectpicker" data-width="100%" name="pre_number[]">
-                                                                                    <option value="91" <?php if ($moreExpolde[0] == '91') {
-            echo 'selected';
-        } ?>>+91</option>
-                                                                                    <!--<option value="1" <?php // if($moreExpolde[0] == '1'){ echo 'selected';} ?>>+1</option>-->
-                                                                                </select>
-                                                                            </div>
+                                            <label class="error" style="display:none;" id="error-pharmacy_phn"> please enter a valid phone min length should be min 10 and max 10</label>
 
-                                                                            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12 m-t-xs-10">
-                                                                                <input type="text" onkeypress="return isNumberKey(event)" maxlength="5" value="<?php if (isset($moreExpolde[1]) && $moreExpolde[1] != '') {
-            echo $moreExpolde[1];
-        } ?>"  id="midNumber" name="midNumber[]" class="form-control" requird>
-                                                                                <label class="error" > <?php echo form_error("midNumber"); ?></label>
-                                                                            </div>
-
-                                                                            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12 m-t-xs-1">
-                                                                                <input type="text" class="form-control" name="pharmacy_phn[]" id="pharmacy_phn<?php echo $i; ?>" placeholder="" value="<?php if (isset($moreExpolde[2]) && $moreExpolde[2] != '') {
-            echo $moreExpolde[2];
-        } ?>" maxlength="8" onkeypress="return isNumberKey(event)"/>
-                                                                            </div>
-
-                                                                        </aside>
-                                                                        <br />
-        <?php $moreExpolde = '';
-    }
-} ?>
-
-                                                                        <p class="m-t-0">* The number above is going to be your primary number.</p>
-                                                               
-                                                            </div>
-                                                        </article>
-
-                                                        <article class="clearfix m-t-10">
+                                            <label class="error" > <?php echo form_error("pharmacy_phn"); ?></label>
+                                            <label class="error"> </label>
+                                            <p class="m-t-0">* The number above is going to be your primary number.</p>
+                                        </div>
+                                    </article>                        
+                                                        
+                                                        
+                                                        
+                                                        
+<!--                                                        <article class="clearfix m-t-10">
                                                             <label class="control-label col-md-4 col-sm-4" for="cname">Mobile no. :</label>
 
                                                             <div class="col-md-8 col-sm-8">
@@ -365,7 +365,7 @@ if (!empty($explodes)) {
                                                                 <label class="error"> </label>
 
                                                             </div>
-                                                        </article>
+                                                        </article>-->
 
                                                         <article class="clearfix m-t-10">
                                                             <label for="cemail" class="control-label col-md-4 col-sm-4">Email Id :</label>
@@ -424,6 +424,17 @@ if (!empty($explodes)) {
                                                                 <label class="error" > <?php echo form_error("pharmacy_27Src"); ?></label>
                                                             </div>    
                                                         </article>
+                                                        
+                                                        <article class="clearfix m-t-10">
+                                        <label for="cname" class="control-label col-md-4">Docat Id : </label>
+                                        <div class="col-md-8 col-sm-8">
+                                            <input class="form-control" name="pharmacy_docatId" type="text" required="" id="pharmacy_docatId"  value="<?php if (isset($pharmacyData[0]->pharmacy_docatId)) {
+    echo $pharmacyData[0]->pharmacy_docatId;
+} ?>">
+                                            <label class="error" style="display:none;" id="error-pharmacy_docatId">please enter Docat Id.</label>
+                                            <label class="error" > <?php echo form_error("pharmacy_docatId"); ?></label>
+                                        </div>
+                                    </article>
                                                         <article class="clearfix m-t-10">
 
                                                             <div class="col-md-12">
@@ -446,6 +457,61 @@ if (!empty($explodes)) {
                             </section>       
 
                         </article>
+                        
+                        </section>
+                      
+                      
+                  </section>
+                  
+                   <section class="tab-pane fade in <?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>" id="timeSlot">
+                       
+           <section class="tab-pane fade in <?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>" id="timeSlot">
+                        
+                            
+                     <?php if(isset($timeSlot) && !empty($timeSlot)):?>
+                         
+                    <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('pharmacy/updateTimeSlot');?>">
+                        <input type="hidden" name="mi_user_id" value="<?php if(isset($pharmacyData[0]->pharmacy_usersId)){ echo $pharmacyData[0]->pharmacy_usersId; }?>" />
+                         <input type="hidden" name="mi_id" value="<?php if(isset($pharmacyData[0]->pharmacy_id)){ echo $pharmacyData[0]->pharmacy_id; }?>" />
+                         
+                          <input type="hidden" name="redirectControllerMethod" value="pharmacy/detailPharmacy" />
+                        
+                        <?php echo $this->load->view('common_pages/edit_time_slot_view');?>
+                        
+                        <article class="clearfix m-t-10">
+                            <div class="col-md-12">
+                              <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit" onclick="return timeSlotCheck()">Update</button>
+                            </div>
+                            </article>
+                    </form>
+                    <?php else: ?>
+                        
+                       <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('pharmacy/setTimeSlotMi');?>">
+                        <input type="hidden" name="mi_user_id" value="<?php if(isset($pharmacyData[0]->pharmacy_usersId)){ echo $pharmacyData[0]->pharmacy_usersId; }?>" />
+                         <input type="hidden" name="mi_id" value="<?php if(isset($pharmacyData[0]->pharmacy_id)){ echo $pharmacyData[0]->pharmacy_id; }?>" />
+                        
+                          <input type="hidden" name="redirectControllerMethod" value="pharmacy/detailPharmacy" />
+                         
+                        <?php echo $this->load->view('common_pages/time_slot_view');?>
+                        
+                        <article class="clearfix m-t-10">
+                            <div class="col-md-12">
+                              <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit" onclick="return timeSlotCheck()">Submit</button>
+                            </div>
+                            </article>
+                    </form>
+                         
+                    <?php endif;?>   
+                        
+                
+                        </section>
+   
+                       
+                       
+                       
+                  </section>
+                                </article>
+                 
 
                     </section>
 

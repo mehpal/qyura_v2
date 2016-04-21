@@ -55,7 +55,7 @@ class Ambulance_model extends CI_Model {
     }
     
     function fetchambulanceData($condition = NULL){
-         $this->db->select('ambulance.ambulance_zip,ambulance.ambulance_id,ambulance.ambulance_usersId,City.city_name,ambulance.ambulance_name,ambulance.ambulance_address,ambulance.ambulance_phn,ambulance.ambulance_img,'
+         $this->db->select('ambulance.ambulance_zip,ambulance.ambulance_docatId,ambulance.ambulance_id,ambulance.ambulance_usersId,City.city_name,ambulance.ambulance_name,ambulance.ambulance_address,ambulance.ambulance_phn,ambulance.ambulance_img,'
                  . 'usr.users_email,usr.users_password ,ambulance.ambulance_cntPrsn,ambulance.ambulance_lat,ambulance.ambulance_long,usr.users_mobile,ambulance.ambulance_countryId,ambulance.ambulance_stateId,ambulance.ambulance_cityId,ambulance.ambulance_isManual,qyura_country.country,qyura_state.state_statename,'
                  . ',ambulance.ambulance_27Src,ambulance.ambulanceType,ambulance.ambulance_mmbrTyp');
         $this->db->from('qyura_ambulance AS ambulance');

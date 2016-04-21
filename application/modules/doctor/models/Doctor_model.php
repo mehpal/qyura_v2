@@ -28,7 +28,7 @@ class Doctor_model extends CI_Model {
          */
         $this->db->select('specialities_id,specialities_name');
         $this->db->from('qyura_specialities');
-        $this->db->where(array('specialities_deleted' => 0));
+        $this->db->where(array('specialities_deleted' => 0,'type' => 1));
         $this->db->order_by("specialities_name", "asc");
         return $this->db->get()->result();
     }
@@ -99,12 +99,14 @@ class Doctor_model extends CI_Model {
     function fetchDoctorData($condition = NULL) {
 
         $this->db->select('doc.doctors_id,doc.doctors_27Src,doc.isManual,doc.doctors_consultaionFee,doc.doctors_pin,doc.doctors_userId,doc.doctors_fName,doc.doctors_lName,CONCAT(doc.doctors_fName," ",doc.doctors_lName)AS doctoesName,doc.doctors_phn,doc.doctor_addr,City.city_name,doc.doctors_img,usr.users_email,doc.doctors_lat,doc.doctors_long,usr.users_id,doc.doctors_registeredMblNo,
-        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_dob,doc.doctors_cityId,doc.creationTime,doc.doctors_mobile,doc.doctors_unqId,GROUP_CONCAT(DISTINCT(qyura_professionalExp.professionalExp_end)) As endTime,GROUP_CONCAT(DISTINCT(qyura_professionalExp.professionalExp_start)) AS startTime,GROUP_CONCAT(qyura_specialities.specialities_name) AS speciality,usr.users_email,GROUP_CONCAT(qyura_hospital.hospital_name ) AS hospitalName');
+        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_dob,doc.doctors_cityId,doc.creationTime,doc.doctors_mobile,doc.doctors_unqId,GROUP_CONCAT(DISTINCT(qyura_professionalExp.professionalExp_end)) As endTime,GROUP_CONCAT(DISTINCT(qyura_professionalExp.professionalExp_start)) AS startTime,GROUP_CONCAT(qyura_specialities.specialities_name) AS speciality,usr.users_email,GROUP_CONCAT(qyura_hospital.hospital_name ) AS hospitalName,doc.doctors_joiningDate,doc.doctors_pin,doc.doctors_homeVisit,doc.doctors_showExp,doc.doctors_expYear,doc.doctors_docatId,doc.doctors_qapId,Qap.qap_code,Qap.qap_id,DocService.doctorServices_id,DocService.doctorServices_doctorId');
         /* $this->db->select('doc.doctors_id,doc.doctors_pin,doc.doctors_userId,CONCAT(doc.doctors_fname," ",doc.doctors_lname)AS doctoesName,doc.doctors_phn,doc.doctor_addr,City.city_name,doc.doctors_img,usr.users_email,doc.doctors_lat,doc.doctors_long,usr.users_id,
           doc.doctors_countryId,doc.doctors_stateId,doc.doctors_dob,doc.doctors_cityId,doc.creationTime,doc.doctors_mobile,doc.doctors_unqId,GROUP_CONCAT(DISTINCT(qyura_professionalExp.professionalExp_end)) As endTime,GROUP_CONCAT(DISTINCT(qyura_professionalExp.professionalExp_start)) AS startTime, SUM( FROM_UNIXTIME(DISTINCT(qyura_professionalExp.professionalExp_end),"%Y") - FROM_UNIXTIME(DISTINCT(qyura_professionalExp.professionalExp_start),"%Y"))  AS totalExprience,GROUP_CONCAT(qyura_specialities.specialities_name) AS speciality,usr.users_email,GROUP_CONCAT(qyura_hospital.hospital_name) AS hospitalName');
          */
         $this->db->from('qyura_doctors AS doc');
+        $this->db->join('qyura_doctorServices AS DocService', 'DocService.doctorServices_doctorId = doc.doctors_id', 'left');
         $this->db->join('qyura_city AS City', 'City.city_id = doc.doctors_cityId', 'left');
+        $this->db->join('qyura_qap AS Qap', 'Qap.qap_id = doc.doctors_qapId', 'left');
         $this->db->join('qyura_users AS usr', 'usr.users_id = doc.doctors_userId', 'left');
         $this->db->join('qyura_professionalExp', 'qyura_professionalExp.professionalExp_usersId = doc.doctors_id', 'left');
         $this->db->join('qyura_specialities', 'qyura_specialities.specialities_id=qyura_professionalExp.professionalExp_specialitiesCatId', 'left');
@@ -266,7 +268,7 @@ class Doctor_model extends CI_Model {
     function fetchDoctorDataTables() {
         $imgUrl = base_url() . 'assets/doctorsImages/thumb/thumb_100/$1';
         $this->datatables->select('doc.doctors_id,doc.doctors_pin,doc.doctors_userId,doc.doctors_fname,doc.doctors_lname,doc.doctors_phn,doc.doctor_addr,City.city_name,doc.doctors_img,usr.users_email,doc.doctors_lat,doc.doctors_long,usr.users_id,
-        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_cityId,DATE_FORMAT(FROM_UNIXTIME(doc.creationTime),"%d-%m-%Y")As joinDate,doc.doctors_mobile,doc.doctors_unqId, SUM( FROM_UNIXTIME(qyura_professionalExp.professionalExp_end,"%Y") - FROM_UNIXTIME(qyura_professionalExp.professionalExp_start,"%Y"))  AS exp,GROUP_CONCAT(DISTINCT qyura_specialities.specialities_name SEPARATOR ", ") AS specialityName');
+        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_cityId,DATE_FORMAT(FROM_UNIXTIME(doc.creationTime),"%d-%m-%Y")As joinDate,doc.doctors_mobile,doc.doctors_unqId, SUM( FROM_UNIXTIME(qyura_professionalExp.professionalExp_end,"%Y") - FROM_UNIXTIME(qyura_professionalExp.professionalExp_start,"%Y"))  AS exp,GROUP_CONCAT(DISTINCT qyura_specialities.specialities_name SEPARATOR ", ") AS specialityName,doc.doctors_expYear');
         $this->datatables->from('qyura_doctors AS doc');
         $this->db->join('qyura_city AS City', 'City.city_id = doc.doctors_cityId', 'left');
         $this->db->join('qyura_users AS usr', 'usr.users_id = doc.doctors_userId', 'left');
@@ -292,7 +294,7 @@ class Doctor_model extends CI_Model {
         isset($docSpecialities) && $docSpecialities != '' ? $this->db->where('qyura_specialities.specialities_id', $docSpecialities) : '';
 
         $this->db->where(array('doc.doctors_deleted' => 0));
-        $this->datatables->add_column('exp', '$1 Years', 'exp');
+        $this->datatables->add_column('exp', '$1 Years', 'expYear(doctors_expYear)');
         $this->datatables->add_column('name', '$1</br>$2', 'doctors_fname,doctors_unqId');
         $this->datatables->add_column('consFee', "<i class='fa fa-inr'></i> $1", 'consFee');
 
@@ -487,6 +489,17 @@ class Doctor_model extends CI_Model {
         $doctorAvailability = $this->db->get()->result();
         return $doctorAvailability;
     }
+
+    
+    function fetchDiagnostic() {
+        $this->db->select('diagnostic_id,diagnostic_name');
+        $this->db->from('qyura_diagnostic');
+        $this->db->where(array('diagnostic_deleted' => 0));
+        $this->db->order_by("diagnostic_name", "asc");
+        return $this->db->get()->result();
+    }
+
+
 
     function checkSloat() {
         $table = false;

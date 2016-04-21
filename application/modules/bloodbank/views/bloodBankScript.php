@@ -3,7 +3,8 @@
     {
         display:none;
     }
-</style>
+</style> 
+
 <?php $check= 0; 
 if(isset($bloodBankId) && !empty($bloodBankId)){
     $check = $bloodBankId; 
@@ -888,4 +889,3 @@ function imageIsLoaded(e) {
    }
 
     </script>
- <?php echo $this->load->view('common_pages/timeslotScript');?>
