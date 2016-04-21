@@ -466,7 +466,7 @@ class Pharmacy extends MY_Controller {
         if (!empty($id)) {
             $data['pharmacyData'] = $this->Pharmacy_model->fetchpharmacyData($id);
             //  print_r($data); exit;
-            echo "<img src='" . base_url() . "assets/pharmacyImages/" . $data['pharmacyData'][0]->pharmacy_img . "'alt='' class='logo-img' />";
+            echo "<img src='" . base_url() . "assets/pharmacyImages/thumb/thumb_100/" . $data['pharmacyData'][0]->pharmacy_img . "'alt='' class='logo-img' />";
             exit();
         }
     }
