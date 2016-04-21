@@ -61,22 +61,20 @@
                     </article>
                     <article class="text-center clearfix m-t-50">
                         <ul class="nav nav-tab nav-doctor">
-                            <li class="active">
+                            <?php $active_tag = $this->session->flashdata('active_tag'); ?>
+                            <li class="<?php if($active_tag == '' || $active_tag == 1){ echo "active"; }?>">
                                 <a data-toggle="tab" href="#general">General Detail</a>
                             </li>
-                            <li class=" ">
+                            <li class="<?php if($active_tag == 2){ echo "active"; }?>">
                                 <a data-toggle="tab" href="#academic">Academic Detail</a>
                             </li>
-                            <li class=" ">
+                            <li class="<?php if($active_tag == 3){ echo "active"; }?>">
                                 <a data-toggle="tab" href="#experience">Services</a>
                             </li>
-<!--                            <li class=" ">
-                                <a data-toggle="tab" href="#appointment">Appointment History</a>
-                            </li>-->
-                            <li class=" ">
+                            <li class="<?php if($active_tag == 4){ echo "active"; }?>">
                                 <a data-toggle="tab" href="#timeslot">Time Slot</a>
                             </li>
-                            <li class=" ">
+                            <li class="<?php if($active_tag == 5){ echo "active"; }?>">
                                 <a data-toggle="tab" href="#account">Account</a>
                             </li>
                         </ul>
@@ -86,7 +84,7 @@
                         <div class="alert alert-success" id="successTop" style="display: none"></div>
                         <div class="alert alert-danger" id="er_TopError" style="display: none"></div>
                         <!-- General Detail Starts -->
-                        <section class="tab-pane fade in active" id="general">
+                        <section class="tab-pane fade in <?php if($active_tag == '' || $active_tag == 1){ echo "active"; }?>" id="general">
                                <section class="detailbox">
                                 <div class="mi-form-section">
                                     <!-- Table Section End -->
@@ -375,7 +373,7 @@
                         </section>
                         <!-- General Detail Ends -->
                         <!-- Academic Detail Starts -->
-                        <section class="tab-pane fade in" id="academic">
+                        <section class="tab-pane fade in <?php if($active_tag == 2){ echo "active"; }?>" id="academic">
                             <div class="clearfix m-t-20 doctor-description">
                                 <article class="clearfix">
                                     <aside class="col-sm-8">
@@ -473,7 +471,7 @@
                         <!-- Academic Detail Ends -->
                         
                         <!-- Experience Starts -->
-                        <section class="tab-pane fade in" id="experience">
+                        <section class="tab-pane fade in <?php if($active_tag == 3){ echo "active"; }?>" id="experience">
                             <div class="clearfix m-t-20 doctor-description">
                                 <article class="clearfix">
                                     <aside class="col-sm-8">
@@ -560,7 +558,7 @@
                         </section>
                         <!-- Experience Ends -->
                         <!-- Appointment History Starts -->
-                        <section class="tab-pane fade in" id="appointment">
+                        <section class="tab-pane fade in <?php if($active_tag == 4){ echo "active"; }?>" id="appointment">
                             <aside class="table-responsive">
                                 <table class="table doctor-table">
                                     <tr>
@@ -689,7 +687,7 @@
                         </section>
                         <!-- Appointment History Starts -->
                         <!-- Account Detail Starts -->
-                        <section class="tab-pane fade in" id="account">
+                        <section class="tab-pane fade in <?php if($active_tag == 5){ echo "active"; }?>" id="account">
                             <div class="clearfix m-t-20 p-b-20 doctor-description">   
                                 <article class="clearfix">
                                     <aside class="col-sm-8 setting">
@@ -759,7 +757,7 @@
                         <!-- Timeslot Starts Section -->
                       
                         <!-- Timeslot Starts Section -->
-                            <section class="tab-pane fade in" id="timeslot">
+                            <section class="tab-pane fade in " id="timeslot">
 
                             <div class="bg-white mi-form-section">
                                 <!-- Top Detailed Section -->
