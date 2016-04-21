@@ -138,28 +138,47 @@ class Qap_model extends CI_Model {
 
       //  $imgUrl = base_url() . 'assets/Medicart/$1';
 
-        $this->datatables->select("qyura_qap.qap_id as id,qyura_qap.status as sts,qyura_qap.qap_email,qyura_qap.qap_name,"
+        $this->datatables->select("qyura_qap.qap_id as id,qyura_qap.status as status,qyura_qap.qap_email,qyura_qap.qap_name,"
                 . "qyura_qap.qap_image,qyura_qap.qap_phone,qyura_qap.qap_city,qyura_qap.qap_address,qyura_qap.qap_dateOfGeneration,qyura_qap.qap_code");
         
         
-        $this->datatables->from('qyura_qap');
-        
+        $this->datatables->from('qyura_qap');  
         $this->datatables->where(array("qyura_qap.qap_deleted" => 0));
         $this->datatables->order_by('qap_id','asc');
+        
+        $city = $this->input->post('cityId');
+        isset($city) && $city != '' ? $this->datatables->where('qyura_qap.qap_city', $city) : '';
        
         $status = $this->input->post('status');
         isset($status) && $status != '' ? $this->datatables->where('qyura_qap.status', $status) : '';
-//        
-//        $this->datatables->add_column('medicartOffer_startDate','$1', 'dateFormateConvert(medicartOffer_startDate)');
-//        $this->datatables->add_column('medicartOffer_endDate','$1', 'dateFormateConvert(medicartOffer_endDate)');
-
         
-        $this->datatables->add_column('action', '<a href="qap/editView" class="btn btn-warning waves-effect waves-light m-b-5 applist-btn">Edit</a>', 'id');
+        $this->datatables->add_column('action', '<a href="qap/editView/$1" class="btn btn-warning waves-effect waves-light m-b-5 applist-btn">Edit</a>', 'id');
         
-        $this->datatables->add_column('status', '$1', 'statusCheck(qap,qyura_qap,qap_id,id,sts)');
+        $this->datatables->add_column('status', '$1', 'statusCheck(qap,qyura_qap,qap_id,id,status)');
+         $this->datatables->add_column('qap_dateOfGeneration', '$1', 'dateFormateConvert(qap_dateOfGeneration)');
 
        return  $this->datatables->generate();
-       // return $this->datatables->last_query();
+       
     }
     
+    function checkUserExistence($email,$id) {
+        $query = 'SELECT count(qap_id) as isExit FROM qyura_qap  WHERE qap_email = "' . $email . '" and qap_id != "' . $id . '"';
+
+        $data = $this->db->query($query)->result();
+      
+        if ($data[0]->isExit >= 1) {
+         
+            echo json_encode(FALSE);
+        } else {
+         
+            echo json_encode(TRUE);
+        }
+    }
+   
+    function fetchCity(){
+        $this->db->select('qap_city');
+        $this->db->from('qyura_qap');
+        $this->db->group_by("qap_city"); 
+        return $this->db->get()->result();
+    }
 }
