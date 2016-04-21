@@ -13,7 +13,7 @@ class Master extends MY_Controller {
         $this->load->library('datatables');
         $this->load->helper('common');
     }
-    
+        
     //Degree 
     function degree() {
         $option = array(
@@ -494,7 +494,7 @@ class Master extends MY_Controller {
             'single' => FALSE
         );
         $data['miList'] = $this->common_model->customGet($option);
-        $data['title'] = "Mi Type's";
+        $data['title'] = "Mi Types";
         $this->load->super_admin_template('mitype', $data, 'masterScript');
     }
     

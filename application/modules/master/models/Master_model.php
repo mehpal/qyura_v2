@@ -401,5 +401,64 @@ class Master_model extends CI_Model {
         $data = $this->db->get();
         return $data->result();
     }
+    function fetchHospitalDataTables($condition = NULL) {
+
+        $this->datatables->select('hospital_id as id,hospital_name,hospital_deleted,creationTime,status as Status');
+        $this->datatables->from('qyura_hospital');
+
+        $search = $this->input->post('name');
+        if ($search) {
+            $this->db->or_like('hospital_name', $search);
+        }
+        if ($condition)
+            $this->datatables->where(array('hospital_id' => $condition));
+        $this->datatables->where(array('hospital_deleted' => 0));
+
+        $this->datatables->add_column('action', '<a class="btn btn-success waves-effect waves-light m-b-5 applist-btn" hide href="editHospitalView/$1">Edit</a>','hospital_id');
+        $this->datatables->edit_column('status','$1','puStatusCheck(master/mi_master,qyura_hospital,hospital_id,id,Status)');
+        $this->datatables->order_by("creationTime");
+        return $this->datatables->generate();
+        // echo $this->datatables->last_query();
+    }
+    function fetchDiagnosticDataTables($condition = NULL) {
+
+        $this->datatables->select('diagnostic_id as id,diagnostic_name,diagnostic_deleted,creationTime,status as Status');
+        $this->datatables->from('qyura_diagnostic');
+
+        $search = $this->input->post('name');
+        if ($search) {
+            $this->db->or_like('diagnostic_name', $search);
+        }
+        if ($condition)
+            $this->datatables->where(array('diagnostic_id' => $condition));
+        $this->datatables->where(array('diagnostic_deleted' => 0));
+
+        $this->datatables->add_column('action', '<a class="btn btn-success waves-effect waves-light m-b-5 applist-btn" hide href="editDiagnosticView/$1">Edit</a>','diagnostic_id');
+        $this->datatables->edit_column('status','$1','puStatusCheck(master/mi_master,qyura_diagnostic,diagnostic_id,id,Status)');
+        $this->datatables->order_by("creationTime");
+        return $this->datatables->generate();
+        // echo $this->datatables->last_query();
+    }
+    function fetchCityDataTables($condition = NULL) {
+
+        $this->datatables->select('city_id as id,city_name,city_deleted,creationTime,status as Status');
+        $this->datatables->from('qyura_city');
+
+        $search = $this->input->post('name');
+        if ($search) {
+            $this->db->or_like('city_name', $search);
+        }
+        if ($condition)
+            $this->datatables->where(array('city_id' => $condition));
+        $this->datatables->where(array('city_deleted' => 0));
+
+        $this->datatables->add_column('action', '<a class="btn btn-success waves-effect waves-light m-b-5 applist-btn" hide href="city_master/editCityView/$1">Edit</a>','city_id');
+        $this->datatables->edit_column('status','$1','puStatusCheck(master/mi_master,qyura_city,city_id,id,Status)');
+
+        $this->datatables->order_by("creationTime");
+        return $this->datatables->generate();
+        // echo $this->datatables->last_query();
+    }
+
 
 }

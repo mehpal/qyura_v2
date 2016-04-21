@@ -19,33 +19,34 @@
                                  <span class="input-group-btn">
                                  <button class="b-search waves-effect waves-light btn-success" type="button"><i class="fa fa-search"></i></button>
                                  </span>
-                                 <input type="text" placeholder="Search" class="form-control ng-pristine ng-untouched ng-valid" id="search" name="search" ng-model="test">
+                                 <input type="text" placeholder="Search" class="form-control" id="search-text">
                               </div>
                            </article>
                         </figure>
                         <div class="nicescroll mxh-400" style="overflow: hidden;" tabindex="5000">
                            <div class="clearfix">
                               <form name="designationEditForm" action="#" id="designationEditForm" method="post">
+                              <ul id="list" class="list-unstyled ul-bigspace">
                                  <?php $countDesignation = 1; if(isset($Departments) && $Departments != NULL){
                                     foreach ($Departments as $list){
                                     ?>
-                                 <aside class="clearfix  border-t membership-plan m-t-10">
-                                    <article class="col-md-4">
+                                 <li class="clearfix  border-t membership-plan m-t-10">
+                                    <span class="col-md-4">
                                        <h6><?php echo $list->department_name;?> </h6>
-                                    </article>
-                                    <article class="col-md-4">
+                                    </span>
+                                    <span class="col-md-4">
                                        <h6><?php echo $list->designation_name; ?></h6>
-                                    </article>
-                                    <article class="col-md-4 text-right">
+                                    </span>
+                                    <span class="col-md-4 text-right">
                                        <h6>
                                           <a href="javascript:void(0)"><i class="md md-edit membership-btn"></i></a>
                                           <a href="javascript:void(0)" onclick="enableFn('master', 'designationPublish', '<?php echo $list->designation_id; ?>','<?php echo $list->dsgnStatus; ?>')" title='<?php if($list->dsgnStatus == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Designation' class="pull-right m-l-10 "><i class="fa fa-thumbs-<?php if($list->dsgnStatus == 3){ echo "up"; }else{ echo "down danger"; } ?> "></i></a>
                                        </h6>
-                                    </article>
-                                 </aside>
+                                    </span>
+                                 </li>
                                 
-                                 <div class="newmembership m-t-10" style="display:none">
-                                    <aside class="col-md-5 ">
+                                 <li class="newmembership m-t-10" style="display:none">
+                                    <span class="col-md-5 ">
                                        <input type="hidden" id="designation_id_<?php echo $countDesignation; ?>" name="designation_id_<?php echo $countDesignation; ?>" value="<?php echo $list->designation_id; ?>" >
 
                                        <select class="selectpicker" data-width="100%" name="designation_departmentId_<?php echo $countDesignation; ?>" id="designation_departmentId_<?php echo $countDesignation; ?>" style="z-index: 1000000 !important">
@@ -59,16 +60,16 @@
                                                   endif; ?>
                                             </select>
                                             <label class="error" id="err_designation_departmentId_<?php echo $countDesignation; ?>" > <?php echo form_error("designation_departmentId"); ?></label>
-                                    </aside>
-                                    <aside class="col-md-5">
+                                    </span>
+                                    <span class="col-md-5">
                                         <input type="text" required="" name="designation_name_<?php echo $countDesignation; ?>" id="designation_name_<?php echo $countDesignation; ?>" class="form-control" value="<?php echo $list->designation_name; ?>" pattern="[a-zA-Z]+">
                                        <label class="error" id="err_designation_name_<?php echo $countDesignation; ?>" > <?php echo form_error("designation_name"); ?></label>
-                                    </aside>
-                                    <aside class="col-md-2">
+                                    </span>
+                                    <span class="col-md-2">
                                        <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
                                        <a href="javascript:void(0)" style="line-height: 1.6"><i class="md md-cancel membership-btn"></i></a>
-                                    </aside>
-                                 </div>
+                                    </span>
+                                 </li>
                                  <?php $countDesignation++;} } ?>
                                  <input type="hidden" id="total_count" name="total_count" value="<?php echo $countDesignation; ?>" >
                               </form>
