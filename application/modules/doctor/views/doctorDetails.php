@@ -490,7 +490,7 @@
                                         <article class="clearfix m-t-20">
                                             <div id="newexp" style="display:none">
                                                 <form name="addServicesForm" action="#" id="addServicesForm" method="post">
-                                                    <input type="text" id="doctorAjaxId" name="doctorAjaxId" value="<?php if(isset($doctorDetail[0]->doctors_id) && $doctorDetail[0]->doctors_id != NULL){ echo $doctorDetail[0]->doctors_id; }?>" />
+                                                    <input type="hidden" id="doctorAjaxId" name="doctorAjaxId" value="<?php if(isset($doctorDetail[0]->doctors_id) && $doctorDetail[0]->doctors_id != NULL){ echo $doctorDetail[0]->doctors_id; }?>" />
                                                     <div id="expDiv">
                                                         <article class="form-group m-lr-0" id="doctorService">
                                                             <label for="" class="control-label col-md-4 col-sm-4">Doctor Services :</label>
