@@ -8,10 +8,12 @@
                     <h3 class="pull-left page-title">Diagnostic</h3>
                 </div>
             </div>
-            <?php if (!empty($this->session->flashdata('message'))) { ?>
+            <?php $sMsg = $this->session->flashdata('message');
+            $eMsg = $this->session->flashdata('error');
+            if (!empty($sMsg)) { ?>
                 <div class="alert alert-success" id="successmsg" ><?php echo $this->session->flashdata('message'); ?></div>
             <?php } ?>
-            <?php if (!empty($this->session->flashdata('error'))) { ?>
+            <?php if (!empty($eMsg)) { ?>
                 <div class="alert alert-danger" id="errormsg"><?php echo $this->session->flashdata('error'); ?></div>
             <?php } ?>
             <!-- Left Section Start -->
