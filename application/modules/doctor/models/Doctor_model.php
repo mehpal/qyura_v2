@@ -274,7 +274,7 @@ class Doctor_model extends CI_Model {
     function fetchDoctorDataTables() {
         $imgUrl = base_url() . 'assets/doctorsImages/thumb/thumb_100/$1';
         $this->datatables->select('doc.doctors_id,doc.doctors_pin,doc.doctors_userId,doc.doctors_fname,doc.doctors_lname,doc.doctors_phn,doc.doctor_addr,City.city_name,doc.doctors_img,usr.users_email,doc.doctors_lat,doc.doctors_long,usr.users_id,
-        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_cityId,DATE_FORMAT(FROM_UNIXTIME(doc.creationTime),"%d-%m-%Y")As joinDate,doc.doctors_mobile,doc.doctors_unqId, SUM( FROM_UNIXTIME(qyura_professionalExp.professionalExp_end,"%Y") - FROM_UNIXTIME(qyura_professionalExp.professionalExp_start,"%Y"))  AS exp,GROUP_CONCAT(DISTINCT qyura_specialities.specialities_name SEPARATOR ", ") AS specialityName');
+        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_cityId,DATE_FORMAT(FROM_UNIXTIME(doc.creationTime),"%d-%m-%Y")As joinDate,doc.doctors_mobile,doc.doctors_unqId, SUM( FROM_UNIXTIME(qyura_professionalExp.professionalExp_end,"%Y") - FROM_UNIXTIME(qyura_professionalExp.professionalExp_start,"%Y"))  AS exp,GROUP_CONCAT(DISTINCT qyura_specialities.specialities_name SEPARATOR ", ") AS specialityName,doc.doctors_expYear');
         $this->datatables->from('qyura_doctors AS doc');
         $this->db->join('qyura_city AS City', 'City.city_id = doc.doctors_cityId', 'left');
         $this->db->join('qyura_users AS usr', 'usr.users_id = doc.doctors_userId', 'left');
@@ -301,7 +301,7 @@ class Doctor_model extends CI_Model {
         isset($docSpecialities) && $docSpecialities != '' ? $this->db->where('qyura_specialities.specialities_id', $docSpecialities) : '';
 
         $this->db->where(array('doc.doctors_deleted' => 0));
-        $this->datatables->add_column('exp', '$1 Years', 'exp');
+        $this->datatables->add_column('exp', '$1 Years', 'expYear(doctors_expYear)');
         $this->datatables->add_column('name', '$1</br>$2', 'doctors_fname,doctors_unqId');
         $this->datatables->add_column('consFee', "<i class='fa fa-inr'></i> $1", 'consFee');
 
@@ -502,6 +502,14 @@ class Doctor_model extends CI_Model {
 //                ->group_by("doctorAvailability_refferalId");
         $doctorAvailability = $this->db->get()->result();
         return $doctorAvailability;
+    }
+    
+    function fetchDiagnostic() {
+        $this->db->select('diagnostic_id,diagnostic_name');
+        $this->db->from('qyura_diagnostic');
+        $this->db->where(array('diagnostic_deleted' => 0));
+        $this->db->order_by("diagnostic_name", "asc");
+        return $this->db->get()->result();
     }
 }
 
