@@ -48,6 +48,14 @@ class Doctor_model extends CI_Model {
         $this->db->order_by("hospital_name", "asc");
         return $this->db->get()->result();
     }
+    
+    function fetchDiagnostic() {
+        $this->db->select('diagnostic_id,diagnostic_name');
+        $this->db->from('qyura_diagnostic');
+        $this->db->where(array('diagnostic_deleted' => 0));
+        $this->db->order_by("diagnostic_name", "asc");
+        return $this->db->get()->result();
+    }
 
     function fetchEmail($email, $usersId = NULL) {
         $this->db->select('users_email');
@@ -117,64 +125,64 @@ class Doctor_model extends CI_Model {
         //echo $this->db->last_query(); exit;
         return $data->result();
     }
-  function getDoctorAvailability($where = array()) {
-        
-        $doctorAvailability = $this->getDoctorAvailableOnDays($where);
-        $result     = array();
-        $week       = array();
-        $indexId    = array();
-        $dayIndex   = array();
-        
-        if (isset($doctorAvailability) && $doctorAvailability != null) {
-            foreach ($doctorAvailability as $availability) {
-                
-                $tmpAvb = array();
-                
-                $temAvb['availabilityStatus'] = $availability->AvailabilityStatus;
-                $temAvb['AvailabilityId'] = $availability->AvailabilityId;
-                $temAvb['dayIndex'] = $availability->day;
-                
-                $week[] = $availability->day;
-                $availabilitySessions = $this->doctorAvailabilitySession($availability->AvailabilityId);
-                
-                if(isset($availabilitySessions) && $availabilitySessions != null){
-                    
-                    foreach ($availabilitySessions as $availabilitySession) {
-                        
-                        $temAvbSess = array();
-//                        $temAvb['Name'] = $availabilitySession->miName;
-                        $temAvbSess['SessionStart'] = $availabilitySession->SessionStart;
-                        $temAvbSess['SessionEnd'] = $availabilitySession->SessionEnd;
-                        $temAvbSess['SessionType'] = getDoctorAvailibilitySession($availabilitySession->SessionType);
-                        $temAvbSess['SessionTypeIndex'] = $availabilitySession->SessionType;
-                        //$temAvbSess = array_merge($temAvbSess,$temAvb['Name']);
-                        $temAvb['refferelName'][$availabilitySession->refferalId] = $availabilitySession->miName;
-                        $temAvb["session"][$availabilitySession->refferalId][] = (object)$temAvbSess;
-                        
-                        if(!in_array($availabilitySession->refferalId, $indexId))
-                            array_push($indexId, $availabilitySession->refferalId);
-                        
-                        if(!in_array( $availabilitySession->SessionType, $dayIndex))
-                            array_push($dayIndex,  $availabilitySession->SessionType);
-                    }
-                }
-                else  {
-                    $temAvb['session'][] = array();
-                }
-                $result['doctorAvailabilitys'][] = (object)$temAvb;
-            }
-        }
-        $weeks = array('weekIndexs'=>$week);
-        $indexId = array('reffreles'=>$indexId);
-        $dayIndex = array('dayIndex'=>$dayIndex);
-        $result = array_merge($weeks,$result);
-        $result = array_merge($dayIndex,$result);
-        $result = array_merge($indexId,$result);
-//        dump($result);
-//        exit(); 
-        return (object)$result;
-        
-    }
+    function getDoctorAvailability($where = array()) {
+
+          $doctorAvailability = $this->getDoctorAvailableOnDays($where);
+          $result     = array();
+          $week       = array();
+          $indexId    = array();
+          $dayIndex   = array();
+
+          if (isset($doctorAvailability) && $doctorAvailability != null) {
+              foreach ($doctorAvailability as $availability) {
+
+                  $tmpAvb = array();
+
+                  $temAvb['availabilityStatus'] = $availability->AvailabilityStatus;
+                  $temAvb['AvailabilityId'] = $availability->AvailabilityId;
+                  $temAvb['dayIndex'] = $availability->day;
+
+                  $week[] = $availability->day;
+                  $availabilitySessions = $this->doctorAvailabilitySession($availability->AvailabilityId);
+
+                  if(isset($availabilitySessions) && $availabilitySessions != null){
+
+                      foreach ($availabilitySessions as $availabilitySession) {
+
+                          $temAvbSess = array();
+  //                        $temAvb['Name'] = $availabilitySession->miName;
+                          $temAvbSess['SessionStart'] = $availabilitySession->SessionStart;
+                          $temAvbSess['SessionEnd'] = $availabilitySession->SessionEnd;
+                          $temAvbSess['SessionType'] = getDoctorAvailibilitySession($availabilitySession->SessionType);
+                          $temAvbSess['SessionTypeIndex'] = $availabilitySession->SessionType;
+                          //$temAvbSess = array_merge($temAvbSess,$temAvb['Name']);
+                          $temAvb['refferelName'][$availabilitySession->refferalId] = $availabilitySession->miName;
+                          $temAvb["session"][$availabilitySession->refferalId][] = (object)$temAvbSess;
+
+                          if(!in_array($availabilitySession->refferalId, $indexId))
+                              array_push($indexId, $availabilitySession->refferalId);
+
+                          if(!in_array( $availabilitySession->SessionType, $dayIndex))
+                              array_push($dayIndex,  $availabilitySession->SessionType);
+                      }
+                  }
+                  else  {
+                      $temAvb['session'][] = array();
+                  }
+                  $result['doctorAvailabilitys'][] = (object)$temAvb;
+              }
+          }
+          $weeks = array('weekIndexs'=>$week);
+          $indexId = array('reffreles'=>$indexId);
+          $dayIndex = array('dayIndex'=>$dayIndex);
+          $result = array_merge($weeks,$result);
+          $result = array_merge($dayIndex,$result);
+          $result = array_merge($indexId,$result);
+  //        dump($result);
+  //        exit(); 
+          return (object)$result;
+
+      }
 
     
     function getDoctorAvailabilityBK($where = array()) {

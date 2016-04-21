@@ -731,6 +731,9 @@ if ($current != 'detailDoctor'):
         $("#newDetail").toggle();
     });
 </script>    
+<?php 
+$this->load->view("doctor/timeslotScript");
+    ?>
 <script>
     function checkConfirm(val, val2) {
 

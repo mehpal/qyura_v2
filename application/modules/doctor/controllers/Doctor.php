@@ -463,14 +463,17 @@ class Doctor extends MY_Controller {
     }
 
     function doctorDetails($doctorId) {
-       $data = array();
-        $data['MI_reffralId'] =$MI_reffralId= (isset($_GET['reffralId']) && $_GET['reffralId'] != "") ? $_GET['reffralId'] : "";
-        
-$MainSlot= array();
-        
-        if($MI_reffralId != ""){
-           $data['MainSlot'] =  $this->Doctor_model->getMISlots($MI_reffralId);
-        }else{
+        $data = array();
+        $data['allHospital'] = $this->Doctor_model->fetchHospital();
+        $data['alldignostic'] = $this->Doctor_model->fetchDiagnostic();
+
+        $data['MI_reffralId'] = $MI_reffralId = (isset($_GET['reffralId']) && $_GET['reffralId'] != "") ? $_GET['reffralId'] : "";
+        $data['allStates'] = $this->Doctor_model->fetchStates();
+        $MainSlot = array();
+
+        if ($MI_reffralId != "") {
+            $data['MainSlot'] = $this->Doctor_model->getMISlots($MI_reffralId);
+        } else {
             $data['MainSlot'] = defalutTimeSlots();
         }
 
@@ -482,9 +485,10 @@ $MainSlot= array();
         $years = 0;
         for ($i = 0; $i < count($explodeStartTime); $i++) {
             $explodeEndTime = explode(',', $data['doctorDetail'][0]->endTime);
-            if(isset($data['doctorDetail'][0]->endTime) && $data['doctorDetail'][0]->endTime !=NULL){
-            $midTime = $explodeEndTime[$i] - $explodeStartTime[$i];
-            $years += floor($midTime / (60 * 60 * 24 * 30 * 12));}
+            if (isset($data['doctorDetail'][0]->endTime) && $data['doctorDetail'][0]->endTime != NULL) {
+                $midTime = $explodeEndTime[$i] - $explodeStartTime[$i];
+                $years += floor($midTime / (60 * 60 * 24 * 30 * 12));
+            }
         }
         $data['years'] = $years;
 
@@ -494,7 +498,7 @@ $MainSlot= array();
             'table' => 'qyura_hospital',
             'select' => '*',
             'where' => array('qyura_hospital.hospital_deleted' => 0),
-            'order'=>array('qyura_hospital.hospital_name'=>'asc'),
+            'order' => array('qyura_hospital.hospital_name' => 'asc'),
             'single' => FALSE
         );
         $data['qyura_hospital'] = $this->common_model->customGet($option);
@@ -502,7 +506,7 @@ $MainSlot= array();
             'table' => 'qyura_degree',
             'select' => '*',
             'where' => array('qyura_degree.degree_deleted' => 0),
-            'order'=>array('qyura_degree.degree_SName'=>'asc'),
+            'order' => array('qyura_degree.degree_SName' => 'asc'),
             'single' => FALSE
         );
         $data['qyura_degree'] = $this->common_model->customGet($option);
@@ -510,26 +514,26 @@ $MainSlot= array();
             'table' => 'qyura_specialitiesCat',
             'select' => '*',
             'where' => array('qyura_specialitiesCat.specialitiesCat_deleted' => 1),
-            'order'=>array('qyura_specialitiesCat.specialitiesCat_name'=>'asc'),
+            'order' => array('qyura_specialitiesCat.specialitiesCat_name' => 'asc'),
             'single' => FALSE
         );
         $data['qyura_specialitiesCat'] = $this->common_model->customGet($option);
-        
+
         $option = array(
             'table' => 'qyura_professionalExp',
             'select' => 'professionalExp_id ,professionalExp_designation ,professionalExp_usersId,professionalExp_hospitalId,professionalExp_start,professionalExp_end,hospital_name,hospital_id,hospital_address',
-            'where' => array('qyura_professionalExp.professionalExp_deleted' => 0,'qyura_professionalExp.professionalExp_usersId' => $doctorId),
+            'where' => array('qyura_professionalExp.professionalExp_deleted' => 0, 'qyura_professionalExp.professionalExp_usersId' => $doctorId),
             'join' => array(
                 array('qyura_hospital', 'qyura_hospital.hospital_id = qyura_professionalExp.professionalExp_hospitalId', 'left')
             ),
             'single' => FALSE
         );
         $professional_exp = $this->common_model->customGet($option);
-        
+
         $doctor_array = '';
         $doctor_final_array = array();
-        if(isset($professional_exp) && $professional_exp != NULL){
-            foreach ($professional_exp as $professional){
+        if (isset($professional_exp) && $professional_exp != NULL) {
+            foreach ($professional_exp as $professional) {
                 $doctor_array = array(
                     'professionalExp_id' => $professional->professionalExp_id,
                     'professionalExp_designation' => $professional->professionalExp_designation,
@@ -540,20 +544,20 @@ $MainSlot= array();
                     'hospital_name' => $professional->hospital_name,
                     'hospital_address' => $professional->hospital_address,
                 );
-                
+
                 $option_cat = array(
                     'table' => 'qyura_proExpCategory',
                     'select' => 'proExpCategory_id,proExpCategory_specilitycat_id,specialitiesCat_name,proExpCategory_hospitalId',
-                    'where' => array('qyura_proExpCategory.proExpCategory_deleted' => 0,'qyura_proExpCategory.proExpCategory_professionalExp_id' => $professional->professionalExp_id,'qyura_proExpCategory.proExpCategory_hospitalId' => $professional->professionalExp_hospitalId),
+                    'where' => array('qyura_proExpCategory.proExpCategory_deleted' => 0, 'qyura_proExpCategory.proExpCategory_professionalExp_id' => $professional->professionalExp_id, 'qyura_proExpCategory.proExpCategory_hospitalId' => $professional->professionalExp_hospitalId),
                     'join' => array(
                         array('qyura_specialitiesCat', 'qyura_specialitiesCat.specialitiesCat_id = qyura_proExpCategory.proExpCategory_specilitycat_id', 'left')
                     ),
                     'single' => FALSE
                 );
                 $professional_cat_exp = $this->common_model->customGet($option_cat);
-               
+
                 $doctor_final_cat_array = array();
-                foreach($professional_cat_exp as $cat_exp){ 
+                foreach ($professional_cat_exp as $cat_exp) {
                     $doctor_cat_array = array();
                     $doctor_cat_array = array(
                         'proExpCategory_id' => $cat_exp->proExpCategory_id,
@@ -567,7 +571,7 @@ $MainSlot= array();
                 $doctor_final_array[] = $doctor_array;
             }
         }
-        
+
         $data['doctor_final_array'] = $doctor_final_array;
         $where = array("doctorAvailability_docUsersId" => 46);
 
@@ -576,8 +580,8 @@ $MainSlot= array();
         $data['timeSlots'] = $this->Doctor_model->getDoctorAvailability($where);
         $data['title'] = 'Doctor Details';
         $this->load->super_admin_template('doctorDetails', $data, 'doctorScript');
-        
     }
+
     function availability() {
 
         $selectedDays = array();
