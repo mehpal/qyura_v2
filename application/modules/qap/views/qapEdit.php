@@ -13,12 +13,16 @@
                         </div>
                         <div class="col-md-12">
                             <h3 class="pull-left page-title">Add New QAP</h3>
-
+<a class="btn btn-appointment btn-back waves-effect waves-light pull-right" href="<?php echo site_url('qap');?>">
+<i class="fa fa-angle-left"></i>
+Back
+</a>
                         </div>
                     </div>
                     <div class="map_canvas"></div>
                      <form class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" name="submitForm" method="post" action="<?php echo site_url(); ?>/qap/saveEditqap" novalidate="novalidate" enctype="multipart/form-data" >
-                        <input type="hidden" name="qap_id" value="<?php if(isset($qapData) && !empty($qapData)){echo $qapData[0]->qap_id; }?>" />
+                        <input type="hidden"  name="qap_id" value="<?php if(isset($qapData) && !empty($qapData)){echo $qapData[0]->qap_id; }?>" id="qap_id"/>
+
     <div style="display:none;position:absolute;top:50%;left:45%;padding:2px;z-index: 10000" class="loader" id="defaultloader">
     <img alt="Please wait data is loading" src="<?php echo base_url('assets/images/beet.gif');?>" /> 
 </div>
@@ -48,18 +52,40 @@
                                         </div>
                                     </article>
                                           
-                                            <article class="clearfix m-t-10 avatar-view">
-                                                <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
-                                                <div class="col-md-8 col-sm-8 text-right">
-                                                        <label for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
-                                                     <input type="file" style="display:none;" class="no-display " id="file-input11" name="qap_image">
-<!--                                                   <input type="file" style="display:none;" class="no-display" id="file-input" name="ambulance_img">-->     
-                                                
-                                              <img src="<?php echo base_url().'assets/default-images/ambulance_logo.png'?>" width="70" height="65" class="image-preview-show"/>
-                                            <label class="error" > <?php echo form_error("avatar_file"); ?></label>
-                                            <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
-                                                </div>
-                                            </article>
+                                           <article class="clearfix m-t-10">
+                                <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
+                                
+                                <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
+                                    <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
+
+                                    <div class="pre col-md-4 col-sm-4 ">
+                                    <div id="preImgLogo" class="avatar-preview preview-md">
+<!--                                                                        <img src="<?php if(isset($qapData) && !empty($qapData)){  echo $qapData[0]->qap_image ;} else{ echo base_url() ?>assets/default-images/Blood-logo.png" <?php }?> class="image-preview-show"/>-->
+                                          
+
+                                 <?php if(!empty($qapData[0]->qap_image)){
+                                 ?>
+                              <img src="<?php echo base_url()?>assets/Qap/thumb/thumb_100/<?php echo $qapData[0]->qap_image; ?>" alt="" class="image-preview-show" />
+                              <?php } else { ?>
+                              <img src="<?php echo base_url()?>assets/default-images/Blood-logo.png" alt="" class="image-preview-show" />
+                              <?php } ?>
+                                   
+                                    <input type="hidden"  name="qap_image" value="<?php if(isset($qapData) && !empty($qapData)){echo $qapData[0]->qap_image; }?>" />
+                                    
+                                        
+                                   
+                                        
+                                    </div>
+                                    </div>
+
+                                    <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                    <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
+                                    
+                                    
+                                    
+                                </div>
+                                
+                            </article>
                                   
                                             <article class="clearfix m-t-10">
                                                   <label for="cname" class="control-label col-md-4 col-sm-4">City :</label>
@@ -122,7 +148,7 @@
                                         <div class="col-md-8 col-sm-8">
                                          
                                               
-                                                    <input type="text" class="form-control" name="qap_accountNo" id="qap_accountNo" placeholder="" maxlength="10"value="<?php if(isset($qapData) && !empty($qapData)){ echo $qapData[0]->qap_accountNo;} ?>"/>
+                                                    <input type="text" class="form-control" name="qap_accountNo" id="qap_accountNo" placeholder="" maxlength="15"value="<?php if(isset($qapData) && !empty($qapData)){ echo $qapData[0]->qap_accountNo;} ?>"/>
                                                     
                                                     <label class="error" > <?php echo form_error("qap_accountNo"); ?></label>
                                             
@@ -142,7 +168,7 @@
                                                        <article class="clearfix m-t-10">
                                         <label for="cname" class="control-label col-md-4  col-sm-4">IFSC Code :</label>
                                         <div class="col-md-8 col-sm-8">
-                                                    <input type="text" class="form-control" name="qap_ifscCode" id="qap_ifscCode" placeholder="" maxlength="10"value="<?php if(isset($qapData) && !empty($qapData)){ echo $qapData[0]->qap_ifscCode;} ?>"/>
+                                                    <input type="text" class="form-control" name="qap_ifscCode" id="qap_ifscCode" placeholder="" maxlength="11"value="<?php if(isset($qapData) && !empty($qapData)){ echo $qapData[0]->qap_ifscCode;} ?>"/>
                                                    
                                                     <label class="error" > <?php echo form_error("qap_ifscCode"); ?></label>
                                             

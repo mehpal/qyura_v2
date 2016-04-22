@@ -30,9 +30,15 @@
                         <aside class="col-md-5 col-sm-5 col-xs-12">
                             <h3>Dr. <?php if(isset($doctorDetail[0]->doctoesName) && $doctorDetail[0]->doctoesName != NULL){ echo $doctorDetail[0]->doctoesName; } ?></h3>
                             <p><?php if(isset($doctorDetail[0]->degreeSmallName) && $doctorDetail[0]->degreeSmallName != NULL){ echo $doctorAcademic[0]->degreeSmallName; }?></p>
-                            <p><?php if(isset($doctorDetail[0]->degreeFullName) && $doctorDetail[0]->degreeFullName != NULL){ echo $doctorAcademic[0]->degreeFullName; }?></p>
+                            <p><?php if(isset($doctorDetail[0]->serviceName) && $doctorDetail[0]->serviceName != NULL){ echo $doctorDetail[0]->serviceName; }?></p>
                             <p><?php if(isset($years) && $years != NULL){ echo $years; }?> Years Experience</p>
                             <p><?php if(isset($doctorDetail[0]->speciality) && $doctorDetail[0]->speciality != NULL){ echo $doctorDetail[0]->speciality; }?></p>
+                            <p><?php if(isset($doctorDetail[0]->specname) && $doctorDetail[0]->specname != NULL){ echo $doctorDetail[0]->specname; }?></p>
+                        </aside>
+                         <aside class="col-md-5 col-sm-5 col-xs-12 text-right t-xs-left">
+                            <h6><a href="">200 Ratings</a> &nbsp; <span class="label label-success waves-effect waves-light m-b-5 center-block">5.0</span></h6>
+                            <h6><a href="#">12 Reviews</a> &nbsp; <i class="fa fa-commenting clg"></i></h6>
+                            <h6>Doctor on Call &nbsp; <i class="fa fa-phone clg"></i></h6>
                         </aside>
                         <form class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" method="post" action="#" novalidate="novalidate" name="doctorForm" enctype="multipart/form-data">
                             <aside class="col-md-5 col-sm-5 col-xs-12 text-right t-xs-left">

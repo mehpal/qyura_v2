@@ -773,6 +773,7 @@ if ($current != 'detailDoctor'):
         }
 </script>
 <?php
+$this->load->view("doctor/timeslotScript");
 $current = $this->router->fetch_method();
 if ($current == 'doctorDetails'){ ?>
     <script>
