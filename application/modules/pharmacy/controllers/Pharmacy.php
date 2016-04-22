@@ -85,10 +85,32 @@ class Pharmacy extends MY_Controller {
         echo $cityOption;
         exit;
     }
+    
+    function isQapCodeValid($qap){
+        
+        $option = array(
+            'table' => 'qyura_qap',
+            'select' => 'qap_code',
+            'where' => array('qap_code' => $qap, 'qap_deleted' => 0, 'status' => 1)
+        );
+       $response = $this->common_model->customGet($option);
+      
+       if($response){
+           return true;
+       }else{
+            $this->bf_form_validation->set_message('isQapCodeValid', 'Your enter Qap code does not exists in our records');
+           return false;
+       }
+        
+    }
 
     function SavePharmacy() {
         // print_r($_POST);exit;
+        
+        
         $this->load->library('form_validation');
+      
+        
         $this->bf_form_validation->set_rules('pharmacy_name', 'Pharmacy Name', 'required|trim|required');
 
         $this->bf_form_validation->set_rules('pharmacy_countryId', 'Pharmacy Country', 'required|trim');
@@ -117,6 +139,10 @@ class Pharmacy extends MY_Controller {
       //  $this->bf_form_validation->set_rules('midNumber[]', 'STD Code', 'required|trim');
         $this->bf_form_validation->set_rules('pharmacy_phn', 'Phone', 'required|trim');
         $this->bf_form_validation->set_rules('pharmacy_docatId', 'Docat Id', 'required|trim');
+        
+        if(!empty($this->input->post('pharmacy_qapCode'))){
+           $this->bf_form_validation->set_rules('pharmacy_qapCode', 'Qap code', 'callback_isQapCodeValid');
+        }
         
         
           if (empty($_FILES['avatar_file']['name'])) {
@@ -202,7 +228,8 @@ class Pharmacy extends MY_Controller {
                 'pharmacy_img' => $imagesname,
                 'creationTime' => strtotime(date("Y-m-d H:i:s")),
                 'pharmacy_phn' => $pharmacy_phn,
-               // 'pharmacy_mobl' => $pharmacy_mblNo,
+                'pharmacy_qapCode' => $this->input->post('pharmacy_qapCode'),
+                'pharmacy_qapDate' =>  strtotime(date("Y-m-d H:i:s")),
                 'pharmacy_lat' => $this->input->post('lat'),
                 'pharmacy_long' => $this->input->post('lng'),
                 'pharmacy_docatId' => $pharmacy_docatId,
@@ -466,7 +493,7 @@ class Pharmacy extends MY_Controller {
         if (!empty($id)) {
             $data['pharmacyData'] = $this->Pharmacy_model->fetchpharmacyData($id);
             //  print_r($data); exit;
-            echo "<img src='" . base_url() . "assets/pharmacyImages/" . $data['pharmacyData'][0]->pharmacy_img . "'alt='' class='logo-img' />";
+            echo "<img src='" . base_url() . "assets/pharmacyImages/thumb/thumb_100/" . $data['pharmacyData'][0]->pharmacy_img . "'alt='' class='logo-img' />";
             exit();
         }
     }
@@ -583,5 +610,24 @@ class Pharmacy extends MY_Controller {
             return false;
         }
     }
+    
+    function isQapCode(){
+        
+        $qap = $this->input->post('qap_code');
+        $option = array(
+            'table' => 'qyura_qap',
+            'select' => 'qap_code',
+            'where' => array('qap_code' => $qap, 'qap_deleted' => 0, 'status' => 1)
+        );
+       $response = $this->common_model->customGet($option);
+       if($response){
+           echo 1;
+       }else{
+           echo 0;
+       }
+        
+    }
+    
+  
 
 }

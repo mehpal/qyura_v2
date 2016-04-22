@@ -1,4 +1,3 @@
-
 <!-- Start right Content here -->
 <div class="content-page">
     <!-- Start content -->
@@ -58,20 +57,24 @@
                                             <label class="error" > <?php echo form_error("pharmacyType"); ?></label>
                                         </div>
                                     </article>
+                                    
+                            <article class="clearfix m-t-10">
+                                <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
+                                
+                                <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
+                                    <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
 
-                                    <article class="clearfix m-t-10 avatar-view">
-                                        <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
-                                        <div class="col-md-8 col-sm-8 text-right">
-                                            <label for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x"></i></label>
-<!--                                            <input type="file" style="display:none;" class="no-display" id="file-input" name="bloodBank_photo">-->
-                                            <!-- <input type="file" style="display:none;" class="no-display avatar-view" id="file-input11" name="bloodBank_photo"> -->
+                                    <div class="pre col-md-4 col-sm-4 ">
+                                    <div id="preImgLogo" class="avatar-preview preview-md">
+                                        
+                                   <img src="<?php echo base_url() ?>assets/default-images/Pharmacy-logo.png"  class="image-preview-show"/> 
+                                    </div>
+                                    </div>
 
-
-                                            <img src="<?php echo base_url('assets/default-images/Pharmacy-logo.png'); ?>" width="70" height="65" class="image-preview-show"/>
-                                            <label class="error" > <?php echo form_error("avatar_file"); ?></label> 
-                                            <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
-                                        </div>
-                                    </article>
+                                    <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                    <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
+                                </div>
+                            </article>
 
 
                                     <article class="clearfix m-t-10">
@@ -188,7 +191,7 @@
                                     <article class="clearfix m-t-10">
                                         <label class="control-label col-md-4 col-sm-4" for="cname"> Phone :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input type="text" class="form-control" name="pharmacy_phn" id="pharmacy_phn" maxlength="10" minlength="10" onkeypress="return isNumberKey(event)" <?php set_value('pharmacy_phn') ?> />
+                                            <input type="text" class="form-control" name="pharmacy_phn" id="pharmacy_phn" maxlength="10" minlength="10" onkeypress="return isNumberKey(event)" value="<?php set_value('pharmacy_phn') ?>" />
 
                                             <label class="error" style="display:none;" id="error-pharmacy_phn"> please enter a valid phone min length should be min 10 and max 10</label>
 
@@ -198,18 +201,6 @@
                                         </div>
                                     </article>
 
-
-                                    <!--                                    <article class="clearfix m-t-10">
-                                                                            <label class="control-label col-md-4 col-sm-4" for="cname">Mobile no. :</label>
-                                                                            <div class="col-md-8 col-sm-8">
-                                                                                <input type="text" value="" onkeypress="return isNumberKey(event)" maxlength="10" placeholder="" name="pharmacy_mblNo" id="hospital_mblNo" class="form-control">
-                                                                               
-                                                                               <label id="error-pharmacy_mblNo" style="display:none;" class="error">please enter digits only!</label>
-                                                                               <label class="error" > <?php echo form_error("pharmacy_mblNo"); ?></label>
-                                                                               <label class="error"> </label>
-                                    
-                                                                            </div>
-                                                                        </article>-->
 
                                     <article class="clearfix m-t-10">
                                         <label for="cemail" class="control-label col-md-4 col-sm-4">Contact Person :</label>
@@ -255,6 +246,15 @@
                                             <label class="error" > <?php echo form_error("pharmacy_docatId"); ?></label>
                                         </div>
                                     </article>
+                                    
+                                    <article class="clearfix m-t-10">
+                                        <label for="cname" class="control-label col-md-4">Qap Code : </label>
+                                        <div class="col-md-8 col-sm-8">
+                                            <input class="form-control" name="pharmacy_qapCode" type="text" id="pharmacy_qapCode" value="<?php echo set_value('pharmacy_qapCode'); ?>" onchange="checkQapCode(this.value);">
+                                         <label class="error" style="display:none;" id="error-pharmacy_qapCode">Your enter Qap code does not exists in our records.</label>
+                                           <label class="error" > <?php echo form_error("pharmacy_qapCode"); ?></label>
+                                        </div>
+                                    </article>
 
                             </aside>
                         </article>
@@ -269,7 +269,7 @@
 
                             <button class="btn btn-danger waves-effect pull-right" type="button">Reset</button>
                             <div>
-                                <input class="btn btn-success waves-effect waves-light pull-right m-r-20" onclick="return validationPharmacy()" type="submit"  value="Submit" />
+                                <input class="btn btn-success waves-effect waves-light pull-right m-r-20" onclick="return validationPharmacy();" type="submit"  value="Submit" />
                             </div>
                         </div>
 

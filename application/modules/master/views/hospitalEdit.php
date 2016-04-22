@@ -6,7 +6,7 @@
                 <a href="<?php echo site_url() ?>/master/mi_master/hospital/" class="btn btn-appointment btn-back waves-effect waves-light pull-right m-r-10"><i class="fa fa-angle-left"></i> Back</a>
             </div>
         </div>
-        <div class="container row " style="width: 600px; margin: 0 auto ; background:whitesmoke;">
+        <div class="container row " style="width: 600px; margin: 0 auto ; background: whitesmoke;">
             <form  class="cmxform form-horizontal tasi-form avatar-form"  name="editHospitalForm" method="post"  action="<?php echo site_url(); ?>/master/mi_master/editHospital" novalidate="novalidate" enctype="multipart/form-data" id="submitForm">
                 <?php if (isset($hospital_value) && !empty($hospital_value)) { ?>
                         <input type="hidden" name="hospital_id" value="<?php echo $hospital_value->hospital_id; ?>" />

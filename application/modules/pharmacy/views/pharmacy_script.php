@@ -306,6 +306,22 @@ if (isset($mapData) && !empty($mapData)) {
         return false;
 
     }
+    
+    function checkQapCode(qap){
+           $.ajax({
+            url: urls + 'index.php/pharmacy/isQapCode',
+            type: 'POST',
+            data: {'qap_code': qap},
+            success: function (response) {
+                if (response == 1) {
+                    $("#error-pharmacy_qapCode").hide();
+                } else {
+                    $("#error-pharmacy_qapCode").show();
+                }
+            }
+        });
+        
+    }
 
 
     function validationPharmacyDetail() {
@@ -787,6 +803,8 @@ if (isset($mapData) && !empty($mapData)) {
         }
 
     }
+    
+
 </script>   
 
 </body>

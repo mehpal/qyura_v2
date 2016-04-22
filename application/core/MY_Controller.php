@@ -255,6 +255,36 @@ class MY_Controller extends CI_Controller {
      * @param int
      * @return boolean
      */
+    function puStatus() {
+        $table_field_name = $this->input->post('table_field_name'); //table field name
+        $status_value = $this->input->post('status'); // status value
+        $table_name = $this->input->post('table'); //table name
+        $field_value = $this->input->post('field_value'); //field value
+        $response = array();
+        if (!empty($table_field_name) && !empty($table_name) && !empty($field_value)) {
+
+            $where = array($table_field_name => $field_value);
+            if ($status_value == 2) {
+                $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
+            }
+
+            $options = array(
+                'table' => $table_name,
+                'where' => $where,
+                'data' => $update_data
+            );
+            $update = $this->common_model->customUpdate($options);
+
+            if ($update) {
+                echo $update;
+            } else
+                echo 0;
+        }else {
+            echo 0;
+        }
+    }
     function getCityByMI($id = '') {
 
         $this->db->select('city.city_id,city.city_name,city.city_center');
@@ -441,5 +471,7 @@ class MY_Controller extends CI_Controller {
              redirect($redirectUrl.'/'.$miId.'/timeSlot');
         }
     }
+    
+    
 
 }

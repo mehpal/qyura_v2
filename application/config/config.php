@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //$config['base_url'] = 'http://localhost/qyura';
 //$config['base_url'] = "http://".$_SERVER['HTTP_HOST'];
 
-$config['base_url'] = 'http://localhost/qyura';
+$config['base_url'] = 'http://localhost/qweb/qyura_v2';
 /*
 |--------------------------------------------------------------------------
 | Index File

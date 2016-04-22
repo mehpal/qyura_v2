@@ -5,48 +5,52 @@
         <div class="container">
             <div class="clearfix">
                 <div class="col-md-12">
-                    <h3 class="pull-left page-title">Diagnostic</h3>
+                    <h3 class="pull-left page-title">Diagnostics</h3>
                 </div>
             </div>
-            <?php if (!empty($this->session->flashdata('message'))) { ?>
+            <?php $sMsg = $this->session->flashdata('message');
+            $eMsg = $this->session->flashdata('error');
+            if (!empty($sMsg)) { ?>
                 <div class="alert alert-success" id="successmsg" ><?php echo $this->session->flashdata('message'); ?></div>
             <?php } ?>
-            <?php if (!empty($this->session->flashdata('error'))) { ?>
+            <?php if (!empty($eMsg)) { ?>
                 <div class="alert alert-danger" id="errormsg"><?php echo $this->session->flashdata('error'); ?></div>
             <?php } ?>
             <!-- Left Section Start -->
             <section class="col-md-7 detailbox m-b-20">
                 <aside class="bg-white">
                     <figure class="clearfix">
-                        <h3>Diagnostic Available</h3>
+                        <h3>Diagnostics Available</h3>
                         <article class="clearfix">
                             <div class="input-group m-b-5">
-<!--                                <span class="input-group-btn">
+                               <span class="input-group-btn">
                                     <button type="button" class="b-search waves-effect waves-light btn-success"><i class="fa fa-search"></i></button>
-                                </span>-->
-<!--                                <input type="text" ng-model="test" id="example-input1-group2" name="example-input1-group2" class="form-control ng-pristine ng-untouched ng-valid" placeholder="Search">-->
+                                </span>
+                             <input type="text" placeholder="Search" class="form-control" id="search-text">
                             </div>
                         </article>
                     </figure>
                     <div class="nicescroll mx-h-400" style="overflow: hidden;" tabindex="5004">
                         <div class="clearfix">
+                        <ul id="list" class="list-unstyled ul-bigspace">
                             <?php if (isset($diagnosticList) && !empty($diagnosticList)) {
                                 foreach ($diagnosticList as $val) { ?>
-                                    <aside class="clearfix  border-t">
-                                        <article class="col-md-4">
+                                    <li class="clearfix  border-t">
+                                        <span class="col-md-4">
                                             <h6><?php echo $val->diagnosticsCat_catName; ?></h6>
-                                        </article>
-                                        <article class="col-md-4"> 
+                                        </span>
+                                        <span class="col-md-4"> 
                                             <img height="80px;" width="80px;" src="<?php echo base_url('assets/diagnosticsCatImages/' . $val->diagnosticsCat_catImage); ?>" class="img-responsive" style="border-radius: 10%">
-                                        </article>
-                                        <article class="col-md-4">
+                                        </span>
+                                        <span class="col-md-4">
                                             <h6 class="pull-right">
                                                 <a class="btn btn-success waves-effect waves-light m-b-5 m-r-10" href="<?php echo site_url('master/editDiagnosticsView/' . $val->diagnosticsCat_catId); ?>"><i class="fa fa-pencil"></i></a>
                                                 <button onclick="enableFn('master', 'diagSpecPublish', '<?php echo $val->diagnosticsCat_catId; ?>','<?php echo $val->status; ?>')" title='<?php if($val->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Diagnostic' type="button" class="btn btn-success waves-effect waves-light m-b-5"><i class="fa fa-thumbs-<?php if($val->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                             </h6>
-                                        </article>
-                                    </aside>
+                                        </span>
+                                    </li>
                             <?php } } ?>
+                            </ul>
                         </div>
                     </div>
                 </aside>

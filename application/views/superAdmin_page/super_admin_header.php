@@ -17,7 +17,7 @@
     <script src="<?php echo base_url();?>assets/js/modernizr.min.js"></script>
     <link href="<?php echo base_url();?>assets/vendor/timepicker/bootstrap-timepicker.min.css" rel="stylesheet" />
 <!--    <link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>assets/jquery.dataTables.min.css"/> -->
-    <style>
+  <style>
         .boldTitle {
             /*font-weight: bold !important;*/
         }
@@ -367,6 +367,8 @@
                         </li>
                         <li>
                             <a class="waves-effect <?php if($this->router->fetch_class() == 'setting'):echo"boldTitle  active";endif;?>" href="<?php echo site_url('setting');?>"><i class="fa fa-cog"></i><span>Settings</span></a>
+                            
+                             <a class="waves-effect <?php if($this->router->fetch_class() == 'qap'):echo"boldTitle  active";endif;?>" href="<?php echo site_url('qap');?>"><i class="fa fa-user"></i><span>QAP</span></a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>

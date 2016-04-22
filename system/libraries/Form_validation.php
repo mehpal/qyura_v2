@@ -578,10 +578,12 @@ class CI_Form_validation {
 		$this->CI->lang->load('form_validation');
 
 		// Cycle through the rules for each field and match the corresponding $validation_data item
+//                dump($this->_field_data);
 		foreach ($this->_field_data as $field => $row)
 		{
 			// Fetch the data from the validation_data array item and cache it in the _field_data array.
 			// Depending on whether the field name is an array or a string will determine where we get it from.
+                    
 			if ($row['is_array'] === TRUE)
 			{
 				$this->_field_data[$field]['postdata'] = $this->_reduce_array($validation_array, $row['keys']);
@@ -710,11 +712,16 @@ class CI_Form_validation {
 	 */
 	protected function _execute($row, $rules, $postdata = NULL, $cycles = 0)
 	{
+                
 		// If the $_POST data is an array we will run a recursive call
 		if (is_array($postdata))
 		{
 			foreach ($postdata as $key => $val)
 			{
+                            dump($row);
+                            dump($rules);
+                            dump($val);
+                            dump($key);
 				$this->_execute($row, $rules, $val, $key);
 			}
 
@@ -904,6 +911,7 @@ class CI_Form_validation {
 			}
 			elseif ( ! method_exists($this, $rule))
 			{
+                           
 				// If our own wrapper function doesn't exist we see if a native PHP function does.
 				// Users can use any native PHP function call that has one param.
 				if (function_exists($rule))
@@ -911,6 +919,7 @@ class CI_Form_validation {
 					// Native PHP functions issue warnings if you pass them more parameters than they use
 					$result = ($param !== FALSE) ? $rule($postdata, $param) : $rule($postdata);
 
+ 
 					if ($_in_array === TRUE)
 					{
 						$this->_field_data[$row['field']]['postdata'][$cycles] = is_bool($result) ? $postdata : $result;
@@ -943,6 +952,7 @@ class CI_Form_validation {
 			// Did the rule test negatively? If so, grab the error.
 			if ($result === FALSE)
 			{
+                             
 				// Callable rules might not have named error messages
 				if ( ! is_string($rule))
 				{
@@ -978,6 +988,7 @@ class CI_Form_validation {
 				$message = $this->_build_error_msg($line, $this->_translate_fieldname($row['label']), $param);
 
 				// Save the error message
+                                
 				$this->_field_data[$row['field']]['error'] = $message;
 
 				if ( ! isset($this->_error_array[$row['field']]))
