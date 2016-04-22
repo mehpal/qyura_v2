@@ -13,7 +13,10 @@
                         </div>
                         <div class="col-md-12">
                             <h3 class="pull-left page-title">Add New QAP</h3>
-
+<a class="btn btn-appointment btn-back waves-effect waves-light pull-right" href="<?php echo site_url('qap');?>">
+<i class="fa fa-angle-left"></i>
+Back
+</a>
                         </div>
                     </div>
                     <div class="map_canvas"></div>
