@@ -757,7 +757,7 @@
                         <!-- Timeslot Starts Section -->
                       
                         <!-- Timeslot Starts Section -->
-                        <section class="tab-pane fade in active" id="timeslot">
+                        <section class="tab-pane fade in <?php if($active_tag == 4){ echo "active"; }?>" id="timeslot">
                             <div class="bg-white mi-form-section">
                                 <!-- Top Detailed Section -->
                                 <!-- Time Scedule Start here-->
@@ -792,7 +792,7 @@
                                                     </div>
                                                 </article>
                                             </figure>
-    <!--                                            <div class="nicescroll" style="overflow-x: scroll;" tabindex="5004">
+                                                <div class="nicescroll" style="overflow-x: scroll;" tabindex="5004">
                                                 <div class="clearfix">
                                                     <div class="clearfix m-t-20 text-center" style="width:1600px">
                                                         <section class="col-md-2">
@@ -882,7 +882,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>-->
+                                            </div>
                                         </aside>
                                     </section>
                                     <!-- Left Section End -->
