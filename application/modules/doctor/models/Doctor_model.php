@@ -119,30 +119,31 @@ class Doctor_model extends CI_Model {
         //echo $this->db->last_query(); exit;
         return $data->result();
     }
-  function getDoctorAvailability($where = array()) {
-        
+
+    function getDoctorAvailability($where = array()) {
+
         $doctorAvailability = $this->getDoctorAvailableOnDays($where);
-        $result     = array();
-        $week       = array();
-        $indexId    = array();
-        $dayIndex   = array();
-        
+        $result = array();
+        $week = array();
+        $indexId = array();
+        $dayIndex = array();
+
         if (isset($doctorAvailability) && $doctorAvailability != null) {
             foreach ($doctorAvailability as $availability) {
-                
+
                 $tmpAvb = array();
-                
+
                 $temAvb['availabilityStatus'] = $availability->AvailabilityStatus;
                 $temAvb['AvailabilityId'] = $availability->AvailabilityId;
                 $temAvb['dayIndex'] = $availability->day;
-                
+
                 $week[] = $availability->day;
                 $availabilitySessions = $this->doctorAvailabilitySession($availability->AvailabilityId);
-                
-                if(isset($availabilitySessions) && $availabilitySessions != null){
-                    
+
+                if (isset($availabilitySessions) && $availabilitySessions != null) {
+
                     foreach ($availabilitySessions as $availabilitySession) {
-                        
+
                         $temAvbSess = array();
 //                        $temAvb['Name'] = $availabilitySession->miName;
                         $temAvbSess['SessionStart'] = $availabilitySession->SessionStart;
@@ -151,97 +152,91 @@ class Doctor_model extends CI_Model {
                         $temAvbSess['SessionTypeIndex'] = $availabilitySession->SessionType;
                         //$temAvbSess = array_merge($temAvbSess,$temAvb['Name']);
                         $temAvb['refferelName'][$availabilitySession->refferalId] = $availabilitySession->miName;
-                        $temAvb["session"][$availabilitySession->refferalId][] = (object)$temAvbSess;
-                        
-                        if(!in_array($availabilitySession->refferalId, $indexId))
+                        $temAvb["session"][$availabilitySession->refferalId][] = (object) $temAvbSess;
+
+                        if (!in_array($availabilitySession->refferalId, $indexId))
                             array_push($indexId, $availabilitySession->refferalId);
-                        
-                        if(!in_array( $availabilitySession->SessionType, $dayIndex))
-                            array_push($dayIndex,  $availabilitySession->SessionType);
+
+                        if (!in_array($availabilitySession->SessionType, $dayIndex))
+                            array_push($dayIndex, $availabilitySession->SessionType);
                     }
                 }
-                else  {
+                else {
                     $temAvb['session'][] = array();
                 }
-                $result['doctorAvailabilitys'][] = (object)$temAvb;
+                $result['doctorAvailabilitys'][] = (object) $temAvb;
             }
         }
-        $weeks = array('weekIndexs'=>$week);
-        $indexId = array('reffreles'=>$indexId);
-        $dayIndex = array('dayIndex'=>$dayIndex);
-        $result = array_merge($weeks,$result);
-        $result = array_merge($dayIndex,$result);
-        $result = array_merge($indexId,$result);
+        $weeks = array('weekIndexs' => $week);
+        $indexId = array('reffreles' => $indexId);
+        $dayIndex = array('dayIndex' => $dayIndex);
+        $result = array_merge($weeks, $result);
+        $result = array_merge($dayIndex, $result);
+        $result = array_merge($indexId, $result);
 //        dump($result);
 //        exit(); 
-        return (object)$result;
-        
+        return (object) $result;
     }
 
-    
     function getDoctorAvailabilityBK($where = array()) {
-        
+
         $doctorAvailability = $this->getDoctorAvailableOnDays($where);
         $result = array();
         $week = array();
-        
+
         if (isset($doctorAvailability) && $doctorAvailability != null) {
             foreach ($doctorAvailability as $availability) {
-                
+
                 $tmpAvb = array();
-                
+
                 $temAvb['availabilityStatus'] = $availability->AvailabilityStatus;
                 $temAvb['AvailabilityId'] = $availability->AvailabilityId;
                 $temAvb['dayIndex'] = $availability->day;
-                
+
                 $week[] = $availability->day;
-                
+
                 $availabilitySessions = $this->doctorAvailabilitySession($availability->AvailabilityId);
-                
-                if(isset($availabilitySessions) && $availabilitySessions != null){
-                    
+
+                if (isset($availabilitySessions) && $availabilitySessions != null) {
+
                     $temAvb['session'] = array();
                     $temp = '';
                     foreach ($availabilitySessions as $availabilitySession) {
-                        
-                        
+
+
                         $temAvbSess = array();
                         $temAvbSess['SessionStart'] = $availabilitySession->SessionStart;
                         $temAvbSess['SessionEnd'] = $availabilitySession->SessionEnd;
                         $temAvbSess['SessionType'] = getDoctorAvailibilitySession($availabilitySession->SessionType);
                         $temAvbSess['SessionTypeIndex'] = $availabilitySession->SessionType;
-                        $temAvb['session'][] = (object)$temAvbSess;
+                        $temAvb['session'][] = (object) $temAvbSess;
                     }
-                }
-                else
-                {
+                } else {
                     $temAvb['session'][] = array();
                 }
-                
-                $result['doctorAvailabilitys'][] = (object)$temAvb;
-                
+
+                $result['doctorAvailabilitys'][] = (object) $temAvb;
             }
         }
-        $weeks = array('weekIndexs'=>$week);
-        $result = array_merge($weeks,$result);
-        return (object)$result;
-        
+        $weeks = array('weekIndexs' => $week);
+        $result = array_merge($weeks, $result);
+        return (object) $result;
     }
 
-    function doctorAvailabilitySession($doctorAvailabilityId, $refferalId=NULL, $where = array()) {
- 
-        $con  = array('doctorAvailability_doctorAvailabilityId'=>$doctorAvailabilityId,'doctorAvailabilitySession_deleted'=>0);
-        
-        if($refferalId !=NULL)
+    function doctorAvailabilitySession($doctorAvailabilityId, $refferalId = NULL, $where = array()) {
+
+        $con = array('doctorAvailability_doctorAvailabilityId' => $doctorAvailabilityId, 'doctorAvailabilitySession_deleted' => 0);
+
+        if ($refferalId != NULL)
             $con['doctorAvailability_refferalId'] = $refferalId;
-        
-        $where = array_merge($con,$where);
+
+        $where = array_merge($con, $where);
         $this->db->select("doctorAvailabilitySession_id AS availabilitySessionId, doctorAvailability_refferalId AS refferalId,doctorAvailability_doctorAvailabilityId AS doctorAvailabilityId,doctorAvailabilitySession_start AS SessionStart,doctorAvailabilitySession_end AS SessionEnd,doctorAvailabilitySession_type AS SessionType, "
-                . "CASE WHEN (hospital_name is NOT NULL ) THEN `qyura_hospital`.`hospital_name` WHEN (`diagnostic_name`  is NOT NULL ) THEN `qyura_diagnostic`.`diagnostic_name` ELSE CONCAT(`qyura_doctors`.`doctors_fName`,' ',`qyura_doctors`.`doctors_lName`) END AS `miName`" )
+                        . "CASE WHEN (hospital_name is NOT NULL ) THEN `qyura_hospital`.`hospital_name` WHEN (`diagnostic_name`  is NOT NULL ) THEN `qyura_diagnostic`.`diagnostic_name` ELSE CONCAT(`qyura_doctors`.`doctors_fName`,' ',`qyura_doctors`.`doctors_lName`) END AS `miName`")
                 ->from('qyura_doctorAvailabilitySession')
-                ->join('qyura_hospital',    "`qyura_hospital`.`hospital_usersId`=`doctorAvailability_refferalId`",    "left")
-                ->join('qyura_diagnostic',    "`qyura_diagnostic`.`diagnostic_usersId`=doctorAvailability_refferalId",  "left")
-                ->join('qyura_doctors',     "`qyura_doctors`.`doctors_userId`=`doctorAvailability_refferalId`",     "left")
+                ->join('qyura_hospital', "`qyura_hospital`.`hospital_usersId`=`doctorAvailability_refferalId`", "left")
+                ->join('qyura_diagnostic', "`qyura_diagnostic`.`diagnostic_usersId`=doctorAvailability_refferalId", "left")
+                ->join('qyura_doctors', "`qyura_doctors`.`doctors_userId`=`doctorAvailability_refferalId`", "left")
                 ->where($where)
                 ->group_by('doctorAvailabilitySession_id')
                 ->order_by('doctorAvailabilitySession_type, doctorAvailability_refferalId');
@@ -250,12 +245,11 @@ class Doctor_model extends CI_Model {
         return $response;
     }
 
-
     function fetchAcademic($doctorId) {
         $this->db->select('qyura_degree.degree_FName AS degreeFullName,qyura_degree.degree_SName AS degreeSmallName, qyura_doctorAcademic.doctorAcademic_id as academic_id, qyura_doctorAcademic.doctorAcademic_degreeId as degreeId, qyura_doctorAcademic.doctorSpecialities_specialitiesCatId as specialitiesCatId, qyura_doctorAcademic.doctorAcademic_doctorsId as doctorsId, qyura_doctorAcademic.doctorAcademic_degreeInsAddress as degreeInsAddress, qyura_doctorAcademic.doctorAcademic_degreeYear as degreeYear');
         $this->db->from('qyura_doctorAcademic');
         $this->db->join('qyura_degree', 'qyura_degree.degree_id = qyura_doctorAcademic.doctorAcademic_degreeId', 'left');
-        $this->db->where(array('qyura_doctorAcademic.doctorAcademic_doctorsId' => $doctorId,'qyura_doctorAcademic.doctorAcademic_deleted' => 0));
+        $this->db->where(array('qyura_doctorAcademic.doctorAcademic_doctorsId' => $doctorId, 'qyura_doctorAcademic.doctorAcademic_deleted' => 0));
         $data = $this->db->get();
         return $data->result();
         //echo $this->db->last_query(); exit;
@@ -282,20 +276,19 @@ class Doctor_model extends CI_Model {
         $this->db->join('qyura_doctorSpecialities', 'qyura_doctorSpecialities.doctorSpecialities_doctorsId=doc.doctors_id', 'left');
         $this->db->join('qyura_specialities', 'qyura_specialities.specialities_id=qyura_doctorSpecialities.doctorSpecialities_specialitiesId', 'left');
 
-        
+
         $this->db->group_by("doc.doctors_id");
         $this->db->order_by("doc.creationTime");
-        
+
 
         $search = $this->input->post('name');
-        if($search){
+        if ($search) {
             $this->db->group_start();
-            $this->db->or_like('doc.doctors_fname',$search);
-            $this->db->or_like('doc.doctor_addr',$search);
-            $this->db->or_like('doc.doctors_phn',$search);
-            $this->db->or_like('qyura_specialities.specialities_name',$search);
+            $this->db->or_like('doc.doctors_fname', $search);
+            $this->db->or_like('doc.doctor_addr', $search);
+            $this->db->or_like('doc.doctors_phn', $search);
+            $this->db->or_like('qyura_specialities.specialities_name', $search);
             $this->db->group_end();
-            
         }
         $docSpecialities = $this->input->post('docSpecialitiesId');
         isset($docSpecialities) && $docSpecialities != '' ? $this->db->where('qyura_specialities.specialities_id', $docSpecialities) : '';
@@ -359,15 +352,12 @@ class Doctor_model extends CI_Model {
         }
         return $result;
     }
-    
-    function deleteDoctorAvailability($con=null)
-    {
-        $this->db->delete('qyura_doctorAvailability', $con); 
-        
+
+    function deleteDoctorAvailability($con = null) {
+        $this->db->delete('qyura_doctorAvailability', $con);
     }
-    
-    function getDoctorAvailableOnDays($where)
-    {
+
+    function getDoctorAvailableOnDays($where) {
         $con = array('doctorAvailability_deleted' => 0);
         $where = array_merge($con, $where);
 
@@ -378,7 +368,6 @@ class Doctor_model extends CI_Model {
         $doctorAvailability = $this->db->get()->result();
         return $doctorAvailability;
     }
-      
 
 //    function deleteDoctorAvailability($con=null)
 //    {
@@ -399,36 +388,35 @@ class Doctor_model extends CI_Model {
 //        return $doctorAvailability;
 //    }
 //      
-    function getMISlots($miId){
-        
-        $where = array('users_deleted' => 0,'usersRoles_deleted'=>0,'users_id'=>$miId);
-        
+    function getMISlots($miId) {
+
+        $where = array('users_deleted' => 0, 'usersRoles_deleted' => 0, 'users_id' => $miId);
+
         $this->db->select('usersRoles_roleId id')
                 ->from('qyura_users')
-                ->join("qyura_usersRoles","qyura_users.users_id = qyura_usersRoles.usersRoles_userId","inner")
+                ->join("qyura_usersRoles", "qyura_users.users_id = qyura_usersRoles.usersRoles_userId", "inner")
                 ->where($where);
 
         $result = $this->db->get()->row();
 //        dump($result);die();
         $response = NULL;
-        if(isset($result) && $result != NULL){
-            if($result->id == 1){
-                
+        if (isset($result) && $result != NULL) {
+            if ($result->id == 1) {
+
                 $where = array('hospitalTimeSlot_deleted' => 0, 'hospital_usersId' => $miId);
 
                 $this->db->select('hospitalTimeSlot_sessionType id,hospitalTimeSlot_startTime start,hospitalTimeSlot_endTime end, hospitalTimeSlot_sessionType session')
-                    ->from('qyura_hospital')
-                    ->join('qyura_hospitalTimeSlot',"qyura_hospitalTimeSlot.hospitalTimeSlot_hospitalId = qyura_hospital.hospital_id")
-                    ->where($where);
+                        ->from('qyura_hospital')
+                        ->join('qyura_hospitalTimeSlot', "qyura_hospitalTimeSlot.hospitalTimeSlot_hospitalId = qyura_hospital.hospital_id")
+                        ->where($where);
                 $response = $this->db->get()->result();
-                
-            }elseif($result->id == 3){
+            } elseif ($result->id == 3) {
 
                 $where = array('diagnosticCenterTimeSlot_deleted' => 0, 'diagnostic_usersId' => $miId);
 
                 $this->db->select('diagnosticCenterTimeSlot_sessionType id,diagnosticCenterTimeSlot_startTime start,diagnosticCenterTimeSlot_endTime end, diagnosticCenterTimeSlot_sessionType session')
                         ->from('qyura_diagnostic')
-                        ->join("qyura_diagnosticCenterTimeSlot","qyura_diagnosticCenterTimeSlot.diagnosticCenterTimeSlot_diagnosticId = qyura_diagnostic.diagnostic_id")
+                        ->join("qyura_diagnosticCenterTimeSlot", "qyura_diagnosticCenterTimeSlot.diagnosticCenterTimeSlot_diagnosticId = qyura_diagnostic.diagnostic_id")
                         ->where($where);
 
                 $response = $this->db->get()->result();
@@ -436,37 +424,35 @@ class Doctor_model extends CI_Model {
         }
         return $response;
     }
-    
-    function getMIInfo($miId){
-        
-        $where = array('users_deleted' => 0,'usersRoles_deleted'=>0,'users_id'=>$miId);
-        
+
+    function getMIInfo($miId) {
+
+        $where = array('users_deleted' => 0, 'usersRoles_deleted' => 0, 'users_id' => $miId);
+
         $this->db->select('usersRoles_roleId id')
                 ->from('qyura_users')
-                ->join("qyura_usersRoles","qyura_users.users_id = qyura_usersRoles.usersRoles_userId","inner")
+                ->join("qyura_usersRoles", "qyura_users.users_id = qyura_usersRoles.usersRoles_userId", "inner")
                 ->where($where);
 
         $result = $this->db->get()->row();
 //        dump($result);die();
         $response = NULL;
-        if(isset($result) && $result != NULL){
-            if($result->id == 1){
-                
+        if (isset($result) && $result != NULL) {
+            if ($result->id == 1) {
+
                 $where = array('hospital_deleted' => 0, 'hospital_usersId' => $miId);
                 $this->db->select('hospital_name as name')
-                    ->from('qyura_hospital')
-                    ->where($where);
+                        ->from('qyura_hospital')
+                        ->where($where);
                 $response = $this->db->get()->result();
-                
-            }elseif($result->id == 3){
+            } elseif ($result->id == 3) {
 
                 $where = array('diagnostic_deleted' => 0, 'diagnostic_usersId' => $miId);
                 $this->db->select('diagnostic_name as name')
                         ->from('qyura_diagnostic')
                         ->where($where);
                 $response = $this->db->get()->result();
-            }
-            elseif($result->id = 4){
+            } elseif ($result->id = 4) {
                 $where = array('doctors_deleted' => 0, 'doctors_userId' => $miId);
                 $this->db->select('CONCAT(doctors_fName, " ", doctors_lName) as name')
                         ->from('qyura_doctors')
@@ -477,32 +463,33 @@ class Doctor_model extends CI_Model {
         }
         return $response;
     }
-    
-    function getDoctorOtherPlaceInfo($where){
+
+    function getDoctorOtherPlaceInfo($where) {
         $con = array('doctorAvailabilitySession_deleted' => 0);
         $where = array_merge($con, $where);
-        
+
         $this->db->select('doctorAvailability_refferalId as reffarel')
                 ->from('qyura_doctorAvailabilitySession')
-                ->join("qyura_doctorAvailability","qyura_doctorAvailability.doctorAvailability_id =  qyura_doctorAvailabilitySession.doctorAvailability_doctorAvailabilityId","inner")
+                ->join("qyura_doctorAvailability", "qyura_doctorAvailability.doctorAvailability_id =  qyura_doctorAvailabilitySession.doctorAvailability_doctorAvailabilityId", "inner")
                 ->where($where)
                 ->group_by("doctorAvailability_refferalId");
         $doctorAvailability = $this->db->get()->result();
         return $doctorAvailability;
     }
-    
-     function getDoctorOtherSlots($where){
+
+    function getDoctorOtherSlots($where) {
         $con = array('doctorAvailabilitySession_deleted' => 0);
         $where = array_merge($con, $where);
-        
+
         $this->db->select('doctorAvailabilitySession_start as start, doctorAvailabilitySession_end as end,doctorAvailability_refferalId as refferal,doctorAvailabilitySession_type as dayId')
                 ->from('qyura_doctorAvailabilitySession')
-                ->join("qyura_doctorAvailability","qyura_doctorAvailability.doctorAvailability_id =  qyura_doctorAvailabilitySession.doctorAvailability_doctorAvailabilityId","inner")
+                ->join("qyura_doctorAvailability", "qyura_doctorAvailability.doctorAvailability_id =  qyura_doctorAvailabilitySession.doctorAvailability_doctorAvailabilityId", "inner")
                 ->where($where);
 //                ->group_by("doctorAvailability_refferalId");
         $doctorAvailability = $this->db->get()->result();
         return $doctorAvailability;
     }
+
     
     function fetchDiagnostic() {
         $this->db->select('diagnostic_id,diagnostic_name');
@@ -511,6 +498,63 @@ class Doctor_model extends CI_Model {
         $this->db->order_by("diagnostic_name", "asc");
         return $this->db->get()->result();
     }
+
+
+
+    function checkSloat() {
+        $table = false;
+        $data = false;
+        $day = '';
+        $openTime = '';
+        $closeTime = '';
+        $doctorId = '';
+        extract($options);
+
+        $query = "SELECT `docTimeTable_id`
+                                FROM (`qyura_docTimeTable`)
+                                LEFT JOIN qyura_docTimeDay ON qyura_docTimeDay.docTimeDay_docTimeTableId = qyura_docTimeTable.docTimeTable_id
+                                WHERE 
+                                docTimeDay_day = {$day} AND qyura_docTimeDay.docTimeTable_deleted = 1 AND qyura_docTimeTable.docTimeTable_deleted = 0 AND 
+                                AND 
+                                        (
+                                            (
+                                                ( '$openTime' BETWEEN docTimeDay_open AND docTimeDay_close ) 
+                                                OR 
+                                                ( '$closeTime' BETWEEN docTimeDay_open AND docTimeDay_close ) 
+                                            )
+
+                                                OR
+
+                                            (
+
+                                                   ( ('$openTime' = docTimeDay_open ) OR  ( '$closeTime' = docTimeDay_close ) ) 
+                                                   OR 
+                                                   ( ('$openTime' = docTimeDay_close ) OR  ( '$closeTime' = docTimeDay_open ) )    
+
+                                            )
+
+                                        ) AND docTimeTable_doctorUserId =  {$doctorId}";
+
+        $query3 = $this->db->query($query);
+        // dump($query3->row());
+        // echo $this->db->last_query(); 
+        // echo $query3->num_rows();
+        if ($query3->num_rows()) {
+            $count ++;
+            $message .= $tempRow->festName . ', ';
+        }
+    }
+
+    function getDoctorAvailableOnDaysNew($where) {
+        $con = array('docTimeTable_deleted' => 0);
+        $where = array_merge($con, $where);
+
+        $this->db->select('docTimeDay_id AS docTimeDay_id,docTimeDay_docTimeTableId AS docTimeTableId,docTimeDay_day AS day,docTimeTable_deleted')
+                ->from('qyura_docTimeDay')
+                ->where($where)
+                ->group_by('docTimeDay_id');
+        $doctorAvailability = $this->db->get()->result();
+        return $doctorAvailability;
+    }
+
 }
-
-
