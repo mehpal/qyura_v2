@@ -59,12 +59,9 @@ function getDoctorAvailibilitySession($number) {
     return $session[$number];
 }
 
-function getDay($day = NULL) {
+function getDay($day) {
     $days = array('Monday' => 0, 'Tuesday' => 1, 'Wednesday' => 2, 'Thursday' => 3, 'Friday' => 4, 'Saturday' => 5, 'Sunday' => 6);
-    if($day!= NULL)
-        return $days[$day];
-    else
-        return $days;
+    return $days[$day];
 }
 
 if (!function_exists('createImage')) {
@@ -390,7 +387,7 @@ if (!function_exists("defalutTimeSlots")) {
 
     }
 
-    if (!function_exists('gender')) {
+    if (!function_exists('gendor')) {
 
         function gender($gender) {
             $gender = strtolower($gender);
@@ -441,33 +438,21 @@ if (!function_exists('puStatusCheck')) {
 
     function puStatusCheck($controller, $table_name, $table_field_name, $table_field_value, $status_value) {
         $template = '';
-        if ($status_value == 3) {
-            $template = '<a class="btn btn-success waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)" onclick="puStatusFn(\'' . $controller . '\',\'' . $table_name . '\',\'' . $table_field_name . '\',\'' . $table_field_value . '\',\'' . $status_value . '\')">Publish</a>';
-        } else {
+        if ($status_value == 2) {
+            $template = '<a class="btn btn-danger waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)" onclick="puStatusFn(\'' . $controller . '\',\'' . $table_name . '\',\'' . $table_field_name . '\',\'' . $table_field_value . '\',\'' . $status_value . '\')">Unverified</a>';
+        } else if($status_value == 0){
+            $template = '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)">Inactive</a>';
+       } 
+       else if($status_value == 1){
+            $template = '<a class="btn btn-success waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)">Active</a>';
+       } 
+        else{
 
-            $template = '<a class="btn btn-danger waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)" onclick="puStatusFn(\'' . $controller . '\',\'' . $table_name . '\',\'' . $table_field_name . '\',\'' . $table_field_value . '\',\'' . $status_value . '\')">Unpublish</a>';
+            $template = '<a class="btn btn-primary waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)">Verified</a>';
         }
 
         return $template;
     }
 
-}
-
-if ( ! function_exists('expYear'))
-{
-    function expYear($date1 = NULL)
-    {
-        
-        $date2 = date('Y-m-d');
-        if(isset($date1) && $date1 != NULL){ $date1 = $date1; }else{ $date1 = strtotime(date('Y-m-d'));}
-        $diff = abs(strtotime($date2) - $date1);
-        $years = floor($diff / (365*60*60*24));
-                
-        if($years != NULL){ 
-            return $years;
-        }else{
-            return FALSE;    
-        }
-    }
 }
 ?>
