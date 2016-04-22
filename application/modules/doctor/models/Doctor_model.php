@@ -118,9 +118,8 @@ class Doctor_model extends My_model {
         $this->db->where(array('docAca.doctorAcademic_deleted' => 0));
         $this->db->where(array('docSpec.doctorSpecialities_deleted' => 0));
         $this->db->where(array('spec.specialities_deleted' => 0));
-
+ 
         $data = $this->db->get();
-        //echo $this->db->last_query(); exit;
         return $data->result();
     }
 
