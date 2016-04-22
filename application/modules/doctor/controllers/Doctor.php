@@ -152,12 +152,10 @@ class Doctor extends MY_Controller {
             }
 
             $doctors_phn = $this->input->post('doctors_phn');
-            $doctors_phnNo = explode("0", $doctors_phn);
-            if(isset($doctors_phnNo[1])){ 
-                $doctors_phn = $doctors_phnNo[1];
-            }else{
-                $doctors_phn = $doctors_phnNo[0];
-            }
+            $pos = strpos($doctors_phn, "0");
+            $doctors_phnNo = '';
+            if($pos == "0"){ $doctors_phnNo = explode("0", $doctors_phn);  }
+            if(isset($doctors_phnNo[1])){ $doctors_phn = $doctors_phnNo[1]; }
             $users_email_status = $this->input->post('users_email_status');
             if ($users_email_status == 0) {
                 $users_email = $this->input->post('users_email');
@@ -510,6 +508,7 @@ $MainSlot= array();
         $data['exprerience'] = $this->Doctor_model->fetchExprience($doctorId);
         $data['doctorAcademic'] = $this->Doctor_model->fetchAcademic($doctorId);
         $data['timeSlots'] = $this->Doctor_model->getDoctorAvailability($where);
+        $data['publishHospital'] = $this->Doctor_model->fetchPublishHospital();
         $data['title'] = 'Doctor Details';
         $this->load->super_admin_template('doctorDetails', $data, 'doctorScript');
     }
@@ -1106,16 +1105,10 @@ $MainSlot= array();
             $doctors_lat = $this->input->post('lat');
             $doctors_lng = $this->input->post('lng');
             $doctors_phn = $this->input->post('doctors_phn');
-
-            $doctors_phnNo = explode("0", $doctors_phn);
-            
-            if(isset($doctors_phnNo[1])){ 
-                $doctors_phn = $doctors_phnNo[1];
-            }else{
-                $doctors_phn = $doctors_phnNo[0];
-
-            }
-            
+            $pos = strpos($doctors_phn, "0");
+            $doctors_phnNo = '';
+            if($pos == "0"){ $doctors_phnNo = explode("0", $doctors_phn);  }
+            if(isset($doctors_phnNo[1])){ $doctors_phn = $doctors_phnNo[1]; }
 	    $doctors_27Src = $this->input->post('doctors_27Src');
             
             $home_visit = $this->input->post('home_visit');
@@ -1355,6 +1348,7 @@ $MainSlot= array();
             }
 
             if ($docTimeDayId) {
+                $this->session->set_flashdata('active_tag', 4);
                 $responce = array('status' => 1, 'msg' => "Time sloat added successfully", 'url' => "master/degree/");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
@@ -1446,6 +1440,7 @@ $MainSlot= array();
             }
 
             if ($id) {
+                $this->session->set_flashdata('active_tag', 4);
                 $responce = array('status' => 1, 'msg' => "Time sloat updated successfully", 'url' => "master/degree/");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
