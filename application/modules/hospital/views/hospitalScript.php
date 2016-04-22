@@ -14,7 +14,7 @@ if (isset($hospitalId) && !empty($hospitalId)) {
 ?>
 <script src="<?php echo base_url(); ?>assets/ui_1.11.4_jquery-ui.js"></script>
 <link href="<?php echo base_url(); ?>assets/cropper/cropper.min.css" rel="stylesheet">
-<!--<link href="<?php echo base_url(); ?>assets/vendor/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />-->
+<!--<link href="<?php // echo base_url(); ?>assets/vendor/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />-->
 <link href="<?php echo base_url(); ?>assets/cropper/main.css" rel="stylesheet">
 <script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.js"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
@@ -30,7 +30,8 @@ if ($current != 'detailHospital'):
 <?php else: ?>
 
     <script src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
-    <script src="<?php echo base_url(); ?>assets/cropper/gallery_cropper.js"></script>
+
+    <!--<script src="<?php // echo base_url(); ?>assets/cropper/gallery_cropper.js"></script>-->
 
 <?php endif; ?>
 
@@ -49,6 +50,11 @@ if ($current != 'detailHospital'):
 <script src="<?php echo base_url(); ?>assets/js/bootbox.min.js"></script>
 
 <script src="<?php echo base_url(); ?>assets/js/common_js.js"></script>
+
+
+<script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.js"></script>
+
+<script src="<?php echo base_url(); ?>assets/js/pages/add-doctor.js" type="text/javascript"></script>
 
 
 <?php
@@ -85,7 +91,6 @@ if (isset($mapData) && !empty($mapData)) {
     </script>
 <?php } ?>
 <script>
-
 
     function checkValidFileUploads(urls) {
 
@@ -339,7 +344,7 @@ if (isset($mapData) && !empty($mapData)) {
             {"data": "specialityName"},
             {"data": "consFee"},
             {"data": "exp"},
-            {"data": "doctors_phn"},
+            {"data": "doctors_phon"},
             {"data": "view"},
         ],
         "ajax": {
@@ -436,6 +441,37 @@ if (isset($mapData) && !empty($mapData)) {
     }
     function sendSpeciality() {
         var specialityId = [];
+        var checkValues = [];
+        
+        var checkValues = $('.myCheckbox:input:checkbox:checked').map(function() {
+                return this.value;
+            }).get();
+            
+      // alert(checkValues.length);
+       if(checkValues.length > 1){
+        var reYesNo = true;   
+        $.ajax({
+                    url: urls + 'index.php/hospital/checkSpeciality',
+                    type: 'POST',
+                    async: false, //=>>>>>>>>>>> here >>>>>>>>>>>
+                    data: {'hospitalId': hospitalId, 'allValuers': checkValues},
+                    success: function (datas) {
+                        if (datas == 0) {
+                             reYesNo = false;
+                           //  console.log(reYesNo,'andar');
+                             bootbox.alert("Sorry, you can't add more than three specialities!");
+                             
+                        }
+                    }
+                });
+                
+              //  console.log(reYesNo,'bahar');
+                if(!reYesNo)
+                   return false; 
+         
+       }
+       
+
         $('.specialityCheck').each(function () {
 
             if ($(this).is(':checked')) {
@@ -443,10 +479,13 @@ if (isset($mapData) && !empty($mapData)) {
                 $.ajax({
                     url: urls + 'index.php/hospital/addSpeciality',
                     type: 'POST',
+                   // async: true, //blocks window close
                     data: {'hospitalId': hospitalId, 'hospitalSpecialities_specialitiesId': $(this).val()},
                     success: function (datas) {
                         if (datas == 0) {
-                            bootbox.alert("Sorry, you can't add more than three specialities!");
+                             bootbox.alert("Sorry, you can't add more than three specialities!");
+                             return false;
+                             
                         } else {
                             loadSpeciality();
                         }
@@ -830,8 +869,6 @@ if (isset($mapData) && !empty($mapData)) {
         var isAddressDisabled = $('#isAddressDisabled').val();
         if(isAddressDisabled == 1){
             $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", false);
-        }else{
-             $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", true);
         }
         
         var check = /^[a-zA-Z\s]+$/;
@@ -1956,6 +1993,128 @@ if (isset($mapData) && !empty($mapData)) {
             $("#geocomplete1,#hospital_zip,#lat,#lng").removeAttr("readonly");
             $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", false);
         }
+    }
+    
+    
+  function addNewDoctor(){
+      
+     // alert($( "#doctorForm" ).hasClass( "myForm" ));
+      if($( "#doctorForm" ).hasClass( "myForm" )){
+           $('#doctorForm').removeClass('myForm');
+           $('#doctorForm').css("display",'none');
+           $('#doctorList').css("display",'block');
+           $(".addDoctorButton").html('Add New Doctor');
+      }else{
+          $('#doctorForm').addClass('myForm');
+          $('#doctorForm').css("display",'block');
+          $('#doctorList').css("display",'none');
+         // $('#doctorList').css("display",'none');
+          $(".addDoctorButton").html('Cancel Add Doctor');
+        }
+      
+  }
+  
+  
+    function editDoctor(doctorId){
+     // alert('helloo');
+     // alert($( "#doctorForm" ).hasClass( "myForm" ));
+      if($( "#editDoctorForm" ).hasClass( "myForm1" )){
+          // getDcotorDeatil(doctorId);
+           $('#editDoctorForm').removeClass('myForm1');
+           $('#editDoctorForm').css("display",'none');
+           $('#doctorList').css("display",'block');
+           $(".addDoctorButton").css("display",'block');
+      }else{
+          
+          $('#editDoctorForm').addClass('myForm1');
+          $('#editDoctorForm').css("display",'block');
+          $('#doctorList').css("display",'none');
+         // $('#doctorList').css("display",'none');
+          $(".addDoctorButton").css("display",'none');
+          getDcotorDeatil(doctorId);
+        }
+      
+  }
+  
+  
+ function getDcotorDeatil(doctorId) {
+
+        if(getDcotorDeatil != ''){
+        $.ajax({
+            url: urls + 'index.php/hospital/getDoctorDeatil',
+            type: 'POST',
+            async:false,
+            data: {'doctorId': doctorId},
+            success: function (data) {
+                var obj = $.parseJSON(data);
+               // alert(obj.status);
+                if (obj.status == 1) {
+                    $(".doctors_fName").val(obj.doctors_fName);
+                    $(".doctors_lName").val(obj.doctors_lName);
+                    $(".users_email").val(obj.email);
+                    $(".doctors_phn").val(obj.doctors_phon);
+                    $(".exp_year").val(obj.exp_year);
+                    $(".doctorSpecialities_specialitiesId").html(obj.doctorSpecialities_specialitiesId);
+                   // $('.doctorSpecialities_specialitiesId').selectpicker('refresh');
+                   // var arr = jQuery.makeArray( obj.doctorSpecialities_specialitiesId );
+                    $(".fee").val(obj.fee);
+                    
+                    $.each( obj.academicDeatil, function( key, value ) {
+                       
+                     
+                        if(key == 0){
+                            
+                        countsAccademic = parseInt(countsAccademic) + 1;
+                        var divIds = countsAccademic;
+                        
+                        
+                        var optionValue  = value.doctorAcademic_degreeId;
+                      //  alert(optionValue);
+                      
+                        $("#doctorAcademic_degreeId2").val(optionValue)
+                        .find("option[value=" + optionValue +"]").attr('selected', true);
+                
+                        var degreeData = $('#doctorAcademic_degreeId2').html();
+                        
+                        
+                        $('#doctorAcademic_degreeId2').selectpicker('refresh');
+                        
+                        var specialitiesData = $('#doctorSpecialities_specialitiesCatId2').html();
+                        $('#parentDegreeDiv2').html('<div id="childDegreeDiv2' + divIds + '"><aside class="row"><label for="cname" class="control-label col-md-4">Degree</label><div class="col-md-4 col-sm-4"><select class="selectpicker" data-width="100%" data-size="4" name="doctorAcademic_degreeId[]" id="doctorAcademic_degreeId' + divIds + '" >' + degreeData + '</select></div><div class="col-md-4 col-sm-4 m-t-xs-10"><select class="selectpicker" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId' + divIds + '" >' + specialitiesData + '</select></div></aside><aside class="row"><label for="cname" class="control-label col-md-4 m-t-20">Address</label><div class="col-md-8 col-sm-8 m-t-20"><textarea class="form-control" id="acdemic_addaddress' + divIds + '" name="acdemic_addaddress[]" required="">'+value.doctorAcademic_degreeInsAddress+'</textarea><label class="error" style="display:none;" id="error-acdemic_addaddress' + divIds + '"> please fill Address</label></div><label for="cname" class="control-label col-md-4 m-t-20">Year</label><div class="col-md-8 col-sm-8 m-b-20 m-t-10"><input class="form-control" name="acdemic_addyear[]" required="" id="acdemic_addyear' + divIds + '" value="'+value.doctorAcademic_degreeYear+'" onkeypress="return isNumberKey(event)" maxlength="4"><label class="error" style="display:none;" id="error-acdemic_addyear' + divIds + '"> please fill Year</label></div></aside></div><br />');
+                        
+                        }else{
+                        countsAccademic = parseInt(countsAccademic) + 1;
+                        var divIds = countsAccademic;
+                        
+                        $('#doctorAcademic_degreeId2').selectpicker('refresh');
+                        
+                        var optionValue  = value.doctorAcademic_degreeId;
+                        
+                        $("#doctorAcademic_degreeId2").val(optionValue)
+                        .find("option[value=" + optionValue +"]").attr('selected', true);
+                
+                        var degreeData = $('#doctorAcademic_degreeId2').html();
+                        
+                        var specialitiesData = $('#doctorSpecialities_specialitiesCatId2').html();
+                        $('#parentDegreeDiv2').append('<div id="childDegreeDiv2' + divIds + '"><aside class="row"><label for="cname" class="control-label col-md-4">Degree</label><div class="col-md-4 col-sm-4"><select class="selectpicker" data-width="100%" data-size="4" name="doctorAcademic_degreeId[]" id="doctorAcademic_degreeId' + divIds + '" >' + degreeData + '</select></div><div class="col-md-4 col-sm-4 m-t-xs-10"><select class="selectpicker" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId' + divIds + '" >' + specialitiesData + '</select></div></aside><aside class="row"><label for="cname" class="control-label col-md-4 m-t-20">Address</label><div class="col-md-8 col-sm-8 m-t-20"><textarea class="form-control" id="acdemic_addaddress' + divIds + '" name="acdemic_addaddress[]" required="">'+value.doctorAcademic_degreeInsAddress+'</textarea><label class="error" style="display:none;" id="error-acdemic_addaddress' + divIds + '"> please fill Address</label></div><label for="cname" class="control-label col-md-4 m-t-20">Year</label><div class="col-md-8 col-sm-8 m-b-20 m-t-10"><input class="form-control" name="acdemic_addyear[]" required="" id="acdemic_addyear' + divIds + '" value="'+value.doctorAcademic_degreeYear+'" onkeypress="return isNumberKey(event)" maxlength="4"><label class="error" style="display:none;" id="error-acdemic_addyear' + divIds + '"> please fill Year</label></div></aside></div><br />');
+                            
+                         }
+                        
+                        });
+                        
+                      
+        
+                } else {
+                    $(".doctors_fName").val('');
+                    $(".doctors_lName").val('');
+                    $(".users_email").val('');
+                    $(".doctors_phn").val('');
+                    $(".exp_year").val('');
+                    $(".fee").val('');
+                }
+            }
+        });
+      }
     }
 </script>
 </body>
