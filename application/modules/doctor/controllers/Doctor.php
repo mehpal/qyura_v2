@@ -510,6 +510,7 @@ $MainSlot= array();
         $data['exprerience'] = $this->Doctor_model->fetchExprience($doctorId);
         $data['doctorAcademic'] = $this->Doctor_model->fetchAcademic($doctorId);
         $data['timeSlots'] = $this->Doctor_model->getDoctorAvailability($where);
+        $data['publishHospital'] = $this->Doctor_model->fetchPublishHospital();
         $data['title'] = 'Doctor Details';
         $this->load->super_admin_template('doctorDetails', $data, 'doctorScript');
     }
@@ -1355,6 +1356,7 @@ $MainSlot= array();
             }
 
             if ($docTimeDayId) {
+                $this->session->set_flashdata('active_tag', 4);
                 $responce = array('status' => 1, 'msg' => "Time sloat added successfully", 'url' => "master/degree/");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
@@ -1446,6 +1448,7 @@ $MainSlot= array();
             }
 
             if ($id) {
+                $this->session->set_flashdata('active_tag', 4);
                 $responce = array('status' => 1, 'msg' => "Time sloat updated successfully", 'url' => "master/degree/");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
