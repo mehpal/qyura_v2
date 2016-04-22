@@ -763,7 +763,7 @@
                         <!-- Timeslot Starts Section -->
                       
                         <!-- Timeslot Starts Section -->
-                        <section class="tab-pane fade in active" id="timeslot">
+                        <section class="tab-pane fade in  <?php if($active_tag == 4){ echo "active"; }?>" id="timeslot">
                             <div class="bg-white mi-form-section">
                                 <!-- Top Detailed Section -->
                                 <!-- Time Scedule Start here-->
@@ -907,20 +907,20 @@
                             <label class="control-label" for="docTimeTable_stayAt">Seating Place Type:</label>
                             <div class="">
                                 <aside class="radio radio-info radio-inline">
-                                    <input type="radio"  required="" name="docTimeTable_stayAt" value="1" class="docTimeTable_stayAt" onclick="placeDetail(this.value)" >
+                                    <input type="radio"   required="" name="docTimeTable_stayAt" value="1" class="docTimeTable_stayAt" onclick="placeDetail(this.value)" >
                                     <label for="inlineRadio1"> MI Place</label>
                                 </aside>
                                 <aside class="radio radio-info radio-inline">
-                                    <input type="radio" required="" name="docTimeTable_stayAt" value="0" class="docTimeTable_stayAt" onclick="placeDetail(this.value)" >
+                                    <input type="radio"  required="" name="docTimeTable_stayAt" value="0" class="docTimeTable_stayAt" onclick="placeDetail(this.value)" >
                                     <label for="inlineRadio2"> Personal Chamber</label>
                                 </aside>
                             </div>
                         </article>
-                        <article class="clearfix m-t-10" id="div_docTimeTable_MItype">
+                        <article class="clearfix m-t-10" id="div_docTimeTable_MItype" style="display: block">
                             <label class="control-label" for="docTimeTable_MItype">MI Type:</label>
                             <div class="">
                                 <select class="m-t-5 selectpicker" data-width="100%" name="docTimeTable_MItype" id="docTimeTable_MItype">
-                                     <option value=""> -- Select MI Type -- </option>
+                                    <option selected="" value=""> -- Select MI Type -- </option>
                                     <option value="1">Hospital</option>
                                     <option value="2">Diagnostic</option>
                                 </select>
@@ -929,23 +929,25 @@
                         <article class="clearfix m-t-10" id="div_docTimeTable_HprofileId">
                             <label class="control-label" for="docTimeTable_MIprofileId">Hospital Name:</label>
                             <div class="">
-                                <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId" id="docTimeTable_MIprofileId">
+                                <?php $publishHospital[] = (object) array('hospital_id' =>0, 'hospital_name' => 'Other') ?>
+                                <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId_h" id="docTimeTable_MIprofileId">
                                     <option value="">-- Select Hospital --</option>
-                                    <?php if (isset($allHospital) && $allHospital != NULL) {
-                                        foreach ($allHospital as $aH) {
-                                            ?>
-                                            <option value="<?php echo $aH->hospital_id ?>"><?php echo $aH->hospital_name ?></option>
-                                        <?php }
-                                    }
-                                    ?>
-                                    <option value="0">Other</option>
+                                     <?php  if (!empty($publishHospital)) {
+                                            
+                                            foreach ($publishHospital as $key => $val) {
+                                                ?>
+                                                <option <?php echo set_select('hospital_id', $val->hospital_id); ?> value="<?php echo $val->hospital_id; ?>"> <?php echo $val->hospital_name; ?></option>
+                                            <?php }
+                                        }
+                                        ?>
+                                    
                                 </select>
                             </div>
                         </article>
                         <article class="clearfix m-t-10" id="div_docTimeTable_DprofileId">
                             <label class="control-label" for="docTimeTable_MIprofileId">Diagnostic Name:</label>
                             <div class="">
-                                <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId" id="docTimeTable_MIprofileId">
+                                <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId_d" id="docTimeTable_MIprofileId">
                                     <option value="">-- Select Diagnostic --</option>
     <?php if (isset($alldignostic) && $alldignostic != NULL) {
     foreach ($alldignostic as $aD) {
@@ -965,7 +967,7 @@
                                 <label class="error"><?php echo form_error("Mi_name"); ?></label>
                             </div>
                         </article>
-                        <article class="clearfix m-t-10 " id="div_psChamber_name">
+                        <article class="clearfix m-t-10 " id="div_psChamber_name" style="display: none">
                             <label class="control-label" for="psChamber_name">Personal Chamber Name:</label>
                             <div class="">
                                 <input type="text" name="psChamber_name" id="psChamber_name" class="form-control"  value="<?php echo set_value('psChamber_name'); ?>">

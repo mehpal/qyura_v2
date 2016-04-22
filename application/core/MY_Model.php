@@ -353,5 +353,15 @@ class My_model extends CI_Model {
         $this->db->order_by("city_name", "asc");
         return $this->db->get()->result();
     }
+    
+    // fetch all publish hospital 
+   function fetchPublishHospital() {
+        $this->db->select('hospital_id,hospital_name');
+        $this->db->from('qyura_hospital');
+        $this->db->where('status', 2);
+        $this->db->order_by("hospital_name", "asc");
+        $this->db->group_by("hospital_id");
+        return $this->db->get()->result();
+    }
 
 }
