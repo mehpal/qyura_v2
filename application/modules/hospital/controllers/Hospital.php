@@ -307,6 +307,7 @@ class Hospital extends MY_Controller {
     }
 
     function fetchStates() {
+        // fetch state
         $stateId = $this->input->post('stateId');
         $countryId = $this->input->post('countryId');
         $statesdata = $this->Hospital_model->fetchStates($countryId);
