@@ -1294,5 +1294,169 @@ $MainSlot= array();
             echo $data;
         }
     }
+    
+    function addDocTime() {
+        $this->bf_form_validation->set_rules('docTimeTable_stayAt', 'stayAt', 'required|trim');
+        $this->bf_form_validation->set_rules('docTimeTable_MItype', 'MItype', 'required|trim');
+        $this->bf_form_validation->set_rules('docTimeTable_MIprofileId', 'MIprofileId', 'required|trim');
+        $this->bf_form_validation->set_rules('docTimeTable_price', 'price', 'required|trim');
+
+
+        $this->bf_form_validation->set_rules('docTimeDay_day[]', 'day', 'required|trim');
+        $this->bf_form_validation->set_rules('docTimeDay_open', 'open', 'required|trim');
+        $this->bf_form_validation->set_rules('docTimeDay_close', 'close', 'required|trim');
+
+
+        dump($_POST['docTimeDay_day']);
+        dump($this->bf_form_validation->run($this));
+
+        if ($this->bf_form_validation->run($this) === FALSE) {
+            $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
+            echo json_encode($responce);
+        } else {
+
+            $docTimeTable_stayAt = isset($_POST['docTimeTable_stayAt']) ? $this->input->post() : '';
+            $docTimeTable_MItype = isset($_POST['docTimeTable_MItype']) ? $this->input->post('docTimeTable_MItype') : '';
+            $docTimeTable_MIprofileId = isset($_POST['docTimeTable_MIprofileId']) ? $this->input->post('docTimeTable_MIprofileId') : '';
+            $docTimeTable_price = isset($_POST['docTimeTable_price']) ? $this->input->post('docTimeTable_price') : '';
+
+            $docTimeDay_days = isset($_POST['docTimeDay_day']) ? $this->input->post('docTimeDay_day') : '';
+            $docTimeDay_open = isset($_POST['docTimeDay_open']) ? $this->input->post('docTimeDay_open') : '';
+            $docTimeDay_close = isset($_POST['docTimeDay_close']) ? $this->input->post('docTimeDay_close') : '';
+
+            $docTimeDay_open = strtotime($docTimeDay_open);
+            $docTimeDay_close = strtotime($docTimeDay_close);
+
+
+            $param = array(
+                'table' => 'qyura_docTimeTable',
+                'data' => array(
+                    'docTimeTable_stayAt' => $docTimeTable_stayAt,
+                    'docTimeTable_MItype' => $docTimeTable_MItype,
+                    'docTimeTable_MIprofileId' => $docTimeTable_MIprofileId,
+                    'docTimeTable_price' => $docTimeTable_price
+                )
+            );
+
+            $docTimeTableId = $this->common_model->customInsert($param);
+            $docTimeDayId = FALSE;
+            foreach ($docTimeDay_days as $docTimeDay_day) {
+                $param = array(
+                    'table' => 'qyura_docTimeDay',
+                    'data' => array(
+                        'qyura_docTimeDay' => $docTimeDay_day,
+                        'docTimeDay_open' => $docTimeDay_open,
+                        'docTimeDay_close' => $docTimeDay_close,
+                        'docTimeDay_docTimeTableId' => $docTimeTableId
+                    )
+                );
+
+                $docTimeDayId = $this->common_model->customInsert($param);
+            }
+
+            if ($docTimeDayId) {
+                $responce = array('status' => 1, 'msg' => "Time sloat added successfully", 'url' => "master/degree/");
+            } else {
+                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
+            }
+            echo json_encode($responce);
+        }
+    }
+
+    function editDocTime() {
+
+        $this->bf_form_validation->set_rules('docTimeTable_stayAt', 'stayAt', 'required|trim');
+        $this->bf_form_validation->set_rules('docTimeTable_MItype', 'MItype', 'required|trim');
+        $this->bf_form_validation->set_rules('docTimeTable_MIprofileId', 'MIprofileId', 'required|trim');
+        $this->bf_form_validation->set_rules('docTimeTable_price', 'price', 'required|trim');
+
+        $this->bf_form_validation->set_rules('docTimeDay_day[]', 'day', 'required|trim');
+        $this->bf_form_validation->set_rules('docTimeDay_open', 'open', 'required|trim');
+        $this->bf_form_validation->set_rules('docTimeDay_close', 'close', 'required|trim');
+
+
+        dump($_POST['docTimeDay_day']);
+        dump($this->bf_form_validation->run($this));
+
+        if ($this->bf_form_validation->run($this) === FALSE) {
+            $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
+            echo json_encode($responce);
+        } else {
+
+            $docTimeTable_stayAt = isset($_POST['docTimeTable_stayAt']) ? $this->input->post() : '';
+            $docTimeTable_MItype = isset($_POST['docTimeTable_MItype']) ? $this->input->post('docTimeTable_MItype') : '';
+            $docTimeTable_MIprofileId = isset($_POST['docTimeTable_MIprofileId']) ? $this->input->post('docTimeTable_MIprofileId') : '';
+            $docTimeTable_price = isset($_POST['docTimeTable_price']) ? $this->input->post('docTimeTable_price') : '';
+
+            $docTimeDay_days = isset($_POST['docTimeDay_day']) ? $this->input->post('docTimeDay_day') : '';
+            $docTimeDay_open = isset($_POST['docTimeDay_open']) ? $this->input->post('docTimeDay_open') : '';
+            $docTimeDay_close = isset($_POST['docTimeDay_close']) ? $this->input->post('docTimeDay_close') : '';
+            $docTimeTableId = isset($_POST['docTimeTableId']) ? $this->input->post('docTimeTableId') : '';
+
+            $docTimeDay_open = strtotime($docTimeDay_open);
+            $docTimeDay_close = strtotime($docTimeDay_close);
+            $selectedDays = $docTimeDay_days;
+
+
+
+            $con = array('docTimeDay_docTimeTableId' => $docTimeTableId);
+            $days = $this->Doctor_model->getDoctorAvailableOnDaysNew($con);
+            $preDays = array();
+            if (isset($days) && $days != null) {
+                foreach ($days as $day) {
+                    array_push($preDays, $day->day);
+                }
+            }
+
+            $newAvabilityIds = array();
+
+            foreach ($selectedDays as $selectedDay) {
+                if (!in_array($selectedDay, $preDays)) {
+                    $param = array(
+                        'table' => 'qyura_docTimeDay',
+                        'data' => array(
+                            'qyura_docTimeDay' => $selectedDay,
+                            'docTimeDay_open' => $docTimeDay_open,
+                            'docTimeDay_close' => $docTimeDay_close,
+                            'docTimeDay_docTimeTableId' => $docTimeTableId
+                        )
+                    );
+
+                    $id = $this->common_model->customInsert($param);
+                    array_push($newAvabilityIds, $id);
+                }
+            }
+
+            foreach ($days as $day) {
+                if (!in_array($day->day, $selectedDays)) {
+                    $where = array('docTimeDay_day' => $day->day, 'docTimeDay_docTimeTableId' => $docTimeTableId);
+                    $records_upg['docTimeTable_deleted'] = 1;
+                    $records_upg['modifyTime'] = time();
+
+                    $updateOptions = array
+                        (
+                        'where' => $where,
+                        'data' => $records_upg,
+                        'table' => 'qyura_docTimeDay'
+                    );
+
+                    $id = $this->common_model->customUpdate($updateOptions);
+                }
+            }
+
+            if ($id) {
+                $responce = array('status' => 1, 'msg' => "Time sloat updated successfully", 'url' => "master/degree/");
+            } else {
+                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
+            }
+            echo json_encode($responce);
+        }
+    }
+
+    function checkSloat() {
+        
+    }
 }
 
