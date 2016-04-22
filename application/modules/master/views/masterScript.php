@@ -4,7 +4,24 @@
         display:none;
     }
 </style>
-
+<style type="text/css">
+    #hospital_datatable_filter
+    {
+        display:none;
+    }
+</style>
+<style type="text/css">
+    #diagnostic_datatable_filter
+    {
+        display:none;
+    }
+</style>
+<style type="text/css">
+    #city_datatable_filter
+    {
+        display:none;
+    }
+</style>
 
 <?php
 $check = 0;
@@ -360,7 +377,97 @@ if ($current != 'detailDoctor'): ?>
             return true;
         }
     }
-    
+    $(document).ready(function () {
+        var oTable = $('#hospital_datatable').DataTable({
+            "processing": true,
+            "bServerSide": true,
+            // "searching": true,
+            "bLengthChange": false,
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
+            "sPaginationType": "full_numbers",
+            "columns": [
+                {"data": "hospital_name"},
+                {"data": "action", "searchable": false, "order": false, orderable: false, width: "8%"},
+                {"data": "status", "searchable": false, "order": false, orderable: false, width: "8%"},
+
+
+            ],
+            "ajax": {
+                "url": "<?php echo site_url('master/mi_master/getHospitalDl'); ?>",
+                "type": "POST",
+                "data": function (d) {
+                    d.name = $("#search").val();
+                    d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
+                }
+            }
+        });
+        $('#search').on('keyup', function () {
+            oTable.search($(this).val()).draw();
+        });
+
+    });
+    $(document).ready(function () {
+        var oTable = $('#diagnostic_datatable').DataTable({
+            "processing": true,
+            "bServerSide": true,
+            // "searching": true,
+            "bLengthChange": false,
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
+            "sPaginationType": "full_numbers",
+            "columns": [
+                {"data": "diagnostic_name"},
+                {"data": "action", "searchable": false, "order": false, orderable: false, width: "8%"},
+                {"data": "status", "searchable": false, "order": false, orderable: false, width: "8%"},
+
+            ],
+            "ajax": {
+                "url": "<?php echo site_url('master/mi_master/getDiagnosticDl'); ?>",
+                "type": "POST",
+                "data": function (d) {
+                    d.name = $("#search").val();
+                    d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
+                }
+            }
+        });
+        $('#search').on('keyup', function () {
+            oTable.search($(this).val()).draw();
+        });
+
+    });
+    $(document).ready(function () {
+        var oTable = $('#city_datatable').DataTable({
+            "processing": true,
+            "bServerSide": true,
+            // "searching": true,
+            "bLengthChange": false,
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
+            "sPaginationType": "full_numbers",
+            "columns": [
+                {"data": "city_name"},
+                {"data": "action", "searchable": false, "order": false, orderable: false, width: "8%"},
+                {"data": "status", "searchable": false, "order": false, orderable: false, width: "8%"},
+
+            ],
+            "ajax": {
+                "url": "<?php echo site_url('master/city_master/getCityDl'); ?>",
+                "type": "POST",
+                "data": function (d) {
+                    d.name = $("#search").val();
+                    d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
+                }
+            }
+        });
+        $('#search').on('keyup', function () {
+            oTable.search($(this).val()).draw();
+        });
+
+    });
 </script>
 <script type="text/javascript">
    /*diagnostic list*/

@@ -143,12 +143,13 @@ if(isset($ambulanceId) && !empty($ambulanceId)){
         var numcheck=/^[0-9]+$/;
         var emails = $.trim($('#users_email').val());
         var cpname = $.trim($('#ambulance_cntPrsn').val());        
-        var phn= $.trim($('#ambulance_phn1').val());
+        var phn= $.trim($('#ambulance_phn').val());
         var myzip = $.trim($('#ambulance_zip').val());
         var cityId =$.trim($('#ambulance_cityId').val());
         var stateIds = $.trim($('#ambulance_stateId').val());
         var mobileNumber = $.trim($('#users_mobile').val());
         var ambulanceName = $('#ambulance_name').val();
+        
         var status =1;
     //debugger;
    
@@ -232,23 +233,40 @@ if(isset($ambulanceId) && !empty($ambulanceId)){
                  }, 3000);
             }
             
+          
             
             if(!$.isNumeric(phn)){
-                $('#ambulance_phn1').addClass('bdr-error');
-                $('#error-ambulance_phn1').fadeIn().delay(3000).fadeOut('slow');
+                $('#ambulance_phn').addClass('bdr-error');
+                $('#error-ambulance_phn').fadeIn().delay(3000).fadeOut('slow');
                 status = 0;
                   setTimeout(function(){
-                    $('#ambulance_phn1').removeClass('bdr-error');
+                    $('#ambulance_phn').removeClass('bdr-error');
                  }, 3000);
             }
-            if(!$.isNumeric(mobileNumber)){
-                $('#users_mobile').addClass('bdr-error');
-                $('#error-users_mobile').fadeIn().delay(3000).fadeOut('slow');
-                 setTimeout(function(){
-                    $('#users_mobile').removeClass('bdr-error');
-                 }, 3000);
+            
+              if(!$.isNumeric(phn) && phn == ''){
+                
+                $('#ambulance_phn').addClass('bdr-error');
+                $('#error-ambulance_phn').fadeIn().delay(3000).fadeOut('slow');
+                // $('#hospital_phn').focus();
                 status = 0;
+            }else{
+                if(phn.length != 10){
+                    
+                     
+                $('#ambulance_phn').addClass('bdr-error');
+                $('#error-ambulance_phn').fadeIn().delay(3000).fadeOut('slow'); 
+                status = 0;
+                }
             }
+//            if(!$.isNumeric(mobileNumber)){
+//                $('#users_mobile').addClass('bdr-error');
+//                $('#error-users_mobile').fadeIn().delay(3000).fadeOut('slow');
+//                 setTimeout(function(){
+//                    $('#users_mobile').removeClass('bdr-error');
+//                 }, 3000);
+//                status = 0;
+//            }
             if(!check.test(cpname)){
                 $('#ambulance_cntPrsn').addClass('bdr-error');
                 $('#error-ambulance_cntPrsn').fadeIn().delay(3000).fadeOut('slow');
@@ -310,6 +328,12 @@ if(isset($ambulanceId) && !empty($ambulanceId)){
                status = 0;
              }
             
+              if($('#ambulance_docatId').val()==''){
+                $('#ambulance_docatId').addClass('bdr-error');
+                $('#error-ambulance_docatId').fadeIn().delay(3000).fadeOut('slow');
+               
+               status = 0;
+            }
             
             
             
@@ -447,13 +471,13 @@ if(isset($ambulanceId) && !empty($ambulanceId)){
         var numcheck=/^[0-9]+$/;
       
         var cpname = $.trim($('#ambulance_cntPrsn').val());        
-        var phn= $.trim($('#ambulance_phn1').val());
+        var phn= $.trim($('#ambulance_phn').val());
         var myzip = $.trim($('#ambulance_zip').val());
         var cityId =$.trim($('#ambulance_cityId').val());
         var stateIds = $.trim($('#ambulance_stateId').val());
         var mobileNumber = $.trim($('#users_mobile').val());
         var ambulanceName = $('#ambulance_name').val();
-        var status =1;
+        var status = 1;
     //debugger;
    
             if($('#ambulance_name').val()==''){
@@ -538,23 +562,39 @@ if(isset($ambulanceId) && !empty($ambulanceId)){
             
             
           if(!$.isNumeric(phn)){
-                $('#ambulance_phn1').addClass('bdr-error');
+                $('#ambulance_phn').addClass('bdr-error');
                 $('#error-ambulance_phn').fadeIn().delay(3000).fadeOut('slow');
                 status = 0;
                   setTimeout(function(){
-                    $('#ambulance_phn1').removeClass('bdr-error');
+                    $('#ambulance_phn').removeClass('bdr-error');
                  }, 3000);
             }
             
-            if(!$.isNumeric(mobileNumber)){
-                $('#users_mobile').addClass('bdr-error');
-                $('#error-users_mobile').fadeIn().delay(3000).fadeOut('slow');
-                 setTimeout(function(){
-                    $('#users_mobile').removeClass('bdr-error');
-                 }, 3000);
+            
+             if(!$.isNumeric(phn) && phn == ''){
+                
+                $('#ambulance_phn').addClass('bdr-error');
+                $('#error-ambulance_phn').fadeIn().delay(3000).fadeOut('slow');
+                // $('#hospital_phn').focus();
                 status = 0;
-               
+            }else{
+                if(phn.length != 10){
+                    
+                     
+                $('#ambulance_phn').addClass('bdr-error');
+                $('#error-ambulance_phn').fadeIn().delay(3000).fadeOut('slow'); 
+                 status = 0;
+                }
             }
+//            if(!$.isNumeric(mobileNumber)){
+//                $('#users_mobile').addClass('bdr-error');
+//                $('#error-users_mobile').fadeIn().delay(3000).fadeOut('slow');
+//                 setTimeout(function(){
+//                    $('#users_mobile').removeClass('bdr-error');
+//                 }, 3000);
+//                status = 0;
+//               
+//            }
             
             if(!check.test(cpname)){
                 $('#ambulance_cntPrsn').addClass('bdr-error');
@@ -610,6 +650,12 @@ if(isset($ambulanceId) && !empty($ambulanceId)){
                status = 0;
              }
              
+              if($('#ambulance_docatId').val()==''){
+                $('#ambulance_docatId').addClass('bdr-error');
+                $('#error-ambulance_docatId').fadeIn().delay(3000).fadeOut('slow');
+               
+               status = 0;
+            }
             
             if(status == 1){
               $("form[name='ambulanceDetail']").submit();

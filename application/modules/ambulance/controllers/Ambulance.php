@@ -25,9 +25,10 @@ class Ambulance extends MY_Controller {
         echo $this->Ambulance_model->fetchAmbulanceDataTables();
     }
 
-    function detailAmbulance($ambulanceId) {
+    function detailAmbulance($ambulanceId,$active = 'general') {
         $data = array();
-        $data['ambulanceData'] = $this->Ambulance_model->fetchambulanceData($ambulanceId);
+        $data['ambulanceData'] = $ambulanceData = $this->Ambulance_model->fetchambulanceData($ambulanceId);
+      
         $data['ambulanceId'] = $ambulanceId;
         $data['editdetail'] = 'none';
         $data['detail'] = 'block';
@@ -46,7 +47,17 @@ class Ambulance extends MY_Controller {
         $stateId = (!empty($data['ambulanceData'][0]->ambulance_stateId)) ? $data['ambulanceData'][0]->ambulance_stateId : 0;
         $data['citys'] = $this->Ambulance_model->fetchCity($stateId);
             
-
+        $mi_userId="";
+        if(!empty($ambulanceData)):
+         $mi_userId = $ambulanceData[0]->ambulance_usersId;
+        endif;
+        $option = array(
+            'select' => '*',
+            'table'=> 'qyura_miTimeSlot',
+            'where'=> array('mi_user_id' => $mi_userId),
+        );
+        $data['timeSlot'] = $this->common_model->customGet($option);
+        $data['active'] = $active;
         $this->load->super_admin_template('ambulanceDetail', $data, 'ambulanceScript');
     }
 
@@ -57,7 +68,8 @@ class Ambulance extends MY_Controller {
         $this->bf_form_validation->set_rules('ambulance_countryId', 'Ambulance Country', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('ambulance_stateId', 'Ambulance StateId', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('ambulance_cityId', 'Ambulance City', 'required|trim|numeric');
-
+            
+        $this->bf_form_validation->set_rules('ambulance_phn', 'Ambulance Phone', 'required|numeric');
         $this->bf_form_validation->set_rules('ambulance_zip', 'Ambulance Zip', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('ambulance_address', 'Ambulance Address', 'required|trim');
         $this->bf_form_validation->set_rules('ambulance_cntPrsn', 'Contact Person', 'required|trim');
@@ -66,7 +78,7 @@ class Ambulance extends MY_Controller {
        // $this->bf_form_validation->set_rules('midNumber[]', 'Std Code', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('lat', 'Latitude', 'required|callback_isValidLatitude[lat]');
         $this->bf_form_validation->set_rules('lng', 'Longitude', 'required|callback_isValidLongitude[lng]');
-
+        $this->bf_form_validation->set_rules('ambulance_docatId', 'Docat Id', 'required|trim');
         if ($this->bf_form_validation->run() === False) {
             $data = array();
             $data['ambulanceData'] = $this->Ambulance_model->fetchambulanceData($ambulanceId);
@@ -84,28 +96,29 @@ class Ambulance extends MY_Controller {
             $this->load->super_admin_template('ambulanceDetail', $data, 'ambulanceScript');
         } else {
             $ambulance_phn = $this->input->post('ambulance_phn');
-            $pre_number = $this->input->post('pre_number');
-            $stdNumber = $this->input->post('midNumber');
+            //$pre_number = $this->input->post('pre_number');
+           // $stdNumber = $this->input->post('midNumber');
             $countryId = $this->input->post('ambulance_countryId');
             $stateId = $this->input->post('ambulance_stateId');
             $cityId = $this->input->post('ambulance_cityId');
             $ambulance_zip = $this->input->post('ambulance_zip');
+            $ambulance_docatId = $this->input->post('ambulance_docatId');
 
-            $finalNumber = '';
-            for ($i = 0; $i < count($ambulance_phn); $i++) {
-                if ($ambulance_phn[$i] != '' && $pre_number[$i] != '') {
-
-                    if ($i == count($ambulance_phn) - 1)
-                        $finalNumber .= $pre_number[$i] . ' ' . $stdNumber[$i] .  ' ' . $ambulance_phn[$i];
-                    else
-                        $finalNumber .= $pre_number[$i] . ' ' . $stdNumber[$i] .  ' ' . $ambulance_phn[$i] . '|';
-                }
-            }
+//            $finalNumber = '';
+//            for ($i = 0; $i < count($ambulance_phn); $i++) {
+//                if ($ambulance_phn[$i] != '' && $pre_number[$i] != '') {
+//
+//                    if ($i == count($ambulance_phn) - 1)
+//                        $finalNumber .= $pre_number[$i] . ' ' . $stdNumber[$i] .  ' ' . $ambulance_phn[$i];
+//                    else
+//                        $finalNumber .= $pre_number[$i] . ' ' . $stdNumber[$i] .  ' ' . $ambulance_phn[$i] . '|';
+//                }
+//            }
 
             $updateAmbulance = array(
                 'ambulance_name' => $this->input->post('ambulance_name'),
                 'ambulanceType' => $this->input->post('ambulanceType'),
-                'ambulance_phn' => rtrim($finalNumber, '|'),
+                'ambulance_phn' => $ambulance_phn,
                 'ambulance_address' => $this->input->post('ambulance_address'),
                 'ambulance_cntPrsn' => $this->input->post('ambulance_cntPrsn'),
                 'ambulance_27Src' => $this->input->post('ambulance_27Src'),
@@ -116,6 +129,7 @@ class Ambulance extends MY_Controller {
                 'ambulance_countryId' => $countryId,
                 'ambulance_stateId' => $stateId,
                 'ambulance_cityId' => $cityId,
+                 'ambulance_docatId' => $ambulance_docatId,
                 'ambulance_zip' => $ambulance_zip
             );
 
@@ -128,7 +142,7 @@ class Ambulance extends MY_Controller {
             if ($response) {
                 $updateUserdata = array(
                     //'users_email' => $this->input->post('users_email'),
-                    'users_mobile' => $this->input->post('users_mobile'),
+                   // 'users_mobile' => $this->input->post('users_mobile'),
                     'modifyTime' => strtotime(date("Y-m-d H:i:s"))
                 );
                 $whereUser = array(
@@ -171,22 +185,23 @@ class Ambulance extends MY_Controller {
         $this->bf_form_validation->set_rules('ambulance_stateId', 'Ambulance StateId', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('ambulance_cityId', 'Ambulance City', 'required|trim|numeric');
 
-        $this->bf_form_validation->set_rules('ambulance_phn[]', 'Ambulance Phone', 'required|numeric');
+        $this->bf_form_validation->set_rules('ambulance_phn', 'Ambulance Phone', 'required|numeric');
         $this->bf_form_validation->set_rules('ambulance_zip', 'Ambulance Zip', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('ambulance_address', 'Ambulance Address', 'required|trim');
         $this->bf_form_validation->set_rules('ambulance_cntPrsn', 'Contact Person', 'required|trim');
         $this->bf_form_validation->set_rules('ambulance_mmbrTyp', 'Membership Type', 'required|trim');
         $this->bf_form_validation->set_rules('users_email', 'Users Email', 'required|valid_email|trim');
-        $this->bf_form_validation->set_rules('users_mobile', 'User Mobile', 'required|trim|numeric');
-        $this->bf_form_validation->set_rules('midNumber[]', 'Std Code', 'required|trim|numeric');
+      //  $this->bf_form_validation->set_rules('users_mobile', 'User Mobile', 'required|trim|numeric');
+       // $this->bf_form_validation->set_rules('midNumber[]', 'Std Code', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('lat', 'Latitude', 'required|callback_isValidLatitude[lat]');
         $this->bf_form_validation->set_rules('lng', 'Longitude', 'required|callback_isValidLongitude[lng]');
+        $this->bf_form_validation->set_rules('ambulance_docatId', 'Docat Id', 'required|trim');
 
         if (empty($_FILES['avatar_file']['name'])) {
             $this->bf_form_validation->set_rules('avatar_file', 'File', 'required');
         }
         if ($this->bf_form_validation->run() === FALSE) {
-
+            
             $data = array();
             $data['allStates'] = $this->Ambulance_model->fetchStates();
             
@@ -197,7 +212,7 @@ class Ambulance extends MY_Controller {
             $data['title'] = 'Add Ambulance';
             $this->load->super_admin_template('addAmbulance', $data, 'ambulanceScript');
         } else {
-
+               
             $imagesname = "";
             if ($_FILES['avatar_file']['name']) {
                 $path = realpath(FCPATH . 'assets/ambulanceImages/');
@@ -216,20 +231,20 @@ class Ambulance extends MY_Controller {
             }
 
             //echo $imagesname;exit;
-            $ambulance_phn = $this->input->post('ambulance_phn');
-            $pre_number = $this->input->post('pre_number');
-            $stdNumber = $this->input->post('midNumber');
-
-            $finalNumber = '';
-            for ($i = 0; $i < count($ambulance_phn); $i++) {
-                if ($ambulance_phn[$i] != '' && $pre_number[$i] != '') {
-                    if ($i == count($ambulance_phn) - 1)
-                        $finalNumber .= $pre_number[$i] . ' ' . $stdNumber[$i] . ' ' . $ambulance_phn[$i];
-                    else
-                        $finalNumber .= $pre_number[$i] . ' ' . $stdNumber[$i] . ' ' . $ambulance_phn[$i] . '|';
-                }
-            }
-
+           
+//            $pre_number = $this->input->post('pre_number');
+//            $stdNumber = $this->input->post('midNumber');
+//
+//            $finalNumber = '';
+//            for ($i = 0; $i < count($ambulance_phn); $i++) {
+//                if ($ambulance_phn[$i] != '' && $pre_number[$i] != '') {
+//                    if ($i == count($ambulance_phn) - 1)
+//                        $finalNumber .= $pre_number[$i] . ' ' . $stdNumber[$i] . ' ' . $ambulance_phn[$i];
+//                    else
+//                        $finalNumber .= $pre_number[$i] . ' ' . $stdNumber[$i] . ' ' . $ambulance_phn[$i] . '|';
+//                }
+//            }
+             $ambulance_phn = $this->input->post('ambulance_phn');
             $ambulance_name = $this->input->post('ambulance_name');
             $countryId = $this->input->post('ambulance_countryId');
             $stateId = $this->input->post('ambulance_stateId');
@@ -238,6 +253,8 @@ class Ambulance extends MY_Controller {
             $ambulance_cntPrsn = $this->input->post('ambulance_cntPrsn');
             $ambulance_mmbrTyp = $this->input->post('ambulance_mmbrTyp');
             $isEmergency = $this->input->post('isEmergency');
+            
+            $ambulance_docatId = $this->input->post('ambulance_docatId');
             $ambulance_zip = $this->input->post('ambulance_zip');
 
             $insertData = array(
@@ -253,9 +270,10 @@ class Ambulance extends MY_Controller {
                 'ambulance_27Src' => $isEmergency,
                 'ambulance_img' => $imagesname,
                 'creationTime' => strtotime(date("Y-m-d H:i:s")),
-                'ambulance_phn' => rtrim($finalNumber, '|'),
+                'ambulance_phn' => $ambulance_phn,
                 'ambulance_lat' => $this->input->post('lat'),
                 'ambulance_long' => $this->input->post('lng'),
+                'ambulance_docatId' => $ambulance_docatId,
                 'ambulanceType' => $this->input->post('ambulanceType')
             );
 
@@ -265,7 +283,7 @@ class Ambulance extends MY_Controller {
                 $ambulanceInsert = array(
                     'users_email' => $users_email,
                     'users_ip_address' => $this->input->ip_address(),
-                    'users_mobile' => $this->input->post('users_mobile'),
+                    //'users_mobile' => $this->input->post('users_mobile'),
                     'creationTime' => strtotime(date("Y-m-d H:i:s"))
                 );
                 $ambulance_usersId = $this->Ambulance_model->insertAmbulanceUser($ambulanceInsert);

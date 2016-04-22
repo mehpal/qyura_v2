@@ -19,7 +19,7 @@
                 <!-- Form Section Start -->
                 <article class="row p-b-10">
                     <form name="csvDownload" id="" action="<?php echo site_url('hospital/createCSV'); ?>" method="post">
-                        <aside class="col-lg-1 col-md-2 col-sm-2">
+                        <aside class="col-md-2 col-sm-2 col-xs-6 m-tb-xs-3">
                             <a href="<?php echo site_url('hospital/addHospital') ?>" class="btn btn-appointment waves-effect waves-light" title="Add New Hospital"><i class="fa fa-plus"></i> Add</a>
                         </aside>
                         
@@ -34,14 +34,23 @@
 
                         </aside> -->
                         
-                        <aside class="col-md-3 col-sm-3 m-tb-xs-3">
-                            <select type="text" name="hospital_cityId" class="form-control selectpicker" data-width="100%"  placeholder="Search" id="hospital_cityId" data-size="4" />
+                        <aside class="col-md-3 col-sm-3 m-tb-xs-3 col-md-offset-1">
+                            <select type="text" name="hospital_cityId" class="selectpicker" data-width="100%"  placeholder="Search" id="hospital_cityId" data-size="4" />
                             <option value=>Select Your City</option>
                              <?php foreach ($allCities as $key => $val) { ?>
                                     <option value="<?php echo $val->city_id; ?>"><?php echo $val->city_name; ?></option>
                                 <?php } ?>
                             </select>
                         </aside>
+                        
+                         <aside class="col-md-3 col-sm-3 m-tb-xs-3">
+                            <select name="status" class="selectpicker" data-width="100%" id="status" />
+                           <option value="">Select Status</option>
+                           <option value="1">Active</option>
+                           <option value="0">Inactive</option>
+                            </select>
+                        </aside>
+                        
                         <aside class="col-md-3 col-sm-4 m-tb-xs-3">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-search"></i></span>

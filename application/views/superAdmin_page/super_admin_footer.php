@@ -18,12 +18,23 @@
 <script src="<?php echo base_url(); ?>assets/bootbox/bootbox.min.js"></script>
 <!--     <script type= 'text/javascript' src="<?php echo base_url(); ?>assets/js/jquery.dataTables.min.js"></script>-->
 <?php
+$message = "";
 $msg = $this->session->flashdata('message') || $this->session->flashdata('valid_upload') || $this->session->flashdata('error');
 if ($msg != "" || $msg != NULL) {
+    
+    if($this->session->flashdata('message') != ''){
+      $message = $this->session->flashdata('message');  
+    }
+    if($this->session->flashdata('error') != ''){
+      $message = $this->session->flashdata('error');  
+    }
+    if($this->session->flashdata('valid_upload') != ''){
+      $message = $this->session->flashdata('valid_upload');  
+    }
     ?>
     <script type="text/javascript">
         $(document).ready(function () {
-            bootbox.alert("<?php echo $msg; ?>");
+            bootbox.alert("<?php echo $message; ?>");
         });
     </script>
     <?php }
@@ -202,10 +213,6 @@ if ($msg != "" || $msg != NULL) {
             }
         });
     }
-    
-   
-    
-    
     //change status enable or disable funciton for all
     function statusFn(controller, table_name, table_field_name, table_field_value, status_value)
     {
@@ -235,9 +242,38 @@ if ($msg != "" || $msg != NULL) {
         });
         
     }
+    function puStatusFn(controller, table_name, table_field_name, table_field_value, status_value)
+    {
+        if (status_value == 2)
+            var con_mess = "Unpublish";
+        else
+            con_mess = "Publish";
+        var url = '<?php echo site_url();?>/'+controller+'/puStatus';
+
+        bootbox.confirm('Do you want to ' + con_mess.toLowerCase() + ' it?', function (result) {
+            if (result) {
+                $.ajax({
+                    type: 'post',
+                    data: {'table_field_name': table_field_name, 'status': status_value, 'table': table_name, 'field_value': table_field_value},
+                    url: url,
+                    success: function (response) {
+                        if (response) {
+                           // bootbox.alert("Successfully update records.");
+                            location.reload(true);
+                        }else{
+                           // bootbox.alert("Failed to update records."); 
+                            location.reload(true);
+                        }
+                    }
+                });
+            }
+        });
+        
+    }
     
      $(window).load(function() {
 	$(".page-loader").fadeOut("slow");
     });
 </script>
+ <?php echo $this->load->view('common_pages/timeslotScript');?>
 

@@ -247,64 +247,229 @@ class MY_Controller extends CI_Controller {
             echo 0;
         }
     }
-    
-       /**
+
+    /**
      * @method getCityByMI
      * @description get city by MI
      * @access public
      * @param int
      * @return boolean
      */
-    
-    function getCityByMI($id = ''){
+    function puStatus() {
+        $table_field_name = $this->input->post('table_field_name'); //table field name
+        $status_value = $this->input->post('status'); // status value
+        $table_name = $this->input->post('table'); //table name
+        $field_value = $this->input->post('field_value'); //field value
+        $response = array();
+        if (!empty($table_field_name) && !empty($table_name) && !empty($field_value)) {
+
+            $where = array($table_field_name => $field_value);
+            if ($status_value == 2) {
+                $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
+            }
+
+            $options = array(
+                'table' => $table_name,
+                'where' => $where,
+                'data' => $update_data
+            );
+            $update = $this->common_model->customUpdate($options);
+
+            if ($update) {
+                echo $update;
+            } else
+                echo 0;
+        }else {
+            echo 0;
+        }
+    }
+    function getCityByMI($id = '') {
+
+        $this->db->select('city.city_id,city.city_name,city.city_center');
+        $this->db->from('qyura_city AS city');
+
+        switch ($id) {
+
+            case 1:
+                $this->db->join('qyura_bloodBank AS blood', 'blood.cityId = city.city_id', 'inner');
+                $this->db->where(array('blood.bloodBank_deleted' => 0));
+                break;
+
+            case 2:
+                $this->db->join('qyura_ambulance AS ambulance', 'ambulance.ambulance_cityId = city.city_id', 'inner');
+                $this->db->where(array('ambulance.ambulance_deleted' => 0));
+                break;
+
+            case 3:
+                $this->db->join('qyura_diagnostic AS diag', 'diag.diagnostic_cityId = city.city_id', 'inner');
+                $this->db->where(array('diag.diagnostic_deleted' => 0));
+                break;
+
+            case 4:
+                $this->db->join('qyura_doctors AS doctor', 'doctor.doctors_cityId = city.city_id', 'inner');
+                $this->db->where(array('doctor.doctors_deleted' => 0));
+                break;
+
+            case 5:
+                $this->db->join('qyura_hospital AS hospital', 'hospital.hospital_cityId = city.city_id', 'inner');
+                $this->db->where(array('hospital.hospital_deleted' => 0));
+                break;
+
+            case 6:
+                $this->db->join('qyura_medicartOffer AS medicart', 'medicart.medicartOffer_cityId = city.city_id', 'inner');
+                $this->db->where(array('medicart.medicartOffer_deleted' => 0));
+                break;
+
+            case 7:
+                $this->db->join('qyura_pharmacy AS pharmacy', 'pharmacy.pharmacy_cityId = city.city_id', 'inner');
+                $this->db->where(array('pharmacy.pharmacy_deleted' => 0));
+                break;
+        }
+
+        $this->db->order_by("city.city_name", "asc");
+        $this->db->group_by('city.city_name');
+        $data = $this->db->get();
+        return $data->result();
+    }
+
+   /**
+     * @method updateTimeSlot
+     * @description update time slot
+     * @access public
+     * @param int
+     * @return boolean
+     */
+    function updateTimeSlot() {
+
+        $redirectUrl = $this->input->post('redirectControllerMethod');
+        $mi_user_id = $this->input->post('mi_user_id');
+        $miId = $this->input->post('mi_id');
+        $timeSlotsIds = array();
         
-          $this->db->select('city.city_id,city.city_name,city.city_center');
-          $this->db->from('qyura_city AS city');
-          
-          switch($id){
-           
-              case 1:
-                  $this->db->join('qyura_bloodBank AS blood','blood.cityId = city.city_id','inner');
-                  $this->db->where(array('blood.bloodBank_deleted'=> 0));
-                  break;
-              
-              case 2:
-                  $this->db->join('qyura_ambulance AS ambulance','ambulance.ambulance_cityId = city.city_id','inner');
-                  $this->db->where(array('ambulance.ambulance_deleted'=> 0));
-                  break;
-              
-              case 3:
-                  $this->db->join('qyura_diagnostic AS diag','diag.diagnostic_cityId = city.city_id','inner');
-                  $this->db->where(array('diag.diagnostic_deleted'=> 0));
-                  break;
-              
-              case 4:
-                  $this->db->join('qyura_doctors AS doctor','doctor.doctors_cityId = city.city_id','inner');
-                  $this->db->where(array('doctor.doctors_deleted'=> 0));
-                  break;
-              
-              case 5:
-                  $this->db->join('qyura_hospital AS hospital','hospital.hospital_cityId = city.city_id','inner');
-                  $this->db->where(array('hospital.hospital_deleted'=> 0));
-                  break;
-              
-              case 6:
-                  $this->db->join('qyura_medicartOffer AS medicart','medicart.medicartOffer_cityId = city.city_id','inner');
-                  $this->db->where(array('medicart.medicartOffer_deleted'=> 0));
-                  break;
-              
-               case 7:
-                  $this->db->join('qyura_pharmacy AS pharmacy','pharmacy.pharmacy_cityId = city.city_id','inner');
-                  $this->db->where(array('pharmacy.pharmacy_deleted'=> 0));
-                  break;
-                  
-          }
+        for ($j = 1; $j < 8; $j++) {
 
-          $this->db->order_by("city.city_name", "asc");  
-          $this->db->group_by('city.city_name');
-          $data= $this->db->get();
-          return $data->result();
+            $totalSlot = $this->input->post("totalSlot_$j");
+            for ($k = 1; $k <= $totalSlot; $k++) {
+                if ($this->input->post("check_" . $j . "_" . $k) == 1) {
 
+                    $charge_ids = $this->input->post("charge_ids_" . $j . "_" . $k);
+                    $hour_label = $this->input->post("hour_label_" . $j . "_" . $k);
+                    $openTime = $this->input->post("openTime_" . $j . "_" . $k);
+                    $closeTime = $this->input->post("closeTime_" . $j . "_" . $k);
+                    $dayNUmber = $this->input->post('dayNumber_' . $j);
+
+                    $option = array(
+                        'table' => 'qyura_miTimeSlot',
+                        'select' => 'slot_id',
+                        'where' => array('mi_user_id' => $mi_user_id, 'dayNumber' => $dayNUmber)
+                    );
+                    $isSlotData = $this->common_model->customGet($option);
+
+                    if (!empty($isSlotData)) {
+
+                        $options = array(
+                            'table' => 'qyura_miTimeSlot',
+                            'data' => array(
+                                'hourLabel' => $hour_label,
+                                'openingHours' => $openTime,
+                                'closingHours' => $closeTime,
+                                'modifyTime' => strtotime(date('Y-m-d H:i:s'))
+                            ),
+                            'where' => array(
+                                'mi_user_id' => $mi_user_id,
+                                'dayNumber' => $dayNUmber,
+                                'slot_id' => $isSlotData[0]->slot_id)
+                        );
+
+                        $update = $this->common_model->customUpdate($options);
+                    } else {
+
+                        $options = array(
+                            'table' => 'qyura_miTimeSlot',
+                            'data' => array(
+                                'mi_user_id' => $mi_user_id,
+                                'dayNumber' => $dayNUmber,
+                                'hourLabel' => $hour_label,
+                                'openingHours' => $openTime,
+                                'closingHours' => $closeTime,
+                                'creationTime' => strtotime(date('Y-m-d H:i:s'))
+                            ),
+                        );
+                        $insert = $this->common_model->customInsert($options);
+                    }
+                } else {
+
+                    $dayNumber = $this->input->post('dayNumber_' . $j);
+
+                    $option = array(
+                        'table' => 'qyura_miTimeSlot',
+                        'where' => array('mi_user_id' => $mi_user_id, 'dayNumber' => $dayNumber)
+                    );
+                    $isSlotData = $this->common_model->customDelete($option);
+                }
+            }
+        }
+
+        if (true) {
+            $this->session->set_flashdata('message', 'Time Slot Update successfully!');
+            redirect($redirectUrl.'/'.$miId.'/timeSlot');
+        } else {
+            $this->session->set_flashdata('error', 'Time Slot Update failed !');
+             redirect($redirectUrl.'/'.$miId.'/timeSlot');
+        }
+    }
+    
+     /**
+     * @method setTimeSlotMi
+     * @description add time slot
+     * @access public
+     * @param int
+     * @return boolean
+     */
+
+    function setTimeSlotMi() {
+
+        $redirectUrl = $this->input->post('redirectControllerMethod');
+        $miId = $this->input->post('mi_id');
+        $timeSlotsIds = array();
+        for ($j = 1; $j < 8; $j++) {
+
+            $totalSlot = $this->input->post("totalSlot_$j");
+            for ($k = 1; $k <= $totalSlot; $k++) {
+                if ($this->input->post("check_" . $j . "_" . $k) == 1) {
+                    $charge_ids = $this->input->post("charge_ids_" . $j . "_" . $k);
+                    $hour_label = $this->input->post("hour_label_" . $j . "_" . $k);
+                    $openTime = $this->input->post("openTime_" . $j . "_" . $k);
+                    $closeTime = $this->input->post("closeTime_" . $j . "_" . $k);
+
+                    $slot = array(
+                        'mi_user_id' => $this->input->post('mi_user_id'),
+                        'dayNumber' => $this->input->post('dayNumber_' . $j),
+                        'hourLabel' => $hour_label,
+                        'openingHours' => $openTime,
+                        'closingHours' => $closeTime,
+                        'creationTime' => strtotime(date('Y-m-d H:i:s'))
+                    );
+
+                    $options = array
+                        (
+                        'data' => $slot,
+                        'table' => 'qyura_miTimeSlot'
+                    );
+                    $insertId = $this->common_model->customInsert($options);
+                }
+            }
+        }
+
+        if ($insertId) {
+            $this->session->set_flashdata('message', 'Time Slot insert successfully!');
+             redirect($redirectUrl.'/'.$miId.'/timeSlot');
+        } else {
+            $this->session->set_flashdata('error', 'Time Slot insert failed !');
+             redirect($redirectUrl.'/'.$miId.'/timeSlot');
+        }
     }
     
     

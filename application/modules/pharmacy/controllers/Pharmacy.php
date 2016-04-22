@@ -13,9 +13,11 @@ class Pharmacy extends MY_Controller {
     }
 
     function index() {
+        
         $data = array();
         $data['allStates'] = $this->Pharmacy_model->fetchStates();
         $data['pharmacyData'] = $this->Pharmacy_model->fetchpharmacyData();
+        $data['city'] = $this->getCityByMI(7);
         $data['pharmacyId'] = 0;
         $data['title'] = 'All Pharmacy';
         $this->load->super_admin_template('pharmacyListing', $data, 'pharmacy_script');
@@ -44,9 +46,9 @@ class Pharmacy extends MY_Controller {
         $this->Pharmacy_model->checkExisting($emailId);
     }
 
-    function detailPharmacy($pharmacyId = '') {
+    function detailPharmacy($pharmacyId = '',$active ='general') {
         $data = array();
-        $data['pharmacyData'] = $this->Pharmacy_model->fetchpharmacyData($pharmacyId);
+        $data['pharmacyData'] = $pharmacyData = $this->Pharmacy_model->fetchpharmacyData($pharmacyId);
         $data['allCountry'] = $this->Pharmacy_model->fetchCountry();
         $data['allCities'] = $this->Pharmacy_model->fetchCity($data['pharmacyData'][0]->pharmacy_stateId);
         $data['allStates'] = $this->Pharmacy_model->fetchStates($data['pharmacyData'][0]->pharmacy_countryId);
@@ -55,6 +57,18 @@ class Pharmacy extends MY_Controller {
         $data['showStatus'] = 'none';
         $data['detailShow'] = 'block';
         $data['title'] = 'Pharmacy Detail';
+        $data['active'] = $active;
+        
+        $mi_userId="";
+        if(!empty($pharmacyData)):
+         $mi_userId = $pharmacyData[0]->pharmacy_usersId;
+        endif;
+        $option = array(
+            'select' => '*',
+            'table'=> 'qyura_miTimeSlot',
+            'where'=> array('mi_user_id' => $mi_userId),
+        );
+        $data['timeSlot'] = $this->common_model->customGet($option);
         //  $this->load->view('pharmacyDetail',$data);
         $this->load->super_admin_template('pharmacyDetail', $data, 'pharmacy_script');
     }
@@ -71,10 +85,32 @@ class Pharmacy extends MY_Controller {
         echo $cityOption;
         exit;
     }
+    
+    function isQapCodeValid($qap){
+        
+        $option = array(
+            'table' => 'qyura_qap',
+            'select' => 'qap_code',
+            'where' => array('qap_code' => $qap, 'qap_deleted' => 0, 'status' => 1)
+        );
+       $response = $this->common_model->customGet($option);
+      
+       if($response){
+           return true;
+       }else{
+            $this->bf_form_validation->set_message('isQapCodeValid', 'Your enter Qap code does not exists in our records');
+           return false;
+       }
+        
+    }
 
     function SavePharmacy() {
         // print_r($_POST);exit;
+        
+        
         $this->load->library('form_validation');
+      
+        
         $this->bf_form_validation->set_rules('pharmacy_name', 'Pharmacy Name', 'required|trim|required');
 
         $this->bf_form_validation->set_rules('pharmacy_countryId', 'Pharmacy Country', 'required|trim');
@@ -86,7 +122,7 @@ class Pharmacy extends MY_Controller {
         $this->bf_form_validation->set_rules('pharmacy_address', 'Pharmacy Address', 'required|trim');
         $this->bf_form_validation->set_rules('isManual', 'is address manual ', 'required|trim');
         
-        $this->bf_form_validation->set_rules('pharmacy_mblNo', 'Mobile no.', 'trim|max_length[10]|min_length[10]');
+        //$this->bf_form_validation->set_rules('pharmacy_mblNo', 'Mobile no.', 'trim|max_length[10]|min_length[10]');
         
 
         $this->bf_form_validation->set_rules('pharmacy_mmbrTyp', 'Membership Type', 'required|trim');
@@ -100,8 +136,13 @@ class Pharmacy extends MY_Controller {
         $this->bf_form_validation->set_rules('lng', 'Longitude', 'required|trim');
         $this->bf_form_validation->set_rules('pharmacy_cntPrsn', 'Contact person', 'required|trim');
         
-        $this->bf_form_validation->set_rules('midNumber[]', 'STD Code', 'required|trim');
-        $this->bf_form_validation->set_rules('pharmacy_phn[]', 'pharmacy mobile no.', 'required|trim');
+      //  $this->bf_form_validation->set_rules('midNumber[]', 'STD Code', 'required|trim');
+        $this->bf_form_validation->set_rules('pharmacy_phn', 'Phone', 'required|trim');
+        $this->bf_form_validation->set_rules('pharmacy_docatId', 'Docat Id', 'required|trim');
+        
+        if(!empty($this->input->post('pharmacy_qapCode'))){
+           $this->bf_form_validation->set_rules('pharmacy_qapCode', 'Qap code', 'callback_isQapCodeValid');
+        }
         
         
           if (empty($_FILES['avatar_file']['name'])) {
@@ -143,21 +184,21 @@ class Pharmacy extends MY_Controller {
 
             //echo $imagesname;exit;
             $pharmacy_phn = $this->input->post('pharmacy_phn');
-            $pre_number = $this->input->post('pre_number');
-            $midNumber = $this->input->post('midNumber');
+            //$pre_number = $this->input->post('pre_number');
+            //$midNumber = $this->input->post('midNumber');
             //$countPnone = $this->input->post('countPnone');
             
             
 
-            $finalNumber = '';
-            for ($i = 0; $i < count($pharmacy_phn); $i++) {
-                if ($pharmacy_phn[$i] != '' && $pre_number[$i] != '') {
-                    if ($i == count($pharmacy_phn) - 1)
-                        $finalNumber .= $pre_number[$i].' '.$midNumber[$i].' ' .$pharmacy_phn[$i];
-                    else
-                        $finalNumber .= $pre_number[$i].' '.$midNumber[$i].' ' .$pharmacy_phn[$i] . '|';
-                }
-            }
+//            $finalNumber = '';
+//            for ($i = 0; $i < count($pharmacy_phn); $i++) {
+//                if ($pharmacy_phn[$i] != '' && $pre_number[$i] != '') {
+//                    if ($i == count($pharmacy_phn) - 1)
+//                        $finalNumber .= $pre_number[$i].' '.$midNumber[$i].' ' .$pharmacy_phn[$i];
+//                    else
+//                        $finalNumber .= $pre_number[$i].' '.$midNumber[$i].' ' .$pharmacy_phn[$i] . '|';
+//                }
+//            }
 
 
             $pharmacy_name = $this->input->post('pharmacy_name');
@@ -166,11 +207,12 @@ class Pharmacy extends MY_Controller {
             $cityId = $this->input->post('pharmacy_cityId');
             $pharmacy_address = $this->input->post('pharmacy_address');
             $isManual = $this->input->post('isManual');
-            $pharmacy_mblNo = $this->input->post('pharmacy_mblNo');
+           // $pharmacy_mblNo = $this->input->post('pharmacy_mblNo');
             $pharmacy_cntPrsn = $this->input->post('pharmacy_cntPrsn');
             $pharmacy_mmbrTyp = $this->input->post('pharmacy_mmbrTyp');
             $isEmergency = $this->input->post('isEmergency');
             $pharmacy_zip = $this->input->post('pharmacy_zip');
+            $pharmacy_docatId = $this->input->post('pharmacy_docatId');
 
             $insertData = array(
                 'pharmacy_name' => $pharmacy_name,
@@ -185,11 +227,14 @@ class Pharmacy extends MY_Controller {
                 'pharmacy_27Src' => $isEmergency,
                 'pharmacy_img' => $imagesname,
                 'creationTime' => strtotime(date("Y-m-d H:i:s")),
-                'pharmacy_phn' => $finalNumber,
-                'pharmacy_mobl' => $pharmacy_mblNo,
+                'pharmacy_phn' => $pharmacy_phn,
+                'pharmacy_qapCode' => $this->input->post('pharmacy_qapCode'),
+                'pharmacy_qapDate' =>  strtotime(date("Y-m-d H:i:s")),
                 'pharmacy_lat' => $this->input->post('lat'),
                 'pharmacy_long' => $this->input->post('lng'),
-                'pharmacy_type' => $this->input->post('pharmacyType')
+                'pharmacy_docatId' => $pharmacy_docatId,
+                'pharmacy_type' => $this->input->post('pharmacyType'),
+                'status' => 0
             );
            // print_r($insertData);  exit;
             $userId = $this->input->post('userId');
@@ -320,8 +365,9 @@ class Pharmacy extends MY_Controller {
         $this->bf_form_validation->set_rules('lng', 'Longitude', 'required|trim');
 
         
-        $this->bf_form_validation->set_rules('midNumber[]', 'STD Code', 'required|trim');
-        $this->bf_form_validation->set_rules('pharmacy_phn[]', 'pharmacy mobile no.', 'required|trim');
+       // $this->bf_form_validation->set_rules('midNumber[]', 'STD Code', 'required|trim');
+        $this->bf_form_validation->set_rules('pharmacy_phn', 'pharmacy mobile no.', 'required|trim');
+        $this->bf_form_validation->set_rules('pharmacy_docatId', 'Docat Id', 'required|trim');
         
         
         if ($this->bf_form_validation->run() === FALSE) {
@@ -340,20 +386,20 @@ class Pharmacy extends MY_Controller {
             $this->load->super_admin_template('pharmacyDetail', $data, 'pharmacy_script');
         } else {
             $pharmacy_phn = $this->input->post('pharmacy_phn');
-            $pre_number = $this->input->post('pre_number');
-             $midNumber = $this->input->post('midNumber');
+            //$pre_number = $this->input->post('pre_number');
+             //$midNumber = $this->input->post('midNumber');
             //$countPnone = $this->input->post('countPnone');
 
-            $finalNumber = '';
-            for ($i = 0; $i < count($pharmacy_phn); $i++) {
-                if ($pharmacy_phn[$i] != '' && $pre_number[$i] != '') {
-
-                    if ($i == count($pharmacy_phn) - 1)
-                        $finalNumber .= $pre_number[$i] . ' '.$midNumber[$i].' ' . $pharmacy_phn[$i];
-                    else
-                        $finalNumber .= $pre_number[$i] . ' '.$midNumber[$i].' ' . $pharmacy_phn[$i] . '|';
-                }
-            }
+//            $finalNumber = '';
+//            for ($i = 0; $i < count($pharmacy_phn); $i++) {
+//                if ($pharmacy_phn[$i] != '' && $pre_number[$i] != '') {
+//
+//                    if ($i == count($pharmacy_phn) - 1)
+//                        $finalNumber .= $pre_number[$i] . ' '.$midNumber[$i].' ' . $pharmacy_phn[$i];
+//                    else
+//                        $finalNumber .= $pre_number[$i] . ' '.$midNumber[$i].' ' . $pharmacy_phn[$i] . '|';
+//                }
+//            }
 
             $updatePharmacy = array(
                 'pharmacy_name' => $this->input->post('pharmacy_name'),
@@ -364,13 +410,15 @@ class Pharmacy extends MY_Controller {
                 'pharmacy_type' => $this->input->post('pharmacy_type'),
                 'pharmacy_address' => $this->input->post('pharmacy_address'),
                 'pharmacy_isManual' => $this->input->post('isManual'),
-                'pharmacy_phn' => $finalNumber,
+                'pharmacy_phn' => $pharmacy_phn,
                 'pharmacy_mobl' => $this->input->post('pharmacy_mblNo'),
                 'pharmacy_cntPrsn' => $this->input->post('pharmacy_cntPrsn'),
                 'pharmacy_mmbrTyp' => $this->input->post('pharmacy_mmbrTyp'),
                 'pharmacy_27Src' => $this->input->post('isEmergency'),
                 'pharmacy_lat' => $this->input->post('lat'),
                 'pharmacy_long' => $this->input->post('lng'),
+                 'pharmacy_docatId' => $this->input->post('pharmacy_docatId'),
+                
                 'modifyTime' => strtotime(date("Y-m-d H:i:s"))
             );
 
@@ -445,7 +493,7 @@ class Pharmacy extends MY_Controller {
         if (!empty($id)) {
             $data['pharmacyData'] = $this->Pharmacy_model->fetchpharmacyData($id);
             //  print_r($data); exit;
-            echo "<img src='" . base_url() . "assets/pharmacyImages/" . $data['pharmacyData'][0]->pharmacy_img . "'alt='' class='logo-img' />";
+            echo "<img src='" . base_url() . "assets/pharmacyImages/thumb/thumb_100/" . $data['pharmacyData'][0]->pharmacy_img . "'alt='' class='logo-img' />";
             exit();
         }
     }
@@ -562,5 +610,24 @@ class Pharmacy extends MY_Controller {
             return false;
         }
     }
+    
+    function isQapCode(){
+        
+        $qap = $this->input->post('qap_code');
+        $option = array(
+            'table' => 'qyura_qap',
+            'select' => 'qap_code',
+            'where' => array('qap_code' => $qap, 'qap_deleted' => 0, 'status' => 1)
+        );
+       $response = $this->common_model->customGet($option);
+       if($response){
+           echo 1;
+       }else{
+           echo 0;
+       }
+        
+    }
+    
+  
 
 }

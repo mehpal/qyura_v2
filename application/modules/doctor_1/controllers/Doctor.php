@@ -461,10 +461,13 @@ class Doctor extends MY_Controller {
         return True;
         exit;
     }
-
+    
     function doctorDetails($doctorId) {
        $data = array();
-        $data['MI_reffralId'] =$MI_reffralId= (isset($_GET['reffralId']) && $_GET['reffralId'] != "") ? $_GET['reffralId'] : "";
+        
+       $data['allHostpital'] = "";
+       
+       $data['MI_reffralId'] = $MI_reffralId= (isset($_GET['reffralId']) && $_GET['reffralId'] != "") ? $_GET['reffralId'] : "";
         
 $MainSlot= array();
         

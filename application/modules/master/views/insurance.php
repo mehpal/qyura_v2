@@ -11,26 +11,39 @@
             <!-- Left Section Start -->
             <section class="col-md-7 detailbox m-b-20">
                 <aside class="bg-white">
+                <figure class="clearfix">
+               <h3>Available Insurance Companies</h3>
+               <article class="clearfix">
+                  <div class="input-group m-b-5">
+                     <span class="input-group-btn">
+                     <button class="b-search waves-effect waves-light btn-success" type="button"><i class="fa fa-search"></i></button>
+                     </span>
+                     <input type="text" placeholder="Search" class="form-control" id="search-text">
+                  </div>
+               </article>
+            </figure>
                     <div class="nicescroll mx-h-400" style="overflow: hidden;" tabindex="5004">
                         <div class="clearfix">
+                        <ul id="list" class="list-unstyled ul-bigspace">
                             <?php if(isset($qyura_insurance) && $qyura_insurance != NULL){ 
                                 foreach($qyura_insurance as $insurance){?>
-                            <aside class="clearfix text-center border-t  p-b-10">
-                                <article class="col-md-4 m-t-10">
+                            <li class="clearfix text-center border-t  p-b-10">
+                                <span class="col-md-4 m-t-10">
                                     <img class="img-responsive center-block" src="<?php echo base_url() ?>assets/insuranceImages/3x/<?php echo $insurance->insurance_img; ?>" height="100" width="100">
-                                </article>
-                                <article class="col-md-4 ">
+                                </span>
+                                <span class="col-md-4 ">
                                     <h6><?php echo $insurance->insurance_Name ?></h6>
                                     <?php echo $insurance->insurance_detail; ?>
-                                </article>
-                                <article class="col-md-4 text-right">
+                                </span>
+                                <span class="col-md-4 text-right">
                                     <h6>
                                         <a class="btn btn-success waves-effect waves-light m-b-5" href="<?php echo site_url('master/editInsuranceView/' . $insurance->insurance_id); ?>"><i class="fa fa-pencil"></i></a>
                                         <button onclick="enableFn('master', 'insurancePublish', '<?php echo $insurance->insurance_id; ?>','<?php echo $insurance->status; ?>')" title='<?php if($insurance->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Insurance' type="button" class="btn btn-success waves-effect waves-light m-b-5"><i class="fa fa-thumbs-<?php if($insurance->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                     </h6>
-                                </article>
-                            </aside>
+                                </span>
+                            </li>
                             <?php } } ?>
+                            </ul>
                         </div>
                     </div>
                 </aside>

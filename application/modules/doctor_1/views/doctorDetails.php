@@ -823,10 +823,11 @@
                       
                         <!-- Timeslot Starts Section -->
                             <section class="tab-pane fade in" id="timeslot">
-
                             <div class="bg-white mi-form-section">
                                 <!-- Top Detailed Section -->
                                 <!-- Time Scedule Start here-->
+                                
+                                
                                 <form id="setData" name="setData" method="post" action="#" >
                                 <div class="clearfix m-t-20 text-center time-span">
                                     <section class="col-md-1 col-sm-1">
@@ -860,177 +861,8 @@
                                     <input type="hidden" name="doctorId" value="<?php echo $doctorDetail[0]->doctors_id; ?>" />
                                     <input type="hidden" name="doctors_userId" value="<?php echo $doctorUserId; ?>" />
                                     <input type="hidden" name="doctors_refferalId" value="<?php echo $refferalId; ?>" />
-<?php foreach ($weekIndexs as $index) { 
-    $where = array("doctorAvailability_docUsersId"=>$doctorUserId,"doctorAvailability_day"=>$index,"doctorAvailability_refferalId !="=>$refferalId);
-    $avalability = $this->Doctor_model->getDoctorOtherPlaceInfo($where);
-    if(isset($avalability) && $avalability != NULL){
-           $count = 1;
-        foreach($avalability as $av){
-            $av = (object)$av;
-            $slots = $this->Doctor_model->getDoctorOtherSlots($where);
-            $i = 0;
-            foreach($slots as $slt){
-                 if($count){
-                    $count = 0; ?>
-                    
-                    <div class="col-md-12">
-                        <section class="col-md-12 col-sm-12">
-                            <aside class="checkbox checkbox-success text-left">
-                                <?php $name = $this->Doctor_model->getMIInfo($av->reffarel);
-                                 //       echo "<strong>".$name[0]->name.":</strong>" ; ?>
-                            </aside>
-                        </section>
-                    </div>
-                    <div class="clearfix m-t-20 text-center">
-                        <section class="col-md-1 col-sm-1">
-                            <aside class="checkbox checkbox-success text-left">
-                            <?php echo convertNumberToDay($index) . ":" ?>
-                            </aside>
-                        </section>
-                        </div>
-                        <div class="col-md-11 PJ">
-                 <?php } // end if count
-                        if($i == $slt->dayId){ ?>
-                            <section class="col-md-4 col-sm-4">
-                                <article class="clearfix">
-                                    <aside class="col-md-12 col-sm-12 col-xs-12 schdule-space">
-                                        <div class="bootstrap-timepicker input-group">
-                                            <span class="col-md-12 col-sm-12 col-xs-12"><strong><?php echo date('h:i A', getStr($slt->start)); ?></strong>   to  <strong><?php echo date('h:i A', getStr($slt->end)); ?></strong></span>
-                                        </div>
-                                    </aside>
-                                </article>
-                            </section>  
-                        <?php }else{
-                            echo "No ".getDoctorAvailibilitySession($i). " Slot. ";
-                        }// end session on day
-//                    }// End for
-                        
-                        $i++;
-            }// foreach $slot
-            
-        }// foreach $avalability PJ
-        ?>
-        </div><hr/>
-                <?php
-    } // Isset $avalability?>
-<!--                    </div>
-                    </div>-->
-                 
-<?php    
-    $where = array("doctorAvailability_docUsersId"=>$doctorUserId,"doctorAvailability_day"=>$index,"doctorAvailability_refferalId "=>$doctorUserId);
-    $avalability = $this->Doctor_model->getDoctorOtherPlaceInfo($where);
-//   dump($avalability);die();
-    if(isset($avalability) && $avalability != NULL){    
-           $count = 1;
-        foreach($avalability as $av){
-            $av = (object)$av;
-            $slots = $this->Doctor_model->getDoctorOtherSlots($where);
-            $i = 0;
-            foreach($slots as $slt){
-                 if($count){
-//                     dump($count);die();
-                    $count = 0; ?>
-                    <div class="col-md-12">
-                        <section class="col-md-12 col-sm-12">
-                            <aside class="checkbox checkbox-success text-left">
-                                <?php $name = $this->Doctor_model->getMIInfo($av->reffarel);
-//                                dump($name);
-//                                if(is_array($name))
-//                                    echo "<strong>".$name["name"].":</strong>" ; 
-//                                else
-//                                    echo "<strong>".$name[0]->name.":</strong>" ; 
-                                ?>
-                            </aside>
-                        </section>
-                    </div>
-                    <div class="clearfix m-t-20 text-center">
-                        <section class="col-md-1 col-sm-1">
-                            <aside class="checkbox checkbox-success text-left">
-                                <input class="daycheck" name="day[]" value="<?php echo $index; ?>"     type="checkbox" id="checkbox3">
-                                <label for="checkbox3">
-                            <?php echo   convertNumberToDay($index); ?>
-                                </label>
-                            </aside>
-                        </section>
-                        <div class="col-md-11">
-                 <?php } // end if count
-                        if($i == $slt->dayId){ ?>
-                            <section class="col-md-4 col-sm-4">
-                                <article class="clearfix">
-                                    <aside class="col-md-6 col-sm-12 col-xs-6 schdule-space">
-                                        <div class="bootstrap-timepicker input-group">
-                                            <input type="text" onblur="removeError(this)"  id="err_<?php echo $index; ?>_session_<?php echo $i; ?>_st" name="<?php echo $index; ?>_session_<?php echo $i; ?>_st" value="<?php echo date("g:i a", strtotime($slt->start)); ?>" class="form-control timepickerclock" >
-                                        </div>
-                                    </aside>
-                                    <aside class="col-md-6 col-sm-12 col-xs-6 schdule-space">
-                                        <div class="bootstrap-timepicker input-group timepicker">
-                                            <input type="text" name="<?php echo $index; ?>_session_<?php echo $i; ?>_ed" value="<?php echo date("g:i a", strtotime($slt->end)); ?>" class="form-control timepickerclock" onblur="removeError(this)"  id="err_<?php echo $index; ?>_session_<?php echo $i; ?>_ed" >
-                                        </div>
-                                    </aside>
-                                </article>
-                            </section>
-                        <?php }else{
-                            echo "No ".getDoctorAvailibilitySession($i). " Slot. ";
-                        }// end session on day
-//                    }// End for
-                        $i++;
-            }// foreach $slot
-            echo "</div><hr/>";
-        }// foreach $avalability
-    } else{?>
-        <div class="col-md-12">
-            <section class="col-md-12 col-sm-12">
-                <aside class="checkbox checkbox-success text-left">
-                    <?php 
-                    $name = $this->Doctor_model->getMIInfo($refferalId);
-                    
-//                    if($MI_reffralId != "")
-//                        echo "<strong>".$name[0]->name.":</strong>" ; 
-//                    else
-//                        echo "<strong>".$name->name.":</strong>" ; ?>
-                </aside>
-            </section>
-        </div>
-        <div class="clearfix m-t-20 text-center">
-            <section class="col-md-1 col-sm-1">
-               <aside class="checkbox checkbox-success text-left">
-                   <input class="daycheck" name="day[]" value="<?php echo $index; ?>" type="checkbox" id="checkbox3">
-                   <label for="checkbox3">
-               <?php echo   convertNumberToDay($index); ?>
-                   </label>
-               </aside>
-            </section>
-            <div class="col-md-11">
-            <?php for($i=0;$i<3;$i++){ ?>
-                <section class="col-md-4 col-sm-4">
-                     <article class="clearfix">
-                         <aside class="col-md-6 col-sm-12 col-xs-6 schdule-space">
-                             <div class="bootstrap-timepicker input-group">
-                                 <input type="text" onblur="removeError(this)"  id="err_<?php echo $index; ?>_session_<?php echo $i; ?>_st" name="<?php echo $index; ?>_session_<?php echo $i; ?>_st" value="" class="form-control timepickerclock" >
-                             </div>
-                         </aside>
-                         <aside class="col-md-6 col-sm-12 col-xs-6 schdule-space">
-                             <div class="bootstrap-timepicker input-group timepicker">
-                                 <input type="text" name="<?php echo $index; ?>_session_<?php echo $i; ?>_ed" value="" class="form-control timepickerclock" onblur="removeError(this)"  id="err_<?php echo $index; ?>_session_<?php echo $i; ?>_ed" value="">
-                             </div>
-                         </aside>
-                     </article>
-                 </section>
-            
-            <?php } ?> 
-            </div></div><hr/>
-    <?php }// Isset $avalability?>
-            
-            
-<?php
-    } ?>
-             <!--<hr class="hr-scedule">-->
-                                    <!--Time Schedule Ends-->
-                                    <section class="clearfix ">
-                                        <div class="col-md-12 m-t-20 m-b-20 text-right">
-                                            <button type="submit" class="btn btn-success waves-effect waves-light  m-r-20">Submit</button>
-                                        </div>
-                                    </section>
+
+           
 </form>            
                             </div>
                         </section>

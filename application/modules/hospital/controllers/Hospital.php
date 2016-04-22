@@ -1328,15 +1328,24 @@ class Hospital extends MY_Controller {
     function addSpeciality() {
         $hospitalId = $this->input->post('hospitalId');
         $hospitalSpecialities_specialitiesId = $this->input->post('hospitalSpecialities_specialitiesId');
-        $insertData = array(
-            'hospitalSpecialities_specialitiesId' => $hospitalSpecialities_specialitiesId,
-            'hospitalSpecialities_hospitalId' => $hospitalId,
-            'hospitalSpecialities_deleted' => 0,
-            'creationTime' => strtotime(date("Y-m-d H:i:s"))
-        );
-        $return = $this->Hospital_model->insertTableData('qyura_hospitalSpecialities', $insertData);
-        echo $return;
-        exit;
+        
+        $sql = 'select hospitalSpecialities_id from qyura_hospitalSpecialities where hospitalSpecialities_hospitalId = '.$hospitalId.' AND hospitalSpecialities_deleted = 0 ';
+        
+        $numRows = $this->common_model->customQueryCount($sql);
+       // echo $this->db->last_query(); exit;
+        if($numRows >= 3){
+             echo 0; exit;
+        }else{
+            $insertData = array(
+                'hospitalSpecialities_specialitiesId' => $hospitalSpecialities_specialitiesId,
+                'hospitalSpecialities_hospitalId' => $hospitalId,
+                'hospitalSpecialities_deleted' => 0,
+                'creationTime' => strtotime(date("Y-m-d H:i:s"))
+            );
+            $return = $this->Hospital_model->insertTableData('qyura_hospitalSpecialities', $insertData);
+            echo $return;
+            exit;
+        }
     }
 
     function hospitalAllocatedSpecialities($hospitalId) {

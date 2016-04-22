@@ -78,7 +78,24 @@
                                     </div>
 
                                 </section>
-                                <article class="col-md-8 m-t-50">
+                                
+                             <article class="text-center clearfix m-t-50">
+                                <ul class="nav nav-tab nav-setting">
+                                   <li class="<?php if(isset($active) && $active == 'general'){echo "active";}?>" >
+                                      <a data-toggle="tab" href="#general">General Detail</a>
+                                   </li>
+                                 
+                                    <li class="<?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>">
+                                      <a data-toggle="tab" href="#timeSlot">Time Slot</a>
+                                   </li>
+                                  
+                                </ul>
+                             </article>
+                                <article class="tab-content p-b-20 m-t-50">
+                  <!-- General Detail Starts -->
+               
+                  <section class="tab-pane fade in <?php if(isset($active) && $active == 'general'){echo "active";}?>" id="general">
+                                <article class="col-md-8">
                                     <aside class="clearfix amb-detail">
                                      <h4>Ambulance Provider Detail
                                      <a id="edit" class="pull-right cl-pencil"><i class="fa fa-pencil"></i></a>
@@ -114,15 +131,12 @@
                                                  <?php 
                                                     $explode= explode('|',$ambulanceData[0]->ambulance_phn); 
                                                     for($i= 0; $i< count($explode);$i++){?>
-                                                    <p>+ <?php echo $explode[$i];?></p>
+                                                    <p>0<?php echo $explode[$i];?></p>
                                                     <?php }?>
                                                 </aside>
                                                 <!--<p class="col-md-8 col-sm-8">+91 731 7224401</p>-->
                                             </article>
-                                            <article class="clearfix m-b-10">
-                                                <label for="cemail" class="control-label col-md-4 col-sm-4">Mobile Number:</label>
-                                                <p class="col-md-8 col-sm-8">+91 <?php if($ambulanceData[0]->users_mobile){ echo $ambulanceData[0]->users_mobile;}?></p>
-                                            </article>
+
                                             <article class="clearfix m-b-10">
                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Contact Person Name:</label>
                                                 <p class="col-md-8 col-sm-8"><?php echo $ambulanceData[0]->ambulance_cntPrsn;?></p>
@@ -134,6 +148,11 @@
                                             <article class="clearfix m-b-10">
                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">24/7 Service - Yes/No :</label>
                                                 <p class="col-md-8 col-sm-8"><?php if($ambulanceData[0]->ambulance_27Src == 1){ echo 'Yes'; } else { echo 'No';}?></p>
+                                            </article>
+                                            
+                                             <article class="clearfix m-b-10">
+                                                <label for="cemail" class="control-label col-md-4 col-sm-4">Docat Id :</label>
+                                                <p class="col-md-8 col-sm-8"><?php echo $ambulanceData[0]->ambulance_docatId;?></p>
                                             </article>
 
                                         </div>
@@ -267,7 +286,7 @@
                                             </article>
 
 
-                                            <article class="clearfix m-t-10">
+<!--                                            <article class="clearfix m-t-10">
                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Number:</label>
                                                <div class="col-md-8 col-sm-8">
                                                    <?php 
@@ -300,19 +319,21 @@
                                                     <br />
  <p class="m-t-0">* The number above is going to be your primary number.</p>
                                                 </div>
-                                            </article>
+                                            </article>-->
 
-                                            <article class="clearfix m-t-10">
-                                                <label for="cemail" class="control-label col-md-4 col-sm-4">Mobile Number:</label>
-                                                <div class="col-md-8 col-sm-8">
+  <article class="clearfix m-t-10">
+                                <label class="control-label col-md-4 col-sm-4" for="cname"> Phone :</label>
+                                <div class="col-md-8 col-sm-8">
+                                     <input type="text" class="form-control" name="ambulance_phn" id="ambulance_phn" maxlength="10" minlength="10" onkeypress="return isNumberKey(event)" value="<?php echo $ambulanceData[0]->ambulance_phn;?>" />
+
+                                    <label class="error" style="display:none;" id="error-ambulance_phn"> please enter a valid phone min length should be min 10 and max 10</label>
                                   
-                                                        
-                                                            <input type="text" class="form-control" name="users_mobile" id="users_mobile" maxlength="10" value="<?php if(isset($ambulanceData[0]->users_mobile)){ echo $ambulanceData[0]->users_mobile;}?>" onkeypress="return isNumberKey(event)"/>
-                                                            <label class="error" > <?php echo form_error("users_mobile"); ?></label>   
-                                                             <label class="error" style="display:none;" id="error-users_mobile"> Please enter mobile number</label> 
-         
-                                                </div>
-                                            </article>
+                                    <label class="error" > <?php echo form_error("ambulance_phn"); ?></label>
+                                    <label class="error"> </label>
+  <p class="m-t-0">* The number above is going to be your primary number.</p>
+                                </div>
+                            </article>
+                                       
 
                                             <article class="clearfix m-t-10">
                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Contact Person Name:</label>
@@ -345,6 +366,14 @@
                                                     </aside>
                                                 </div>
                                             </article>
+                                             <article class="clearfix m-t-10">
+                                <label for="cname" class="control-label col-md-4">Docat Id : </label>
+                                <div class="col-md-8 col-sm-8">
+                                    <input class="form-control" name="ambulance_docatId" type="text" required="" id="ambulance_docatId" value="<?php echo $ambulanceData[0]->ambulance_docatId;?>">
+                                    <label class="error" style="display:none;" id="error-ambulance_docatId">please enter Docat Id.</label>
+                                    <label class="error" > <?php echo form_error("ambulance_docatId"); ?></label>
+                                </div>
+                            </article>
 
                                             <article class="clearfix ">
                                                 <div class="col-md-12 m-t-20 m-b-20">
@@ -360,6 +389,48 @@
                                      </form>     
                                      <!-- Ambulance Provider Detail in Edit Mode -->
 
+                                </article>
+                  </section>
+                   <section class="tab-pane fade in <?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>" id="timeSlot">
+                       
+                              <?php if(isset($timeSlot) && !empty($timeSlot)):?>
+                         
+                    <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('ambulance/updateTimeSlot');?>">
+                        <input type="hidden" name="mi_user_id" value="<?php if(isset($ambulanceData[0]->ambulance_usersId)){ echo $ambulanceData[0]->ambulance_usersId; }?>" />
+                         <input type="hidden" name="mi_id" value="<?php if(isset($ambulanceData[0]->ambulance_id)){ echo $ambulanceData[0]->ambulance_id; }?>" />
+                         
+                          <input type="hidden" name="redirectControllerMethod" value="ambulance/detailAmbulance" />
+                        
+                        <?php echo $this->load->view('common_pages/edit_time_slot_view');?>
+                        
+                        <article class="clearfix m-t-10">
+                            <div class="col-md-12">
+                              <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit" onclick="return timeSlotCheck()">Update</button>
+                            </div>
+                            </article>
+                    </form>
+                    <?php else: ?>
+                        
+                       <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('bloodbank/setTimeSlotMi');?>">
+                        <input type="hidden" name="mi_user_id" value="<?php if(isset($ambulanceData[0]->ambulance_usersId)){ echo $ambulanceData[0]->ambulance_usersId; }?>" />
+                         <input type="hidden" name="mi_id" value="<?php if(isset($ambulanceData[0]->ambulance_id)){ echo $ambulanceData[0]->ambulance_id; }?>" />
+                        
+                          <input type="hidden" name="redirectControllerMethod" value="ambulance/detailAmbulance" />
+                         
+                        <?php echo $this->load->view('common_pages/time_slot_view');?>
+                        
+                        <article class="clearfix m-t-10">
+                            <div class="col-md-12">
+                              <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit" onclick="return timeSlotCheck()">Submit</button>
+                            </div>
+                            </article>
+                    </form>
+                         
+                    <?php endif;?>   
+                       
+                       
+                       
+                  </section>
                                 </article>
 
                             </section>

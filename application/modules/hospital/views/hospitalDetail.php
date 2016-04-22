@@ -1048,7 +1048,22 @@
                                     <!-- diagnostic Ends --> 
                                     
                                      <!--Specialities Starts -->
-                                    <section class="tab-pane fade in <?php if(isset($active) && $active == 'specialities'){echo "active";}?>" id="specialities">
+                                 <section class="tab-pane fade in <?php if(isset($active) && $active == 'specialities'){echo "active";}?>" id="specialities">
+                                        
+                               <article class="clearfix">
+                                <label class="control-label col-md-4" for="cname">Speciality Name display format:</label>
+                                <div class="col-md-8">
+                                    <aside class="radio radio-info radio-inline">
+                                        <input <?php  echo set_radio('specialityNameFormate', '1', TRUE); ?> type="radio"  name="specialityNameFormate" value="1" id="specialityNameFormate" onclick="setSpecialityNameFormate(this.value)" <?php if($hospitalData[0]->specialityNameFormate == 1){ echo "checked";}?> >
+                                        <label for="inlineRadio1"> General Name</label>
+                                    </aside>
+                                    <aside class="radio radio-info radio-inline">
+                                        <input <?php  echo set_radio('specialityNameFormate', '0'); ?> type="radio" name="specialityNameFormate" value="0" id="specialityNameFormate" onclick="setSpecialityNameFormate(this.value)" <?php if($hospitalData[0]->specialityNameFormate == 0){ echo "checked";}?>>
+                                        <label for="inlineRadio2"> Scientific Name</label>
+                                    </aside>
+                                </div>
+                            </article>
+                                        
                   <aside class="clearfix">
                   <section class="col-md-5 detailbox m-b-20 diag" >
                   <aside class="bg-white">

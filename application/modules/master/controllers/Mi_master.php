@@ -37,6 +37,10 @@ class Mi_master extends MY_Controller {
         $data['title'] = 'List Hospital';
         $this->load->super_admin_template('hospital_view', $data, 'masterScript');
     }
+    function getHospitalDl() {
+
+        echo $this->Master_model->fetchHospitalDataTables();
+    }
     
     function addHospital() {
         $option = array(
@@ -203,36 +207,6 @@ class Mi_master extends MY_Controller {
             echo json_encode($responce);
         }
     }
-
-    function hospitalPublish() {
-        $ena_id = $this->input->post('id');
-        $status = $this->input->post('status');
-        if ($ena_id != '' && $status != '') {
-            //Group
-            if ($status == 2) {
-                $update_data['status'] = 3;
-            } else {
-                $update_data['status'] = 2;
-            }
-            $where = array('hospital_id' => $ena_id);
-            $updateOptions = array
-                (
-                'where' => $where,
-                'data'  => $update_data,
-                'table' => 'qyura_hospital'
-            );
-
-            $update = $this->common_model->customUpdate($updateOptions);
-
-            if ($update)
-                echo $update;
-            else
-                echo '0';
-        }
-        else {
-            echo 0;
-        }
-    }
     //Hospital End
     
     //Diagnostic 
@@ -257,6 +231,10 @@ class Mi_master extends MY_Controller {
         
         $data['title'] = 'List Diagnostic';
         $this->load->super_admin_template('diagnostic_view', $data, 'masterScript');
+    }
+    function getDiagnosticDl() {
+
+        echo $this->Master_model->fetchDiagnosticDataTables();
     }
     
     function addDiagnostic() {

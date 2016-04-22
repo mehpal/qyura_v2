@@ -22,41 +22,43 @@
             <section class="col-md-7 detailbox m-b-20">
                 <aside class="bg-white">
                     <figure class="clearfix">
-                        <h3>MI Specialities Available</h3>
+                        <h3>Available MI Specialities</h3>
                         <article class="clearfix">
                             <div class="input-group m-b-5">
                                 <span class="input-group-btn">
                                     <button type="button" class="b-search waves-effect waves-light btn-success"><i class="fa fa-search"></i></button>
                                 </span>
-                                <input type="text" ng-model="test" id="example-input1-group2" name="example-input1-group2" class="form-control ng-pristine ng-untouched ng-valid" placeholder="Search">
+                                <input type="text" placeholder="Search" class="form-control" id="search-text">
                             </div>
                         </article>
                     </figure>
                     <div class="nicescroll mx-h-400" style="overflow: hidden;" tabindex="5004">
                         <div class="clearfix">
+                        <ul id="list" class="list-unstyled ul-bigspace">
                             <?php if (isset($specialityList) && !empty($specialityList)) {
                                 foreach ($specialityList as $key => $val) { ?>
-                                    <aside class="clearfix  border-t">
-                                        <article class="col-md-4">
+                                    <li class="clearfix  border-t">
+                                        <span class="col-md-4">
                                             <h6><?php echo $val->specialities_name; ?></h6>
-                                        </article>
-                                        <article class="col-md-4">
+                                        </span>
+                                        <span class="col-md-4">
                                             <h6><?php echo $val->specialities_drName; ?></h6>
-                                        </article>
-                                        <article class="col-md-4 text-right">
+                                        </span>
+                                        <span class="col-md-4 text-right">
                                             <h6>
                                                 <a class="btn btn-success waves-effect waves-light m-b-5" href="<?php echo site_url('master/editSpecialitiesView/' . $val->specialities_id); ?>"><i class="fa fa-pencil"></i></a>
                                                 <button onclick="enableFn('master', 'specialityPublish', '<?php echo $val->specialities_id; ?>','<?php echo $val->status; ?>')" title='<?php if($val->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Speciality' type="button" class="btn btn-success waves-effect waves-light m-b-5"><i class="fa fa-thumbs-<?php if($val->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                             </h6>
-                                        </article>
-                                        <article class="col-md-8">
+                                        </span>
+                                        <span class="col-md-8">
                                             <p><?php echo $val->speciality_tag; ?></p>
-                                        </article>
-                                        <article> 
+                                        </span>
+                                        <span> 
                                             <img height="80px;" width="80px;" src="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>" class="img-responsive">
-                                        </article>
-                                    </aside>
+                                        </span>
+                                    </li>
                             <?php } } ?>
+                            </ul>
                         </div>
                     </div>
                 </aside>
