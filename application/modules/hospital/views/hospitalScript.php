@@ -2023,14 +2023,14 @@ if (isset($mapData) && !empty($mapData)) {
            $('#editDoctorForm').removeClass('myForm1');
            $('#editDoctorForm').css("display",'none');
            $('#doctorList').css("display",'block');
-           $(".addDoctorButton").html('Add New Doctor');
+           $(".addDoctorButton").css("display",'block');
       }else{
           
           $('#editDoctorForm').addClass('myForm1');
           $('#editDoctorForm').css("display",'block');
           $('#doctorList').css("display",'none');
          // $('#doctorList').css("display",'none');
-          $(".addDoctorButton").html('Cancel Add Doctor');
+          $(".addDoctorButton").css("display",'none');
           getDcotorDeatil(doctorId);
         }
       
@@ -2060,20 +2060,46 @@ if (isset($mapData) && !empty($mapData)) {
                     $(".fee").val(obj.fee);
                     
                     $.each( obj.academicDeatil, function( key, value ) {
-                       console.log(value.doctorAcademic_degreeInsAddress);
+                       
                      
-                    
-                     countsAccademic = parseInt(countsAccademic) + 1;
+                        if(key == 0){
+                            
+                        countsAccademic = parseInt(countsAccademic) + 1;
                         var divIds = countsAccademic;
-                        var degreeData = $('#doctorAcademic_degreeId2').html();
                         
-                        var optionValue  = 2;
+                        
+                        var optionValue  = value.doctorAcademic_degreeId;
+                      //  alert(optionValue);
+                      
                         $("#doctorAcademic_degreeId2").val(optionValue)
                         .find("option[value=" + optionValue +"]").attr('selected', true);
-
-                        alert(degreeData);
+                
+                        var degreeData = $('#doctorAcademic_degreeId2').html();
+                        
+                        
+                        $('#doctorAcademic_degreeId2').selectpicker('refresh');
+                        
                         var specialitiesData = $('#doctorSpecialities_specialitiesCatId2').html();
                         $('#parentDegreeDiv2').html('<div id="childDegreeDiv2' + divIds + '"><aside class="row"><label for="cname" class="control-label col-md-4">Degree</label><div class="col-md-4 col-sm-4"><select class="selectpicker" data-width="100%" data-size="4" name="doctorAcademic_degreeId[]" id="doctorAcademic_degreeId' + divIds + '" >' + degreeData + '</select></div><div class="col-md-4 col-sm-4 m-t-xs-10"><select class="selectpicker" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId' + divIds + '" >' + specialitiesData + '</select></div></aside><aside class="row"><label for="cname" class="control-label col-md-4 m-t-20">Address</label><div class="col-md-8 col-sm-8 m-t-20"><textarea class="form-control" id="acdemic_addaddress' + divIds + '" name="acdemic_addaddress[]" required="">'+value.doctorAcademic_degreeInsAddress+'</textarea><label class="error" style="display:none;" id="error-acdemic_addaddress' + divIds + '"> please fill Address</label></div><label for="cname" class="control-label col-md-4 m-t-20">Year</label><div class="col-md-8 col-sm-8 m-b-20 m-t-10"><input class="form-control" name="acdemic_addyear[]" required="" id="acdemic_addyear' + divIds + '" value="'+value.doctorAcademic_degreeYear+'" onkeypress="return isNumberKey(event)" maxlength="4"><label class="error" style="display:none;" id="error-acdemic_addyear' + divIds + '"> please fill Year</label></div></aside></div><br />');
+                        
+                        }else{
+                        countsAccademic = parseInt(countsAccademic) + 1;
+                        var divIds = countsAccademic;
+                        
+                        $('#doctorAcademic_degreeId2').selectpicker('refresh');
+                        
+                        var optionValue  = value.doctorAcademic_degreeId;
+                        
+                        $("#doctorAcademic_degreeId2").val(optionValue)
+                        .find("option[value=" + optionValue +"]").attr('selected', true);
+                
+                        var degreeData = $('#doctorAcademic_degreeId2').html();
+                        
+                        var specialitiesData = $('#doctorSpecialities_specialitiesCatId2').html();
+                        $('#parentDegreeDiv2').append('<div id="childDegreeDiv2' + divIds + '"><aside class="row"><label for="cname" class="control-label col-md-4">Degree</label><div class="col-md-4 col-sm-4"><select class="selectpicker" data-width="100%" data-size="4" name="doctorAcademic_degreeId[]" id="doctorAcademic_degreeId' + divIds + '" >' + degreeData + '</select></div><div class="col-md-4 col-sm-4 m-t-xs-10"><select class="selectpicker" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId' + divIds + '" >' + specialitiesData + '</select></div></aside><aside class="row"><label for="cname" class="control-label col-md-4 m-t-20">Address</label><div class="col-md-8 col-sm-8 m-t-20"><textarea class="form-control" id="acdemic_addaddress' + divIds + '" name="acdemic_addaddress[]" required="">'+value.doctorAcademic_degreeInsAddress+'</textarea><label class="error" style="display:none;" id="error-acdemic_addaddress' + divIds + '"> please fill Address</label></div><label for="cname" class="control-label col-md-4 m-t-20">Year</label><div class="col-md-8 col-sm-8 m-b-20 m-t-10"><input class="form-control" name="acdemic_addyear[]" required="" id="acdemic_addyear' + divIds + '" value="'+value.doctorAcademic_degreeYear+'" onkeypress="return isNumberKey(event)" maxlength="4"><label class="error" style="display:none;" id="error-acdemic_addyear' + divIds + '"> please fill Year</label></div></aside></div><br />');
+                            
+                         }
+                        
                         });
                         
                       

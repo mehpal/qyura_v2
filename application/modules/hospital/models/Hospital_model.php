@@ -671,7 +671,7 @@ class Hospital_model extends CI_Model {
         foreach ($allSpeciality as $key => $val) {
             $selected  = '';
           //  echo $specialityDetail[$key]->specialities_id.' '.$val->specialities_id.'</br>';
-            if ($specialityDetail[$key]->specialities_id == $val->specialities_id){
+            if (isset($specialityDetail[$key]->specialities_id) && $specialityDetail[$key]->specialities_id == $val->specialities_id){
                 
                // $selected = ' selected="selected"  ';
                 $specilityOtpyion .= '<option  value="' . $val->specialities_id . '" selected >' . strtoupper($val->specialities_name) . '</option>';
