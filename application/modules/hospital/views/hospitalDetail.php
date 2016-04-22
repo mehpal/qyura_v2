@@ -1156,7 +1156,9 @@
                                         <?php if(isset($timeSlot) && !empty($timeSlot)):?>
                          
                     <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('hospital/updateTimeSlot');?>">
-                        <input type="hidden" name="mi_user_id" value="<?php if(isset($hospitalData[0]->hospital_usersId)){ echo $hospitalData[0]->hospital_usersId; }?>" />
+                        
+                        <input type="hidden" name="mi_user_id" value="<?php if(isset($hospitalData[0]->hospital_usersId)){ echo $hospitalData[0]->hospital_usersId; }?>" id="mi_user_id" />
+                        
                          <input type="hidden" name="mi_id" value="<?php if(isset($hospitalData[0]->hospital_id)){ echo $hospitalData[0]->hospital_id; }?>" />
                          
                           <input type="hidden" name="redirectControllerMethod" value="hospital/detailHospital" />
@@ -1197,13 +1199,13 @@
                                     <section class="tab-pane fade in <?php if(isset($active) && $active == 'doctor'){echo "active";}?>" id="doctor">
                                     <!-- Form Section Start -->
                                         <article class="row p-b-10" style="margin-left: 0">
-                                            <form name="addHospiDocForm" action="#" id="addHospiDocForm" method="post">    
+                                            <!--<form name="addHospiDocForm" action="#" id="addHospiDocForm" method="post">    
                                                 <aside class="col-md-4 col-sm-4 m-tb-xs-3">
                                                     <div class="input-group">
                                                         <input type="text" name="doctorEmail" id="doctorEmail" class="form-control" placeholder="Check Doctor" onkeyup="switchButton()"/>
                                                         <input type="hidden" id="docId" name="docId" value="" >
-                                                        <input type="hidden" id="hospiId" name="hospiId" value="<?php if(isset($hospitalData[0]->hospital_usersId) && $hospitalData[0]->hospital_usersId != NULL){ echo $hospitalData[0]->hospital_usersId; }else{ echo ""; } ?>" >           
-                                                        <input type="hidden" id="ajaxHospiId" name="ajaxHospiId" value="<?php if(isset($hospitalData[0]->hospital_id) && $hospitalData[0]->hospital_id != NULL){ echo $hospitalData[0]->hospital_id; }else{ echo ""; } ?>" >
+                                                        <input type="hidden" id="hospiId" name="hospiId" value="<?php //if(isset($hospitalData[0]->hospital_usersId) && $hospitalData[0]->hospital_usersId != NULL){ echo $hospitalData[0]->hospital_usersId; }else{ echo ""; } ?>" >           
+                                                        <input type="hidden" id="ajaxHospiId" name="ajaxHospiId" value="<?php //if(isset($hospitalData[0]->hospital_id) && $hospitalData[0]->hospital_id != NULL){ echo $hospitalData[0]->hospital_id; }else{ echo ""; } ?>" >
                                                     </div>
                                                     <label class="error" id="err_docId"></label>
                                                     <label class="error" id="err_hospiId"></label>
@@ -1211,19 +1213,25 @@
                                                 <aside class="col-md-2 col-sm-2" id="AddDocHospi" style="display: none">
                                                     <button class="btn btn-success  m-l-10 pull-right" type="submit" id="addToHospi" >Add To Hospital Doctor</button>
                                                 </aside>
-                                            </form>
+                                            </form> 
                                         <aside class="col-md-2 col-sm-2" id="checkDoctor">
                                             <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" onclick="checkEmailExits()">Check Doctor</button>
                                         </aside>
                                         <aside class="col-md-2 col-sm-2" id="AddNewDoc" style="display: none">
                                             <button class="btn btn-success waves-effect waves-light m-l-10 pull-right" onclick="newDoctor();" >Add New Doctor</button>
+                                        </aside>-->
+                                            
+                                          <aside class="col-md-2 col-sm-2" id="AddNewDoc">
+                                            <button class="btn btn-success waves-effect waves-light m-l-10 pull-right addDoctorButton" onclick="addNewDoctor();" >Add New Doctor</button>
                                         </aside>
+                                            
                                         <aside class="col-md-3 col-sm-3 m-tb-xs-3 pull-right">
                                             <input type="text" name="search" id="search" class="form-control" placeholder="Search" />
                                         </aside>
                                     </article>
+                                    
                                     <!-- Form Section End -->
-                                    <article class="clearfix m-top-40 p-b-20">
+                                    <article class="clearfix m-top-40 p-b-20" id="doctorList" style="<?php if(isset($showDiv) && $showDiv == 'adddoctor'){echo "display:none";}?>" >
                                         <aside class="table-responsive">
                                            <table class="table all-doctor" id="hospital_doctors">
                                               <thead>
@@ -1240,6 +1248,18 @@
                                            </table>
                                         </aside>
                                     </article>
+                                    
+                                    <div id="doctorForm" style="<?php if(isset($showDiv) && $showDiv == 'adddoctor'){echo "display:block";}else{ echo "display:none"; } ?>" >
+                                        <?php echo $this->load->view('addDoctor'); ?>
+                                            <?php echo $this->load->view('doctorScript.php'); ?>
+                                    </div>
+                                    
+                                    
+                                    <div id="editDoctorForm" style="<?php if(isset($showDiv) && $showDiv == 'editDoctor'){echo "display:block";}else{ echo "display:none"; } ?>" >
+                                            <?php echo $this->load->view('editDoctor'); ?>
+                                            <?php echo $this->load->view('doctorScript.php'); ?>
+                                    </div>
+                                    
                                     </section>
                                     <!-- All Doctors Ends -->
                                     
@@ -1488,6 +1508,6 @@
                             </div>
                           </div>
                     </div>
-                     <?php echo $this->load->view('edit_gallery_crop_modal');?>
-                     <?php echo $this->load->view('edit_upload_crop_modal');?>
+                     <?php //echo $this->load->view('edit_gallery_crop_modal');?>
+                     <?php  echo $this->load->view('edit_upload_crop_modal');?>
                     <!-- Gallery Model Ends -->

@@ -468,20 +468,19 @@ class Hospital_model extends CI_Model {
 
         $imgUrl = base_url() . 'assets/doctorsImages/thumb/thumb_100/$1';
         $doctorUrl = site_url() . '/doctor/doctorDetails/$1?reffralId=' . $hospitalUserId;
-        $this->datatables->select('doctors_userId userId,qyura_doctors.doctors_id as id, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, qyura_doctors.doctors_consultaionFee as consFee, qyura_specialities.specialities_name as specialityName,qyura_doctors.doctors_phn,qyura_doctors.doctors_img,qyura_doctors.doctors_id,qyura_doctors.doctors_mobile,qyura_doctors.doctors_unqId,( FROM_UNIXTIME(qyura_professionalExp.professionalExp_end,"%Y") - FROM_UNIXTIME(qyura_professionalExp.professionalExp_start,"%Y"))  AS exp ');
+        
+        $this->datatables->select('doctors_userId userId,qyura_doctors.doctors_id as id, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, qyura_doctors.doctors_consultaionFee as consFee, qyura_specialities.specialities_name as specialityName,qyura_doctors.doctors_phon,qyura_doctors.doctors_img,qyura_doctors.doctors_id,qyura_doctors.doctors_mobile,qyura_doctors.doctors_unqId,( FROM_UNIXTIME(qyura_professionalExp.professionalExp_end,"%Y") - FROM_UNIXTIME(qyura_professionalExp.professionalExp_start,"%Y"))  AS exp '); 
 
-        $this->datatables->from('qyura_usersRoles');
+        $this->datatables->from('qyura_doctors');
 
-        $this->datatables->join('qyura_doctors', 'qyura_doctors.doctors_userId = qyura_usersRoles.usersRoles_userId', 'left');
-
-
+       
         $this->datatables->join('qyura_professionalExp', 'qyura_professionalExp.professionalExp_usersId=qyura_doctors.doctors_id', 'left');
 
 
         $this->datatables->join('qyura_doctorSpecialities', 'qyura_doctorSpecialities.doctorSpecialities_doctorsId = qyura_doctors.doctors_id', 'left');
         $this->datatables->join('qyura_specialities', 'qyura_specialities.specialities_id = qyura_doctorSpecialities.doctorSpecialities_specialitiesId', 'left');
 
-        $this->db->group_by('doctors_userId');
+        $this->db->group_by('doctors_id');
 
 
         $search = $this->input->post('doctor_search');
@@ -495,7 +494,7 @@ class Hospital_model extends CI_Model {
             $this->db->group_end();
         }
 
-        $this->datatables->where(array('doctors_deleted' => 0, 'usersRoles_roleId' => 4, 'usersRoles_parentId' => $hospitalUserId));
+        $this->datatables->where(array('doctors_deleted' => 0, 'doctors_roll' => 9, 'doctors_parentId' => $hospitalUserId));
 
         $this->datatables->add_column('exp', '$1 Years', 'exp');
         $this->datatables->add_column('name', '$1</br>$2', 'name,doctors_unqId');
@@ -503,7 +502,7 @@ class Hospital_model extends CI_Model {
 
         $this->datatables->add_column('doctors_img', '<img class="img-responsive" height="80px;" width="80px;" src=' . $imgUrl . '>', 'doctors_img');
 
-        $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href=' . $doctorUrl . '>View Detail</a>', 'doctors_id,');
+        $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href=' . $doctorUrl . '>View Detail</a><a class="btn btn-info waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)" onClick="editDoctor($1)">Edit Detail</a>', 'doctors_id,');
 
         return $this->datatables->generate();
     }
@@ -602,6 +601,89 @@ class Hospital_model extends CI_Model {
             echo json_encode(array('status' => 0));
         }
         
+   }
+   
+   
+   function getDoctorDeatil($condition){
+       
+       
+        $imgUrl = base_url() . 'assets/doctorsImages/thumb/thumb_100/$1';
+        $this->db->select('doc.doctors_id, doc.doctors_27Src, doc.isManual,doc.doctors_consultaionFee,doc.doctors_pin,doc.doctors_userId,doc.doctors_fName,doc.doctors_lName,CONCAT(doc.doctors_fName," ",doc.doctors_lName)AS doctoesName,doc.doctors_phn,doc.doctor_addr,City.city_name,doc.doctors_img,usr.users_email,doc.doctors_lat,doc.doctors_long,usr.users_id,doc.doctors_registeredMblNo,
+        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_dob,doc.doctors_cityId,doc.creationTime,doc.doctors_mobile,doc.doctors_unqId,GROUP_CONCAT(DISTINCT(qyura_professionalExp.professionalExp_end)) As endTime,GROUP_CONCAT(DISTINCT(qyura_professionalExp.professionalExp_start)) AS startTime, usr.users_email,GROUP_CONCAT(qyura_hospital.hospital_name ) AS hospitalName, doc.doctors_email, doc.doctors_phon, doc.doctors_showExp');
+       
+        $this->db->from('qyura_doctors AS doc');
+        $this->db->join('qyura_city AS City', 'City.city_id = doc.doctors_cityId', 'left');
+        $this->db->join('qyura_users AS usr', 'usr.users_id = doc.doctors_userId', 'left');
+        $this->db->join('qyura_professionalExp', 'qyura_professionalExp.professionalExp_usersId = doc.doctors_id', 'left');
+        $this->db->join('qyura_specialities', 'qyura_specialities.specialities_id=qyura_professionalExp.professionalExp_specialitiesCatId', 'left');
+        $this->db->join('qyura_hospital', 'qyura_hospital.hospital_id = qyura_professionalExp.professionalExp_hospitalId', 'left');
+        if ($condition)
+        $this->db->where(array('doc.doctors_id' => $condition));
+        $this->db->where(array('doc.doctors_deleted' => 0));
+
+       // $data = $this->db->get();
+        //echo $this->db->last_query(); exit;
+       // return $data->result();
+        
+        
+        $rows = $this->db->get()->row();
+        
+        if(!empty($rows)){
+         
+        // experince
+        $explodeStartTime = explode(',', $rows->startTime);
+        $years = 0;
+        for ($i = 0; $i < count($explodeStartTime); $i++) {
+            $explodeEndTime = explode(',', $rows->endTime);
+            if(isset($rows->endTime) && $rows->endTime !=NULL){
+            $midTime = $explodeEndTime[$i] - $explodeStartTime[$i];
+            $years += floor($midTime / (60 * 60 * 24 * 30 * 12));}
+        }
+        
+        
+        // doctor academic detail
+        $academicOption = array(
+            'table' => 'qyura_doctorAcademic',
+            'select' => '*',
+            'where' => 'doctorAcademic_doctorsId = '.$condition.' ',
+            'single' => false,
+        );
+        $academicDetail = $this->common_model->customGet($academicOption);
+        
+        
+        // doctor speciality
+        $speciality = array(
+            'table' => 'qyura_doctorSpecialities',
+            'select' => 'specialities_name,specialities_id',
+            'join' => array( array('qyura_specialities', 'qyura_specialities.specialities_id = qyura_doctorSpecialities.doctorSpecialities_specialitiesId', 'left' ) ),
+            'where' => 'doctorSpecialities_doctorsId = '.$condition.' ',
+            'single' => false,
+        );
+        $specialityDetail = $this->common_model->customGet($speciality);
+        //print_r($specialityDetail);
+        // all specilaity
+        
+        $allSpeciality = $this->Doctor_model->fetchSpeciality();
+        sort($allSpeciality);
+        
+        $specilityOtpyion = '';
+        $specilityOtpyion .='<option value=>Select Speciality</option>';
+        foreach ($allSpeciality as $key => $val) {
+            $selected  = '';
+          //  echo $specialityDetail[$key]->specialities_id.' '.$val->specialities_id.'</br>';
+            if ($specialityDetail[$key]->specialities_id == $val->specialities_id){
+                
+               // $selected = ' selected="selected"  ';
+                $specilityOtpyion .= '<option  value="' . $val->specialities_id . '" selected >' . strtoupper($val->specialities_name) . '</option>';
+            }else{
+                 $specilityOtpyion .= '<option value="' . $val->specialities_id . '" >' . strtoupper($val->specialities_name) . '</option>';
+        } }
+       // echo $statesOption;
+        
+         echo json_encode(array('status' => 1, 'doctors_fName' => $rows->doctors_fName, 'doctors_lName' => $rows->doctors_lName, 'doctors_img' => $rows->doctors_img, 'exp_year' => $years, 'academicDeatil' => $academicDetail, 'doctorSpecialities_specialitiesId' => $specilityOtpyion, 'fee' => $rows->doctors_consultaionFee, 'email' => $rows->doctors_email, 'doctors_phon' => $rows->doctors_phon, 'doctors_showExp' => $rows->doctors_showExp));
+        } else {
+            echo json_encode(array('status' => 0));
+        }
    }
 
 }

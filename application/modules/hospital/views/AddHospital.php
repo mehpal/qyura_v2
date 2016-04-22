@@ -91,10 +91,10 @@
 
 
 
-                                    <img src="<?php echo base_url('assets/default-images/Hospital-logo.png'); ?>" width="70" height="65" class="image-preview-show"/>
+                                    <img src="<?php // echo base_url('assets/default-images/Hospital-logo.png'); ?>" width="70" height="65" class="image-preview-show"/>
 
-                                    <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
-                                    <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                    <label class="error" > <?php // echo $this->session->flashdata('valid_upload'); ?></label>
+                                    <label class="error" > <?php // echo form_error("avatar_file"); ?></label>
                                 </div> -->
                                 
                                 
@@ -750,7 +750,7 @@
 
                 </fieldset>
                 <div id="upload_modal_form">
-<?php $this->load->view('upload_crop_modal'); ?>
+                    <?php $this->load->view('upload_crop_modal'); ?>
                 </div>
             </form>
         </div>
