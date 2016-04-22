@@ -165,7 +165,7 @@
                                                        <article class="clearfix m-t-10">
                                         <label for="cname" class="control-label col-md-4  col-sm-4">IFSC Code :</label>
                                         <div class="col-md-8 col-sm-8">
-                                                    <input type="text" class="form-control" name="qap_ifscCode" id="qap_ifscCode" placeholder="" maxlength="10"value="<?php if(isset($qapData) && !empty($qapData)){ echo $qapData[0]->qap_ifscCode;} ?>"/>
+                                                    <input type="text" class="form-control" name="qap_ifscCode" id="qap_ifscCode" placeholder="" maxlength="11"value="<?php if(isset($qapData) && !empty($qapData)){ echo $qapData[0]->qap_ifscCode;} ?>"/>
                                                    
                                                     <label class="error" > <?php echo form_error("qap_ifscCode"); ?></label>
                                             

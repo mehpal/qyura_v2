@@ -390,7 +390,7 @@ if (!function_exists("defalutTimeSlots")) {
 
     }
 
-    if (!function_exists('gendor')) {
+    if (!function_exists('gender')) {
 
         function gender($gender) {
             $gender = strtolower($gender);

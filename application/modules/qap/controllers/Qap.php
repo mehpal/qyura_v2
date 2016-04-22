@@ -41,9 +41,9 @@ class Qap extends MY_Controller {
         $this->bf_form_validation->set_rules('qap_ifscCode', 'IFSC Code', 'required|trim');
         $this->bf_form_validation->set_rules('qap_bankCity', 'Bank City', 'required');
 
-        if (empty($_FILES['avatar_file']['name'])) {
-            $this->bf_form_validation->set_rules('avatar_file', 'Image', 'required');
-        }
+//        if (empty($_FILES['avatar_file']['name'])) {
+//            $this->bf_form_validation->set_rules('avatar_file', 'Image', 'required');
+//        }
         if ($this->bf_form_validation->run() === FALSE) {
 
         $data['title'] = "Add QAP";
@@ -121,7 +121,7 @@ class Qap extends MY_Controller {
             if ($qap_insert) {
 
 
-              // $this->session->set_flashdata('message', 'Data inserted successfully !');
+             $this->session->set_flashdata('message', 'Data inserted successfully !');
                 redirect('qap');
             }
 
@@ -252,6 +252,7 @@ class Qap extends MY_Controller {
             );
             $qap_update = $this->qap_model->customUpdate($options);
             if ($qap_update) {
+                $this->session->set_flashdata('message', 'Data updated successfully !');
                 redirect('qap');
             }
         }

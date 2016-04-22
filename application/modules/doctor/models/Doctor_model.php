@@ -22,10 +22,6 @@ class Doctor_model extends CI_Model {
     }
 
     function fetchSpeciality() {
-        /* $this->db->select('specialitiesCat_id,specialitiesCat_name');
-          $this->db->from('qyura_specialitiesCat');
-         * this table is disable for the time being
-         */
         $this->db->select('specialities_id,specialities_name');
         $this->db->from('qyura_specialities');
         $this->db->where(array('specialities_deleted' => 0,'type' => 1));

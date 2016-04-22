@@ -82,6 +82,8 @@ if ($current != 'detailDiagnostic'):
                 },
                 qap_ifscCode: {
                     required: true,
+                    minlength: 11,
+                    maxlength: 11
                    // number: true
                 },
                 qap_bankCity: {
