@@ -73,8 +73,18 @@ class Hospital extends MY_Controller {
 
     // get hospital detail
     function detailHospital($hospitalId = '', $active = 'general', $showdiv = null) {
-        
+
+       
         $data = array();
+        
+         if($this->uri->segment(5) != '' && $this->uri->segment(5) != 0){
+            $doctorId =   $this->uri->segment(5);
+            $showdiv = 'editDoctor';
+            $data['doctorDetail'] = $this->Hospital_model->getDoctorDeatil($doctorId); 
+            
+        }
+        
+        
         $data['hospitalData'] = $hospitalData = $this->Hospital_model->fetchHospitalData($hospitalId);
         if (count($data['hospitalData']) == 0) {
             redirect('hospital');
@@ -2241,9 +2251,22 @@ class Hospital extends MY_Controller {
     }
     
     
-    function getDoctorDeatil(){
-        $doctorId = $this->input->post('doctorId');
-        if($doctorId != '' && $doctorId != null) return $doctorDeatil = $this->Hospital_model->getDoctorDeatil($doctorId); 
+
+//    function getHtmlAddDoctor(){
+//        
+//        $this->load->view('addDoctor'); 
+//        $this->load->view('doctorScript.php');
+//    }
+//    
+//    function getHtmlEditDoctor(){
+//        
+//        $this->load->view('editDoctor'); 
+//        $this->load->view('doctorScript.php');
+//    }
+    
+    
+    function editDoctor(){
+        
     }
 
 }
