@@ -2083,9 +2083,9 @@ class Hospital extends MY_Controller {
         $this->bf_form_validation->set_rules('doctors_phn', 'Doctor Mobile', 'trim|numeric');
         $this->bf_form_validation->set_rules('users_email', 'Users Email', "valid_email|trim");//||MUnique[{$Moption}]
        
-       // if (empty($_FILES['avatar_file']['name'])) {
-      //      $this->bf_form_validation->set_rules('avatar_file', 'File', 'required');
-     //   }
+        if (empty($_FILES['avatar_file']['name'])) {
+            $this->bf_form_validation->set_rules('avatar_file', 'File', 'required');
+       }
         if ($this->bf_form_validation->run($this) === false) {
             
             $data = array();
