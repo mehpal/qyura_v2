@@ -33,6 +33,7 @@ if ($current != 'detailHospital'):
 
     <script src="<?php  echo base_url(); ?>assets/cropper/doctor_cropper.js"></script>
 
+    <script src="<?php  echo base_url(); ?>assets/cropper/edit_doctor_cropper.js"></script>
 <?php endif; ?>
 
 

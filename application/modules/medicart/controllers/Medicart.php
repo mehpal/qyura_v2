@@ -69,7 +69,7 @@ class Medicart extends MY_Controller {
         $option = array(
             'select' => 'specialities_id,specialities_name',
             'table' => 'qyura_specialities',
-            'where' => array('specialities_deleted' => 0),
+            'where' => array('specialities_deleted' => 0,'type'=>0),
             'order_by' => array("specialities_name", "asc")
         );
         $data['allOffetCategory'] = $this->medicart_model->customGet($option);
@@ -123,7 +123,7 @@ class Medicart extends MY_Controller {
         exit;
     }
 
-	function enableDisable(){
+    function enableDisable(){
 
 	$id = $this->input->post('id');
 	$status = $this->input->post('status');
@@ -148,14 +148,12 @@ class Medicart extends MY_Controller {
 
  	}
 
-
-
     function saveOffer() {
 
         $this->bf_form_validation->set_rules('medicartOffer_cityId', 'City Name', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('medicartOffer_MIId', 'MI Name', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('medicartOffer_OfferId', 'Offer Id', 'required|trim|is_unique[qyura_medicartOffer.medicartOffer_OfferId]');
-        $this->bf_form_validation->set_rules('medicartOffer_offerCategory', 'Offer Caregory', 'required|trim');
+        $this->bf_form_validation->set_rules('medicartOffer_offerCategory[]', 'Offer Caregory', 'required|trim');
         $this->bf_form_validation->set_rules('medicartOffer_title', 'Title', 'required|trim');
         $this->bf_form_validation->set_rules('medicartOffer_description', 'Description', 'required|trim');
         $this->bf_form_validation->set_rules('medicartOffer_allowBooking', 'allow Booking', 'required|trim');
@@ -194,27 +192,27 @@ class Medicart extends MY_Controller {
                 'order_by' => array("city_name", "asc")
             );
             $data['allCity'] = $this->medicart_model->customGet($option);
-             $option = array(
-            'select' => 'specialities_id,specialities_name',
-            'table' => 'qyura_specialities',
-            'where' => array('specialities_deleted' => 0),
-            'order_by' => array("specialities_name", "asc")
-        );
+            $option = array(
+                'select' => 'specialities_id,specialities_name',
+                'table' => 'qyura_specialities',
+                'where' => array('specialities_deleted' => 0,'type'=>0),
+                'order_by' => array("specialities_name", "asc")
+            );
             $data['allOffetCategory'] = $this->medicart_model->customGet($option);
             $data['title'] = 'add Offer';
-		$uniqueId = isUnique();
+            $uniqueId = isUnique();
 
-		$option = array(
-		    'select' => 'medicartOffer_OfferId',
-		    'table' => 'qyura_medicartOffer',
-		    'where' => array('medicartOffer_deleted' => 0,'medicartOffer_OfferId' => $uniqueId)
-		);
-		$unique = $this->medicart_model->customGet($option);
-		if(empty($unique)){
-		    $data['uniqueId'] = $uniqueId; 
-		 }else{
-		     $data['uniqueId'] = isUnique();		
-		}
+            $option = array(
+                'select' => 'medicartOffer_OfferId',
+                'table' => 'qyura_medicartOffer',
+                'where' => array('medicartOffer_deleted' => 0,'medicartOffer_OfferId' => $uniqueId)
+            );
+            $unique = $this->medicart_model->customGet($option);
+            if(empty($unique)){
+                $data['uniqueId'] = $uniqueId; 
+             }else{
+                 $data['uniqueId'] = isUnique();		
+            }
             $this->load->super_admin_template('addOffer', $data, 'medicartScript');
         } else {
 
@@ -233,11 +231,11 @@ class Medicart extends MY_Controller {
                     );
                     $data['allCity'] = $this->medicart_model->customGet($option);
                      $option = array(
-            'select' => 'specialities_id,specialities_name',
-            'table' => 'qyura_specialities',
-            'where' => array('specialities_deleted' => 0),
-            'order_by' => array("specialities_name", "asc")
-        );
+                        'select' => 'specialities_id,specialities_name',
+                        'table' => 'qyura_specialities',
+                        'where' => array('specialities_deleted' => 0,'type'=>0),
+                        'order_by' => array("specialities_name", "asc")
+                    );
                     $data['allOffetCategory'] = $this->medicart_model->customGet($option);
                     $data['title'] = 'add Offer';
                     $this->session->set_flashdata('valid_upload', $this->error_message);
@@ -255,8 +253,6 @@ class Medicart extends MY_Controller {
 			 }else{
 			     $data['uniqueId'] = isUnique();		
 			}
-
-
                     $this->load->super_admin_template('addOffer', $data, 'medicartScript');
                     return false;
                 } else {
@@ -264,26 +260,26 @@ class Medicart extends MY_Controller {
                 }
             }
             
-              $mxBooking = 0; 
+            $mxBooking = 0; 
             if($medicartOffer_allowBooking == 1){
-              $mxBooking = $this->input->post('medicartOffer_maximumBooking'); 
+                $mxBooking = $this->input->post('medicartOffer_maximumBooking'); 
             }
-              $Discount=0; 
-              $ageDiscount=0;
-              $totalPrice = 0;
-              $actualPrice = $this->input->post('medicartOffer_actualPrice');
+                $Discount=0; 
+                $ageDiscount=0;
+                $totalPrice = 0;
+                $actualPrice = $this->input->post('medicartOffer_actualPrice');
             if($medicartOffer_discount == 1){
-               $Discount = $this->input->post('medicartOffer_discountPrice');
-               $ageDiscount = $this->input->post('medicartOffer_ageDiscount');
-               $discountAfterCal = getDiscount($actualPrice,$Discount);
-               $totalPrice = $discountAfterCal;
+                $Discount = $this->input->post('medicartOffer_discountPrice');
+                $ageDiscount = $this->input->post('medicartOffer_ageDiscount');
+                $discountAfterCal = getDiscount($actualPrice,$Discount);
+                $totalPrice = $discountAfterCal;
             }else{
                 $totalPrice = $actualPrice;
             }
-
+            
             $offerData = array(
                 'medicartOffer_MIId' => $this->input->post('medicartOffer_MIId'),
-                'medicartOffer_offerCategory' => $this->input->post('medicartOffer_offerCategory'),
+                //'medicartOffer_offerCategory' => $this->input->post('medicartOffer_offerCategory'),
                 'medicartOffer_title' => $this->input->post('medicartOffer_title'),
                 'medicartOffer_image' => $imagesname,
                 'medicartOffer_description' => $this->input->post('medicartOffer_description'),
@@ -301,15 +297,31 @@ class Medicart extends MY_Controller {
                 'medicartOffer_range' => $this->input->post('medicartOffer_range'),
                 'medicartOffer_deleted' => 0,
                 'creationTime' => strtotime(date("Y-m-d H:i:s")),
-                'status' => 1
+                'status' => 0
             );
 
             $option = array(
                 'table' => 'qyura_medicartOffer',
                 'data' => $offerData
             );
-            $response = $this->medicart_model->customInsert($option);
-            if ($response) {
+            $medicartId = $this->medicart_model->customInsert($option);
+            $medicartOffer_offerCategory = $this->input->post('medicartOffer_offerCategory');
+            
+            for($i=0;$i<count($medicartOffer_offerCategory);$i++){
+                $offerDataSpe = array(
+                    'medicartSpecialities_medicartId' => $medicartId,
+                    'medicartSpecialities_specialitiesId' => $medicartOffer_offerCategory[$i],
+                    'creationTime' => strtotime(date("Y-m-d H:i:s")),
+                    'status' => 1
+                );
+                $optionSpe = array(
+                    'table' => 'qyura_medicartSpecialities',
+                    'data'  => $offerDataSpe
+                );
+                $responseSpe = $this->common_model->customInsert($optionSpe);
+            }
+            
+            if ($medicartId) {
                 $this->session->set_flashdata('message', 'Record has been saved successfully!');
                 redirect('medicart/addOffer');
             } else {
@@ -346,7 +358,7 @@ class Medicart extends MY_Controller {
         $option = array(
             'select' => 'specialities_id,specialities_name',
             'table' => 'qyura_specialities',
-            'where' => array('specialities_deleted' => 0),
+            'where' => array('specialities_deleted' => 0,'type'=>0),
             'order_by' => array("specialities_name", "asc")
         );
         $data['allOffetCategory'] = $this->medicart_model->customGet($option);
@@ -387,10 +399,20 @@ class Medicart extends MY_Controller {
     }
         
         $data['options'] = $template_option;
-        //echo $template_option;
         
-        //dump($data['offerData']);
-        //exit();
+        $option = array(
+            'table' => 'qyura_medicartSpecialities',
+            'select' => 'medicartSpecialities_specialitiesId',
+            'where' => array('medicartSpecialities_deleted' => 0,'medicartSpecialities_medicartId' => $offerId),
+            'single' => FALSE
+        );
+        $medicartSpecialities = $this->common_model->customGet($option);
+        
+        $qyura_medicartSpecialities = array();
+        foreach($medicartSpecialities as $Specialities){
+            array_push($qyura_medicartSpecialities, $Specialities->medicartSpecialities_specialitiesId);
+        }
+        $data['qyura_medicartSpecialities'] = $qyura_medicartSpecialities;
         
         $data['title'] = 'Edit Offer';
         $this->load->super_admin_template('medicartEditOffer', $data, 'medicartScript');
@@ -403,7 +425,7 @@ class Medicart extends MY_Controller {
         $this->bf_form_validation->set_rules('medicartOffer_cityId', 'City Name', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('medicartOffer_MIId', 'MI Name', 'required|trim|numeric');
 
-        $this->bf_form_validation->set_rules('medicartOffer_offerCategory', 'Offer Caregory', 'required|trim');
+        $this->bf_form_validation->set_rules('medicartOffer_offerCategory[]', 'Offer Caregory', 'required|trim');
         $this->bf_form_validation->set_rules('medicartOffer_title', 'Title', 'required|trim');
         $this->bf_form_validation->set_rules('medicartOffer_description', 'Description', 'required|trim');
         $this->bf_form_validation->set_rules('medicartOffer_allowBooking', 'allow Booking', 'required|trim');
@@ -433,7 +455,7 @@ class Medicart extends MY_Controller {
 
          if ($this->bf_form_validation->run() === False) {
            
-              $option = array(
+            $option = array(
                 'select' => 'city_id,city_name',
                 'table' => 'qyura_city',
                 'order_by' => array("city_name", "asc")
@@ -442,7 +464,7 @@ class Medicart extends MY_Controller {
             $option = array(
                       'select' => 'specialities_id,specialities_name',
             'table' => 'qyura_specialities',
-            'where' => array('specialities_deleted' => 0),
+            'where' => array('specialities_deleted' => 0,'type'=>0),
             'order_by' => array("specialities_name", "asc")
             );
             $data['allOffetCategory'] = $this->medicart_model->customGet($option);
@@ -468,9 +490,9 @@ class Medicart extends MY_Controller {
                     $data['allCity'] = $this->medicart_model->customGet($option);
                     $option = array(
                        'select' => 'specialities_id,specialities_name',
-            'table' => 'qyura_specialities',
-            'where' => array('specialities_deleted' => 0),
-            'order_by' => array("specialities_name", "asc")
+                        'table' => 'qyura_specialities',
+                        'where' => array('specialities_deleted' => 0,'type'=>0),
+                        'order_by' => array("specialities_name", "asc")
                     );
                     $data['allOffetCategory'] = $this->medicart_model->customGet($option);
                     $data['title'] = 'Edit Offer';
@@ -483,7 +505,7 @@ class Medicart extends MY_Controller {
                 }
             }
             
-               $mxBooking = 0; 
+            $mxBooking = 0; 
             if($medicartOffer_allowBooking == 1){
               $mxBooking = $this->input->post('medicartOffer_maximumBooking'); 
             }
@@ -501,10 +523,10 @@ class Medicart extends MY_Controller {
             }
             
 
-        $offerData = array(
+            $offerData = array(
 
                 'medicartOffer_MIId' => $this->input->post('medicartOffer_MIId'),
-                'medicartOffer_offerCategory' => $this->input->post('medicartOffer_offerCategory'),
+                //'medicartOffer_offerCategory' => $this->input->post('medicartOffer_offerCategory'),
                 'medicartOffer_title' => $this->input->post('medicartOffer_title'),
                 'medicartOffer_description' => $this->input->post('medicartOffer_description'),
                 'medicartOffer_allowBooking' => $this->input->post('medicartOffer_allowBooking'),
@@ -533,13 +555,70 @@ class Medicart extends MY_Controller {
             'data'=> $offerData
         );
         $response = $this->medicart_model->customUpdate($option);
-        if ($response) {
-                $this->session->set_flashdata('message', 'Record has been updated successfully!');
-                redirect('medicart/editOffer/'.$id);
-            } else {
-                $this->session->set_flashdata('error', 'Failed to updated records!');
-                redirect('medicart/editOffer/'.$id);
+        
+        $option = array(
+            'table' => 'qyura_medicartSpecialities',
+            'select' => 'medicartSpecialities_specialitiesId',
+            'where' => array('medicartSpecialities_deleted' => 0,'medicartSpecialities_medicartId' => $id),
+            'single' => FALSE
+        );
+        $medicartSpecialities = $this->common_model->customGet($option);
+        $oldSpecialities = array();
+        foreach($medicartSpecialities as $Specialities){
+            array_push($oldSpecialities, $Specialities->medicartSpecialities_specialitiesId);
+        }
+        $newSpecility = $this->input->post('medicartOffer_offerCategory');
+        
+        foreach ($newSpecility as $specility) {
+            if (!in_array($specility, $oldSpecialities)) {
+                $option = array(
+                    'table' => 'qyura_medicartSpecialities',
+                    'select' => '*',
+                    'where' => array('medicartSpecialities_specialitiesId' => $specility,'medicartSpecialities_medicartId' => $id),
+                    'single' => TRUE
+                );
+                $oldData = $this->common_model->customGet($option);
+                if (isset($oldData) && $oldData != NULL) {
+                    $whereUpdate = array('medicartSpecialities_specialitiesId' => $specility,'medicartSpecialities_medicartId' => $id);
+                    $arrayResumeData = array('medicartSpecialities_deleted' => 0);
+                    $updateOptions = array(
+                        'where' => $whereUpdate,
+                        'data'  => $arrayResumeData,
+                        'table' => 'qyura_medicartSpecialities'
+                    );
+                    $specilityOldDataResume = $this->common_model->customUpdate($updateOptions);
+                } else {
+                    $new_specility_array = array('creationTime' => strtotime(date('Y-m-d h:i:s')),'status' => 1, 'medicartSpecialities_medicartId' => $id, 'medicartSpecialities_specialitiesId' => $specility);
+                    $options = array
+                    (
+                        'data'  => $new_specility_array,
+                        'table' => 'qyura_medicartSpecialities'
+                    );
+                    $this->common_model->customInsert($options);
+                }
             }
+        }
+
+        foreach ($oldSpecialities as $specility) {
+            if (!in_array($specility, $newSpecility)) {
+                $whereUpdate = array('medicartSpecialities_specialitiesId' => $specility,'medicartSpecialities_medicartId' => $id);
+                $deleteOldSpecility = array('medicartSpecialities_deleted' => 1);
+                $updateOptions = array(
+                    'where' => $whereUpdate,
+                    'data'  => $deleteOldSpecility,
+                    'table' => 'qyura_medicartSpecialities'
+                );
+                $medicartSpecilityDelete = $this->common_model->customUpdate($updateOptions);
+            }
+        }
+        
+        if ($response || $medicartSpecilityDelete || $specilityOldDataResume) {
+            $this->session->set_flashdata('message', 'Record has been updated successfully!');
+            redirect('medicart/editOffer/'.$id);
+        } else {
+            $this->session->set_flashdata('error', 'Failed to updated records!');
+            redirect('medicart/editOffer/'.$id);
+        }
     }
    }
 

@@ -68,12 +68,12 @@
                                         <article class="form-group m-lr-0">
                                             <label for="cname" class="control-label col-md-4 col-sm-4">Offer Category:</label>
                                             <div class="col-md-8 col-sm-8">
-                                                <select class="selectpicker" data-width="100%" name="medicartOffer_offerCategory"id="medicartOffer_offerCategory" required="">
+                                                <select class="selectpicker" data-width="100%" name="medicartOffer_offerCategory[]"id="medicartOffer_offerCategory" required="" multiple="">
                                                         <?php foreach ($allOffetCategory as $keys => $values) { ?>
-                                                        <option value="<?php echo $values->specialities_id; ?>" <?php echo set_select('medicartOffer_offerCategory', $values->specialities_id); ?>><?php echo ucwords($values->specialities_name); ?></option>
+                                                        <option value="<?php echo $values->specialities_id; ?>" <?php echo set_select('medicartOffer_offerCategory[]', $values->specialities_id); ?>><?php echo ucwords($values->specialities_name); ?></option>
                                                     <?php } ?>
                                                 </select>
-                                                 <label class="error"><?php echo form_error('medicartOffer_offerCategory'); ?></label>
+                                                 <label class="error"><?php echo form_error('medicartOffer_offerCategory[]'); ?></label>
                                             </div>
                                         </article>
 
@@ -103,7 +103,7 @@
                                         <article class="form-group m-lr-0">
                                             <label for="" class="control-label col-md-4 col-sm-4">Description :</label>
                                             <div class="col-md-8 col-sm-8">
-                                                <textarea class="form-control" type="text" name="medicartOffer_description" required="" id="medicartOffer_description" maxlength="255" rows="4"><?php echo set_value('medicartOffer_description');?></textarea>
+                                                <textarea class="form-control" type="text" name="medicartOffer_description" required="" id="medicartOffer_description" rows="4"><?php echo set_value('medicartOffer_description');?></textarea>
                                                  <label class="error"><?php echo form_error('medicartOffer_description'); ?></label>
                                             </div>
                                         </article>
@@ -201,9 +201,7 @@
                                                  <label class="error"><?php echo form_error('medicartOffer_maximumBooking'); ?></label>
                                             </div>
                                         </article>
-
-                                     
-                                           <article class="form-group m-lr-0">
+                                        <article class="form-group m-lr-0">
                                             <label for="" class="control-label col-md-4 col-sm-4">Actual Pricing :</label>
                                             <div class="col-md-8 col-sm-8">
                                                 <input class="form-control " id="medicartOffer_actualPrice" type="text" name="medicartOffer_actualPrice" placeholder="" value="<?=set_value('medicartOffer_actualPrice');?>"  onchange="isCalculate()" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');">
@@ -214,12 +212,12 @@
                                             <label for="cname" class="control-label col-md-4 col-sm-4">Discount Offer :</label>
                                             <div class="col-md-8 col-sm-8">
                                                 <div class="radio radio-success radio-inline">
-                                                    <input type="radio"  name="medicartOffer_discount" value="1" id="inlineRadio1" required="" onclick="IsallowDiscount(this.value)" <?php echo set_radio('medicartOffer_discount', '1'); ?>>
-                                                    <label for="inlineRadio1">Yes</label>
+                                                    <input type="radio"  name="medicartOffer_discount" value="1" id="inlineRadio3" required="" onclick="IsallowDiscount(this.value)" <?php echo set_radio('medicartOffer_discount', '1'); ?>>
+                                                    <label for="inlineRadio3">Yes</label>
                                                 </div>
                                                 <div class="radio radio-success radio-inline">
-                                                    <input type="radio" checked="" name="medicartOffer_discount" value="0" id="inlineRadio2" onclick="IsallowDiscount(this.value)" <?php echo set_radio('medicartOffer_discount', '0'); ?>>
-                                                    <label for="inlineRadio2">No</label>
+                                                    <input type="radio" checked="" name="medicartOffer_discount" value="0" id="inlineRadio4" onclick="IsallowDiscount(this.value)" <?php echo set_radio('medicartOffer_discount', '0'); ?>>
+                                                    <label for="inlineRadio4">No</label>
                                                 </div>
                                             </div>
                                         </article>
@@ -228,22 +226,19 @@
                                             <label for="cname" class="control-label col-md-4 col-sm-4">Discount for Age Group :</label>
                                             <div class="col-md-8 col-sm-8">
                                                 <select class="selectpicker" data-width="100%" name="medicartOffer_ageDiscount" id="medicartOffer_ageDiscount" required="">
-                                <option value="10-20" <?php echo set_select('medicartOffer_ageDiscount', '10-20'); ?>>10-20</option>
-                                <option value="20-30" <?php echo set_select('medicartOffer_ageDiscount', '20-30'); ?>>20-30</option>
-                                <option value="30-40" <?php echo set_select('medicartOffer_ageDiscount', '30-40'); ?>>30-40</option>
-                                <option value="40-50" <?php echo set_select('medicartOffer_ageDiscount', '40-50'); ?>>40-50</option>
-                                <option value="50-60" <?php echo set_select('medicartOffer_ageDiscount', '50-60'); ?>>50-60</option>
-                                <option value="60-70" <?php echo set_select('medicartOffer_ageDiscount', '60-70'); ?>>60-70</option>
-                                <option value="70-80" <?php echo set_select('medicartOffer_ageDiscount', '70-80'); ?>>70-80</option>
-                                <option value="80-90" <?php echo set_select('medicartOffer_ageDiscount', '80-90'); ?>>80-90</option>
-                                <option value="90-100" <?php echo set_select('medicartOffer_ageDiscount', '90-100'); ?>>90-100</option>
+                                                    <option value="10-20" <?php echo set_select('medicartOffer_ageDiscount', '10-20'); ?>>10-20</option>
+                                                    <option value="20-30" <?php echo set_select('medicartOffer_ageDiscount', '20-30'); ?>>20-30</option>
+                                                    <option value="30-40" <?php echo set_select('medicartOffer_ageDiscount', '30-40'); ?>>30-40</option>
+                                                    <option value="40-50" <?php echo set_select('medicartOffer_ageDiscount', '40-50'); ?>>40-50</option>
+                                                    <option value="50-60" <?php echo set_select('medicartOffer_ageDiscount', '50-60'); ?>>50-60</option>
+                                                    <option value="60-70" <?php echo set_select('medicartOffer_ageDiscount', '60-70'); ?>>60-70</option>
+                                                    <option value="70-80" <?php echo set_select('medicartOffer_ageDiscount', '70-80'); ?>>70-80</option>
+                                                    <option value="80-90" <?php echo set_select('medicartOffer_ageDiscount', '80-90'); ?>>80-90</option>
+                                                    <option value="90-100" <?php echo set_select('medicartOffer_ageDiscount', '90-100'); ?>>90-100</option>
                                                 </select>
                                                  <label class="error"><?php echo form_error('medicartOffer_ageDiscount'); ?></label>
                                             </div>
                                         </article>
-
-
-                                     
 
                                         <article class="form-group m-lr-0">
                                             <label for="" class="control-label col-md-4 col-sm-4">Discounted % :</label>
@@ -262,12 +257,7 @@
                                         </article>
                                             </div>
                                         </div>
-                                        
-                                        
-                                        
-                                   
                                         <!-- Other Info Section End -->
-
                                 </div>
                             </section>
                             <section class="clearfix ">
@@ -275,23 +265,14 @@
                                     <button type="reset" class="btn btn-danger waves-effect pull-right">Reset</button>
                                     <button type="submit" class="btn btn-success waves-effect waves-light pull-right m-r-20">Submit</button>
                                 </div>
-
                             </section>
                          <div id="upload_modal_form">
                             <?php $this->load->view('upload_crop_modal');?>
                         </div>
                         </form>
-
                     </div>
-
                     <!-- consultation -->
-
-
-
                     <!-- Right Section End -->
-
                 </div>
-
                 <!-- container -->
             </div>
-           
