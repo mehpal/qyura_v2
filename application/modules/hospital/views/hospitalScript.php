@@ -31,7 +31,7 @@ if ($current != 'detailHospital'):
 
     <script src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
 
-    <!--<script src="<?php // echo base_url(); ?>assets/cropper/gallery_cropper.js"></script>-->
+    <script src="<?php  echo base_url(); ?>assets/cropper/doctor_cropper.js"></script>
 
 <?php endif; ?>
 
@@ -2039,6 +2039,7 @@ if (isset($mapData) && !empty($mapData)) {
   
  function getDcotorDeatil(doctorId) {
 
+        var imgUrl = '<?php echo base_url(); ?>/assets/doctorsImages/thumb/original/';
         if(getDcotorDeatil != ''){
         $.ajax({
             url: urls + 'index.php/hospital/getDoctorDeatil',
@@ -2059,6 +2060,12 @@ if (isset($mapData) && !empty($mapData)) {
                    // var arr = jQuery.makeArray( obj.doctorSpecialities_specialitiesId );
                     $(".fee").val(obj.fee);
                     
+                    if(obj.doctors_img != ''){
+                    $(".image-preview-show").attr('src',imgUrl+obj.doctors_img);
+                    }else{
+                     $(".image-preview-show").attr('src',"<?php echo base_url() ?>assets/default-images/Doctor-logo.png");  
+                    }
+                    
                     $.each( obj.academicDeatil, function( key, value ) {
                        
                      
@@ -2070,6 +2077,8 @@ if (isset($mapData) && !empty($mapData)) {
                         
                         var optionValue  = value.doctorAcademic_degreeId;
                       //  alert(optionValue);
+                      
+                      
                       
                         $("#doctorAcademic_degreeId2").val(optionValue)
                         .find("option[value=" + optionValue +"]").attr('selected', true);
