@@ -6,7 +6,80 @@ class Diagnostic_model extends CI_Model {
         parent::__construct();
         
     }
-
+    
+    // start change by hemany
+   // fetch all publish hospital 
+   function fetchPublishDiagnostic() {
+        $this->db->select('diagnostic_id,diagnostic_name');
+        $this->db->from('qyura_diagnostic');
+        $this->db->where('status', 3);
+        $this->db->order_by("diagnostic_name", "asc");
+        $this->db->group_by("diagnostic_id");
+        return $this->db->get()->result();
+    }
+   
+    
+    function getDiagnosticdetail($diagnoId){
+        $this->db->select('diagnostic_address, isManual, diagnostic_zip, diagnostic_countryId, diagnostic_stateId, diagnostic_cityId, diagnostic_lat, diagnostic_long, diagnostic_name');
+        $this->db->from('qyura_diagnostic');
+        $this->db->where("diagnostic_id", "$diagnoId");
+        $rows =  $this->db->get()->row();
+      
+         
+        if (!empty($rows)) {
+             
+        // selected country
+        $this->db->select('country_id,country');
+        $this->db->from('qyura_country');
+        $this->db->order_by("country", "asc");
+        $allCountry = $this->db->get()->result();
+        
+        $countrySelected = '<option>Select Country</option>';
+        foreach ($allCountry as $key=>$val){
+            $selected = '';
+            if($val->country_id == $rows->diagnostic_countryId) $selected = 'selected="selected"';
+            $countrySelected .= '<option '.$selected.' value="'.$val->country_id.'">'.$val->country.'</option>';
+            
+        }
+        
+        // selected state
+        $this->db->select('state_id,state_statename');
+        $this->db->from('qyura_state');
+        $this->db->where('state_countryid', $rows->diagnostic_countryId);
+        $this->db->order_by("state_statename", "asc");
+        $allState = $this->db->get()->result();
+        
+        $stateSelected = '';
+       
+        foreach ($allState as $key=>$val){
+             $selected = '';
+            if($val->state_id == $rows->diagnostic_stateId)$selected = 'selected="selected"';
+            $stateSelected .= '<option '.$selected.' value="'.$val->state_id.'">'.$val->state_statename.'</option>';
+        }
+        
+        // selected city
+        $this->db->select('city_id,city_name');
+        $this->db->from('qyura_city');
+        $this->db->where('city_stateid', $rows->diagnostic_stateId);
+        $this->db->order_by("city_name", "asc");
+        $allCity =  $this->db->get()->result();
+        
+        $citySelected = '';
+       
+        foreach ($allCity as $key=>$val){
+            $selected = '';
+            if($val->city_id == $rows->diagnostic_cityId)$selected = 'selected="selected"';
+            $citySelected .= '<option '.$selected.' value="'.$val->city_id.'">'.$val->city_name.'</option>';
+        }
+        
+            echo json_encode(array('status' => 1, 'diagnostic_address' => $rows->diagnostic_address, 'country' => $countrySelected, 'state' => $stateSelected, 'city' => $citySelected, 'zipCode' => $rows->diagnostic_zip, 'lat' => $rows->diagnostic_lat, 'lng' => $rows->diagnostic_long, 'diagnostic_name' => $rows->diagnostic_name));
+        } else {
+            echo json_encode(array('status' => 0));
+        }
+        
+   }
+    // end changes by hemant
+    
     function fetchCountry() {
         $this->db->select('country_id,country');
         $this->db->from('qyura_country');

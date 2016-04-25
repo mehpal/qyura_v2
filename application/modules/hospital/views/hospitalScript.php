@@ -863,6 +863,7 @@ if (isset($mapData) && !empty($mapData)) {
             $('#error-ambulance_phn1').fadeIn().delay(3000).fadeOut('slow');
         }
     }
+    
     function validationHospital() {
         //$("form[name='hospitalForm']").submit();
         

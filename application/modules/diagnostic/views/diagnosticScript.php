@@ -1094,6 +1094,12 @@ if($current != 'detailDiagnostic'):?>
    
    function validationDiagnostic(){
        // $("form[name='diagnosticForm']").submit();
+       
+        var isAddressDisabled = $('#isAddressDisabled').val();
+        if(isAddressDisabled == 1){
+            $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", false);
+        }
+        
         var check= /^[a-zA-Z\s]+$/;
         var numcheck=/^[0-9]+$/;
         var RegExpression = /^[a-zA-Z\s]+$/;
@@ -1974,7 +1980,164 @@ function imageIsLoaded(e) {
     }
     
 
+
+// code by hemant
+
+ function getDiagnodetail(diagnoId) {
+
+        var diagnoId = diagnoId;
+        if (diagnoId != '' && diagnoId != 0) {
+            $("#diagnoName").css("display", "none");
+            $.ajax({
+                url: urls + 'index.php/diagnostic/getDiagnosticdetail/',
+                type: 'POST',
+                data: {'diagnoId': diagnoId},
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+
+                    if (obj.status == 1) {
+                        $("#geocompleteId").val(obj.diagnostic_address);
+                        $("#diagnostic_countryId").html(obj.country);
+                        $("#diagnostic_stateId").html(obj.state);
+                        $("#diagnostic_cityId").html(obj.city);
+                        $('#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId').selectpicker('refresh');
+
+                        $("#diagnostic_zip").val(obj.zipCode);
+                        $("#lat").val(obj.lat);
+                        $("#lng").val(obj.lng);
+                        $("#diagnostic_name").val(obj.diagnostic_name);
+                        
+                        $("#isAddressDisabled").val(1);
+                        
+                        //$("#addressDiv").css("display","none");
+                        $("#geocompleteId,#diagnostic_zip,#lat,#lng").attr("readonly", true);
+                        $('#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId').prop("disabled", true);
+                    } else {
+                        $("#diagnoName").css("display", "block");
+                        $("#geocompleteId").val('');
+                        $("#diagnostic_countryId").html();
+                        $("#diagnostic_cityId").html();
+                        $("#hospital_cityId").html();
+                        $("#diagnostic_zip").val('');
+                        $("#lat").val('');
+                        $("#lng").val('');
+                        $("#hospital_name").val('');
+                        
+                        $("#isAddressDisabled").val(0);
+                        
+                        $('#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId').selectpicker('refresh');
+                        $("#geocompleteId,#diagnostic_zip,#lat,#lng").removeAttr("readonly");
+                        $('#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId').prop("disabled", false);
+                    }
+                }
+            });
+        } else if (diagnoId == 0) {
+               $("#diagnoName").css("display", "block");
+                $("#geocompleteId").val('');
+                $("#diagnostic_countryId").html();
+                $("#diagnostic_cityId").html();
+                $("#hospital_cityId").html();
+                $("#diagnostic_zip").val('');
+                $("#lat").val('');
+                $("#lng").val('');
+                $("#hospital_name").val('');
+
+                $("#isAddressDisabled").val(0);
+
+                $('#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId').selectpicker('refresh');
+                $("#geocompleteId,#diagnostic_zip,#lat,#lng").removeAttr("readonly");
+                $('#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId').prop("disabled", false);
+    }
+  }  
+  
+  
+  $("#bloodbank").click(function () {
+    if($(this).is(':checked')){
+     bootbox.confirm("Do you outsource the blood?", function(result) {
+        if (result) {
+            $('#isBloodBankOutsource').val(1);
+            $("#bloodbankOption").fadeIn();
+        }else{
+            $("#bloodbankOption").fadeOut();
+            $('#isBloodBankOutsource').val(0);
+        }
+      });
+    }else{
+        $("#bloodbankOption").fadeOut();
+        $('#isBloodBankOutsource').val(0);
+    }
+});
+
+    $("#pharmacy").click(function () {
+        $("#pharmacyOption").fadeToggle();
+    });
+
+    $("#ambulance").click(function () {
+        $("#ambulanceOption").fadeToggle();
+    });
     
+    
+    
+   function removeServiceName(i) {
+        $("#hospitalServices_serviceName" + i).remove();
+        $("#btn-service" + i).remove();
+    }
+
+    function bbname() {
+        var bbankname = $('#bloodBank_name').val();
+        var check = /^[a-zA-Z\s]+$/;
+        if (!check.test(bbankname)) {
+            $('#bloodBank_name').addClass('bdr-error');
+            $('#error-bloodBank_name').fadeIn().delay(3000).fadeOut('slow');
+            $('#bloodBank_name').val('');
+        }
+    }
+    function bbphone() {
+        var bbphcheck = /^[0-9]+$/;
+        var bbankphone = $.trim($('#bloodBank_phn1').val());
+        if (!$.isNumeric(bbankphone)) {
+
+            $('#bloodBank_phn1').addClass('bdr-error');
+            $('#error-bloodBank_phone').fadeIn().delay(3000).fadeOut('slow');
+            // $('bloodBank_name').focus();
+        }
+    }
+    function phname() {
+        var pharname = $.trim($('#pharmacy_name').val());
+        var check = /^[a-zA-Z\s]+$/;
+        if (!check.test(pharname)) {
+            $('#pharmacy_name').addClass('bdr-error');
+            $('#error-pharmacy_name').fadeIn().delay(3000).fadeOut('slow');
+            $('#pharmacy_name').val('');
+        }
+    }
+    function phphone() {
+        var pharname = $.trim($('#pharmacy_phn1').val());
+        var phphonecheck = /^[0-9]+$/;
+        if (!$.isNumeric(pharname)) {
+
+            $('#pharmacy_phn1').addClass('bdr-error');
+            $('#error-pharmacy_phn1').fadeIn().delay(3000).fadeOut('slow');
+            // $('#hospital_zip').focus();
+        }
+    }
+    function amname() {
+        var amname = $.trim($('#ambulance_name').val());
+        var check = /^[a-zA-Z\s]+$/;
+        if (!check.test(amname)) {
+            $('#ambulance_name').addClass('bdr-error');
+            $('#error-ambulance_name').fadeIn().delay(3000).fadeOut('slow');
+            $('#pharmacy_name').val('');
+        }
+    }
+    function amphone() {
+        var amname = $.trim($('#ambulance_phn1').val());
+        var amphonecheck = /^[0-9]+$/;
+        if (!$.isNumeric(amname)) {
+            $('#ambulance_phn1').addClass('bdr-error');
+            $('#error-ambulance_phn1').fadeIn().delay(3000).fadeOut('slow');
+        }
+    }
 </script>
 
 </body>
