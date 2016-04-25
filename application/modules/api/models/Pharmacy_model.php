@@ -54,7 +54,8 @@ class Pharmacy_model extends CI_Model {
             $this->db->having(array('distance <' => USER_DISTANCE));
         }
         $response = $this->db->get()->result();
-
+        $curDay = getDay(date("l",strtotime(date("Y-m-d"))));
+        
         $finalResult = array();
         if (!empty($response)) {
             foreach ($response as $row) {
@@ -76,11 +77,11 @@ class Pharmacy_model extends CI_Model {
                 $finalTemp[] = isset($row->lat) ? $row->lat : "";
                 $finalTemp[] = isset($row->lng) ? $row->lng : "";
                 if($slots != NULL){
-                    $array_data[] = isset($slots->openingHours) ? $slots->openingHours : "";
-                    $array_data[] = isset($slots->closingHours) ? $slots->closingHours : "";
+                    $finalTemp[] = isset($slots->openingHours) ? $slots->openingHours : "";
+                    $finalTemp[] = isset($slots->closingHours) ? $slots->closingHours : "";
                 }else{
-                    $array_data[] = "";
-                    $array_data[] = "";
+                    $finalTemp[] = "";
+                    $finalTemp[] = "";
                 }
                 $finalTemp[] = isset($row->isEmergency) ? $row->isEmergency : "";
                 $finalResult[] = $finalTemp;
