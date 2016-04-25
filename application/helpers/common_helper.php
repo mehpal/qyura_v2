@@ -65,7 +65,6 @@ function getDay($day=NULL) {
         return $days[$day];
     else
         return $days;
-
 }
 
 if (!function_exists('createImage')) {
