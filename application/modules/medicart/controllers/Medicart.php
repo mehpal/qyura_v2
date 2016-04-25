@@ -162,7 +162,7 @@ class Medicart extends MY_Controller {
        
         $this->bf_form_validation->set_rules('medicartOffer_startDate', 'Start Date', 'required|trim');
         $this->bf_form_validation->set_rules('medicartOffer_endDate', 'End Date', 'required|trim');
-        $this->bf_form_validation->set_rules('medicartOffer_range', 'Range', 'required|trim');
+       // $this->bf_form_validation->set_rules('medicartOffer_range', 'Range', 'required|trim');
     
         $this->bf_form_validation->set_rules('miType', 'MI Type', 'required|trim');
         
@@ -173,7 +173,7 @@ class Medicart extends MY_Controller {
         if($medicartOffer_allowBooking == 1){
             
            $this->bf_form_validation->set_rules('medicartOffer_maximumBooking', 'Maximum Booking', 'required|trim|numeric');  
-$this->bf_form_validation->set_rules('medicartOffer_actualPrice', 'Actual Price', 'required|trim|numeric');
+//$this->bf_form_validation->set_rules('medicartOffer_actualPrice', 'Actual Price', 'required|trim|numeric');
 
         }
         
@@ -410,10 +410,10 @@ $this->bf_form_validation->set_rules('medicartOffer_actualPrice', 'Actual Price'
        
         $this->bf_form_validation->set_rules('medicartOffer_startDate', 'Start Date', 'required|trim');
         $this->bf_form_validation->set_rules('medicartOffer_endDate', 'End Date', 'required|trim');
-        $this->bf_form_validation->set_rules('medicartOffer_range', 'Range', 'required|trim');
+        //$this->bf_form_validation->set_rules('medicartOffer_range', 'Range', 'required|trim');
     
         $this->bf_form_validation->set_rules('miType', 'MI Type', 'required|trim');
-        $this->bf_form_validation->set_rules('medicartOffer_actualPrice', 'Actual Price', 'required|trim|numeric');
+      //  $this->bf_form_validation->set_rules('medicartOffer_actualPrice', 'Actual Price', 'required|trim|numeric');
         
         $medicartOffer_allowBooking = $this->input->post('medicartOffer_allowBooking');
         $medicartOffer_discount = $this->input->post('medicartOffer_discount');

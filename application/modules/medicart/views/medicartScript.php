@@ -344,10 +344,10 @@ var urls = "<?php echo base_url() ?>";
                 medicartOffer_ageDiscount: {
                     required: true
                 },
-                medicartOffer_actualPrice: {
-                    required: true,
-                    number: true
-                },
+//                medicartOffer_actualPrice: {
+//                    required: true,
+//                    number: true
+//                },
                 medicartOffer_discountPrice: {
                     required: true,
                     number: true,
@@ -374,10 +374,10 @@ var urls = "<?php echo base_url() ?>";
                     required: "Please enter discount",
                     number: "Please enter only number formate",
                 },
-                medicartOffer_actualPrice: {
-                    required: "Please enter actual prize",
-                    number: "Please enter only number formate",
-                },
+//                medicartOffer_actualPrice: {
+//                    required: "Please enter actual prize",
+//                    number: "Please enter only number formate",
+//                },
                 medicartOffer_ageDiscount: {
                     required: "Please select age",
                 },
