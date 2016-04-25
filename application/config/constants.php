@@ -84,8 +84,8 @@ defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
-defined('DATA_LIMIT')      OR define('DATA_LIMIT', 5); // highest automatically-assigned error code
-defined('USER_DISTANCE')      OR define('USER_DISTANCE', 5); // highest automatically-assigned error code
+defined('DATA_LIMIT')           OR define('DATA_LIMIT', 70); // highest automatically-assigned error code
+defined('USER_DISTANCE')      OR define('USER_DISTANCE', 70); // highest automatically-assigned error code
 
 defined('ROLE_HOSPITAL')      OR define('ROLE_HOSPITAL', 1); // highest automatically-assigned error code
 defined('ROLE_BLOODBANK')      OR define('ROLE_BLOODBANK', 2); // highest automatically-assigned error code

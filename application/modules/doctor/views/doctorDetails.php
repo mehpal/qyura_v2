@@ -1,3 +1,33 @@
+<style>
+  .m-t-4{margin-top:4px;}
+  .blue-ttl{width:120px; height:85px; border:1px solid #ddd; 
+	  padding:0px 2px 10px 0px; margin: 15px 10px; float: left }
+  .blue-ttl aside h5
+  {
+	  text-align: right;
+	  display:none;
+	  margin-top: 3px;
+  }
+  .blue-ttl aside h5 
+  {
+	  display: none;
+  }
+   .blue-ttl:hover aside h5 
+  {
+	  display:block;
+  }
+   .blue-ttl + .tooltip > .tooltip-inner {
+		background-color: #f8f8f8;
+		border: 1px solid #3FCEB2;
+		padding: 0px;
+		color:#333;
+	   text-align: left;
+	   padding: 0px 10px 10px;
+	}
+  .orange-ttl + .tooltip.left .tooltip-arrow {
+		border-top-color:  #3FCEB2;
+	}
+</style>
 <!-- Start right Content here -->
 <div class="content-page">
     <!-- Start content -->
@@ -30,15 +60,9 @@
                         <aside class="col-md-5 col-sm-5 col-xs-12">
                             <h3>Dr. <?php if(isset($doctorDetail[0]->doctoesName) && $doctorDetail[0]->doctoesName != NULL){ echo $doctorDetail[0]->doctoesName; } ?></h3>
                             <p><?php if(isset($doctorDetail[0]->degreeSmallName) && $doctorDetail[0]->degreeSmallName != NULL){ echo $doctorAcademic[0]->degreeSmallName; }?></p>
-                            <p><?php if(isset($doctorDetail[0]->serviceName) && $doctorDetail[0]->serviceName != NULL){ echo $doctorDetail[0]->serviceName; }?></p>
+                            <p><?php if(isset($doctorDetail[0]->degreeFullName) && $doctorDetail[0]->degreeFullName != NULL){ echo $doctorAcademic[0]->degreeFullName; }?></p>
                             <p><?php if(isset($years) && $years != NULL){ echo $years; }?> Years Experience</p>
                             <p><?php if(isset($doctorDetail[0]->speciality) && $doctorDetail[0]->speciality != NULL){ echo $doctorDetail[0]->speciality; }?></p>
-                            <p><?php if(isset($doctorDetail[0]->specname) && $doctorDetail[0]->specname != NULL){ echo $doctorDetail[0]->specname; }?></p>
-                        </aside>
-                         <aside class="col-md-5 col-sm-5 col-xs-12 text-right t-xs-left">
-                            <h6><a href="">200 Ratings</a> &nbsp; <span class="label label-success waves-effect waves-light m-b-5 center-block">5.0</span></h6>
-                            <h6><a href="#">12 Reviews</a> &nbsp; <i class="fa fa-commenting clg"></i></h6>
-                            <h6>Doctor on Call &nbsp; <i class="fa fa-phone clg"></i></h6>
                         </aside>
                         <form class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" method="post" action="#" novalidate="novalidate" name="doctorForm" enctype="multipart/form-data">
                             <aside class="col-md-5 col-sm-5 col-xs-12 text-right t-xs-left">
@@ -763,7 +787,7 @@
                         <!-- Timeslot Starts Section -->
                       
                         <!-- Timeslot Starts Section -->
-                        <section class="tab-pane fade in  <?php if($active_tag == 4){ echo "active"; }?>" id="timeslot">
+                        <section class="tab-pane fade in <?php if($active_tag == 4){ echo "active"; }?>" id="timeslot">
                             <div class="bg-white mi-form-section">
                                 <!-- Top Detailed Section -->
                                 <!-- Time Scedule Start here-->
@@ -798,10 +822,14 @@
                                                     </div>
                                                 </article>
                                             </figure>
-    <!--                                            <div class="nicescroll" style="overflow-x: scroll;" tabindex="5004">
+											  
+                                                <div class="nicescroll" style="overflow: scroll; max-height:400px;" tabindex="5004">
                                                 <div class="clearfix">
+<!--                                                    <div class="clearfix m-t-20 text-center" style="width:1600px">-->
                                                     <div class="clearfix m-t-20 text-center" style="width:1600px">
-                                                        <section class="col-md-2">
+
+                                                    <div class="clearfix m-t-20 text-center">
+                                                        <section class="col-md-2" style="max-width:150px;">
                                                             <aside class="checkbox checkbox-success text-left">
                                                                 <input type="checkbox" id="checkbox3">
                                                                 <label for="checkbox3">
@@ -812,83 +840,162 @@
                                                         <div class="col-md-10">
 
                                                             <article class="clearfix">
+            <div style="" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
 
-                                                                <aside class="col-md-3 schdule-space boxwidth">
-                                                                    <div class="bootstrap-timepicker input-group">
-                                                                        <input type="text" value="10:00 AM" class="form-control timepicker" id="timepicker4">
-                                                                        <div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a data-action="incrementHour" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="incrementMinute" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td class="meridian-column"><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td></tr><tr><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-hour" name="hour"></td> <td class="separator">:</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-minute" name="minute"></td> <td class="separator">&nbsp;</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-meridian" name="meridian"></td></tr><tr><td><a data-action="decrementHour" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator"></td><td><a data-action="decrementMinute" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td></tr></tbody></table></div></div>
-                                                                </aside>
+                    <aside class="clearfix">
+                    <h5><a><i class="fa fa-pencil"></i></a></h5>
+                    <h4>10:00 AM</h4>
+                    <h4>11:30 AM</h4>
+                    </aside>
+            </div>
+            <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
 
-                                                                <aside class="col-md-3 schdule-space boxwidth">
-                                                                    <div class="bootstrap-timepicker input-group">
-                                                                        <input type="text" value="10:00 AM" class="form-control timepicker" id="timepicker4">
-                                                                        <div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a data-action="incrementHour" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="incrementMinute" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td class="meridian-column"><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td></tr><tr><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-hour" name="hour"></td> <td class="separator">:</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-minute" name="minute"></td> <td class="separator">&nbsp;</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-meridian" name="meridian"></td></tr><tr><td><a data-action="decrementHour" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator"></td><td><a data-action="decrementMinute" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td></tr></tbody></table></div></div>
-                                                                </aside>
-                                                                <aside class="col-md-3 schdule-space boxwidth">
-                                                                    <div class="bootstrap-timepicker input-group">
-                                                                        <input type="text" value="10:00 AM" class="form-control timepicker" id="timepicker4">
-                                                                        <div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a data-action="incrementHour" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="incrementMinute" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td class="meridian-column"><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td></tr><tr><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-hour" name="hour"></td> <td class="separator">:</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-minute" name="minute"></td> <td class="separator">&nbsp;</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-meridian" name="meridian"></td></tr><tr><td><a data-action="decrementHour" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator"></td><td><a data-action="decrementMinute" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td></tr></tbody></table></div></div>
-                                                                </aside>
-                                                                <aside class="col-md-3 schdule-space boxwidth   ">
-                                                                    <div class="bootstrap-timepicker input-group">
-                                                                        <input type="text" value="10:00 AM" class="form-control timepicker" id="timepicker4">
-                                                                        <div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a data-action="incrementHour" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="incrementMinute" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td class="meridian-column"><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td></tr><tr><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-hour" name="hour"></td> <td class="separator">:</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-minute" name="minute"></td> <td class="separator">&nbsp;</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-meridian" name="meridian"></td></tr><tr><td><a data-action="decrementHour" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator"></td><td><a data-action="decrementMinute" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td></tr></tbody></table></div></div>
-                                                                </aside>
-                                                                <aside class="col-md-3 schdule-space">
-                                                                    <div class="bootstrap-timepicker input-group">
-                                                                        <input type="text" value="10:00 AM" class="form-control timepicker" id="timepicker4">
-                                                                        <div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a data-action="incrementHour" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="incrementMinute" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td class="meridian-column"><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td></tr><tr><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-hour" name="hour"></td> <td class="separator">:</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-minute" name="minute"></td> <td class="separator">&nbsp;</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-meridian" name="meridian"></td></tr><tr><td><a data-action="decrementHour" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator"></td><td><a data-action="decrementMinute" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td></tr></tbody></table></div></div>
-                                                                </aside>
+                    <aside class="clearfix">
+                    <h5><a><i class="fa fa-pencil"></i></a></h5>
+                    <h4>10:00 AM</h4>
+                    <h4>11:30 AM</h4>
+                    </aside>
+            </div>
+            <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
+
+                    <aside class="clearfix">
+                    <h5><a><i class="fa fa-pencil"></i></a></h5>
+                    <h4>10:00 AM</h4>
+                    <h4>11:30 AM</h4>
+                    </aside>
+            </div>
+            <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
+
+                    <aside class="clearfix">
+                    <h5><a><i class="fa fa-pencil"></i></a></h5>
+                    <h4>10:00 AM</h4>
+                    <h4>11:30 AM</h4>
+                    </aside>
+            </div>
+            <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
+
+                    <aside class="clearfix">
+                    <h5><a><i class="fa fa-pencil"></i></a></h5>
+                    <h4>10:00 AM</h4>
+                    <h4>11:30 AM</h4>
+                    </aside>
+            </div>
                                                             </article>
 
                                                         </div>
-                                                    </div>
-
-                                                    <div class="clearfix m-t-20 text-center" s>
-                                                        <section class="col-md-2">
+                                                    <div class="clearfix m-t-20 text-center">
+                                                        <section class="col-md-2" style="max-width:150px;">
                                                             <aside class="checkbox checkbox-success text-left">
                                                                 <input type="checkbox" id="checkbox3">
                                                                 <label for="checkbox3">
-                                                                    Monday
+                                                                    Tuesday
                                                                 </label>
                                                             </aside>
                                                         </section>
                                                         <div class="col-md-10">
 
                                                             <article class="clearfix">
+            <div style="" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
 
-                                                                <aside class="col-md-3 schdule-space">
-                                                                    <div class="bootstrap-timepicker input-group">
-                                                                        <input type="text" value="10:00 AM" class="form-control timepicker" id="timepicker4">
-                                                                        <div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a data-action="incrementHour" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="incrementMinute" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td class="meridian-column"><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td></tr><tr><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-hour" name="hour"></td> <td class="separator">:</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-minute" name="minute"></td> <td class="separator">&nbsp;</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-meridian" name="meridian"></td></tr><tr><td><a data-action="decrementHour" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator"></td><td><a data-action="decrementMinute" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td></tr></tbody></table></div></div>
-                                                                </aside>
+                    <aside class="clearfix">
+                    <h5><a><i class="fa fa-pencil"></i></a></h5>
+                    <h4>10:00 AM</h4>
+                    <h4>11:30 AM</h4>
+                    </aside>
+            </div>
+            <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
 
-                                                                <aside class="col-md-3 schdule-space">
-                                                                    <div class="bootstrap-timepicker input-group">
-                                                                        <input type="text" value="10:00 AM" class="form-control timepicker" id="timepicker4">
-                                                                        <div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a data-action="incrementHour" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="incrementMinute" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td class="meridian-column"><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td></tr><tr><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-hour" name="hour"></td> <td class="separator">:</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-minute" name="minute"></td> <td class="separator">&nbsp;</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-meridian" name="meridian"></td></tr><tr><td><a data-action="decrementHour" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator"></td><td><a data-action="decrementMinute" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td></tr></tbody></table></div></div>
-                                                                </aside>
-                                                                <aside class="col-md-3 schdule-space">
-                                                                    <div class="bootstrap-timepicker input-group">
-                                                                        <input type="text" value="10:00 AM" class="form-control timepicker" id="timepicker4">
-                                                                        <div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a data-action="incrementHour" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="incrementMinute" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td class="meridian-column"><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td></tr><tr><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-hour" name="hour"></td> <td class="separator">:</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-minute" name="minute"></td> <td class="separator">&nbsp;</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-meridian" name="meridian"></td></tr><tr><td><a data-action="decrementHour" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator"></td><td><a data-action="decrementMinute" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td></tr></tbody></table></div></div>
-                                                                </aside>
-                                                                <aside class="col-md-3 schdule-space">
-                                                                    <div class="bootstrap-timepicker input-group">
-                                                                        <input type="text" value="10:00 AM" class="form-control timepicker" id="timepicker4">
-                                                                        <div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a data-action="incrementHour" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="incrementMinute" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td class="meridian-column"><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td></tr><tr><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-hour" name="hour"></td> <td class="separator">:</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-minute" name="minute"></td> <td class="separator">&nbsp;</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-meridian" name="meridian"></td></tr><tr><td><a data-action="decrementHour" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator"></td><td><a data-action="decrementMinute" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td></tr></tbody></table></div></div>
-                                                                </aside>
-                                                                <aside class="col-md-3 schdule-space">
-                                                                    <div class="bootstrap-timepicker input-group">
-                                                                        <input type="text" value="10:00 AM" class="form-control timepicker" id="timepicker4">
-                                                                        <div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a data-action="incrementHour" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="incrementMinute" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td class="meridian-column"><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a></td></tr><tr><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-hour" name="hour"></td> <td class="separator">:</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-minute" name="minute"></td> <td class="separator">&nbsp;</td><td><input type="text" maxlength="2" class="form-control bootstrap-timepicker-meridian" name="meridian"></td></tr><tr><td><a data-action="decrementHour" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator"></td><td><a data-action="decrementMinute" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a data-action="toggleMeridian" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a></td></tr></tbody></table></div></div>
-                                                                </aside>
+                    <aside class="clearfix">
+                    <h5><a><i class="fa fa-pencil"></i></a></h5>
+                    <h4>10:00 AM</h4>
+                    <h4>11:30 AM</h4>
+                    </aside>
+            </div>
+            <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
+
+                    <aside class="clearfix">
+                    <h5><a><i class="fa fa-pencil"></i></a></h5>
+                    <h4>10:00 AM</h4>
+                    <h4>11:30 AM</h4>
+                    </aside>
+            </div>
+            <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
+
+                    <aside class="clearfix">
+                    <h5><a><i class="fa fa-pencil"></i></a></h5>
+                    <h4>10:00 AM</h4>
+                    <h4>11:30 AM</h4>
+                    </aside>
+            </div>
+            <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
+
+                    <aside class="clearfix">
+                    <h5><a><i class="fa fa-pencil"></i></a></h5>
+                    <h4>10:00 AM</h4>
+                    <h4>11:30 AM</h4>
+                    </aside>
+            </div>
+                                                            </article>
+
+                                                        </div>
+																    <div class="clearfix m-t-20 text-center">
+                                                        <section class="col-md-2" style="max-width:150px;">
+                                                            <aside class="checkbox checkbox-success text-left">
+                                                                <input type="checkbox" id="checkbox3">
+                                                                <label for="checkbox3">
+                                                                    Wednesday
+                                                                </label>
+                                                            </aside>
+                                                        </section>
+                                                        <div class="col-md-10">
+
+                                                            <article class="clearfix">
+																<div style="" data-toggle="tooltip" data-placement="top" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
+																	
+																	<aside class="clearfix">
+																	<h5><a><i class="fa fa-pencil"></i></a></h5>
+																	<h4>10:00 AM</h4>
+																	<h4>11:30 AM</h4>
+																	</aside>
+																</div>
+																<div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
+																	
+																	<aside class="clearfix">
+																	<h5><a><i class="fa fa-pencil"></i></a></h5>
+																	<h4>10:00 AM</h4>
+																	<h4>11:30 AM</h4>
+																	</aside>
+																</div>
+																<div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
+																	
+																	<aside class="clearfix">
+																	<h5><a><i class="fa fa-pencil"></i></a></h5>
+																	<h4>10:00 AM</h4>
+																	<h4>11:30 AM</h4>
+																	</aside>
+																</div>
+																<div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
+																	
+																	<aside class="clearfix">
+																	<h5><a><i class="fa fa-pencil"></i></a></h5>
+																	<h4>10:00 AM</h4>
+																	<h4>11:30 AM</h4>
+																	</aside>
+																</div>
+																<div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
+																	
+																	<aside class="clearfix">
+																	<h5><a><i class="fa fa-pencil"></i></a></h5>
+																	<h4>10:00 AM</h4>
+																	<h4>11:30 AM</h4>
+																	</aside>
+																</div>
                                                             </article>
 
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>-->
+                                            </div>
                                         </aside>
                                     </section>
                                     <!-- Left Section End -->
@@ -907,20 +1014,20 @@
                             <label class="control-label" for="docTimeTable_stayAt">Seating Place Type:</label>
                             <div class="">
                                 <aside class="radio radio-info radio-inline">
-                                    <input type="radio"   required="" name="docTimeTable_stayAt" value="1" class="docTimeTable_stayAt" onclick="placeDetail(this.value)" >
+                                    <input type="radio"  required="" name="docTimeTable_stayAt" value="1" class="docTimeTable_stayAt" onclick="placeDetail(this.value)" >
                                     <label for="inlineRadio1"> MI Place</label>
                                 </aside>
                                 <aside class="radio radio-info radio-inline">
-                                    <input type="radio"  required="" name="docTimeTable_stayAt" value="0" class="docTimeTable_stayAt" onclick="placeDetail(this.value)" >
+                                    <input type="radio" required="" name="docTimeTable_stayAt" value="0" class="docTimeTable_stayAt" onclick="placeDetail(this.value)" >
                                     <label for="inlineRadio2"> Personal Chamber</label>
                                 </aside>
                             </div>
                         </article>
-                        <article class="clearfix m-t-10" id="div_docTimeTable_MItype" style="display: block">
+                        <article class="clearfix m-t-10" id="div_docTimeTable_MItype">
                             <label class="control-label" for="docTimeTable_MItype">MI Type:</label>
                             <div class="">
                                 <select class="m-t-5 selectpicker" data-width="100%" name="docTimeTable_MItype" id="docTimeTable_MItype">
-                                    <option selected="" value=""> -- Select MI Type -- </option>
+                                     <option value=""> -- Select MI Type -- </option>
                                     <option value="1">Hospital</option>
                                     <option value="2">Diagnostic</option>
                                 </select>
@@ -929,25 +1036,23 @@
                         <article class="clearfix m-t-10" id="div_docTimeTable_HprofileId">
                             <label class="control-label" for="docTimeTable_MIprofileId">Hospital Name:</label>
                             <div class="">
-                                <?php $publishHospital[] = (object) array('hospital_id' =>0, 'hospital_name' => 'Other') ?>
-                                <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId_h" id="docTimeTable_MIprofileId">
+                                <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId" id="docTimeTable_MIprofileId">
                                     <option value="">-- Select Hospital --</option>
-                                     <?php  if (!empty($publishHospital)) {
-                                            
-                                            foreach ($publishHospital as $key => $val) {
-                                                ?>
-                                                <option <?php echo set_select('hospital_id', $val->hospital_id); ?> value="<?php echo $val->hospital_id; ?>"> <?php echo $val->hospital_name; ?></option>
-                                            <?php }
-                                        }
-                                        ?>
-                                    
+                                    <?php if (isset($allHospital) && $allHospital != NULL) {
+                                        foreach ($allHospital as $aH) {
+                                            ?>
+                                            <option value="<?php echo $aH->hospital_id ?>"><?php echo $aH->hospital_name ?></option>
+                                        <?php }
+                                    }
+                                    ?>
+                                    <option value="0">Other</option>
                                 </select>
                             </div>
                         </article>
                         <article class="clearfix m-t-10" id="div_docTimeTable_DprofileId">
                             <label class="control-label" for="docTimeTable_MIprofileId">Diagnostic Name:</label>
                             <div class="">
-                                <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId_d" id="docTimeTable_MIprofileId">
+                                <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId" id="docTimeTable_MIprofileId">
                                     <option value="">-- Select Diagnostic --</option>
     <?php if (isset($alldignostic) && $alldignostic != NULL) {
     foreach ($alldignostic as $aD) {
@@ -967,7 +1072,7 @@
                                 <label class="error"><?php echo form_error("Mi_name"); ?></label>
                             </div>
                         </article>
-                        <article class="clearfix m-t-10 " id="div_psChamber_name" style="display: none">
+                        <article class="clearfix m-t-10 " id="div_psChamber_name">
                             <label class="control-label" for="psChamber_name">Personal Chamber Name:</label>
                             <div class="">
                                 <input type="text" name="psChamber_name" id="psChamber_name" class="form-control"  value="<?php echo set_value('psChamber_name'); ?>">
@@ -1015,6 +1120,19 @@
                                         <label class="error" > <?php echo form_error("doctor_addr"); ?></label>
                                     </div>
                                 </aside>
+                                <aside class="row">
+                                    <div class="col-sm-3">
+                                        <input name="lat" class="form-control" required="" type="text" value="<?php if(isset($doctorDetail[0]->doctors_lat) && $doctorDetail[0]->doctors_lat != NULL){ echo $doctorDetail[0]->doctors_lat; } ?>"  id="lat" placeholder="Latitude" onchange="latChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
+                                        <label class="error" > <?php echo form_error("lat"); ?></label>
+                                        <label class="error" style="display:none;" id="error-lat">Please enter the correct format for latitude</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input name="lng" required="" type="text" value="<?php if(isset($doctorDetail[0]->doctors_long) && $doctorDetail[0]->doctors_long != NULL){ echo $doctorDetail[0]->doctors_long; } ?>"  id="lng" class="form-control" placeholder="Longitude" onChange="lngChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
+                                        <label class="error" > <?php echo form_error("lng"); ?></label>
+                                        <label class="error" style="display:none;" id="error-lng"> Please enter the correct format for longitude</label>
+                                    </div>
+                                </aside>
+                                
                             </div>
                         </article>
                         <article class="clearfix">

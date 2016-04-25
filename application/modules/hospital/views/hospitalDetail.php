@@ -1231,7 +1231,7 @@
                                     </article>
                                     
                                     <!-- Form Section End -->
-                                    <article class="clearfix m-top-40 p-b-20" id="doctorList" style="<?php if(isset($showDiv) && $showDiv == 'adddoctor'){echo "display:none";}?>" >
+                                    <article class="clearfix m-top-40 p-b-20" id="doctorList" style="<?php if(isset($showDiv) && $showDiv == 'adddoctor' OR $showDiv == 'editDoctor'){echo "display:none";}?>" >
                                         <aside class="table-responsive">
                                            <table class="table all-doctor" id="hospital_doctors">
                                               <thead>
@@ -1248,7 +1248,7 @@
                                            </table>
                                         </aside>
                                     </article>
-                                    
+                                 
                                     <div id="doctorForm" style="<?php if(isset($showDiv) && $showDiv == 'adddoctor'){echo "display:block";}else{ echo "display:none"; } ?>" >
                                         <?php echo $this->load->view('addDoctor'); ?>
                                             <?php echo $this->load->view('doctorScript.php'); ?>
@@ -1353,6 +1353,7 @@
                                                         </select>
                                                     </div>
                                                 </article>
+                                               
                                                 <article class="clearfix m-b-10">
                                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Change Password:</label>
 

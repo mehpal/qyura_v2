@@ -36,7 +36,38 @@
                                                 </div>
                                             </article>
                                           
-                                             <article class="form-group m-lr-0 ">
+                                            
+                                                      <article class="clearfix m-t-10">
+                                <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
+                                
+                                <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
+                                    <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
+
+                                    <div class="pre col-md-4 col-sm-4 ">
+                                    <div id="preImgLogo" class="avatar-preview preview-md">
+                                          <?php if(!empty($users[0]->patientDetails_patientImg)){
+                                 ?>
+                              <img src="<?php echo base_url()?>assets/patientImages/thumb/thumb_100/<?php echo $users[0]->patientDetails_patientImg; ?>" alt="" class="image-preview-show" />
+                              <?php } else { ?>
+                              <img src="<?php echo base_url()?>assets/default-images/Blood-logo.png" alt="" class="image-preview-show" />
+                              <?php } ?>
+
+                                        <input type="hidden" name="userProfile" value="<?php echo $users[0]->patientDetails_patientImg ?>" />
+                                    </div>
+                                    </div>
+
+                                    <label class="error" > <?php echo form_error("sa_img"); ?></label>
+                                    <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
+                                    
+                                    
+                                    
+                                </div>
+                                
+                            </article>
+                                            
+                                            
+                                            
+<!--                                             <article class="form-group m-lr-0 ">
                                                 <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Image :</label>
                                                 <div class="col-md-8 col-sm-8 text-right">
                                                         <label for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
@@ -45,7 +76,7 @@
                                             <label class="error" > <?php echo form_error("sa_img"); ?></label>
                                             <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
                                                 </div>
-                                            </article>
+                                            </article>-->
  
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Date Of Birth :</label>

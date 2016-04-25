@@ -181,6 +181,7 @@ class Common_model extends MY_Model {
         $res = $this->db->get()->result();
         return $res;
     }
+    
     public function mypermission($roleid = NULL) {
 
         if ($roleid == 1 || $roleid == 3) {
@@ -201,6 +202,17 @@ class Common_model extends MY_Model {
         return TRUE;
     }
     
+    public function getMITimeSlot($MIId = NULL, $Day = NULL) {
+
+        if($MIId != NULL){
+            $this->db->select("openingHours, closingHours")
+                ->from("qyura_miTimeSlot")
+                ->where(array("dayNumber"=>$Day,"mi_user_id"=>$MIId, "deleted"=>0));
+         $res =  $this->db->get()->row();
+        return $res;
+        }else
+            return FALSE;
+    }
     
 
     
