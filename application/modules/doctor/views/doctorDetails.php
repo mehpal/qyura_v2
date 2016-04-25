@@ -1120,6 +1120,19 @@
                                         <label class="error" > <?php echo form_error("doctor_addr"); ?></label>
                                     </div>
                                 </aside>
+                                <aside class="row">
+                                    <div class="col-sm-3">
+                                        <input name="lat" class="form-control" required="" type="text" value="<?php if(isset($doctorDetail[0]->doctors_lat) && $doctorDetail[0]->doctors_lat != NULL){ echo $doctorDetail[0]->doctors_lat; } ?>"  id="lat" placeholder="Latitude" onchange="latChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
+                                        <label class="error" > <?php echo form_error("lat"); ?></label>
+                                        <label class="error" style="display:none;" id="error-lat">Please enter the correct format for latitude</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input name="lng" required="" type="text" value="<?php if(isset($doctorDetail[0]->doctors_long) && $doctorDetail[0]->doctors_long != NULL){ echo $doctorDetail[0]->doctors_long; } ?>"  id="lng" class="form-control" placeholder="Longitude" onChange="lngChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
+                                        <label class="error" > <?php echo form_error("lng"); ?></label>
+                                        <label class="error" style="display:none;" id="error-lng"> Please enter the correct format for longitude</label>
+                                    </div>
+                                </aside>
+                                
                             </div>
                         </article>
                         <article class="clearfix">
