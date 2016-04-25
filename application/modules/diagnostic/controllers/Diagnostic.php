@@ -7,7 +7,7 @@ class Diagnostic extends MY_Controller {
     public function __construct() {
         parent:: __construct();
         // $this->load->library('form_validation');
-        $this->load->model('diagnostic_model');
+        $this->load->model(array('diagnostic_model'));
     }
 
     function index() {
@@ -65,6 +65,7 @@ class Diagnostic extends MY_Controller {
 
     function addDiagnostic() {
         $data = array();
+        $data['publishDiagno'] = $this->diagnostic_model->fetchPublishDiagnostic();
         $data['allStates'] = $this->diagnostic_model->fetchStates();
         $data['title'] = 'Add Diagnostic';
         $this->load->super_admin_template('addDiagcenter', $data, 'diagnosticScript');
@@ -153,14 +154,14 @@ class Diagnostic extends MY_Controller {
      */
     function SaveDiagnostic() {
 
-        $this->load->library('form_validation');
+      //  $this->load->library('form_validation');
         $this->bf_form_validation->set_rules('diagnostic_name', 'Diagnostic Name', 'required|trim');
         $this->bf_form_validation->set_rules('diagnostic_countryId', 'Diagnostic Country', 'required|trim');
         $this->bf_form_validation->set_rules('diagnostic_stateId', 'Diagnostic StateId', 'required|trim');
         $this->bf_form_validation->set_rules('diagnostic_cityId', 'Diagnostic City', 'required|trim');
 
         $this->bf_form_validation->set_rules('diagnostic_address', 'Diagnostic Address', 'required|trim');
-        //$this->bf_form_validation->set_rules('diagnostic_phn', 'Diagnostic Phone', 'required|trim');
+        $this->bf_form_validation->set_rules('diagnostic_phn', 'Diagnostic Phone', 'required|trim');
 
         $this->bf_form_validation->set_rules('diagnostic_cntPrsn', 'Contact Person', 'required|trim');
         $this->bf_form_validation->set_rules('diagnostic_mbrTyp', 'Membership Type', 'required|trim');
@@ -176,21 +177,40 @@ class Diagnostic extends MY_Controller {
         
         $this->bf_form_validation->set_rules('lat', 'Latitude', 'required|callback_isValidLatitude[lat]');
         $this->bf_form_validation->set_rules('lng', 'Longitude', 'required|callback_isValidLongitude[lng]');
+        
+        
+        $this->bf_form_validation->set_rules('bloodbank_chk', 'blood bank checkbox', 'trim');
+        $this->bf_form_validation->set_rules('bloodBank_name', 'blood bank name', 'trim');
+        $this->bf_form_validation->set_rules('bloodBank_phn', 'blood bank phon no.', 'trim');
 
-        $this->bf_form_validation->set_rules('isManual', 'Manual', 'trim|required');
+        $this->bf_form_validation->set_rules('pharmacy_chk', 'pharmacy checkbox', 'trim');
+
+        $this->bf_form_validation->set_rules('ambulance_chk', 'ambulance checkbox', 'trim');
+        $this->bf_form_validation->set_rules('ambulance_name', 'ambulance name', 'trim');
+        $this->bf_form_validation->set_rules('docOnBoard', 'doctor on board', 'trim');
+        $this->bf_form_validation->set_rules('ambulance_phn', 'ambulance phon no.', 'trim');
+
+        $this->bf_form_validation->set_rules('availibility_24_7', '27*7 availability', 'trim');
+        $this->bf_form_validation->set_rules('isEmergency', 'Is Emergency', 'trim');
+        $this->bf_form_validation->set_rules('docatId', 'Docat id', 'trim');
 
         if (empty($_FILES['avatar_file']['name'])) {
             $this->bf_form_validation->set_rules('avatar_file', 'File', 'required');
         }
+        
         if ($this->bf_form_validation->run() === FALSE) {
             $data = array();
+            //exit;
             $data['allStates'] = $this->diagnostic_model->fetchStates();
             $stateId = $this->input->post('diagnostic_stateId');
             $data['citys'] = $this->diagnostic_model->fetchCity($stateId);
             $data['title'] = "Add Diagnostic";
+            $data['bloodBankstatus'] = $this->input->post('bloodbank_chk');
+            $data['amobulancestatus'] = $this->input->post('ambulance_chk');
+            $data['publishDiagno'] = $this->diagnostic_model->fetchPublishDiagnostic();
             $this->load->super_admin_template('addDiagcenter', $data, 'diagnosticScript');
         } else {
-
+           // echo 'hemant'; exit;
             $imagesname = '';
             if ($_FILES['avatar_file']['name']) {
                 $path = realpath(FCPATH . 'assets/diagnosticsImage/');
@@ -211,25 +231,13 @@ class Diagnostic extends MY_Controller {
             //echo "i am here";
 
             $diagnostic_phn = $this->input->post('diagnostic_phn');
-            $pre_number = $this->input->post('pre_number');
-            $countPnone = $this->input->post('countPnone');
-            $midNumber = $this->input->post('midNumber');
-            $finalNumber = '';
-            for ($i = 0; $i < $countPnone; $i++) {
-                if ($diagnostic_phn[$i] != '' && $pre_number[$i] != '') {
-                    
-                    if($i == ($countPnone)-1)
-                          $finalNumber .= $pre_number[$i].' '. $midNumber[$i].' '.$diagnostic_phn[$i];
-                        else        
-                       $finalNumber .= $pre_number[$i] . ' ' . $midNumber[$i]. ' ' . $diagnostic_phn[$i] . '|'; 
-                }
-            }
+         
             
 
             $diagnostic_name = $this->input->post('diagnostic_name');
 
             $diagnostic_address = $this->input->post('diagnostic_address');
-            $diagnostic_phn = $this->input->post('diagnostic_phn');
+            $diagnostic_phn = ltrim($this->input->post('diagnostic_phn'));
             $diagnostic_cntPrsn = $this->input->post('diagnostic_cntPrsn');
             // $diagnostic_dsgn = $this->input->post('diagnostic_dsgn');
             $diagnostic_mmbrTyp = $this->input->post('diagnostic_mbrTyp');
@@ -278,24 +286,151 @@ class Diagnostic extends MY_Controller {
                     'diagnostic_address' => $diagnostic_address,
                     'isManual' => $isManual,
                     'diagnostic_cntPrsn' => $diagnostic_cntPrsn,
-                    'diagnostic_phn' =>  rtrim($finalNumber,'|'),
+                    'diagnostic_phn' =>  $diagnostic_phn,
                     'diagnostic_usersId' => $diagnostic_usersId,
                     'diagnostic_mbrTyp' => $diagnostic_mmbrTyp,
                     'diagnostic_countryId' => $diagnostic_countryId,
                     'diagnostic_stateId' => $diagnostic_stateId,
                     'diagnostic_cityId' => $diagnostic_cityId,
-                    'diagnostic_mblNo' => $this->input->post('diagnostic_mobileNo'),
+                   // 'diagnostic_mblNo' => $this->input->post('diagnostic_mobileNo'),
                     'diagnostic_zip' => $diagnostic_zip,
                     'diagnostic_img' => $imagesname,
                     'creationTime' => strtotime(date("Y-m-d H:i:s")),
                     'diagnostic_lat' => $this->input->post('lat'),
                     'diagnostic_long' => $this->input->post('lng'),
                     'diagnostic_aboutUs' => $this->input->post('aboutUs'),
-                    'inherit_status' => 1
+                    'inherit_status' => 1,
+                    'diagnostic_availibility_24_7' => $this->input->post('availibility_24_7'),
+                    'diagnostic_isEmergency' => $this->input->post('isEmergency'),
+                    'diagnostic_hasBloodbank' => $this->input->post('bloodbank_chk'),
+                    'diagnostic_isBloodBankOutsource' => $this->input->post('isEmergency'),
+                    'diagnostic_hasPharmacy' => $this->input->post('pharmacy_chk'),
+                    'diagnostic_docatId' => $this->input->post('docatId'),
                 );
                 // dump($insertData);exit;
                 $diagnosticId = $this->diagnostic_model->insertDiagnostic($insertData);
             }
+            
+            
+               if ($_POST['bloodbank_chk'] == 1) {
+
+                    $bloodBank_phn = $this->input->post('bloodBank_phn');
+                    
+                    $imageBloodbnkName = '';
+                    if ($_FILES['bloodBank_photo']['name']) {
+                        $tempblood = explode(".", $_FILES["bloodBank_photo"]["name"]);
+                        $newfilenameblood = 'Blood_' . round(microtime(true)) . '.' . end($tempblood);
+                        $status = $this->uploadImages('bloodBank_photo', 'BloodBank', $newfilenameblood);
+                        if ($status == TRUE)
+                            $imageBloodbnkName = $newfilenameblood;
+                    }
+                    $bloodBank_name = $this->input->post('bloodBank_name');
+                    $bloodBank_photo = $this->input->post('bloodBank_photo');
+                    $bloodBank_lat = $this->input->post('lat');
+                    $bloodBank_long = $this->input->post('lng');
+
+                    $bloodBankDetail = array(
+                        'bloodBank_name' => $bloodBank_name,
+                        'bloodBank_photo' => $imageBloodbnkName,
+                        'bloodBank_lat' => $bloodBank_lat,
+                        'bloodBank_long' => $bloodBank_long,
+                        'users_id' => $diagnostic_usersId,
+                        'creationTime' => strtotime(date("Y-m-d H:i:s")),
+                        'bloodBank_phn' => ltrim($bloodBank_phn, 0),
+                        'countryId' => $diagnostic_countryId,
+                        'bloodBank_cntPrsn' => $diagnostic_cntPrsn,
+                        'stateId' => $diagnostic_stateId,
+                        'cityId' => $diagnostic_cityId,
+                        'bloodBank_add' => $diagnostic_address,
+                        'inherit_status' => 1,
+                        'bloodBank_zip' => $diagnostic_zip
+                    );
+                    $bloodBankId = $this->Hospital_model->insertBloodbank($bloodBankDetail);
+                    if ($bloodBankId) {
+                        $insertusersRoles = array(
+                            // 'usersRoles_userId' => $bloodBankId, // As per Mahipal's suggetion
+                            'usersRoles_userId' => $diagnostic_usersId,
+                            'usersRoles_roleId' => 2,
+                            'usersRoles_parentId' => $diagnostic_usersId,
+                            'creationTime' => strtotime(date("Y-m-d H:i:s"))
+                        );
+
+                        $this->Hospital_model->insertUsersRoles($insertusersRoles);
+
+                        unset($insertusersRoles);
+
+                        $conditions = array();
+                        $conditions['bloodCat_deleted'] = 0;
+                        $select = array('bloodCat_name', 'bloodCat_id');
+                        $bloodBankCatData = $this->Bloodbank_model->fetchTableData($select, 'qyura_bloodCat', $conditions);
+
+                        foreach ($bloodBankCatData as $key => $val) {
+                            $bloodCatData = array(
+                                'bloodBank_id' => $diagnostic_usersId,
+                                'bloodCats_id' => $val->bloodCat_id,
+                                'bloodCatBank_Unit' => 0,
+                                'creationTime' => strtotime(date("Y-m-d H:i:s"))
+                            );
+                            $this->Hospital_model->insertTableData('qyura_bloodCatBank', $bloodCatData);
+                            $bloodCatData = '';
+                        }
+                    }
+                }
+
+             
+
+
+                if ($_POST['ambulance_chk'] == 1) {
+
+                    $ambulance_phn = $this->input->post('ambulance_phn');
+                  
+                    $imageAmbulanceName = '';
+                    if ($_FILES['ambulance_img']['name']) {
+                        $tempAmbulance = explode(".", $_FILES["ambulance_img"]["name"]);
+                        $newfilenametempAmbulance = 'Ambulance_' . round(microtime(true)) . '.' . end($tempAmbulance);
+                        $status = $this->uploadImages('ambulance_img', 'ambulanceImages', $newfilenametempAmbulance);
+                        if ($status == TRUE)
+                            $imageAmbulanceName = $newfilenametempAmbulance;
+                    }
+                    $ambulance_name = $this->input->post('ambulance_name');
+                    $ambulance_img = $this->input->post('ambulance_img');
+                    $ambulance_lat = $this->input->post('lat');
+                    $ambulance_long = $this->input->post('lng');
+                    $docOnBoard = $this->input->post('docOnBoard');
+
+                    $ambulanceDetail = array(
+                        'ambulance_name' => $ambulance_name,
+                        'ambulance_img' => $imageAmbulanceName,
+                        'ambulance_lat' => $ambulance_lat,
+                        'ambulance_long' => $ambulance_long,
+                        'ambulance_usersId' => $diagnostic_usersId,
+                        'creationTime' => strtotime(date("Y-m-d H:i:s")),
+                        'ambulance_phn' => ltrim($ambulance_phn, 0),
+                        'ambulance_countryId' => $diagnostic_countryId,
+                        'ambulance_stateId' => $diagnostic_stateId,
+                        'ambulance_cityId' => $diagnostic_cityId,
+                        'ambulance_address' => $diagnostic_address,
+                        'ambulance_cntPrsn' => $diagnostic_cntPrsn,
+                        'inherit_status' => 1,
+                        'ambulance_zip' => $diagnostic_zip,
+                        'docOnBoard' => $docOnBoard,
+                    );
+                    $ambulanceId = $this->Hospital_model->insertAmbulance($ambulanceDetail);
+                    if ($ambulanceId) {
+                        $insertusersRoles3 = array(
+                            //'usersRoles_userId' => $ambulanceId,// As per Mahipal's suggetion
+                            'usersRoles_userId' => $diagnostic_usersId,
+                            'usersRoles_roleId' => 8,
+                            'usersRoles_parentId' => $diagnostic_usersId,
+                            'creationTime' => strtotime(date("Y-m-d H:i:s"))
+                        );
+
+                        $this->Hospital_model->insertUsersRoles($insertusersRoles3);
+
+                        unset($insertusersRoles3);
+                    }
+                }
+            
             $this->session->set_flashdata('message', 'Record has been saved successfully!');
             redirect('diagnostic');
         }
@@ -1584,6 +1719,17 @@ class Diagnostic extends MY_Controller {
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
             echo json_encode($responce);
+        }
+    }
+    
+    
+    // by hemant
+    
+    
+    function getDiagnosticdetail(){
+        $diagnoId = $this->input->post('diagnoId');
+        if($diagnoId != ''){
+            $response = $this->diagnostic_model->getDiagnosticdetail($diagnoId);
         }
     }
 

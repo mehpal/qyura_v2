@@ -718,10 +718,10 @@ class CI_Form_validation {
 		{
 			foreach ($postdata as $key => $val)
 			{
-                            dump($row);
-                            dump($rules);
-                            dump($val);
-                            dump($key);
+                           // dump($row);
+                          //  dump($rules);
+                          //  dump($val);
+                          //  dump($key);
 				$this->_execute($row, $rules, $val, $key);
 			}
 
