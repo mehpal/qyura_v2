@@ -29,7 +29,6 @@ class PharmacyApi extends MyRest {
             $this->response($response, 400);
         } else {
 
-
             $lat = isset($_POST['lat']) ? $this->input->post('lat') : '';
             $long = isset($_POST['long']) ? $this->input->post('long') : '';
             $notIn = isset($_POST['notin']) ? $this->input->post('notin') : '';

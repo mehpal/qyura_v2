@@ -63,11 +63,10 @@ class BloodCatApi extends MyRest {
                         
             $where = array('qyura_bloodBank.bloodBank_deleted' => 0);
             $this->db
-                    ->select('`qyura_bloodBank`.`bloodBank_id`,`qyura_bloodBank`.`bloodBank_id`, `qyura_bloodBank`.`bloodBank_name`, `qyura_bloodBank`.`bloodBank_add`,`qyura_bloodBank`.`bloodBank_lat`,`qyura_bloodBank`.`bloodBank_long`,`qyura_bloodBank`.`bloodBank_photo`, `qyura_bloodBank`.`bloodBank_phn`, 
+                    ->select('`qyura_bloodBank`.`bloodBank_id`,`qyura_bloodBank`.`bloodBank_id`, `qyura_bloodBank`.`bloodBank_name`, `qyura_bloodBank`.`bloodBank_add`,`qyura_bloodBank`.`bloodBank_lat`,`qyura_bloodBank`.`bloodBank_long`,`qyura_bloodBank`.`bloodBank_photo`, `qyura_bloodBank`.`bloodBank_phn`, `qyura_bloodBank`.`isEmergency`,
 (CASE WHEN(hospital_usersId is not null) THEN hospital_usersId WHEN(diagnostic_usersId is not null) THEN diagnostic_usersId ELSE  qyura_bloodBank.users_id END) as userId,
 (CASE WHEN(hospital_usersId is not null) THEN hospital_lat WHEN(diagnostic_usersId is not null) THEN diagnostic_lat ELSE  bloodBank_lat END) as lat, 
-(CASE WHEN(hospital_usersId is not null) THEN hospital_long WHEN(diagnostic_usersId is not null) THEN diagnostic_long ELSE  bloodBank_long END) as lng, 
-(CASE WHEN(hospital_usersId is not null) THEN `qyura_hospital`.`isEmergency` WHEN(diagnostic_usersId is not null) THEN `qyura_diagnostic`.`isEmergency` ELSE  `qyura_bloodBank`.`isEmergency` END) as isEmergency, 
+(CASE WHEN(hospital_usersId is not null) THEN hospital_long WHEN(diagnostic_usersId is not null) THEN diagnostic_long ELSE  bloodBank_long END) as lng,  
 (CASE WHEN(hospital_usersId is not null) THEN hospital_address WHEN(diagnostic_usersId is not null) THEN diagnostic_address ELSE  bloodBank_add END) as adr, (
                     6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( (CASE WHEN(hospital_usersId is not null) THEN hospital_lat WHEN(diagnostic_usersId is not null) THEN diagnostic_lat ELSE  bloodBank_lat END) ) ) * cos( radians( (CASE WHEN(hospital_usersId is not null) THEN hospital_long WHEN(diagnostic_usersId is not null) THEN diagnostic_long ELSE  bloodBank_long END) ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( (CASE WHEN(hospital_usersId is not null) THEN hospital_lat WHEN(diagnostic_usersId is not null) THEN diagnostic_lat ELSE  bloodBank_lat END) ) ) )
                     ) AS distance')

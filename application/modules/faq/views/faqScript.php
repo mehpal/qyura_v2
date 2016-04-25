@@ -1,4 +1,4 @@
-<script src="<?php echo base_url(); ?>assets/reCopy.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/reCopy.js"></script>
 
 <script>
     $(function(){
