@@ -10,7 +10,7 @@
                         </div>
                     </div>
                     <div class="map_canvas"></div>
-                    <form class="cmxform form-horizontal tasi-form avatar-form-doctor" id="submitFormDoctor" method="post" action="<?php echo site_url('hospital/saveDoctor'); ?>" name="doctorForm" enctype="multipart/form-data">
+                    <form class="cmxform form-horizontal tasi-form avatar-form-doctor-edit" id="submitFormDoctorEdit" method="post" action="<?php echo site_url('hospital/saveDoctor'); ?>" name="doctorForm" enctype="multipart/form-data">
                         <input type="hidden" name="ProfessionalExpCount" id="ProfessionalExpCount" value="1" />
                         <!-- Left Section Start -->
                         <section class="col-md-6 detailbox">
@@ -44,10 +44,10 @@
                               <article class="form-group m-lr-0 ">
                                         <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>  
                                          <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
-                                                <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view-doctor"></i></label>
+                                                <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view-doctor-edit"></i></label>
 
-                                                <div class="pre-doctor col-md-4 col-sm-4 ">
-                                                <div id="preImgLogoDoctor" class="avatar-preview preview-md">
+                                                <div class="pre-doctor-edit col-md-4 col-sm-4 ">
+                                                <div id="preImgLogoDoctorEdit" class="avatar-preview preview-md">
 
                                                <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png"  class="image-preview-show"/>
 
@@ -224,7 +224,7 @@
                             </div>
                         </section>
                            <div id="upload_modal_form">
-                            <?php  $this->load->view('doctor_crop_modal');?>
+                            <?php  $this->load->view('edit_doctor_crop_modal');?>
                         </div>
                         
                         <input type="hidden" name="hospitalUserIdDoctor" value="<?php if(isset($hospitalData[0]->hospital_usersId)){ echo $hospitalData[0]->hospital_usersId; }?>" id="hospitalUserIdDoctor" />
