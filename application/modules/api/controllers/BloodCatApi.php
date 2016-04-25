@@ -27,8 +27,7 @@ class BloodCatApi extends MyRest {
     }
 
     function bloodBankList_post() {
-
-        $this->form_validation->set_rules('bloodCat_id', 'Blood category Id', 'required|xss_clean|trim|numeric');
+ 
         $this->form_validation->set_rules('lat', 'Lat', 'xss_clean|trim|decimal');
         $this->form_validation->set_rules('long', 'Long', 'xss_clean|trim|decimal');
         $this->bf_form_validation->set_rules('search', 'Search Keyword', 'xss_clean|trim');
@@ -40,13 +39,10 @@ class BloodCatApi extends MyRest {
         } else {
 
             $aoClumns = array("bloodBank_id", "bloodBank_name", "bloodBank_add", "lat", "long", "bloodBank_photo", "bloodBank_mblNo");
-
             // search
             $search = isset($_POST['search']) && $_POST['search'] != '' ? $this->input->post('search') : NULL;
             //city
             $cityId = isset($_POST['cityId']) ? $this->input->post('cityId') : NULL;
-
-            
 
             if ($cityId != NULL) {
                 $array = array('qyura_bloodBank.cityId' => $cityId);
@@ -57,14 +53,14 @@ class BloodCatApi extends MyRest {
             
             $lat = isset($_POST['lat']) ? $this->input->post('lat') : '';
             $long = isset($_POST['long']) ? $this->input->post('long') : '';
-            $catId = isset($_POST['bloodCat_id']) ? $this->input->post('bloodCat_id') : '';
+            
             $lastUpdatedDate = isset($_POST['lastUpdatedDate']) ? $_POST['lastUpdatedDate'] : '1452951625';
 
             $notIn = isset($_POST['notin']) ? $_POST['notin'] : '';
             $notIn = explode(',', $notIn);
-
-
-            $where = array('qyura_bloodCatBank.bloodCats_id=' => $catId, 'qyura_bloodBank.bloodBank_deleted' => 0);
+            $curDay = date("D",strtotime(date("Y-m-d")));
+                        
+            $where = array('qyura_bloodCatBank.bloodCats_id=' => $catId, 'qyura_bloodBank.bloodBank_deleted' => 0,'dayNumber'=>$curDay);
             $this->db
                     ->select('`qyura_bloodBank`.`bloodBank_id`, `qyura_bloodBank`.`bloodBank_name`, `qyura_bloodBank`.`bloodBank_add`,`qyura_bloodBank`.`bloodBank_lat`,`qyura_bloodBank`.`bloodBank_long`,
                     `qyura_bloodBank`.`bloodBank_photo`,
@@ -76,6 +72,7 @@ class BloodCatApi extends MyRest {
                     ->join('qyura_hospital', 'qyura_usersRoles.usersRoles_parentId=qyura_hospital.hospital_usersId', 'left')
                     ->join('qyura_bloodCatBank', 'qyura_bloodCatBank.bloodBank_id=qyura_bloodBank.users_id', 'left')
                     ->join('qyura_bloodCat', 'qyura_bloodCat.bloodCat_id=qyura_bloodCatBank.bloodCats_id', 'left')
+                    ->join('qyura_miTimeSlot', 'qyura_miTimeSlot.slot_id=qyura_bloodCatBank.bloodCats_id', 'left')
                     ->where($where)
                     ->where_not_in('qyura_bloodBank.bloodBank_id', $notIn)
                     ->group_by('bloodBank_id')
@@ -100,9 +97,7 @@ class BloodCatApi extends MyRest {
                     }
                     $lkCount++;
                 }
-                
-            }
-            //$this->datatables->edit_column('qyura_bloodBank.bloodBank_photo', base_url().'assets/BloodBank/$1', 'bloodBank_photo');
+            } 
             $data = $this->db->get()->result();
             
             $array_data = array();

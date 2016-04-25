@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = 'http://localhost/qyura';
+$config['base_url'] = 'http://localhost/qyura_v2';
 //$config['base_url'] = "http://".$_SERVER['HTTP_HOST'];
 
 //$config['base_url'] = 'http://ec2-54-218-61-103.us-west-2.compute.amazonaws.com/qweb';
