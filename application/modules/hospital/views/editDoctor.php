@@ -21,7 +21,7 @@
                                 <!-- Table Section End -->
                                 <div class="clearfix m-t-20">
                                     
-                                    
+                                    <?php print_r($doctorDetail); ?>
                                      
                                     <article class="form-group m-lr-0">
                                         <label for="" class="control-label col-md-4 col-sm-4">First Name :</label>
@@ -219,7 +219,7 @@
                         <section class="clearfix ">
                             <div class="col-md-12 m-t-20 m-b-20">
                                 <div id="load_consulting" class="text-center text-success " style="display: none"><image alt="Please wait data is loading" src="<?php echo base_url('assets/images/loader/Heart_beat.gif'); ?>" /></div>
-                                <button class="btn btn-danger waves-effect pull-right" type="button" onclick="editDoctor()">Reset</button>
+                                <a class="btn btn-danger waves-effect pull-right" type="button" href="<?php echo base_url().'/index.php//hospital/detailHospital/'.$hospitalId.'/doctor'; ?>">Reset</a>
                                 <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit">Submit</button>
                             </div>
                         </section>
