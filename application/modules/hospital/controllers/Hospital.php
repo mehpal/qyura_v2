@@ -593,24 +593,10 @@ class Hospital extends MY_Controller {
                         $hospitalServicesData = '';
                     }
                 }
+                
                 if ($_POST['bloodbank_chk'] == 1) {
 
                     $bloodBank_phn = $this->input->post('bloodBank_phn');
-                    //$preblbankNo = $this->input->post('preblbankNo');
-                   // $bloodMidNumber = $this->input->post('bloodMidNumber');
-
-                   // $countbloodBank_phn = $this->input->post('countbloodBank_phn');
-
-                  /*  $finalBloodbnkNumber = '';
-                    for ($i = 0; $i < $countbloodBank_phn; $i++) {
-                        if ($bloodBank_phn[$i] != '' && $pre_number[$i] != '') {
-
-                            if ($i == ($countbloodBank_phn) - 1)
-                                $finalBloodbnkNumber .= $preblbankNo[$i] . ' ' . $bloodMidNumber[$i] . ' ' . $bloodBank_phn[$i];
-                            else
-                                $finalBloodbnkNumber .= $preblbankNo[$i] . ' ' . $bloodMidNumber[$i] . ' ' . $bloodBank_phn[$i] . '|';
-                        }
-                    } */
                     
                     $imageBloodbnkName = '';
                     if ($_FILES['bloodBank_photo']['name']) {
@@ -673,94 +659,13 @@ class Hospital extends MY_Controller {
                     }
                 }
 
-              /*  if ($_POST['pharmacy_chk'] == 1) {
-
-                    $pharmacy_phn = $this->input->post('pharmacy_phn');
-                  //  $prePharmacy = $this->input->post('prePharmacy');
-
-                  //  $pharmacyMidNumber = $this->input->post('pharmacyMidNumber');
-
-                  //  $countPharmacy_phn = $this->input->post('countPharmacy_phn');
-
-                  $finalPharmacyNumber = '';
-                    for ($i = 0; $i < $countPharmacy_phn; $i++) {
-                        if ($pharmacy_phn[$i] != '' && $prePharmacy[$i] != '') {
-
-                            if ($i == ($countPharmacy_phn) - 1)
-                                $finalPharmacyNumber .= $prePharmacy[$i] . ' ' . $pharmacyMidNumber[$i] . ' ' . $pharmacy_phn[$i];
-                            else
-                                $finalPharmacyNumber .= $prePharmacy[$i] . ' ' . $pharmacyMidNumber[$i] . ' ' . $pharmacy_phn[$i] . '|';
-                        }
-                    } 
-                    
-                    
-                    $imagePharmacyName = '';
-                    if ($_FILES['pharmacy_img']['name']) {
-                        $tempPharmacy = explode(".", $_FILES["pharmacy_img"]["name"]);
-                        $newfilenamepharmacy_img = 'Pharmacy_' . round(microtime(true)) . '.' . end($tempPharmacy);
-                        $status = $this->uploadImages('pharmacy_img', 'pharmacyImages', $newfilenamepharmacy_img);
-
-                        if ($status == TRUE)
-                            $imagePharmacyName = $newfilenamepharmacy_img;
-                    }
-                    $pharmacy_name = $this->input->post('pharmacy_name');
-                    $pharmacy_img = $this->input->post('pharmacy_img');
-                    $pharmacy_lat = $this->input->post('lat');
-                    $pharmacy_long = $this->input->post('lng');
-
-                    $pharmacyDetail = array(
-                        'pharmacy_name' => $pharmacy_name,
-                        'pharmacy_img' => $imagePharmacyName,
-                        'pharmacy_lat' => $pharmacy_lat,
-                        'pharmacy_long' => $pharmacy_long,
-                        'pharmacy_usersId' => $hospital_usersId,
-                        'creationTime' => strtotime(date("Y-m-d H:i:s")),
-                        'pharmacy_phn' => ltrim($pharmacy_phn, 0),
-                        'pharmacy_countryId' => $hospital_countryId,
-                        'pharmacy_stateId' => $hospital_stateId,
-                        'pharmacy_cityId' => $hospital_cityId,
-                        'pharmacy_address' => $hospital_address,
-                        'pharmacy_cntPrsn' => $hospital_cntPrsn,
-                        'inherit_status' => 1,
-                        'pharmacy_zip' => $hospital_zip
-                    );
-                    $pharmacyId = $this->Hospital_model->insertPharmacy($pharmacyDetail);
-
-                    if ($pharmacyId) {
-                        $insertusersRoles2 = array(
-                            // 'usersRoles_userId' => $pharmacyId,// As per Mahipal's suggetion
-                            'usersRoles_userId' => $hospital_usersId,
-                            'usersRoles_roleId' => 5,
-                            'usersRoles_parentId' => $hospital_usersId,
-                            'creationTime' => strtotime(date("Y-m-d H:i:s"))
-                        );
-
-                        $this->Hospital_model->insertUsersRoles($insertusersRoles2);
-
-                        unset($insertusersRoles2);
-                    }
-                } */
+             
 
 
                 if ($_POST['ambulance_chk'] == 1) {
 
                     $ambulance_phn = $this->input->post('ambulance_phn');
-                   // $preAmbulance = $this->input->post('preAmbulance');
-                   // $ambulanceMidNumber = $this->input->post('ambulanceMidNumber');
-                   // $countAmbulance_phn = $this->input->post('countAmbulance_phn');
-
-                  /*  $finalAmbulanceNumber = '';
-                    for ($i = 0; $i < $countAmbulance_phn; $i++) {
-                        if ($ambulance_phn[$i] != '' && $preAmbulance[$i] != '') {
-
-                            if ($i == ($countAmbulance_phn) - 1)
-                                $finalAmbulanceNumber .= $preAmbulance[$i] . ' ' . $ambulanceMidNumber[$i] . ' ' . $ambulance_phn[$i];
-                            else
-                                $finalAmbulanceNumber .= $preAmbulance[$i] . ' ' . $ambulanceMidNumber[$i] . ' ' . $ambulance_phn[$i] . '|';
-                        }
-                    } */
-                    
-                    
+                  
                     $imageAmbulanceName = '';
                     if ($_FILES['ambulance_img']['name']) {
                         $tempAmbulance = explode(".", $_FILES["ambulance_img"]["name"]);
