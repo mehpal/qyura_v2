@@ -160,7 +160,7 @@
                                             </div>
                                         </article>
 
-     <article class="form-group m-lr-0">
+<!--     <article class="form-group m-lr-0">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Range :</label>
                                     <div class="col-md-8 col-sm-8">
                                         <div class="radio radio-success radio-inline">
@@ -183,8 +183,8 @@
                                             <label for="inlineRadio2">All</label>
                                         </div>
                                     </div>
-                               </article>
-
+                               </article>-->
+<input type="hidden" name="medicartOffer_range" value="0" id="inlineRadio1" >
 
 
                                         <article class="form-group m-lr-0">

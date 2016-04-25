@@ -264,11 +264,9 @@ class MY_Controller extends CI_Controller {
         if (!empty($table_field_name) && !empty($table_name) && !empty($field_value)) {
 
             $where = array($table_field_name => $field_value);
-            if ($status_value == 2) {
+            if ($status_value == 2 ) {
                 $update_data['status'] = 3;
-            } else {
-                $update_data['status'] = 2;
-            }
+            } 
 
             $options = array(
                 'table' => $table_name,
@@ -471,7 +469,5 @@ class MY_Controller extends CI_Controller {
              redirect($redirectUrl.'/'.$miId.'/timeSlot');
         }
     }
-    
-    
 
 }
