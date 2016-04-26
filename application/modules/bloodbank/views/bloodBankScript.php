@@ -238,8 +238,147 @@ if($current == 'detailBloodBank'):?>
            });
            
         }
+        
+     function validationBloodbank(){
+       //$("form[name='bloodDetail']").submit();
+        var check= /^[a-zA-Z\s]+$/;
+        var numcheck=/^[0-9]+$/;
+        var emails = $.trim($('#users_email').val());
+        var cpname = $.trim($('#bloodBank_cntPrsn').val())
+        
+        var phn= $.trim($('#bloodBank_phn').val());
+        var myzip = $.trim($('#bloodBank_zip').val());
+        var cityId =$.trim($('#cityId').val());
+        var stateIds = $.trim($('#stateId').val());
+        var country = $.trim($('#countryId').val());
+        var bloodBank_mblNo = $.trim($('#bloodBank_mblNo').val());
+        var status = 1;
+       
+             if($('#bloodBank_name').val()==''){
+                $('#bloodBank_name').addClass('bdr-error');
+                $('#error-bloodBank_name').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){ $('#bloodBank_name').removeClass('bdr-error'); }, 3000);
+                status = 0;
+            }
+            if($('.geocomplete').val()==''){
+                $('.geocomplete').addClass('bdr-error');
+                $('#error-bloodBank_add').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){ $('#geocomplete1').removeClass('bdr-error'); }, 3000);
+                status = 0;
+            }
+            
+            if(!$.isNumeric(phn) && phn == ''){
+                
+                $('#bloodBank_phn').addClass('bdr-error');
+                $('#error-bloodBank_phn').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){ $('#bloodBank_phn').removeClass('bdr-error'); }, 3000);
+                // $('#hospital_phn').focus();
+                status = 0;
+            }else{
+                if(phn.length != 10){
+                    
+                     
+                $('#bloodBank_phn').addClass('bdr-error');
+                $('#error-bloodBank_phn').fadeIn().delay(3000).fadeOut('slow'); 
+                setTimeout(function(){ $('#bloodBank_phn').removeClass('bdr-error'); }, 3000);
+                }
+            }
+            
+//            if(!$.isNumeric(phn)){
+//                $('#bloodBank_phn1').addClass('bdr-error');
+//                $('#error-bloodBank_phn').fadeIn().delay(3000).fadeOut('slow');
+//                // $('#hospital_phn').focus();
+//                status = 0;
+//            }
+              var emailCheck =  checkEmailFormat();
+             
+              
+            if($('#users_email').val()==''){
+                $('#users_email').addClass('bdr-error');
+                $('#error-users_email').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){ $('#users_email').removeClass('bdr-error'); }, 3000);
+               
+               status = 0;
+            }
+            
+            if($('#bloodbank_docatId').val()==''){
+                $('#bloodbank_docatId').addClass('bdr-error');
+                $('#error-bloodbank_docatId').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){ $('#bloodbank_docatId').removeClass('bdr-error'); }, 3000);
+               
+               status = 0;
+            }
+            
+             if(!check.test(cpname)){
+                $('#bloodBank_cntPrsn').addClass('bdr-error');
+                $('#error-bloodBank_cntPrsn').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){ $('#bloodBank_cntPrsn').removeClass('bdr-error'); }, 3000);
+                status = 0; 
+            }
+            
+            if(cityId == ''){
+                $('#cityId').addClass('bdr-error');
+                $('#error-cityId').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){ $('#cityId').removeClass('bdr-error'); }, 3000);
+               
+               status = 0;
+            }
+            
+            if(stateIds == ''){
+                $('#stateId').addClass('bdr-error');
+                $('#error-stateId').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){ $('#stateId').removeClass('bdr-error'); }, 3000);
+               
+               status = 0;
+            }
+            
+            if(country == ''){
+                $('#countryId').addClass('bdr-error');
+                $('#error-countryId').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){ $('#countryId').removeClass('bdr-error'); }, 3000);
+               
+               status = 0;
+            }
+            
+           if(myzip == ''){
+                $('#bloodBank_zip').addClass('bdr-error');
+                $('#error-bloodBank_zip').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){ $('#bloodBank_zip').removeClass('bdr-error'); }, 3000);
+               
+               status = 0;
+            }
+            
+            if($('#lat').val()==''){
+                $('#lat').addClass('bdr-error');
+                $('#error-lat').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){ $('#lat').removeClass('bdr-error'); }, 3000);
+               
+               status = 0;
+            }
+            
+            if($('#lng').val()==''){
+                $('#lng').addClass('bdr-error');
+                $('#error-lng').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){ $('#lng').removeClass('bdr-error'); }, 3000);
+               
+               status = 0;
+            }
+           if(!emailCheck){
+                    status = 0;  
+              }
+       
+            if( emails != '' && status == 1){
+                check_email_detail(emails);
+               
+            }
+            
+        
+            
+            return false;
+            
+        }
          
-   function validationBloodbank(){
+   function validationBloodbankEdit(){
        
        //$("form[name='bloodDetail']").submit();
         var check= /^[a-zA-Z\s]+$/;
@@ -351,12 +490,9 @@ if($current == 'detailBloodBank'):?>
                
                status = 0;
             }
-           if(!emailCheck){
-                    status = 0;  
-              }
        
-            if( emails != '' && status == 1){
-                check_email_detail(emails);
+            if( status == 1){
+              return true;
                
             }
             
@@ -772,6 +908,15 @@ function isNumberKey(evt, id) {
         
     }
     
+    $("#g,#t,#a").on('click',function(){
+       $(".table").find('.showUnit').each(function(){
+        $(this).children().eq(0).css('display','inline');
+        $(this).children().eq(1).hide();
+    });
+    });
+
+    
+    
     function anchorClick(id){
         $("#detailbu_"+id).toggle();
           $("#newbu_"+id).toggle();
@@ -829,11 +974,13 @@ $(document).ready(function (e) {
                 var obj = jQuery.parseJSON(data);
                 if(obj.status == 200){
                      $("#messageErrors").html("<div class='alert alert-success'>"+obj.messsage+"</div>");
+                     setTimeout(function(){ $("#messageErrors").html(""); }, 2000);
                       changebackgroundImage(bloodBankId);
                       $("#changeBg").modal('hide');
                     
                 }else{
                     $("#messageErrors").html("<div class='alert alert-danger'>"+obj.messsage+"</div>");
+                    setTimeout(function(){ $("#messageErrors").html(""); }, 2000);
                 }
 
             }
@@ -895,7 +1042,9 @@ function imageIsLoaded(e) {
    
 //   $("#resetBtn").on('click',function(){
 //      
-//       $("#preImgLogo").html(' <img src="<?php //echo base_url() ?>assets/default-images/Blood-logo.png"  class="image-preview-show"/>'); 
+////       $("#preImgLogo").html(' <img src="<?php //echo base_url() ?>assets/default-images/Blood-logo.png"  class="image-preview-show"/>'); 
+//    
+//       
 //   });
 
     </script>

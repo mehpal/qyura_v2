@@ -328,7 +328,7 @@ class Bloodbank extends MY_Controller {
         $this->bf_form_validation->set_rules('bloodBank_name', 'BloodBank Name', 'required|trim');
         $this->bf_form_validation->set_rules('bloodbank_docatId', 'Docat Id', 'required|trim');
         $this->bf_form_validation->set_rules('bloodBank_add', 'Bloodbank Address', 'required|trim');
-        $this->bf_form_validation->set_rules('users_email', 'Users Email', 'required|valid_email|trim');
+        //$this->bf_form_validation->set_rules('users_email', 'Users Email', 'required|valid_email|trim');
         $this->bf_form_validation->set_rules('bloodBank_cntPrsn', 'BloodBank Contact Person', 'required|trim');
 
         $this->bf_form_validation->set_rules('bloodBank_mbl', 'mobile no', 'trim|max_length[10]|min_length[10]');

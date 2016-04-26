@@ -24,15 +24,17 @@
                         <aside class="col-md-2 col-sm-2 col-xs-6 visible-xs pull-right m-tb-xs-3">
    <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit" onclick="createCSV()">Export</button>
                         </aside>
-                        <aside class="col-md-3 col-sm-3 m-tb-xs-3">
+                        
+<!--                        <aside class="col-md-3 col-sm-3 m-tb-xs-3">
                             <select class="selectpicker form-control" data-width="100%" name="diagnostic_stateId" id="diagnostic_stateId" data-size="4" onchange ="fetchCity(this.value)">
 
                                 <option value=" ">Select State</option>
-                                <?php foreach ($allStates as $key => $val) { ?>
-                                    <option value="<?php echo $val->state_id; ?>"><?php echo $val->state_statename; ?></option>
-                                <?php } ?>
+                                <?php // foreach ($allStates as $key => $val) { ?>
+                                    <option value="<?php // echo $val->state_id; ?>"><?php echo $val->state_statename; ?></option>
+                                <?php // } ?>
                             </select>
-                        </aside>
+                        </aside>-->
+                        
                         <aside class="col-md-3 col-sm-3 m-tb-xs-3">
                             <select type="text" name="diagnostic_cityId" class="selectpicker form-control" data-width="100%"  placeholder="Search" id="diagnostic_cityId" data-size="4" />
                             <!-- <option>Delhi</option>

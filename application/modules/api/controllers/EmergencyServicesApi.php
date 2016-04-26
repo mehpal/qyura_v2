@@ -38,7 +38,6 @@ class EmergencyServicesApi extends MyRest {
             
             if($emergencyType == 1){
     
-                
               $response['ambulance'] =  $this->emergency_model->getAmbulanceList($lat,$long,$notIn,$cityId);
               $response['aoClumns'] =  array("id","name","phn","docOnBoard","openingHours","closingHours","allTime");
               

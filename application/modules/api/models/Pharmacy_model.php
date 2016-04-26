@@ -19,7 +19,6 @@ class Pharmacy_model extends CI_Model {
         $where = array('qyura_pharmacy.pharmacy_deleted' => 0);
         
         if ($isemergency != '' && $isemergency != NULL) {
-
             $where['qyura_pharmacy.pharmacy_27Src'] = $isemergency;
         }
 
@@ -70,6 +69,7 @@ class Pharmacy_model extends CI_Model {
                 $finalTemp[] = isset($row->phn) ? $row->phn : "";
                 $finalTemp[] = isset($row->lat) ? $row->lat : "";
                 $finalTemp[] = isset($row->lng) ? $row->lng : "";
+                
                 if($slots != NULL){
                     $finalTemp[] = isset($slots->openingHours) ? $slots->openingHours : "";
                     $finalTemp[] = isset($slots->closingHours) ? $slots->closingHours : "";

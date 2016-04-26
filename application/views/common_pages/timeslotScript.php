@@ -87,7 +87,10 @@
         }
     }
     
-    $('.timepicker').timepicker({showMeridian:false,defaultTime: false,});
+    $('.timepicker').timepicker({
+        showMeridian:false,
+        defaultTime: false,
+    });
     
     function addNewSlot(dayType,value) {
         var type = parseInt(dayType); 
