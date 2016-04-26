@@ -1143,7 +1143,7 @@ if (!empty($sMsg)) {
                                             <figure class="clearfix">
                                                 <h3>Available At</h3>
                                             </figure>
-<<<<<<< HEAD
+
 
                                             <div class="nicescroll" style="overflow: scroll; max-height:400px;" tabindex="5004">
                                                 <div class="clearfix">
