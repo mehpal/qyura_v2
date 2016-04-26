@@ -764,7 +764,12 @@ function isNumberKey(evt, id) {
     });*/
     
     function openBloodUnit(id){
-        $('#anveDetail_'+id).show();
+        if($("#anve_"+id).prop("checked") == true){
+                $('#anveDetail_'+id).show();
+            }else{
+                $('#anveDetail_'+id).hide();
+            }
+        
     }
     
     function anchorClick(id){
@@ -887,5 +892,10 @@ function imageIsLoaded(e) {
              }
           });
    }
+   
+//   $("#resetBtn").on('click',function(){
+//      
+//       $("#preImgLogo").html(' <img src="<?php //echo base_url() ?>assets/default-images/Blood-logo.png"  class="image-preview-show"/>'); 
+//   });
 
     </script>

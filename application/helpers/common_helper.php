@@ -59,9 +59,12 @@ function getDoctorAvailibilitySession($number) {
     return $session[$number];
 }
 
-function getDay($day) {
+function getDay($day=NULL) {
     $days = array('Monday' => 0, 'Tuesday' => 1, 'Wednesday' => 2, 'Thursday' => 3, 'Friday' => 4, 'Saturday' => 5, 'Sunday' => 6);
-    return $days[$day];
+    if($day != NULL)
+        return $days[$day];
+    else
+        return $days;
 }
 
 if (!function_exists('createImage')) {
