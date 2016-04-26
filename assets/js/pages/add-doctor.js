@@ -12,9 +12,3 @@
       .on('changeDate', function (ev) {
           $('.pickDate').datepicker('hide');
       });
-
-  $('.selectpicker').selectpicker({
-      style: 'btn-default',
-      size: "auto",
-      width: "100%"
-  });

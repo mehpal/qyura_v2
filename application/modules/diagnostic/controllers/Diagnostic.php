@@ -7,7 +7,7 @@ class Diagnostic extends MY_Controller {
     public function __construct() {
         parent:: __construct();
         // $this->load->library('form_validation');
-        $this->load->model(array('diagnostic_model'));
+        $this->load->model(array('diagnostic_model','hospital/Hospital_model', 'bloodbank/Bloodbank_model', 'doctor/Doctor_model'));
     }
 
     function index() {
@@ -153,6 +153,8 @@ class Diagnostic extends MY_Controller {
      * @return boolean
      */
     function SaveDiagnostic() {
+        
+       // dump($_POST); exit;  
 
       //  $this->load->library('form_validation');
         $this->bf_form_validation->set_rules('diagnostic_name', 'Diagnostic Name', 'required|trim');
@@ -193,6 +195,9 @@ class Diagnostic extends MY_Controller {
         $this->bf_form_validation->set_rules('availibility_24_7', '27*7 availability', 'trim');
         $this->bf_form_validation->set_rules('isEmergency', 'Is Emergency', 'trim');
         $this->bf_form_validation->set_rules('docatId', 'Docat id', 'trim');
+        
+        $this->bf_form_validation->set_rules('diagno_id', 'Diagnostic id', 'required|trim');
+        
 
         if (empty($_FILES['avatar_file']['name'])) {
             $this->bf_form_validation->set_rules('avatar_file', 'File', 'required');
@@ -201,13 +206,16 @@ class Diagnostic extends MY_Controller {
         if ($this->bf_form_validation->run() === FALSE) {
             $data = array();
             //exit;
-            $data['allStates'] = $this->diagnostic_model->fetchStates();
+            $countryId = $this->input->post('diagnostic_countryId');
+            $data['allStates'] = $this->diagnostic_model->fetchStates($countryId);
             $stateId = $this->input->post('diagnostic_stateId');
             $data['citys'] = $this->diagnostic_model->fetchCity($stateId);
             $data['title'] = "Add Diagnostic";
             $data['bloodBankstatus'] = $this->input->post('bloodbank_chk');
             $data['amobulancestatus'] = $this->input->post('ambulance_chk');
+            $data['diagno_id'] = $this->input->post('diagno_id');
             $data['publishDiagno'] = $this->diagnostic_model->fetchPublishDiagnostic();
+           // print_r($data); exit;
             $this->load->super_admin_template('addDiagcenter', $data, 'diagnosticScript');
         } else {
            // echo 'hemant'; exit;
@@ -229,7 +237,8 @@ class Diagnostic extends MY_Controller {
                 }
             }
             //echo "i am here";
-
+            
+            $diagno_id = $this->input->post('diagno_id');
             $diagnostic_phn = $this->input->post('diagnostic_phn');
          
             
@@ -303,12 +312,28 @@ class Diagnostic extends MY_Controller {
                     'diagnostic_availibility_24_7' => $this->input->post('availibility_24_7'),
                     'diagnostic_isEmergency' => $this->input->post('isEmergency'),
                     'diagnostic_hasBloodbank' => $this->input->post('bloodbank_chk'),
-                    'diagnostic_isBloodBankOutsource' => $this->input->post('isEmergency'),
+                    'diagnostic_isBloodBankOutsource' => $this->input->post('isBloodBankOutsource'),
                     'diagnostic_hasPharmacy' => $this->input->post('pharmacy_chk'),
                     'diagnostic_docatId' => $this->input->post('docatId'),
                 );
                 // dump($insertData);exit;
-                $diagnosticId = $this->diagnostic_model->insertDiagnostic($insertData);
+                
+                
+                
+                 if($diagno_id == 0){
+                      $inserData['status'] = 0;
+                      $diagnosticId = $this->diagnostic_model->insertDiagnostic($insertData);
+                }elseif($diagno_id != 0 && $diagno_id != '' && $diagno_id != NULL){
+                     $diagnosticId = $diagno_id;
+                     unset($inserData['creationTime']);
+                     $inserData['modifyTime'] = strtotime(date("Y-m-d H:i:s"));
+                     $inserData['status'] = 0;
+                     $where = array(
+                        'diagnostic_id' => $diagno_id
+                    );
+                    $response = $this->diagnostic_model->UpdateTableData($inserData, $where, 'qyura_diagnostic');
+                }
+                
             }
             
             
@@ -343,6 +368,7 @@ class Diagnostic extends MY_Controller {
                         'cityId' => $diagnostic_cityId,
                         'bloodBank_add' => $diagnostic_address,
                         'inherit_status' => 1,
+                        'isEmergency' => $this->input->post('isEmergency'),
                         'bloodBank_zip' => $diagnostic_zip
                     );
                     $bloodBankId = $this->Hospital_model->insertBloodbank($bloodBankDetail);
@@ -413,6 +439,7 @@ class Diagnostic extends MY_Controller {
                         'ambulance_cntPrsn' => $diagnostic_cntPrsn,
                         'inherit_status' => 1,
                         'ambulance_zip' => $diagnostic_zip,
+                        'ambulance_27Src' => $this->input->post('availibility_24_7'),
                         'docOnBoard' => $docOnBoard,
                     );
                     $ambulanceId = $this->Hospital_model->insertAmbulance($ambulanceDetail);
