@@ -241,7 +241,7 @@
                                                 <label class="error" > <?php echo form_error("ambulance_zip"); ?></label>
                                                 </div>
                                              </article>
-                                            
+<!--                                            
                                              <article class="clearfix m-t-10">
                                                 <label class="control-label col-md-4" for="cname">Manual :</label>
                                                 <div class="col-md-8">
@@ -254,8 +254,8 @@
                                                         <label for="inlineRadio2"> No</label>
                                                     </aside>
                                                 </div>
-                                            </article>
-                                            
+                                            </article>-->
+  <input type="hidden" name="isManual" value="1" id="isManual"/>                                          
                                             
                                             <article class="clearfix m-t-10">
                                                

@@ -286,7 +286,7 @@ endif; ?>" onkeypress="return isNumberKey(event)"/>
                                                                 <label class="error" id="error-pharmacy_zip1"  > <?php echo form_error("pharmacy_zip"); ?></label>       </div>
                                                         </article>
 
-                                                        <article class="clearfix m-t-10">
+<!--                                                        <article class="clearfix m-t-10">
                                                             <label class="control-label col-md-4" for="cname">Manual:</label>
                                                             <div class="col-md-8">
                                                                 <aside class="radio radio-info radio-inline">
@@ -300,8 +300,8 @@ endif; ?> name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.valu
                                                                     <label for="inlineRadio2"> No</label>
                                                                 </aside>
                                                             </div>
-                                                        </article>
-
+                                                        </article>-->
+<input type="hidden" name="isManual" value="1" id="isManual"/>
                                                         <article class="clearfix m-t-10">
                                                             <div class="col-sm-8 col-sm-offset-4">
                                                                 <input type="text" class="form-control geocomplete" id="geocomplete1" name="pharmacy_address" type="text" value="<?php if (isset($pharmacyData[0]->pharmacy_address)) {
