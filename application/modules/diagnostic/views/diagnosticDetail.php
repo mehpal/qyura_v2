@@ -80,10 +80,12 @@
                                         <li class=" <?php if(isset($active) && $active == 'specialities'){echo "active";}?>">
                                             <a data-toggle="tab" href="#specialities">Specialities</a>
                                         </li>
-                                        <li class="<?php if(isset($active) && $active == 'gallery'){echo "active";}?>">
+                                        
+<!--                                        <li class="<?php if(isset($active) && $active == 'gallery'){echo "active";}?>">
                                             <a data-toggle="tab" href="#gallery">Gallery</a>
-                                        </li>
-                                        <li class="<?php if(isset($active) && $active == 'timeslot'){echo "active";}?>">
+                                        </li>-->
+                                        
+                                        <li class="<?php if(isset($active) && ( $active == 'timeslot'  OR $active ==  'timeSlot' ) ){echo "active";}?>">
                                             <a data-toggle="tab" href="#timeslot">Time Slot</a>
                                         </li>
 
@@ -528,7 +530,22 @@ endif; ?></textarea>
 <!-- diagnostic Ends -->
 
 <!--Specialities Starts -->
-<section class="tab-pane fade in" id="specialities">
+<section class="tab-pane fade in" id="specialities" <?php if(isset($active) && $active == 'specialities'){echo "active";}?>">
+    
+      <article class="clearfix">
+                                <label class="control-label col-md-4" for="cname">Speciality Name display format:</label>
+                                <div class="col-md-8">
+                                    <aside class="radio radio-info radio-inline">
+                                        <input <?php  echo set_radio('specialityNameFormate', '1', TRUE); ?> type="radio"  name="specialityNameFormate" value="1" id="specialityNameFormate" onclick="setSpecialityNameFormate(this.value)" <?php if($diagnosticData[0]->diagnostic_specialityNameFormate == 1){ echo "checked";}?> >
+                                        <label for="inlineRadio1"> General Name</label>
+                                    </aside>
+                                    <aside class="radio radio-info radio-inline">
+                                        <input <?php  echo set_radio('specialityNameFormate', '0'); ?> type="radio" name="specialityNameFormate" value="0" id="specialityNameFormate" onclick="setSpecialityNameFormate(this.value)" <?php if($diagnosticData[0]->diagnostic_specialityNameFormate == 0){ echo "checked";}?>>
+                                        <label for="inlineRadio2"> Scientific Name</label>
+                                    </aside>
+                                </div>
+                            </article>
+    
     <aside class="clearfix">  
         <section class="col-md-5 detailbox m-b-20 diag" >
             <aside class="bg-white">
@@ -588,11 +605,11 @@ endif; ?></textarea>
 <!-- Specialities Ends -->  
                                 
 <!--Gllery Starts -->
-<section class="tab-pane fade in <?php if(isset($active) && $active == 'gallery'){echo "active";}?>" id="gallery">
+<!--<section class="tab-pane fade in <?php if(isset($active) && $active == 'gallery'){echo "active";}?>" id="gallery">
     <div class="fileUpload btn btn-sm btn-upload im-upload avatar-view-gallery">
         <img src="<?php echo base_url();?>assets/default-images/Dignostics-logo.png" style="display:none;" />
         <span class="btn btn-appointment " >Add More</span>
-<!--                                             <input type="file" class="upload" id="uploadBtn"> -->
+                                             <input type="file" class="upload" id="uploadBtn"> 
     </div>
      <input type="hidden" style="display:none;" class="no-display" id="file_action_url_gallery" name="file_action_url_gallery" value="<?php echo site_url('diagnostic/galleryUploadImage');?>" />
      <input type="hidden" style="display:none;" class="no-display" id="load_url_gallery" name="load_url_gallery" value="<?php echo site_url('diagnostic/getGalleryImage/'.$this->uri->segment(3));?>">
@@ -604,7 +621,7 @@ endif; ?></textarea>
         </aside>
         <?php }}?>
     </div>
-</section>
+</section>-->
 <!--Gallery Ends -->
                                 
 <?php $diaId = 0; 
@@ -612,165 +629,45 @@ if(!empty($diagnosticData) && isset($diagnosticData)){
     $diaId = $diagnosticData[0]->diagnostic_id;
     
 }?>
-                                 <!--Timeslot Starts -->
-  <section class="tab-pane fade in <?php if(isset($active) && $active == 'timeslot'){echo "active";}?>" id="timeslot">
-                                     <div class="col-md-10 p-b-20">
-                                         <?php if(isset($AlltimeSlot) && !empty($AlltimeSlot)):?>
-                                          <form class="form-horizontal" action="<?php echo site_url('diagnostic/UpdateDiagnosticTimeSlot/'.$diaId);?>" method="post" name="timeSlotForm" id="timeSlotForm">
-                                             <aside id="session">
-                                                 <div id="timeslotError"></div>
-                                                 <div class="clearfix"></div>
-                                                 <article class="clearfix m-t-10">
-                                                     <label for="" class="control-label col-md-4 col-sm-4">Morning Session:</label>                               <input id="morningSession" type="hidden" name="morningSession" class="form-control" value="0" />
-                                       <input id="diagnosticId" type="hidden" name="diagnosticId" class="form-control" value="<?php  if(!empty($diagnosticData) && isset($diagnosticData)){ echo $diagnosticData[0]->diagnostic_id;} ?>" />
-                                                     <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                         <div class="bootstrap-timepicker input-group w-full">
-                                                             <input id="morningStartTime" name="morningStartTime" type="text" class="form-control timepicker" value="<?php echo date('h:i A',strtotime($AlltimeSlot[0]->diagnosticCenterTimeSlot_startTime))?>" />
-                                                             <label class="error"> <?php echo form_error('morningStartTime'); ?></label>
-                                                         </div>
-                                                     </div>
-                                                     <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                         <div class="bootstrap-timepicker input-group w-full">
-                                                             <input id="morningEndTime" name="morningEndTime" type="text" class="form-control timepicker" value="<?php echo date('h:i A',strtotime($AlltimeSlot[0]->diagnosticCenterTimeSlot_endTime))?>" onBlur="checkTImeSlotValid('morning');" />
-                                                             <label class="error"> <?php echo form_error('morningEndTime'); ?></label>
-                                                         </div>
-                                                     </div>
-                                                 </article>
-                                                 <article class="clearfix m-t-10">
-                                                     <label for="" class="control-label col-md-4 col-sm-4">Afternoon Session :</label>
-                                                     <input id="afternoonSession" type="hidden" name="afternoonSession" class="form-control" value="1" />
-                                                     <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                         <div class="bootstrap-timepicker input-group w-full">
-                                                             <input id="afternoonStartTime" name="afternoonStartTime" type="text" class="form-control timepicker" value="<?php echo date('h:i A',strtotime($AlltimeSlot[1]->diagnosticCenterTimeSlot_startTime))?>" />
-                                                             <label class="error"> <?php echo form_error('afternoonStartTime'); ?></label>
-                                                         </div>
-                                                     </div>
-                                                     <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                         <div class="bootstrap-timepicker input-group w-full">
-                                                             <input id="afternoonEndTime" name="afternoonEndTime" type="text" class="form-control timepicker" value="<?php echo date('h:i A',strtotime($AlltimeSlot[1]->diagnosticCenterTimeSlot_endTime))?>" />
-                                                              <label class="error"> <?php echo form_error('afternoonEndTime'); ?></label>
-                                                         </div>
-                                                     </div>
-                                                 </article>
-                                                 <article class="clearfix m-t-10">
-                                                     <label for="" class="control-label col-md-4 col-sm-4">Evening Session :</label>
-                                                     <input id="eveningSession" type="hidden" name="eveningSession" class="form-control" value="2" />
-                                                     <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                         <div class="bootstrap-timepicker input-group w-full">
-                                                             <input id="eveningStartTime" name="eveningStartTime" type="text" class="form-control timepicker" value="<?php echo date('h:i A',strtotime($AlltimeSlot[2]->diagnosticCenterTimeSlot_startTime))?>" />
-                                                             <label class="error"> <?php echo form_error('eveningStartTime'); ?></label>
-                                                         </div>
-                                                     </div>
-                                                     <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                         <div class="bootstrap-timepicker input-group w-full">
-                                                             <input id="eveningEndTime" name="eveningEndTime" type="text" class="form-control timepicker" value="<?php echo date('h:i A',strtotime($AlltimeSlot[2]->diagnosticCenterTimeSlot_endTime))?>" />
-                                                             <label class="error"> <?php echo form_error('eveningEndTime'); ?></label>
-                                                         </div>
-                                                     </div>
-                                                 </article>
-<!--                                                 <article class="clearfix m-t-10">
-                                                     <label for="" class="control-label col-md-4 col-sm-4">Night Session :</label>
-                                                     <input id="nightSession" type="hidden" name="nightSession" class="form-control" value="3" />
-                                                     <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                         <div class="bootstrap-timepicker input-group w-full">
-                                                             <input id="nightStartTime" name="nightStartTime" type="text" class="form-control timepicker" value="<?php //echo date('h:i A',strtotime($AlltimeSlot[3]->diagnosticCenterTimeSlot_startTime))?>" />
-                                                              <label class="error"> <?php echo form_error('nightStartTime'); ?></label>
-                                                         </div>
-                                                     </div>
-                                                     <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                         <div class="bootstrap-timepicker input-group w-full">
-                                                             <input id="nightEndTime" name="nightEndTime" type="text" class="form-control timepicker" value="<?php //echo date('h:i A',strtotime($AlltimeSlot[3]->diagnosticCenterTimeSlot_endTime))?>"/>
-                                                              <label class="error"> <?php echo form_error('nightEndTime'); ?></label>
-                                                         </div>
-                                                     </div>
-                                                 </article>-->
-                                             </aside>
-                                             <article class="clearfix ">
-                                                 <div class="col-md-12 m-t-20 m-b-20">
-<!--                                                     <button class="btn btn-danger waves-effect pull-right" type="button">Reset</button>-->
-                                                     <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit">Update</button>
-                                                 </div>
-                                             </article>
-                                         </form>
-                                         <?php else: ?>
-                                              <form class="form-horizontal" action="<?php echo site_url('diagnostic/diagnosticAddTimeSlot/'.$this->uri->segment(3));?>" method="post" name="timeSlotForm" id="timeSlotForm">
-                                             <aside id="session">
-                                                 <div id="timeslotError"></div>
-                                                 <div class="clearfix"></div>
-                                                 <article class="clearfix m-t-10">
-                                                     <label for="" class="control-label col-md-4 col-sm-4">Morning Session:</label>                               <input id="morningSession" type="hidden" name="morningSession" class="form-control" value="0" />
-                                                     <input id="diagnosticId" type="hidden" name="diagnosticId" class="form-control" value="<?php echo $this->uri->segment(3); ?>" />
-                                                     <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                         <div class="bootstrap-timepicker input-group w-full">
-                                                             <input id="morningStartTime" name="morningStartTime" type="text" class="form-control timepicker" value="06:00 AM" onBlur="checkTImeSlotValid('morning');"/>
-                                                             <label class="error"> <?php echo form_error('morningStartTime'); ?></label>
-                                                         </div>
-                                                     </div>
-                                                     <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                         <div class="bootstrap-timepicker input-group w-full">
-                                                             <input id="morningEndTime" name="morningEndTime" type="text" class="form-control timepicker" value="11:59 AM" onBlur="checkTImeSlotValid('morning');"/>
-                                                             <label class="error"> <?php echo form_error('morningEndTime'); ?></label>
-                                                         </div>
-                                                     </div>
-                                                 </article>
-                                                 <article class="clearfix m-t-10">
-                                                     <label for="" class="control-label col-md-4 col-sm-4">Afternoon Session :</label>
-                                                     <input id="afternoonSession" type="hidden" name="afternoonSession" class="form-control" value="1" />
-                                                     <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                         <div class="bootstrap-timepicker input-group w-full">
-                                                             <input id="afternoonStartTime" name="afternoonStartTime" type="text" class="form-control timepicker" value="12:00 PM" onBlur="checkTImeSlotValid('afternoon');"/>
-                                                             <label class="error"> <?php echo form_error('afternoonStartTime'); ?></label>
-                                                         </div>
-                                                     </div>
-                                                     <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                         <div class="bootstrap-timepicker input-group w-full">
-                                                             <input id="afternoonEndTime" name="afternoonEndTime" type="text" class="form-control timepicker" value="05:59 PM" onBlur="checkTImeSlotValid('afternoon');"/>
-                                                              <label class="error"> <?php echo form_error('afternoonEndTime'); ?></label>
-                                                         </div>
-                                                     </div>
-                                                 </article>
-                                                 <article class="clearfix m-t-10">
-                                                     <label for="" class="control-label col-md-4 col-sm-4">Evening Session :</label>
-                                                     <input id="eveningSession" type="hidden" name="eveningSession" class="form-control" value="2" />
-                                                     <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                         <div class="bootstrap-timepicker input-group w-full">
-                                                             <input id="eveningStartTime" name="eveningStartTime" type="text" class="form-control timepicker" value="06:00 PM" onBlur="checkTImeSlotValid('evening');"/>
-                                                             <label class="error"> <?php echo form_error('eveningStartTime'); ?></label>
-                                                         </div>
-                                                     </div>
-                                                     <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                         <div class="bootstrap-timepicker input-group w-full">
-                                                             <input id="eveningEndTime" name="eveningEndTime" type="text" class="form-control timepicker" value="10:59 PM" onBlur="checkTImeSlotValid('evening');"/>
-                                                             <label class="error"> <?php echo form_error('eveningEndTime'); ?></label>
-                                                         </div>
-                                                     </div>
-                                                 </article>
-<!--                                                 <article class="clearfix m-t-10">
-                                                     <label for="" class="control-label col-md-4 col-sm-4">Night Session :</label>
-                                                     <input id="nightSession" type="hidden" name="nightSession" class="form-control" value="3" />
-                                                     <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                         <div class="bootstrap-timepicker input-group w-full">
-                                                             <input id="nightStartTime" name="nightStartTime" type="text" class="form-control timepicker" value="11:00 PM" onBlur="checkTImeSlotValid('night');"/>
-                                                              <label class="error"> <?php //echo form_error('nightStartTime'); ?></label>
-                                                         </div>
-                                                     </div>
-                                                     <div class="col-md-4 col-sm-4 m-tb-xs-5">
-                                                         <div class="bootstrap-timepicker input-group w-full">
-                                                             <input id="nightEndTime" name="nightEndTime" type="text" class="form-control timepicker" value="04:59 AM" onBlur="checkTImeSlotValid('night');"/>
-                                                              <label class="error"> <?php //echo form_error('nightEndTime'); ?></label>
-                                                         </div>
-                                                     </div>
-                                                 </article>-->
-                                             </aside>
-                                             <article class="clearfix ">
-                                                 <div class="col-md-12 m-t-20 m-b-20">
-<!--                                                     <button class="btn btn-danger waves-effect pull-right" type="button">Reset</button>-->
-                                                     <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return checkTImeSlotValid()">Submit</button>
-                                                 </div>
-                                             </article>
-                                         </form>
-                                         <?php  endif;?>
-                                     </div>
+                              <!--Timeslot Starts -->
+  <section class="tab-pane fade in <?php if(isset($active) && ($active == 'timeslot'  OR $active ==  'timeSlot')){echo "active";}?>" id="timeslot">
+      
+                                     <?php if(isset($timeSlot) && !empty($timeSlot)):?>
+                         
+                    <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('diagnostic/updateTimeSlot');?>">
+                        
+                        <input type="hidden" name="mi_user_id" value="<?php if(isset($diagnosticData[0]->diagnostic_usersId)){ echo $diagnosticData[0]->diagnostic_usersId; }?>" id="mi_user_id" />
+                        
+                         <input type="hidden" name="mi_id" value="<?php if(isset($diagnosticData[0]->diagnostic_id)){ echo $diagnosticData[0]->diagnostic_id; }?>" />
+                         
+                          <input type="hidden" name="redirectControllerMethod" value="diagnostic/detailDiagnostic" />
+                        
+                        <?php echo $this->load->view('common_pages/edit_time_slot_view');?>
+                        
+                        <article class="clearfix m-t-10">
+                            <div class="col-md-12">
+                              <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit" onclick="return timeSlotCheck()">Update</button>
+                            </div>
+                            </article>
+                    </form>
+                    <?php else: ?>
+                        
+                       <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('diagnostic/setTimeSlotMi');?>">
+                         <input type="hidden" name="mi_user_id" value="<?php if(isset($diagnosticData[0]->diagnostic_usersId)){ echo $diagnosticData[0]->diagnostic_usersId; }?>" />
+                         <input type="hidden" name="mi_id" value="<?php if(isset($diagnosticData[0]->diagnostic_id)){ echo $diagnosticData[0]->diagnostic_id; }?>" />
+                         
+                          <input type="hidden" name="redirectControllerMethod" value="diagnostic/detailDiagnostic" />
+                         
+                        <?php echo $this->load->view('common_pages/time_slot_view');?>
+                        
+                        <article class="clearfix m-t-10">
+                            <div class="col-md-12">
+                              <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit" onclick="return timeSlotCheck()">Submit</button>
+                            </div>
+                            </article>
+                    </form>
+                         
+                    <?php endif;?>
                                  </section>
                                  <!-- Timeslot Ends -->
                                  
@@ -782,7 +679,8 @@ if(!empty($diagnosticData) && isset($diagnosticData)){
 } ?>" id="doctor">
                                 <!-- Form Section Start -->
                                 <article class="row p-b-10" style="margin-left: 0">
-                                    <form name="addDigoDocForm" action="#" id="addDigoDocForm" method="post">    
+                                    
+<!--                                    <form name="addDigoDocForm" action="#" id="addDigoDocForm" method="post">    
                                         <aside class="col-md-4 col-sm-4 m-tb-xs-3">
                                             <div class="input-group">
                                                 <input type="text" name="doctorEmail" id="doctorEmail" class="form-control" placeholder="Check Doctor" onkeyup="switchButton()" required=""/>
@@ -805,19 +703,27 @@ if(!empty($diagnosticData) && isset($diagnosticData)){
                                             <button class="btn btn-appointment  m-l-10 pull-right" type="submit" id="addToDiago" >Add To Diagnostic Doctor</button>
                                         </aside>
 
-                                    </form>
-                                    <aside class="col-md-2 col-sm-2" id="checkDoctor">
+                                    </form>-->
+                                    
+<!--                                    <aside class="col-md-2 col-sm-2" id="checkDoctor">
                                         <button class="btn btn-appointment  m-l-10 pull-right" onclick="checkEmailExits()">Check Doctor</button>
                                     </aside>
                                     <aside class="col-md-2 col-sm-2" id="AddNewDoc" style="display: none">
                                         <button class="btn btn-appointment  m-l-10 pull-right" onclick="newDoctor();" >Add New Doctor</button>
+                                    </aside>-->
+
+
+                                    <aside class="col-md-2 col-sm-2" id="AddNewDoc">
+                                            <button class="btn btn-success waves-effect waves-light m-l-10 pull-right addDoctorButton" onclick="addNewDoctor();" >Add New Doctor</button>
                                     </aside>
+                                                    
+                                                    
                                     <aside class="col-md-3 col-sm-3 m-tb-xs-3 pull-right">
                                         <input type="text" name="search" id="search" class="form-control" placeholder="Search" />
                                     </aside>
                                 </article>
                                 <!-- Form Section End -->
-                                        <article class="clearfix m-top-40 p-b-20">
+                                        <article class="clearfix m-top-40 p-b-20" id="doctorList" style="<?php if(isset($showDiv) && $showDiv == 'adddoctor' OR $showDiv == 'editDoctor'){echo "display:none";}?>">
                                             <aside class="table-responsive">
                                                 <table class="table all-doctor" id="diagnostic_doctors" style="width:100%">
                                                     <thead>
@@ -834,6 +740,19 @@ if(!empty($diagnosticData) && isset($diagnosticData)){
                                                 </table>
                                             </aside>
                                         </article>
+                                
+                                <?php echo $showDiv; ?>
+                                    <div id="doctorForm" style="<?php if(isset($showDiv) && $showDiv == 'adddoctor'){echo "display:block";}else{ echo "display:none"; } ?>" >
+                                            <?php echo $this->load->view('addDoctor'); ?>
+                                            <?php echo $this->load->view('doctorScript.php'); ?>
+                                    </div>
+                                    
+                                    
+                                    <div id="editDoctorForm" style="<?php if(isset($showDiv) && $showDiv == 'editDoctor'){echo "display:block";}else{ echo "display:none"; } ?>" >
+                                            <?php echo $this->load->view('editDoctor'); ?>
+                                            <?php echo $this->load->view('doctorScript.php'); ?>
+                                    </div>
+                                
                                     </section>
                                     <!-- Staff and Permission Ends -->
 

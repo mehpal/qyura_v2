@@ -172,14 +172,13 @@ if($current != 'detailDiagnostic'):?>
      * @description  datepicker
      * @access public
      */
-    $('.selectpicker').selectpicker({
-        style: 'btn-default',
-        size: "auto",
-        width: "100%"
-    });
+//    $('.selectpicker').selectpicker({
+//        style: 'btn-default',
+//        size: "auto",
+//        width: "100%"
+//    });
 
-     
-//   $(".selectpicker").select2();
+       $(".select2").select2();
     
     function fetchCity(stateId) {
         $.ajax({
@@ -218,6 +217,7 @@ if($current != 'detailDiagnostic'):?>
                 {"data": "city_name"},
                 {"data": "diagnostic_phn"},
                 {"data": "diagnostic_address"},
+                {"data": "status"},
                 {"data": "view"},
             ],
             "ajax": {
@@ -226,14 +226,15 @@ if($current != 'detailDiagnostic'):?>
                 "data": function (d) {
                     d.cityId = $("#diagnostic_cityId").val();
                     d.bloodBank_name = $("#search").val();
-                    if ($("#diagnostic_stateId").val() != ' ') {
-                        d.hosStateId = $("#diagnostic_stateId").val();
-                    }
+                    d.status = $("#status").val();
+                   // if ($("#diagnostic_stateId").val() != ' ') {
+                   //     d.hosStateId = $("#diagnostic_stateId").val();
+                  //  }
                     d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
                 }
             }
         });
-        $('#diagnostic_cityId,#diagnostic_stateId').change(function () {
+        $('#diagnostic_cityId,#status').change(function () {
             oTable.draw();
         });
         $('#search').on('keyup', function () {
@@ -266,7 +267,7 @@ if($current != 'detailDiagnostic'):?>
                 {"data": "specialityName"},
                 {"data": "consFee"},
                 {"data": "exp"},
-                {"data": "doctors_phn"},
+                {"data": "doctors_phon"},
                 {"data": "view"},
             ],
             "ajax": {
@@ -632,6 +633,38 @@ if($current != 'detailDiagnostic'):?>
     } 
     
      function addSpeciality(){
+         
+        var specialityId = [];
+        var checkValues = [];
+        
+        var checkValues = $('.myCheckbox:input:checkbox:checked').map(function() {
+                return this.value;
+            }).get();
+            
+      // alert(checkValues.length);
+       if(checkValues.length > 1){
+        var reYesNo = true;   
+        $.ajax({
+                    url: urls + 'index.php/diagnostic/checkSpeciality',
+                    type: 'POST',
+                    async: false, //=>>>>>>>>>>> here >>>>>>>>>>>
+                    data: {'diagnosticId': diagnosticId, 'allValuers': checkValues},
+                    success: function (datas) {
+                        if (datas == 0) {
+                             reYesNo = false;
+                           //  console.log(reYesNo,'andar');
+                             bootbox.alert("Sorry, you can't add more than three specialities!");
+                             
+                        }
+                    }
+                });
+                
+              //  console.log(reYesNo,'bahar');
+                if(!reYesNo)
+                   return false; 
+         
+       }
+         
          $('.diagonasticSpecialCheck').each(function() {
             if($(this).is(':checked')){
                 $(this).removeClass( "diagonasticSpecialCheck diagonasticSpecialCheck1" );
@@ -645,10 +678,15 @@ if($current != 'detailDiagnostic'):?>
                     $("#defaultloader").show();
                     
                    },
-                   success:function(datas){
-                        $("#defaultloader").hide();
-                       loadSpeciality();
-                   }
+                   success: function (datas) {
+                        if (datas == 0) {
+                             bootbox.alert("Sorry, you can't add more than three specialities!");
+                             return false;
+                             
+                        } else {
+                            loadSpeciality();
+                        }
+                    }
                 });
             }
             
@@ -2140,6 +2178,46 @@ function imageIsLoaded(e) {
             $('#error-ambulance_phn1').fadeIn().delay(3000).fadeOut('slow');
         }
     }
+    
+    function setSpecialityNameFormate(specialityFormate) {
+        var diagnoId = <?php echo $check; ?>;
+        if (diagnoId != '') {
+            var specialityFormate = specialityFormate;
+            $.ajax({
+                url: urls + 'index.php/diagnostic/setSpecialityNameFormate',
+                type: 'POST',
+                data: {'diagnoId': diagnoId, 'specialityFormate': specialityFormate},
+                success: function (data) {
+                    if (data) {
+                        // $('#users_email').addClass('bdr-error');
+                        return false;
+                    } else{
+
+                        return true;
+                    }
+                }
+            });
+        }
+    }
+    
+    
+      function addNewDoctor(){
+      
+     // alert($( "#doctorForm" ).hasClass( "myForm" ));
+      if($( "#doctorForm" ).hasClass( "myForm" )){
+           $('#doctorForm').removeClass('myForm');
+           $('#doctorForm').css("display",'none');
+           $('#doctorList').css("display",'block');
+           $(".addDoctorButton").html('Add New Doctor');
+      }else{
+          $('#doctorForm').addClass('myForm');
+          $('#doctorForm').css("display",'block');
+          $('#doctorList').css("display",'none');
+         // $('#doctorList').css("display",'none');
+          $(".addDoctorButton").html('Cancel Add Doctor');
+        }
+      
+  }
 </script>
 
 </body>

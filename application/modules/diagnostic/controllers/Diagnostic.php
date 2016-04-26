@@ -13,7 +13,8 @@ class Diagnostic extends MY_Controller {
     function index() {
         
         $data = array();
-        $data['allStates'] = $this->diagnostic_model->fetchStates();
+        $data['allCities'] = $this->Hospital_model->allCities();
+      //  $data['allStates'] = $this->diagnostic_model->fetchStates();
         $data['diagnosticData'] = $this->diagnostic_model->fetchdiagnosticData();
         //print_r($data['diagnosticData'] );exit;
         // $this->load->view('diagnosticlisting',$data);
@@ -71,9 +72,21 @@ class Diagnostic extends MY_Controller {
         $this->load->super_admin_template('addDiagcenter', $data, 'diagnosticScript');
     }
 
-    function detailDiagnostic($diagnosticId = '',$active='general') {
+    function detailDiagnostic($diagnosticId = '', $active= 'general', $showdiv = null) {
 
         $data = array();
+        
+       
+        if($this->uri->segment(5) != '' && $this->uri->segment(5) != 0){
+            $doctorId =   $this->uri->segment(5);
+            $showdiv = 'editDoctor';
+            $data['doctorDetail'] = $this->Hospital_model->getDoctorDeatil($doctorId); 
+            
+        }
+        
+        $data['speciality'] = $this->Doctor_model->fetchSpeciality();
+        $data['degree'] = $this->Doctor_model->fetchDegree();
+      //  $data['hospital'] = $this->Doctor_model->fetchHospital();
 
         $data['diagnosticData'] = $diagnosticData = $this->diagnostic_model->fetchdiagnosticData($diagnosticId);
         $data['gallerys'] = $this->diagnostic_model->customGet(array('table' => 'qyura_diagonsticsImages', 'where' => array('diagonsticImages_diagonsticId' => $diagnosticId, 'diagonsticImages_deleted' => 0)));
@@ -88,11 +101,23 @@ class Diagnostic extends MY_Controller {
                 'diagnosticCenterTimeSlot_deleted' => 0
             )
         );
-        $data['AlltimeSlot'] = $this->diagnostic_model->customGet($option);
+      //  $data['AlltimeSlot'] = $this->diagnostic_model->customGet($option);
+        
+        $mi_userId="";
+        if(!empty($diagnosticData)):
+         $mi_userId = $diagnosticData[0]->diagnostic_usersId;
+        endif;
+        $option = array(
+            'select' => '*',
+            'table'=> 'qyura_miTimeSlot',
+            'where'=> array('mi_user_id' => $mi_userId),
+        );
+        $data['timeSlot'] = $this->common_model->customGet($option);
 
         $data['diagnosticId'] = $diagnosticId;
         $data['showStatus'] = 'none';
         $data['detailShow'] = 'block';
+        $data['showDiv'] = $showdiv;
         $data['active'] = $active;
         $data['title'] = (!empty($data['diagnosticData'])) ? $data['diagnosticData'][0]->diagnostic_name : "Diagnostic Details";
         $this->load->super_admin_template('diagnosticDetail', $data, 'diagnosticScript');
@@ -1108,7 +1133,7 @@ class Diagnostic extends MY_Controller {
         $data = $this->diagnostic_model->fetchTableData($selectTableData, 'qyura_specialities', $wheres, $notIn, 'specialities_id');
         $specialist = '';
         foreach ($data as $key => $val) {
-            $specialist .='<li ><input type=checkbox class=diagonasticSpecialCheck name=speciality value=' . $val->specialities_id . ' /> ' . $val->specialities_name . '</li>';
+            $specialist .='<li ><input type=checkbox class="diagonasticSpecialCheck myCheckbox" name=speciality value=' . $val->specialities_id . ' /> ' . $val->specialities_name . '</li>';
         }
 
         echo $specialist;
@@ -1130,6 +1155,14 @@ class Diagnostic extends MY_Controller {
 
         $id = $this->input->post('diagnosticId');
         $diagnosticSpecialities_specialitiesId = $this->input->post('diagnosticSpecialities_specialitiesId');
+        
+          $sql = 'select diagnosticSpecialities_id from qyura_diagnosticSpecialities where diagnosticSpecialities_diagnosticId = '.$id.' AND diagnosticSpecialities_deleted = 0 ';
+        
+        $numRows = $this->common_model->customQueryCount($sql);
+       // echo $this->db->last_query(); exit;
+        if($numRows >= 3){
+             echo 0; exit;
+        }else{
         $insertData = array(
             'diagnosticSpecialities_specialitiesId' => $diagnosticSpecialities_specialitiesId,
             'diagnosticSpecialities_diagnosticId' => $id,
@@ -1143,6 +1176,7 @@ class Diagnostic extends MY_Controller {
         $return = $this->diagnostic_model->customInsert($option);
         echo $return;
         exit;
+        }
     }
 
     function revertSpeciality() {
@@ -1758,6 +1792,236 @@ class Diagnostic extends MY_Controller {
         if($diagnoId != ''){
             $response = $this->diagnostic_model->getDiagnosticdetail($diagnoId);
         }
+    }
+    
+    
+    function setSpecialityNameFormate(){
+        $diagnoId = $this->input->post('diagnoId');
+        $specialityFormate = $this->input->post('specialityFormate');
+        
+        if($diagnoId != ''){
+            $option = array(
+                'table' => 'qyura_diagnostic',
+                'where' => array('diagnostic_id' => $diagnoId),
+                'data' => array('diagnostic_specialityNameFormate' => $specialityFormate)
+            );
+           echo $response = $this->diagnostic_model->customUpdate($option);
+        }
+    }
+    
+    
+     function checkSpeciality() {
+        $diagnosticId = $this->input->post('diagnosticId');
+       // $allValuers = explode(',',$this->input->post('allValuers'));
+        
+        $sql = 'select diagnosticSpecialities_id from qyura_diagnosticSpecialities where diagnosticSpecialities_diagnosticId = '.$diagnosticId.' AND diagnosticSpecialities_deleted = 0 ';
+        
+        $numRows = $this->common_model->customQueryCount($sql);
+       // echo $this->db->last_query(); exit;
+        if($numRows >= 3){
+             echo 0; exit;
+        }else{
+            echo 1; exit;
+        }
+    }
+    
+    
+    function saveDoctor() {
+       // print_r($_POST);exit;
+       
+        $this->bf_form_validation->set_rules('doctors_fName', 'Doctors First Name', 'required|trim');
+        $this->bf_form_validation->set_rules('doctors_lName', 'Doctors Last Name', 'required|trim');
+       
+        
+        $this->bf_form_validation->set_rules('doctors_phn', 'Doctor Mobile', 'trim|numeric');
+        $this->bf_form_validation->set_rules('users_email', 'Users Email', "valid_email|trim");//||MUnique[{$Moption}]
+        
+        $this->bf_form_validation->set_rules('show_exp', 'Show experience ', 'trim|numeric');
+        
+        $this->bf_form_validation->set_rules('fee', 'Fee', 'trim|numeric|required');
+        
+        $this->bf_form_validation->set_rules('doctorSpecialities_specialitiesId[]', 'Speciality', 'trim|numeric|required');
+       
+         $this->bf_form_validation->set_rules('doctorAcademic_degreeId[]', 'Degree', 'trim|numeric|required');
+         
+         $this->bf_form_validation->set_rules('doctorSpecialities_specialitiesCatId[]', 'Speciality', 'trim|numeric|required');
+         
+         $this->bf_form_validation->set_rules('acdemic_addaddress[]', 'Address', 'trim|required');
+         
+         $this->bf_form_validation->set_rules('acdemic_addyear[]', 'Year', 'trim|numeric|required');
+         
+         
+        if (empty($_FILES['avatar_file']['name'])) {
+            $this->bf_form_validation->set_rules('avatar_file', 'File', 'required');
+       }
+        if ($this->bf_form_validation->run($this) === false) {
+            
+            $data = array();
+            $data['allStates'] = $this->Doctor_model->fetchStates();
+            $data['speciality'] = $this->Doctor_model->fetchSpeciality();
+            $data['degree'] = $this->Doctor_model->fetchDegree();
+            $data['hospital'] = $this->Doctor_model->fetchHospital();
+            $this->session->set_flashdata('valid_upload', $this->error_message);
+            $data['doctorId'] = 0;
+            $data['title'] = 'Diagnostic Detail';
+            $data['active'] = 'doctor';
+            
+            $pRoleId = $this->input->post('pRoleId');
+           // dump(validation_errors());
+            $this->detailDiagnostic($pRoleId, 'doctor', 'adddoctor');
+            //redirect('hospital/'.$pRoleId.'/doctor');
+          //  $this->load->super_admin_template('hospitalDetail', $data, 'hospitalScript');
+            return false;
+        } else {
+           
+            $imagesname = '';
+            if ($_FILES['avatar_file']['name']) {
+                $path = realpath(FCPATH . 'assets/doctorsImages/');
+                $upload_data = $this->input->post('avatar_data');
+                $upload_data = json_decode($upload_data);
+                
+                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/doctorsImages/', './assets/doctorsImages/thumb/', 'doctor');
+
+                if (empty($original_imagesname)) {
+                        $data = array();
+                        $data['allStates'] = $this->Doctor_model->fetchStates();
+                        $data['speciality'] = $this->Doctor_model->fetchSpeciality();
+                        $data['degree'] = $this->Doctor_model->fetchDegree();
+                        $data['hospital'] = $this->Doctor_model->fetchHospital();
+                        $this->session->set_flashdata('valid_upload', $this->error_message);
+                        $data['doctorId'] = 0;
+                        $data['title'] = 'Diagnostic Detail';
+                        $data['active'] = 'doctor';
+
+                        $pRoleId = $this->input->post('pRoleId');
+                       // dump(validation_errors());
+                        $this->detailDiagnostic($pRoleId, 'doctor', 'adddoctor');
+                        //redirect('hospital/'.$pRoleId.'/doctor');
+                      //  $this->load->super_admin_template('hospitalDetail', $data, 'hospitalScript');
+                        return false;
+                } else {
+                    $imagesname = $original_imagesname;
+                }
+            }
+            
+           
+            
+            $doctors_fName = $this->input->post('doctors_fName');
+            $doctors_lName = $this->input->post('doctors_lName');
+            $doctors_phn = $this->input->post('doctors_phn');
+            $users_email = $this->input->post('users_email');
+            $miUserId = $this->input->post('hospitalUserIdDoctor');
+            $pRoleId = $this->input->post('pRoleId');
+            $fee = $this->input->post('fee');
+
+          
+          
+            $show_exp = $this->input->post('show_exp');
+            $exp_year = $this->input->post('exp_year');
+            
+            $date = date('Y-m-d');
+            $newdate = strtotime ( "-$exp_year year" , strtotime ( $date ) ) ;
+            $exp_year = $newdate;
+            
+          
+            
+            $doctorsinserData = array(
+                'doctors_fName' => $doctors_fName,
+                'doctors_lName' => $doctors_lName,
+                'doctors_phon' => $doctors_phn,
+                'doctors_email' => $users_email,
+                'doctors_unqId' => 'DOC' . round(microtime(true)),
+                'doctors_img' => $imagesname,
+                'creationTime' => strtotime(date('Y-m-d')),
+                
+                
+                'doctors_showExp' => $show_exp,
+                'doctors_expYear' => $exp_year,
+           
+                'doctors_joiningDate' => strtotime(date('Y-m-d')),
+                
+                'doctors_roll' => 9,
+                'doctors_parentId' => $miUserId,
+                
+                'doctors_consultaionFee' => $fee,
+                
+                'status' => 0,
+                
+            );
+            
+            $doctorsProfileId = $this->Doctor_model->insertDoctorData($doctorsinserData, 'qyura_doctors');
+            
+            //dump($this->db->last_query());
+            $specialitiesIds = $this->input->post('doctorSpecialities_specialitiesId');
+
+            foreach ($specialitiesIds as $key => $val) {
+                $doctorSpecialities = array(
+                    'doctorSpecialities_doctorsId' => $doctorsProfileId,
+                    'doctorSpecialities_specialitiesId' => $val,
+                    'creationTime' => strtotime(date('Y-m-d'))
+                );
+                $this->Doctor_model->insertDoctorData($doctorSpecialities, 'qyura_doctorSpecialities');
+                //dump($this->db->last_query());
+                unset($doctorSpecialities);
+            }
+
+            $doctorAcademic_degreeId = $this->input->post('doctorAcademic_degreeId');
+            $doctorSpecialities_specialitiesCatId = $this->input->post('doctorSpecialities_specialitiesCatId');
+            $acdemic_addaddress = $this->input->post('acdemic_addaddress');
+            $acdemic_addyear = $this->input->post('acdemic_addyear');
+            for ($i = 0; $i < count($doctorAcademic_degreeId); $i++) {
+                /* here one more table insertion needed for academic image load on qyura_doctorAcademicImage table,
+                 *  but write now it is not here
+                 */
+                if ($doctorAcademic_degreeId[$i] != '' && $doctorSpecialities_specialitiesCatId[$i] != '' && $acdemic_addaddress[$i] != '' && $acdemic_addyear[$i] != '') {
+                    $doctorAcademicData = array(
+                        'doctorAcademic_degreeId' => $doctorAcademic_degreeId[$i],
+                        'doctorSpecialities_specialitiesCatId' => $doctorSpecialities_specialitiesCatId[$i],
+                        'doctorAcademic_degreeInsAddress' => $acdemic_addaddress[$i],
+                        'doctorAcademic_degreeYear' => $acdemic_addyear[$i],
+                        'doctorAcademic_doctorsId' => $doctorsProfileId,
+                        'creationTime' => strtotime(date('Y-m-d'))
+                    );
+
+                    $this->Doctor_model->insertDoctorData($doctorAcademicData, 'qyura_doctorAcademic');
+                    //dump($this->db->last_query());
+                    unset($doctorAcademicData);
+                }
+            }
+         
+            $this->session->set_flashdata('message', 'Data inserted successfully !');
+            
+            redirect('diagnostic/detailDiagnostic/'.$pRoleId.'/doctor');
+        }
+    }
+    
+    
+    function check_email_doctor() {
+        
+        $data = 0;
+        $user_table_id = '';
+        $users_email = $this->input->post('users_email');
+        $hospitalUserId = $this->input->post('hospitalUserId');
+        
+        $option = array(
+              'table' => 'qyura_doctors',
+              'select' => 'doctors_id',
+              'where' => 'doctors_email = "'.$users_email.'" AND  doctors_parentId = '.$hospitalUserId.' AND  doctors_roll = 9 AND doctors_deleted = 0',  
+            );
+        
+        
+        $email = $this->common_model->customGet($option);
+       // echo $this->db->last_query();   
+       // echo 1; exit;
+      // print_r($email); exit;
+        if (empty($email)){
+           
+           echo 1;
+           
+        } else {
+            echo $data;
+        }
+        exit;
     }
 
 }
