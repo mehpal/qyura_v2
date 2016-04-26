@@ -776,7 +776,7 @@
                                         </article>
                                         <section class="clearfix ">
                                             <div class="m-t-20 m-b-20">
-                                                <button type="submit" class="btn btn-success waves-effect waves-light  m-r-20">Submit</button>
+                                                <button type="submit" hospitalsclass="btn btn-success waves-effect waves-light  m-r-20">Submit</button>
                                             </div>
                                         </section>
                                     </form>
@@ -992,10 +992,11 @@
                 </figure>
                 <!-- Add Specialities -->
                 <div class="col-sm-12">
-                    <form  class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" name="addDoctorSlot" method="post" action="#" novalidate="novalidate">
+                    <form  class="cmxform form-horizontal tasi-form avatar-form" id="timeForm" name="addDoctorSlot" method="post" action="#" novalidate="novalidate">
                         <article class="clearfix m-t-10">
                             <label class="control-label" for="docTimeTable_stayAt">Seating Place Type:</label>
                             <div class="">
+                                <input type="hidden" name="doctorId" id="" value="<?php echo $doctorId; ?>" />
                                 <aside class="radio radio-info radio-inline">
                                     <input type="radio"  required="" name="docTimeTable_stayAt" value="1" class="docTimeTable_stayAt" onclick="placeDetail(this.value)" >
                                     <label for="inlineRadio1"> MI Place</label>
@@ -1004,6 +1005,7 @@
                                     <input type="radio" required="" name="docTimeTable_stayAt" value="0" class="docTimeTable_stayAt" onclick="placeDetail(this.value)" >
                                     <label for="inlineRadio2"> Personal Chamber</label>
                                 </aside>
+                                <label id="err_docTimeTable_stayAt" class="error"><?php echo form_error("psChamber_name"); ?></label>
                             </div>
                         </article>
                         <article class="clearfix m-t-10" id="div_docTimeTable_MItype">
@@ -1014,105 +1016,140 @@
                                     <option value="1">Hospital</option>
                                     <option value="2">Diagnostic</option>
                                 </select>
+                                <label id="err_docTimeTable_MItype" class="error"><?php echo form_error("docTimeTable_MItype"); ?></label>
                             </div>
+                            
                         </article>
                         <article class="clearfix m-t-10" id="div_docTimeTable_HprofileId">
-                            <label class="control-label" for="docTimeTable_MIprofileId">Hospital Name:</label>
+                            <label class="control-label" for="docTimeTable_MIprofileId_h">Hospital Name:</label>
                             <div class="">
-                                <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId" id="docTimeTable_MIprofileId">
+
+                                <?php $hospitals[] = (object) array('hospital_id' =>0, 'hospital_name' => 'Other') ?>
+                                <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId_h" id="docTimeTable_MIprofileId_h" onchange="getHospitaldetail(this.value)" >
                                     <option value="">-- Select Hospital --</option>
-                                    <?php if (isset($allHospital) && $allHospital != NULL) {
-                                        foreach ($allHospital as $aH) {
-                                            ?>
-                                            <option value="<?php echo $aH->hospital_id ?>"><?php echo $aH->hospital_name ?></option>
-                                        <?php }
-                                    }
-                                    ?>
-                                    <option value="0">Other</option>
+                                     <?php  if (!empty($hospitals)) {
+                                            
+                                            foreach ($hospitals as $key => $val) {
+                                                ?>
+                                                <option <?php echo set_select('hospital_id', $val->hospital_id); ?> value="<?php echo $val->hospital_id; ?>"> <?php echo $val->hospital_name; ?></option>
+                                            <?php }
+                                        }
+                                        ?>
+
                                 </select>
+                                
+                                <label id="err_docTimeTable_MIprofileId_h" class="error"><?php echo form_error("docTimeTable_MIprofileId_h"); ?></label>
                             </div>
                         </article>
                         <article class="clearfix m-t-10" id="div_docTimeTable_DprofileId">
-                            <label class="control-label" for="docTimeTable_MIprofileId">Diagnostic Name:</label>
+                            <label class="control-label" for="docTimeTable_MIprofileId_d">Diagnostic Name:</label>
                             <div class="">
-                                <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId" id="docTimeTable_MIprofileId">
+
+                                <?php $diagnostics[] = (object) array('diagnostic_id' =>0, 'diagnostic_name' => 'Other') ?>
+                                <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId_d" id="docTimeTable_MIprofileId_d">
+
                                     <option value="">-- Select Diagnostic --</option>
-    <?php if (isset($alldignostic) && $alldignostic != NULL) {
-    foreach ($alldignostic as $aD) {
-    ?>
-                                            <option value="<?php echo $aD->diagnostic_id ?>"><?php echo $aD->diagnostic_name ?></option>
-    <?php }
-    }
+    <?php  if (!empty($diagnostics)) {
+                                            
+                                            foreach ($diagnostics as $key => $val) {
+                                                ?>
+                                                <option <?php echo set_select('diagnostic_id', $val->diagnostic_id); ?> value="<?php echo $val->diagnostic_id; ?>"> <?php echo $val->diagnostic_name; ?></option>
+                                            <?php }
+                                        }
+                                        ?>
     ?>
                                     <option value="0">Other</option>
                                 </select>
+                                <label id="err_docTimeTable_MIprofileId_d" class="error"><?php echo form_error("docTimeTable_MIprofileId_d"); ?></label>
                             </div>
                         </article>
                         <article class="clearfix" id="div_Mi_name">
                             <label class="control-label" for="Mi_name">MI Name:</label>
                             <div class="">
                                 <input type="text" name="Mi_name" id="Mi_name" class="form-control" placeholder="MI Name" value="<?php echo set_value('Mi_name'); ?>">
-                                <label class="error"><?php echo form_error("Mi_name"); ?></label>
+                                <label id="err_Mi_name" class="error"><?php echo form_error("Mi_name"); ?></label>
                             </div>
                         </article>
                         <article class="clearfix m-t-10 " id="div_psChamber_name">
                             <label class="control-label" for="psChamber_name">Personal Chamber Name:</label>
                             <div class="">
                                 <input type="text" name="psChamber_name" id="psChamber_name" class="form-control"  value="<?php echo set_value('psChamber_name'); ?>">
-                                <label class="error"><?php echo form_error("psChamber_name"); ?></label>
+                                <label id="err_psChamber_name" class="error"><?php echo form_error("psChamber_name"); ?></label>
                             </div>
                         </article>
-
+                        <article>
+                            <aside class="row">
+                        </aside>
+                        </article>
+                        
                         <article class="clearfix" id="div_address">
-                            <label for="cname" class="control-label">Address:</label>
+                            
                             <div class="">
+                                <div id="Miname_div" style="display: block">
+                                <aside class="row">
+                                    <div class="col-md-12">
+                                        
+                                        <label for="cname" class="control-label">MI Name:</label>
+                                        <input type="text" value="" style="display:none;" placeholder="Mi Name" name="Miname" id="Miname" class="form-control" readonly="readonly">
+                                        <label class="error" style="display:none;" id="error-Miname"> Zip code should be numeric and 6 digit long</label>
+                                        <label id="err_Miname" class="error" > <?php echo form_error("Miname"); ?></label>
+                                        </div>
+                                    
+                                </aside>
+                                </div>
                                 <aside class="row">
                                     <div class="col-md-6 col-sm-6">
-                                        <select class="selectpicker" data-width="100%" name="doctors_countryId" id="doctors_countryId">
+                                        <select class="selectpicker" onchange="fetchStates()" data-width="100%" name="countryId" id="timeCountryId">
+                                            <option value="">Select Country</option>
                                             <option value="1">India</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6 col-sm-6 m-t-xs-10">
-                                        <select class="selectpicker" data-width="100%" name="doctors_stateId" Id="doctors_stateId" data-size="4" onchange ="fetchCity(this.value)">
+                                        <select class="selectpicker" data-width="100%" name="stateId" Id="stateId" data-size="4" onchange ="fetchCity(this.value)">
                                             <option value="">Select State</option>
     <?php foreach ($allStates as $key => $val) { ?>
                                                 <option value="<?php echo $val->state_id; ?>"><?php echo $val->state_statename; ?></option>
     <?php } ?>
                                         </select>
-                                        <label class="error" style="display:none;" id="error-doctors_stateId"> please select a state</label>
-                                        <label class="error"><?php echo form_error("doctors_stateId"); ?></label>
+                                        <label class="error" style="display:none;" id="error-stateId"> please select a state</label>
+                                        <label id="err_stateId" class="error"><?php echo form_error("stateId"); ?></label>
                                     </div>
                                 </aside>
                                 <aside class="row">
                                     <div class="col-md-6 col-sm-6">
-                                        <select class="selectpicker" data-width="100%" name="doctors_cityId" id="doctors_cityId" data-size="4" >
+                                        <select class="selectpicker" data-width="100%" name="cityId" id="timeCityId" data-size="4" >
                                         </select>
-                                        <label class="error" style="display:none;" id="error-doctors_cityId"> please select a state</label>
-                                        <label class="error" > <?php echo form_error("doctors_cityId"); ?></label>
+                                        <label class="error" style="display:none;" id="error-cityId"> please select a state</label>
+                                        <label id="err_cityId" class="error" > <?php echo form_error("cityId"); ?></label>
                                     </div>
                                     <div class="col-md-6 col-sm-6 m-t-xs-10">
-                                        <input type="text" class="form-control" id="doctors_pinn" name="doctors_pinn" placeholder="Pin Code" maxlength="6" onkeypress="return isNumberKey(event)" value="<?php echo set_value('doctors_pinn'); ?>" />
-                                        <label class="error" style="display:none;" id="error-doctors_pinn"> Zip code should be numeric and 6 digit long</label>
-                                        <label class="error" > <?php echo form_error("doctors_pinn"); ?></label>
+                                        <input type="text" class="form-control" id="pinn" name="pinn" placeholder="Pin Code" maxlength="6" onkeypress="return isNumberKey(event)" value="<?php echo set_value('pinn'); ?>" />
+                                        <label class="error" style="display:none;" id="error-pinn"> Zip code should be numeric and 6 digit long</label>
+                                        <label id="err_pinn" class="error" > <?php echo form_error("pinn"); ?></label>
                                     </div>
 
                                 </aside>
                                 <aside class="row">
+                                    <input type="hidden" id="isAddressDisabled" name="isAddressDisabled" value="<?php if(isset($MiId) && $MiId != 0){ echo  1; }else{ echo 0; } ?>" />
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control" id="geocomplete1" name="doctor_addr" placeholder="Address" value="<?php echo set_value('doctor_addr'); ?>" />
-                                        <label class="error" > <?php echo form_error("doctor_addr"); ?></label>
+                                        <input type="text" class="form-control" id="addr" name="addr" placeholder="Address" value="<?php echo set_value('doctor_addr'); ?>" />
+                                        <label id="err_addr" class="error" > <?php echo form_error("addr"); ?></label>
                                     </div>
                                 </aside>
+
+                                
+                                
                                 <aside class="row">
-                                    <div class="col-sm-3">
-                                        <input name="lat" class="form-control" required="" type="text" value="<?php if(isset($doctorDetail[0]->doctors_lat) && $doctorDetail[0]->doctors_lat != NULL){ echo $doctorDetail[0]->doctors_lat; } ?>"  id="lat" placeholder="Latitude" onchange="latChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
-                                        <label class="error" > <?php echo form_error("lat"); ?></label>
-                                        <label class="error" style="display:none;" id="error-lat">Please enter the correct format for latitude</label>
+                                    <div class="col-sm-6">
+                                        <input name="lat" class="form-control" required="" type="text" value=""  id="mi_lat" placeholder="Latitude" onchange="latChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
+                                        <label id="err_lat" class="error" > <?php echo form_error("lat"); ?></label>
+                                        <label class="error" style="display:none;" id="error-mi_lat">Please enter the correct format for latitude</label>
                                     </div>
-                                    <div class="col-sm-3">
-                                        <input name="lng" required="" type="text" value="<?php if(isset($doctorDetail[0]->doctors_long) && $doctorDetail[0]->doctors_long != NULL){ echo $doctorDetail[0]->doctors_long; } ?>"  id="lng" class="form-control" placeholder="Longitude" onChange="lngChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
-                                        <label class="error" > <?php echo form_error("lng"); ?></label>
-                                        <label class="error" style="display:none;" id="error-lng"> Please enter the correct format for longitude</label>
+                                    <div class="col-sm-6">
+                                        <input name="lng" required="" type="text" value=""  id="mi_lng" class="form-control" placeholder="Longitude" onChange="lngChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
+                                        <label id="err_lng" class="error" > <?php echo form_error("lng"); ?></label>
+                                        <label class="error" style="display:none;" id="error-mi_lng"> Please enter the correct format for longitude</label>
+
                                     </div>
                                 </aside>
                                 
@@ -1121,7 +1158,7 @@
                         <article class="clearfix">
                             <label class="control-label" for="docTimeDay_day">Weekdays:</label>
                             <div class="">
-                                <select class="m-t-5 select2" data-width="100%" name="docTimeDay_day" id="docTimeDay_day" multiple="">
+                                <select class="m-t-5 select2" data-width="100%" name="docTimeDay_day[]" id="docTimeDay_day" multiple="">
                         <?php   
                                 $days = getDay();
                                 if (isset($days) && $days != NULL) {
@@ -1131,6 +1168,7 @@
                                 }  ?>
                                 </select>
                             </div>
+                            <label id="err_docTimeDay_day" class="error" > <?php echo form_error("docTimeDay_day"); ?></label>
                             <div class="">
                                 <aside class="checkbox checkbox-success m-t-5">
                                     <input type="checkbox" id="selectAllDay" name="selectAllDay" class="" >
@@ -1138,17 +1176,19 @@
                                 </aside>
 
                             </div>
+                            <label id="err_day" class="error" > <?php echo form_error("day"); ?></label>
                         </article>
                         <article class="clearfix  m-t-10">
                             <div class="">
                                 <aside class="row">
                                     <div class="col-sm-6">
                                         <input name="openingHour" class="form-control" required="" type="text" value="<?php echo set_value('openingHour'); ?>"  id="lat"   placeholder="opening Hour" />
-                                        <label class="error" > <?php echo form_error("openingHour"); ?></label>
+                                        <label id="err_openingHour" class="error" > <?php echo form_error("openingHour"); ?></label>
                                     </div>
                                     <div class="col-sm-6">
                                         <input name="closeingHour" required="" type="text" value="<?php echo set_value('closeingHour'); ?>"  id="closeingHour"  class="form-control" placeholder="closing Hour"  maxlength="9"/>
-                                        <label class="error" > <?php echo form_error("closeingHour"); ?></label>
+                                        <label id="err_closeingHour" class="error" > <?php echo form_error("closeingHour"); ?></label>
+                                        
                                     </div>
                                 </aside>
                             </div>
@@ -1159,7 +1199,7 @@
                                 <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i>
     </span>
                                 <input name="fees" required="" type="text" value="<?php echo set_value('fees'); ?>"  id="fees"   class="form-control" placeholder="fees"  maxlength="9" onkeypress="return isNumberKey(event)"  />
-                                <label class="error" > <?php echo form_error("fees"); ?></label>
+                                <label id="err_fees" class="error" > <?php echo form_error("fees"); ?></label>
                             </div>
                         </article>
                         <article class="clearfix m-t-10 m-b-20">

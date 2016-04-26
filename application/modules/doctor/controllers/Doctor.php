@@ -108,7 +108,7 @@ class Doctor extends MY_Controller {
         $this->bf_form_validation->set_rules('doctors_pinn', 'Pin', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('doctor_addr', 'Address', 'required|trim');
         $this->bf_form_validation->set_rules('doctors_phn', 'User Phone', 'required|trim|numeric');
-        $this->bf_form_validation->set_rules('users_email', 'Users Email', "required|valid_email|trim");//||MUnique[{$Moption}]
+        $this->bf_form_validation->set_rules('users_email', 'Users Email', "required|valid_email|trim"); //||MUnique[{$Moption}]
         $this->bf_form_validation->set_rules('cnfPassword', 'Password Confirmation', 'trim|required');
         $this->bf_form_validation->set_rules('exp_year', 'Experience year', 'required|trim');
         if (empty($_FILES['avatar_file']['name'])) {
@@ -127,7 +127,7 @@ class Doctor extends MY_Controller {
             $this->load->super_admin_template('addDoctor', $data, 'doctorScript');
             return false;
         } else {
-   
+
             $imagesname = '';
             if ($_FILES['avatar_file']['name']) {
                 $path = realpath(FCPATH . 'assets/doctorsImages/');
@@ -152,10 +152,12 @@ class Doctor extends MY_Controller {
             }
 
             $doctors_phn = $this->input->post('doctors_phn');
+
             $pos = strpos($doctors_phn, "0");
             $doctors_phnNo = '';
             if($pos == "0"){ $doctors_phnNo = explode("0", $doctors_phn);  }
             if(isset($doctors_phnNo[1])){ $doctors_phn = $doctors_phnNo[1]; }
+
             $users_email_status = $this->input->post('users_email_status');
             if ($users_email_status == 0) {
                 $users_email = $this->input->post('users_email');
@@ -199,24 +201,24 @@ class Doctor extends MY_Controller {
             $doctors_pin = $this->input->post('doctors_pinn');
             $doctors_lat = $this->input->post('lat');
             $doctors_long = $this->input->post('lng');
-            
+
             $doctors_27Src = $this->input->post('doctors_27Src');
-            
+
             $doctor_addr = $this->input->post('doctor_addr');
 
 
-            
+
             $home_visit = $this->input->post('home_visit');
             $show_exp = $this->input->post('show_exp');
             $exp_year = $this->input->post('exp_year');
-            
+
             $date = date('Y-m-d');
-            $newdate = strtotime ( "-$exp_year year" , strtotime ( $date ) ) ;
+            $newdate = strtotime("-$exp_year year", strtotime($date));
             $exp_year = $newdate;
-            
+
             $docatId = $this->input->post('docatId');
             $qapId = $this->input->post('qapIdTb');
-            
+
 
             $doctorsinserData = array(
                 'doctors_fName' => $doctors_fName,
@@ -244,7 +246,6 @@ class Doctor extends MY_Controller {
                 'doctors_docatId' => $docatId,
                 'doctors_qapId' => $qapId,
                 'doctors_joiningDate' => strtotime(date('Y-m-d')),
-                
             );
             $doctorsProfileId = $this->Doctor_model->insertDoctorData($doctorsinserData, 'qyura_doctors');
 
@@ -285,7 +286,7 @@ class Doctor extends MY_Controller {
                 }
             }
 
-            
+
 
             $totalService = $this->input->post('totalService');
             for ($m = 1; $m <= count($totalService); $m++) {
@@ -321,6 +322,22 @@ class Doctor extends MY_Controller {
             $cityOption .= '<option value=' . $val->city_id . '>' . strtoupper($val->city_name) . '</option>';
         }
         echo $cityOption;
+        exit;
+    }
+
+    function fetchStates() {
+        $stateId = $this->input->post('stateId');
+        $countryId = $this->input->post('countryId');
+        $statesdata = $this->Doctor_model->fetchStates($countryId);
+        $statesOption = '';
+        $statesOption .='<option value=>Select Your States</option>';
+        foreach ($statesdata as $key => $val) {
+            if (isset($stateId) && $val->state_id == $stateId)
+                $statesOption .= '<option value=' . $val->state_id . ' selected >' . strtoupper($val->state_statename) . '</option>';
+            else
+                $statesOption .= '<option value=' . $val->state_id . '>' . strtoupper($val->state_statename) . '</option>';
+        }
+        echo $statesOption;
         exit;
     }
 
@@ -396,59 +413,59 @@ class Doctor extends MY_Controller {
         $data = array();
 
 
-        $data['MI_reffralId'] =$MI_reffralId= (isset($_GET['reffralId']) && $_GET['reffralId'] != "") ? $_GET['reffralId'] : "";
-        
-$MainSlot= array();
-        
-        if($MI_reffralId != ""){
-           $data['MainSlot'] =  $this->Doctor_model->getMISlots($MI_reffralId);
-        }else{
+        $data['MI_reffralId'] = $MI_reffralId = (isset($_GET['reffralId']) && $_GET['reffralId'] != "") ? $_GET['reffralId'] : "";
+
+        $MainSlot = array();
+
+        if ($MI_reffralId != "") {
+            $data['MainSlot'] = $this->Doctor_model->getMISlots($MI_reffralId);
+        } else {
 
             $data['MainSlot'] = defalutTimeSlots();
         }
         $data['speciality'] = $this->Doctor_model->fetchSpeciality();
         $data['doctorDetail'] = $doctorDetail = $this->Doctor_model->fetchDoctorData($doctorId);
-        
+
         $option = array(
             'table' => 'qyura_doctorSpecialities',
             'select' => 'doctorSpecialities_specialitiesId',
-            'where' => array('qyura_doctorSpecialities.doctorSpecialities_deleted' => 0,'qyura_doctorSpecialities.doctorSpecialities_doctorsId' => $doctorId),
+            'where' => array('qyura_doctorSpecialities.doctorSpecialities_deleted' => 0, 'qyura_doctorSpecialities.doctorSpecialities_doctorsId' => $doctorId),
             'single' => FALSE
         );
         $doctorSpecialities = $this->common_model->customGet($option);
-        
+
         $qyura_doctorSpecialities = array();
-        foreach($doctorSpecialities as $Specialities){
+        foreach ($doctorSpecialities as $Specialities) {
             array_push($qyura_doctorSpecialities, $Specialities->doctorSpecialities_specialitiesId);
         }
         $data['qyura_doctorSpecialities'] = $qyura_doctorSpecialities;
-        
+
         $option = array(
             'table' => 'qyura_country',
             'select' => '*',
-            'order'=>array('qyura_country.country'=>'asc'),
+            'order' => array('qyura_country.country' => 'asc'),
             'single' => FALSE
         );
         $data['qyura_country'] = $this->common_model->customGet($option);
-        
+
         $option = array(
             'table' => 'qyura_state',
             'select' => '*',
             'where' => array('qyura_state.state_countryid' => $doctorDetail[0]->doctors_countryId),
-            'order'=>array('qyura_state.state_statename'=>'asc'),
+            'order' => array('qyura_state.state_statename' => 'asc'),
             'single' => FALSE
         );
         $data['qyura_state'] = $this->common_model->customGet($option);
-        
+
         $option = array(
             'table' => 'qyura_city',
             'select' => '*',
             'where' => array('qyura_city.city_stateid' => $doctorDetail[0]->doctors_stateId),
-            'order'=>array('qyura_city.city_name'=>'asc'),
+            'order' => array('qyura_city.city_name' => 'asc'),
             'single' => FALSE
         );
         $data['qyura_city'] = $this->common_model->customGet($option);
-        
+
         $avWhere = array('doctorAvailability_docUsersId' => $data['doctorDetail'][0]->doctors_userId);
         $data['doctorAvailability'] = $doctorAvailability = $this->Doctor_model->getDoctorAvailability($avWhere);
 
@@ -492,25 +509,41 @@ $MainSlot= array();
         );
         $professional_exp = $this->common_model->customGet($option);
 
-        
+
         $option = array(
             'table' => 'qyura_doctorServices',
             'select' => '*',
-            'where' => array('qyura_doctorServices.doctorServicess_deleted' => 0,'qyura_doctorServices.doctorServices_doctorId' => $doctorId),
-            'order'=>array('qyura_doctorServices.doctorServices_serviceName'=>'asc'),
+            'where' => array('qyura_doctorServices.doctorServicess_deleted' => 0, 'qyura_doctorServices.doctorServices_doctorId' => $doctorId),
+            'order' => array('qyura_doctorServices.doctorServices_serviceName' => 'asc'),
             'single' => FALSE
         );
         $data['qyura_services'] = $this->common_model->customGet($option);
-        
+
 
         $where = array("doctorAvailability_docUsersId" => 46);
 
         $data['exprerience'] = $this->Doctor_model->fetchExprience($doctorId);
         $data['doctorAcademic'] = $this->Doctor_model->fetchAcademic($doctorId);
         $data['timeSlots'] = $this->Doctor_model->getDoctorAvailability($where);
-        $data['publishHospital'] = $this->Doctor_model->fetchPublishHospital();
+        $data['hospitals'] = $this->Doctor_model->fetchHosByStatus(null);
+        $data['diagnostics'] = $this->Doctor_model->fetchDigByStatus(null);
+        $data['doctorId'] = $doctorId;
         $data['title'] = 'Doctor Details';
         $this->load->super_admin_template('doctorDetails', $data, 'doctorScript');
+    }
+
+    function getHospitaldetail() {
+        $hospitalId = $this->input->post('Id');
+        if ($hospitalId != '') {
+            $response = $this->Doctor_model->getHospitaldetail($hospitalId);
+        }
+    }
+
+    function getDiagnosticdetail() {
+        $hospitalId = $this->input->post('Id');
+        if ($hospitalId != '') {
+            $response = $this->Doctor_model->getHospitaldetail($hospitalId);
+        }
     }
 
     function availability() {
@@ -817,12 +850,10 @@ $MainSlot= array();
             if ($user_updated) {
 
                 $this->session->set_flashdata('active_tag', 5);
-                $responce =  array('status'=>1,'msg'=>"Information update successfully",'url' =>"doctor/doctorDetails/$doctorAjaxId");
-            }else
-            {
-                $error = array("TopError"=>"<strong>Something went wrong while updating your data... sorry.</strong>");
-                $responce =  array('status'=>0,'isAlive'=>TRUE,'errors'=>$error);
-
+                $responce = array('status' => 1, 'msg' => "Information update successfully", 'url' => "doctor/doctorDetails/$doctorAjaxId");
+            } else {
+                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
             echo json_encode($responce);
         }
@@ -867,12 +898,10 @@ $MainSlot= array();
             if ($user_insert) {
 
                 $this->session->set_flashdata('active_tag', 2);
-                $responce =  array('status'=>1,'msg'=>"Academic added successfully",'url' =>"doctor/doctorDetails/$doctorAjaxId");
-            }else
-            {
-                $error = array("TopError"=>"<strong>Something went wrong while updating your data... sorry.</strong>");
-                $responce =  array('status'=>0,'isAlive'=>TRUE,'errors'=>$error);
-
+                $responce = array('status' => 1, 'msg' => "Academic added successfully", 'url' => "doctor/doctorDetails/$doctorAjaxId");
+            } else {
+                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
             echo json_encode($responce);
         }
@@ -915,36 +944,35 @@ $MainSlot= array();
             $doctorAjaxId = $this->input->post('doctorAjaxId');
 
             $this->session->set_flashdata('active_tag', 2);
-            $responce =  array('status'=>1,'msg'=>"Academic update successfully",'url' =>"doctor/doctorDetails/$doctorAjaxId");
-            
+            $responce = array('status' => 1, 'msg' => "Academic update successfully", 'url' => "doctor/doctorDetails/$doctorAjaxId");
+
             echo json_encode($responce);
         }
     }
-    
-    function addServices(){
-        
-        $totalService = $this->input->post('totalService');
-        for($j = 1; $j <= $totalService; $j++){
-            $this->bf_form_validation->set_rules("doctors_service_$j","Services $j", 'required|xss_clean');
 
+    function addServices() {
+
+        $totalService = $this->input->post('totalService');
+        for ($j = 1; $j <= $totalService; $j++) {
+            $this->bf_form_validation->set_rules("doctors_service_$j", "Services $j", 'required|xss_clean');
         }
         if ($this->bf_form_validation->run() == FALSE) {
             $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
             echo json_encode($responce);
         } else {
 
-            $doctorsProfileId = $this->input->post('doctorAjaxId'); 
+            $doctorsProfileId = $this->input->post('doctorAjaxId');
             $totalService = $this->input->post('totalService');
-            for($m=1; $m <= count($totalService); $m++){
+            for ($m = 1; $m <= count($totalService); $m++) {
                 $doctors_service = $this->input->post("doctors_service_$m");
-                if($doctors_service != ''){
+                if ($doctors_service != '') {
                     $insert_rec = array(
-                        'doctorServices_doctorId' => $doctorsProfileId, 
-                        'doctorServices_serviceName' => $doctors_service, 
+                        'doctorServices_doctorId' => $doctorsProfileId,
+                        'doctorServices_serviceName' => $doctors_service,
                         'creationTime' => strtotime(date("d-m-Y H:i:s")),
                     );
                     $dayOptions = array
-                    (
+                        (
                         'data' => $insert_rec,
                         'table' => 'qyura_doctorServices'
                     );
@@ -953,58 +981,52 @@ $MainSlot= array();
             }
             if ($id) {
                 $this->session->set_flashdata('active_tag', 3);
-                $responce =  array('status'=>1,'msg'=>"Services added successfully",'url' =>"doctor/doctorDetails/$doctorsProfileId");
-            }else
-            {
-                $error = array("TopError"=>"<strong>Something went wrong while updating your data... sorry.</strong>");
-                $responce =  array('status'=>0,'isAlive'=>TRUE,'errors'=>$error);
-
+                $responce = array('status' => 1, 'msg' => "Services added successfully", 'url' => "doctor/doctorDetails/$doctorsProfileId");
+            } else {
+                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
             echo json_encode($responce);
         }
     }
 
-    
-    function editServices(){
+    function editServices() {
         //print_r($_POST);exit;
         $total_edit_services = $this->input->post('total_edit_services');
-        for($j = 1; $j <= $total_edit_services; $j++){
-            $this->bf_form_validation->set_rules("services_name_edit_$j","Service $j", 'required|xss_clean');
-
+        for ($j = 1; $j <= $total_edit_services; $j++) {
+            $this->bf_form_validation->set_rules("services_name_edit_$j", "Service $j", 'required|xss_clean');
         }
         if ($this->bf_form_validation->run() == FALSE) {
             $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
             echo json_encode($responce);
         } else {
 
-            
+
             $total_edit_ser = $this->input->post('total_edit_services');
             $doctorAjaxId = $this->input->post('doctorAjaxId');
-            
-            for($i = 1; $i <= $total_edit_ser; $i++){
+
+            for ($i = 1; $i <= $total_edit_ser; $i++) {
                 $services_id = $this->input->post("doctorServices_id_$i");
                 $services = $this->input->post("services_name_edit_$i");
                 $records_array = array(
                     'doctorServices_doctorId' => $doctorAjaxId,
-                    'doctorServices_serviceName'=> $services,
+                    'doctorServices_serviceName' => $services,
                     'modifyTime' => strtotime(date("d-m-Y H:i:s"))
                 );
                 $options = array
-                (
+                    (
                     'where' => array('doctorServices_id' => $services_id),
-                    'data'  => $records_array,
+                    'data' => $records_array,
                     'table' => 'qyura_doctorServices'
                 );
                 $services_update = $this->common_model->customUpdate($options);
             }
             if ($services_update) {
                 $this->session->set_flashdata('active_tag', 3);
-                $responce =  array('status'=>1,'msg'=>"Services update successfully",'url' =>"doctor/doctorDetails/$doctorAjaxId");
-            }else
-            {
-                $error = array("TopError"=>"<strong>Something went wrong while updating your data... sorry.</strong>");
-                $responce =  array('status'=>0,'isAlive'=>TRUE,'errors'=>$error);
-
+                $responce = array('status' => 1, 'msg' => "Services update successfully", 'url' => "doctor/doctorDetails/$doctorAjaxId");
+            } else {
+                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
             echo json_encode($responce);
         }
@@ -1013,88 +1035,87 @@ $MainSlot= array();
     function changeDetailDoctor() {
         //print_r($_POST);exit;
 
-        $this->bf_form_validation->set_rules("userId","User Id", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("doctors_fName","First Name", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("doctors_lName","Last Name", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("doctors_dob","DOB", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("creationTime","DOJ", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("users_email","Email", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("doctor_addr","Address", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("lat","Lat", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("lng","Long", 'required|xss_clean');
-        
-        $this->bf_form_validation->set_rules("doctorSpecialities_specialitiesId[]","Specility", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("doctors_phn","Phone", 'required|xss_clean');
-        
-        
+        $this->bf_form_validation->set_rules("userId", "User Id", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("doctors_fName", "First Name", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("doctors_lName", "Last Name", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("doctors_dob", "DOB", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("creationTime", "DOJ", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("users_email", "Email", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("doctor_addr", "Address", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("lat", "Lat", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("lng", "Long", 'required|xss_clean');
+
+        $this->bf_form_validation->set_rules("doctorSpecialities_specialitiesId[]", "Specility", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("doctors_phn", "Phone", 'required|xss_clean');
+
+
 
         if ($this->bf_form_validation->run($this) == FALSE) {
             $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
             echo json_encode($responce);
         } else {
-            
+
             $doctorAjaxId = $this->input->post('doctorAjaxId');
             $doctor_id = $this->input->post('doctorAjaxId');
             $option = array(
                 'table' => 'qyura_doctorSpecialities',
                 'select' => 'doctorSpecialities_specialitiesId',
-                'where' => array('qyura_doctorSpecialities.doctorSpecialities_deleted' => 0,'qyura_doctorSpecialities.doctorSpecialities_doctorsId' => $doctor_id),
+                'where' => array('qyura_doctorSpecialities.doctorSpecialities_deleted' => 0, 'qyura_doctorSpecialities.doctorSpecialities_doctorsId' => $doctor_id),
                 'single' => FALSE
             );
             $doctorSpecialities = $this->common_model->customGet($option);
             $oldSpecialities = array();
-            foreach($doctorSpecialities as $Specialities){
+            foreach ($doctorSpecialities as $Specialities) {
                 array_push($oldSpecialities, $Specialities->doctorSpecialities_specialitiesId);
             }
             $newSpecility = $this->input->post('doctorSpecialities_specialitiesId');
-            
+
             foreach ($newSpecility as $specility) {
                 if (!in_array($specility, $oldSpecialities)) {
                     $option = array(
                         'table' => 'qyura_doctorSpecialities',
                         'select' => '*',
-                        'where' => array('doctorSpecialities_specialitiesId' => $specility,'doctorSpecialities_doctorsId' => $doctor_id),
+                        'where' => array('doctorSpecialities_specialitiesId' => $specility, 'doctorSpecialities_doctorsId' => $doctor_id),
                         'single' => TRUE
                     );
                     $oldData = $this->common_model->customGet($option);
                     if (isset($oldData) && $oldData != NULL) {
 
-                        $whereUpdate = array('doctorSpecialities_specialitiesId' => $specility,'doctorSpecialities_doctorsId' => $doctor_id);
+                        $whereUpdate = array('doctorSpecialities_specialitiesId' => $specility, 'doctorSpecialities_doctorsId' => $doctor_id);
                         $arrayResumeData = array('doctorSpecialities_deleted' => 0);
                         $updateOptions = array(
                             'where' => $whereUpdate,
-                            'data'  => $arrayResumeData,
+                            'data' => $arrayResumeData,
                             'table' => 'qyura_doctorSpecialities'
                         );
 
                         $specilityOldDataResume = $this->common_model->customUpdate($updateOptions);
-
                     } else {
-                       
-                        $new_specility_array = array('creationTime' => strtotime(date('Y-m-d h:i:s')),'status' => 3, 'doctorSpecialities_doctorsId' => $doctorAjaxId, 'doctorSpecialities_specialitiesId' => $specility);
+
+                        $new_specility_array = array('creationTime' => strtotime(date('Y-m-d h:i:s')), 'status' => 3, 'doctorSpecialities_doctorsId' => $doctorAjaxId, 'doctorSpecialities_specialitiesId' => $specility);
                         $options = array
                             (
-                            'data'  => $new_specility_array,
+                            'data' => $new_specility_array,
                             'table' => 'qyura_doctorSpecialities'
                         );
                         $this->common_model->customInsert($options);
                     }
                 }
             }
-            
+
             foreach ($oldSpecialities as $specility) {
                 if (!in_array($specility, $newSpecility)) {
-                    $whereUpdate = array('doctorSpecialities_specialitiesId' => $specility,'doctorSpecialities_doctorsId' => $doctor_id);
+                    $whereUpdate = array('doctorSpecialities_specialitiesId' => $specility, 'doctorSpecialities_doctorsId' => $doctor_id);
                     $deleteOldSpecility = array('doctorSpecialities_deleted' => 1);
                     $updateOptions = array(
                         'where' => $whereUpdate,
-                        'data'  => $deleteOldSpecility,
+                        'data' => $deleteOldSpecility,
                         'table' => 'qyura_doctorSpecialities'
                     );
                     $doctorSpecilityDelete = $this->common_model->customUpdate($updateOptions);
                 }
             }
-            
+
             $userId = $this->input->post('userId');
             $doctors_fName = $this->input->post('doctors_fName');
             $doctors_lName = $this->input->post('doctors_lName');
@@ -1105,52 +1126,49 @@ $MainSlot= array();
             $doctors_lat = $this->input->post('lat');
             $doctors_lng = $this->input->post('lng');
             $doctors_phn = $this->input->post('doctors_phn');
+
             $pos = strpos($doctors_phn, "0");
             $doctors_phnNo = '';
             if($pos == "0"){ $doctors_phnNo = explode("0", $doctors_phn);  }
             if(isset($doctors_phnNo[1])){ $doctors_phn = $doctors_phnNo[1]; }
 	    $doctors_27Src = $this->input->post('doctors_27Src');
             
+
             $home_visit = $this->input->post('home_visit');
             $show_exp = $this->input->post('show_exp');
             $exp_year = $this->input->post('exp_year');
-            
+
             $date = date('Y-m-d');
-            $newdate = strtotime ( "-$exp_year year" , strtotime ( $date ) ) ;
+            $newdate = strtotime("-$exp_year year", strtotime($date));
             $exp_year = $newdate;
             $docatId = $this->input->post('docatId');
             $qapId = $this->input->post('qapIdTb');
-            
+
             $doctors_countryId = $this->input->post('doctors_countryId');
             $doctors_stateId = $this->input->post('doctors_stateId');
             $doctors_cityId = $this->input->post('doctors_cityId');
             $doctors_pin = $this->input->post('doctors_pinn');
-            
+
             $records_array = array(
-
-                'doctors_fName'       => $doctors_fName,
-                'doctors_lName'       => $doctors_lName,
-                'doctors_dob'         => $doctors_dob,
+                'doctors_fName' => $doctors_fName,
+                'doctors_lName' => $doctors_lName,
+                'doctors_dob' => $doctors_dob,
                 'doctors_joiningDate' => $creationTime,
-                'doctors_phn'         => $doctors_phn,
-                'doctor_addr'         => $doctors_address,
-                'doctors_lat'         => $doctors_lat,
-                'doctors_long'        => $doctors_lng,
-		'doctors_27Src'       => $doctors_27Src,
-                
-                'doctors_countryId'   => $doctors_countryId,
-                'doctors_stateId'     => $doctors_stateId,
-                'doctors_cityId'      => $doctors_cityId,
-                'doctors_pin'         => $doctors_pin,
-                
-                'doctors_homeVisit'   => $home_visit,
-                'doctors_showExp'     => $show_exp,
-                'doctors_expYear'     => $exp_year,
-                'doctors_docatId'     => $docatId,
-                'doctors_qapId'       => $qapId,
-                
-                'modifyTime'          => strtotime(date("d-m-Y H:i:s"))
-
+                'doctors_phn' => $doctors_phn,
+                'doctor_addr' => $doctors_address,
+                'doctors_lat' => $doctors_lat,
+                'doctors_long' => $doctors_lng,
+                'doctors_27Src' => $doctors_27Src,
+                'doctors_countryId' => $doctors_countryId,
+                'doctors_stateId' => $doctors_stateId,
+                'doctors_cityId' => $doctors_cityId,
+                'doctors_pin' => $doctors_pin,
+                'doctors_homeVisit' => $home_visit,
+                'doctors_showExp' => $show_exp,
+                'doctors_expYear' => $exp_year,
+                'doctors_docatId' => $docatId,
+                'doctors_qapId' => $qapId,
+                'modifyTime' => strtotime(date("d-m-Y H:i:s"))
             );
             $updateOption = array
                 (
@@ -1170,16 +1188,14 @@ $MainSlot= array();
                 'table' => 'qyura_users'
             );
             $user_updated = $this->common_model->customUpdate($updateOptions);
-            
+
             if ($doctor_update || $user_updated) {
 
                 $this->session->set_flashdata('active_tag', 1);
-                $responce =  array('status'=>1,'msg'=>"Profile update successfully",'url' =>"doctor/doctorDetails/$doctorAjaxId");
-            }else
-            {
-                $error = array("TopError"=>"<strong>Something went wrong while updating your data... sorry.</strong>");
-                $responce =  array('status'=>0,'isAlive'=>TRUE,'errors'=>$error);
-
+                $responce = array('status' => 1, 'msg' => "Profile update successfully", 'url' => "doctor/doctorDetails/$doctorAjaxId");
+            } else {
+                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
             echo json_encode($responce);
         }
@@ -1225,19 +1241,17 @@ $MainSlot= array();
             );
 
             $update = $this->common_model->customUpdate($updateOptions);
-            if ($update){
+            if ($update) {
                 $this->session->set_flashdata('active_tag', 2);
                 echo $update;
-            }else{
+            } else {
                 echo '0';
             }
-        }
-        else {
+        } else {
             echo 0;
         }
     }
 
-    
     function serviceDelete() {
 
         $del_id = $this->input->post('id');
@@ -1255,92 +1269,155 @@ $MainSlot= array();
 
             $update = $this->common_model->customUpdate($updateOptions);
 
-            
-            if ($update){
+
+            if ($update) {
                 $this->session->set_flashdata('active_tag', 3);
 
                 echo $update;
-            }else{
+            } else {
                 echo '0';
             }
-        }
-        else {
+        } else {
             echo 0;
         }
     }
 
-    
-    function check_qap(){
+    function check_qap() {
         $qapId = $this->input->post('qapId');
         $data = 0;
         $option = array(
             'table' => 'qyura_qap',
             'select' => '*',
-            'where' => array('qyura_qap.qap_deleted' => 0,'qyura_qap.qap_code' => $qapId),
+            'where' => array('qyura_qap.qap_deleted' => 0, 'qyura_qap.qap_code' => $qapId),
             'single' => TRUE
         );
         $qap_data = $this->common_model->customGet($option);
-        if(!empty($qap_data)){
+        if (!empty($qap_data)) {
             $data = $qap_data->qap_id;
             echo $data;
-        }else{
+        } else {
             echo $data;
         }
     }
-    
+
     function addDocTime() {
+
+
         $this->bf_form_validation->set_rules('docTimeTable_stayAt', 'stayAt', 'required|trim');
-        $this->bf_form_validation->set_rules('docTimeTable_MItype', 'MItype', 'required|trim');
-        $this->bf_form_validation->set_rules('docTimeTable_MIprofileId', 'MIprofileId', 'required|trim');
-        $this->bf_form_validation->set_rules('docTimeTable_price', 'price', 'required|trim');
+        if (isset($_POST['docTimeTable_stayAt']) && $_POST['docTimeTable_stayAt'] == 1) {
+            $this->bf_form_validation->set_rules('docTimeTable_MItype', 'MItype', 'required|trim');
+        }
+
+        if (isset($_POST['docTimeTable_stayAt']) && $_POST['docTimeTable_stayAt'] != '' && $_POST['docTimeTable_stayAt'] == 0) {
+
+            $this->bf_form_validation->set_rules('psChamber_name', 'Chamber Name', 'required|trim');
+            $this->bf_form_validation->set_rules('stateId', 'State Name', 'required|trim');
+            $this->bf_form_validation->set_rules('cityId', 'City Name', 'required|trim');
+            $this->bf_form_validation->set_rules('pinn', 'Pin Code', 'required|trim');
+            $this->bf_form_validation->set_rules('addr', 'Address', 'required|trim');
+            $this->bf_form_validation->set_rules('lat', 'lat', 'required|trim');
+            $this->bf_form_validation->set_rules('lng', 'lng', 'required|trim');
+        }
+
+
+        
+
+
+        if (isset($_POST['docTimeTable_MItype']) && $_POST['docTimeTable_MItype'] == 1) {
+
+            $this->bf_form_validation->set_rules('docTimeTable_MIprofileId_h', 'Hospital Name', 'required|trim');
+        }
+
+        if (isset($_POST['docTimeTable_MItype']) && $_POST['docTimeTable_MItype'] != null && $_POST['docTimeTable_MItype'] == 2) {
+            $this->bf_form_validation->set_rules('docTimeTable_MIprofileId_d', 'Diagnostic Name', 'required|trim');
+        }
+
+
+        if ((isset($_POST['docTimeTable_MIprofileId_d']) && $_POST['docTimeTable_MIprofileId_d'] == 0 && $_POST['docTimeTable_MIprofileId_d'] != '') || (isset($_POST['docTimeTable_MIprofileId_h']) && $_POST['docTimeTable_MIprofileId_h'] == 0 && $_POST['docTimeTable_MIprofileId_h'] != '')) {
+
+            $this->bf_form_validation->set_rules('Miname', 'MI Name', 'required|trim');
+            $this->bf_form_validation->set_rules('stateId', 'State Name', 'required|trim');
+            $this->bf_form_validation->set_rules('cityId', 'City Name', 'required|trim');
+            $this->bf_form_validation->set_rules('pinn', 'Pin Code', 'required|trim');
+            $this->bf_form_validation->set_rules('addr', 'Address', 'required|trim');
+            $this->bf_form_validation->set_rules('lat', 'lat', 'required|trim');
+            $this->bf_form_validation->set_rules('lng', 'lng', 'required|trim');
+        }
 
 
         $this->bf_form_validation->set_rules('docTimeDay_day[]', 'day', 'required|trim');
-        $this->bf_form_validation->set_rules('docTimeDay_open', 'open', 'required|trim');
-        $this->bf_form_validation->set_rules('docTimeDay_close', 'close', 'required|trim');
+        $this->bf_form_validation->set_rules('openingHour', 'open', 'required|trim|callback_checkOpenTime');
+        $this->bf_form_validation->set_rules('closeingHour', 'close', 'required|trim|callback_checkCloseTime');
+        $this->bf_form_validation->set_rules('fees', 'fees', 'required|trim');
 
-
-        dump($_POST['docTimeDay_day']);
-        dump($this->bf_form_validation->run($this));
 
         if ($this->bf_form_validation->run($this) === FALSE) {
-            $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
+            $errorAr = ajax_validation_errors();
+            if (array_key_exists('docTimeDay_day[]', $errorAr)) {
+                $er_msg = $errorAr['docTimeDay_day[]'];
+                unset($errorAr['docTimeDay_day[]']);
+                $errorAr['docTimeDay_day'] = $er_msg;
+            }
+            $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $errorAr);
             echo json_encode($responce);
-        } else {
+        } elseif ($this->checkSloat()) {
 
-            $docTimeTable_stayAt = isset($_POST['docTimeTable_stayAt']) ? $this->input->post() : '';
+            $docTimeTable_stayAt = isset($_POST['docTimeTable_stayAt']) ? $this->input->post('docTimeTable_stayAt') : '';
             $docTimeTable_MItype = isset($_POST['docTimeTable_MItype']) ? $this->input->post('docTimeTable_MItype') : '';
-            $docTimeTable_MIprofileId = isset($_POST['docTimeTable_MIprofileId']) ? $this->input->post('docTimeTable_MIprofileId') : '';
-            $docTimeTable_price = isset($_POST['docTimeTable_price']) ? $this->input->post('docTimeTable_price') : '';
+
+            if ($docTimeTable_stayAt == 1) {
+
+                if (isset($_POST['docTimeTable_MIprofileId_h']) && $_POST['docTimeTable_MIprofileId_h'] != '' && $_POST['docTimeTable_MIprofileId_h'] == 0 && $docTimeTable_MItype == 1) {
+                    $MIprofileId = $this->saveHospital();
+                } else {
+                    $MIprofileId = isset($_POST['docTimeTable_MIprofileId_h']) && $_POST['docTimeTable_MIprofileId_h'] != '' ? $this->input->post('docTimeTable_MIprofileId_h') : '';
+                }
+
+                if (isset($_POST['docTimeTable_MIprofileId_d']) && $_POST['docTimeTable_MIprofileId_d'] != '' && $_POST['docTimeTable_MIprofileId_d'] == 0 && $docTimeTable_MItype == 2) {
+                    $MIprofileId = $this->saveDiagnostic();
+                } elseif ($docTimeTable_MItype == 2) {
+                    $MIprofileId = isset($_POST['docTimeTable_MIprofileId_d']) && $_POST['docTimeTable_MIprofileId_d'] != '' ? $this->input->post('docTimeTable_MIprofileId_d') : '';
+                }
+            } else {
+                $MIprofileId = $this->saveChamber();
+            }
+
+
+            $docTimeTable_price = isset($_POST['fees']) ? $this->input->post('fees') : '';
 
             $docTimeDay_days = isset($_POST['docTimeDay_day']) ? $this->input->post('docTimeDay_day') : '';
-            $docTimeDay_open = isset($_POST['docTimeDay_open']) ? $this->input->post('docTimeDay_open') : '';
-            $docTimeDay_close = isset($_POST['docTimeDay_close']) ? $this->input->post('docTimeDay_close') : '';
+            $docTimeDay_open = isset($_POST['openingHour']) ? $this->input->post('openingHour') : '';
+            $docTimeDay_close = isset($_POST['closeingHour']) ? $this->input->post('closeingHour') : '';
 
-            $docTimeDay_open = strtotime($docTimeDay_open);
-            $docTimeDay_close = strtotime($docTimeDay_close);
+            $docTimeDay_open = date('H:i:s', strtotime($docTimeDay_open));
+            $docTimeDay_close = date('H:i:s', strtotime($docTimeDay_close));
 
 
             $param = array(
                 'table' => 'qyura_docTimeTable',
                 'data' => array(
                     'docTimeTable_stayAt' => $docTimeTable_stayAt,
+                    'docTimeTable_doctorId' => $this->input->post('doctorId'),
                     'docTimeTable_MItype' => $docTimeTable_MItype,
-                    'docTimeTable_MIprofileId' => $docTimeTable_MIprofileId,
-                    'docTimeTable_price' => $docTimeTable_price
+                    'docTimeTable_MIprofileId' => $MIprofileId,
+                    'docTimeTable_price' => $docTimeTable_price,
+                    'creationTime' => time()
                 )
             );
 
             $docTimeTableId = $this->common_model->customInsert($param);
             $docTimeDayId = FALSE;
-            foreach ($docTimeDay_days as $docTimeDay_day) {
+
+            foreach ($docTimeDay_days as $key => $docTimeDay_day) {
+
                 $param = array(
                     'table' => 'qyura_docTimeDay',
                     'data' => array(
-                        'qyura_docTimeDay' => $docTimeDay_day,
+                        'docTimeDay_day' => $docTimeDay_day,
                         'docTimeDay_open' => $docTimeDay_open,
                         'docTimeDay_close' => $docTimeDay_close,
-                        'docTimeDay_docTimeTableId' => $docTimeTableId
+                        'docTimeDay_docTimeTableId' => $docTimeTableId,
+                        'creationTime' => time()
                     )
                 );
 
@@ -1355,7 +1432,106 @@ $MainSlot= array();
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
             echo json_encode($responce);
+        } else {
+            $er = implode('<br/>', $this->error);
+            $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => array('docTimeDay_day'=>$er));
+            echo json_encode($responce);
         }
+    }
+
+    function saveHospital() {
+        $hospital_name = $this->input->post('Miname');
+        $hospital_countryId = 1;
+        $hospital_stateId = $this->input->post('stateId');
+        $hospital_cityId = $this->input->post('cityId');
+        $hospital_zip = $this->input->post('pinn');
+        $hospital_address = $this->input->post('addr');
+        $hospital_lat = $this->input->post('lat');
+        $hospital_long = $this->input->post('lng');
+        $records_array = array(
+            'hospital_name' => $hospital_name,
+            'hospital_countryId' => $hospital_countryId,
+            'hospital_stateId' => $hospital_stateId,
+            'hospital_cityId' => $hospital_cityId,
+            'hospital_zip' => $hospital_zip,
+            'hospital_address' => $hospital_address,
+            'hospital_lat' => $hospital_lat,
+            'hospital_long' => $hospital_long,
+            'status' => 2,
+            'creationTime' => strtotime(date("d-m-Y H:i:s"))
+        );
+        $options = array
+            (
+            'data' => $records_array,
+            'table' => 'qyura_hospital'
+        );
+        $hospital_insert = $this->common_model->customInsert($options);
+
+        return $hospital_insert;
+    }
+
+    function saveDiagnostic() {
+        $diagnostic_name = $this->input->post('Miname');
+        $diagnostic_countryId = 1;
+        $diagnostic_stateId = $this->input->post('stateId');
+        $diagnostic_cityId = $this->input->post('cityId');
+        $diagnostic_zip = $this->input->post('pinn');
+        $diagnostic_address = $this->input->post('addr');
+        $diagnostic_lat = $this->input->post('lat');
+        $diagnostic_long = $this->input->post('lng');
+        $records_array = array(
+            'diagnostic_name' => $diagnostic_name,
+            'diagnostic_countryId' => $diagnostic_countryId,
+            'diagnostic_stateId' => $diagnostic_stateId,
+            'diagnostic_cityId' => $diagnostic_cityId,
+            'diagnostic_zip' => $diagnostic_zip,
+            'diagnostic_address' => $diagnostic_address,
+            'diagnostic_lat' => $diagnostic_lat,
+            'diagnostic_long' => $diagnostic_long,
+            'status' => 2,
+            'creationTime' => strtotime(date("d-m-Y H:i:s"))
+        );
+        $options = array
+            (
+            'data' => $records_array,
+            'table' => 'qyura_diagnostic'
+        );
+        $diagnostic_insert = $this->common_model->customInsert($options);
+    }
+
+    function saveChamber() {
+        $doctorId = $this->input->post('doctorId');
+        $psChamber_name = $this->input->post('Miname');
+        $psChamber_countryId = 1;
+        $psChamber_stateId = $this->input->post('stateId');
+        $psChamber_cityId = $this->input->post('cityId');
+        $psChamber_zip = $this->input->post('pinn');
+        $psChamber_address = $this->input->post('addr');
+        $psChamber_lat = $this->input->post('lat');
+        $psChamber_long = $this->input->post('lng');
+
+        $records_array = array(
+            'psChamber_name' => $psChamber_name,
+            'psChamber_countryId' => $psChamber_countryId,
+            'psChamber_stateId' => $psChamber_stateId,
+            'psChamber_cityId' => $psChamber_cityId,
+            'psChamber_zip' => $psChamber_zip,
+            'psChamber_address' => $psChamber_address,
+            'psChamber_lat' => $psChamber_lat,
+            'psChamber_long' => $psChamber_long,
+            'psChamber_doctorId' => $doctorId,
+            'status' => 2,
+            'creationTime' => strtotime(date("d-m-Y H:i:s"))
+        );
+
+        $options = array
+            (
+            'data' => $records_array,
+            'table' => 'qyura_psChamber'
+        );
+
+        $psChamber_insert = $this->common_model->customInsert($options);
+        return $psChamber_insert;
     }
 
     function editDocTime() {
@@ -1451,7 +1627,61 @@ $MainSlot= array();
     }
 
     function checkSloat() {
-        
-    }
-}
+        $docTimeDay_days = isset($_POST['docTimeDay_day']) ? $this->input->post('docTimeDay_day') : '';
+        $docTimeDay_open = isset($_POST['openingHour']) ? $this->input->post('openingHour') : '';
+        $docTimeDay_close = isset($_POST['closeingHour']) ? $this->input->post('closeingHour') : '';
 
+        $docTimeDay_open = date('H:i:s', strtotime($docTimeDay_open));
+        $docTimeDay_close = date('H:i:s', strtotime($docTimeDay_close));
+        $this->error = array();
+        foreach ($docTimeDay_days as $key => $docTimeDay_day) {
+            $data = array(
+                'day' => $docTimeDay_day,
+                'openTime' => $docTimeDay_open,
+                'closeTime' => $docTimeDay_close,
+                'doctorId' => $this->input->post('doctorId')
+            );
+
+            $row = $this->Doctor_model->checkSloat($data);
+            if ($row)
+                $this->error[] = $docTimeDay_day . $docTimeDay_open . $docTimeDay_close;
+        }
+
+        if (count($this->error))
+            return false;
+        else {
+            return true;
+        }
+    }
+    
+    function checkOpenTime()
+    {
+        $openingHour = $this->input->post('openingHour');
+        $closeingHour = $this->input->post('closeingHour');
+        $openingHour = strtotime($openingHour);
+        $closeingHour = strtotime($closeingHour);
+        
+        if ($closeingHour < $openingHour ) {
+            $this->bf_form_validation->set_message('checkOpenTime', 'Opening time should be less than closing time');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+    
+    function checkCloseTime()
+    {
+        $openingHour = $this->input->post('openingHour');
+        $closeingHour = $this->input->post('closeingHour');
+        $openingHour = strtotime($openingHour);
+        $closeingHour = strtotime($closeingHour);
+        
+        if ($closeingHour < $openingHour ) {
+            $this->bf_form_validation->set_message('checkCloseTime', 'Closing time should be greater than opening time');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+}

@@ -390,21 +390,54 @@ if ($current != 'detailDoctor'):
     var k = 1;
     var counts = 1;
     var countsAccademic = 1;
+    
     function fetchCity(stateId) {
-
+        console.log(stateId);
         $.ajax({
             url: urls + 'index.php/doctor/fetchCity',
             type: 'POST',
             data: {'stateId': stateId},
             success: function (datas) {
                 // console.log(datas);
-                $('#doctors_cityId').html(datas);
-                $('#doctors_cityId').selectpicker('refresh');
-                $('#StateId').val(stateId);
+                
+                if($('#timeCityId').length > 0){
+                    console.log(typeof  datas,'inner');
+                    $('#timeCityId').html(datas);
+                    $('#timeCityId').selectpicker('refresh');
+                    
+                }
+                if($('#doctors_cityId').length > 0){
+                    $('#doctors_cityId').html(datas);
+                    $('#doctors_cityId').selectpicker('refresh');
+                    $('#StateId').val(stateId);
+                }
             }
         });
 
     }
+    
+    
+    function fetchStates(){
+            
+            var countryId = $('#timeCountryId').val();
+            //var stateId = $('#StateId').val();
+            
+            $.ajax({
+               url : urls + 'index.php/doctor/fetchStates',
+               type: 'POST',
+              data: {'countryId' : countryId},
+              success:function(datas){
+               // console.log(datas);
+                  $('#stateId').html(datas);
+                  $('#stateId').selectpicker('refresh');
+                  $('#cityId').html('');
+                  $('#cityId').selectpicker('refresh');
+                  $('#timeCityId').html('');
+                  $('#timeCityId').selectpicker('refresh');
+                  //$('#StateId').val(stateId);
+              }
+           });
+        }
     
     function check_qap() {
         var qapId = $("#qapId").val();
