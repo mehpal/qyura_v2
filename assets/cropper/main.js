@@ -41,6 +41,7 @@
     this.$avatarPreview = this.$pre.find('.avatar-preview');
     
     this.preImage = this.$avatarUploadPreview;
+    this.preUrl = $('#preImgLogo img').attr('src');
     this.init();
   }
   
@@ -372,6 +373,8 @@
                     if (image.width < 425 || image.height < 225) {
                         //CropAvatar.stopCropper();
                         currentObj.stopCropper();
+                        currentObj.$avatarInput.val("");
+                        currentObj.$avatarPreview.html('<img src="' + currentObj.preUrl + '">');
                         bootbox.alert("Image dimension should be greater than 425px X 225px");
                     }
                     // Finally append our created image and the HTML info string to our `#preview` 
