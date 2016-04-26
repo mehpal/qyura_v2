@@ -47,17 +47,18 @@ if ($current == 'detailBloodBank'):
      $(document).ready(function () {
         // alert('test');
         var appointmentTable = $('#doctorAppointmentTable').DataTable({
-            "processing": true,
-            "serverSide": true,
+             "processing": true,
+            "bServerSide": true,
             "columnDefs": [{
                     "targets": [0,1,2,3,4,5],
                     "orderable": false
                 }],
-            "pageLength": 5,
-            "bJQueryUI": true,
+            // "searching": true,
+            "bLengthChange": false,
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
             "sPaginationType": "full_numbers",
-            "dom": '<<t><"clearfix m-t-20 p-b-20" p>',
-            "iDisplayStart ": 20,
             "columns": [
                 {"data": "ApptId"},
                 {"data": "DateTime"},
@@ -70,21 +71,14 @@ if ($current == 'detailBloodBank'):
                 "url": "<?php echo site_url('docappointment/getDoctorAppointmnetDl'); ?>",
                 "type": "POST",
                 "data": function (d) {
-                    d.search['value'] = $("#search").val();
+                    d.name = $("#search").val();
                     d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
-                },
-                beforeSend: function () {
-                    // setting a timeout
-                    $('#load_appointment').addClass('loading').show();
-                },
-                complete: function ()
-                {
-                    $('#load_appointment').removeClass('loading').hide('200');
-                },
+                }
+               
             }
         });
 
-        $('#search').change(function () {
+        $('#search').on('keyup', function () {
             appointmentTable.draw();
         });
     });

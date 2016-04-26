@@ -31,6 +31,7 @@ class BloodCatApi extends MyRest {
         $this->form_validation->set_rules('lat', 'Lat', 'xss_clean|trim|decimal');
         $this->form_validation->set_rules('long', 'Long', 'xss_clean|trim|decimal');
         $this->bf_form_validation->set_rules('search', 'Search Keyword', 'xss_clean|trim');
+        $this->form_validation->set_rules('isemergency', 'Is Emergency', 'xss_clean|trim|numeric');
         $this->bf_form_validation->set_rules('cityId', 'cityId', 'xss_clean|trim|numeric|is_natural_no_zero');
 
         if ($this->form_validation->run() == FALSE) {
@@ -43,7 +44,9 @@ class BloodCatApi extends MyRest {
             $search = isset($_POST['search']) && $_POST['search'] != '' ? $this->input->post('search') : NULL;
             //city
             $cityId = isset($_POST['cityId']) ? $this->input->post('cityId') : NULL;
-
+            
+            $isemergency = isset($_POST['isemergency']) ? $this->input->post('isemergency') : NULL;
+            
             if ($cityId != NULL) {
                 $array = array('qyura_bloodBank.cityId' => $cityId);
                 $this->db->where($array);
@@ -58,12 +61,16 @@ class BloodCatApi extends MyRest {
 
             $notIn = isset($_POST['notin']) ? $_POST['notin'] : '';
             $notIn = explode(',', $notIn);
-            date("l",strtotime(date("Y-m-d")));
             $curDay = getDay(date("l",strtotime(date("Y-m-d"))));
                         
             $where = array('qyura_bloodBank.bloodBank_deleted' => 0);
+            
+            if ($isemergency != '' && $isemergency != NULL) {
+                $where['qyura_bloodBank.isEmergency'] = $isemergency;
+            }
+            
             $this->db
-                    ->select('`qyura_bloodBank`.`bloodBank_id`,`qyura_bloodBank`.`bloodBank_id`, `qyura_bloodBank`.`bloodBank_name`, `qyura_bloodBank`.`bloodBank_add`,`qyura_bloodBank`.`bloodBank_lat`,`qyura_bloodBank`.`bloodBank_long`,`qyura_bloodBank`.`bloodBank_photo`, `qyura_bloodBank`.`bloodBank_phn`, `qyura_bloodBank`.`isEmergency`,
+                    ->select('`qyura_bloodBank`.`bloodBank_id`,`qyura_bloodBank`.`bloodBank_id`, `qyura_bloodBank`.`bloodBank_name`, `qyura_bloodBank`.`bloodBank_add`,`qyura_bloodBank`.`bloodBank_lat`,`qyura_bloodBank`.`bloodBank_long`,`qyura_bloodBank`.`bloodBank_photo`, CONCAT("0","",`bloodBank_phn`) as  bloodBank_phn, `qyura_bloodBank`.`isEmergency`,
 (CASE WHEN(hospital_usersId is not null) THEN hospital_usersId WHEN(diagnostic_usersId is not null) THEN diagnostic_usersId ELSE  qyura_bloodBank.users_id END) as userId,
 (CASE WHEN(hospital_usersId is not null) THEN hospital_lat WHEN(diagnostic_usersId is not null) THEN diagnostic_lat ELSE  bloodBank_lat END) as lat, 
 (CASE WHEN(hospital_usersId is not null) THEN hospital_long WHEN(diagnostic_usersId is not null) THEN diagnostic_long ELSE  bloodBank_long END) as lng,  
@@ -85,7 +92,7 @@ class BloodCatApi extends MyRest {
                 $lkCount = 0;
                 foreach ($searchParams as $params) {
                     if ($params == 'bloodBank_name') {
-                         $this->db->group_start();
+                        $this->db->group_start();
                         $this->db->like($params, $search);
                     } else {
                         if (count($searchParams) - 1 == $lkCount){

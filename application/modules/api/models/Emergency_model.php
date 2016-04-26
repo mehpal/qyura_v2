@@ -133,7 +133,7 @@ class Emergency_model extends CI_Model {
 
         $this->db->select('qyura_pharmacy.pharmacy_id as id, pharmacy_name name, pharmacy_address adr, pharmacy_img imUrl, (
                 6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( pharmacy_lat ) ) * cos( radians( pharmacy_long ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( pharmacy_lat ) ) )
-                ) AS distance, CONCAT("+","",pharmacy_phn) phn, pharmacy_lat lat, pharmacy_long long')
+                ) AS distance, CONCAT("0","",pharmacy_phn) as  phn, pharmacy_lat lat, pharmacy_long long')
                 ->from('qyura_pharmacy')
                 ->where(array('qyura_pharmacy.pharmacy_deleted' => 0, 'pharmacy_27Src' => 1))
                 ->where_not_in('qyura_pharmacy.pharmacy_id', $notIn)
@@ -176,13 +176,20 @@ class Emergency_model extends CI_Model {
         $long = isset($long) ? $long : '';
         $notIn = isset($notIn) ? $notIn : '';
         $notIn = explode(',', $notIn);
+        $curDay = getDay(date("l",strtotime(date("Y-m-d"))));
 
-
-        $this->db->select('ambulance_id id, ambulance_name name, CONCAT("+","",ambulance_phn) phn, (
-                6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( ambulance_lat ) ) * cos( radians( ambulance_long ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( ambulance_lat ) ) )
-                ) AS distance')
+        $this->db->select('ambulance_id id, ambulance_name name, CONCAT("0","",SUBSTR(ambulance_phn, -10)) phn,
+(CASE WHEN(hospital_usersId is not null) THEN hospital_usersId WHEN(diagnostic_usersId is not null) THEN diagnostic_usersId ELSE  qyura_ambulance.ambulance_usersId END) as userId,
+(CASE WHEN(hospital_usersId is not null) THEN hospital_lat WHEN(diagnostic_usersId is not null) THEN diagnostic_lat ELSE  ambulance_lat END) as lat, 
+(CASE WHEN(hospital_usersId is not null) THEN hospital_long WHEN(diagnostic_usersId is not null) THEN diagnostic_long ELSE  ambulance_long END) as lng,  
+(CASE WHEN(hospital_usersId is not null) THEN hospital_address WHEN(diagnostic_usersId is not null) THEN diagnostic_address ELSE   ambulance_address END) as adr,            
+( 6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( (CASE WHEN(hospital_usersId is not null) THEN hospital_lat WHEN(diagnostic_usersId is not null) THEN diagnostic_lat ELSE  ambulance_lat END) ) ) * cos( radians(  (CASE WHEN(hospital_usersId is not null) THEN hospital_long WHEN(diagnostic_usersId is not null) THEN diagnostic_long ELSE  ambulance_long END) ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( (CASE WHEN(hospital_usersId is not null) THEN hospital_lat WHEN(diagnostic_usersId is not null) THEN diagnostic_lat ELSE  ambulance_lat END) ) ) )
+                ) AS distance, docOnBoard, ambulance_usersId as usersId, ambulance_27Src as isEmergency')
                 ->from('qyura_ambulance')
-                ->where(array('ambulance_deleted' => 0))
+                ->join('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId=qyura_ambulance.ambulance_usersId', 'left') 
+                ->join('qyura_hospital', 'qyura_usersRoles.usersRoles_parentId=qyura_hospital.hospital_usersId AND `qyura_hospital`.`status` = 1 AND `qyura_hospital`.`hospital_deleted` = "0"', 'left')
+                ->join('qyura_diagnostic', 'qyura_usersRoles.usersRoles_parentId=qyura_diagnostic.diagnostic_usersId AND `qyura_diagnostic`.`status`=1 AND `qyura_diagnostic`.`diagnostic_deleted` = 0', 'left')
+                ->where(array('ambulance_deleted' => 0,'qyura_ambulance.status'=>1))
                 ->where_not_in('ambulance_id', $notIn)
                 ->order_by('distance', 'ASC')
                 ->group_by('ambulance_id')
@@ -198,12 +205,30 @@ class Emergency_model extends CI_Model {
         $response = $this->db->get()->result();
         $finalResult = array();
         if (!empty($response)) {
-            foreach ($response as $row) {
-
+            foreach ($response as $row) { 
+//                dump($row);die();
+                $userId = (isset($row->userId) ? $row->userId : "");
+                $slots  = NULL;
+                
+                if($userId != "" || $userId != NULL){
+                    $slots = $this->common_model->getMITimeSlot($userId,$curDay);
+                    //echo $this->db->last_query();
+                }
+                
                 $finalTemp = array();
                 $finalTemp[] = isset($row->id) ? $row->id : "";
                 $finalTemp[] = isset($row->name) ? $row->name : "";
                 $finalTemp[] = isset($row->phn) ? $row->phn : "";
+                $finalTemp[] = isset($row->docOnBoard) ? $row->docOnBoard : "";
+                
+                if($slots != NULL){
+                    $finalTemp[] = isset($slots->openingHours) ? $slots->openingHours : "";
+                    $finalTemp[] = isset($slots->closingHours) ? $slots->closingHours : "";
+                }else{
+                    $finalTemp[] = "";
+                    $finalTemp[] = "";
+                }
+                $finalTemp[] = isset($row->isEmergency) ? $row->isEmergency : "0";
                 $finalResult[] = $finalTemp;
             }
             return $finalResult;

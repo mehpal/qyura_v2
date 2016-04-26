@@ -1,5 +1,11 @@
 <script>
     $(document).ready(function(){
+        $("#timeForm").submit(function (event) {
+            event.preventDefault();
+            var url = '<?php echo site_url(); ?>/doctor/addDocTime/';
+            var formData = new FormData(this);
+            submitData(url,formData);
+        });
         
         hideMI();
         $("#div_psChamber_name").hide();
@@ -27,18 +33,26 @@
            if($("#docTimeTable_MItype").val() == "1" ){
                $("#div_docTimeTable_HprofileId").toggle();
                $("#div_docTimeTable_DprofileId").hide();
-               $("#div_address").show();
+              // $("#div_address").show();
            } 
            else if($("#docTimeTable_MItype").val() == "2" ){
                $("#div_docTimeTable_DprofileId").toggle();
                $("#div_docTimeTable_HprofileId").hide();
-               $("#div_address").show();
+               //$("#div_address").show();
            }
+        });
+        
+        $("#docTimeTable_MIprofileId_h").change(function(){
+            $("#div_address").show();
+        });
+        
+        $("#docTimeTable_MIprofileId_d").change(function(){
+            $("#div_address").show();
         });
         
         $("#docTimeTable_MIprofileId").change(function(){
             var proId = $("#docTimeTable_MIprofileId").val() ;
-            alert(proId);
+            
            if(proId == 0 ){
                $("#div_docTimeTable_HprofileId").show();
            } 
@@ -60,11 +74,109 @@
         if(stayAtVal == "1" ){
            $("#div_docTimeTable_MItype").show();
            $("#div_psChamber_name").hide();
+           $("#div_address").hide();
+           
         } 
         else if(stayAtVal == "0" ){
            $("#div_psChamber_name").show();
+           $('#timeCityId,#stateId,#timeCountryId').selectpicker('refresh');
+            $("#addr,#pinn,#mi_lat,#mi_lng").removeAttr("readonly");
+            $("#timeCityId,#stateId,#timeCountryId").prop("disabled", false);
+           
            hideMI();
            $("#div_address").show();
+            $("#Miname_div").hide();
+           
         }
     }
+    
+    function getHospitaldetail(Id) {
+        var subUrl = '';
+        if($("#docTimeTable_MItype").val() == "1" ){
+           subUrl =  'index.php/doctor/getHospitaldetail';
+        }
+        else
+        {
+            subUrl =  'index.php/doctor/getHospitaldetail';
+        }
+
+        var Id = Id;
+        if (Id != '' && Id != 0) {
+            $("#Miname_div").hide();
+            $("#Miname").css("display", "none");
+            $.ajax({
+                url: urls + subUrl,
+                type: 'POST',
+                data: {'Id': Id},
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+
+                    if (obj.status == 1) {
+                        $("#addr").val(obj.hospital_address);
+                        $("#timeCountryId").html(obj.country);
+                        $("#stateId").html(obj.state);
+                        $("#timeCityId").html(obj.city);
+                        $('#timeCityId,#stateId,#timeCountryId').selectpicker('refresh');
+
+                        $("#pinn").val(obj.zipCode);
+                        $("#mi_lat").val(obj.lat);
+                        $("#mi_lng").val(obj.lng);
+                        //$("#hospital_name").val(obj.hospital_name);
+                        
+                        $("#isAddressDisabled").val(1);
+                        
+                        //$("#addressDiv").css("display","none");
+                        $("#addr,#pinn").attr("readonly", true);
+                        $("#timeCityId,#stateId,#timeCountryId").prop("disabled", true);
+                    } else {
+                        $("#Miname").css("display", "block");
+                        $("#addr").val('');
+                        $("#timeCountryId").html();
+                        $("#stateId").html();
+                        $("#timeCityId").html();
+                        $("#zip").val('');
+                        $("#Miname").val('');
+                        $("#isAddressDisabled").val(0);
+                        
+                        $('#timeCityId,#stateId,#timeCountryId').selectpicker('refresh');
+                        $("#addr,#pinn,#mi_lat,#mi_lng").removeAttr("readonly");
+                        $("#timeCityId,#stateId,#timeCountryId").prop("disabled", false);
+                    }
+                }
+            });
+        } else if (Id == 0) {
+            $("#Miname_div").show();
+            $("#Miname").css("display", "block");
+            $("#timeCityId,#stateId,#timeCountryId").prop("disabled", false);
+            $("#addr").val('');
+            $("#timeCountryId").html();
+            $("#timeCountryId").val('');
+            $("#stateId").html();
+            $("#stateId").val('');
+            $("#timeCityId").html();
+            $("#timeCityId").val('');
+            $("#pinn").val('');
+            
+            $('#timeCityId,#stateId,#timeCountryId').selectpicker('refresh');
+            $("#Miname").val('');
+            
+            $("#isAddressDisabled").val(0);
+            
+            // $('#hospital_cityId,#hospital_stateId,#hospital_countryId').selectpicker('refresh');
+            $("#addr,#pinn,#Miname").removeAttr("readonly");
+            
+        }
+    }
+    
+    $('#timeForm :input').on('change',function(){
+        var name = $(this).attr('name');
+        var isInIT = name.indexOf("[]");
+        if(isInIT == -1){console.log(name,'if');
+        $('#err_'+name).html('');
+        }
+        else{
+            name = name.replace('[]','');
+            $('#err_'+name).html('');
+        }
+    });
     </script>

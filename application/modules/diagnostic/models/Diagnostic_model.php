@@ -10,7 +10,7 @@ class Diagnostic_model extends CI_Model {
     // start change by hemany
    // fetch all publish hospital 
    function fetchPublishDiagnostic() {
-        $this->db->select('diagnostic_id,diagnostic_name');
+        $this->db->select('diagnostic_id as diagno_id,diagnostic_name');
         $this->db->from('qyura_diagnostic');
         $this->db->where('status', 3);
         $this->db->order_by("diagnostic_name", "asc");
