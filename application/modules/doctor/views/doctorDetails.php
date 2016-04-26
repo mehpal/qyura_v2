@@ -1040,7 +1040,7 @@
                         <article class="clearfix m-t-10" id="div_docTimeTable_HprofileId">
                             <label class="control-label" for="docTimeTable_MIprofileId_h">Hospital Name:</label>
                             <div class="">
-<<<<<<< HEAD
+
                                 <?php $hospitals[] = (object) array('hospital_id' =>0, 'hospital_name' => 'Other') ?>
                                 <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId_h" id="docTimeTable_MIprofileId_h" onchange="getHospitaldetail(this.value)" >
                                     <option value="">-- Select Hospital --</option>
@@ -1052,19 +1052,7 @@
                                             <?php }
                                         }
                                         ?>
-                                    
-=======
-                                <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId" id="docTimeTable_MIprofileId">
-                                    <option value="">-- Select Hospital --</option>
-                                    <?php if (isset($allHospital) && $allHospital != NULL) {
-                                        foreach ($allHospital as $aH) {
-                                            ?>
-                                            <option value="<?php echo $aH->hospital_id ?>"><?php echo $aH->hospital_name ?></option>
-                                        <?php }
-                                    }
-                                    ?>
-                                    <option value="0">Other</option>
->>>>>>> 470d3607a4c02b7a8af00e1738b65c3669d38241
+
                                 </select>
                                 
                                 <label id="err_docTimeTable_MIprofileId_h" class="error"><?php echo form_error("docTimeTable_MIprofileId_h"); ?></label>
@@ -1073,12 +1061,10 @@
                         <article class="clearfix m-t-10" id="div_docTimeTable_DprofileId">
                             <label class="control-label" for="docTimeTable_MIprofileId_d">Diagnostic Name:</label>
                             <div class="">
-<<<<<<< HEAD
+
                                 <?php $diagnostics[] = (object) array('diagnostic_id' =>0, 'diagnostic_name' => 'Other') ?>
                                 <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId_d" id="docTimeTable_MIprofileId_d">
-=======
-                                <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId" id="docTimeTable_MIprofileId">
->>>>>>> 470d3607a4c02b7a8af00e1738b65c3669d38241
+
                                     <option value="">-- Select Diagnostic --</option>
     <?php  if (!empty($diagnostics)) {
                                             
@@ -1167,7 +1153,7 @@
                                         <label id="err_addr" class="error" > <?php echo form_error("addr"); ?></label>
                                     </div>
                                 </aside>
-<<<<<<< HEAD
+
                                 
                                 
                                 <aside class="row">
@@ -1180,18 +1166,7 @@
                                         <input name="lng" required="" type="text" value=""  id="mi_lng" class="form-control" placeholder="Longitude" onChange="lngChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
                                         <label id="err_lng" class="error" > <?php echo form_error("lng"); ?></label>
                                         <label class="error" style="display:none;" id="error-mi_lng"> Please enter the correct format for longitude</label>
-=======
-                                <aside class="row">
-                                    <div class="col-sm-3">
-                                        <input name="lat" class="form-control" required="" type="text" value="<?php if(isset($doctorDetail[0]->doctors_lat) && $doctorDetail[0]->doctors_lat != NULL){ echo $doctorDetail[0]->doctors_lat; } ?>"  id="lat" placeholder="Latitude" onchange="latChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
-                                        <label class="error" > <?php echo form_error("lat"); ?></label>
-                                        <label class="error" style="display:none;" id="error-lat">Please enter the correct format for latitude</label>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <input name="lng" required="" type="text" value="<?php if(isset($doctorDetail[0]->doctors_long) && $doctorDetail[0]->doctors_long != NULL){ echo $doctorDetail[0]->doctors_long; } ?>"  id="lng" class="form-control" placeholder="Longitude" onChange="lngChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
-                                        <label class="error" > <?php echo form_error("lng"); ?></label>
-                                        <label class="error" style="display:none;" id="error-lng"> Please enter the correct format for longitude</label>
->>>>>>> 470d3607a4c02b7a8af00e1738b65c3669d38241
+
                                     </div>
                                 </aside>
                                 
