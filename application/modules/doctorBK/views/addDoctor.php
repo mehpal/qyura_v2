@@ -96,32 +96,22 @@
                                     </article>
                                     <div id="multiplePhoneNumber">
                                     <article class="form-group m-lr-0">
-<<<<<<< HEAD
-                                        <label for="cname" class="control-label col-md-4 col-sm-4">Contact No.:</label>
-                                        <div class="col-md-8 col-sm-8">
-                                            <aside class="row">
-                                                <div class="col-md-12 col-sm-4 col-xs-10 m-t-xs-10 ">
-                                                    <input type="text" class="form-control" name="doctors_phn" id="doctors_phn" maxlength="10" placeholder="Contact Number" onblur="checkNumber('doctors_phn',1)" onkeypress="return isNumberKey(event)" />
-                                                </div>
-<!--                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 m-t-xs-10"><a onclick="addPhoneNumber()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus"></i></a></div>-->
-=======
+
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Phone:</label>
                                         <div class="col-md-8 col-sm-8">
                                             <aside class="row">
                                                 <div class="col-md-12 col-sm-4 col-xs-10 m-t-xs-10 ">
                                                     <input type="text" class="form-control" name="doctors_phn" id="doctors_phn1" maxlength="10" placeholder="Number" onkeypress="return isNumberKey(event)" value="<?php echo set_value('doctors_phn'); ?>"/>
                                                 </div>
->>>>>>> 9975461d479bb7bdca85c33810a386eb853a3d32
+
                                             </aside>
                                             <label class="error" style="display:none;" id="error-doctors_phn1"> Please select your phone number</label>
                                         </div>
                                     </article>
                                     </div>    
-<<<<<<< HEAD
-                                    <article class="form-group m-lr-0">
-=======
+
                                     <article class="form-group m-lr-0 m-t-30">
->>>>>>> 9975461d479bb7bdca85c33810a386eb853a3d32
+
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Address:</label>
                                         <div class="col-md-8 col-sm-8">
                                             <aside class="row">
