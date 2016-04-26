@@ -137,7 +137,7 @@ class Sponserhealthtip extends MY_Controller {
         echo $option;
     }
 
-    function fetchsponserdates() {
+   function fetchsponserdates() {
         $city_id = $this->input->post('city_id');
         // $city_id = 705;
         
@@ -156,21 +156,23 @@ class Sponserhealthtip extends MY_Controller {
         $where = array("sponsor_cityId" => $city_id);
 
         $sponserdate = $this->Sponser_model->fetchsponserdates($where);
-
+        $dateArray = NULL;
+        foreach($sponserdate as $sd){
+            $dateArray[] = $sd->sponsor_date;
+        }
+        $vals = array_count_values($dateArray); 
         $i = 0;
-        foreach ($sponserdate as $spdate) {
-
-            $datestr .= date("Y-m-d", $spdate->sponsor_date) . ",";
-
+        foreach ($vals as $key=>$spdate) {
+            if($spdate >= 20)
+                $datestr .= date("Y-m-d", $key) . ",";
             //$datestr = $spdate->sponsor_date.",";
-
             $i++;
         }
         echo trim($datestr, ",");
 
         exit;
     }
-
+    
     function bookSponserdates() {
         $HtipId = $this->input->post('HtipId');
         $sponser_stateId = $this->input->post('sponser_stateId');

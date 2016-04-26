@@ -122,20 +122,20 @@
                                                 </div>
                                              </article>
                                             
-                                            
-                                            <article class="clearfix m-t-10">
+                                               <input type="hidden" <?php echo set_radio('isManual', 1, TRUE); ?>  name="isManual" value="1" id="isManual">
+<!--                                            <article class="clearfix m-t-10">
                                                 <label class="control-label col-md-4" for="cname">Manual :</label>
                                                 <div class="col-md-8">
                                                     <aside class="radio radio-info radio-inline">
-                                                        <input type="radio"  name="isManual" value="1" id="isManual" onclick="IsAdrManual(this.value)" <?php echo set_radio('isManual', '1', TRUE); ?>>
+                                                        <input type="radio"  name="isManual" value="1" id="isManual" onclick="IsAdrManual(this.value)" <?php //echo set_radio('isManual', '1', TRUE); ?>>
                                                         <label for="inlineRadio1"> Yes</label>
                                                     </aside>
                                                     <aside class="radio radio-info radio-inline">
-                                                        <input type="radio"  name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.value)" <?php echo set_radio('isManual', '0'); ?>>
+                                                        <input type="radio"  name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.value)" <?php //echo set_radio('isManual', '0'); ?>>
                                                         <label for="inlineRadio2"> No</label>
                                                     </aside>
                                                 </div>
-                                            </article>
+                                            </article>-->
                                             
                                            <article class="clearfix m-t-10">
 

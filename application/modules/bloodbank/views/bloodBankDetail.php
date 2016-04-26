@@ -119,6 +119,12 @@
                                        <label for="cemail" class="control-label col-md-4 col-sm-4">Docat Id:</label>
                                        <p class="col-md-8  col-sm-8 text-right t-xs-left"> <?php if(isset($bloodBankData[0]->bloodBank_docatId)){ echo $bloodBankData[0]->bloodBank_docatId; }?> </p>
                                     </article>
+                                     
+                                       <article class="clearfix m-b-10">
+                                       <label for="cemail" class="control-label col-md-4 col-sm-4">24/7 Services ?</label>
+                                       <p class="col-md-8  col-sm-8 text-right t-xs-left"> <?php if(isset($bloodBankData[0]->isEmergency) && $bloodBankData[0]->isEmergency == 1){ echo "Yes"; }else{echo"No";}?> </p>
+                                    </article>
+                                     
                                  </aside>
                                  <form name="submitForm" action="<?php echo site_url('bloodbank/saveDetailBloodBank/'.$bloodBankId); ?>" id="submitForm" method="post">
                                     <aside id="newDetail" style="display:<?php echo $showStatus;?>;">
@@ -269,6 +275,22 @@
                                 </div>
                             </article>
                                         
+            
+                                        
+                            <article class="clearfix m-t-10">
+                                <label for="cname" class="control-label col-md-4">24/7 Services ? </label>
+                                <div class="col-md-8">
+                                    <aside class="radio radio-info radio-inline">
+                                        <input type="radio" id="isEmergency_yes" value="1" name="isEmergency" <?php if(isset($bloodBankData[0]->isEmergency) && $bloodBankData[0]->isEmergency == 1){ echo "checked"; }?>>
+                                        <label for="inlineRadio1"> Yes</label>
+                                    </aside>
+                                    <aside class="radio radio-info radio-inline">
+                                        <input type="radio" id="isEmergency_no" value="0" name="isEmergency" <?php if(isset($bloodBankData[0]->isEmergency) && $bloodBankData[0]->isEmergency == 0){ echo "checked"; }?>>
+                                        <label for="inlineRadio2"> No</label>
+                                    </aside>
+                                </div>
+                            </article>
+                                        
                                        <article class="clearfix m-t-10">
                                           <div class="col-md-12">
                                              <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" onclick="return validationBloodbank();">Submit</button>
@@ -415,6 +437,12 @@
                   <!-- diagnostic Ends -->
                      <section class="tab-pane fade in <?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>" id="timeSlot">
                      <div class="clearfix m-t-20 p-b-20 doctor-description">
+                        
+                     <?php if(isset($bloodBankData[0]->isEmergency) && $bloodBankData[0]->isEmergency == 1){ 
+                         
+                         echo "24/7 Services available"; 
+                     
+                     }else{?> 
                          
                  <?php if(isset($timeSlot) && !empty($timeSlot)):?>
                          
@@ -452,6 +480,8 @@
                     <?php endif;?>     
                          
                      </div>
+                        <?php }?>     
+                         
                   </section>
                   <!--Account Starts -->
                   <section class="tab-pane fade in <?php if(isset($active) && $active == 'account'){echo "active";}?>" id="account">

@@ -152,12 +152,19 @@ class Doctor extends MY_Controller {
             }
 
             $doctors_phn = $this->input->post('doctors_phn');
+<<<<<<< HEAD
             $doctors_phnNo = explode("0", $doctors_phn);
             if (isset($doctors_phnNo[1])) {
                 $doctors_phn = $doctors_phnNo[1];
             } else {
                 $doctors_phn = $doctors_phnNo[0];
             }
+=======
+            $pos = strpos($doctors_phn, "0");
+            $doctors_phnNo = '';
+            if($pos == "0"){ $doctors_phnNo = explode("0", $doctors_phn);  }
+            if(isset($doctors_phnNo[1])){ $doctors_phn = $doctors_phnNo[1]; }
+>>>>>>> 470d3607a4c02b7a8af00e1738b65c3669d38241
             $users_email_status = $this->input->post('users_email_status');
             if ($users_email_status == 0) {
                 $users_email = $this->input->post('users_email');
@@ -1126,6 +1133,7 @@ class Doctor extends MY_Controller {
             $doctors_lat = $this->input->post('lat');
             $doctors_lng = $this->input->post('lng');
             $doctors_phn = $this->input->post('doctors_phn');
+<<<<<<< HEAD
 
             $doctors_phnNo = explode("0", $doctors_phn);
 
@@ -1137,6 +1145,14 @@ class Doctor extends MY_Controller {
 
             $doctors_27Src = $this->input->post('doctors_27Src');
 
+=======
+            $pos = strpos($doctors_phn, "0");
+            $doctors_phnNo = '';
+            if($pos == "0"){ $doctors_phnNo = explode("0", $doctors_phn);  }
+            if(isset($doctors_phnNo[1])){ $doctors_phn = $doctors_phnNo[1]; }
+	    $doctors_27Src = $this->input->post('doctors_27Src');
+            
+>>>>>>> 470d3607a4c02b7a8af00e1738b65c3669d38241
             $home_visit = $this->input->post('home_visit');
             $show_exp = $this->input->post('show_exp');
             $exp_year = $this->input->post('exp_year');

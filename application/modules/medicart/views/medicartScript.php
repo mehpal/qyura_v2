@@ -344,10 +344,10 @@ var urls = "<?php echo base_url() ?>";
                 medicartOffer_ageDiscount: {
                     required: true
                 },
-                medicartOffer_actualPrice: {
-                    required: true,
-                    number: true
-                },
+//                medicartOffer_actualPrice: {
+//                    required: true,
+//                    number: true
+//                },
                 medicartOffer_discountPrice: {
                     required: true,
                     number: true,
@@ -374,10 +374,10 @@ var urls = "<?php echo base_url() ?>";
                     required: "Please enter discount",
                     number: "Please enter only number formate",
                 },
-                medicartOffer_actualPrice: {
-                    required: "Please enter actual prize",
-                    number: "Please enter only number formate",
-                },
+//                medicartOffer_actualPrice: {
+//                    required: "Please enter actual prize",
+//                    number: "Please enter only number formate",
+//                },
                 medicartOffer_ageDiscount: {
                     required: "Please select age",
                 },
@@ -456,11 +456,17 @@ var urls = "<?php echo base_url() ?>";
     }
 
     function IsallowDiscount(id) {
-
-        if (id == 1) {
-            $("#discountOffer").show('slow');
-        } else {
-            $("#discountOffer").hide('slow');
+        var actualPrice = $("#medicartOffer_actualPrice").val();
+        if(actualPrice != '' && actualPrice != 0){
+            if (id == 1) {
+                $("#discountOffer").show('slow');
+            } else {
+                $("#discountOffer").hide('slow');
+            }
+        }else{
+            alert("Please fill Actual Price");
+            $("#inlineRadio4").prop('checked', true);
+            $("#discountOffer").hide();
         }
     }
 
@@ -469,15 +475,17 @@ var urls = "<?php echo base_url() ?>";
         var totalPrice = 0;
         var medicartOffer_actualPrice = $("#medicartOffer_actualPrice").val();
         var medicartOffer_discountPrice = $("#medicartOffer_discountPrice").val();
-        if (medicartOffer_actualPrice != '' && medicartOffer_discountPrice != '') {
-
-            discountValue = (medicartOffer_actualPrice / 100) * medicartOffer_discountPrice;
-
-            totalPrice = medicartOffer_actualPrice - discountValue;
-
-            $("#medicartOffer_totalPrice").val(totalPrice);
-        } else {
-            $("#medicartOffer_totalPrice").val(medicartOffer_actualPrice);
+        if(medicartOffer_actualPrice != 0){
+            if (medicartOffer_actualPrice != '' && medicartOffer_discountPrice != '') {
+                discountValue = (medicartOffer_actualPrice / 100) * medicartOffer_discountPrice;
+                totalPrice = medicartOffer_actualPrice - discountValue;
+                $("#medicartOffer_totalPrice").val(totalPrice);
+            } else {
+                $("#medicartOffer_totalPrice").val(medicartOffer_actualPrice);
+            }
+        }else{
+            $("#inlineRadio4").prop('checked', true);
+            $("#discountOffer").hide();
         }
     }
 

@@ -264,11 +264,9 @@ class MY_Controller extends CI_Controller {
         if (!empty($table_field_name) && !empty($table_name) && !empty($field_value)) {
 
             $where = array($table_field_name => $field_value);
-            if ($status_value == 2) {
+            if ($status_value == 2 ) {
                 $update_data['status'] = 3;
-            } else {
-                $update_data['status'] = 2;
-            }
+            } 
 
             $options = array(
                 'table' => $table_name,
@@ -472,6 +470,29 @@ class MY_Controller extends CI_Controller {
         }
     }
     
-    
+    function sendEmailRegister($emailId){
+
+        $this->load->library('email');
+
+        $config['protocol'] = 'sendmail';
+        $config['mailpath'] = '/usr/sbin/sendmail';
+        $config['charset'] = 'iso-8859-1';
+        $config['wordwrap'] = TRUE;
+
+        $this->email->initialize($config);
+        $this->email->set_newline("\r\n");
+        $this->email->from('admin@qyuram.com', 'QYURA TEAM');
+        $this->email->to($emailId);
+        $body = "Hello ".$emailId;
+        $this->email->subject('Conguratilation! Welcome to Qyura');
+        $this->email->message($body);
+
+        if ($this->email->send()) {
+            return true;
+        } else {
+            return false;
+        } 
+        
+    }
 
 }

@@ -10,11 +10,13 @@ class Setting extends MY_Controller {
     }
 
     function index() {
+       
         $userid = $this->session->userdata("ses_sa_userid");
         if(!$userid)
             $userid = 63;
         $data['allStates'] = $this->Setting_model->fetchStates();
         $data['users'] = $users = $this->Setting_model->getAdmin($userid);
+       // print_r( $data['users']);  exit;
         $statId = 0;
         if (!empty($users[0]->patientDetails_stateId) && isset($users[0]->patientDetails_stateId)) {
             $statId = $users[0]->patientDetails_stateId;
@@ -47,24 +49,18 @@ class Setting extends MY_Controller {
     function config($userId=NULL) {
        
         $imagesname = '';
-        $details = array(
-            'patientDetails_patientName' => $this->input->post('user_name'),
-            'patientDetails_countryId' => $this->input->post('setting_countryId'),
-            'patientDetails_stateId' => $this->input->post('setting_stateId'),
-            'patientDetails_cityId' => $this->input->post('setting_cityId'),
-            'patientDetails_pin' => $this->input->post('zip'),
-            'patientDetails_address' => $this->input->post('address'),
-            'patientDetails_dob' => strtotime($this->input->post('dob'))
-        );
+     
+        $userImage = $this->input->post('userProfile');
+      
         
         if ($_FILES['avatar_file']['name']) {
             $path = realpath(FCPATH . 'assets/patientImages/');
             $upload_data = $this->input->post('avatar_data');
             $upload_data = json_decode($upload_data);
 
-            $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path,'assets/patientImages/', '/assets/patientImages/thumb/', 'patient');
+            $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path,'assets/patientImages/', './assets/patientImages/thumb/', 'patient');
             
-            $details["patientDetails_patientImg"] = $original_imagesname;
+           // $details["patientDetails_patientImg"] = $original_imagesname;
             $this->session->set_userdata("ses_sa_image",$original_imagesname);
             if (empty($original_imagesname)) {
                 $data = array();
@@ -75,11 +71,21 @@ class Setting extends MY_Controller {
             } else {
                 $imagesname = $original_imagesname;
             }
+        }else{
+            $imagesname = $userImage;
         }
         
-        
+        $details = array(
+            'patientDetails_patientName' => $this->input->post('user_name'),
+            'patientDetails_countryId' => $this->input->post('setting_countryId'),
+            'patientDetails_stateId' => $this->input->post('setting_stateId'),
+            'patientDetails_cityId' => $this->input->post('setting_cityId'),
+            'patientDetails_pin' => $this->input->post('zip'),
+            'patientDetails_address' => $this->input->post('address'),
+            'patientDetails_dob' => strtotime($this->input->post('dob')),
+            'patientDetails_patientImg' => $imagesname
+        );
 
-        
         $password = $this->input->post('users_password');
         $cPassword = $this->input->post('cnfPassword');
         if (!empty($password) && !empty($cPassword) && $password == $cPassword) {
@@ -118,5 +124,5 @@ class Setting extends MY_Controller {
             $this->session->set_flashdata('error', 'Your profile failed to update.');
             redirect('setting');
         }
-    }
+    }    
 }
