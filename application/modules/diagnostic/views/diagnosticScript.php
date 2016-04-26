@@ -121,7 +121,7 @@ if($current != 'detailDiagnostic'):?>
       $(document).ready(function(){
           
  
-          fetchStates();
+        //  fetchStates();
           loadAwards();
           loadServices();
           loadSpeciality();
@@ -141,7 +141,7 @@ if($current != 'detailDiagnostic'):?>
                 //console.log(datas);
                   $('#diagnostic_stateId').html(datas);
                   $('#diagnostic_stateId').selectpicker('refresh');
-                  fetchCityOnload(stateId);
+                 // fetchCityOnload(stateId);
                   //$('#StateId').val(stateId);
               }
            });
@@ -1097,7 +1097,7 @@ if($current != 'detailDiagnostic'):?>
        
         var isAddressDisabled = $('#isAddressDisabled').val();
         if(isAddressDisabled == 1){
-            $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", false);
+            $("#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId").prop("disabled", false);
         }
         
         var check= /^[a-zA-Z\s]+$/;
@@ -2013,21 +2013,22 @@ function imageIsLoaded(e) {
                         $("#geocompleteId,#diagnostic_zip,#lat,#lng").attr("readonly", true);
                         $('#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId').prop("disabled", true);
                     } else {
-                        $("#diagnoName").css("display", "block");
-                        $("#geocompleteId").val('');
-                        $("#diagnostic_countryId").html();
-                        $("#diagnostic_cityId").html();
-                        $("#hospital_cityId").html();
-                        $("#diagnostic_zip").val('');
-                        $("#lat").val('');
-                        $("#lng").val('');
-                        $("#hospital_name").val('');
-                        
-                        $("#isAddressDisabled").val(0);
-                        
-                        $('#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId').selectpicker('refresh');
-                        $("#geocompleteId,#diagnostic_zip,#lat,#lng").removeAttr("readonly");
-                        $('#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId').prop("disabled", false);
+                           $("#diagnoName").css("display", "block");
+                            $("#geocompleteId").val('');
+                            $("#diagnostic_countryId").html();
+                            $("#diagnostic_cityId").html();
+                            $("#hospital_cityId").html();
+                            $("#diagnostic_zip").val('');
+                            $("#lat").val('');
+                            $("#lng").val('');
+                            $("#diagnostic_name").val('');
+
+                            $("#isAddressDisabled").val(0);
+
+                            $('#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId').selectpicker('refresh');
+                            $("#geocompleteId,#diagnostic_zip,#lat,#lng").removeAttr("readonly");
+                            $('.dropdown-toggle').removeClass("disabled");
+                            $('#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId').prop("disabled", false);
                     }
                 }
             });
@@ -2040,12 +2041,13 @@ function imageIsLoaded(e) {
                 $("#diagnostic_zip").val('');
                 $("#lat").val('');
                 $("#lng").val('');
-                $("#hospital_name").val('');
+                $("#diagnostic_name").val('');
 
                 $("#isAddressDisabled").val(0);
 
                 $('#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId').selectpicker('refresh');
                 $("#geocompleteId,#diagnostic_zip,#lat,#lng").removeAttr("readonly");
+                $('.dropdown-toggle').removeClass("disabled");
                 $('#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId').prop("disabled", false);
     }
   }  
