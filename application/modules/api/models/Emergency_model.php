@@ -24,7 +24,7 @@ class Emergency_model extends CI_Model {
                 ->from('qyura_hospital')
                 ->join('qyura_hospitalSpecialities', 'qyura_hospitalSpecialities.hospitalSpecialities_hospitalId=qyura_hospital.hospital_id', 'left')
                 ->join('qyura_specialities', 'qyura_specialities.specialities_id=qyura_hospitalSpecialities.hospitalSpecialities_specialitiesId', 'left')
-                ->where(array('hospital_deleted' => 0, 'isEmergency' => 1))
+                ->where(array('qyura_hospital.hospital_deleted' => 0,'qyura_hospital.status' => 0, 'qyura_hospital.isEmergency' => 1))
                 
                 ->where_not_in('qyura_hospital.hospital_id', $notIn)
                 ->order_by('distance', 'ASC')
@@ -133,7 +133,7 @@ class Emergency_model extends CI_Model {
 
         $this->db->select('qyura_pharmacy.pharmacy_id as id, pharmacy_name name, pharmacy_address adr, pharmacy_img imUrl, (
                 6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( pharmacy_lat ) ) * cos( radians( pharmacy_long ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( pharmacy_lat ) ) )
-                ) AS distance, CONCAT("0","",pharmacy_phn) as  phn, pharmacy_lat lat, pharmacy_long long')
+                ) AS distance, CONCAT("0","",SUBSTR(pharmacy_phn, -10)) as  phn,pharmacy_27Src as isEmergency, pharmacy_lat lat, pharmacy_long long')
                 ->from('qyura_pharmacy')
                 ->where(array('qyura_pharmacy.pharmacy_deleted' => 0, 'pharmacy_27Src' => 1))
                 ->where_not_in('qyura_pharmacy.pharmacy_id', $notIn)
