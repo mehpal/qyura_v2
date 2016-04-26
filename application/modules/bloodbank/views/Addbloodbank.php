@@ -281,7 +281,7 @@
                         <input type="hidden" value="1" name="isValid" id="isValid">
                         <input type="hidden" value="" name="userId" id="userId">
                         <label class="error" style="display:none;" id="error-userexist">Blood bank already exist!</label>
-                        <button class="btn btn-danger waves-effect pull-right" type="reset" id="resetBtn">Reset</button>
+                        <button class="btn btn-danger waves-effect pull-right" type="reset" id="resetBtn" onclick="location.reload();">Reset</button>
                         <div>
                             <input class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" value="Submit" onclick="return validationBloodbank()" />
                         </div>
