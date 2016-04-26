@@ -162,11 +162,8 @@
                 async: false,
                 type: 'POST',
                 data: {'city_id': city_id,'special_id':special_id},
-                beforeSend: function (xhr) {
-                    $("#input3").addClass('loadinggif');
-                },
+                beforeSend: function (xhr) {},
                 success: function (data) {
-                    console.log(data);
                     $('#input3').html(data);
                     $('#input3').selectpicker('refresh');
                     $("#input3").removeClass('loadinggif');

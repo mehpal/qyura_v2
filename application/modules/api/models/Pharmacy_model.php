@@ -19,7 +19,6 @@ class Pharmacy_model extends CI_Model {
         $where = array('qyura_pharmacy.pharmacy_deleted' => 0);
         
         if ($isemergency != '' && $isemergency != NULL) {
-
             $where['qyura_pharmacy.pharmacy_27Src'] = $isemergency;
         }
 
@@ -30,17 +29,11 @@ class Pharmacy_model extends CI_Model {
             $this->db->group_end();
         }
 
-        $this->db->select('qyura_pharmacy.pharmacy_id as id, pharmacy_name name, pharmacy_address adr, pharmacy_img imUrl, '
-                . '(CASE WHEN(hospital_usersId is not null) THEN hospital_usersId WHEN(diagnostic_usersId is not null) THEN diagnostic_usersId ELSE  qyura_pharmacy.pharmacy_usersId END) as userId,
-(CASE WHEN(hospital_usersId is not null) THEN hospital_lat WHEN(diagnostic_usersId is not null) THEN diagnostic_lat ELSE  pharmacy_lat END) as lat, 
-(CASE WHEN(hospital_usersId is not null) THEN hospital_long WHEN(diagnostic_usersId is not null) THEN diagnostic_long ELSE  pharmacy_long END) as lng,  
-(CASE WHEN(hospital_usersId is not null) THEN hospital_address WHEN(diagnostic_usersId is not null) THEN diagnostic_address ELSE  pharmacy_address END) as adr, ' 
-                . '(6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( (CASE WHEN(hospital_usersId is not null) THEN hospital_lat WHEN(diagnostic_usersId is not null) THEN diagnostic_lat ELSE  pharmacy_lat END) ) ) * cos( radians( (CASE WHEN(hospital_usersId is not null) THEN hospital_long WHEN(diagnostic_usersId is not null) THEN diagnostic_long ELSE  pharmacy_long END) ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( (CASE WHEN(hospital_usersId is not null) THEN hospital_lat WHEN(diagnostic_usersId is not null) THEN diagnostic_lat ELSE  pharmacy_lat END) ) ) )
+        $this->db->select('qyura_pharmacy.pharmacy_id as id, pharmacy_name name, pharmacy_address adr, pharmacy_img imUrl, pharmacy_usersId  as userId, pharmacy_lat as lat, pharmacy_long as lng, ' 
+                . '(6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( pharmacy_lat ) ) * cos( radians( pharmacy_long ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( pharmacy_lat ) ) )
                 ) AS distance, CONCAT("0","",pharmacy_phn) as  phn, qyura_pharmacy.pharmacy_27Src isEmergency')
                 ->from('qyura_pharmacy')
                 ->join('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId=qyura_pharmacy.pharmacy_usersId', 'left') 
-                ->join('qyura_hospital', 'qyura_usersRoles.usersRoles_parentId=qyura_hospital.hospital_usersId AND `qyura_hospital`.`status` = 1 AND `qyura_hospital`.`hospital_deleted` = "0"', 'left')
-                ->join('qyura_diagnostic', 'qyura_usersRoles.usersRoles_parentId=qyura_diagnostic.diagnostic_usersId AND `qyura_diagnostic`.`status`=1 AND `qyura_diagnostic`.`diagnostic_deleted` = 0', 'left')
                 ->where($where)
                 ->where_not_in('qyura_pharmacy.pharmacy_id', $notIn)
                 ->order_by('distance', 'ASC')
@@ -76,6 +69,7 @@ class Pharmacy_model extends CI_Model {
                 $finalTemp[] = isset($row->phn) ? $row->phn : "";
                 $finalTemp[] = isset($row->lat) ? $row->lat : "";
                 $finalTemp[] = isset($row->lng) ? $row->lng : "";
+                
                 if($slots != NULL){
                     $finalTemp[] = isset($slots->openingHours) ? $slots->openingHours : "";
                     $finalTemp[] = isset($slots->closingHours) ? $slots->closingHours : "";
