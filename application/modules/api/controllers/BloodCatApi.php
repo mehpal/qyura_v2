@@ -61,7 +61,6 @@ class BloodCatApi extends MyRest {
 
             $notIn = isset($_POST['notin']) ? $_POST['notin'] : '';
             $notIn = explode(',', $notIn);
-            date("l",strtotime(date("Y-m-d")));
             $curDay = getDay(date("l",strtotime(date("Y-m-d"))));
                         
             $where = array('qyura_bloodBank.bloodBank_deleted' => 0);
