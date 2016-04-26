@@ -155,7 +155,7 @@
             }
         });
 
-        $('#search').change(function () {
+        $('#search').on('keyup', function () {
             if ($('#li_consulting').hasClass('active'))
                 consultingTable.draw();
             else if($('#li_diagnostic').hasClass('active'))

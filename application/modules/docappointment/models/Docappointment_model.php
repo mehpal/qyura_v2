@@ -391,11 +391,26 @@ CASE
     
     function fetchDoctorAppointmentDataTables( $condition = NULL){
         
-         $this->datatables->select('qyura_doctorAppointment.doctorAppointment_id as appoint_id,qyura_doctorAppointment.doctorAppointment_unqId as ApptId,qyura_doctorAppointment.doctorAppointment_date as appoint_date,qyura_doctorAppointment.doctorAppointment_finalTiming as appoint_time,qyura_doctorAppointment.doctorAppointment_status as appoint_status,qyura_patientDetails.patientDetails_patientName as patientName, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS doc_name,patientDetails_gender as userGender,patientDetails_dob as dob');
+         $this->datatables->select('qyura_doctorAppointment.doctorAppointment_id as appoint_id,qyura_doctorAppointment.doctorAppointment_unqId as ApptId,qyura_doctorAppointment.doctorAppointment_date as appoint_date,qyura_doctorAppointment.doctorAppointment_finalTiming as appoint_time,qyura_doctorAppointment.doctorAppointment_status as appoint_status,qyura_patientDetails.patientDetails_patientName as patientName, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS doc_name,patientDetails_gender as userGender,patientDetails_dob as dob,');
         $this->datatables->from('qyura_doctorAppointment');
+        $search = $this->input->post('name');
+        if ($search) {
+            $this->db->group_start();
+            $this->db->or_like('doctorAppointment_unqId', $search);
+            $this->db->or_like('doctorAppointment_date', $search);
+            $this->db->or_like('doctorAppointment_finalTiming', $search);
+            $this->db->or_like('patientDetails_patientName', $search);
+            $this->db->or_like('doctors_fName', $search);
+            $this->db->or_like('doctors_lName', $search);
+            $this->db->or_like('patientDetails_gender', $search);
+            $this->db->or_like('patientDetails_dob', $search);
+            $this->db->or_like('doctorAppointment_status', $search);
+            
+            $this->db->group_end();
+        }
         $this->db->join('qyura_doctors', 'qyura_doctors.doctors_userId = qyura_doctorAppointment.doctorAppointment_doctorUserId', 'left');
         $this->db->join('qyura_patientDetails', 'qyura_patientDetails.patientDetails_usersId = qyura_doctorAppointment.doctorAppointment_pntUserId', 'left');
-           
+          
         $this->db->where(array('qyura_doctorAppointment.doctorAppointment_deleted' => 0));
         
         $this->datatables->edit_column('ApptId', '<h6>$1</h6>', 'ApptId');

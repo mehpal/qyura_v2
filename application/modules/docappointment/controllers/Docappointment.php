@@ -116,7 +116,7 @@ class Docappointment extends MY_Controller {
         $options = array('table' => 'qyura_city', 'order' => array('city_name' => 'asc'));
         $data['qyura_city'] = $this->common_model->customGet($options);
         
-        $spOptions = array('table' => 'qyura_specialities', 'order' => array('specialities_name' => 'asc'),'select'=>'specialities_name as speName,specialities_specialitiesCatId as speCatId','where'=>array('specialities_deleted'=>0));
+        $spOptions = array('table' => 'qyura_specialities', 'order' => array('specialities_name' => 'asc'),'select'=>'specialities_name as speName,specialities_id as speId','where'=>array('specialities_deleted'=>0,'type' => 1));
         $data['spOptions'] = $this->common_model->customGet($spOptions);
         
         $data['allStates'] = $this->docappointment->fetchStates();
@@ -513,6 +513,7 @@ class Docappointment extends MY_Controller {
     function find_doctor(){
         $city_id = $this->input->post('city_id');
         $special_id = $this->input->post('special_id');
+        
         $option = '';
         if (isset($city_id) && isset($special_id)) {
             $doctors = $this->docappointment->getDoctorsList($special_id,$city_id);
