@@ -504,7 +504,7 @@ class Doctor_model extends My_model {
 
 
 
-    function checkSloat() {
+    function checkSloat($options) {
         $table = false;
         $data = false;
         $day = '';
@@ -512,13 +512,13 @@ class Doctor_model extends My_model {
         $closeTime = '';
         $doctorId = '';
         extract($options);
-
+        
         $query = "SELECT `docTimeTable_id`
                                 FROM (`qyura_docTimeTable`)
                                 LEFT JOIN qyura_docTimeDay ON qyura_docTimeDay.docTimeDay_docTimeTableId = qyura_docTimeTable.docTimeTable_id
                                 WHERE 
-                                docTimeDay_day = {$day} AND qyura_docTimeDay.docTimeTable_deleted = 1 AND qyura_docTimeTable.docTimeTable_deleted = 0 AND 
-                                AND 
+                                docTimeDay_day = {$day} AND qyura_docTimeDay.docTimeTable_deleted = 0 AND qyura_docTimeTable.docTimeTable_deleted = 0 AND 
+                                 
                                         (
                                             (
                                                 ( '$openTime' BETWEEN docTimeDay_open AND docTimeDay_close ) 
@@ -536,16 +536,14 @@ class Doctor_model extends My_model {
 
                                             )
 
-                                        ) AND docTimeTable_doctorUserId =  {$doctorId}";
+                                        ) AND docTimeTable_doctorId =  {$doctorId}";
 
-        $query3 = $this->db->query($query);
+        $query = $this->db->query($query);
         // dump($query3->row());
-        // echo $this->db->last_query(); 
+        //dump($this->db->last_query()); 
         // echo $query3->num_rows();
-        if ($query3->num_rows()) {
-            $count ++;
-            $message .= $tempRow->festName . ', ';
-        }
+        return $query->num_rows();
+        
     }
 
     function getDoctorAvailableOnDaysNew($where) {
