@@ -47,8 +47,6 @@ class BloodCatApi extends MyRest {
             
             $isemergency = isset($_POST['isemergency']) ? $this->input->post('isemergency') : NULL;
             
-           
-            
             if ($cityId != NULL) {
                 $array = array('qyura_bloodBank.cityId' => $cityId);
                 $this->db->where($array);
