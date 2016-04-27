@@ -897,10 +897,10 @@ class Diagnostic extends MY_Controller {
                                      <input type="text" class="form-control" name="hospitalAwards_awardsName" id=' . $val->diagnosticAwards_id . ' value="' . $val->diagnosticAwards_awardsName . '" placeholder="Awards name" />
                                           <label style="display: none;"class="error" id="error-awards' . $val->diagnosticAwards_id . '"> Please enter award name </label>  
                                               
-                                     <input type="text" class="form-control" name="diagnosticAwards_agencyName" id=agency' . $val->diagnosticAwards_id . ' value="' . $val->diagnosticAwards_awardsAgency . '" placeholder="Award Agency" />
+                                     <input type="text" class="form-control m-t-10" name="diagnosticAwards_agencyName" id=agency' . $val->diagnosticAwards_id . ' value="' . $val->diagnosticAwards_awardsAgency . '" placeholder="Award Agency" />
                                     <label style="display: none;"class="error" id="error-agency' . $val->hospitalAwards_id . '"> Please enter agency name </label> 
                    
-                                    <input type="text" class="form-control m-t-20" placeholder="Year" id=year' . $val->diagnosticAwards_id . ' name="diagnostic_awardsyear" value="' . $val->diagnosticAwards_awardYear . '" onkeypress="return isNumberKey(event)"/>
+                                    <input type="text" class="form-control m-t-10" placeholder="Year" id=year' . $val->diagnosticAwards_id . ' name="diagnostic_awardsyear" value="' . $val->diagnosticAwards_awardYear . '" onkeypress="return isNumberKey(event)"/>
                                            <label style="display: none;"class="error" id="error-years' . $val->diagnosticAwards_id . '"> Please enter year only number formate minium and maximum length 4 </label> 
                                                
                                           <label id="error-years-valid' . $val->diagnosticAwards_id . '" class="error" style="display: none;">Invalid Year! Please enter year between 1920 to 2016  </label>
@@ -2105,7 +2105,7 @@ class Diagnostic extends MY_Controller {
                                      <label style="display: none;"class="error" id="error-centerAddress' . $val->collectionCenter_id . '"> Please enter center address</label> 
                                           
 
-                                      <aside class="row">
+                                      <aside class="row m-t-20">
                                         <div class="col-sm-6">
                                             <input name="centerLat" class="form-control" required="" type="text"   id=centerLat'.$val->collectionCenter_id.'  value="' . $val->collectionCenter_lat . '" onchange="latChack(this.value)" placeholder="latitude"/>
                                             <label class="error" style="display:none;" id="error-centerLat' . $val->collectionCenter_id . '">Please enter the correct format for latitude</label>

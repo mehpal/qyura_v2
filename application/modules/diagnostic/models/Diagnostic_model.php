@@ -150,10 +150,16 @@ class Diagnostic_model extends CI_Model {
     }
 
     function fetchdiagnosticData($condition = NULL) {
-        $this->db->select('qyura_country.country,qyura_state.state_statename,diag.diagnostic_mblNo as mobile,diag.diagnostic_aboutUs,diag.diagnostic_mbrTyp,diag.diagnostic_email,diag.diagnostic_dsgn,diag.diagnostic_id,diag.diagnostic_zip,diag.diagnostic_usersId,diag.diagnostic_name,diag.diagnostic_phn,diag.diagnostic_address,City.city_name,diag.diagnostic_img,diag.diagnostic_cntPrsn,usr.users_email,diag.diagnostic_lat,diag.diagnostic_long,usr.users_id,diag.diagnostic_countryId,diag.diagnostic_stateId,diag.diagnostic_cityId,usr.users_mobile,diag.diagnostic_background_img, diag.isManual');
+        $this->db->select('qyura_country.country,qyura_state.state_statename,diag.diagnostic_mblNo as mobile,diag.diagnostic_aboutUs,diag.diagnostic_mbrTyp,diag.diagnostic_email,diag.diagnostic_dsgn,diag.diagnostic_id,diag.diagnostic_zip,diag.diagnostic_usersId,diag.diagnostic_name,diag.diagnostic_phn,diag.diagnostic_address,City.city_name,diag.diagnostic_img,diag.diagnostic_cntPrsn,usr.users_email,diag.diagnostic_lat,diag.diagnostic_long,usr.users_id,diag.diagnostic_countryId,diag.diagnostic_stateId,diag.diagnostic_cityId,usr.users_mobile,diag.diagnostic_background_img, diag.isManual, Blood.bloodBank_name,Blood.bloodBank_phn, Ambu.ambulance_name,Ambu.ambulance_phn, Ambu.docOnBoard, diag.diagnostic_availibility_24_7, diag.diagnostic_hasPharmacy, diag.diagnostic_docatId, diag.diagnostic_specialityNameFormate');
+        
         $this->db->from('qyura_diagnostic AS diag');
         $this->db->join('qyura_city AS City', 'City.city_id = diag.diagnostic_cityId', 'left');
         $this->db->join('qyura_users AS usr', 'usr.users_id = diag.diagnostic_usersId', 'left');
+        
+        $this->db->join('qyura_bloodBank AS Blood', 'Blood.users_id = diag.diagnostic_usersId', 'left');
+        //$this->db->join('qyura_pharmacy AS Pharmacy', 'Pharmacy.pharmacy_usersId = Hos.hospital_usersId', 'left');
+        $this->db->join('qyura_ambulance AS Ambu', 'Ambu.ambulance_usersId = diag.diagnostic_usersId', 'left');
+        
         $this->db->join('qyura_country AS qyura_country','qyura_country.country_id = diag.diagnostic_countryId','left');
         $this->db->join('qyura_state AS qyura_state','qyura_state.state_id = diag.diagnostic_stateId','left');
         //$this->db->join('qyura_usersRoles AS Roles','Roles.usersRoles_userId = diag.diagnostic_usersid','left'); // changed

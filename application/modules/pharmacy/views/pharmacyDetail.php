@@ -1,4 +1,3 @@
-
 <!-- Start right Content here -->
 <div class="content-page">
     <!-- Start content -->
@@ -102,7 +101,7 @@
                                  <article class="tab-content p-b-20 m-t-50">
                   <!-- General Detail Starts -->
                
-                  <section class="tab-pane fade in <?php if(isset($active) && $active == 'general'){echo "active";}?>" id="general">
+    
                                
                       <section class="tab-pane fade in <?php if(isset($active) && $active == 'general'){echo "active";}?>" id="general">
                                <article class="tab-content p-b-20 m-t-50">
@@ -461,13 +460,19 @@ endif; ?> name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.valu
                         </section>
                       
                       
-                  </section>
+           
                   
-                   <section class="tab-pane fade in <?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>" id="timeSlot">
                        
            <section class="tab-pane fade in <?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>" id="timeSlot">
                         
-                            
+                         
+                     <?php  if(isset($pharmacyData[0]->pharmacy_27Src) && $pharmacyData[0]->pharmacy_27Src == 'Yes'){ 
+                         
+                         echo "24/7 Services available"; 
+                     
+                     }else{?> 
+               
+               
                      <?php if(isset($timeSlot) && !empty($timeSlot)):?>
                          
                     <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('pharmacy/updateTimeSlot');?>">
@@ -504,8 +509,8 @@ endif; ?> name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.valu
                     <?php endif;?>   
                         
                 
-                        </section>
-   
+                  
+               <?php }?>
                        
                        
                        
