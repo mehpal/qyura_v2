@@ -184,22 +184,6 @@ class Pharmacy extends MY_Controller {
 
             //echo $imagesname;exit;
             $pharmacy_phn = $this->input->post('pharmacy_phn');
-            //$pre_number = $this->input->post('pre_number');
-            //$midNumber = $this->input->post('midNumber');
-            //$countPnone = $this->input->post('countPnone');
-            
-            
-
-//            $finalNumber = '';
-//            for ($i = 0; $i < count($pharmacy_phn); $i++) {
-//                if ($pharmacy_phn[$i] != '' && $pre_number[$i] != '') {
-//                    if ($i == count($pharmacy_phn) - 1)
-//                        $finalNumber .= $pre_number[$i].' '.$midNumber[$i].' ' .$pharmacy_phn[$i];
-//                    else
-//                        $finalNumber .= $pre_number[$i].' '.$midNumber[$i].' ' .$pharmacy_phn[$i] . '|';
-//                }
-//            }
-
 
             $pharmacy_name = $this->input->post('pharmacy_name');
             $countryId = $this->input->post('pharmacy_countryId');
@@ -273,6 +257,7 @@ class Pharmacy extends MY_Controller {
 
                 $insertData['pharmacy_usersId'] = $pharmacy_usersId;
                 $pharmacyId = $this->Pharmacy_model->insertPharmacy($insertData);
+                $this->sendEmailRegister($this->input->post('users_email'));
                 $this->session->set_flashdata('message', 'Data inserted successfully !');
             }
             
