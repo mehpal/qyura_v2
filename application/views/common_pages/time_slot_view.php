@@ -46,12 +46,12 @@
                             <div class="" id="dayDiv1">
                                 <div class="col-md-3" data-autoclose="true">
                                     <div class="bootstrap-timepicker input-group">
-                                        <input id="openTime_<?php echo $i; ?>_1" autocomplete="off" class="form-control timepicker " type="text" name="openTime_<?php echo $i; ?>_1" value="00:00" readonly="">
+                                        <input id="openTime_<?php echo $i; ?>_1" autocomplete="off" class="form-control timepicker " type="text" name="openTime_<?php echo $i; ?>_1" value="" readonly="">
                                     </div>
                                 </div>
                                 <div class="col-md-3" data-autoclose="true">
                                     <div class="bootstrap-timepicker input-group">
-                                        <input id="closeTime_<?php echo $i; ?>_1" autocomplete="off" class="form-control timepicker" type="text" name="closeTime_<?php echo $i; ?>_1" value="00:00" readonly="">
+                                        <input id="closeTime_<?php echo $i; ?>_1" autocomplete="off" class="form-control timepicker" type="text" name="closeTime_<?php echo $i; ?>_1" value="" readonly="">
                                     </div>
                                 </div>
                             </div>
