@@ -50,7 +50,7 @@
                         <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
                            <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view-doctor-edit"></i></label>
                            <div class="pre-doctor-edit col-md-4 col-sm-4 ">
-                              <div id="preImgLogoDoctorEdit" class="avatar-preview preview-md">
+                              <div id="preImgLogoDoctorEdit" class="avatar-preview preview-md m-t-0">
                               <?php if(!empty($doctorDetail[0]->doctors_img)){
                                                     ?>
                                  <img src="<?php echo base_url()?>assets/doctorsImages/thumb/original/<?php echo $doctorDetail[0]->doctors_img; ?>"  class="image-preview-show"/>

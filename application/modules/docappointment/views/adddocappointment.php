@@ -94,10 +94,10 @@
                                         <div class="col-md-8 col-sm-8">
                                             <select class="selectpicker" name="input6" id="input6" data-width="100%" >
                                                 <option value="" >Select Status</option>
-                                                <option value="1" >Pending</option>
-                                                <option value="2" >Confirm</option>
-                                                <option value="3" >Cancle</option>
-                                                <option value="4" >Completed</option>
+                                                <option value="11" >Pending</option>
+                                                <option value="12" >Confirm</option>
+                                                <option value="13" >Cancle</option>
+                                                <option value="14" >Completed</option>
                                             </select>
                                             <div class="has-error " id="err_input6" ><?php echo form_error("input6"); ?></div>
                                         </div>
@@ -106,7 +106,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="" class="control-label col-md-4 col-sm-4">HMS Appointment ID (Optional) :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input class="form-control " id="curl" type="url" name="input7" >
+                                            <input class="form-control " id="curl" type="text" name="input7" >
                                             <div class="has-error " id="err_input7" ><?php echo form_error("input7"); ?></div>
                                         </div>
                                     </article>
@@ -289,8 +289,8 @@
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Payment Status :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <select class="selectpicker" name="input22" id="input22" data-width="100%" >
-                                                <option value="1" >Paid</option>
-                                                <option value="0" >Unpaid</option>
+                                                <option value="16" >Paid</option>
+                                                <option value="15" >Unpaid</option>
                                             </select>
                                             <div class="has-error " id="err_input22" ><?php echo form_error("input22"); ?></div>
                                         </div>
@@ -299,7 +299,7 @@
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Payment Mode:</label>
                                         <div class="col-md-8 col-sm-8">
                                             <select type="text" class="selectpicker" id="input23" name="input23" data-width="100%" >
-                                                <option value="1" >Cash</option>
+                                                <option value="17" >Cash</option>
                                             </select>
                                             <div class="has-error " id="err_input23" ><?php echo form_error("input23"); ?></div>
                                         </div>
@@ -310,7 +310,6 @@
                         </section>
                         <section class="clearfix ">
                             <div class="col-md-12 m-t-20 m-b-20">
-                                <button class="btn btn-danger waves-effect pull-right" type="button">Reset</button>
                                 <input class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" value="Submit" onclick="calculateamount()">
                             </div>
                         </section>
