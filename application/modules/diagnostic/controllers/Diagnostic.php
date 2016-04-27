@@ -113,6 +113,16 @@ class Diagnostic extends MY_Controller {
             'where'=> array('mi_user_id' => $mi_userId),
         );
         $data['timeSlot'] = $this->common_model->customGet($option);
+        
+        $data['insurance'] = $this->diagnostic_model->fetchInsurance($diagnosticId);
+        
+        if (!empty($data['insurance'])) {
+            foreach ($data['insurance'] as $key => $val) {
+                $insurance_condition[] = $val->diagnoInsurance_insuranceId;
+            }
+        }
+        
+        $data['allInsurance'] = $this->Hospital_model->fetchAllInsurance($insurance_condition);
 
         $data['diagnosticId'] = $diagnosticId;
         $data['showStatus'] = 'none';
@@ -801,10 +811,16 @@ class Diagnostic extends MY_Controller {
      * @return array
      */
     function addDiagnosticAwards() {
+        //echo 'hemant'; exit;
         $Id = $this->input->post('diagnosticId');
         $Awards_awardsName = $this->input->post('diaAwards_awardsName');
         $diagnosticAwards_awardYear = $this->input->post('dialAwards_awardsYear');
-        $awardData = array('diagnosticAwards_awardsName' => $Awards_awardsName, 'diagnosticAwards_diagnosticId' => $Id, 'creationTime' => strtotime(date("Y-m-d H:i:s")),'diagnosticAwards_awardYear' => $diagnosticAwards_awardYear,);
+        $diagnosticAwards_agencyName = $this->input->post('diagnosticAwards_agencyName');
+        
+        $awardData = array('diagnosticAwards_awardsName' => $Awards_awardsName, 'diagnosticAwards_diagnosticId' => $Id, 'creationTime' => strtotime(date("Y-m-d H:i:s")), 'diagnosticAwards_awardYear' => $diagnosticAwards_awardYear, 'diagnosticAwards_awardsAgency' =>  $diagnosticAwards_agencyName);
+        
+      //  print_r($awardData); exit;
+        
         $option = array(
             'table' => 'qyura_diagnosticAwards',
             'data' => $awardData
@@ -816,9 +832,12 @@ class Diagnostic extends MY_Controller {
 
     function editDiagnosticAwards() {
         $id = $this->input->post('awardsId');
+        
         $awardsName = $this->input->post('diaAwards_awardsName');
+        $edit_awardsAgency = $this->input->post('edit_awardsAgency');
         $edit_awardsYear = $this->input->post('edit_awardsYear');
-        $updatedData = array('diagnosticAwards_awardsName' => $awardsName, 'diagnosticAwards_awardYear' => $edit_awardsYear );
+        
+        $updatedData = array('diagnosticAwards_awardsName' => $awardsName, 'diagnosticAwards_awardYear' => $edit_awardsYear, 'diagnosticAwards_awardsAgency' =>  $edit_awardsAgency);
         $updatedDataWhere = array('diagnosticAwards_id' => $id);
         $option = array(
             'table' => 'qyura_diagnosticAwards',
@@ -854,7 +873,7 @@ class Diagnostic extends MY_Controller {
         $showAwards = '';
         if ($dataAwards) {
             foreach ($dataAwards as $key => $val) {
-                $showAwards .='<li>' . $val->diagnosticAwards_awardsName . ' ' . $val->diagnosticAwards_awardYear . '</li>';
+                $showAwards .='<li>' . $val->diagnosticAwards_awardsName . ' ' . $val->diagnosticAwards_awardYear.' ' . $val->diagnosticAwards_awardsAgency . '</li>';
             }
         } else {
             $showAwards = 'Add Awards';
@@ -872,25 +891,20 @@ class Diagnostic extends MY_Controller {
         if ($dataAwards) {
             $showTotalAwards = '';
             foreach ($dataAwards as $key => $val) {
-                
-//                $showTotalAwards .= '<div class="row m-t-10">
-//        <div class="col-md-8 col-sm-8 col-xs-8">
-//           <input type="text" class="form-control" name="hospitalAwards_awardsName" id=' . $val->diagnosticAwards_id . ' value="' . $val->diagnosticAwards_awardsName . '" placeholder="FICCI Healthcare " />
-//         </div>
-//           <div class="col-md-2 col-sm-2 col-xs-2">
-//            <a onclick="editAwards(' . $val->diagnosticAwards_id . ')"><i class="fa fa-pencil-square-o fa-2x m-t-5 label-plus" title="Edit Awards"></i></a>
-//           </div>
-//
-//          <div class="col-md-2 col-sm-2 col-xs-2">
-//          <a onclick="deleteAwards(' . $val->diagnosticAwards_id . ')"><i class="fa fa-times fa-2x m-t-5 label-plus" title="Delete Awards"></i></a>
-//          </div>
-//         </div>';
                 $showTotalAwards .= '     <aside class="row">
                                 <div class="col-md-12 ">
-                                     <input type="text" class="form-control" name="hospitalAwards_awardsName" id=' . $val->diagnosticAwards_id . ' value="' . $val->diagnosticAwards_awardsName . '" placeholder="FICCI Healthcare " />
+                                
+                                     <input type="text" class="form-control" name="hospitalAwards_awardsName" id=' . $val->diagnosticAwards_id . ' value="' . $val->diagnosticAwards_awardsName . '" placeholder="Awards name" />
                                           <label style="display: none;"class="error" id="error-awards' . $val->diagnosticAwards_id . '"> Please enter award name </label>  
-                                    <input type="text" class="form-control m-t-20" placeholder="2016" id=year' . $val->diagnosticAwards_id . ' name="diagnostic_awardsyear" value="' . $val->diagnosticAwards_awardYear . '" onkeypress="return isNumberKey(event)"/>
-                                           <label style="display: none;"class="error" id="error-years' . $val->diagnosticAwards_id . '"> Please enter year only number formate minium and maximum length 4 </label>  
+                                              
+                                     <input type="text" class="form-control" name="diagnosticAwards_agencyName" id=agency' . $val->diagnosticAwards_id . ' value="' . $val->diagnosticAwards_awardsAgency . '" placeholder="Award Agency" />
+                                    <label style="display: none;"class="error" id="error-agency' . $val->hospitalAwards_id . '"> Please enter agency name </label> 
+                   
+                                    <input type="text" class="form-control m-t-20" placeholder="Year" id=year' . $val->diagnosticAwards_id . ' name="diagnostic_awardsyear" value="' . $val->diagnosticAwards_awardYear . '" onkeypress="return isNumberKey(event)"/>
+                                           <label style="display: none;"class="error" id="error-years' . $val->diagnosticAwards_id . '"> Please enter year only number formate minium and maximum length 4 </label> 
+                                               
+                                          <label id="error-years-valid' . $val->diagnosticAwards_id . '" class="error" style="display: none;">Invalid Year! Please enter year between 1920 to 2016  </label>
+                                               
                                 </div>
                                 
                                 <div class="clearfix">
@@ -1996,7 +2010,7 @@ class Diagnostic extends MY_Controller {
     }
     
     
-    function check_email_doctor() {
+    function check_email_doctor() { 
         
         $data = 0;
         $user_table_id = '';
@@ -2023,5 +2037,190 @@ class Diagnostic extends MY_Controller {
         }
         exit;
     }
+    
+    
+        /**
+     * @project Qyura
+     * @method addDiagnosticCenters
+     * @description add centers
+     * @access public
+     * @return array
+     */
+    function addDiagnosticCenterDetail() {
+        $Id = $this->input->post('diagnosticId');
+        
+        $centerName = $this->input->post('centerName');
+        $centerAddress = $this->input->post('centerAddress');
+        $centerLat = $this->input->post('centerLat');
+        $centerLong = $this->input->post('centerLong');
+        
+        
+        $centerdData = array('collectionCenter_name' => $centerName, 'collectionCenter_address' => $centerAddress, 'collectionCenter_lat' => $centerLat, 'collectionCenter_long' => $centerLong, 'creationTime' => strtotime(date("Y-m-d H:i:s")), 'collectionCenter_diagnoId' => $Id);
+        $option = array(
+            'table' => 'qyura_collectionCenter',
+            'data' => $centerdData
+        );
+        $insert = $this->diagnostic_model->customInsert($option);
+        echo $insert;
+        exit;
+    }
+    
+    
+     function diagnosticCollectonCentrs($diagnosticId) {
+        $option = array(
+            'table' => 'qyura_collectionCenter',
+            'where' => array('collectionCenter_diagnoId' => $diagnosticId, 'collectionCenter_deleted' => 0),
+        );
+        $dataCenters = $this->diagnostic_model->customGet($option);
+        $showCenters = '';
+        if ($dataCenters) {
+            foreach ($dataCenters as $key => $val) {
+                $showCenters .='<li>' . $val->collectionCenter_name . ', ' . $val->collectionCenter_address . ', ' . $val->collectionCenter_lat . ', ' . $val->collectionCenter_long . '</li>';
+            }
+        } else {
+            $showCenters = 'Add Collection Center';
+        }
+        echo $showCenters;
+        exit;
+    }
+    
+    
+     function detailCollectoCenter($diagnosticId) {
+        $option = array(
+            'table' => 'qyura_collectionCenter',
+            'where' => array('collectionCenter_diagnoId' => $diagnosticId, 'collectionCenter_deleted' => 0),
+        );
+        $dataCenters = $this->diagnostic_model->customGet($option);
+        if ($dataCenters) {
+            $showTotalCenters = '';
+            foreach ($dataCenters as $key => $val) {
+                $showTotalCenters .= '     <aside class="row">
+                                <div class="col-md-12 ">
+                                
+                                     <input type="text" class="form-control" name="centerName" id=' . $val->collectionCenter_id . ' value="' . $val->collectionCenter_name . '" placeholder="Cneter Name" />
+                                          <label style="display: none;"class="error" id="error-centerName' . $val->collectionCenter_id . '"> Please enter collection center name </label>  
+                                              
+                                   
+                                     <input type="text" class="form-control m-t-20" placeholder="Address" id=centerAddress'.$val->collectionCenter_id.'  name="centerAddress" value="' . $val->collectionCenter_address . '"/>
+                                     <label style="display: none;"class="error" id="error-centerAddress' . $val->collectionCenter_id . '"> Please enter center address</label> 
+                                          
+
+                                      <aside class="row">
+                                        <div class="col-sm-6">
+                                            <input name="centerLat" class="form-control" required="" type="text"   id=centerLat'.$val->collectionCenter_id.'  value="' . $val->collectionCenter_lat . '" onchange="latChack(this.value)" placeholder="latitude"/>
+                                            <label class="error" style="display:none;" id="error-centerLat' . $val->collectionCenter_id . '">Please enter the correct format for latitude</label>
+
+                                        </div>
+
+                                        <div class="col-sm-6 m-t-xs-10">
+                                            <input name="centerLong" class="form-control" required="" type="text"  id=centerLong'.$val->collectionCenter_id.' value="' . $val->collectionCenter_long . '" onchange="lngChack(this.value)" placeholder="longitude"/>
+                                            <label class="error" style="display:none;" id="error-centerLong' . $val->collectionCenter_id . '"> Please enter the correct format for longitude</label>
+
+                                        </div>
+                                    </aside>
+                                                                                    
+                                </div>
+                                
+                                <div class="clearfix">
+                                    
+                                    <div class="col-md-12  col-xs-2 text-right">
+            <a class="pointer" onclick="editCenters(' . $val->collectionCenter_id . ')"><i class="fa fa-pencil-square-o fa-2x m-t-5 label-plus" title="Edit Center"></i></a>
+                  <a class="pointer" onclick="deleteCenters(' . $val->collectionCenter_id . ')"><i class="fa fa-times fa-2x m-t-5 label-plus" title="Delete Centers"></i></a>
+           </div>
+
+          
+                                </div>
+                             
+                            </aside>';
+                
+            }
+        } else {
+            $showTotalCenters = 'Add Collection Centers';
+        }
+
+        echo $showTotalCenters;
+        exit;
+        
+        
+    }
+    
+    
+   function editDiagnosticCenters() {
+        $id = $this->input->post('centerId');
+        
+        $centerName = $this->input->post('centerName');
+        $centerAddress = $this->input->post('centerAddress');
+        $centerLat = $this->input->post('centerLat');
+        $centerLong = $this->input->post('centerLong');
+        
+        $updatedData = array('collectionCenter_name' => $centerName, 'collectionCenter_address' => $centerAddress, 'collectionCenter_lat' => $centerLat, 'collectionCenter_long' =>  $centerLong, 'modifyTime' => strtotime(date("Y-m-d H:i:s")));
+        
+        $updatedDataWhere = array('collectionCenter_id' => $id);
+        
+        $option = array(
+            'table' => 'qyura_collectionCenter',
+            'where' => $updatedDataWhere,
+            'data' => $updatedData
+        );
+        $return = $this->diagnostic_model->customUpdate($option);
+        echo $return;
+        exit;
+    }
+    
+    
+    function deleteCollectionCenters() {
+        
+        $id = $this->input->post('centerId');
+        
+        $updatedData = array('collectionCenter_deleted' => 1);
+        $updatedDataWhere = array('collectionCenter_id' => $id);
+
+        $option = array(
+            'table' => 'qyura_collectionCenter',
+            'where' => $updatedDataWhere,
+            'data' => $updatedData
+        );
+        $return = $this->diagnostic_model->customUpdate($option);
+        echo $return;
+        exit;
+    }
+    
+    
+    // add insurance
+     function addInsurance($diagnosticId) {
+         
+       if($diagnosticId != '' && $diagnosticId != 0){
+           
+        $insurances = $this->input->post('insurances');
+        
+        if (!empty($insurances)) {
+            foreach ($insurances as $key => $val) {
+                $insurancesData = array(
+                    'diagnoInsurance_diagnoId' => $diagnosticId,
+                    'diagnoInsurance_insuranceId' => $val,
+                    'creationTime' => strtotime(date("Y-m-d H:i:s")),
+                );
+                // print_r($insurancesData);
+                // exit;
+                $this->Hospital_model->insertTableData('qyura_diagnoInsurance', $insurancesData);
+                //$insurancesData = '';
+            }
+            $this->session->set_flashdata('message', 'Insurance added successfully !');
+            redirect("diagnostic/detailDiagnostic/$diagnosticId/general");
+        } else {
+            redirect("diagnostic/detailDiagnostic/$diagnosticId/general");
+        }
+        
+      }
+    }
+    
+    
+     // method for delete insurance
+    function deletInsurance() {
+        $insuranceId = $this->input->post('insuranceId');
+        $this->diagnostic_model->deletInsurance($insuranceId);
+    }
+
+    
 
 }

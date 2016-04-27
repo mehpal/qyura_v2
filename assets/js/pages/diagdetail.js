@@ -270,11 +270,22 @@ $("#editdetail").click(function () {
     $("#detail").toggle();
     $("#newDetail").toggle();
 });
+
 $("#editawards").click(function () {
     $("#detailawards").toggle();
     $("#newawards").toggle();
 });
 
+
+$("#editCollectonCenter").click(function () {
+    $("#detailCenter").toggle();
+    $("#newCenter").toggle();
+});
+
+$("#editcompany").click(function () {
+    $("#detailcompany").toggle();
+    $("#newcompany").toggle();
+});
 
 $("#editservices").click(function () {
     $("#detailservices").toggle();
