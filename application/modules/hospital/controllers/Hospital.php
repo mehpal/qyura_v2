@@ -199,9 +199,9 @@ class Hospital extends MY_Controller {
         <div class="col-md-8 col-sm-8 col-xs-8">
            <input type="text" class="form-control" name="hospitalAwards_awardsName" id=' . $val->hospitalAwards_id . ' value="' . $val->hospitalAwards_awardsName . '" placeholder="" />
                <label style="display: none;"class="error" id="error-awards' . $val->hospitalAwards_id . '"> Please enter award name </label>  
-            <input type="text" class="form-control" name="hospitalAwards_awardsAgency" id=agency' . $val->hospitalAwards_id . ' value="' . $val->hospitalAwards_awardsAgency . '" placeholder="" />
+            <input type="text" class="form-control m-t-10   " name="hospitalAwards_awardsAgency" id=agency' . $val->hospitalAwards_id . ' value="' . $val->hospitalAwards_awardsAgency . '" placeholder="" />
                <label style="display: none;"class="error" id="error-agency' . $val->hospitalAwards_id . '"> Please enter agency name </label> 
-            <input type="text" class="form-control" name="hospital_awardsyear" id=year' . $val->hospitalAwards_id . ' value="' . $val->hospitalAwards_awardYear . '" placeholder="" />
+            <input type="text" class="form-control m-t-10" name="hospital_awardsyear" id=year' . $val->hospitalAwards_id . ' value="' . $val->hospitalAwards_awardYear . '" placeholder="" />
                  <label style="display: none;"class="error" id="error-years' . $val->hospitalAwards_id . '"> Please enter year only number formate minium and maximum length 4 </label>
            
          </div>
