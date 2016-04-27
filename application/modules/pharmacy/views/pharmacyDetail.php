@@ -434,6 +434,17 @@ endif; ?> name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.valu
                                             <label class="error" > <?php echo form_error("pharmacy_docatId"); ?></label>
                                         </div>
                                     </article>
+
+                                 <article class="clearfix m-t-10">
+                                        <label for="cname" class="control-label col-md-4">Qap Code : </label>
+                                        <div class="col-md-8 col-sm-8">
+                                            <input class="form-control" name="pharmacy_qapCode" type="text" id="pharmacy_qapCode" value="<?php if (isset($pharmacyData[0]->pharmacy_qapCode)) {
+    echo $pharmacyData[0]->pharmacy_qapCode;
+} ?>" onchange="checkQapCode(this.value);" >
+                                         <label class="error" style="display:none;" id="error-pharmacy_qapCode">Your enter Qap code does not exists in our records.</label>
+                                           <label class="error" > <?php echo form_error("pharmacy_qapCode"); ?></label>
+                                        </div>
+                                    </article>
                                                         <article class="clearfix m-t-10">
 
                                                             <div class="col-md-12">
@@ -537,7 +548,56 @@ endif; ?> name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.valu
         <!-- container -->
     </div>
     <!--Change Logo-->
+    
     <div id="changeBg" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3>Change Background</h3>
+            
+         </div>
+         <div class="modal-body">
+            <div class="modal-body">
+               <div id="messageErrors"></div>
+               <form class="form-horizontal" id="uploadimage" action="" method="post" enctype="multipart/form-data">
+                  <div id="image_preview">
+                      
+                      <?php if(isset($pharmacyData[0]->pharmacy_background_img) && !empty($pharmacyData[0]->pharmacy_background_img)):?>
+                    <img id="previewing" src="<?php echo base_url().'assets/pharmacyImages/'.$pharmacyData[0]->pharmacy_background_img;?>" class="img-responsive center-block" /></div>   
+                    
+                          <?php else : ?>
+                          
+                    <img id="previewing" src="<?php echo base_url().'assets/default-images/Pharmacy.png';?>" class="img-responsive center-block" /></div>   
+                              
+                         <?php endif;?>
+                   
+                  <article class="form-group m-lr-0 ">
+                     <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Background :</label>
+                     <div class="col-md-8 col-sm-8 text-right">
+                        <input disabled="disabled" class="showUpload" id="uploadFileDd" >
+                        <div class="fileUpload btn btn-sm btn-upload">
+                           <span><i class="fa fa-cloud-upload fa-3x"></i></span>
+                           <input type="file" name="file" class="upload" id="uploadBtnDd">
+                        </div>
+                     </div>
+                  </article>
+                  <!--<h4 id='loading' >loading..</h4>-->
+                  <article class="clearfix m-t-20">
+                     <button type="submit" name="submit" class="btn btn-primary pull-right waves-effect waves-light bg-btn m-r-20">Upload</button>
+                  </article>
+               </form>
+            </div>
+         </div>
+         <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+   </div>
+    
+    
+    
+    
+<!--    <div id="changeBg" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -548,20 +608,33 @@ endif; ?> name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.valu
                         <div id="messageErrors"></div>
                         <form class="form-horizontal" id="uploadimage" action="" name="pharmacyForm" method="post" enctype="multipart/form-data">
 
-                            <div id="image_preview"> <img id="previewing" src="<?php echo base_url(); ?>assets/default-images/Pharmacy.png" class="img-responsive center-block" /></div>
+                            <div id="image_preview"> <img id="previewing" src="<?php //echo base_url(); ?>assets/default-images/Pharmacy.png" class="img-responsive center-block" /></div>
+                            
+                                  <div id="image_preview">
+                      
+                      <?php if(isset($pharmacyData[0]->pharmacy_background_img) && !empty($pharmacyData[0]->pharmacy_background_img)):?>
+                    <img id="previewing" src="<?php echo base_url().'assets/pharmacyImages/'.$pharmacyData[0]->pharmacy_background_img;?>" class="img-responsive center-block" /></div>   
+                    
+                          <?php else : ?>
+                          
+                    <img id="previewing" src="<?php echo base_url().'assets/default-images/Pharmacy.png';?>" class="img-responsive center-block" /></div>   
+                              
+                         <?php endif;?>
+                            
+                            
 
 
-                            <article class="form-group m-lr-0 ">
-                                <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Background :</label>
-                                <div class="col-md-8 col-sm-8 text-right">
-                                    <input disabled="disabled" class="showUpload" id="uploadFileDd" >
-                                    <div class="fileUpload btn btn-sm btn-upload">
-                                        <span><i class="fa fa-cloud-upload fa-3x"></i></span>
-                                        <input type="file" name="file" class="upload" id="uploadBtnDd">
-                                    </div>
-                                </div>
-                            </article>
-                            <!--<h4 id='loading' >loading..</h4>-->
+                         <article class="form-group m-lr-0 ">
+                     <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Background :</label>
+                     <div class="col-md-8 col-sm-8 text-right">
+                        <input disabled="disabled" class="showUpload" id="uploadFileDd" >
+                        <div class="fileUpload btn btn-sm btn-upload">
+                           <span><i class="fa fa-cloud-upload fa-3x"></i></span>
+                           <input type="file" name="file" class="upload" id="uploadBtnDd">
+                        </div>
+                     </div>
+                  </article>
+                            <h4 id='loading' >loading..</h4>
                             <article class="clearfix m-t-20">
                                 <button type="submit" name="submit" class="btn btn-primary pull-right waves-effect waves-light bg-btn m-r-20">Upload</button>
                             </article>
@@ -569,10 +642,10 @@ endif; ?> name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.valu
                     </div>
 
                 </div>
-                <!-- /.modal-content -->
+                 /.modal-content 
             </div>
-            <!-- /.modal-dialog -->
-        </div>
+             /.modal-dialog 
+        </div>-->
     </div>
     <!-- /Change Logo -->
 

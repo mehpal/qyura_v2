@@ -371,8 +371,8 @@ class MY_Controller extends CI_Controller {
                             'table' => 'qyura_miTimeSlot',
                             'data' => array(
                                 'hourLabel' => $hour_label,
-                                'openingHours' => $openTime,
-                                'closingHours' => $closeTime,
+                                'openingHours' => strtotime($openTime),
+                                'closingHours' => strtotime($closeTime),
                                 'modifyTime' => strtotime(date('Y-m-d H:i:s'))
                             ),
                             'where' => array(
@@ -390,8 +390,8 @@ class MY_Controller extends CI_Controller {
                                 'mi_user_id' => $mi_user_id,
                                 'dayNumber' => $dayNUmber,
                                 'hourLabel' => $hour_label,
-                                'openingHours' => $openTime,
-                                'closingHours' => $closeTime,
+                                'openingHours' => strtotime($openTime),
+                                'closingHours' => strtotime($closeTime),
                                 'creationTime' => strtotime(date('Y-m-d H:i:s'))
                             ),
                         );
@@ -446,8 +446,8 @@ class MY_Controller extends CI_Controller {
                         'mi_user_id' => $this->input->post('mi_user_id'),
                         'dayNumber' => $this->input->post('dayNumber_' . $j),
                         'hourLabel' => $hour_label,
-                        'openingHours' => $openTime,
-                        'closingHours' => $closeTime,
+                        'openingHours' => strtotime($openTime),
+                        'closingHours' => strtotime($closeTime),
                         'creationTime' => strtotime(date('Y-m-d H:i:s'))
                     );
 
