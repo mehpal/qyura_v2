@@ -166,11 +166,13 @@
     } ?>
                                                             </aside>
                                                         </article>
-                                                        <article class="clearfix m-b-10">
+                                                        
+<!--                                                        <article class="clearfix m-b-10">
                                                             <label for="cemail" class="control-label col-md-4 col-sm-4">Mobile :</label>
-                                                            <p class="col-md-8 col-sm-8 t-xs-left"><?php if (!empty($diagnosticData) && isset($diagnosticData)): echo $diagnosticData[0]->mobile;
-    endif; ?></p>
-                                                        </article>
+                                                            <p class="col-md-8 col-sm-8 t-xs-left"><?php // if (!empty($diagnosticData) && isset($diagnosticData)): echo $diagnosticData[0]->mobile;
+    // endif; ?></p>
+                                                        </article>-->
+                                                        
                                                         <article class="clearfix m-b-10">
                                                             <label for="cemail" class="control-label col-md-4 col-sm-4">Contact Person:</label>
                                                             <p class="col-md-8 col-sm-8 t-xs-left"><?php if (!empty($diagnosticData) && isset($diagnosticData)): echo $diagnosticData[0]->diagnostic_cntPrsn;
@@ -182,11 +184,111 @@
     endif; ?></p>
                                                         </article>
 
+                                                        
+    
                                                         <article class="clearfix m-b-10">
+                                                                <label for="cemail" class="control-label col-md-4 col-sm-4">24x7 Emergency :</label>
+                                                                <?php if($diagnosticData[0]->diagnostic_availibility_24_7 == 1){?>
+                                                                <p class="col-md-8 col-sm-8 t-xs-left">Available</p>
+                                                                <?php } else {?>
+                                                                <p class="col-md-8 col-sm-8 t-xs-left">Not Available</p>
+                                                                 <?php }?>
+                                                         </article>
+    
+                                                         <article class="clearfix m-b-10">
+                                                                <label for="cemail" class="control-label col-md-4 col-sm-4">Emergency Ward :</label>
+                                                                <?php if($diagnosticData[0]->diagnostic_isEmergency == 1){?>
+                                                                <p class="col-md-8 col-sm-8 t-xs-left">Available</p>
+                                                                <?php } else {?>
+                                                                <p class="col-md-8 col-sm-8 t-xs-left">Not Available</p>
+                                                                 <?php }?>
+                                                          </article>
+    
+                                                          <article class="clearfix m-b-10">
+                                                                <label for="cemail" class="control-label col-md-4 col-sm-4">Pharmacy :</label>
+                                                                <?php if($diagnosticData[0]->diagnostic_hasPharmacy == 1){?>
+                                                                <p class="col-md-8 col-sm-8 t-xs-left">Available</p>
+                                                                <?php } else {?>
+                                                                <p class="col-md-8 col-sm-8 t-xs-left">Not Available</p>
+                                                                 <?php }?>
+                                                            </article>
+    
+                                                            <article class="clearfix m-b-10">
+                                                                <label for="cemail" class="control-label col-md-4 col-sm-4">Docat Id:</label>
+                                                                <p class="col-md-8 col-sm-8 t-xs-left"><?php if(isset($diagnosticData[0]->diagnostic_docatId)){ echo $diagnosticData[0]->diagnostic_docatId; }?></p>
+                                                            </article> 
+    
+                                                            <article class="clearfix m-b-10">
                                                             <label for="cemail" class="control-label col-md-4 col-sm-4">About Us:</label>
                                                             <p class="col-md-8 col-sm-8 t-xs-left"><?php if (!empty($diagnosticData) && isset($diagnosticData)): echo $diagnosticData[0]->diagnostic_aboutUs;
     endif; ?></p>
                                                         </article>
+    
+                                                          <?php if(!empty($diagnosticData[0]->bloodBank_phn)){ ?>
+                                                             <aside class="clearfix m-t-20 setting">
+                                                            <h4>Blood Bank Detail
+                                                            
+                                                              </h4>
+                                                            <hr/>
+                                                            <section id="detailbbk">
+                                                                <article class="clearfix m-b-10">
+                                                                    <label for="cemail" class="control-label col-md-4 col-sm-4">Name :</label>
+                                                                    <p class="col-md-8 col-sm-8 t-xs-left"><?php echo $diagnosticData[0]->bloodBank_name;?></p>
+                                                                </article>
+
+                                                                <article class="clearfix m-b-10 ">
+                                                                    <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
+                                                                    <aside class="col-md-8 col-sm-8 t-xs-left">
+                                                                         <?php 
+                                                                    $bloodBank_explode= explode('|',$diagnosticData[0]->bloodBank_phn); 
+                                                                    for($i= 0; $i< count($bloodBank_explode);$i++){?>
+                                                                    <p>+<?php echo $bloodBank_explode[$i];?></p>
+                                                                   
+                                                                    <?php }?>
+                                                                    </aside>
+                                                                </article>
+                                                                
+                                                               
+                                                         
+                                                        </aside>
+                                                            <?php } if(!empty($diagnosticData[0]->ambulance_phn)){ ?>
+                                                            
+                                                            <aside class="clearfix m-t-20 setting">
+                                                            <h4>Ambulance Detail
+                                                           
+                                                              </h4>
+                                                            <hr/>
+                                                            <section id="detailpharma">
+                                                                <article class="clearfix m-b-10">
+                                                                    <label for="cemail" class="control-label col-md-4 col-sm-4">Name :</label>
+                                                                    <p class="col-md-8 col-sm-8 t-xs-left"><?php echo $diagnosticData[0]->ambulance_name;?></p>
+                                                                </article>
+
+                                                                <article class="clearfix m-b-10 ">
+                                                                    <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
+                                                                    <aside class="col-md-8 col-sm-8 t-xs-left">
+                                                                         <?php 
+                                                                    $ambulance_explode= explode('|',$diagnosticData[0]->ambulance_phn); 
+                                                                    for($i= 0; $i< count($ambulance_explode);$i++){?>
+                                                                    <p>+<?php echo $ambulance_explode[$i];?></p>
+                                                                   
+                                                                    <?php }?>
+                                                                    </aside>
+                                                                </article>
+                                                                
+                                                                <article class="clearfix m-b-10">
+                                                                    <label for="cemail" class="control-label col-md-4 col-sm-4">Doctor On Board :</label>
+                                                                    <?php if($diagnosticData[0]->docOnBoard == 1){?>
+                                                                    <p class="col-md-8 col-sm-8 t-xs-left">Available</p>
+                                                                    <?php } else {?>
+                                                                    <p class="col-md-8 col-sm-8 t-xs-left">Not Available</p>
+                                                                     <?php }?>
+                                                                </article>
+                                                                
+                                                            </section>
+                                                            
+                                                        </aside>
+                                                             <?php } ?>  
 
                                                         <div class="map_canvas"></div>
                                                     </section>

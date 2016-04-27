@@ -241,34 +241,7 @@
                                                             </section>
                                                          
                                                         </aside>
-                                                            <?php } 
-                                                             if(!empty($hospitalData[0]->pharmacy_phn)){ ?>
-                                                        <aside class="clearfix m-t-20 setting">
-                                                            <h4>Pharmacy Detail
-                                                           
-                                                              </h4>
-                                                            <hr/>
-                                                            <section id="detailpharma">
-                                                                <article class="clearfix m-b-10">
-                                                                    <label for="cemail" class="control-label col-md-4 col-sm-4">Name :</label>
-                                                                    <p class="col-md-8 col-sm-8 t-xs-left"><?php echo $hospitalData[0]->pharmacy_name;?></p>
-                                                                </article>
-
-                                                                <article class="clearfix m-b-10 ">
-                                                                    <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
-                                                                    <aside class="col-md-8 col-sm-8 t-xs-left">
-                                                                         <?php 
-                                                                    $pharmacy_explode= explode('|',$hospitalData[0]->pharmacy_phn); 
-                                                                    for($i= 0; $i< count($pharmacy_explode);$i++){?>
-                                                                    <p>+<?php echo $pharmacy_explode[$i];?></p>
-                                                                   
-                                                                    <?php }?>
-                                                                    </aside>
-                                                                </article>
-                                                            </section>
-                                                            
-                                                        </aside>
-                                                             <?php } if(!empty($hospitalData[0]->ambulance_phn)){ ?>
+                                                            <?php } if(!empty($hospitalData[0]->ambulance_phn)){ ?>
                                                             
                                                             <aside class="clearfix m-t-20 setting">
                                                             <h4>Ambulance Detail
