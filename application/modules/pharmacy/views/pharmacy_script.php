@@ -757,7 +757,7 @@ if (isset($mapData) && !empty($mapData)) {
 
                 if (obj.state == 400) {
                     $("#message_upload").html("<div class='alert alert-danger'>" + obj.message + "</div>");
-                    $(".close").hide();
+                   // $(".close").hide();
                 } else {
                     $("#avatar-modal").modal('hide');
                     $("#message_upload").html("");
