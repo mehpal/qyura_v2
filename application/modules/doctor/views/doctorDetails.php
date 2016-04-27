@@ -1143,7 +1143,8 @@ if (!empty($sMsg)) {
                                             <figure class="clearfix">
                                                 <h3>Available At</h3>
                                             </figure>
-<<<<<<< HEAD
+
+ 
 
                                             <div class="nicescroll" style="overflow: scroll; max-height:400px;" tabindex="5004">
                                                 <div class="clearfix">
@@ -1161,162 +1162,23 @@ if (!empty($sMsg)) {
                                                             </section>
                                                             <div class="col-md-10">
 
-                                                                <article class="clearfix">
-                                                                    <div style="" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
+                                                                <article class="effects effect-1  clearfix ">
+                                                                    <div style="" data-toggle="tooltip" data-placement="right" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl img">
 
-                                                                        <aside class="clearfix">
-                                                                            <h5><a><i class="fa fa-pencil"></i></a></h5>
-                                                                            <h4>10:00 AM</h4>
-                                                                            <h4>11:30 AM</h4>
-                                                                        </aside>
+                                <div class="clearfix">
+                                    <h4>10:00 AM</h4>
+                                    <h4>11:30 AM</h4>
+                                </div>
+                                <div class="overlay1">
+                                    <a href="#" class="expand" title="Edit"><i class="fa fa-pencil"></i></a>
+                                    <!-- <a class="close-overlay hidden">x</a> -->
+                                </div>
                                                                     </div>
-                                                                    <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
-
-                                                                        <aside class="clearfix">
-                                                                            <h5><a><i class="fa fa-pencil"></i></a></h5>
-                                                                            <h4>10:00 AM</h4>
-                                                                            <h4>11:30 AM</h4>
-                                                                        </aside>
-                                                                    </div>
-                                                                    <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
-
-                                                                        <aside class="clearfix">
-                                                                            <h5><a><i class="fa fa-pencil"></i></a></h5>
-                                                                            <h4>10:00 AM</h4>
-                                                                            <h4>11:30 AM</h4>
-                                                                        </aside>
-                                                                    </div>
-                                                                    <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
-
-                                                                        <aside class="clearfix">
-                                                                            <h5><a><i class="fa fa-pencil"></i></a></h5>
-                                                                            <h4>10:00 AM</h4>
-                                                                            <h4>11:30 AM</h4>
-                                                                        </aside>
-                                                                    </div>
-                                                                    <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
-
-                                                                        <aside class="clearfix">
-                                                                            <h5><a><i class="fa fa-pencil"></i></a></h5>
-                                                                            <h4>10:00 AM</h4>
-                                                                            <h4>11:30 AM</h4>
-                                                                        </aside>
-                                                                    </div>
+                                                               
                                                                 </article>
 
                                                             </div>
-                                                            <div class="clearfix m-t-20 text-center">
-                                                                <section class="col-md-2" style="max-width:150px;">
-                                                                    <aside class="checkbox checkbox-success text-left">
-                                                                        <input type="checkbox" id="checkbox3">
-                                                                        <label for="checkbox3">
-                                                                            Tuesday
-                                                                        </label>
-                                                                    </aside>
-                                                                </section>
-                                                                <div class="col-md-10">
-
-                                                                    <article class="clearfix">
-                                                                        <div style="" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
-
-                                                                            <aside class="clearfix">
-                                                                                <h5><a><i class="fa fa-pencil"></i></a></h5>
-                                                                                <h4>10:00 AM</h4>
-                                                                                <h4>11:30 AM</h4>
-                                                                            </aside>
-                                                                        </div>
-                                                                        <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
-
-                                                                            <aside class="clearfix">
-                                                                                <h5><a><i class="fa fa-pencil"></i></a></h5>
-                                                                                <h4>10:00 AM</h4>
-                                                                                <h4>11:30 AM</h4>
-                                                                            </aside>
-                                                                        </div>
-                                                                        <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
-
-                                                                            <aside class="clearfix">
-                                                                                <h5><a><i class="fa fa-pencil"></i></a></h5>
-                                                                                <h4>10:00 AM</h4>
-                                                                                <h4>11:30 AM</h4>
-                                                                            </aside>
-                                                                        </div>
-                                                                        <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
-
-                                                                            <aside class="clearfix">
-                                                                                <h5><a><i class="fa fa-pencil"></i></a></h5>
-                                                                                <h4>10:00 AM</h4>
-                                                                                <h4>11:30 AM</h4>
-                                                                            </aside>
-                                                                        </div>
-                                                                        <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
-
-                                                                            <aside class="clearfix">
-                                                                                <h5><a><i class="fa fa-pencil"></i></a></h5>
-                                                                                <h4>10:00 AM</h4>
-                                                                                <h4>11:30 AM</h4>
-                                                                            </aside>
-                                                                        </div>
-                                                                    </article>
-
-                                                                </div>
-                                                                <div class="clearfix m-t-20 text-center">
-                                                                    <section class="col-md-2" style="max-width:150px;">
-                                                                        <aside class="checkbox checkbox-success text-left">
-                                                                            <input type="checkbox" id="checkbox3">
-                                                                            <label for="checkbox3">
-                                                                                Wednesday
-                                                                            </label>
-                                                                        </aside>
-                                                                    </section>
-                                                                    <div class="col-md-10">
-
-                                                                        <article class="clearfix">
-                                                                            <div style="" data-toggle="tooltip" data-placement="top" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
-
-                                                                                <aside class="clearfix">
-                                                                                    <h5><a><i class="fa fa-pencil"></i></a></h5>
-                                                                                    <h4>10:00 AM</h4>
-                                                                                    <h4>11:30 AM</h4>
-                                                                                </aside>
-                                                                            </div>
-                                                                            <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
-
-                                                                                <aside class="clearfix">
-                                                                                    <h5><a><i class="fa fa-pencil"></i></a></h5>
-                                                                                    <h4>10:00 AM</h4>
-                                                                                    <h4>11:30 AM</h4>
-                                                                                </aside>
-                                                                            </div>
-                                                                            <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
-
-                                                                                <aside class="clearfix">
-                                                                                    <h5><a><i class="fa fa-pencil"></i></a></h5>
-                                                                                    <h4>10:00 AM</h4>
-                                                                                    <h4>11:30 AM</h4>
-                                                                                </aside>
-                                                                            </div>
-                                                                            <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
-
-                                                                                <aside class="clearfix">
-                                                                                    <h5><a><i class="fa fa-pencil"></i></a></h5>
-                                                                                    <h4>10:00 AM</h4>
-                                                                                    <h4>11:30 AM</h4>
-                                                                                </aside>
-                                                                            </div>
-                                                                            <div style="" data-toggle="tooltip" data-placement="left" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl">
-
-                                                                                <aside class="clearfix">
-                                                                                    <h5><a><i class="fa fa-pencil"></i></a></h5>
-                                                                                    <h4>10:00 AM</h4>
-                                                                                    <h4>11:30 AM</h4>
-                                                                                </aside>
-                                                                            </div>
-                                                                        </article>
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                        </div>
                                                         </div>
                                                         </aside>
                                                         </section>

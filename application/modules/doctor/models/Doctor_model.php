@@ -36,6 +36,13 @@ class Doctor_model extends My_model {
         $this->db->order_by("degree_SName", "asc");
         return $this->db->get()->result();
     }
+    /*function fetchAcademic() {
+        $this->db->select('doctorAcademic_id,doctorAcademic_degreeId,doctorAcademic_degreeInsAddress,doctorAcademic_degreeYear,doctorSpecialities_specialitiesCatId');
+        $this->db->from('qyura_doctorAcademic');
+        $this->db->where(array('doctorAcademic_deleted' => 0));
+        $this->db->order_by("doctorAcademic_id", "asc");
+        return $this->db->get()->result();
+    }*/
 
     function fetchHospital() {
         $this->db->select('hospital_id,hospital_name');
@@ -91,11 +98,19 @@ class Doctor_model extends My_model {
         $insert_id = $this->db->insert_id();
         return $insert_id;
     }
+    function updateDoctorData($updateData=array(),$where = array(), $tableName = NULL) {
+        foreach ($where as $key => $val) {
+            $this->db->where($key, $val);
+        }
+        $this->db->update($tableName, $updateData);
+        //echo $this->db->last_query();exit;
+        return TRUE;
+    }
 
     function fetchDoctorData($condition = NULL) {
 
         $this->db->select('doc.doctors_id,doc.doctors_27Src,doc.isManual,doc.doctors_consultaionFee,doc.doctors_pin,doc.doctors_userId,doc.doctors_fName,doc.doctors_lName,CONCAT(doc.doctors_fName," ",doc.doctors_lName)AS doctoesName,doc.doctors_phn,doc.doctor_addr,City.city_name,doc.doctors_img,usr.users_email,doc.doctors_lat,doc.doctors_long,usr.users_id,doc.doctors_registeredMblNo,
-        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_dob,doc.doctors_cityId,doc.creationTime,doc.doctors_mobile,doc.doctors_unqId,GROUP_CONCAT(DISTINCT(qyura_professionalExp.professionalExp_end)) As endTime,GROUP_CONCAT(DISTINCT(qyura_professionalExp.professionalExp_start)) AS startTime,GROUP_CONCAT(qyura_specialities.specialities_name) AS speciality,usr.users_email,GROUP_CONCAT(qyura_hospital.hospital_name ) AS hospitalName,doc.doctors_joiningDate,doc.doctors_pin,doc.doctors_homeVisit,doc.doctors_showExp,doc.doctors_expYear,doc.doctors_docatId,doc.doctors_qapId,Qap.qap_code,Qap.qap_id,DocService.doctorServices_id,DocService.doctorServices_doctorId,docAca.doctorAcademic_doctorsId,docAca.doctorAcademic_degreeId,deg.degree_id,GROUP_CONCAT(deg.degree_SName) AS degreeSmallName,docSer.doctorServices_id,docSer.doctorServices_doctorId,GROUP_CONCAT(DISTINCT(docSer.doctorServices_serviceName)) AS serviceName,docSpec.doctorSpecialities_doctorsId,docSpec.doctorSpecialities_specialitiesId,spec.specialities_id,GROUP_CONCAT(DISTINCT(spec.specialities_name)) AS specname');
+        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_dob,doc.doctors_cityId,doc.creationTime,doc.doctors_mobile,doc.doctors_unqId,GROUP_CONCAT(qyura_specialities.specialities_name) AS speciality,usr.users_email,GROUP_CONCAT(qyura_hospital.hospital_name ) AS hospitalName,doc.doctors_joiningDate,doc.doctors_pin,doc.doctors_homeVisit,doc.doctors_showExp,doc.doctors_expYear,doc.doctors_docatId,doc.doctors_qapId,Qap.qap_code,Qap.qap_id,DocService.doctorServices_id,DocService.doctorServices_doctorId,docAca.doctorAcademic_doctorsId,docAca.doctorAcademic_degreeId,deg.degree_id,GROUP_CONCAT(deg.degree_SName) AS degreeSmallName,docSer.doctorServices_id,docSer.doctorServices_doctorId,GROUP_CONCAT(DISTINCT(docSer.doctorServices_serviceName)) AS serviceName,docSpec.doctorSpecialities_doctorsId,docSpec.doctorSpecialities_specialitiesId,spec.specialities_id,GROUP_CONCAT(DISTINCT(spec.specialities_name)) AS specname');
         $this->db->from('qyura_doctors AS doc');
         $this->db->join('qyura_doctorServices AS DocService', 'DocService.doctorServices_doctorId = doc.doctors_id', 'left');
         $this->db->join('qyura_city AS City', 'City.city_id = doc.doctors_cityId', 'left');
@@ -103,7 +118,6 @@ class Doctor_model extends My_model {
         $this->db->join('qyura_users AS usr', 'usr.users_id = doc.doctors_userId', 'left');
         $this->db->join('qyura_professionalExp', 'qyura_professionalExp.professionalExp_usersId = doc.doctors_id', 'left');
         $this->db->join('qyura_specialities', 'qyura_specialities.specialities_id=qyura_professionalExp.professionalExp_specialitiesCatId', 'left');
-        $this->db->join('qyura_hospital', 'qyura_hospital.hospital_id = qyura_professionalExp.professionalExp_hospitalId', 'left');
         $this->db->join('qyura_doctorAcademic as docAca', 'docAca.doctorAcademic_doctorsId=doc.doctors_id', 'left');
         $this->db->join('qyura_degree as deg', 'deg.degree_id=docAca.doctorAcademic_degreeId', 'left');
         $this->db->join('qyura_doctorServices as docSer', 'docSer.doctorServices_doctorId=doc.doctors_id', 'left');
@@ -249,7 +263,7 @@ class Doctor_model extends My_model {
     }
 
     function fetchAcademic($doctorId) {
-        $this->db->select('qyura_degree.degree_FName AS degreeFullName,qyura_degree.degree_SName AS degreeSmallName, qyura_doctorAcademic.doctorAcademic_id as academic_id, qyura_doctorAcademic.doctorAcademic_degreeId as degreeId, qyura_doctorAcademic.doctorSpecialities_specialitiesCatId as specialitiesCatId, qyura_doctorAcademic.doctorAcademic_doctorsId as doctorsId, qyura_doctorAcademic.doctorAcademic_degreeInsAddress as degreeInsAddress, qyura_doctorAcademic.doctorAcademic_degreeYear as degreeYear');
+        $this->db->select('qyura_degree.degree_FName AS degreeFullName,qyura_degree.degree_SName AS degreeSmallName, qyura_doctorAcademic.doctorAcademic_id as academic_id, qyura_doctorAcademic.doctorAcademic_degreeId as degreeId, qyura_doctorAcademic.doctorAcademic_specialitiesId as specialitiesCatId, qyura_doctorAcademic.doctorAcademic_doctorsId as doctorsId, qyura_doctorAcademic.doctorAcademic_degreeInsAddress as degreeInsAddress, qyura_doctorAcademic.doctorAcademic_degreeYear as degreeYear');
         $this->db->from('qyura_doctorAcademic');
         $this->db->join('qyura_degree', 'qyura_degree.degree_id = qyura_doctorAcademic.doctorAcademic_degreeId', 'left');
         $this->db->where(array('qyura_doctorAcademic.doctorAcademic_doctorsId' => $doctorId, 'qyura_doctorAcademic.doctorAcademic_deleted' => 0));
@@ -556,5 +570,36 @@ class Doctor_model extends My_model {
         $doctorAvailability = $this->db->get()->result();
         return $doctorAvailability;
     }
+    
+    function getDocTimeOnDay($where)
+    {
+        $con = array('docTimeTable_deleted' => 0,'docTimeDay_deleted' => 0);
+        $where = array_merge($con, $where);
+
+        $this->db->select('(CASE 
+ WHEN (hospital_address IS NOT NULL) 
+ THEN
+      hospital_address
+ WHEN (psChamber_address IS NOT NULL) 
+ THEN 
+      psChamber_address
+ WHEN (diagnostic_address IS NOT NULL) 
+ THEN
+      diagnostic_address
+ END)
+ AS address,docTimeDay_open as open,docTimeDay_close as close,docTimeDay_day as day,docTimeDay_docTimeTableId as docTimeTableId,docTimeDay_id as docTimeDayId,docTimeTable_price as price,docTimeTable_MIprofileId as MIprofileId,docTimeTable_MItype as MItype,docTimeTable_stayAt as stayAt,docTimeTable_doctorId as doctorId,doctors_fName,doctors_lName')
+                ->from('qyura_docTimeTable')
+                ->join('qyura_hospital','qyura_hospital.hospital_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 1 AND docTimeTable_MItype = 1','LEFT')
+                ->join('qyura_doctors','qyura_doctors.doctors_id=qyura_docTimeTable.docTimeTable_doctorId','LEFT')
+                ->join('qyura_diagnostic','qyura_diagnostic.diagnostic_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 1 AND docTimeTable_MItype = 2','LEFT')
+                ->join('qyura_psChamber','qyura_psChamber.psChamber_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 2','LEFT')
+                ->join('qyura_docTimeDay','qyura_docTimeDay.docTimeDay_docTimeTableId = qyura_docTimeTable.docTimeTable_id','RIGHT')
+                ->where($where)
+                ->group_by('docTimeDay_id');
+        $doctorAvailability = $this->db->get()->result();
+        return $doctorAvailability;
+    }
+    
+    
 
 }

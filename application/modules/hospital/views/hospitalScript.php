@@ -152,7 +152,7 @@ if (isset($mapData) && !empty($mapData)) {
                     if (data) {
                         // $('#users_email').addClass('bdr-error');
                         return false;
-                    } else if (obj.status == 1) {
+                    } else {
 
                         return true;
                     }

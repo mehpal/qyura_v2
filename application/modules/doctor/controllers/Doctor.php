@@ -273,7 +273,7 @@ class Doctor extends MY_Controller {
                 if ($doctorAcademic_degreeId[$i] != '' && $doctorSpecialities_specialitiesCatId[$i] != '' && $acdemic_addaddress[$i] != '' && $acdemic_addyear[$i] != '') {
                     $doctorAcademicData = array(
                         'doctorAcademic_degreeId' => $doctorAcademic_degreeId[$i],
-                        'doctorSpecialities_specialitiesCatId' => $doctorSpecialities_specialitiesCatId[$i],
+                        'doctorAcademic_specialitiesId' => $doctorSpecialities_specialitiesCatId[$i],
                         'doctorAcademic_degreeInsAddress' => $acdemic_addaddress[$i],
                         'doctorAcademic_degreeYear' => $acdemic_addyear[$i],
                         'doctorAcademic_doctorsId' => $doctorsProfileId,
@@ -527,6 +527,16 @@ class Doctor extends MY_Controller {
         $data['timeSlots'] = $this->Doctor_model->getDoctorAvailability($where);
         $data['hospitals'] = $this->Doctor_model->fetchHosByStatus(null);
         $data['diagnostics'] = $this->Doctor_model->fetchDigByStatus(null);
+        
+        $timeSloats = array();
+        
+        foreach (getDay() as $weekDay => $weekIndex){
+            $where = array('docTimeDay_day'=>$weekIndex,'docTimeTable_doctorId'=>$doctorId);
+            $result  = $this->Doctor_model->getDocTimeOnDay($where);
+            if($result)
+            $timeSloats[$weekDay] = $result;
+        }
+        $data['timeSloats'] = $timeSloats;
         $data['doctorId'] = $doctorId;
         $data['title'] = 'Doctor Details';
         $this->load->super_admin_template('doctorDetails', $data, 'doctorScript');
@@ -1601,7 +1611,7 @@ class Doctor extends MY_Controller {
             foreach ($days as $day) {
                 if (!in_array($day->day, $selectedDays)) {
                     $where = array('docTimeDay_day' => $day->day, 'docTimeDay_docTimeTableId' => $docTimeTableId);
-                    $records_upg['docTimeTable_deleted'] = 1;
+                    $records_upg['docTimeDay_deleted'] = 1;
                     $records_upg['modifyTime'] = time();
 
                     $updateOptions = array
