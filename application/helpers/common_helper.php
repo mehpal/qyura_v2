@@ -65,7 +65,6 @@ function getDay($day=NULL) {
         return $days[$day];
     else
         return $days;
-
 }
 
 if (!function_exists('createImage')) {
@@ -438,6 +437,8 @@ if (!function_exists('statusCheck')) {
     }
 
 }
+
+// publish/unpublish function
 if (!function_exists('puStatusCheck')) {
 
     function puStatusCheck($controller, $table_name, $table_field_name, $table_field_value, $status_value) {

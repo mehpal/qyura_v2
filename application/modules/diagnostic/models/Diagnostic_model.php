@@ -7,10 +7,21 @@ class Diagnostic_model extends CI_Model {
         
     }
     
+    
+       // fetch all cities associated to hospital
+   function allCities() {
+        $this->db->select('city_id,city_name');
+        $this->db->from('qyura_city');
+        $this->db->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_cityId=qyura_city.city_id', 'right');
+        $this->db->order_by("city_name", "asc");
+        $this->db->group_by("city_id");
+        return $this->db->get()->result();
+    }
+    
     // start change by hemany
    // fetch all publish hospital 
    function fetchPublishDiagnostic() {
-        $this->db->select('diagnostic_id,diagnostic_name');
+        $this->db->select('diagnostic_id as diagno_id,diagnostic_name');
         $this->db->from('qyura_diagnostic');
         $this->db->where('status', 3);
         $this->db->order_by("diagnostic_name", "asc");
@@ -198,23 +209,23 @@ class Diagnostic_model extends CI_Model {
     function fetchDiagnosticDoctorDataTables($diagonsticUserId){
         
         $imgUrl = base_url() . 'assets/doctorsImages/thumb/thumb_100/$1';
+        $doctorUrl = site_url() . '/diagnostic/detailDiagnostic/$2/doctor/$1/editDoctor';
         
-      $this->datatables->select('qyura_doctors.doctors_userId as userId,qyura_doctors.doctors_id as id, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, qyura_doctors.doctors_consultaionFee as consFee, qyura_specialities.specialities_name as specialityName,qyura_doctors.doctors_phn,qyura_doctors.doctors_img,qyura_doctors.doctors_id,qyura_doctors.doctors_mobile,qyura_doctors.doctors_unqId,( FROM_UNIXTIME(qyura_professionalExp.professionalExp_end,"%Y") - FROM_UNIXTIME(qyura_professionalExp.professionalExp_start,"%Y"))  AS exp');
+        $this->datatables->select('doctors_userId userId,qyura_doctors.doctors_id as id, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, qyura_doctors.doctors_consultaionFee as consFee, qyura_specialities.specialities_name as specialityName,qyura_doctors.doctors_phon,qyura_doctors.doctors_img,qyura_doctors.doctors_id,qyura_doctors.doctors_mobile,qyura_doctors.doctors_unqId,( FROM_UNIXTIME(qyura_professionalExp.professionalExp_end,"%Y") - FROM_UNIXTIME(qyura_professionalExp.professionalExp_start,"%Y"))  AS exp, qyura_diagnostic.diagnostic_id'); 
+
+        $this->datatables->from('qyura_doctors');
         
-                $this->datatables->from('qyura_usersRoles');
-                              
-                $this->datatables->join('qyura_doctors','qyura_doctors.doctors_userId = usersRoles_userId', 'left');
-  
+        $this->datatables->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_usersId=qyura_doctors.doctors_parentId', 'left');
+       
+        $this->datatables->join('qyura_professionalExp', 'qyura_professionalExp.professionalExp_usersId=qyura_doctors.doctors_id', 'left');
 
-                $this->datatables->join('qyura_professionalExp', 'qyura_professionalExp.professionalExp_usersId=qyura_doctors.doctors_id', 'left');
 
-                    
-                $this->datatables->join('qyura_doctorSpecialities', 'qyura_doctorSpecialities.doctorSpecialities_doctorsId = qyura_doctors.doctors_id', 'left');
-                
-                $this->datatables->join('qyura_specialities', 'qyura_specialities.specialities_id = qyura_doctorSpecialities.doctorSpecialities_specialitiesId', 'left');
-            
-            $this->db->group_by('qyura_doctors.doctors_userId');
-            
+        $this->datatables->join('qyura_doctorSpecialities', 'qyura_doctorSpecialities.doctorSpecialities_doctorsId = qyura_doctors.doctors_id', 'left');
+        $this->datatables->join('qyura_specialities', 'qyura_specialities.specialities_id = qyura_doctorSpecialities.doctorSpecialities_specialitiesId', 'left');
+
+        $this->db->group_by('doctors_id');
+
+
         $search = $this->input->post('doctor_search');
         if ($search) {
             $this->db->group_start();
@@ -222,20 +233,20 @@ class Diagnostic_model extends CI_Model {
             $this->db->or_like('qyura_doctors.doctors_phn', $search);
             $this->db->or_like('qyura_doctors.doctors_consultaionFee', $search);
             $this->db->or_like('qyura_specialities.specialities_name', $search);
+            $this->db->or_like('( FROM_UNIXTIME(qyura_professionalExp.professionalExp_end,"%Y") - FROM_UNIXTIME(qyura_professionalExp.professionalExp_start,"%Y"))', $search);
             $this->db->group_end();
         }
-                
-     
-         $this->datatables->where(array('doctors_deleted' => 0, 'usersRoles_roleId' => 4, 'usersRoles_parentId'=> $diagonsticUserId));
+
+        $this->datatables->where(array('doctors_deleted' => 0, 'doctors_roll' => 9, 'doctors_parentId' => $diagonsticUserId));
 
         $this->datatables->add_column('exp', '$1 Years', 'exp');
         $this->datatables->add_column('name', '$1</br>$2', 'name,doctors_unqId');
         $this->datatables->add_column('consFee', "<i class='fa fa-inr'></i> $1", 'consFee');
-        
+
         $this->datatables->add_column('doctors_img', '<img class="img-responsive" height="80px;" width="80px;" src=' . $imgUrl . '>', 'doctors_img');
 
-        $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href='.site_url("doctor/doctorDetails/$1?reffralId=$diagonsticUserId").'>View Detail</a>', 'id');
-        
+        $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href=' . $doctorUrl . '>View Detail</a><a class="btn btn-info waves-effect waves-light m-b-5 applist-btn" href=' .$doctorUrl. '>Edit Detail</a>', 'doctors_id,diagnostic_id');
+
         return $this->datatables->generate();
     }
 
@@ -244,7 +255,7 @@ class Diagnostic_model extends CI_Model {
 
         $imgUrl = base_url() . 'assets/diagnosticsImage/thumb/thumb_100/$1';
 
-        $this->datatables->select('diag.diagnostic_id,diag.diagnostic_zip,diag.diagnostic_usersId,diag.diagnostic_name,diag.diagnostic_phn,diag.diagnostic_address,City.city_name,coalesce(diag.diagnostic_img, "noImage.png") as diagnostic_img,diag.diagnostic_cntPrsn,usr.users_email,diag.diagnostic_lat,diag.diagnostic_long,usr.users_id,diag.diagnostic_countryId,diag.diagnostic_stateId,diag.diagnostic_cityId');
+        $this->datatables->select('diag.diagnostic_id as id,diag.diagnostic_zip,diag.diagnostic_usersId,diag.diagnostic_name,diag.diagnostic_phn,diag.diagnostic_address,City.city_name,coalesce(diag.diagnostic_img, "noImage.png") as diagnostic_img,diag.diagnostic_cntPrsn,usr.users_email,diag.diagnostic_lat,diag.diagnostic_long,usr.users_id,diag.diagnostic_countryId,diag.diagnostic_stateId,diag.diagnostic_cityId, diag.status');
         
         $this->datatables->from('qyura_diagnostic AS diag');
         $this->datatables->join('qyura_city AS City', 'City.city_id = diag.diagnostic_cityId', 'left');
@@ -263,8 +274,8 @@ class Diagnostic_model extends CI_Model {
         $city = $this->input->post('cityId');
         isset($city) && $city != '' ? $this->datatables->where('diagnostic_cityId', $city) : '';
 
-        $states = $this->input->post('hosStateId');
-        isset($states) && $states != '' ? $this->datatables->where('diagnostic_stateId', $states) : '';
+        $status = $this->input->post('status');
+        isset($status) && $status != '' ? $this->datatables->where('diag.status', $status) : '';
 
         $this->datatables->order_by('diagnostic_id');
 
@@ -275,9 +286,12 @@ class Diagnostic_model extends CI_Model {
 
         $this->datatables->add_column('diagnostic_img', '<img class="img-responsive" height="80px;" width="80px;" src=' . $imgUrl . '>', 'diagnostic_img');
 
-        $this->datatables->add_column('diagnostic_address', '$1 </br><a  href="diagnostic/map/$2" class="btn btn-info btn-xs waves-effect waves-light" target="_blank">View Map</a>', 'diagnostic_address,diagnostic_id');
+        $this->datatables->add_column('diagnostic_address', '$1 </br><a  href="diagnostic/map/$2" class="btn btn-info btn-xs waves-effect waves-light" target="_blank">View Map</a>', 'diagnostic_address,id');
         
-        $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="diagnostic/detailDiagnostic/$1">View Detail</a>', 'diagnostic_id');
+        $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="diagnostic/detailDiagnostic/$1">View Detail</a>', 'id');
+        
+        $this->datatables->add_column('status', '$1', 'statusCheck(diagnostic, qyura_diagnostic, diagnostic_id, id, status)');
+           
         $this->datatables->order_by("diag.creationTime");
         return $this->datatables->generate();
     }
@@ -503,4 +517,29 @@ class Diagnostic_model extends CI_Model {
          return $result;
         
       }
+      
+      // fetch insurance
+    function fetchInsurance($diagnosticId) {
+        
+        $this->db->select('dInsurance.diagnoInsurance_id, dInsurance.diagnoInsurance_insuranceId, Insu.insurance_Name, Insu.insurance_img');
+        $this->db->from('qyura_diagnoInsurance AS dInsurance');
+        $this->db->join('qyura_insurance AS Insu', 'Insu.insurance_id = dInsurance.diagnoInsurance_insuranceId', 'left');
+        $this->db->where(array('dInsurance.diagnoInsurance_diagnoId' => $diagnosticId, 'Insu.insurance_deleted' => 0, 'dInsurance.diagnoInsurance_deleted' => 0));
+
+        $data = $this->db->get();
+        return $data->result();
+    }
+    
+     // remove insurance company from hospital
+    function deletInsurance($id = null) {
+        $response = '';
+        if ($id != null)
+            $response = $this->db->delete('qyura_diagnoInsurance', array('diagnoInsurance_id' => $id));
+
+        if ($response) {
+            echo json_encode(array('status' => 1, 'message' => 'insurance successfully reomved!'));
+        } else {
+            echo json_encode(array('status' => 0, 'message' => 'some error occurred while removing insurance company!'));
+        }
+    }
 }

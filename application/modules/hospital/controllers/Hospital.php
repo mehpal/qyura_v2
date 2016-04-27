@@ -438,10 +438,10 @@ class Hospital extends MY_Controller {
         $this->bf_form_validation->set_rules('docatId', 'Docat id', 'trim');
 
 
-        // if (empty($_FILES['hospital_img']['name']))
-        // {
-        //  $this->bf_form_validation->set_rules('hospital_img', 'File', 'required');
-        //  }
+         if (empty($_FILES['hospital_img']['name']))
+         {
+          $this->bf_form_validation->set_rules('hospital_img', 'File', 'required');
+         }
         if (empty($_FILES['avatar_file']['name'])) {
 
             $this->bf_form_validation->set_rules('avatar_file', 'File', 'required');
@@ -449,6 +449,7 @@ class Hospital extends MY_Controller {
         if ($this->bf_form_validation->run() === FALSE) {
             $data = array();
             $data['allCountry'] = $this->Hospital_model->fetchCountry();
+            
             $hospital_countryId = $this->input->post('hospital_countryId');
             if ($hospital_countryId != '') {
                 $data['allStates'] = $this->Hospital_model->fetchStates($hospital_countryId);

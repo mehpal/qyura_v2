@@ -469,6 +469,31 @@ class MY_Controller extends CI_Controller {
              redirect($redirectUrl.'/'.$miId.'/timeSlot');
         }
     }
+    
+    function sendEmailRegister($emailId){
+
+        $this->load->library('email');
+
+        $config['protocol'] = 'sendmail';
+        $config['mailpath'] = '/usr/sbin/sendmail';
+        $config['charset'] = 'iso-8859-1';
+        $config['wordwrap'] = TRUE;
+
+        $this->email->initialize($config);
+        $this->email->set_newline("\r\n");
+        $this->email->from('admin@qyuram.com', 'QYURA TEAM');
+        $this->email->to($emailId);
+        $body = "Hello ".$emailId;
+        $this->email->subject('Conguratilation! Welcome to Qyura');
+        $this->email->message($body);
+
+        if ($this->email->send()) {
+            return true;
+        } else {
+            return false;
+        } 
+        
+    }
 
      function updateMultipleIds($formData, $dbData, $mainId, $table) {
         $newDbData = array();

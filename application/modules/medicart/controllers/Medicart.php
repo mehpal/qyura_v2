@@ -69,7 +69,7 @@ class Medicart extends MY_Controller {
         $option = array(
             'select' => 'specialities_id,specialities_name',
             'table' => 'qyura_specialities',
-            'where' => array('specialities_deleted' => 0,'type'=>0),
+            'where' => array('specialities_deleted' => 0,'type'=>0,'status'=>3),
             'order_by' => array("specialities_name", "asc")
         );
         $data['allOffetCategory'] = $this->medicart_model->customGet($option);
@@ -195,7 +195,7 @@ class Medicart extends MY_Controller {
             $option = array(
                 'select' => 'specialities_id,specialities_name',
                 'table' => 'qyura_specialities',
-                'where' => array('specialities_deleted' => 0,'type'=>0),
+                'where' => array('specialities_deleted' => 0,'type'=>0,'status'=>3),
                 'order_by' => array("specialities_name", "asc")
             );
             $data['allOffetCategory'] = $this->medicart_model->customGet($option);
@@ -233,7 +233,7 @@ class Medicart extends MY_Controller {
                      $option = array(
                         'select' => 'specialities_id,specialities_name',
                         'table' => 'qyura_specialities',
-                        'where' => array('specialities_deleted' => 0,'type'=>0),
+                        'where' => array('specialities_deleted' => 0,'type'=>0,'status'=>3),
                         'order_by' => array("specialities_name", "asc")
                     );
                     $data['allOffetCategory'] = $this->medicart_model->customGet($option);
@@ -358,7 +358,7 @@ class Medicart extends MY_Controller {
         $option = array(
             'select' => 'specialities_id,specialities_name',
             'table' => 'qyura_specialities',
-            'where' => array('specialities_deleted' => 0,'type'=>0),
+            'where' => array('specialities_deleted' => 0,'type'=>0,'status'=>3),
             'order_by' => array("specialities_name", "asc")
         );
         $data['allOffetCategory'] = $this->medicart_model->customGet($option);
@@ -464,7 +464,7 @@ class Medicart extends MY_Controller {
             $option = array(
                       'select' => 'specialities_id,specialities_name',
             'table' => 'qyura_specialities',
-            'where' => array('specialities_deleted' => 0,'type'=>0),
+            'where' => array('specialities_deleted' => 0,'type'=>0,'status'=>3),
             'order_by' => array("specialities_name", "asc")
             );
             $data['allOffetCategory'] = $this->medicart_model->customGet($option);
@@ -491,7 +491,7 @@ class Medicart extends MY_Controller {
                     $option = array(
                        'select' => 'specialities_id,specialities_name',
                         'table' => 'qyura_specialities',
-                        'where' => array('specialities_deleted' => 0,'type'=>0),
+                        'where' => array('specialities_deleted' => 0,'type'=>0,'status'=>3),
                         'order_by' => array("specialities_name", "asc")
                     );
                     $data['allOffetCategory'] = $this->medicart_model->customGet($option);

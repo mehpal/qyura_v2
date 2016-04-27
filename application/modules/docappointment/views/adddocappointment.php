@@ -41,7 +41,7 @@
                                                 <option value="">Select Speciality</option>
                                                 <?php if(isset($spOptions) && $spOptions != NULL){
                                                     foreach($spOptions as $spOption){ ?>
-                                                    <option value="<?php echo $spOption->speCatId; ?>"><?php echo $spOption->speName; ?></option>
+                                                    <option value="<?php echo $spOption->speId; ?>"><?php echo $spOption->speName; ?></option>
                                                 <?php } } ?>
                                             </select>
                                             <div class="has-error " id="err_input2" ><?php echo form_error("input2"); ?></div>

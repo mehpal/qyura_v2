@@ -18,7 +18,7 @@
             <!-- Table Section Start -->
             <section class="col-md-12">
                <aside class="clearfix m-bg-pic">
-                  <div class="bg-picture text-center" style="background-image:url('<?php if(isset($bloodBankData[0]->bloodBank_background_img) && !empty($bloodBankData[0]->bloodBank_background_img)): echo base_url().'assets/BloodBank/'.$bloodBankData[0]->bloodBank_background_img; else : echo base_url().'assets/default-images/bloodbank.jpg'; endif;?>')">
+                  <div class="bg-picture text-center" style="background-image:url('<?php if(isset($bloodBankData[0]->bloodBank_background_img) && !empty($bloodBankData[0]->bloodBank_background_img)): echo base_url().'assets/BloodBank/'.$bloodBankData[0]->bloodBank_background_img; else : echo base_url().'assets/default-images/Blood_Bank.png'; endif;?>')">
                      <div class="bg-picture-overlay"></div>
                      <div class="profile-info-name">
                         <div class='pro-img'>
@@ -63,16 +63,16 @@
                <article class="text-center clearfix m-t-50">
                   <ul class="nav nav-tab nav-setting">
                      <li class="<?php if(isset($active) && $active == 'general'){echo "active";}?>" >
-                        <a data-toggle="tab" href="#general">General Detail</a>
+                        <a data-toggle="tab" href="#general" id="g">General Detail</a>
                      </li>
                      <li class="<?php if(isset($active) && $active == 'ba'){echo "active";}?>">
                         <a data-toggle="tab" href="#ba">Blood Availability</a>
                      </li>
                       <li class="<?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>">
-                        <a data-toggle="tab" href="#timeSlot">Time Slot</a>
+                        <a data-toggle="tab" href="#timeSlot" id="t">Time Slot</a>
                      </li>
                      <li class="<?php if(isset($active) && $active == 'account'){echo "active";}?>">
-                        <a data-toggle="tab" href="#account">Account</a>
+                        <a data-toggle="tab" href="#account" id="a">Account</a>
                      </li>
                   </ul>
                </article>
@@ -119,6 +119,12 @@
                                        <label for="cemail" class="control-label col-md-4 col-sm-4">Docat Id:</label>
                                        <p class="col-md-8  col-sm-8 text-right t-xs-left"> <?php if(isset($bloodBankData[0]->bloodBank_docatId)){ echo $bloodBankData[0]->bloodBank_docatId; }?> </p>
                                     </article>
+                                     
+                                       <article class="clearfix m-b-10">
+                                       <label for="cemail" class="control-label col-md-4 col-sm-4">24/7 Services ?</label>
+                                       <p class="col-md-8  col-sm-8 text-right t-xs-left"> <?php if(isset($bloodBankData[0]->isEmergency) && $bloodBankData[0]->isEmergency == 1){ echo "Yes"; }else{echo"No";}?> </p>
+                                    </article>
+                                     
                                  </aside>
                                  <form name="submitForm" action="<?php echo site_url('bloodbank/saveDetailBloodBank/'.$bloodBankId); ?>" id="submitForm" method="post">
                                     <aside id="newDetail" style="display:<?php echo $showStatus;?>;">
@@ -175,27 +181,27 @@
                                        <label class="error" style="display:none;" id="error-bloodBank_zip"> Zip code should be numeric and 6 digit long</label>
                                        <label class="error" id="error-bloodBank_zip1"  > <?php echo form_error("bloodBank_zip"); ?></label>       
                                        </article>
-
-                                       <article class="clearfix">
+                                       <input type="hidden"  name="isManual" value="1" id="isManual">
+<!--                                       <article class="clearfix">
                                           <label class="control-label col-md-4" for="cname">Manual:</label>
                                           <div class="col-md-8">
                                               
                                              <aside class="radio radio-info radio-inline">
-                                                <input type="radio" <?php if(isset($bloodBankData[0]->bloodBank_isManual) && $bloodBankData[0]->bloodBank_isManual == 1){ echo 'checked="checked"'; }?>  name="isManual" value="1" id="isManual" onclick="IsAdrManual(this.value)">
+                                                <input type="radio" <?php //if(isset($bloodBankData[0]->bloodBank_isManual) && $bloodBankData[0]->bloodBank_isManual == 1){ echo 'checked="checked"'; }?>  name="isManual" value="1" id="isManual" onclick="IsAdrManual(this.value)">
                                                 <label for="inlineRadio1"> Yes</label>
                                              </aside>
                                              <aside class="radio radio-info radio-inline">
-                                                <input <?php if(isset($bloodBankData[0]->bloodBank_isManual) && $bloodBankData[0]->bloodBank_isManual == 0){ echo 'checked="checked"'; }?> type="radio" name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.value)">
+                                                <input <?php //if(isset($bloodBankData[0]->bloodBank_isManual) && $bloodBankData[0]->bloodBank_isManual == 0){ echo 'checked="checked"'; }?> type="radio" name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.value)">
                                                 <label for="inlineRadio2"> No</label>
                                              </aside>
                                           </div>
-                                       </article>
+                                       </article>-->
 
                                        
                                        <article class="clearfix m-t-10">
                                           <label for="cemail" class="control-label col-md-4 col-sm-4"></label>
                                           <div class="col-md-8 col-sm-8">
-                                             <textarea  class="form-control geocomplete" id="geocomplete1" name="bloodBank_add" type="text" ><?php if(isset($bloodBankData[0]->bloodBank_add)){ echo $bloodBankData[0]->bloodBank_add; }?></textarea>
+                                             <textarea  class="form-control geocomplete" id="geocomplete1" name="bloodBank_add" type="text" placeholder="Address"><?php if(isset($bloodBankData[0]->bloodBank_add)){ echo $bloodBankData[0]->bloodBank_add; }?></textarea>
                                              <label class="error" style="display:none;" id="error-bloodBank_add"> please enter an address</label>
                                              <label class="error" > <?php echo form_error("bloodBank_add"); ?></label>
                                           </div>
@@ -243,7 +249,7 @@
                                        <article class="clearfix m-t-10">
                                           <label for="cemail" class="control-label col-md-4 col-sm-4">Email Id :</label>
                                           <div class="col-md-8 col-sm-8">
-                                             <input class="form-control" id="users_email" name="users_email" type="email" value="<?php echo $bloodBankData[0]->users_email;?>" onblur="checkEmailFormatDetail()" />
+                                              <input class="form-control" id="users_email" name="users_email" type="email" value="<?php echo $bloodBankData[0]->users_email;?>" onblur="checkEmailFormatDetail()" readonly=""/>
                                              <label class="error" style="display:none;" id="error-users_email_check"> Email Already Exists!</label>
                                              <label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>
                                              <label class="error" > <?php echo form_error("users_email"); ?></label>
@@ -269,9 +275,25 @@
                                 </div>
                             </article>
                                         
+            
+                                        
+                            <article class="clearfix m-t-10">
+                                <label for="cname" class="control-label col-md-4">24/7 Services ? </label>
+                                <div class="col-md-8">
+                                    <aside class="radio radio-info radio-inline">
+                                        <input type="radio" id="isEmergency_yes" value="1" name="isEmergency" <?php if(isset($bloodBankData[0]->isEmergency) && $bloodBankData[0]->isEmergency == 1){ echo "checked"; }?>>
+                                        <label for="inlineRadio1"> Yes</label>
+                                    </aside>
+                                    <aside class="radio radio-info radio-inline">
+                                        <input type="radio" id="isEmergency_no" value="0" name="isEmergency" <?php if(isset($bloodBankData[0]->isEmergency) && $bloodBankData[0]->isEmergency == 0){ echo "checked"; }?>>
+                                        <label for="inlineRadio2"> No</label>
+                                    </aside>
+                                </div>
+                            </article>
+                                        
                                        <article class="clearfix m-t-10">
                                           <div class="col-md-12">
-                                             <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" onclick="return validationBloodbank();">Submit</button>
+                                             <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" onclick="return validationBloodbankEdit();">Submit</button>
                                           </div>
                                        </article>
                                     </aside>
@@ -296,90 +318,7 @@
                                     <th>Check Availability</th>
                                     <th>Quantity</th>
                                  </tr>
-                                 <!--   <tr>
-                                    <td><h6>O +ve</h6></td>
-                                    <td><aside class="checkbox checkbox-success m-t-5">
-                                                    <input type="checkbox" id="opve">
-                                                    <label>
-                                    
-                                                    </label>
-                                                </aside>
-                                        </td>
-                                    
-                                    <td><h6 id="opveDetail" style="display:none"> <span id="detailbu">
-                                                                 50 Unit
-                                                                 <a class="cl-pencil editbu m-l-20"><i class="fa fa-pencil"></i></a>
-                                                                </span>
-                                                                <span id="newbu" style="display:none">
-                                                                <input type="text" class="shortinp" value="50"  />
-                                                                <button type="button" class="btn btn-xs btn-success editbu">Save</button>
-                                                                <button type="button" class="btn btn-xs btn-danger editbu">Cancle</button>
-                                                                </span>
-                                            </h6></td>
-                                    </tr>
-                                       
-                                    <tr>
-                                    <td><h6>O -ve</h6></td>
-                                    <td><aside class="checkbox checkbox-success m-t-5">
-                                                    <input type="checkbox" id="onve">
-                                                    <label>
-                                    
-                                                    </label>
-                                                </aside>
-                                        </td>
-                                    <td><h6 id="onveDetail" style="display:none">
-                                            <span id="detailbu1">
-                                                                 50 Unit
-                                                                 <a class="cl-pencil editbu1 m-l-20"><i class="fa fa-pencil"></i></a>
-                                                                </span>
-                                                                <span id="newbu1" style="display:none">
-                                                                <input type="text" class="shortinp" value="50"  />
-                                                                <button type="button" class="btn btn-xs btn-success editbu1">Save</button>
-                                                                <button type="button" class="btn btn-xs btn-danger editbu1">Cancle</button>
-                                                                </span>
-                                        
-                                        </h6></td>
-                                    </tr>
-                                       
-                                     <tr>
-                                    <td><h6>A +ve</h6></td>
-                                    <td><aside class="checkbox checkbox-success m-t-5">
-                                                    <input type="checkbox" id="apve">
-                                                    <label>
-                                    
-                                                    </label>
-                                                </aside>
-                                        </td>
-                                    <td><h6 id="apveDetail" style="display:none"> <span id="detailbu2">
-                                                                 50 Unit
-                                                                 <a class="cl-pencil editbu2 m-l-20"><i class="fa fa-pencil"></i></a>
-                                                                </span>
-                                                                <span id="newbu2" style="display:none">
-                                                                <input type="text" class="shortinp" value="50"  />
-                                                                <button type="button" class="btn btn-xs btn-success editbu2">Save</button>
-                                                                <button type="button" class="btn btn-xs btn-danger editbu2">Cancle</button>
-                                                                </span></h6></td>
-                                    </tr>
-                                       
-                                    <tr>
-                                    <td><h6>A -ve</h6></td>
-                                    <td><aside class="checkbox checkbox-success m-t-5">
-                                                    <input type="checkbox" id="anve">
-                                                    <label>
-                                    
-                                                    </label>
-                                                </aside>
-                                        </td>
-                                    <td><h6 id="anveDetail" style="display:none"> <span id="detailbu3">
-                                                                 50 Unit
-                                                                 <a class="cl-pencil editbu3 m-l-20"><i class="fa fa-pencil"></i></a>
-                                                                </span>
-                                                                <span id="newbu3" style="display:none">
-                                                                <input type="text" class="shortinp" value="50"  />
-                                                                <button type="button" class="btn btn-xs btn-success editbu3">Save</button>
-                                                                <button type="button" class="btn btn-xs btn-danger editbu3">Cancle</button>
-                                                                </span></h6></td>
-                                    </tr> -->
+                           
                                  <?php foreach($bloodBankCatData as $key=>$val){
                                     $id= $val->bloodCatBank_id; ?>
                                  <tr>
@@ -388,20 +327,20 @@
                                     </td>
                                     <td>
                                        <aside class="checkbox checkbox-success m-t-5">
-                                          <input type="checkbox" id="anve_<?php echo $id; ?>" onclick="openBloodUnit(<?php echo $id; ?>)">
+                                          <input type="checkbox" id="anve_<?php echo $id; ?>" onclick="openBloodUnit(<?php echo $id; ?>)" class="checkboxBloodbank">
                                           <label>
                                           </label>
                                        </aside>
                                     </td>
                                     <td>
-                                       <h6 id="anveDetail_<?php echo $id; ?>" style="display:none"> <span id="detailbu_<?php echo $id; ?>">
-                                          <span id="unitshow_<?php echo $id; ?>"> <?php echo $val->bloodCatBank_Unit;?></span> Unit
+                                       <h6 id="anveDetail_<?php echo $id; ?>" style="display:none" class="showUnit"> <span id="detailbu_<?php echo $id; ?>">
+                                          <span  id="unitshow_<?php echo $id; ?>"> <?php echo $val->bloodCatBank_Unit;?></span> Unit
                                           <a class="cl-pencil editbu_<?php echo $id;?> m-l-20" onclick="anchorClick(<?php echo $id;?>)"><i class="fa fa-pencil"></i></a>
                                           </span>
-                                          <span id="newbu_<?php echo $id;?>" style="display:none">
+                                          <span class="newbuEdit" id="newbu_<?php echo $id;?>" style="display:none">
                                           <input type="text" class="shortinp" id ="unit_<?php echo $id;?>" value="<?php echo $val->bloodCatBank_Unit;?>" onkeypress="return isNumberKey(event)" maxlength="4" />
                                           <button type="button" class="btn btn-xs btn-success" onclick="updateBloodUnit(<?php echo $id;?>)">Save</button>
-                                          <button type="button" class="btn btn-xs btn-danger" onclick="anchorClick(<?php echo $id;?>)">Cancle</button>
+                                          <button type="button" class="btn btn-xs btn-danger" onclick="anchorClick(<?php echo $id;?>)">Cancel</button>
                                           </span>
                                        </h6>
                                     </td>
@@ -415,6 +354,12 @@
                   <!-- diagnostic Ends -->
                      <section class="tab-pane fade in <?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>" id="timeSlot">
                      <div class="clearfix m-t-20 p-b-20 doctor-description">
+                        
+                     <?php if(isset($bloodBankData[0]->isEmergency) && $bloodBankData[0]->isEmergency == 1){ 
+                         
+                         echo "24/7 Services available"; 
+                     
+                     }else{?> 
                          
                  <?php if(isset($timeSlot) && !empty($timeSlot)):?>
                          
@@ -452,6 +397,8 @@
                     <?php endif;?>     
                          
                      </div>
+                        <?php }?>     
+                         
                   </section>
                   <!--Account Starts -->
                   <section class="tab-pane fade in <?php if(isset($active) && $active == 'account'){echo "active";}?>" id="account">
@@ -504,13 +451,25 @@
    <div class="modal-dialog">
       <div class="modal-content">
          <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h3>Change Background</h3>
+            
          </div>
          <div class="modal-body">
             <div class="modal-body">
                <div id="messageErrors"></div>
                <form class="form-horizontal" id="uploadimage" action="" method="post" enctype="multipart/form-data">
-                  <div id="image_preview"> <img id="previewing" src="<?php echo base_url();?>assets/images/hospital.jpg" class="img-responsive center-block" /></div>
+                  <div id="image_preview">
+                      
+                      <?php if(isset($bloodBankData[0]->bloodBank_background_img) && !empty($bloodBankData[0]->bloodBank_background_img)):?>
+                    <img id="previewing" src="<?php echo base_url().'assets/BloodBank/'.$bloodBankData[0]->bloodBank_background_img;?>" class="img-responsive center-block" /></div>   
+                    
+                          <?php else : ?>
+                          
+                    <img id="previewing" src="<?php echo base_url().'assets/default-images/Blood_Bank.png';?>" class="img-responsive center-block" /></div>   
+                              
+                         <?php endif;?>
+                   
                   <article class="form-group m-lr-0 ">
                      <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Background :</label>
                      <div class="col-md-8 col-sm-8 text-right">

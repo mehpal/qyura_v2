@@ -790,9 +790,9 @@
                                                                         <input type="hidden" id="countPnone" name="countPnone" value="1" />
                                                                         <input type="hidden" id="countbloodBank_phn" name="countbloodBank_phn" value="1" />
                                                                         <input type="hidden" id="countPharmacy_phn" name="countPharmacy_phn" value="1" />
-                                                                       <input type="hidden" id="countAmbulance_phn" name="countAmbulance_phn" value="1" />
+                                                                        <input type="hidden" id="countAmbulance_phn" name="countAmbulance_phn" value="1" />
                        
-                                                                    <input type="hidden" name="hospitalInsuranceId" id="hospitalInsuranceId" value="<?php echo $hospitalId;?>" />
+                                                                        <input type="hidden" name="hospitalInsuranceId" id="hospitalInsuranceId" value="<?php echo $hospitalId;?>" />
                                                                     <article class="clearfix m-b-10">
                                                                         <label for="cemail" class="control-label col-md-4 col-sm-4">Company Name :</label>
                                                                         <div class="col-md-8 col-sm-8">

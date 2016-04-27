@@ -4,177 +4,22 @@
         display:none;
     }
 </style>
-<style>
-    .m-t-4{margin-top:4px;}
-    .blue-ttl{width:120px; height:85px; border:1px solid #ddd; 
-              padding:0px 2px 10px 0px; margin: 15px 10px; float: left }
-    .blue-ttl aside h5
-    {
-        text-align: right;
-        display:none;
-        margin-top: 3px;
-    }
-    .blue-ttl aside h5 
-    {
-        display: none;
-    }
-    .blue-ttl:hover aside h5 
-    {
-        display:block;
-    }
-    .blue-ttl + .tooltip > .tooltip-inner {
-        background-color: #f8f8f8;
-        border: 1px solid #3FCEB2;
-        padding: 0px;
-        color:#333;
-        text-align: left;
-        padding: 0px 10px 10px;
-    }
-    .orange-ttl + .tooltip.left .tooltip-arrow {
-        border-top-color:  #3FCEB2;
-    }
-    /* ============================================================
-GLOBAL
-============================================================ */
-    .effects {
-        padding-left: 15px;
-    }
-    .effects .img {
-        position: relative;
-        float: left;
-        margin-bottom: 5px;
-        /*  width: 25%;*/
-        overflow: hidden;
-    }
-    .effects .img:nth-child(n) {
-        margin-right: 5px;
-    }
-    .effects .img:first-child {
-        margin-left: -15px;
-    }
-    .effects .img:last-child {
-        margin-right: 0;
-    }
-    .effects .img img {
-        display: block;
-        margin: 0;
-        padding: 0;
-        max-width: 100%;
-        height: auto;
-    }
-
-    .overlay1 {
-        display: block;
-        position: absolute;
-        z-index: 20;
-        background: rgba(0, 0, 0, 0.8);
-        overflow: hidden;
-        -webkit-transition: all 0.5s;
-        -moz-transition: all 0.5s;
-        -o-transition: all 0.5s;
-        transition: all 0.5s;
-    }
-
-    a.close-overlay {
-        display: block;
-        position: absolute;
-        top: 0;
-        right: 0;
-        z-index: 100;
-        width: 45px;
-        height: 45px;
-        font-size: 20px;
-        font-weight: 700;
-        color: #fff;
-        line-height: 45px;
-        text-align: center;
-        background-color: #000;
-        cursor: pointer;
-    }
-    a.close-overlay.hidden {
-        display: none;
-    }
-
-    a.expand {
-        display: block;
-        position: absolute;
-        z-index: 100;
-        width: 50px;
-        height: 50px;
-        border: solid 5px #fff;
-        text-align: center;
-        color: #fff;
-        line-height: 35px;
-        font-weight: 700;
-        font-size: 20px;
-        -webkit-border-radius: 25px;
-        -moz-border-radius: 25px;
-        -ms-border-radius: 25px;
-        -o-border-radius: 25px;
-        border-radius: 25px;
-    }
-    .overlay1 a i
-    {
-        margin-top: 9px;
-    }
-    /* ============================================================
-      EFFECT 1 - SLIDE IN BOTTOM
-    ============================================================ */
-    .effect-1 .overlay1 {
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        height: 0;
-    }
-    .effect-1 .overlay1 a.expand {
-        left: 0;
-        right: 0;
-        bottom: 52%;
-        margin: 0 auto -30px auto;
-    }
-    .effect-1 .img.hover .overlay1 {
-        height: 100%;
-    }
-</style>
 
 
-<?php
-$check = 0;
-if (isset($doctorId) && !empty($doctorId)) {
-    $check = $doctorId;
-}
-?>
-<link href="<?php echo base_url(); ?>assets/cropper/cropper.min.css" rel="stylesheet">
-<link href="<?php echo base_url(); ?>assets/cropper/main.css" rel="stylesheet">
-<script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.js">
+
+<script src="http://code.jquery.com/jquery-latest.min.js"
+        type="text/javascript"></script>
+        
+        <script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.js"></script>
+        
+        <script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.js">
 </script>
-<script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript">
-</script>
-<script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.js"></script>
+
 <script src="<?php echo base_url(); ?>assets/js/pages/add-doctor.js" type="text/javascript"></script>
 
-<script src="<?php echo base_url(); ?>assets/vendor/select2/select2.min.js" type="text/javascript"></script>
-<script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
-<script src="<?php echo base_url(); ?>assets/js/common_js.js"></script>
-<script src="<?php echo base_url(); ?>assets/js/bootbox.min.js"></script>
-<?php
-$current = $this->router->fetch_method();
-if ($current != 'detailDoctor'):
-    ?>
-    <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
-<?php else: ?>
 
-    <script  src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
-    <script src="<?php echo base_url(); ?>assets/cropper/gallery_cropper.js"></script>
 
-<?php endif; ?>
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/vendor/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-<script onkeypress="" onkeydown="" type="text/javascript" src="<?php echo base_url(); ?>assets/vendor/x-editable/jquery.xeditable.js"></script>
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
-
-<script src="<?php echo base_url(); ?>assets/js/jquery.geocomplete.min.js"></script>
-<script> var doctorId = '<?php echo $check; ?>';
+<script> 
     $("#savebtn").click(function () {
         $("#avatar-modal").modal('hide');
     });
@@ -198,35 +43,6 @@ if ($current != 'detailDoctor'):
     }
 </script>
 <script>
-    
-     if (Modernizr.touch) {
-            // show the close overlay button
-            $(".close-overlay").removeClass("hidden");
-            // handle the adding of hover class when clicked
-            $(".img").click(function(e){
-                if (!$(this).hasClass("hover")) {
-                    $(this).addClass("hover");
-                }
-            });
-            // handle the closing of the overlay
-            $(".close-overlay").click(function(e){
-                e.preventDefault();
-                e.stopPropagation();
-                if ($(this).closest(".img").hasClass("hover")) {
-                    $(this).closest(".img").removeClass("hover");
-                }
-            });
-        } else {
-            // handle the mouseenter functionality
-            $(".img").mouseenter(function(){
-                $(this).addClass("hover");
-            })
-            // handle the mouseleave functionality
-            .mouseleave(function(){
-                $(this).removeClass("hover");
-            });
-        };
-        
     $("#editaccount").click(function () {
         $("#detailaccount").toggle();
         $("#newdetailaccount").toggle();
@@ -272,16 +88,16 @@ if ($current != 'detailDoctor'):
             //}
         });
         
-        $("#addServicesForm").submit(function (event) {
+        $("#addExperienceForm").submit(function (event) {
             event.preventDefault();
-            var url = '<?php echo site_url(); ?>/doctor/addServices/';
+            var url = '<?php echo site_url(); ?>/doctor/addExperience/';
             var formData = new FormData(this);
             submitData(url,formData);
         });
         
-        $("#editServiceForm").submit(function (event) {
+        $("#editExperienceForm").submit(function (event) {
             event.preventDefault();
-            var url = '<?php echo site_url(); ?>/doctor/editServices/';
+            var url = '<?php echo site_url(); ?>/doctor/editExperience/';
             var formData = new FormData(this);
             submitData(url,formData);
         });
@@ -377,10 +193,8 @@ if ($current != 'detailDoctor'):
         width: '100%'
     });
 
-    $(".bs-select").select2({
-        placeholder: "Select a Speciality",
-        //allowClear: true,
-        tags: true
+    $(".bs-select").select2({placeholder: "Select a Speciality",
+        allowClear: true
     });
 
 </script>
@@ -390,54 +204,44 @@ if ($current != 'detailDoctor'):
     var k = 1;
     var counts = 1;
     var countsAccademic = 1;
-    
-    function fetchCity(stateId) {
-        console.log(stateId);
+    function fetchCityDoctor(stateId) {
+
         $.ajax({
             url: urls + 'index.php/doctor/fetchCity',
             type: 'POST',
             data: {'stateId': stateId},
             success: function (datas) {
                 // console.log(datas);
-                
-                if($('#timeCityId').length > 0){
-                    console.log(typeof  datas,'inner');
-                    $('#timeCityId').html(datas);
-                    $('#timeCityId').selectpicker('refresh');
-                    
-                }
-                if($('#doctors_cityId').length > 0){
-                    $('#doctors_cityId').html(datas);
-                    $('#doctors_cityId').selectpicker('refresh');
-                    $('#StateId').val(stateId);
-                }
+                $('#doctors_cityId').html(datas);
+                $('#doctors_cityId').selectpicker('refresh');
+                $('#StateId').val(stateId);
             }
         });
 
     }
-    
-    
-    function fetchStates(){
-            
-            var countryId = $('#timeCountryId').val();
-            //var stateId = $('#StateId').val();
-            
-            $.ajax({
-               url : urls + 'index.php/doctor/fetchStates',
-               type: 'POST',
-              data: {'countryId' : countryId},
-              success:function(datas){
-               // console.log(datas);
-                  $('#stateId').html(datas);
-                  $('#stateId').selectpicker('refresh');
-                  $('#cityId').html('');
-                  $('#cityId').selectpicker('refresh');
-                  $('#timeCityId').html('');
-                  $('#timeCityId').selectpicker('refresh');
-                  //$('#StateId').val(stateId);
-              }
-           });
+
+    function checkNumber(inputName, ids) {
+
+        var mobileNumber = 0;
+        if (ids != '')
+            mobileNumber = $('#' + inputName + ids).val();
+        else
+            mobileNumber = $('#' + inputName).val();
+        
+        if (!$.isNumeric(mobileNumber)) {
+
+            if (ids != '') {
+                $('#' + inputName + ids).addClass('bdr-error');
+                $('#' + inputName + ids).val('');
+            }
+            else {
+                $('#' + inputName).addClass('bdr-error');
+                $('#' + inputName).val('');
+            }
+            // $('#error-users_mobile').fadeIn().delay(3000).fadeOut('slow');
+            // $('#hospital_phn').focus();
         }
+    }
     
     function check_qap() {
         var qapId = $("#qapId").val();
@@ -474,26 +278,27 @@ if ($current != 'detailDoctor'):
         var emails = $.trim($('#users_email').val());
         var doctorSpecialities_specialitiesId = $.trim($('#doctorSpecialities_specialitiesId').val());
         var doctors_phn1 = $('#doctors_phn1').val();
-        var doctors_pinn = $.trim($('#doctors_pinn').val());
-        var doctors_cityId = $.trim($('#doctors_cityId').val());
-        var doctors_stateId = $.trim($('#doctors_stateId').val());
+       // var doctors_pinn = $.trim($('#doctors_pinn').val());
+       // var doctors_cityId = $.trim($('#doctors_cityId').val());
+       // var doctors_stateId = $.trim($('#doctors_stateId').val());
         
-        var pswd = $.trim($("#users_password").val());
-        var cnfpswd = $.trim($("#cnfPassword").val());
-        var users_mobile = $.trim($('#users_mobile').val());
+      //  var pswd = $.trim($("#users_password").val());
+      //  var cnfpswd = $.trim($("#cnfPassword").val());
+      //  var users_mobile = $.trim($('#users_mobile').val());
         var image = $("#avatarInput").val();
         var exp_year = $("#exp_year").val();
-        var docatId = $("#docatId").val();
-        var qapId = $("#qapId").val();
+      //  var docatId = $("#docatId").val();
+        var fee = $("#fee").val();
+        var hospitalUserId = $("#mi_user_id").val();
         var count = 0;
         
-        if (image == '') {
-            $('#image_select').addClass('bdr-error');
-            $('#error-avatarInput').fadeIn().delay(3000).fadeOut('slow');
-            count++;
+      //  if (image == '') {
+      //      $('#image_select').addClass('bdr-error');
+     //       $('#error-avatarInput').fadeIn().delay(3000).fadeOut('slow');
+      //      count++;
             //status= 0;
             // $('#hospital_name').focus();
-        }
+     //   }
         
         if (doctors_fName === '') {
             $('#doctors_fName').addClass('bdr-error');
@@ -511,57 +316,16 @@ if ($current != 'detailDoctor'):
             // $('#hospital_type').focus();
         }
         
-        if ($('#doctors_dob').val() === '') {
-            $('#doctors_dob').addClass('bdr-error');
-            $('#error-doctors_dob').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-            //status= 0;
-            // $('#hospital_countryId').focus();
-        }
-        var dob = Date.parse($('#doctors_dob').val());
-        if (dob > todayDate) {
-            $('#doctors_dob').addClass('bdr-error');
-            $("#error-doctors_dob").text("Please Select Correct DOB");
-            $('#error-doctors_dob').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-            //status= 0;
-            // $('#hospital_countryId').focus();
-        }
+        
+        
         if (doctorSpecialities_specialitiesId === '') {
             $('#s2id_autogen1').addClass('bdr-error');
             $('#error-doctorSpecialities_specialitiesId').fadeIn().delay(3000).fadeOut('slow');
             count++;
         }
 
-        if (doctors_stateId === '') {
-            $('#doctors_stateId').addClass('bdr-error');
-            $('#error-doctors_stateId').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-            //status= 0;
-
-        }
-        if (doctors_cityId === '') {
-            $('#doctors_cityId').addClass('bdr-error');
-            $('#error-doctors_cityId').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-            //status= 0;
-
-        }
-        if (doctors_pinn.length < 6) {
-
-            $('#doctors_pinn').addClass('bdr-error');
-            $('#error-doctors_pinn').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-            //status= 0;
-            // $('#hospital_zip').focus();
-        }
-        if ($("#geocomplete1").val() === '') {
-            $('#geocomplete1').addClass('bdr-error');
-            $('#error-doctor_addr').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-            //status= 0;
-            // $('#hospital_address').focus();
-        }
+        
+       
         
         //Academic Start
         countsAccademic = parseInt(countsAccademic);
@@ -594,111 +358,58 @@ if ($current != 'detailDoctor'):
                 count++;
             }
         }
-        //Academic End
-        //experieans start 
+       
+        
         if (exp_year === '') {
             $('#exp_year').addClass('bdr-error');
             $('#error-exp_year').fadeIn().delay(4000).fadeOut('slow');
             count++;
-            //$('#users_email').focus();
         }
-        //Experience End
-        if (docatId === '') {
-            $('#docatId').addClass('bdr-error');
-            $('#error-docatId').fadeIn().delay(4000).fadeOut('slow');
+       
+        
+      if (fee === '') {
+            $('#fee').addClass('bdr-error');
+            $('#error-fee').fadeIn().delay(4000).fadeOut('slow');
             count++;
-            //$('#users_email').focus();
         }
-        if (qapId === '') {
-            $('#qapId').addClass('bdr-error');
-            $('#error-qapId').fadeIn().delay(4000).fadeOut('slow');
+       
+        
+        if (doctors_phn1 != '' && !$.isNumeric(doctors_phn1)) {
+            $('#doctors_phn1').addClass('bdr-error');
+            $('#error-doctors_phn1').fadeIn().delay(3000).fadeOut('slow');
             count++;
-            //$('#users_email').focus();
-        }
-        if (emails === '') {
-            $('#users_email').addClass('bdr-error');
-            $('#error-users_email').fadeIn().delay(4000).fadeOut('slow');
-            count++;
-            //$('#users_email').focus();
-        }
-        if (!$.isNumeric(users_mobile)) {
-            $('#users_mobile').addClass('bdr-error');
-            $('#error-users_mobile').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-            //status= 0;
-            // $('#hospital_phn').focus();
         }
 
-        if (pswd.length < 6) {
-            $('#users_password').addClass('bdr-error');
-            $('#error-users_password').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-            // $('#users_password').focus();
-        }
-        if (cnfpswd == '') {
-            $('#cnfPassword').addClass('bdr-error');
-            $('#error-cnfPassword_check').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-
-            // $('#cnfpassword').focus();
-        }
-
-        if (pswd != cnfpswd) {
-            $('#cnfPassword').addClass('bdr-error');
-            $('#error-cnfPassword_check').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-            // $('#cnfpassword').focus();
-        }
+        
 
         setTimeout(function () {
             $(".bdr-error").css( "border-color", "#eee" );
         }, 3000);
-
-        if (emails != '') {
-            check_email(emails,count);
+        
+        
+        if(emails != ''){
+            $.ajax({
+                  url: urls + 'index.php/hospital/check_email_doctor',
+                  type: 'POST',
+                  data: {'users_email': emails, 'hospitalUserId' : hospitalUserId},
+                  success: function (datas) {
+                      if (datas == 0) {
+                          $('#users_email').addClass('bdr-error');
+                          $('#error-users_email_check').fadeIn().delay(3000).fadeOut('slow');
+                           count++;
+                          }
+                  }
+              });
+          }
+        if (count == 0) {
+            return true;
+        }else{
             return false;
         }
-        return false;
+        
 
     }
 
-    function check_email(myEmail,count) {
-
-        $.ajax({
-            url: urls + 'index.php/doctor/check_email',
-            type: 'POST',
-            data: {'users_email': myEmail},
-            success: function (datas) {
-                if (datas == 0) {
-                    $('#users_email_status').val(datas);
-                    if(count == 0){
-                        var erlength = $("form[name='doctorForm']").find('.bdr-error').length;
-                        if(erlength > 0){
-                            $("#qapIdTb").val('');
-                            $('#qapId').addClass('bdr-error');
-                            $('#error-qapIdTb').fadeIn().delay(3000).fadeOut('slow');
-                            return false;
-                        }else{
-                            $("form[name='doctorForm']").submit();
-                        }
-                    }
-                    return true;
-                }else if (datas == 1) {
-                    $('#users_email').addClass('bdr-error');
-                    $('#error-users_email_check').fadeIn().delay(3000).fadeOut('slow');
-                    ;
-                    $('#users_email_status').val(datas);
-                    return false;
-                }else {
-                    $('#users_email_status').val(datas);
-                    if(count == 0){
-                        $("form[name='doctorForm']").submit();
-                    }
-                    return true;
-                }
-            }
-        });
-    }
 
     function checkEmailFormat() {
         var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
@@ -744,6 +455,25 @@ if ($current != 'detailDoctor'):
             }
         });
     }
+
+    function multipleProfessionalExp() {
+        counts = parseInt(counts) + 1;
+        var ids = counts;
+        var hospitalData = $('#HospitalSpecialityId1').html();
+        
+        $('#parentDIV').append('<div id="child' + ids + '"><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4">Duration:</label><div class="col-md-8"><aside class="row"><div class="col-lg-6 col-md-12 col-sm-6"><div class="input-group"><input class="form-control pickDate" placeholder="dd/mm/yyyy" id="professionalExp_start' + ids + '" type="text" name="professionalExp_start' + ids + '"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div></div><div class="col-lg-6 col-md-12 col-sm-6 m-t-md-15 m-t-xs-10"><div class="input-group"><input class="form-control pickDate" placeholder="dd/mm/yyyy" id="professionalExp_end' + ids + '" type="text" name="professionalExp_end' + ids + '"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div></div></aside></div></article><article class="form-group m-lr-0"><div class="col-md-8 col-md-offset-4"><select class="select2" data-width="100%" onchange="fetchHospitalSpeciality(this.value,' + ids + ')" id="professionalExp_hospitalId' + ids + '" name="professionalExp_hospitalId' + ids + '">' + hospitalData + '</select></div></article><article class="form-group m-lr-0 "><div class="col-md-8 col-md-offset-4"><select  multiple="" class="bs-select form-control-select2 " data-width="100%" name="doctorSpecialities_specialitiesId' + ids + '[]" id="specialityDropdown' + ids + '" data-size="4"></select></div></article><aside class="row"><label for="cname" class="control-label col-md-4 m-t-10">Designation</label><div class="col-md-8 col-sm-8 m-b-20 m-t-10"><input class="form-control" name="designation' + ids + '" required="" id="designation' + ids + '" value="" ><label class="error" style="display:none;" id="error-designation' + ids + '"> please fill Designation</label></div></aside></div>');
+        $('#professionalExp_hospitalId' + ids).select2({
+            width: '100%'
+        });
+
+        $('#specialityDropdown' + ids).select2({placeholder: "Select a Speciality",
+            allowClear: true
+        });
+        $('#professionalExp_start' + ids).datepicker();
+        $('#professionalExp_end' + ids).datepicker();
+
+        $('#ProfessionalExpCount').val(counts);
+    }
     
     function multipleAcademic() {
         countsAccademic = parseInt(countsAccademic) + 1;
@@ -757,85 +487,23 @@ if ($current != 'detailDoctor'):
 
     }
 
-    function multipleService() {
-        var i = parseInt($("#totalService").val());
-        var j = i + parseInt(1);
-        $('#doctorService').append('<div id="doctors_service_div_'+j+'"><label for="" class="control-label col-md-4 col-sm-4"></label><div class="col-md-7 col-sm-7"><input class="form-control" id="doctors_service_'+j+'" name="doctors_service_'+j+'" type="text" maxlength="50"/><label class="error" style="display:none;" id="error-doctors_service"> please enter Service</label><label class="error" ></label></div><div class="col-md-1 col-sm-1"><button id="remove_services_'+j+'" class="btn btn-danger" type="button" href="javascript:void(0);" onclick="removeServices(\''+j+'\');" > <i class="fa fa-minus"></i> </button></div><br /></div>');
-        $("#totalService").val(j);
-    }
-    
-    function removeServices(k){
-        $("#doctors_service_div_"+k).remove();
-        var m = parseInt($("#totalService").val());
-        var j = m - parseInt(1);
-        $("#remove_services_"+j).show();
-        $("#totalService").val(j);
-    }
-    
-    $(document).ready(function () {
-        var oTable = $('#doctor_datatable').DataTable({
-            "processing": true,
-            "bServerSide": true,
-            // "searching": true,
-            "bLengthChange": false,
-            "bProcessing": true,
-            "iDisplayLength": 10,
-            "bPaginate": true,
-            "sPaginationType": "full_numbers",
-            "columnDefs": [{
-                    "targets": [0,1,2,3,4,5,6,7],
-                    "orderable": false
-                }],
-            "columns": [
-                {"data": "doctors_img", "searchable": false, "order": false, orderable: false, width: "8%"},
-                {"data": "name"},
-                {"data": "doctor_addr"},
-                {"data": "specialityName", "width": "8%"},
-                {"data": "exp"},
-                {"data": "joinDate"},
-                {"data": "doctors_phn"},
-                {"data": "view", "searchable": false, "order": false, orderable: false, width: "8%"},
-            ],
-            "ajax": {
-                "url": "<?php echo site_url('doctor/getDoctorDl'); ?>",
-                "type": "POST",
-                "data": function (d) {
-                    d.name = $("#search").val();
-                    if ($("#doctorSpecialities_specialitiesId").val() != ' ') {
-                        d.docSpecialitiesId = $("#doctorSpecialities_specialitiesId").val();
-                    }
-                    d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
-                }
-            }
-        });
-        $('#doctorSpecialities_specialitiesId').change(function () {
-            oTable.draw();
-        });
-        $('#search').on('keyup', function () {
-            oTable.draw();
-        });
-    });
 
-    $("#edit").click(function () {
-        $("#detail").toggle();
-        $("#newDetail").toggle();
-    });
+    function multipleAcademicForDoctor() {
+        countsAccademic = parseInt(countsAccademic) + 1;
+        var divIds = countsAccademic;
+        var degreeData = $('#doctorAcademic_degreeId2').html();
+        var specialitiesData = $('#doctorSpecialities_specialitiesCatId2').html();
+        $('#parentDegreeDiv2').append('<div id="childDegreeDiv2' + divIds + '"><aside class="row"><label for="cname" class="control-label col-md-4">Degree</label><div class="col-md-4 col-sm-4"><select class="selectpicker" data-width="100%" data-size="4" name="doctorAcademic_degreeId[]" id="doctorAcademic_degreeId' + divIds + '" >' + degreeData + '</select></div><div class="col-md-4 col-sm-4 m-t-xs-10"><select class="selectpicker" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId' + divIds + '" >' + specialitiesData + '</select></div></aside><aside class="row"><label for="cname" class="control-label col-md-4 m-t-20">Address</label><div class="col-md-8 col-sm-8 m-t-20"><textarea class="form-control" id="acdemic_addaddress' + divIds + '" name="acdemic_addaddress[]" required=""></textarea><label class="error" style="display:none;" id="error-acdemic_addaddress' + divIds + '"> please fill Address</label></div><label for="cname" class="control-label col-md-4 m-t-20">Year</label><div class="col-md-8 col-sm-8 m-b-20 m-t-10"><input class="form-control" name="acdemic_addyear[]" required="" id="acdemic_addyear' + divIds + '" value="" onkeypress="return isNumberKey(event)" maxlength="4"><label class="error" style="display:none;" id="error-acdemic_addyear' + divIds + '"> please fill Year</label></div></aside></div><br />');
+        $('.selectpicker').selectpicker({
+            width: "100%"
+        })
+
+    }
+
+
 </script>    
 <script>
-    function checkConfirm(val, val2) {
-
-        var pass = $("#" + val).val();
-        var conf = $("#" + val2).val();
-        
-        if (pass != conf) {
-            $("#err_" + val2).text("Please enter the same value again.");
-            return false;
-        } else {
-            $("#err_" + val2).html('');
-            return true;
-        }
-    }
-    
+   
     function addAcademicNumber() {
         var a = parseInt($("#total_add_academic").val());
         var b = a + parseInt(1);
@@ -846,7 +514,6 @@ if ($current != 'detailDoctor'):
         $("#degree_addid_"+b).selectpicker('refresh');
         $("#total_add_academic").val(b);
     }
-    
     function removeAcademicNumber(k){
         $("#academicDiv"+k).remove();
         var m = parseInt($("#total_add_academic").val());
@@ -854,7 +521,54 @@ if ($current != 'detailDoctor'):
         $("#remove_academic_"+j).show();
         $("#total_add_academic").val(j);
     }
-
+    function addMobileNumberGen() {
+        var m = parseInt($("#total_mobile").val());
+        var j = m + parseInt(1);
+        $('#multipleMobile').append('<div id="mobileDiv' + j + '"><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-3 col-sm-3"></label><div class="col-md-8 col-sm-8"><aside class="row"> <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"><select class="selectpicker" data-width="100%" name="preMobileNumber[]" id=preMobileNumber' + j + '><option value="91">+91</option></select></div><div class="col-lg-4 col-md-4 col-sm-4 col-xs-10 m-t-xs-10"><input type="text" class="form-control" name="doctors_mobile[]" id="doctors_mobile' + j + '" placeholder="9837000123" maxlength="10" onkeypress="return isNumberKey(event)" onblur=checkNumber("doctors_mobile",' + j + ') /></div><a class=" col-md-2 " onclick="removeMobileNumber('+j +')"><i class="fa fa-minus-circle fa-2x m-t-5 label-minus"></i></a></aside><br /><label class="error" style="display:none;" id="er_doctors_mobile' + j + '"> Please enter another Mobile no.</label> <aside class="checkbox checkbox-success"><input type="checkbox" value="1" id="checkbox' + j + '" name="checkbox' + j + '"><label for="checkbox3">Make this number primary</label></aside></div></article></div>');
+        $('#preMobileNumber' + j).selectpicker('refresh');
+        $("#total_mobile").val(j);
+    }
+    function removeMobileNumber(k){
+        $("#mobileDiv"+k).remove();
+        var m = parseInt($("#total_mobile").val());
+        var j = m - parseInt(1);
+        $("#total_mobile").val(j);
+    }
+    function addPhoneNumberGen() {
+        var m = parseInt($("#total_phone").val());
+        var k = m + parseInt(1);
+        $('#multiplePhoneNumber').append('<div id="phoneDiv' + k + '"><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-3 col-sm-3"></label><div class="col-md-8 col-sm-8"><aside class="row"><div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"><select class="selectpicker" data-width="100%" name="preNumber[]" id=preNumber' + k + '><option value=91>+91</option></select></div><div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 m-t-xs-10"> <input type="text" class="form-control" name="midNumber[]" id=midNumber' + k + ' placeholder="731" maxlength="3" onkeypress="return isNumberKey(event)" onblur=checkNumber("midNumber",' + k + ') /></div> <div class="col-md-2 col-sm-2 col-xs-10 m-t-xs-10 "><input type="text" class="form-control" name="doctors_phn[]" id=doctors_phn' + k + ' placeholder="7000123" maxlength="8" onkeypress="return isNumberKey(event)" onblur=checkNumber("doctors_phn",' + k + ') /></div><div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 m-t-xs-10"><a onclick="removePhoneNumber('+k+')"><i class="fa fa-minus-circle fa-2x m-t-5 label-minus"></i></a></div></aside><label class="error" style="display:none;" id="er_doctors_phn' + k + '"> Please enter another phone no.</label></div></article></div>');
+        $('#preNumber' + k).selectpicker('refresh');
+        $("#total_phone").val(k);
+    }
+    function removePhoneNumber(k) {
+        $('#phoneDiv' + k ).remove();
+        var m = parseInt($("#total_phone").val());
+        var j = m - parseInt(1);
+        $("#total_phone").val(j);
+    }
+    function addExprNumberGen() {
+        var m = parseInt($("#total_add_exp").val());
+        var k = m + parseInt(1);
+        $('#expDiv').append('<div id="expDivAdd' + k + '"><aside class="clearfix m-t-10"><select class="selectpicker" data-width="100%" name="hospital_addid_' + k + '" id="hospital_addid_' + k + '" onchange="find_speciality(' + k + ')"><option value="">Select Degree</option><?php if(isset($qyura_hospital) && $qyura_hospital != NULL){foreach ($qyura_hospital as $hospital){  ?><option value="<?php echo $hospital->hospital_id ?>"><?php echo $hospital->hospital_name; ?></option><?php } } ?></select><label class="error" id="err_hospital_addid_' + k + '" ></label></aside><aside class="clearfix m-t-10"><input class="form-control" name="designation_' + k + '" id="designation_' + k + '" required="" value="" placeholder="Designation"><label class="error" id="err_designation_' + k + '" ></label></aside><aside class="clearfix m-t-10"><select class="select2" data-placeholder="Choose a Speciality" data-width="100%" multiple="" id="speciality_' + k + '" name="speciality' + k +'[]"></select><label class="error" id="err_speciality_' + k + '" ></label></aside><aside class="row row-minus m-t-10"><div class="col-sm-6"><input class="form-control datepicker pickDate" name="exp_start_' + k + '" id="exp_start_' + k + '" required="" value="<?php echo date("d/m/Y"); ?>" ><label class="error" id="err_exp_start_' + k + '" ></label></div><div class="col-sm-6"><input class="form-control datepicker pickDate" name="exp_end_' + k + '" id="exp_end_' + k + '" required="" value="<?php echo date("d/m/Y") ?>"><label class="error" id="err_exp_end_' + k + '" ></label></div></aside><article class="clearfix m-t-10 col-sm-3"><button id="remove_exp_'+k+'" class="btn btn-danger btn-block waves-effect waves-light" type="button" href="javascript:void(0);" onclick="removeExprNumber(\''+k+'\');" > Remove </button></article></div>');
+        if(m !== 1){
+            $("#remove_exp_"+m).hide();
+        }
+        $('#hospital_addid_' + k).select2({
+            allowClear: true
+        });
+        $('#speciality_' + k).select2({
+            allowClear: true
+        });
+        $("#total_add_exp").val(k);
+    }
+    function removeExprNumber(k) {
+        $("#expDivAdd"+k).remove();
+        var m = parseInt($("#total_add_exp").val());
+        var j = m - parseInt(1);
+        $("#remove_exp_"+j).show();
+        $("#total_add_exp").val(j);
+    }
     function find_speciality (k){
         var h_id = $("#hospital_addid_"+k).val();
         var url = '<?php echo site_url(); ?>/doctor/find_specialities';
@@ -874,7 +588,6 @@ if ($current != 'detailDoctor'):
             });
         }
     }
-    
     function find_speciality_edit (k){
         var h_id = $("#hospital_id_"+k).val();
         var url = '<?php echo site_url(); ?>/doctor/find_specialities';
@@ -895,7 +608,7 @@ if ($current != 'detailDoctor'):
         }
     }
      
-    function checkValidFileUploads(urls){
+         function checkValidFileUploads(urls){
        
            var avatar_file = $(".avatar-data").val();
             $.ajax({
@@ -947,8 +660,7 @@ if ($current != 'detailDoctor'):
             }
             
         }
-        
-    function latChack(str){
+        function latChack(str){
           
             
                var filter = /^-?([1-8]?[1-9]|[1-9]0)\.{1}\d{6,7}$/;
@@ -968,7 +680,6 @@ if ($current != 'detailDoctor'):
         }
 </script>
 <?php
-$this->load->view("doctor/timeslotScript");
 $current = $this->router->fetch_method();
 if ($current == 'doctorDetails'){ ?>
     <script>

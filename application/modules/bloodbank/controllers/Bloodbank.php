@@ -275,6 +275,7 @@ class Bloodbank extends MY_Controller {
                     $bloodCatData = '';
                 }
             }
+            $this->sendEmailRegister($this->input->post('users_email'));
             $this->session->set_flashdata('message', 'Data inserted successfully !');
             redirect('bloodbank');
         }
@@ -327,7 +328,7 @@ class Bloodbank extends MY_Controller {
         $this->bf_form_validation->set_rules('bloodBank_name', 'BloodBank Name', 'required|trim');
         $this->bf_form_validation->set_rules('bloodbank_docatId', 'Docat Id', 'required|trim');
         $this->bf_form_validation->set_rules('bloodBank_add', 'Bloodbank Address', 'required|trim');
-        $this->bf_form_validation->set_rules('users_email', 'Users Email', 'required|valid_email|trim');
+        //$this->bf_form_validation->set_rules('users_email', 'Users Email', 'required|valid_email|trim');
         $this->bf_form_validation->set_rules('bloodBank_cntPrsn', 'BloodBank Contact Person', 'required|trim');
 
         $this->bf_form_validation->set_rules('bloodBank_mbl', 'mobile no', 'trim|max_length[10]|min_length[10]');
@@ -372,7 +373,7 @@ class Bloodbank extends MY_Controller {
 
 
             $docatId = $this->input->post('bloodbank_docatId');
-
+            $isEmergency = $this->input->post('isEmergency');
             $updateBloodBank = array(
                 'bloodBank_name' => $this->input->post('bloodBank_name'),
                 'bloodBank_add' => $this->input->post('bloodBank_add'),
@@ -382,6 +383,7 @@ class Bloodbank extends MY_Controller {
                 'bloodBank_lat' => $this->input->post('lat'),
                 'bloodBank_long' => $this->input->post('lng'),
                 'bloodBank_docatId' => $docatId,
+                'isEmergency' => $isEmergency,
                 'countryId' => $this->input->post('countryId'),
                 'stateId' => $this->input->post('stateId'),
                 'cityId' => $this->input->post('cityId'),
