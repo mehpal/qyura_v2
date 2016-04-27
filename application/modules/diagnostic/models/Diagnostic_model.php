@@ -517,4 +517,29 @@ class Diagnostic_model extends CI_Model {
          return $result;
         
       }
+      
+      // fetch insurance
+    function fetchInsurance($diagnosticId) {
+        
+        $this->db->select('dInsurance.diagnoInsurance_id, dInsurance.diagnoInsurance_insuranceId, Insu.insurance_Name, Insu.insurance_img');
+        $this->db->from('qyura_diagnoInsurance AS dInsurance');
+        $this->db->join('qyura_insurance AS Insu', 'Insu.insurance_id = dInsurance.diagnoInsurance_insuranceId', 'left');
+        $this->db->where(array('dInsurance.diagnoInsurance_diagnoId' => $diagnosticId, 'Insu.insurance_deleted' => 0, 'dInsurance.diagnoInsurance_deleted' => 0));
+
+        $data = $this->db->get();
+        return $data->result();
+    }
+    
+     // remove insurance company from hospital
+    function deletInsurance($id = null) {
+        $response = '';
+        if ($id != null)
+            $response = $this->db->delete('qyura_diagnoInsurance', array('diagnoInsurance_id' => $id));
+
+        if ($response) {
+            echo json_encode(array('status' => 1, 'message' => 'insurance successfully reomved!'));
+        } else {
+            echo json_encode(array('status' => 0, 'message' => 'some error occurred while removing insurance company!'));
+        }
+    }
 }

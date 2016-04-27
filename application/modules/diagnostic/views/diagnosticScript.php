@@ -126,6 +126,7 @@ if($current != 'detailDiagnostic'):?>
           loadServices();
           loadSpeciality();
           loadDiagnostic();
+          loadCenter();
           
         function fetchStates(){
             
@@ -362,6 +363,9 @@ if($current != 'detailDiagnostic'):?>
     
     function addAwards(){
         var dialAwards_awardsName = $.trim($('#diagnostic_awardsName').val());
+        
+        var diagnosticAwards_agencyName = $.trim($('#diagnosticAwards_agencyName').val());
+        
         var dialAwards_awardsYear = $.trim($('#diagnostic_awardsyear').val());
         var currentYear = new Date().getFullYear();
         
@@ -381,23 +385,33 @@ if($current != 'detailDiagnostic'):?>
              $('#diagnostic_awardsyear').val('');
              $("#error-years-valid").fadeIn().delay(3000).fadeOut('slow');
              
+        }else if(diagnosticAwards_agencyName == ''){
+           
+            $('#error-diagnosticAwards_agencyName').fadeIn().delay(3000).fadeOut('slow');
+            
         }else{
             $.ajax({
                url : urls + 'index.php/diagnostic/addDiagnosticAwards',
                type: 'POST',
-              data: {'diagnosticId' : diagnosticId , 'diaAwards_awardsName' : dialAwards_awardsName, 'dialAwards_awardsYear' : dialAwards_awardsYear },
+              data: {'diagnosticId' : diagnosticId , 'diaAwards_awardsName' : dialAwards_awardsName, 'dialAwards_awardsYear' : dialAwards_awardsYear, 'diagnosticAwards_agencyName' : diagnosticAwards_agencyName },
               success:function(datas){
                // console.log(datas);
                   loadAwards();
                   $('#diagnostic_awardsName').val('');
                   $('#diagnostic_awardsyear').val('');
+                  $('#diagnosticAwards_agencyName').val('');
               }
            });
         }   
     }
+    
+    
     function editAwards(awardsId){
          var edit_awardsName = $.trim($('#'+awardsId).val());
+         var edit_awardsAgency = $.trim($('#agency'+awardsId).val());
          var edit_awardsYear = $.trim($('#year'+awardsId).val());
+         
+         var currentYear = new Date().getFullYear();
         
         if(edit_awardsName == ''){
            
@@ -410,13 +424,22 @@ if($current != 'detailDiagnostic'):?>
         }else if(edit_awardsYear.length != 4){
             
             $('#error-years'+awardsId).fadeIn().delay(3000).fadeOut('slow');
+        }else if(edit_awardsYear > currentYear || edit_awardsYear < 1920){
+            
+             $('#year'+awardsId).val('');
+             $("#error-years-valid"+awardsId).fadeIn().delay(3000).fadeOut('slow');
+             
+        }else if(edit_awardsAgency == ''){
+           
+            $('#error-agency'+awardsId).fadeIn().delay(3000).fadeOut('slow');
+            
         }
         else{
             
             $.ajax({
                url : urls + 'index.php/diagnostic/editDiagnosticAwards',
                type: 'POST',
-              data: {'awardsId' : awardsId , 'diaAwards_awardsName' : edit_awardsName ,'edit_awardsYear' : edit_awardsYear },
+              data: {'awardsId' : awardsId , 'diaAwards_awardsName' : edit_awardsName ,'edit_awardsYear' : edit_awardsYear, 'edit_awardsAgency' : edit_awardsAgency },
               success:function(datas){
               console.log(datas);
                   loadAwards();
@@ -2218,6 +2241,142 @@ function imageIsLoaded(e) {
         }
       
   }
+  
+  
+      /**
+     * @project Qyura
+     * @description add center collectio detail
+     * @access public
+     */   
+    
+    function addCenter(){
+        var centerName = $.trim($('#centerName').val());
+        var centerAddress = $.trim($('#centerAddress').val());
+        var centerLat = $.trim($('#centerLat').val());
+        var centerLong = $.trim($('#centerLong').val());
+        
+        if(centerName == ''){
+           
+            $('#error-centerName').fadeIn().delay(3000).fadeOut('slow');
+            
+        }else if(centerAddress == '' ){
+            
+           $('#error-centerAddress').fadeIn().delay(3000).fadeOut('slow');
+            
+        }else if(centerLat == ''){
+            $('#error-centerLat').fadeIn().delay(3000).fadeOut('slow');
+            
+        }else if(centerLong == ''){
+            
+            $('#error-centerLong').fadeIn().delay(3000).fadeOut('slow');
+             
+        }else{
+            $.ajax({
+               url : urls + 'index.php/diagnostic/addDiagnosticCenterDetail',
+               type: 'POST',
+              data: {'centerName' : centerName , 'centerAddress' : centerAddress, 'centerLat' : centerLat, 'centerLong'  : centerLong, 'diagnosticId' : diagnosticId ,},
+              success:function(datas){
+               // console.log(datas);
+                  loadCenter();
+                  $('#centerName').val('');
+                  $('#centerAddress').val('');
+                  $('#centerLat').val('');
+                  $('#centerLong').val('');
+                  
+              }
+           });
+        }   
+    }
+    
+    
+    function loadCenter(){
+       
+        $('#loadCenter').load(urls + 'index.php/diagnostic/diagnosticCollectonCentrs/'+diagnosticId,function () {
+           // alert('callback function ');
+        });
+        $('#totalCenter').load(urls + 'index.php/diagnostic/detailCollectoCenter/'+diagnosticId,function () {
+           // alert('callback function implementation');
+        });
+    }
+    
+    
+    function editCenters(centerId){
+        
+         var centerName = $.trim($('#'+centerId).val());
+         var centerAddress = $.trim($('#centerAddress'+centerId).val());
+         var centerLat = $.trim($('#centerLat'+centerId).val());
+         var centerLong = $.trim($('#centerLong'+centerId).val());
+        
+        if(centerName == ''){
+           
+            $('#error-centerName').fadeIn().delay(3000).fadeOut('slow');
+            
+        }else if(centerAddress == '' ){
+            
+           $('#error-centerAddress').fadeIn().delay(3000).fadeOut('slow');
+            
+        }else if(centerLat == ''){
+            $('#error-centerLat').fadeIn().delay(3000).fadeOut('slow');
+            
+        }else if(centerLong == ''){
+            
+            $('#error-centerLong').fadeIn().delay(3000).fadeOut('slow');
+            
+        }else{
+            
+            $.ajax({
+               url : urls + 'index.php/diagnostic/editDiagnosticCenters',
+               type: 'POST',
+              data: {'centerId' : centerId , 'centerName' : centerName ,'centerAddress' : centerAddress, 'centerLat' : centerLat, 'centerLong' : centerLong },
+              success:function(datas){
+              console.log(datas);
+                  loadCenter();
+              }
+           });
+        }  
+    }
+    
+    function deleteCenters(centerId){
+         bootbox.confirm("Are you sure want to remove this collection center?", function (result) {
+         if(result){
+         $.ajax({
+               url : urls + 'index.php/diagnostic/deleteCollectionCenters',
+               type: 'POST',
+              data: {'centerId' : centerId },
+              success:function(datas){
+              console.log(datas);
+                  loadCenter();
+              }
+           });
+           }
+        });
+    }
+    
+    
+     function deletInsurance(insuranceId) {
+        var insuranceId = insuranceId;
+        bootbox.confirm("Are you sure want to remove this insurance?", function (result) {
+            if (result) {
+                $.ajax({
+                    url: urls + 'index.php/diagnostic/deletInsurance',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {'insuranceId': insuranceId},
+                    success: function (data, status, xhr) {
+                        var obj = JSON.parse(data);
+                        if (obj.status == 1) {
+                            window.location.reload();
+                            return true;
+                        } else if (obj.status == 0) {
+                            return false;
+                        }
+                    }
+                });
+            }
+
+        });
+    }
+    
 </script>
 
 </body>

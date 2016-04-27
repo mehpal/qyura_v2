@@ -538,20 +538,41 @@ class Hospital_model extends My_model {
        
        
         $imgUrl = base_url() . 'assets/doctorsImages/thumb/thumb_100/$1';
-        $this->db->select('doc.doctors_id, doc.doctors_27Src, doc.isManual,doc.doctors_consultaionFee,doc.doctors_pin,doc.doctors_userId,doc.doctors_fName,doc.doctors_lName,CONCAT(doc.doctors_fName," ",doc.doctors_lName)AS doctoesName,doc.doctors_phn,doc.doctor_addr,City.city_name,doc.doctors_img,usr.users_email,doc.doctors_lat,doc.doctors_long,usr.users_id,doc.doctors_registeredMblNo,
-        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_dob,doc.doctors_cityId,doc.creationTime,doc.doctors_mobile,doc.doctors_unqId,GROUP_CONCAT(DISTINCT(qyura_professionalExp.professionalExp_end)) As endTime,GROUP_CONCAT(DISTINCT(qyura_professionalExp.professionalExp_start)) AS startTime, usr.users_email,GROUP_CONCAT(qyura_hospital.hospital_name ) AS hospitalName, doc.doctors_email, doc.doctors_phon, doc.doctors_showExp');
+        $this->db->select('doc.doctors_id, doc.doctors_27Src, doc.isManual,doc.doctors_consultaionFee,doc.doctors_pin,doc.doctors_userId,doc.doctors_fName,doc.doctors_lName,CONCAT(doc.doctors_fName," ",doc.doctors_lName)AS doctoesName,doc.doctors_phn,doc.doctor_addr,City.city_name,doc.doctors_img,doc.doctors_email,doc.doctors_phon,doc.doctors_lat,doc.doctors_long,usr.users_id,doc.doctors_registeredMblNo,
+        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_dob,doc.doctors_cityId,doc.creationTime,doc.doctors_mobile,doc.doctors_unqId,usr.users_email, doc.doctors_email, doc.doctors_phon, doc.doctors_showExp,doc.doctors_expYear,spec.specialities_id,spec.specialities_name as specName,deg.degree_id,deg.degree_SName,deg.degree_FName,docAca.doctorAcademic_id,docAca.doctorAcademic_degreeId,docAca.doctorAcademic_degreeInsAddress,docAca.doctorAcademic_degreeYear,docAca.doctorAcademic_specialitiesId');
        
         $this->db->from('qyura_doctors AS doc');
         $this->db->join('qyura_city AS City', 'City.city_id = doc.doctors_cityId', 'left');
         $this->db->join('qyura_users AS usr', 'usr.users_id = doc.doctors_userId', 'left');
-        $this->db->join('qyura_professionalExp', 'qyura_professionalExp.professionalExp_usersId = doc.doctors_id', 'left');
-        $this->db->join('qyura_specialities', 'qyura_specialities.specialities_id=qyura_professionalExp.professionalExp_specialitiesCatId', 'left');
-        $this->db->join('qyura_hospital', 'qyura_hospital.hospital_id = qyura_professionalExp.professionalExp_hospitalId', 'left');
+        $this->db->join('qyura_doctorSpecialities as docSpec', 'docSpec.doctorSpecialities_doctorsId=doc.doctors_id', 'left');
+        $this->db->join('qyura_specialities as spec', 'spec.specialities_id=docSpec.doctorSpecialities_specialitiesId', 'left');
+        $this->db->join('qyura_doctorAcademic as docAca', 'docAca.doctorAcademic_doctorsId=doc.doctors_id', 'left');
+        $this->db->join('qyura_degree as deg', 'deg.degree_id=docAca.doctorAcademic_degreeId', 'left');
         if ($condition)
         $this->db->where(array('doc.doctors_id' => $condition));
         $this->db->where(array('doc.doctors_deleted' => 0));
+        //$this->db->where(array('docSpec.doctorSpecialities_deleted' => 0));
+       // $this->db->where(array('spec.specialities_deleted' => 0,'spec.type' => 1));
+        //$this->db->where(array('deg.degree_deleted' => 0));
+        //$this->db->where(array('docAca.doctorAcademic_deleted' => 0));
+        return  $this->db->get()->result();
 
-      return  $this->db->get()->result();
+ 
+   }
+  
+   function getDocAcaSpec($condition){
+       
+        $this->db->select('doc.doctors_id,spec.specialities_id,docAca.doctorAcademic_id,docAca.doctorAcademic_specialitiesId');
+       
+        $this->db->from('qyura_doctorAcademic AS docAca');
+        $this->db->join('qyura_doctors as doc', 'doc.doctors_id=docAca.doctorAcademic_doctorsId', 'left');
+        $this->db->join('qyura_specialities as spec', 'spec.specialities_id=docAca.doctorAcademic_specialitiesId', 'left');
+        if ($condition)
+        $this->db->where(array('doc.doctors_id' => $condition));
+        $this->db->where(array('doc.doctors_deleted' => 0));
+        $this->db->where(array('spec.specialities_deleted' => 0,'spec.type' => 1));
+        $this->db->where(array('docAca.doctorAcademic_deleted' => 0));
+        return  $this->db->get()->result();
 
  
    }
