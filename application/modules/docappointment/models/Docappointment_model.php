@@ -347,12 +347,12 @@ CASE
     public function getDoctorsList($specialityid, $cityId=NULL) {
 
         // where array
-        $where = array('doctors_deleted' => 0, 'usersRoles_roleId' => 4, 'usersRoles_parentId' => 0);
+        $where = array('doctors_deleted' => 0, 'usersRoles_roleId' => 4, 'usersRoles_parentId' => 0,'qyura_doctors.doctors_roll' => 0);
         if ($specialityid != '' && $specialityid != NULL) {
             $where['qyura_specialities.specialities_id'] = $specialityid;
         }
 
-        $this->db->select('qyura_doctors.doctors_mobile,qyura_doctors.doctors_id as id,qyura_doctors.doctors_userId as userId, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, qyura_doctors.doctors_consultaionFee as consFee, Group_concat(DISTINCT qyura_specialities.specialities_name) as specialityName, Group_concat(DISTINCT qyura_degree.degree_SName) as degree, qyura_doctors.doctors_lat as lat, qyura_doctors.doctors_long as long,qyura_doctors.doctors_27Src as isEmergency, ( FROM_UNIXTIME(qyura_professionalExp.professionalExp_end,"%Y") - FROM_UNIXTIME(qyura_professionalExp.professionalExp_start,"%Y"))  AS exp ,(
+        $this->db->select('qyura_doctors.doctors_roll,qyura_doctors.doctors_mobile,qyura_doctors.doctors_id as id,qyura_doctors.doctors_userId as userId, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, qyura_doctors.doctors_consultaionFee as consFee, Group_concat(DISTINCT qyura_specialities.specialities_name) as specialityName, Group_concat(DISTINCT qyura_degree.degree_SName) as degree, qyura_doctors.doctors_lat as lat, qyura_doctors.doctors_long as long,qyura_doctors.doctors_27Src as isEmergency, ( FROM_UNIXTIME(qyura_professionalExp.professionalExp_end,"%Y") - FROM_UNIXTIME(qyura_professionalExp.professionalExp_start,"%Y"))  AS exp ,(
 CASE 
  WHEN (reviews_rating is not null AND qyura_ratings.rating is not null) 
  THEN
