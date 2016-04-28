@@ -272,10 +272,6 @@ if ($msg != "" || $msg != NULL) {
      $(window).load(function() {
 	$(".page-loader").fadeOut("slow");
     });
-    
-         $(document).ready(function () {
-             $('body').find('.bootbox').css( "top", "25%" );
-         });
 </script>
  <?php echo $this->load->view('common_pages/timeslotScript');?>
 

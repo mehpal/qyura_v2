@@ -24,7 +24,7 @@ class Emergency_model extends CI_Model {
                 ->from('qyura_hospital')
                 ->join('qyura_hospitalSpecialities', 'qyura_hospitalSpecialities.hospitalSpecialities_hospitalId=qyura_hospital.hospital_id', 'left')
                 ->join('qyura_specialities', 'qyura_specialities.specialities_id=qyura_hospitalSpecialities.hospitalSpecialities_specialitiesId', 'left')
-                ->where(array('qyura_hospital.hospital_deleted' => 0,'qyura_hospital.status' => 1, 'qyura_hospital.isEmergency' => 1))
+                ->where(array('qyura_hospital.hospital_deleted' => 0,'qyura_hospital.status' => 0, 'qyura_hospital.isEmergency' => 1))
                 
                 ->where_not_in('qyura_hospital.hospital_id', $notIn)
                 ->order_by('distance', 'ASC')

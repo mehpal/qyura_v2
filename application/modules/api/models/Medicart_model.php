@@ -7,7 +7,8 @@ if(!defined('BASEPATH'))
 class Medicart_model extends Common_model
 {
     
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 	
     }
@@ -24,16 +25,24 @@ class Medicart_model extends Common_model
     }
 
 
-    public function getMedlists($option) {
+   public function getMedlists($option)
+    {
         $lat        =   '';
         $long      =   '';
         $search    =   ''; 
         $notin       =   '';
         
         extract($option);
- 
+//        dump($option);die();
         $nowDt      =   time();
- 
+//        $con = array(
+//                        'qyura_diagnostic.diagnostic_deleted'=>0,
+//                        'qyura_users.users_deleted'=>0,
+//                        'qyura_medicartOffer.medicartOffer_deleted'=>0,
+//                        'qyura_offerCat.offerCat_deleted'=>0,
+//                        'qyura_medicartOffer.medicartOffer_endDate >'=>$nowDt
+//                    );
+        
         if(isset($city) && $city != ""){
             
      
@@ -41,6 +50,7 @@ class Medicart_model extends Common_model
             $con[ 'qyura_medicartOffer.medicartOffer_endDate >']=$nowDt;
             $con[ 'qyura_medicartOffer.status']=1;
             $con[ 'qyura_medicartOffer.medicartOffer_range'] = 0;
+//            dump($city) ;die();
             $this->db->select('qyura_medicartOffer.medicartOffer_id,'
                 . 'qyura_medicartOffer.medicartOffer_MIId,qyura_medicartOffer.medicartOffer_offerCategory,'
                 . 'qyura_medicartOffer.medicartOffer_title,CONCAT("assets/Medicart","/",qyura_medicartOffer.medicartOffer_image) as medicartOffer_image,'
