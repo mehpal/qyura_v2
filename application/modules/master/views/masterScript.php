@@ -48,7 +48,6 @@ if ($current != 'detailDoctor'): ?>
     <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
 <?php else: ?>
     <script  src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
-    <script src="<?php echo base_url(); ?>assets/cropper/gallery_cropper.js"></script>
 <?php endif; ?>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/vendor/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script onkeypress="" onkeydown="" type="text/javascript" src="<?php echo base_url(); ?>assets/vendor/x-editable/jquery.xeditable.js"></script>
@@ -83,6 +82,9 @@ if ($current != 'detailDoctor'): ?>
             event.preventDefault();
             var url = '<?php echo site_url(); ?>/master/saveSpecialities/';
             var formData = new FormData(this);
+            var photo = document.getElementById("avatarInput");
+            var file = photo.files[0];
+            formData.append('avatar_file', file);
             submitData(url,formData);
         });
     });
