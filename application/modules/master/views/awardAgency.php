@@ -31,21 +31,20 @@
                                 foreach ($awardAgency_list as $awardAgency){ ?>
                                 <li class="clearfix degrees membership-plan">
                                     <span class="col-md-10 col-sm-10 col-xs-10">
-                                        
-                                        
-                                        <?php echo strip_tags(substr($awardAgency->agency_name, 0,40)); ?>
+                                        <?php echo $awardAgency->agency_name; ?>
                                     </span>
                                    
                                     <span class="col-lg-2 col-sm-2 col-xs-2">
                                         <a href="#"><i class="md md-edit membership-btn"></i></a>
-                                        <a href="javascript:void(0)" onclick="enableFn('master', 'awardAgencyPublish', '<?php echo $awardAgency->awardAgency_id; ?>','<?php echo $awardAgency->status; ?>')" title='<?php if($awardAgency->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Award Agency' class="pull-right m-l-10 "><i class="fa fa-thumbs-<?php if($awardAgency->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></a>
+                                        <button onclick="if((<?php echo $awardAgency->status; ?>)===2)enableFn('master', 'awardAgencyPublish', '<?php echo $awardAgency->awardAgency_id; ?>','<?php echo $awardAgency->status; ?>')" type="button" class="btn btn-<?php if($awardAgency->status == 2){ echo "danger"; }else if($awardAgency->status == 0){ echo "warning"; }else if($awardAgency->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($awardAgency->status == 3){ echo "Verified"; }else if($awardAgency->status == 2){ echo "Unverified"; }else if($awardAgency->status == 1){ echo "Active"; }else if($awardAgency->status == 0){ echo "Inactive"; } ?></button>
+                                        
                                     </span>
                                 </li>
                                 <li class="newmembership" style="display:none">
                                     <span class="col-md-10">
                                         <input type="hidden" id="awardAgency_id_<?php echo $countAgency; ?>" name="awardAgency_id_<?php echo $countAgency; ?>" value="<?php echo $awardAgency->awardAgency_id	; ?>" >
-                                        <input type="text" name="agency_name_<?php echo $countAgency; ?>" id="agency_name_<?php echo $countAgency; ?>" class="form-control" value="<?php if($awardAgency->agency_name){ echo $awardAgency->agency_name; }else{echo ''; } ?>">
-                                        <label class="error" id="err_agency_name_<?php echo $countAgency; ?>" > <?php echo form_error("agency_name_$countAgency"); ?></label>
+                                        <input type="text" required="" name="agency_name_<?php echo $countAgency; ?>" id="agency_name_<?php echo $countAgency; ?>" class="form-control" value="<?php if($awardAgency->agency_name){ echo $awardAgency->agency_name; }else{echo ''; } ?>">
+                                        <label class="error" id="agency_name_<?php echo $countAgency; ?>" > <?php echo form_error("agency_name_$countAgency"); ?></label>
                                     </span>
                                    
                                     <span class="col-md-2">

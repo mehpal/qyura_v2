@@ -39,8 +39,8 @@
                                 foreach ($specialityList as $key => $val) { ?>
                                     <li class="clearfix  border-t">
                                         <span class="col-md-4">
-                                           
-                                            <h6><?php  echo strip_tags(substr($val->specialities_name, 0,20)); ?></h6>
+
+                                            <h6><?php echo strip_tags(substr($val->specialities_name, 0,20)); ?></h6>
                                         </span>
                                         <span class="col-md-4">
                                             <h6><?php echo strip_tags(substr($val->specialities_drName, 0,20)); ?></h6>
@@ -48,12 +48,12 @@
                                         <span class="col-md-4 text-right">
                                             <h6>
                                                 <a class="btn btn-success waves-effect waves-light m-b-5" href="<?php echo site_url('master/editSpecialitiesView/' . $val->specialities_id); ?>"><i class="fa fa-pencil"></i></a>
-                                                <button onclick="enableFn('master', 'specialityPublish', '<?php echo $val->specialities_id; ?>','<?php echo $val->status; ?>')" title='<?php if($val->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Speciality' type="button" class="btn btn-success waves-effect waves-light m-b-5"><i class="fa fa-thumbs-<?php if($val->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
+                                                <button onclick="if((<?php echo $val->status; ?>)===2)enableFn('master', 'specialityPublish', '<?php echo $val->specialities_id; ?>','<?php echo $val->status; ?>')" type="button" class="btn btn-<?php if($val->status == 2){ echo "danger"; }else if($val->status == 0){ echo "warning"; }else if($val->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($val->status == 3){ echo "Verified"; }else if($val->status == 2){ echo "Unverified"; }else if($val->status == 1){ echo "Active"; }else if($val->status == 0){ echo "Inactive"; } ?></button>
                                             </h6>
                                         </span>
                                         <span class="col-md-8">
-                                             
-                                            <p><?php echo strip_tags(substr($val->speciality_tag, 0,40)); ?></p>
+
+                                            <p><?php echo strip_tags(substr($val->speciality_tag, 0,25)); ?></p>
                                         </span>
                                         <span> 
                                             <img height="80px;" width="80px;" src="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>" class="img-responsive">
@@ -76,12 +76,12 @@
                         </figure>
                         <!-- Add Specialities -->
                         <div class="col-sm-12">
-                            <form  class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" name="addSpecialityForm" method="post" action="#" novalidate="novalidate" enctype="multipart/form-data">
+                            <form  class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" name="addSpecialityForm" method="post" action="#" novalidate="novalidate" enctype="multipart/form-data" onsubmit="return imageValidate()">
 				<input type="hidden" name="specialityType" value="0" />
                                 <article class="clearfix m-t-10">
                                     <label for="" class="control-label">Scientific Name :</label>
                                     <div class="">
-                                        <input class="form-control m-t-5" id="specialityName" type="text" name="specialityName" required="" maxlength="50" value="<?php echo set_value('specialityName'); ?>">
+                                        <input class="form-control m-t-5" id="specialityName" type="text" name="specialityName" required="" value="<?php echo set_value('specialityName'); ?>">
 
                                         <label class="error" id="err_specialityName" > <?php echo form_error("specialityName"); ?></label>
                                     </div>
@@ -89,7 +89,7 @@
                                 <article class="clearfix m-t-10">
                                     <label for="" class="control-label">General Name :</label>
                                     <div class="">
-                                        <input class="form-control m-t-5" id="specialityNamedoctor" type="text" name="specialityNamedoctor" required="" maxlength="50" value="<?php echo set_value('specialityNamedoctor'); ?>">
+                                        <input class="form-control m-t-5" id="specialityNamedoctor" type="text" name="specialityNamedoctor" required="" value="<?php echo set_value('specialityNamedoctor'); ?>">
 
                                         <label class="error" id="err_specialityNamedoctor" > <?php echo form_error("specialityName"); ?></label>
                                     </div>
@@ -104,12 +104,13 @@
                                     <div class="pre col-md-4 col-sm-4 ">
                                     <div id="preImgLogo" class="avatar-preview preview-md">
                                         
-                                   <img src="<?php echo base_url() ?>assets/default-images/ambulance_logo.png"  class="image-preview-show"/>
+                                   <img src="<?php echo base_url() ?>assets/default-images/Dignostics-logo.png"  class="image-preview-show" />
                                         
                                     </div>
                                     </div>
 
                                     <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                    <label class="error" id="error-avatarInput" style="display: none">Please upload an image</label>
                                     <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
                                     
                                     
@@ -131,7 +132,9 @@
                                 <div id="upload_modal_form">
                                     <?php $this->load->view('upload_crop_modal'); ?>
                                 </div>
-                                 
+                                  <div id="upload_modal_form">
+                            <?php $this->load->view('upload_crop_modal');?>
+                        </div>
                             </form>
                         </div>
                         <!-- Add Specialities -->

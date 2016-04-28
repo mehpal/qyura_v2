@@ -64,7 +64,7 @@ class Master extends MY_Controller {
         $total_count = $this->input->post("total_count");
         for($i = 1;$i < $total_count; $i++){
             $this->bf_form_validation->set_rules("degree_id_$i", "Degree Id", 'xss_clean');
-            $this->bf_form_validation->set_rules("degree_SName_$i", "Name", 'required|xss_clean');
+            $this->bf_form_validation->set_rules("degree_SName_$i", "Abbrivation", 'xss_clean');
             $this->bf_form_validation->set_rules("degree_FName_$i", "Name", 'required|xss_clean');
         }
         $this->bf_form_validation->set_rules("total_count", "Count", 'xss_clean');
@@ -92,7 +92,7 @@ class Master extends MY_Controller {
                 $response = $this->common_model->customUpdate($options);
             }
             if ($response) {
-                $responce = array('status' => 1, 'msg' => "Record Updated successfully", 'url' => "master/degree/");
+                $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "master/degree/");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
@@ -148,7 +148,7 @@ class Master extends MY_Controller {
     
     function saveInsurance() {
         
-        $this->bf_form_validation->set_rules("insurance_Name", "Company Name", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("insurance_Name", "Insurance Name", 'required|xss_clean');
         $this->bf_form_validation->set_rules("insurance_detail", "Insurance Detail", 'required|xss_clean');
         if (empty($_FILES['avatar_file']['name'])) {
             $this->bf_form_validation->set_rules('avatar_file', 'File', 'required');
@@ -214,7 +214,7 @@ class Master extends MY_Controller {
         
         $id = $this->input->post('insurance_id');
 
-        $this->bf_form_validation->set_rules("insurance_Name", "Company Name", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("insurance_Name", "Insurance Name", 'required|xss_clean');
         $this->bf_form_validation->set_rules("insurance_detail", "Insurance Detail", 'required|xss_clean');
       
         if ($this->bf_form_validation->run() === False) {
@@ -322,8 +322,8 @@ class Master extends MY_Controller {
     function saveSpecialities() {
 
        
-        $this->bf_form_validation->set_rules("specialityName", "Scientific Name", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("specialityNamedoctor", "General Name", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("specialityName", "Speciality", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("specialityNamedoctor", "Doctor name", 'required|xss_clean');
         $this->bf_form_validation->set_rules("keywords", "Keywords/Tags", 'xss_clean');
         if (empty($_FILES['avatar_file']['name'])) {
             $this->bf_form_validation->set_rules('avatar_file', 'File', 'required');
@@ -369,7 +369,7 @@ class Master extends MY_Controller {
             );
             $degree_insert = $this->common_model->customInsert($options);
             if ($degree_insert) {
-                $responce = array('status' => 1, 'msg' => "MI Speciality added successfully", 'url' => "master/specialities/");
+                $responce = array('status' => 1, 'msg' => "Speciality added successfully", 'url' => "master/specialities/");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
@@ -391,13 +391,12 @@ class Master extends MY_Controller {
         $this->load->super_admin_template('specialityEdit', $data, 'masterScript');
     }
 
-    function editspeciality($id) {
-      
-      
+    function editspeciality() {
+
         $id = $this->input->post('specialityId');
 
-        $this->bf_form_validation->set_rules("specialityName", "Scientific Name", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("specialityNamedoctor", "General Name", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("specialityName", "Speciality", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("specialityNamedoctor", "Doctor name", 'required|xss_clean');
         $this->bf_form_validation->set_rules("keywords", "Keywords/Tags", 'xss_clean');
         
         if ($this->bf_form_validation->run() === False) {
@@ -460,7 +459,6 @@ class Master extends MY_Controller {
                 redirect('master/specialities');
             }
         }
-       
     }
 
     function specialitydelete() {
@@ -526,7 +524,8 @@ class Master extends MY_Controller {
             );
             $response = $this->common_model->customInsert($options);
             if ($response) {
-                $responce = array('status' => 1, 'msg' => "Record Added successfully", 'url' => "master/miType/$hospitalType_miRole");
+                $this->session->set_flashdata('active_tag', $hospitalType_miRole);
+                $responce = array('status' => 1, 'msg' => "Record Added successfully", 'url' => "master/miType/");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
@@ -566,7 +565,8 @@ class Master extends MY_Controller {
                 $response = $this->common_model->customUpdate($options);
             }
             if ($response) {
-                $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "master/miType/$hospitalType_miRole");
+                $this->session->set_flashdata('active_tag', $hospitalType_miRole);
+                $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "master/miType/");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
@@ -578,12 +578,13 @@ class Master extends MY_Controller {
     function miTypePublish() {
         $ena_id = $this->input->post('id');
         $status = $this->input->post('status');
+        $activeTag = $this->input->post('activeTag');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 2) {
-                $update_data['status'] = 3;
-            } else {
+            if ($status == 3) {
                 $update_data['status'] = 2;
+            } else {
+                $update_data['status'] = 3;
             }
             $where = array('hospitalType_id' => $ena_id);
             $updateOptions = array
@@ -595,10 +596,12 @@ class Master extends MY_Controller {
 
             $update = $this->common_model->customUpdate($updateOptions);
 
-            if ($update)
+            if ($update){
+                $this->session->set_flashdata('active_tag', $activeTag);
                 echo $update;
-            else
+            }else{
                 echo '0';
+            }
         }
         else {
             echo 0;
@@ -1031,7 +1034,7 @@ class Master extends MY_Controller {
         $total_count = $this->input->post("total_count");
         for($i = 1;$i < $total_count; $i++){
             $this->bf_form_validation->set_rules("awardAgency_id_$i", "Degree Id", 'xss_clean');
-            $this->bf_form_validation->set_rules("agency_name_$i", "Award Agency Name", 'xss_clean|required');
+            $this->bf_form_validation->set_rules("agency_name_$i", "Award Agency Name", 'xss_clean');
             
         }
         $this->bf_form_validation->set_rules("total_count", "Count", 'xss_clean');
@@ -1112,7 +1115,7 @@ class Master extends MY_Controller {
     }
 
     function departmentSave() {
-        $this->bf_form_validation->set_rules("department_name", "Department Name", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("department_name", "Name", 'required|xss_clean');
         if ($this->bf_form_validation->run() == FALSE) {
             $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
             echo json_encode($response);
@@ -1128,11 +1131,13 @@ class Master extends MY_Controller {
                 'data' => $records_array,
                 'table' => 'qyura_department'
             );
-            $response = $this->common_model->customInsert($options);
-            if ($response) {
+
+            $res = $this->common_model->customInsert($options);
+            //echo $this->db->last_query();
+            if ($res) {
                 $response = array('status' => 2, 'msg' => "Record Added successfully", 'url' => "master/department");
             } else {
-                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $error = array("TopError" => "<strong>Something went wrong while adding your data... sorry.</strong>");
                 $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
             echo json_encode($response);
@@ -1143,7 +1148,7 @@ class Master extends MY_Controller {
         $total_count = $this->input->post("total_count");
         for ($i = 1; $i < $total_count; $i++) {
             $this->bf_form_validation->set_rules("department_id_$i", "Id", 'xss_clean');
-            $this->bf_form_validation->set_rules("department_name_$i", "Department Name", 'required|xss_clean');
+            $this->bf_form_validation->set_rules("department_name_$i", "Name", 'required|xss_clean');
         }
         $this->bf_form_validation->set_rules("total_count", "Count", 'xss_clean');
         if ($this->bf_form_validation->run() == FALSE) {
@@ -1166,7 +1171,7 @@ class Master extends MY_Controller {
                 $response = $this->common_model->customUpdate($options);
             }
             if ($response) {
-                $response = array('status' => 2, 'msg' => "Record Updated successfully", 'url' => "master/department");
+                $response = array('status' => 2, 'msg' => "Record Update successfully", 'url' => "master/department");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
@@ -1287,7 +1292,7 @@ class Master extends MY_Controller {
                 $response = $this->common_model->customUpdate($options);
             }
             if ($response) {
-                $response = array('status' => 2, 'msg' => "Record Updated successfully", 'url' => "master/designation");
+                $response = array('status' => 2, 'msg' => "Record Update successfully", 'url' => "master/designation");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
