@@ -23,7 +23,7 @@ class Medicart_model extends Common_model
     }
 
 
-   public function getMedlists($option)
+    public function getMedlists($option)
     {
         $lat            =   '';
         $long           =   '';
@@ -33,14 +33,13 @@ class Medicart_model extends Common_model
         
         extract($option);
  
-        $nowDt          =   time();
+        $nowDt  =   time();
  
         if(isset($city) && $city != ""){
-            
-     
+                 
             $con['qyura_medicartOffer.medicartOffer_cityId']= $city;
             $con[ 'qyura_medicartOffer.medicartOffer_endDate >']=$nowDt;
-            $con[ 'qyura_medicartOffer.status']=1;
+            $con[ 'qyura_medicartOffer.status']= 1;
             $con[ 'qyura_medicartOffer.medicartOffer_range'] = 0;
 //            dump($city) ;die();
             $this->db->select('qyura_medicartOffer.medicartOffer_id,'
