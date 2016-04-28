@@ -24,20 +24,25 @@ class MedicartApi extends MyRest {
         if(isset($specialities) && $specialities != NULL){
             $count = 0;
             
-            $all["specialities_id"] = 0 ;
-            $all["generalName"] = "All" ;
-            $all["scientificName"] = "All" ;
+            $all["specialities_id"] = "0" ;
+            $all["name"] = "All" ;
+//            $all["scientificName"] = "All" ;
+            $all["specialities_img"] = "assets/specialityImages/3x/allSpeciality.png" ;
+            $all["specialityCount"] = $count;
+            $finalArray[] = $all;
             
             foreach($specialities as $sp){
+                
                 $array["specialities_id"] = (isset($sp->specialities_id) && $sp->specialities_id != NULL) ? $sp->specialities_id: "" ;
-                $array["generalName"] = (isset($sp->specialities_drName) && $sp->specialities_drName != NULL) ? $sp->specialities_drName: "" ;
-                $array["scientificName"] = (isset($sp->specialities_name) && $sp->specialities_name != NULL) ? $sp->specialities_name: "" ;
+                $array["name"] = (isset($sp->specialities_drName) && $sp->specialities_drName != NULL) ? $sp->specialities_drName: "" ;
+//                $array["scientificName"] = (isset($sp->specialities_name) && $sp->specialities_name != NULL) ? $sp->specialities_name: "" ;
+                $array["specialitiesImg"] = (isset($sp->img) && $sp->img != NULL) ? $sp->img: "" ;
+                
                 $array["specialityCount"] = (isset($sp->specialityCount) && $sp->specialityCount != NULL) ? $sp->specialityCount: "" ;
                 $count = $count + $array['specialityCount'];
                 $finalArray[] = $array;
             }
-            $all["specialityCount"] = $count;
-            $finalArray[] = $all;
+            $finalArray[0]["specialityCount"] = "".$count."";
         }
         
         if($finalArray != NULL){
@@ -58,6 +63,7 @@ class MedicartApi extends MyRest {
         $this->bf_form_validation->set_rules('long', 'Long', 'required|decimal');
         $this->bf_form_validation->set_rules('q', 'q', 'trim|xss_clean');
         $this->bf_form_validation->set_rules('notin', 'notin', 'trim|xss_clean');
+        $this->bf_form_validation->set_rules('speciality', 'speciality', 'trim|xss_clean|required');
 
 
         if ($this->bf_form_validation->run() == FALSE) {
