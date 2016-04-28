@@ -15,6 +15,42 @@ class MedicartApi extends MyRest {
         // $this->methods['user_delete']['limit'] = 50; //50 requests per hour per user/key
     }
 
+ 
+    function medicartSpeciality_get(){
+        
+        $specialities = $this->medicart_model->specialityList();
+        $finalArray = NULL;
+        
+        if(isset($specialities) && $specialities != NULL){
+            $count = 0;
+            
+            $all["specialities_id"] = 0 ;
+            $all["generalName"] = "All" ;
+            $all["scientificName"] = "All" ;
+            
+            foreach($specialities as $sp){
+                $array["specialities_id"] = (isset($sp->specialities_id) && $sp->specialities_id != NULL) ? $sp->specialities_id: "" ;
+                $array["generalName"] = (isset($sp->specialities_drName) && $sp->specialities_drName != NULL) ? $sp->specialities_drName: "" ;
+                $array["scientificName"] = (isset($sp->specialities_name) && $sp->specialities_name != NULL) ? $sp->specialities_name: "" ;
+                $array["specialityCount"] = (isset($sp->specialityCount) && $sp->specialityCount != NULL) ? $sp->specialityCount: "" ;
+                $count = $count + $array['specialityCount'];
+                $finalArray[] = $array;
+            }
+            $all["specialityCount"] = $count;
+            $finalArray[] = $all;
+        }
+        
+        if($finalArray != NULL){
+            $response = array('status' => TRUE, 'message' => 'Here is the list of all specialities.', "result" => $finalArray );
+            $this->response($response, 200);
+        }
+        else
+        {
+            $response = array('status' => FALSE, 'message' => 'Network Error .Please retry');
+            $this->response($response, 400);
+        }
+    }
+     
     function list_post() {
 
 

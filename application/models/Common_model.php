@@ -195,7 +195,6 @@ class Common_model extends MY_Model {
             $this->ion_auth->logout();
             
             $this->session->set_flashdata('message', 'You do not have access to this page!');
-            //$this->session->set_flashdata('message', "Login Unsucessfull");
             redirect('auth/login/err', "refresh");
         }
 
