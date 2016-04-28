@@ -1,6 +1,6 @@
 <style>
    .l-height{
-   line-height: 1.6
+   line-height: 2;
    }
 </style>
 <div class="content-page">
@@ -13,29 +13,27 @@
             <!-- Table Section Start -->
             <article class="text-center clearfix">
                <ul class="nav nav-tab nav-setting">
-                  <li class="<?php if($this->uri->segment(3) == '' || $this->uri->segment(3) == 1){ echo "active"; }?>">
-                     <a data-toggle="tab" href="#Hospital">Hospital</a>
-                  </li>
-                  <li class="<?php if($this->uri->segment(3) == 3){ echo "active"; }?>">
-                     <a data-toggle="tab" href="#Diagnostic">Diagnostic Centre</a>
-                  </li>
-                  <!--                            <li class=" ">
-                     <a data-toggle="tab" href="#Doctor">Doctor</a>
-                     </li>-->
-                  <li class="<?php if($this->uri->segment(3) == 2){ echo "active"; }?>">
-                     <a data-toggle="tab" href="#Bloodbank">Blood Bank</a>
-                  </li>
-                  <li class="<?php if($this->uri->segment(3) == 5){ echo "active"; }?>">
-                     <a data-toggle="tab" href="#Pharmacy">Pharmacy</a>
-                  </li>
-                  <li class="<?php if($this->uri->segment(3) == 8){ echo "active"; }?>">
-                     <a data-toggle="tab" href="#Ambulance">Ambulance</a>
-                  </li>
+                   <?php $active_tag = $this->session->flashdata('active_tag'); ?>
+                    <li class="<?php if ($active_tag == '' || $active_tag == 1) { echo "active"; } ?>">
+                       <a data-toggle="tab" href="#Hospital">Hospital</a>
+                    </li>
+                    <li class="<?php if ($active_tag == 3) { echo "active"; } ?>">
+                       <a data-toggle="tab" href="#Diagnostic">Diagnostic Centre</a>
+                    </li>
+                    <li class="<?php if ($active_tag == 2) { echo "active"; } ?>">
+                       <a data-toggle="tab" href="#Bloodbank">Blood Bank</a>
+                    </li>
+                    <li class="<?php if ($active_tag == 5) { echo "active"; } ?>">
+                       <a data-toggle="tab" href="#Pharmacy">Pharmacy</a>
+                    </li>
+                    <li class="<?php if ($active_tag == 8) { echo "active"; } ?>">
+                       <a data-toggle="tab" href="#Ambulance">Ambulance</a>
+                    </li>
                </ul>
             </article>
             <article class="tab-content m-t-20">
                <!-- Hospital Membership Starts -->
-               <section class="tab-pane fade in <?php if($this->uri->segment(3) == '' || $this->uri->segment(3) == 1){ echo "active"; }?>" id="Hospital">
+               <section class="tab-pane fade in <?php if ($active_tag == '' || $active_tag == 1) { echo "active"; } ?>" id="Hospital">
                   <!-- Left Section Start -->
                   <section class="col-md-7 detailbox m-b-20">
                      <aside class="bg-white">
@@ -65,7 +63,7 @@
                                           </span>
                                           <span class="col-md-2">
                                           <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
-                                          <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
+                                          <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>','1')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                           </span>
                                        </div>
                                     <li class="newmembership" style="display:none">
@@ -76,7 +74,7 @@
                                        </span>
                                        <span class="col-md-2">
                                        <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                                       <a href="#"><i class="md md-cancel membership-btn"></i></a>
+                                       <a href="#"><i class="md md-cancel membership-btn l-height"></i></a>
                                        </span>
                                     </li>
                                     </li>
@@ -121,7 +119,7 @@
                </section>
                <!-- Hospital Membership Ends -->
                <!-- Hospital Diagnostic Starts -->
-               <section class="tab-pane fade in <?php if($this->uri->segment(3) == 3){ echo "active"; }?>" id="Diagnostic">
+               <section class="tab-pane fade in <?php if ($active_tag == 3) { echo "active"; } ?>" id="Diagnostic">
                   <!-- Left Section Start -->
                   <section class="col-md-7 detailbox m-b-20">
                      <aside class="bg-white">
@@ -132,14 +130,14 @@
                                  <span class="input-group-btn">
                                  <button class="b-search waves-effect waves-light btn-success" type="button"><i class="fa fa-search"></i></button>
                                  </span>
-                                 <input type="text" placeholder="Search" class="form-control" id="search-text">
+                                 <input type="text" placeholder="Search" class="form-control" id="search-text1">
                               </div>
                            </article>
                         </figure>
                         <div class="nicescroll mxh-400" style="overflow: hidden;" tabindex="5000">
                            <div class="col-md-12 p-t-20 p-b-20">
                               <form name="miDigoForm" action="#" id="miDigoForm" method="post">
-                                 <ul id="list" class="list-unstyled ul-bigspace">
+                                 <ul id="list1" class="list-unstyled ul-bigspace">
                                     <?php $countHospi = 1; if(isset($miList) && $miList != NULL){
                                        foreach ($miList as $list){
                                        if($list->hospitalType_miRole == 3){ ?>
@@ -151,7 +149,7 @@
                                           </span>
                                           <span class="col-md-2">
                                           <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
-                                          <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
+                                          <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>','3')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                           </span>
                                        </div>
                                     <li class="newmembership" style="display:none">
@@ -162,7 +160,7 @@
                                        </span>
                                        <span class="col-md-2">
                                        <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                                       <a href="#"><i class="md md-cancel membership-btn"></i></a>
+                                       <a href="#"><i class="md md-cancel membership-btn l-height"></i></a>
                                        </span>
                                     </li>
                                     </li>
@@ -206,68 +204,8 @@
                   <!-- Right Section End -->
                </section>
                <!-- Hospital Diagnostic Ends -->
-               <!-- Hospital Doctor Starts -->
-               <!--                        <section class="tab-pane fade in " id="Doctor">
-                  Left Section Start 
-                  <section class="col-md-7 detailbox m-b-20">
-                     <aside class="bg-white">
-                         <div class="nicescroll mxh-400" style="overflow: hidden;" tabindex="5000">
-                             <div class="col-md-12 p-t-20 p-b-20">
-                                 <article class="clearfix degrees">
-                                     <div class="membership-plan3" >
-                                         <aside class="col-md-10">
-                                             Medicinae Baccalaureus and Bachelor of Surgery
-                                         </aside>
-                                         <aside class="col-md-2">
-                                             <button class="pull-right btn btn-outline btn-xs" onclick="deleteFn('master', 'mitypeDelete', '<?php //echo $list->hospitalType_id; ?>')" type="button"><img src="<?php echo base_url(); ?>/assets/images/delete.png"></button>
-                                             <a href="#"><i class="md md-cancel"></i></a>
-                                         </aside>
-                                     </div>
-                                     <div class="newmembership3" style="display:none">
-                                         <aside class="col-md-10">
-                                             <form>
-                                                 <input type="text" required="" name="diagnosticCenter" id="diagnosticCenter" class="form-control">
-                                             </form>
-                                         </aside>
-                                         <aside class="col-md-2">
-                                             <a href="#" title="Save"><i class="fa fa-floppy-o membership-btn3"></i></a>
-                                             <a href="#"><i class="md md-cancel membership-btn3"></i></a>
-                                         </aside>
-                                     </div>
-                                 </article>
-                             </div>
-                         </div>
-                     </aside>
-                  </section>
-                  Left Section End 
-                  Right Section Start 
-                  <section class="col-md-5 detailbox">
-                     <div class="bg-white">
-                         <aside class="clearfix">
-                              Appointment Chart 
-                              Add Category 
-                             <div class="col-sm-12">
-                                 <form class="form-horizontal">
-                                     <article class="clearfix m-t-10">
-                                         <label for="" class="control-label">Add New MI Type:</label>
-                                         <div class="">
-                                             <input class="form-control m-t-10" id="categoryName" type="text" name="categoryName" required="" placeholder="Speciality">
-                                         </div>
-                                     </article>
-                                     <article class="clearfix m-t-10 m-b-20">
-                                         <button class="btn btn-success waves-effect waves-light pull-right" type="submit">Submit</button>
-                                     </article>
-                                 </form>
-                             </div>
-                              Add Category 
-                         </aside>
-                     </div>
-                  </section>
-                  Right Section End 
-                  </section>-->
-               <!-- Hospital Doctor Ends -->
                <!-- Hospital Bloodbank Starts -->
-               <section class="tab-pane fade in <?php if($this->uri->segment(3) == 2){ echo "active"; }?> " id="Bloodbank">
+               <section class="tab-pane fade in <?php if ($active_tag == 2) { echo "active"; } ?>" id="Bloodbank">
                   <!-- Left Section Start -->
                   <section class="col-md-7 detailbox m-b-20">
                      <aside class="bg-white">
@@ -278,14 +216,14 @@
                                  <span class="input-group-btn">
                                  <button class="b-search waves-effect waves-light btn-success" type="button"><i class="fa fa-search"></i></button>
                                  </span>
-                                 <input type="text" placeholder="Search" class="form-control" id="search-text">
+                                 <input type="text" placeholder="Search" class="form-control" id="search-text2">
                               </div>
                            </article>
                         </figure>
                         <div class="nicescroll mxh-400" style="overflow: hidden;" tabindex="5000">
                            <div class="col-md-12 p-t-20 p-b-20">
                               <form name="miBloodForm" action="#" id="miBloodForm" method="post">
-                                 <ul id="list" class="list-unstyled ul-bigspace">
+                                 <ul id="list2" class="list-unstyled ul-bigspace">
                                     <?php $countHospi = 1; if(isset($miList) && $miList != NULL){
                                        foreach ($miList as $list){
                                        if($list->hospitalType_miRole == 2){ ?>
@@ -297,7 +235,7 @@
                                           </span>
                                           <span class="col-md-2">
                                           <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
-                                          <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
+                                          <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>','2')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                           </span>
                                        </div>
                                     <li class="newmembership" style="display:none">
@@ -308,7 +246,7 @@
                                        </span>
                                        <span class="col-md-2">
                                        <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                                       <a href="#"><i class="md md-cancel membership-btn"></i></a>
+                                       <a href="#"><i class="md md-cancel membership-btn l-height"></i></a>
                                        </span>
                                     </li>
                                     </li>
@@ -353,7 +291,7 @@
                </section>
                <!-- Hospital Bloodbank Ends -->
                <!-- Hospital Pharmacy Starts -->
-               <section class="tab-pane fade in <?php if($this->uri->segment(3) == 5){ echo "active"; }?>" id="Pharmacy">
+               <section class="tab-pane fade in <?php if ($active_tag == 5) { echo "active"; } ?>" id="Pharmacy">
                   <!-- Left Section Start -->
                   <section class="col-md-7 detailbox m-b-20">
                      <aside class="bg-white">
@@ -364,14 +302,14 @@
                                  <span class="input-group-btn">
                                  <button class="b-search waves-effect waves-light btn-success" type="button"><i class="fa fa-search"></i></button>
                                  </span>
-                                 <input type="text" placeholder="Search" class="form-control" id="search-text">
+                                 <input type="text" placeholder="Search" class="form-control" id="search-text3">
                               </div>
                            </article>
                         </figure>
                         <div class="nicescroll mxh-400" style="overflow: hidden;" tabindex="5000">
                            <div class="col-md-12 p-t-20 p-b-20">
                               <form name="miPharmacyForm" action="#" id="miPharmacyForm" method="post">
-                                 <ul id="list" class="list-unstyled ul-bigspace">
+                                 <ul id="list3" class="list-unstyled ul-bigspace">
                                     <?php $countHospi = 1; if(isset($miList) && $miList != NULL){
                                        foreach ($miList as $list){
                                        if($list->hospitalType_miRole == 5){ ?>
@@ -383,7 +321,7 @@
                                           </span>
                                           <span class="col-md-2">
                                           <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
-                                          <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
+                                          <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>','5')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                           </span>
                                        </div>
                                     <li class="newmembership" style="display:none">
@@ -394,7 +332,7 @@
                                        </span>
                                        <span class="col-md-2">
                                        <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                                       <a href="#"><i class="md md-cancel membership-btn"></i></a>
+                                       <a href="#"><i class="md md-cancel membership-btn l-height"></i></a>
                                        </span>
                                     </li>
                                     </li>
@@ -439,7 +377,7 @@
                </section>
                <!-- Hospital Pharmacy Ends -->
                <!-- Hospital Ambulance Starts -->
-               <section class="tab-pane fade in <?php if($this->uri->segment(3) == 8){ echo "active"; }?>" id="Ambulance">
+               <section class="tab-pane fade in <?php if ($active_tag == 8) { echo "active"; } ?>" id="Ambulance">
                   <!-- Left Section Start -->
                   <section class="col-md-7 detailbox m-b-20">
                      <aside class="bg-white">
@@ -450,14 +388,14 @@
                                  <span class="input-group-btn">
                                  <button class="b-search waves-effect waves-light btn-success" type="button"><i class="fa fa-search"></i></button>
                                  </span>
-                                 <input type="text" placeholder="Search" class="form-control" id="search-text">
+                                 <input type="text" placeholder="Search" class="form-control" id="search-text4">
                               </div>
                            </article>
                         </figure>
                         <div class="nicescroll mxh-400" style="overflow: hidden;" tabindex="5000">
                            <div class="col-md-12 p-t-20 p-b-20">
                               <form name="miAmbulanceForm" action="#" id="miAmbulanceForm" method="post">
-                                 <ul id="list" class="list-unstyled ul-bigspace">
+                                 <ul id="list4" class="list-unstyled ul-bigspace">
                                     <?php $countHospi = 1; if(isset($miList) && $miList != NULL){
                                        foreach ($miList as $list){
                                        if($list->hospitalType_miRole == 8){ ?>
@@ -469,7 +407,7 @@
                                           </span>
                                           <span class="col-md-2">
                                           <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
-                                          <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
+                                          <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>','8')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                           </span>
                                        </div>
                                     <li class="newmembership" style="display:none">
@@ -480,7 +418,7 @@
                                        </span>
                                        <span class="col-md-2">
                                        <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                                       <a href="#"><i class="md md-cancel membership-btn"></i></a>
+                                       <a href="#"><i class="md md-cancel membership-btn l-height"></i></a>
                                        </span>
                                     </li>
                                     </li>
