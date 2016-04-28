@@ -20,23 +20,17 @@ class Ambulance_model extends CI_Model {
         $this->db->order_by("city_name","asc");
         return $this->db->get()->result();
     }
-    function fetchEmail($email,$usersId = NULL){
+    function fetchEmail($email){
         $this->db->select('users_email');
         $this->db->from('qyura_users');
-        $this->db->join('qyura_usersRoles','qyura_usersRoles.usersRoles_userId = qyura_users.users_id','left');
-        if($usersId) {
-            $this->db->where('qyura_users.users_id !=',$usersId);
-        }
-        $this->db->where('qyura_usersRoles.usersRoles_roleId',8);
-         $this->db->where('qyura_users.users_email',$email); 
-       $result = $this->db->get();
-       //return $this->db->last_query();
-       
+        $this->db->where('users_email',$email);
+        $result = $this->db->get();
+       // return $this->db->last_query();
         if($result->num_rows() > 0)
             return 1;
         else             
-            return 0; 
-    }  
+        return 0; 
+    } 
         
     function insertAmbulanceUser($insertData){
       $this->db->insert('qyura_users', $insertData); 
@@ -55,13 +49,11 @@ class Ambulance_model extends CI_Model {
     }
     
     function fetchambulanceData($condition = NULL){
-         $this->db->select('ambulance.ambulance_zip,ambulance.ambulance_docatId,ambulance.ambulance_id,ambulance.ambulance_usersId,City.city_name,ambulance.ambulance_name,ambulance.ambulance_address,ambulance.ambulance_phn,ambulance.ambulance_img,'
-                 . 'usr.users_email,usr.users_password ,ambulance.ambulance_cntPrsn,ambulance.ambulance_lat,ambulance.ambulance_long,usr.users_mobile,ambulance.ambulance_countryId,ambulance.ambulance_stateId,ambulance.ambulance_cityId,ambulance.ambulance_isManual,qyura_country.country,qyura_state.state_statename,'
+         $this->db->select('ambulance.ambulance_id,ambulance.ambulance_usersId,City.city_name,ambulance.ambulance_name,ambulance.ambulance_address,ambulance.ambulance_phn,ambulance.ambulance_img,'
+                 . 'usr.users_email,usr.users_password ,ambulance.ambulance_cntPrsn,ambulance.ambulance_lat,ambulance.ambulance_long,usr.users_mobile'
                  . ',ambulance.ambulance_27Src,ambulance.ambulanceType,ambulance.ambulance_mmbrTyp');
         $this->db->from('qyura_ambulance AS ambulance');
         $this->db->join('qyura_city AS City','City.city_id = ambulance.ambulance_cityId','left');
-        $this->db->join('qyura_country AS qyura_country','qyura_country.country_id = ambulance.ambulance_countryId','left');
-        $this->db->join('qyura_state AS qyura_state','qyura_state.state_id = ambulance.ambulance_stateId','left');
         $this->db->join('qyura_users AS usr','usr.users_id = ambulance.ambulance_usersId','left');
        // $this->db->join('qyura_usersRoles AS Roles','Roles.usersRoles_userId = ambulance.ambulance_usersId','left'); // closed because no data will go in user roll table changed
         if($condition)
@@ -96,28 +88,27 @@ class Ambulance_model extends CI_Model {
             
          $imgUrl = base_url().'assets/ambulanceImages/thumb/thumb_100/$1';    
          
-         $this->datatables->select('ambulance.ambulance_id as id,ambulance.ambulance_usersId,City.city_name,ambulance.ambulance_name,ambulance.ambulance_address,ambulance.ambulance_phn,ambulance.ambulance_img,'
-                 . 'usr.users_email,usr.users_password ,ambulance.ambulance_cntPrsn,ambulance.ambulance_lat,ambulance.ambulance_long,usr.users_mobile,ambulance.status as sts'
+         $this->datatables->select('ambulance.ambulance_id,ambulance.ambulance_usersId,City.city_name,ambulance.ambulance_name,ambulance.ambulance_address,ambulance.ambulance_phn,ambulance.ambulance_img,'
+                 . 'usr.users_email,usr.users_password ,ambulance.ambulance_cntPrsn,ambulance.ambulance_lat,ambulance.ambulance_long,usr.users_mobile'
                  . ',ambulance.ambulance_27Src,ambulance.ambulanceType,ambulance.ambulance_mmbrTyp');
         $this->datatables->from('qyura_ambulance AS ambulance');
         $this->datatables->join('qyura_city AS City','City.city_id = ambulance.ambulance_cityId','left');
         $this->datatables->join('qyura_users AS usr','usr.users_id = ambulance.ambulance_usersId','left');
 
  
-        $search = $this->input->post('ambulanceName');
+        $search = $this->input->post('bloodBank_name');
         if($search){
-             $this->db->group_start();
             $this->db->or_like('ambulance.ambulance_name',$search);
             $this->db->or_like('ambulance.ambulance_address',$search);
            $this->db->or_like('ambulance.ambulance_phn',$search);
-             $this->db->group_end();
+            
         }
      
         $city = $this->input->post('cityId');
         isset($city) && $city != '' ? $this->datatables->where('ambulance_cityId', $city) : '';
         
-        $states = $this->input->post('status');
-        isset($states) && $states != '' ? $this->datatables->where('ambulance.status', $states) : '';
+        $states = $this->input->post('hosStateId');
+        isset($states) && $states != '' ? $this->datatables->where('ambulance_stateId', $states) : '';
         
       
         $this->datatables->order_by('ambulance_id');
@@ -129,11 +120,9 @@ class Ambulance_model extends CI_Model {
         
        $this->datatables->add_column('ambulance_img', '<img class="img-responsive" height="80px;" width="80px;" src='.$imgUrl.'>', 'ambulance_img');
        
-       $this->datatables->add_column('status', '$1', 'statusCheck(ambulance,qyura_ambulance,ambulance_id,id,sts)');
-        
-              $this->datatables->add_column('ambulance_address', '$1 </br><a  href="ambulance/map/$2" class="btn btn-info btn-xs waves-effect waves-light" target="_blank">View Map</a>', 'ambulance_address,id');
+              $this->datatables->add_column('ambulance_address', '$1 </br><a  href="ambulance/map/$2" class="btn btn-info btn-xs waves-effect waves-light" target="_blank">View Map</a>', 'ambulance_address,ambulance_id');
        
-         $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="ambulance/detailAmbulance/$1">View Detail</a>', 'id');
+         $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="ambulance/detailAmbulance/$1">View Detail</a>', 'ambulance_id');
 
         return $this->datatables->generate(); 
         // echo $this->datatables->last_query();
@@ -236,9 +225,9 @@ class Ambulance_model extends CI_Model {
         return $query->result();
     }
     
-    function createCSVdata($where,$search = ''){
-        $imgUrl = base_url() . 'assets/ambulanceImages/thumb/thumb_100/';
-        $this->db->select('ambulance_img,ambulance_name,city_name, ambulance_phn,ambulance_address');
+    function createCSVdata($where){
+        $imgUrl = base_url() . 'assets/ambulanceImages/thumb/original/';
+        $this->db->select('ambulance_img,ambulance_name,city_name, SUBSTRING(ambulance_phn, 1, CHAR_LENGTH(ambulance_phn)-1)AS phone,ambulance_address');
         $this->db->from('qyura_ambulance');
         $this->db->join('qyura_city','city_id = ambulance_cityId','left');
         foreach($where as $key=>$val){
@@ -250,24 +239,15 @@ class Ambulance_model extends CI_Model {
             $this->db->where($key, $val); 
             }
         }
-
-         if(!empty($search)){
-            $this->db->group_start();
-            $this->db->or_like('ambulance_name', $search);
-            $this->db->or_like('ambulance_phn', $search);
-            $this->db->or_like('ambulance_address', $search);
-            $this->db->group_end();
-        }
-        
     
         $data= $this->db->get(); 
         $result= array();
         $i=1;
         foreach($data->result() as $key=>$val){
-            //$result[$i]['ambulance_img'] = $imgUrl.$val->ambulance_img;
+            $result[$i]['ambulance_img'] = $imgUrl.$val->ambulance_img;
             $result[$i]['ambulance_name'] = $val->ambulance_name;
             $result[$i]['city_name'] = $val->city_name;
-            $result[$i]['ambulance_phn'] = $val->ambulance_phn;
+            $result[$i]['ambulance_phn'] = $val->phone;
             $result[$i]['ambulance_address'] = $val->ambulance_address;
            $i++;
         }
@@ -295,18 +275,6 @@ class Ambulance_model extends CI_Model {
         $this->db->update($table, $data);
 
         return $this->db->affected_rows();
-    }
-    function fetchTableData($select = array(),$tableName,$condition = array(),$notIn = array(),$fieldName =''){
-        $this->db->select(implode(",",$select));
-        $this->db->from($tableName);
-        foreach($condition as $key=>$val){
-            $this->db->where($key, $val); 
-        }
-        if(!empty($notIn))
-            $this->db->where_not_in($fieldName,$notIn);
-        $data= $this->db->get(); 
-     return $data->result();
-     
     }
 }   
 
