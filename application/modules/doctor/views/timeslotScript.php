@@ -1,103 +1,103 @@
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         $("#timeForm").submit(function (event) {
             event.preventDefault();
             var url = '<?php echo site_url(); ?>/doctor/addDocTime/';
             var formData = new FormData(this);
-            submitData(url,formData);
+            submitData(url, formData);
         });
-        
+
         hideMI();
         $("#div_psChamber_name").hide();
         $("#div_Mi_name").hide();
         $("#div_address").hide();
-        
-        
-        
-        $("#selectAllDay").click(function(){
-            if($("#selectAllDay").is(':checked') ){
-                $("#docTimeDay_day > option").prop("selected","selected");
+
+
+
+        $("#selectAllDay").click(function () {
+            if ($("#selectAllDay").is(':checked')) {
+                $("#docTimeDay_day > option").prop("selected", "selected");
                 $("#docTimeDay_day").trigger("change");
-            }else{
+            } else {
                 $("#docTimeDay_day > option").removeAttr("selected");
                 $("#docTimeDay_day").trigger("change");
             }
-        }); 
-        
-        $(".docTimeTable_stayAt").click(function(){
-           
         });
-        
-        $("#docTimeTable_MItype").change(function(){
-            
-           if($("#docTimeTable_MItype").val() == "1" ){
-               $("#div_docTimeTable_HprofileId").toggle();
-               $("#div_docTimeTable_DprofileId").hide();
-              // $("#div_address").show();
-           } 
-           else if($("#docTimeTable_MItype").val() == "2" ){
-               $("#div_docTimeTable_DprofileId").toggle();
-               $("#div_docTimeTable_HprofileId").hide();
-               //$("#div_address").show();
-           }
+
+        $(".docTimeTable_stayAt").click(function () {
+
         });
-        
-        $("#docTimeTable_MIprofileId_h").change(function(){
+
+        $("#docTimeTable_MItype").change(function () {
+
+            if ($("#docTimeTable_MItype").val() == "1") {
+                $("#div_docTimeTable_HprofileId").toggle();
+                $("#div_docTimeTable_DprofileId").hide();
+                // $("#div_address").show();
+            }
+            else if ($("#docTimeTable_MItype").val() == "2") {
+                $("#div_docTimeTable_DprofileId").toggle();
+                $("#div_docTimeTable_HprofileId").hide();
+                //$("#div_address").show();
+            }
+        });
+
+        $("#docTimeTable_MIprofileId_h").change(function () {
             $("#div_address").show();
         });
-        
-        $("#docTimeTable_MIprofileId_d").change(function(){
+
+        $("#docTimeTable_MIprofileId_d").change(function () {
             $("#div_address").show();
         });
-        
-        $("#docTimeTable_MIprofileId").change(function(){
-            var proId = $("#docTimeTable_MIprofileId").val() ;
-            
-           if(proId == 0 ){
-               $("#div_docTimeTable_HprofileId").show();
-           } 
-           else{
-               
-               $("#div_docTimeTable_DprofileId").show();
-               $("#div_address").show();
-           }
+
+        $("#docTimeTable_MIprofileId").change(function () {
+            var proId = $("#docTimeTable_MIprofileId").val();
+
+            if (proId == 0) {
+                $("#div_docTimeTable_HprofileId").show();
+            }
+            else {
+
+                $("#div_docTimeTable_DprofileId").show();
+                $("#div_address").show();
+            }
         });
     });
-    
-    function hideMI(){
+
+    function hideMI() {
         $("#div_docTimeTable_MItype").hide();
         $("#div_docTimeTable_HprofileId").hide();
         $("#div_docTimeTable_DprofileId").hide();
     }
-    
-    function placeDetail(stayAtVal){
-        if(stayAtVal == "1" ){
-           $("#div_docTimeTable_MItype").show();
-           $("#div_psChamber_name").hide();
-           $("#div_address").hide();
-           
-        } 
-        else if(stayAtVal == "0" ){
-           $("#div_psChamber_name").show();
-           $('#timeCityId,#stateId,#timeCountryId').selectpicker('refresh');
+
+    function placeDetail(stayAtVal) {
+        if (stayAtVal == "1") {
+            $("#div_docTimeTable_MItype").show();
+            $("#div_psChamber_name").hide();
+            $("#div_address").hide();
+
+        }
+        else if (stayAtVal == "0") {
+            $("#div_psChamber_name").show();
+            $('#timeCityId,#stateId,#timeCountryId').selectpicker('refresh');
             $("#addr,#pinn,#mi_lat,#mi_lng").removeAttr("readonly");
             $("#timeCityId,#stateId,#timeCountryId").prop("disabled", false);
-           
-           hideMI();
-           $("#div_address").show();
+
+            hideMI();
+            $("#div_address").show();
             $("#Miname_div").hide();
-           
+
         }
     }
-    
+
     function getHospitaldetail(Id) {
         var subUrl = '';
-        if($("#docTimeTable_MItype").val() == "1" ){
-           subUrl =  'index.php/doctor/getHospitaldetail';
+        if ($("#docTimeTable_MItype").val() == "1") {
+            subUrl = 'index.php/doctor/getHospitaldetail';
         }
         else
         {
-            subUrl =  'index.php/doctor/getHospitaldetail';
+            subUrl = 'index.php/doctor/getHospitaldetail';
         }
 
         var Id = Id;
@@ -122,9 +122,9 @@
                         $("#mi_lat").val(obj.lat);
                         $("#mi_lng").val(obj.lng);
                         //$("#hospital_name").val(obj.hospital_name);
-                        
+
                         $("#isAddressDisabled").val(1);
-                        
+
                         //$("#addressDiv").css("display","none");
                         $("#addr,#pinn").attr("readonly", true);
                         $("#timeCityId,#stateId,#timeCountryId").prop("disabled", true);
@@ -137,7 +137,7 @@
                         $("#zip").val('');
                         $("#Miname").val('');
                         $("#isAddressDisabled").val(0);
-                        
+
                         $('#timeCityId,#stateId,#timeCountryId').selectpicker('refresh');
                         $("#addr,#pinn,#mi_lat,#mi_lng").removeAttr("readonly");
                         $("#timeCityId,#stateId,#timeCountryId").prop("disabled", false);
@@ -156,27 +156,45 @@
             $("#timeCityId").html();
             $("#timeCityId").val('');
             $("#pinn").val('');
-            
+
             $('#timeCityId,#stateId,#timeCountryId').selectpicker('refresh');
             $("#Miname").val('');
-            
+
             $("#isAddressDisabled").val(0);
-            
+
             // $('#hospital_cityId,#hospital_stateId,#hospital_countryId').selectpicker('refresh');
             $("#addr,#pinn,#Miname").removeAttr("readonly");
-            
+
         }
     }
-    
-    $('#timeForm :input').on('change',function(){
+
+    $('#timeForm :input').on('change', function () {
         var name = $(this).attr('name');
         var isInIT = name.indexOf("[]");
-        if(isInIT == -1){console.log(name,'if');
-        $('#err_'+name).html('');
+        if (isInIT == -1) {
+            console.log(name, 'if');
+            $('#err_' + name).html('');
         }
-        else{
-            name = name.replace('[]','');
-            $('#err_'+name).html('');
+        else {
+            name = name.replace('[]', '');
+            $('#err_' + name).html('');
         }
     });
-    </script>
+
+    function editTimeSloatView(docTimeTableId, doctorId, docTimeDayId, day) {
+        $.ajax({
+            url: urls + 'index.php/doctor/editDocTimeView',
+            type: 'POST',
+            data: {'docTimeTableId': docTimeTableId, 'doctorId': doctorId, 'docTimeDayId': docTimeDayId, 'day': day},
+            beforeSend: function (xhr) {
+                qyuraLoader.startLoader();
+            },
+            success: function (data) {
+                var obj = $.parseJSON(data);
+                $('#formDabba').html(obj.data);
+                qyuraLoader.stopLoader();
+            }
+        });
+    }
+
+</script>

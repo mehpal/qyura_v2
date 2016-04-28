@@ -48,7 +48,6 @@ if ($current != 'detailDoctor'): ?>
     <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
 <?php else: ?>
     <script  src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
-    <script src="<?php echo base_url(); ?>assets/cropper/gallery_cropper.js"></script>
 <?php endif; ?>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/vendor/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script onkeypress="" onkeydown="" type="text/javascript" src="<?php echo base_url(); ?>assets/vendor/x-editable/jquery.xeditable.js"></script>
@@ -83,6 +82,9 @@ if ($current != 'detailDoctor'): ?>
             event.preventDefault();
             var url = '<?php echo site_url(); ?>/master/saveSpecialities/';
             var formData = new FormData(this);
+            var photo = document.getElementById("avatarInput");
+            var file = photo.files[0];
+            formData.append('avatar_file', file);
             submitData(url,formData);
         });
     });
@@ -227,6 +229,7 @@ if ($current != 'detailDoctor'): ?>
           }
        });
     }
+
 </script>
 <script>
     $(".membership-btn").click(function () {
@@ -353,6 +356,16 @@ if ($current != 'detailDoctor'): ?>
         });
 
     }
+    function imageValidate(){
+        var image = $("#avatarInput").val();
+        if (image == '') {
+            $('#image_select').addClass('bdr-error');
+            $('#error-avatarInput').fadeIn().delay(3000).fadeOut('slow');
+            return false;
+        }
+
+    }
+    
 
     function fetchState(countryId) {
         $.ajax({
@@ -475,43 +488,187 @@ if ($current != 'detailDoctor'): ?>
    
    $(document).ready(function() {
    
-   var jobCount = $('#list .in').length;
-   $('.list-count').text(jobCount + ' items');
-   $("#search-text").keyup(function () {
+    var jobCount = $('#list .in').length;
+    $('.list-count').text(jobCount + ' items');
+    $("#search-text").keyup(function () {
     //$(this).addClass('hidden');
-   var searchTerm = $("#search-text").val();
-   var listItem = $('#list').children('li');
-   var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
-     //extends :contains to be case insensitive
-   $.extend($.expr[':'], {
-   'containsi': function(elem, i, match, array)
-   {
-   return (elem.textContent || elem.innerText || '').toLowerCase()
-   .indexOf((match[3] || "").toLowerCase()) >= 0;
-   }
-   });
-   $("#list li").not(":containsi('" + searchSplit + "')").each(function(e)   {
-     $(this).addClass('hiding out').removeClass('in');
-     setTimeout(function() {
-         $('.out').addClass('hidden');
-       }, 300);
-   });
-   
-   $("#list li:containsi('" + searchSplit + "')").each(function(e) {
-     $(this).removeClass('hidden out').addClass('in');
-     setTimeout(function() {
-         $('.in').removeClass('hiding');
-       }, 1);
-   });
-     var jobCount = $('#list .in').length;
-   $('.list-count').text(jobCount + ' items');
-   //shows empty state text when no jobs found
-   if(jobCount == '0') {
-     $('#list').addClass('empty');
-   }
-   else {
-     $('#list').removeClass('empty');
-   }
-   });                 
-   });
+        var searchTerm = $("#search-text").val();
+        var listItem = $('#list').children('li');
+        var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+          //extends :contains to be case insensitive
+        $.extend($.expr[':'], {
+        'containsi': function(elem, i, match, array)
+        {
+        return (elem.textContent || elem.innerText || '').toLowerCase()
+        .indexOf((match[3] || "").toLowerCase()) >= 0;
+        }
+        });
+        $("#list li").not(":containsi('" + searchSplit + "')").each(function(e)   {
+          $(this).addClass('hiding out').removeClass('in');
+          setTimeout(function() {
+              $('.out').addClass('hidden');
+            }, 300);
+        });
+
+        $("#list li:containsi('" + searchSplit + "')").each(function(e) {
+          $(this).removeClass('hidden out').addClass('in');
+          setTimeout(function() {
+              $('.in').removeClass('hiding');
+            }, 1);
+        });
+          var jobCount = $('#list .in').length;
+        $('.list-count').text(jobCount + ' items');
+        //shows empty state text when no jobs found
+        if(jobCount == '0') {
+          $('#list').addClass('empty');
+        }
+        else {
+          $('#list').removeClass('empty');
+        }
+    }); 
+    $("#search-text1").keyup(function () {
+    //$(this).addClass('hidden');
+        var searchTerm = $("#search-text1").val();
+        var listItem = $('#list1').children('li');
+        var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+          //extends :contains to be case insensitive
+        $.extend($.expr[':'], {
+        'containsi': function(elem, i, match, array)
+        {
+        return (elem.textContent || elem.innerText || '').toLowerCase()
+        .indexOf((match[3] || "").toLowerCase()) >= 0;
+        }
+        });
+        $("#list1 li").not(":containsi('" + searchSplit + "')").each(function(e)   {
+          $(this).addClass('hiding out').removeClass('in');
+          setTimeout(function() {
+              $('.out').addClass('hidden');
+            }, 300);
+        });
+
+        $("#list1 li:containsi('" + searchSplit + "')").each(function(e) {
+          $(this).removeClass('hidden out').addClass('in');
+          setTimeout(function() {
+              $('.in').removeClass('hiding');
+            }, 1);
+        });
+          var jobCount = $('#list1 .in').length;
+        $('.list-count').text(jobCount + ' items');
+        //shows empty state text when no jobs found
+        if(jobCount == '0') {
+          $('#list1').addClass('empty');
+        }
+        else {
+          $('#list1').removeClass('empty');
+        }
+    }); 
+    $("#search-text2").keyup(function () {
+    //$(this).addClass('hidden');
+        var searchTerm = $("#search-text2").val();
+        var listItem = $('#list2').children('li');
+        var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+          //extends :contains to be case insensitive
+        $.extend($.expr[':'], {
+        'containsi': function(elem, i, match, array)
+        {
+        return (elem.textContent || elem.innerText || '').toLowerCase()
+        .indexOf((match[3] || "").toLowerCase()) >= 0;
+        }
+        });
+        $("#list2 li").not(":containsi('" + searchSplit + "')").each(function(e)   {
+          $(this).addClass('hiding out').removeClass('in');
+          setTimeout(function() {
+              $('.out').addClass('hidden');
+            }, 300);
+        });
+
+        $("#list2 li:containsi('" + searchSplit + "')").each(function(e) {
+          $(this).removeClass('hidden out').addClass('in');
+          setTimeout(function() {
+              $('.in').removeClass('hiding');
+            }, 1);
+        });
+          var jobCount = $('#list2 .in').length;
+        $('.list-count').text(jobCount + ' items');
+        //shows empty state text when no jobs found
+        if(jobCount == '0') {
+          $('#list2').addClass('empty');
+        }
+        else {
+          $('#list2').removeClass('empty');
+        }
+    }); 
+    $("#search-text3").keyup(function () {
+    //$(this).addClass('hidden');
+        var searchTerm = $("#search-text3").val();
+        var listItem = $('#list3').children('li');
+        var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+          //extends :contains to be case insensitive
+        $.extend($.expr[':'], {
+        'containsi': function(elem, i, match, array)
+        {
+        return (elem.textContent || elem.innerText || '').toLowerCase()
+        .indexOf((match[3] || "").toLowerCase()) >= 0;
+        }
+        });
+        $("#list3 li").not(":containsi('" + searchSplit + "')").each(function(e)   {
+          $(this).addClass('hiding out').removeClass('in');
+          setTimeout(function() {
+              $('.out').addClass('hidden');
+            }, 300);
+        });
+
+        $("#list3 li:containsi('" + searchSplit + "')").each(function(e) {
+          $(this).removeClass('hidden out').addClass('in');
+          setTimeout(function() {
+              $('.in').removeClass('hiding');
+            }, 1);
+        });
+          var jobCount = $('#list3 .in').length;
+        $('.list-count').text(jobCount + ' items');
+        //shows empty state text when no jobs found
+        if(jobCount == '0') {
+          $('#list3').addClass('empty');
+        }
+        else {
+          $('#list3').removeClass('empty');
+        }
+    }); 
+    $("#search-text4").keyup(function () {
+    //$(this).addClass('hidden');
+        var searchTerm = $("#search-text4").val();
+        var listItem = $('#list4').children('li');
+        var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+          //extends :contains to be case insensitive
+        $.extend($.expr[':'], {
+        'containsi': function(elem, i, match, array)
+        {
+        return (elem.textContent || elem.innerText || '').toLowerCase()
+        .indexOf((match[3] || "").toLowerCase()) >= 0;
+        }
+        });
+        $("#list4 li").not(":containsi('" + searchSplit + "')").each(function(e)   {
+          $(this).addClass('hiding out').removeClass('in');
+          setTimeout(function() {
+              $('.out').addClass('hidden');
+            }, 300);
+        });
+
+        $("#list4 li:containsi('" + searchSplit + "')").each(function(e) {
+          $(this).removeClass('hidden out').addClass('in');
+          setTimeout(function() {
+              $('.in').removeClass('hiding');
+            }, 1);
+        });
+          var jobCount = $('#list4 .in').length;
+        $('.list-count').text(jobCount + ' items');
+        //shows empty state text when no jobs found
+        if(jobCount == '0') {
+          $('#list4').addClass('empty');
+        }
+        else {
+          $('#list4').removeClass('empty');
+        }
+    }); 
+    });
 </script>

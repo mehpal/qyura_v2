@@ -1150,35 +1150,46 @@ if (!empty($sMsg)) {
                                                 <div class="clearfix">
                                                     <!--                                                    <div class="clearfix m-t-20 text-center" style="width:1600px">-->
                                                     <div class="clearfix m-t-20 text-center" style="width:1600px">
-
+                                                        <!-- outer  din start -->
+                                                        <?php foreach($timeSloats as $day => $sloats){ ?>
                                                         <div class="clearfix m-t-20 text-center">
                                                             <section class="col-md-2" style="max-width:150px;">
                                                                 <aside class="checkbox checkbox-success text-left">
                                                                     <input type="checkbox" id="checkbox3">
                                                                     <label for="checkbox3">
-                                                                        Monday
+                                                                        <?php echo $day; ?>
                                                                     </label>
                                                                 </aside>
                                                             </section>
                                                             <div class="col-md-10">
 
                                                                 <article class="effects effect-1  clearfix ">
-                                                                    <div style="" data-toggle="tooltip" data-placement="right" data-html="true" title="<h4>Dr Avinash Garg</h4><p><b>Address:</b>416, Shekhar Central Palasia Indore</p><p><b>Consulting Fee:</b> 500</p>" class="blue-ttl img">
+                                                                    <!-- inner taric -->
+                                                                    <?php foreach ($sloats as $sloat) { ?>
+                                                                    <div style="" data-toggle="tooltip" data-placement="right" data-html="true" title="<h4><?php echo ucfirst($sloat->doctors_fName).' '.ucfirst($sloat->doctors_lName); ?></h4><p><b>Address:</b><?php echo $sloat->address; ?></p><p><b>Consulting Fee:</b> <?php echo $sloat->price; ?></p>" class="blue-ttl img">
 
                                 <div class="clearfix">
-                                    <h4>10:00 AM</h4>
-                                    <h4>11:30 AM</h4>
+                                    <h4><?php echo date('h:i A',strtotime($sloat->open)); ?></h4>
+                                    <h4><?php echo date('h:i A',strtotime($sloat->close)); ?></h4>
                                 </div>
                                 <div class="overlay1">
-                                    <a href="#" class="expand" title="Edit"><i class="fa fa-pencil"></i></a>
+                                    <?php echo $sloat->docTimeTableId; ?>
+                                    <?php echo $sloat->doctorId; ?>
+                                    <?php echo $sloat->docTimeDayId; ?>
+                                    <?php echo $sloat->day; ?>
+                                    <a href="javascript:void(0)" onclick="editTimeSloatView('<?php echo $sloat->docTimeTableId ?>','<?php echo $sloat->doctorId ?>','<?php echo $sloat->docTimeDayId ?>','<?php echo $sloat->day ?>')"  class="expand" title="Edit"><i class="fa fa-pencil"></i></a>
                                     <!-- <a class="close-overlay hidden">x</a> -->
                                 </div>
                                                                     </div>
-                                                               
+                                                                    <?php } ?>
+                                                                    <!-- inner taric samapt -->
                                                                 </article>
 
                                                             </div>
                                                         </div>
+                                                        <?php } ?>
+                                                        <!-- outer  din samapt -->
+                                                        
                                                         </div>
                                                         </aside>
                                                         </section>
@@ -1192,7 +1203,7 @@ if (!empty($sMsg)) {
                                                                         <h3>Add New Time slot</h3>
                                                                     </figure>
                                                                     <!-- Add Specialities -->
-                                                                    <div class="col-sm-12">
+                                                                    <div id="formDabba" class="col-sm-12">
                                                                         <form  class="cmxform form-horizontal tasi-form avatar-form" id="timeForm" name="addDoctorSlot" method="post" action="#" novalidate="novalidate">
                                                                             <article class="clearfix m-t-10">
                                                                                 <label class="control-label" for="docTimeTable_stayAt">Seating Place Type:</label>

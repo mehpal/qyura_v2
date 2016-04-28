@@ -25,22 +25,16 @@ class Medicart_model extends Common_model
 
    public function getMedlists($option)
     {
-        $lat        =   '';
-        $long      =   '';
-        $search    =   ''; 
-        $notin       =   '';
+        $lat            =   '';
+        $long           =   '';
+        $search         =   ''; 
+        $notin          =   '';
+        $speciality     =   '';
         
         extract($option);
-//        dump($option);die();
-        $nowDt      =   time();
-//        $con = array(
-//                        'qyura_diagnostic.diagnostic_deleted'=>0,
-//                        'qyura_users.users_deleted'=>0,
-//                        'qyura_medicartOffer.medicartOffer_deleted'=>0,
-//                        'qyura_offerCat.offerCat_deleted'=>0,
-//                        'qyura_medicartOffer.medicartOffer_endDate >'=>$nowDt
-//                    );
-        
+ 
+        $nowDt          =   time();
+ 
         if(isset($city) && $city != ""){
             
      

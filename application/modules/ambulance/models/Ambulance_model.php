@@ -104,12 +104,13 @@ class Ambulance_model extends CI_Model {
         $this->datatables->join('qyura_users AS usr','usr.users_id = ambulance.ambulance_usersId','left');
 
  
-        $search = $this->input->post('bloodBank_name');
+        $search = $this->input->post('ambulanceName');
         if($search){
+             $this->db->group_start();
             $this->db->or_like('ambulance.ambulance_name',$search);
             $this->db->or_like('ambulance.ambulance_address',$search);
            $this->db->or_like('ambulance.ambulance_phn',$search);
-            
+             $this->db->group_end();
         }
      
         $city = $this->input->post('cityId');

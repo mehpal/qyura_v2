@@ -320,6 +320,8 @@ class Master extends MY_Controller {
     }
 
     function saveSpecialities() {
+
+       
         $this->bf_form_validation->set_rules("specialityName", "Speciality", 'required|xss_clean');
         $this->bf_form_validation->set_rules("specialityNamedoctor", "Doctor name", 'required|xss_clean');
         $this->bf_form_validation->set_rules("keywords", "Keywords/Tags", 'xss_clean');
@@ -331,13 +333,14 @@ class Master extends MY_Controller {
             $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
             echo json_encode($responce);
         } else {
+
             $imagesname = '';
             if ($_FILES['avatar_file']['name']) {
                 $path = realpath(FCPATH . 'assets/specialityImages/3x/');
                 $upload_data = $this->input->post('avatar_data');
                 $upload_data = json_decode($upload_data);
 
-                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/specialityImages/', './assets/specialityImages/3x/', 'special');
+                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/specialityImages/', './assets/specialityImages/thumb/', 'special');
 
                 if (empty($original_imagesname)) {
                     $this->session->set_flashdata('valid_upload', $this->error_message);
@@ -345,7 +348,6 @@ class Master extends MY_Controller {
                     $imagesname = $original_imagesname;
                 }
             }
-
             $specialityName = $this->input->post('specialityName');
             $specialityNamedoctor = $this->input->post('specialityNamedoctor');
             $keywords = $this->input->post('keywords');
@@ -434,10 +436,11 @@ class Master extends MY_Controller {
                 'specialities_name' => $specialityName,
                 'speciality_tag' => $keywords,
                 'specialities_drName' => $specialityNamedoctor,
+                'specialities_img' => $imagesname,
                 'modifyTime' => strtotime(date("d-m-Y H:i:s"))
             );
-            if(isset($imagesname) && $imagesname != ''){
-                $records_array['specialities_img'] = $imagesname;
+            if(empty($imagesname) || $imagesname != '' || $imagesname === NULL){
+                unset($records_array['specialities_img']);
             }
             $where = array(
                 'specialities_id' => $id
@@ -521,7 +524,8 @@ class Master extends MY_Controller {
             );
             $response = $this->common_model->customInsert($options);
             if ($response) {
-                $responce = array('status' => 1, 'msg' => "Record Added successfully", 'url' => "master/miType/$hospitalType_miRole");
+                $this->session->set_flashdata('active_tag', $hospitalType_miRole);
+                $responce = array('status' => 1, 'msg' => "Record Added successfully", 'url' => "master/miType/");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
@@ -561,7 +565,8 @@ class Master extends MY_Controller {
                 $response = $this->common_model->customUpdate($options);
             }
             if ($response) {
-                $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "master/miType/$hospitalType_miRole");
+                $this->session->set_flashdata('active_tag', $hospitalType_miRole);
+                $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "master/miType/");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
@@ -573,12 +578,13 @@ class Master extends MY_Controller {
     function miTypePublish() {
         $ena_id = $this->input->post('id');
         $status = $this->input->post('status');
+        $activeTag = $this->input->post('activeTag');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 2) {
-                $update_data['status'] = 3;
-            } else {
+            if ($status == 3) {
                 $update_data['status'] = 2;
+            } else {
+                $update_data['status'] = 3;
             }
             $where = array('hospitalType_id' => $ena_id);
             $updateOptions = array
@@ -590,10 +596,12 @@ class Master extends MY_Controller {
 
             $update = $this->common_model->customUpdate($updateOptions);
 
-            if ($update)
+            if ($update){
+                $this->session->set_flashdata('active_tag', $activeTag);
                 echo $update;
-            else
+            }else{
                 echo '0';
+            }
         }
         else {
             echo 0;
@@ -1123,11 +1131,13 @@ class Master extends MY_Controller {
                 'data' => $records_array,
                 'table' => 'qyura_department'
             );
-            $response = $this->common_model->customInsert($options);
-            if ($response) {
+
+            $res = $this->common_model->customInsert($options);
+            //echo $this->db->last_query();
+            if ($res) {
                 $response = array('status' => 2, 'msg' => "Record Added successfully", 'url' => "master/department");
             } else {
-                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $error = array("TopError" => "<strong>Something went wrong while adding your data... sorry.</strong>");
                 $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
             echo json_encode($response);
