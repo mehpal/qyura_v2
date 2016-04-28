@@ -15,6 +15,11 @@ class MedicartApi extends MyRest {
         // $this->methods['user_delete']['limit'] = 50; //50 requests per hour per user/key
     }
 
+    function medicartSpeciality(){
+        $specialities = $this->medicart_model->specialityList();
+        
+    }
+    
     function list_post() {
 
 
@@ -349,8 +354,7 @@ class MedicartApi extends MyRest {
         }
     }
     
-    function _check_date($str_in = '')
-    {
+    function _check_date($str_in = '') {
         
         $medicartOfferId = isset($_POST['medicartOfferId'])?$this->input->post('medicartOfferId'):'';
         $medicartOfferData = $this->medicart_model->getSingleData(array('medicartOffer_id'=>$medicartOfferId,'medicartOffer_deleted'=>0),'medicartOffer_id,medicartOffer_startDate as startDate,medicartOffer_endDate as endDate');
@@ -380,8 +384,7 @@ class MedicartApi extends MyRest {
         return TRUE;
     }
     
-    function _check_allowBooking($str_in= '')
-    {
+    function _check_allowBooking($str_in= '')  {
         $medicartOfferId = isset($_POST['medicartOfferId'])?$this->input->post('medicartOfferId'):'';
         $medicartOfferData = $this->medicart_model->getSingleData(array('medicartOffer_id'=>$medicartOfferId,'medicartOffer_deleted'=>0),'medicartOffer_id,medicartOffer_startDate as startDate,medicartOffer_endDate as endDate,qyura_medicartOffer.medicartOffer_allowBooking as allowBooking');
         

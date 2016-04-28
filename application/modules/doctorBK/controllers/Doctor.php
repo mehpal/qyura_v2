@@ -268,8 +268,8 @@ class Doctor extends MY_Controller {
             $acdemic_addyear = $this->input->post('acdemic_addyear');
             for ($i = 0; $i < count($doctorAcademic_degreeId); $i++) {
                 /* here one more table insertion needed for academic image load on qyura_doctorAcademicImage table,
-                 *  but write now it is not here
-                 */
+                *  but write now it is not here
+                */
                 if ($doctorAcademic_degreeId[$i] != '' && $doctorSpecialities_specialitiesCatId[$i] != '' && $acdemic_addaddress[$i] != '' && $acdemic_addyear[$i] != '') {
                     $doctorAcademicData = array(
                         'doctorAcademic_degreeId' => $doctorAcademic_degreeId[$i],
