@@ -31,6 +31,7 @@
                                         <!-- Left Section Start -->
                                         <input type="hidden" id="membership_id" name="membership_id" value="<?php if(isset($membership->membership_id)){ echo $membership->membership_id; }else{ echo ""; }; ?>">
                                         <section class="col-md-8 detailbox">
+                                            <input type="hidden" name="active_tag" id="active_tag" value="<?php echo $membership->membership_type ?>">
                                             <div class="mi-form-section">
                                                 <!-- Table Section End -->
                                                 <div class="clearfix m-t-20 p-b-20">
@@ -42,10 +43,7 @@
                                                                     <select class="selectpicker" data-width="100%" name="membership_type" id="membership_type" >
                                                                         <option value="">Select Type</option>
                                                                         <option <?php if($membership->membership_type){ if($membership->membership_type == 1){ echo "selected"; } } ?> value="1">Hospital</option>
-                                                                        <option <?php if($membership->membership_type){ if($membership->membership_type == 2){ echo "selected"; } } ?> value="2">Blood Bank</option>
                                                                         <option <?php if($membership->membership_type){ if($membership->membership_type == 3){ echo "selected"; } } ?> value="3">Diagnostics</option>
-                                                                        <option <?php if($membership->membership_type){ if($membership->membership_type == 5){ echo "selected"; } } ?> value="5">Pharmacy</option>
-                                                                        <option <?php if($membership->membership_type){ if($membership->membership_type == 8){ echo "selected"; } } ?> value="8">Ambulance</option>
                                                                     </select>
                                                                     <label class="error" id="err_membership_type" > <?php echo form_error("membership_type"); ?></label>
                                                                 </div>
@@ -53,24 +51,40 @@
                                                         </div>
                                                     </article>
                                                     <article class="clearfix m-t-30">
-                                                        <label for="cemail" class="control-label col-md-4 col-sm-4">Membership Title :</label>
-                                                        <div class="col-md-8 col-sm-8">
+                                                        <label for="cemail" class="control-label col-md-4 col-sm-4 m-t-10">Membership Title :</label>
+                                                        <div class="col-md-8 col-sm-8 m-t-10">
                                                             <input class="form-control" id="membership_name" name="membership_name" type="text" required="" value="<?php if(isset($membership->membership_name)){ echo $membership->membership_name; }else{ echo ""; }; ?>"> 
                                                             <label class="error" id="err_membership_name" > <?php echo form_error("membership_name"); ?></label>
                                                         </div>
                                                     </article>
                                                     <article class="clearfix m-t-10">
-                                                        <label for="cname" class="control-label col-sm-12">Select  :</label>
+                                                        <label for="cname" class="control-label col-sm-3">Facilities :</label>
+                                                        <label for="cname" class="control-label col-sm-1"></label>
+                                                        <label for="cname" class="control-label col-sm-4">Quantity :</label>
+                                                        <label for="cname" class="control-label col-sm-4">Duration :</label>
                                                     </article>
                                                     <article class="clearfix m-t-10">
                                                         <?php $checkBocCount = 1; 
                                                         if(isset($facilities_list) && $facilities_list != NULL){ 
-                                                        foreach($facilities_list as $facilities){?>
-                                                        <label class="control-label col-md-4 col-xs-9" for="cname"><?php echo $facilities->facilities_name; ?></label>
-                                                        <div class="col-md-2 col-xs-3">
-                                                            <aside class="checkbox checkbox-success m-t-5">
-                                                                <input type="checkbox" value="<?php echo $facilities->facilities_id; ?>" id="checkbox_<?php echo $checkBocCount; ?>" name="checkbox_<?php echo $checkBocCount; ?>" <?php if(isset($membershipFacilitiesArray) && !empty($membershipFacilitiesArray)){ if(in_array($facilities->facilities_id, $membershipFacilitiesArray)){ echo"checked"; } }?> >
-                                                                <label></label>
+                                                        foreach($facilities_list as $facilities){
+                                                            $count = $checkBocCount - 1;  ?>
+                                                        <label class="control-label col-md-3 col-xs-9" for="cname"><?php echo $facilities->facilities_name; ?></label>
+                                                        <div class="col-md-8 col-sm-8">
+                                                            <aside class="row">
+                                                                <div class="col-md-1 col-sm-1 checkbox checkbox-success">
+                                                                    <input type="checkbox" value="<?php echo $facilities->facilities_id; ?>" id="checkbox_<?php echo $checkBocCount; ?>" name="checkbox_<?php echo $checkBocCount; ?>" <?php if(isset($membershipFacilitiesArray) && !empty($membershipFacilitiesArray)){ if(in_array($facilities->facilities_id, $membershipFacilitiesArray)){ echo"checked"; } }?> >
+                                                                    <label></label>
+                                                                </div>
+                                                                <div class="col-md-6 col-sm-6">
+                                                                    <input type="number" id="membership_quantity_<?php echo $checkBocCount; ?>" name="membership_quantity_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" value="<?php if(isset($membershipFacilities[$count]->membershipFacilities_quantity) && $membershipFacilities[$count]->membershipFacilities_quantity != NULL){ echo $membershipFacilities[$count]->membershipFacilities_quantity; } ?>"/>
+                                                                    <label class="error" id="err_membership_quantity_<?php echo $checkBocCount; ?>" > <?php echo form_error("membership_quantity"); ?></label>
+                                                                </div>
+                                                                <?php if($facilities->facilities_id == 3 || $facilities->facilities_id == 5){ ?>
+                                                                    <div class="col-md-5 col-sm-5 m-t-xs-10">
+                                                                        <input type="number" id="membership_duration_<?php echo $checkBocCount; ?>" name="membership_duration_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" value="<?php if(isset($membershipFacilities[$count]->membershipFacilities_duration) && $membershipFacilities[$count]->membershipFacilities_duration != NULL){ echo $membershipFacilities[$count]->membershipFacilities_duration; } ?>"/>
+                                                                        <label class="error" id="err_membership_duration_<?php echo $checkBocCount; ?>" > <?php echo form_error("membership_duration"); ?></label>
+                                                                    </div>
+                                                                <?php } ?>
                                                             </aside>
                                                         </div>
                                                         <?php $checkBocCount++;} } ?>
@@ -79,15 +93,6 @@
                                                         <label for="cname" class="control-label col-md-4 col-sm-4">Price:</label>
                                                         <div class="col-md-8 col-sm-8">
                                                             <aside class="row">
-                                                                <div class="col-md-6 col-sm-6">
-                                                                    <select class="selectpicker" data-width="100%" name="membership_plan" id="membership_plan">
-                                                                        <option <?php if($membership->membership_type){ if($membership->membership_plan == 1){ echo "selected"; } } ?> value="1">Monthly</option>
-                                                                        <option <?php if($membership->membership_type){ if($membership->membership_plan == 2){ echo "selected"; } } ?> value="2">Quaterly</option>
-                                                                        <option <?php if($membership->membership_type){ if($membership->membership_plan == 3){ echo "selected"; } } ?> value="3">Half Yearly</option>
-                                                                        <option <?php if($membership->membership_type){ if($membership->membership_plan == 4){ echo "selected"; } } ?> value="4">Yearly</option>
-                                                                    </select>
-                                                                    <label class="error" id="err_membership_plan" > <?php echo form_error("membership_plan"); ?></label>
-                                                                </div>
                                                                 <div class="col-md-6 col-sm-6 m-t-xs-10">
                                                                     <input type="text" id="membership_price" name="membership_price" class="form-control" placeholder="$" value="<?php if(isset($membership->membership_price)){ echo $membership->membership_price; }else{ echo ""; }; ?>" />
                                                                     <label class="error" id="err_membership_price" > <?php echo form_error("membership_price"); ?></label>
