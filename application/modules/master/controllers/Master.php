@@ -106,10 +106,10 @@ class Master extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 3) {
-                $update_data['status'] = 2;
-            } else {
+            if ($status == 2) {
                 $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
             }
             $where = array('degree_id' => $ena_id);
             $updateOptions = array
@@ -279,10 +279,10 @@ class Master extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 3) {
-                $update_data['status'] = 2;
-            } else {
+            if ($status == 2) {
                 $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
             }
             $where = array('insurance_id' => $ena_id);
             $updateOptions = array
@@ -320,6 +320,8 @@ class Master extends MY_Controller {
     }
 
     function saveSpecialities() {
+
+       
         $this->bf_form_validation->set_rules("specialityName", "Speciality", 'required|xss_clean');
         $this->bf_form_validation->set_rules("specialityNamedoctor", "Doctor name", 'required|xss_clean');
         $this->bf_form_validation->set_rules("keywords", "Keywords/Tags", 'xss_clean');
@@ -331,13 +333,14 @@ class Master extends MY_Controller {
             $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
             echo json_encode($responce);
         } else {
+
             $imagesname = '';
             if ($_FILES['avatar_file']['name']) {
                 $path = realpath(FCPATH . 'assets/specialityImages/3x/');
                 $upload_data = $this->input->post('avatar_data');
                 $upload_data = json_decode($upload_data);
 
-                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/specialityImages/', './assets/specialityImages/3x/', 'special');
+                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/specialityImages/', './assets/specialityImages/thumb/', 'special');
 
                 if (empty($original_imagesname)) {
                     $this->session->set_flashdata('valid_upload', $this->error_message);
@@ -345,7 +348,6 @@ class Master extends MY_Controller {
                     $imagesname = $original_imagesname;
                 }
             }
-
             $specialityName = $this->input->post('specialityName');
             $specialityNamedoctor = $this->input->post('specialityNamedoctor');
             $keywords = $this->input->post('keywords');
@@ -434,10 +436,11 @@ class Master extends MY_Controller {
                 'specialities_name' => $specialityName,
                 'speciality_tag' => $keywords,
                 'specialities_drName' => $specialityNamedoctor,
+                'specialities_img' => $imagesname,
                 'modifyTime' => strtotime(date("d-m-Y H:i:s"))
             );
-            if(isset($imagesname) && $imagesname != ''){
-                $records_array['specialities_img'] = $imagesname;
+            if(empty($imagesname) || $imagesname != '' || $imagesname === NULL){
+                unset($records_array['specialities_img']);
             }
             $where = array(
                 'specialities_id' => $id
@@ -746,10 +749,10 @@ class Master extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 3) {
-                $update_data['status'] = 2;
-            } else {
+            if ($status == 2) {
                 $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
             }
             $where = array('diagnosticsCat_catId' => $ena_id);
             $updateOptions = array
@@ -957,10 +960,10 @@ class Master extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 3) {
-                $update_data['status'] = 2;
-            } else {
+            if ($status == 2) {
                 $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
             }
             $where = array('specialities_id' => $ena_id);
             $updateOptions = array
@@ -1071,10 +1074,10 @@ class Master extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 3) {
-                $update_data['status'] = 2;
-            } else {
+            if ($status == 2) {
                 $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
             }
             $where = array('awardAgency_id' => $ena_id);
             $updateOptions = array
@@ -1121,7 +1124,6 @@ class Master extends MY_Controller {
             $department_name = $this->input->post('department_name');
             $records_array = array(
                 'department_name' => $department_name,
-                'status' => 2,
                 'creationTime' => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
@@ -1129,11 +1131,13 @@ class Master extends MY_Controller {
                 'data' => $records_array,
                 'table' => 'qyura_department'
             );
-            $response = $this->common_model->customInsert($options);
-            if ($response) {
+
+            $res = $this->common_model->customInsert($options);
+            //echo $this->db->last_query();
+            if ($res) {
                 $response = array('status' => 2, 'msg' => "Record Added successfully", 'url' => "master/department");
             } else {
-                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $error = array("TopError" => "<strong>Something went wrong while adding your data... sorry.</strong>");
                 $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
             echo json_encode($response);
@@ -1181,10 +1185,10 @@ class Master extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 3) {
-                $update_data['status'] = 2;
-            } else {
+            if ($status == 2) {
                 $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
             }
             $where = array('department_id' => $ena_id);
             $updateOptions = array
@@ -1239,7 +1243,6 @@ class Master extends MY_Controller {
             $records_array = array(
                 'designation_departmentId' => $department_id,
                 'designation_name' => $designation_name,
-                'status'       => 2,
                 'creationTime' => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
@@ -1303,10 +1306,10 @@ class Master extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 3) {
-                $update_data['status'] = 2;
-            } else {
+            if ($status == 2) {
                 $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
             }
             $where = array('designation_id' => $ena_id);
             $updateOptions = array

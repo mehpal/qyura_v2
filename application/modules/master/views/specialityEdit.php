@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="container row " style="width: 500px; margin: 0 auto ; background:whitesmoke;">
-            <form  class="cmxform form-horizontal tasi-form avatar-form"  name="editSpecialityForm" method="post"  action="<?php echo site_url(); ?>/master/editspeciality" novalidate="novalidate" enctype="multipart/form-data" id="submitForm">
+            <form  class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" name="editSpecialityForm" method="post"  action="<?php echo site_url(); ?>/master/editspeciality" novalidate="novalidate" enctype="multipart/form-data" id="submitForm">
                 <?php if (isset($specialityList) && !empty($specialityList)) {
                     foreach ($specialityList as $key => $val) { ?>
                         <input type="hidden" name="specialityId" value="<?php echo $val->specialities_id; ?>" />
@@ -34,11 +34,22 @@
                             </div>
                         </article>
                         <article class="form-group m-lr-0 ">
-                            <label class="control-label col-md-4 col-sm-4" for="cemail"><a href="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>" target="_blank"><img height="80px;" width="80px;" src="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>" class="img-responsive"></a>
+                            <label class="control-label col-md-4 col-sm-4" for="cemail">
+                            <?php if(!empty($val->specialities_img)){
+                                                    ?><a href="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>" target="_blank"><img height="80px;" width="80px;" src="<?php echo base_url()?>assets/specialityImages/3x/<?php echo $val->specialities_img; ?>" class="img-responsive"><?php } else { ?>
+                                                    <img src="<?php echo base_url()?>assets/default-images/Dignostics-logo.png" alt="" class="logo-img" />
+                                               <?php } ?></a>
                             </label>
                             <div class="col-md-8 col-sm-8 text-right avatar-view">
-                                <label for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x "></i></label>
-                                <img src="<?php echo base_url('assets/default-images/Dignostics-logo.png'); ?>" width="70" height="65" class="image-preview-show"/>
+                                <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
+
+                                    <div class="pre col-md-4 col-sm-4 ">
+                                    <div id="preImgLogo" class="avatar-preview preview-md">
+                                        
+                                   <img src="<?php echo base_url() ?>assets/default-images/Dignostics-logo.png"  class="image-preview-show"/>
+                                        
+                                    </div>
+                                    </div>
                             </div>
                             <label class="error" > <?php echo form_error("avatar_file"); ?></label>
                             <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
@@ -50,6 +61,7 @@
                             <?php echo $this->load->view('upload_crop_modal'); ?>
                         </div>
                     <?php } } ?>
+                    
                 </form>
             </div>
         </div>
