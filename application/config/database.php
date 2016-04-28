@@ -66,11 +66,7 @@ $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'root',
-<<<<<<< HEAD
 	'password' => 'mysqlqyura',
-=======
-	'password' => 'password',
->>>>>>> 0207b220f80fd4d4fddbd77f7b1630001d719daa
 	'database' => 'vsure_qyura',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
