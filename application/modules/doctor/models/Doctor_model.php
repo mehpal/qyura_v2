@@ -703,13 +703,10 @@ class Doctor_model extends My_model {
  THEN
       diagnostic_name
  END)
-<<<<<<< HEAD
+
  AS `psChamberName`,GROUP_CONCAT(docTimeDay_day) as `day`,GROUP_CONCAT(docTimeDay_id) as `docTimeDayId`,
  docTimeDay_open as open,docTimeDay_close as close,docTimeDay_docTimeTableId as docTimeTableId,docTimeTable_price as price,docTimeTable_MIprofileId as MIprofileId,docTimeTable_MItype as MItype,docTimeTable_stayAt as stayAt,docTimeTable_doctorId as doctorId,doctors_fName,doctors_lName')
-=======
- AS `psChamberName`,GROUP_CONCAT(docTimeDay_day) as `day`,
- docTimeDay_open as open,docTimeDay_close as close,docTimeDay_docTimeTableId as docTimeTableId,docTimeDay_id as docTimeDayId,docTimeTable_price as price,docTimeTable_MIprofileId as MIprofileId,docTimeTable_MItype as MItype,docTimeTable_stayAt as stayAt,docTimeTable_doctorId as doctorId,doctors_fName,doctors_lName')
->>>>>>> 9d14d3b86926ace805c90dbd445eb84dfca44625
+
                 ->from('qyura_docTimeTable')
                 ->join('qyura_hospital', 'qyura_hospital.hospital_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 1 AND docTimeTable_MItype = 1', 'LEFT')
                 ->join('qyura_doctors', 'qyura_doctors.doctors_id=qyura_docTimeTable.docTimeTable_doctorId', 'LEFT')
