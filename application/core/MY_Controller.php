@@ -32,19 +32,8 @@ class MY_Controller extends CI_Controller {
         $this->small_loader = '<div><img src="' . base_url() . 'images/loader.gif" /></div>';
         $this->access_denied = $this->session->flashdata('access_denied');
         $this->load->helper(array('csv', 'download'));
+        $this->Common_model->mypermission("7");
 
-        /* if ($this->input->is_ajax_request()) {
-          if (!$this->ion_auth->logged_in()) {
-          if (!($this->router->fetch_class() == 'auth' && ($this->router->fetch_method() == 'loginAjax' || $this->router->fetch_method() == 'forgotPasswordAjax'))) {
-          $script = '<script type="text/javascript">
-          $("#headLoginModal").modal("show");
-          </script>';
-          $responce = array('status' => 0, 'isAlive' => FALSE, 'loginMod' => $script);
-          header('Content-Type: application/json');
-          echo json_encode($responce);
-          }
-          }
-          } */
     }
 
     /**

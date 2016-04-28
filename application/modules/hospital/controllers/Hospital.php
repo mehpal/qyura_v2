@@ -116,14 +116,15 @@ class Hospital extends MY_Controller {
         $insurance_condition = '';
         $data['active'] = $active;
         $data['insurance'] = $this->Hospital_model->fetchInsurance($hospitalId);
-        $option = array(
-            'table' => 'qyura_hospitalTimeSlot',
-            'where' => array(
-                'hospitalTimeSlot_hospitalId' => $hospitalId,
-                'hospitalTimeSlot_deleted' => 0
-            )
-        );
-        $data['AlltimeSlot'] = $this->Hospital_model->customGet($option);
+        
+//        $option = array(
+//            'table' => 'qyura_hospitalTimeSlot',
+//            'where' => array(
+//                'hospitalTimeSlot_hospitalId' => $hospitalId,
+//                'hospitalTimeSlot_deleted' => 0
+//            )
+//        );
+//        $data['AlltimeSlot'] = $this->Hospital_model->customGet($option);
 
         $data['gallerys'] = $this->Hospital_model->customGet(array('table' => 'qyura_hospitalImages', 'where' => array('hospitalImages_hospitalId' => $hospitalId, 'hospitalImages_deleted' => 0)));
         if (!empty($data['insurance'])) {
@@ -391,7 +392,7 @@ class Hospital extends MY_Controller {
     }
 
     function SaveHospital() {
-
+       // dump($_POST); exit;
         $this->bf_form_validation->set_rules('hospital_name', 'Hospital Name', 'required|trim');
         $this->bf_form_validation->set_rules('hospital_type', 'Hospital Type', 'required|trim');
         $this->bf_form_validation->set_rules('hospital_address', 'Hospital Address', 'required|trim');
@@ -436,17 +437,13 @@ class Hospital extends MY_Controller {
         $this->bf_form_validation->set_rules('hospital_phn', 'Hospital Phon No.', 'required|trim');
         
         $this->bf_form_validation->set_rules('docatId', 'Docat id', 'trim');
-
-
-         if (empty($_FILES['hospital_img']['name']))
-         {
-          $this->bf_form_validation->set_rules('hospital_img', 'File', 'required');
-         }
+        
         if (empty($_FILES['avatar_file']['name'])) {
 
             $this->bf_form_validation->set_rules('avatar_file', 'File', 'required');
         }
         if ($this->bf_form_validation->run() === FALSE) {
+            echo validation_errors(); exit;
             $data = array();
             $data['allCountry'] = $this->Hospital_model->fetchCountry();
             
@@ -463,6 +460,10 @@ class Hospital extends MY_Controller {
             //$data['allStates'] = $this->Hospital_model->fetchStates($data['hospitalData'][0]->hospital_countryId);
             $data['hospitalType'] = $this->Hospital_model->getHospitalType();
             $data['publishHospital'] = $this->Hospital_model->fetchPublishHospital();
+            
+            $data['bloodBankstatus'] = $this->input->post('bloodbank_chk');
+            $data['amobulancestatus'] = $this->input->post('ambulance_chk');
+            
             $data['hospital_id'] = $this->input->post('hospital_id');
             $data['allStates'] = $this->Hospital_model->fetchStates();
             $data['title'] = 'Add Hospital';
@@ -489,25 +490,6 @@ class Hospital extends MY_Controller {
                 }
             }
 
-
-
-         /*   $hospital_phn = $this->input->post('hospital_phn');
-            $pre_number = $this->input->post('pre_number');
-            $midNumber = $this->input->post('midNumber');
-            $countPnone = $this->input->post('countPnone');
-
-            $finalNumber = '';
-            for ($i = 0; $i < $countPnone; $i++) {
-                if ($hospital_phn[$i] != '' && $pre_number[$i] != '') {
-                    if ($i == ($countPnone) - 1)
-                        $finalNumber .= $pre_number[$i] . ' ' . $midNumber[$i] . ' ' . $hospital_phn[$i];
-                    else
-                        $finalNumber .= $pre_number[$i] . ' ' . $midNumber[$i] . ' ' . $hospital_phn[$i] . '|';
-                }
-            }  */
-
-            // echo $finalNumber;
-            // exit();
             $hospital_id = $this->input->post('hospital_id');
             $hospital_name = $this->input->post('hospital_name');
             $hospital_type = $this->input->post('hospital_type');
@@ -825,14 +807,15 @@ class Hospital extends MY_Controller {
             $data['active'] = 'general';
             $insurance_condition = '';
             $data['insurance'] = $this->Hospital_model->fetchInsurance($hospitalId);
-            $option = array(
-                'table' => 'qyura_hospitalTimeSlot',
-                'where' => array(
-                    'hospitalTimeSlot_hospitalId' => $hospitalId,
-                    'hospitalTimeSlot_deleted' => 0
-                )
-            );
-            $data['AlltimeSlot'] = $this->Hospital_model->customGet($option);
+            
+//            $option = array(
+//                'table' => 'qyura_hospitalTimeSlot',
+//                'where' => array(
+//                    'hospitalTimeSlot_hospitalId' => $hospitalId,
+//                    'hospitalTimeSlot_deleted' => 0
+//                )
+//            );
+//            $data['AlltimeSlot'] = $this->Hospital_model->customGet($option);
 
             $data['gallerys'] = $this->Hospital_model->customGet(array('table' => 'qyura_hospitalImages', 'where' => array('hospitalImages_hospitalId' => $hospitalId, 'hospitalImages_deleted' => 0)));
             if (!empty($data['insurance'])) {
@@ -1512,263 +1495,263 @@ class Hospital extends MY_Controller {
         exit;
     }
 
-    function hospitalAddTimeSlot($hospitalId) {
+//    function hospitalAddTimeSlot($hospitalId) {
+//
+//        $this->bf_form_validation->set_rules('morningStartTime', 'Morning Start Time', 'required|trim');
+//        $this->bf_form_validation->set_rules('morningEndTime', 'Morning End Time', 'required|trim');
+//
+//        $this->bf_form_validation->set_rules('afternoonStartTime', 'Afternoon End Time', 'required|trim');
+//        $this->bf_form_validation->set_rules('afternoonEndTime', 'Afternoon End Time', 'required|trim');
+//
+//        $this->bf_form_validation->set_rules('eveningStartTime', 'Evening End Time', 'required|trim');
+//        $this->bf_form_validation->set_rules('eveningEndTime', 'Evening End Time', 'required|trim');
+//
+//        // $this->bf_form_validation->set_rules('nightStartTime', 'Night End Time', 'required|trim');
+//        //  $this->bf_form_validation->set_rules('nightEndTime', 'Night End Time', 'required|trim');
+//
+//        if ($this->bf_form_validation->run() === FALSE) {
+//            $data = array();
+//            $data['hospitalData'] = $this->Hospital_model->fetchHospitalData($hospitalId);
+//            $data['hospitalType'] = $this->Hospital_model->getHospitalType();
+//            $data['allCountry'] = $this->Hospital_model->fetchCountry();
+//            $data['allCities'] = $this->Hospital_model->fetchCity($data['hospitalData'][0]->hospital_stateId);
+//            $data['allStates'] = $this->Hospital_model->fetchStates($data['hospitalData'][0]->hospital_countryId);
+//
+//            $data['hospitalId'] = $hospitalId;
+//            $data['showStatus'] = 'none';
+//            $data['detailShow'] = 'block';
+//            $insurance_condition = '';
+//            $data['insurance'] = $this->Hospital_model->fetchInsurance($hospitalId);
+//            $option = array(
+//                'table' => 'qyura_hospitalTimeSlot',
+//                'where' => array(
+//                    'hospitalTimeSlot_hospitalId' => $hospitalId,
+//                    'hospitalTimeSlot_deleted' => 0
+//                )
+//            );
+//            $data['AlltimeSlot'] = $this->Hospital_model->customGet($option);
+//
+//            $data['gallerys'] = $this->Hospital_model->customGet(array('table' => 'qyura_hospitalImages', 'where' => array('hospitalImages_hospitalId' => $hospitalId, 'hospitalImages_deleted' => 0)));
+//            if (!empty($data['insurance'])) {
+//                foreach ($data['insurance'] as $key => $val) {
+//                    $insurance_condition[] = $val->hospitalInsurance_insuranceId;
+//                }
+//            }
+//
+//            $data['allInsurance'] = $this->Hospital_model->fetchAllInsurance($insurance_condition);
+//
+//            // $this->load->super_admin_template('hospitalDetail', $data, 'bloodBankScript');
+//            //$this->load->view('hospitalDetail',$data);
+//            $data['title'] = 'Hospital Detail';
+//            $this->load->super_admin_template('hospitalDetail', $data, 'hospitalScript');
+//        } else {
+//
+//            $morningSession = $this->input->post('morningSession');
+//            $afternoonSession = $this->input->post('afternoonSession');
+//            $eveningSession = $this->input->post('eveningSession');
+//            $nightSession = $this->input->post('nightSession');
+//
+//            if ($_POST['morningStartTime'] && $_POST['morningEndTime'] && $_POST['hospitalId']) {
+//                $insertData = array(
+//                    'hospitalTimeSlot_hospitalId' => $this->input->post('hospitalId'),
+//                    'hospitalTimeSlot_startTime' => date('H:i:s', strtotime($this->input->post('morningStartTime'))),
+//                    'hospitalTimeSlot_endTime' => date('H:i:s', strtotime($this->input->post('morningEndTime'))),
+//                    'hospitalTimeSlot_sessionType' => $morningSession,
+//                    'hospitalTimeSlot_deleted' => 0,
+//                    'creationTime' => strtotime(date("Y-m-d H:i:s")),
+//                    'status' => 1
+//                );
+//                $option = array(
+//                    'table' => 'qyura_hospitalTimeSlot',
+//                    'data' => $insertData
+//                );
+//                $this->Hospital_model->customInsert($option);
+//            }
+//
+//            if ($_POST['afternoonStartTime'] && $_POST['afternoonEndTime'] && $_POST['hospitalId']) {
+//                $insertData = array(
+//                    'hospitalTimeSlot_hospitalId' => $this->input->post('hospitalId'),
+//                    'hospitalTimeSlot_startTime' => date('H:i:s', strtotime($this->input->post('afternoonStartTime'))),
+//                    'hospitalTimeSlot_endTime' => date('H:i:s', strtotime($this->input->post('afternoonEndTime'))),
+//                    'hospitalTimeSlot_sessionType' => $afternoonSession,
+//                    'hospitalTimeSlot_deleted' => 0,
+//                    'creationTime' => strtotime(date("Y-m-d H:i:s")),
+//                    'status' => 1
+//                );
+//                $option = array(
+//                    'table' => 'qyura_hospitalTimeSlot',
+//                    'data' => $insertData
+//                );
+//                $this->Hospital_model->customInsert($option);
+//            }
+//
+//            if ($_POST['eveningStartTime'] && $_POST['eveningEndTime'] && $_POST['hospitalId']) {
+//                $insertData = array(
+//                    'hospitalTimeSlot_hospitalId' => $this->input->post('hospitalId'),
+//                    'hospitalTimeSlot_startTime' => date('H:i:s', strtotime($this->input->post('eveningStartTime'))),
+//                    'hospitalTimeSlot_endTime' => date('H:i:s', strtotime($this->input->post('eveningEndTime'))),
+//                    'hospitalTimeSlot_sessionType' => $eveningSession,
+//                    'hospitalTimeSlot_deleted' => 0,
+//                    'creationTime' => strtotime(date("Y-m-d H:i:s")),
+//                    'status' => 1
+//                );
+//                $option = array(
+//                    'table' => 'qyura_hospitalTimeSlot',
+//                    'data' => $insertData
+//                );
+//                $this->Hospital_model->customInsert($option);
+//            }
+//
+//            /*  if ($_POST['nightStartTime'] && $_POST['nightEndTime'] && $_POST['hospitalId']) {
+//              $insertData = array(
+//              'hospitalTimeSlot_hospitalId' => $this->input->post('hospitalId'),
+//              'hospitalTimeSlot_startTime' => date('H:i:s', strtotime($this->input->post('nightStartTime'))),
+//              'hospitalTimeSlot_endTime' => date('H:i:s', strtotime($this->input->post('nightEndTime'))),
+//              'hospitalTimeSlot_sessionType' => $nightSession,
+//              'hospitalTimeSlot_deleted' => 0,
+//              'creationTime' => strtotime(date("Y-m-d H:i:s")),
+//              'status' => 1
+//              );
+//              $option = array(
+//              'table' => 'qyura_hospitalTimeSlot',
+//              'data' => $insertData
+//              );
+//              $this->Hospital_model->customInsert($option);
+//              }
+//             * */
+//
+//            $this->session->set_flashdata('message', 'Your Time Slot has been successfully Added!');
+//            redirect("hospital/detailHospital/$hospitalId");
+//        }
+//    }
 
-        $this->bf_form_validation->set_rules('morningStartTime', 'Morning Start Time', 'required|trim');
-        $this->bf_form_validation->set_rules('morningEndTime', 'Morning End Time', 'required|trim');
-
-        $this->bf_form_validation->set_rules('afternoonStartTime', 'Afternoon End Time', 'required|trim');
-        $this->bf_form_validation->set_rules('afternoonEndTime', 'Afternoon End Time', 'required|trim');
-
-        $this->bf_form_validation->set_rules('eveningStartTime', 'Evening End Time', 'required|trim');
-        $this->bf_form_validation->set_rules('eveningEndTime', 'Evening End Time', 'required|trim');
-
-        // $this->bf_form_validation->set_rules('nightStartTime', 'Night End Time', 'required|trim');
-        //  $this->bf_form_validation->set_rules('nightEndTime', 'Night End Time', 'required|trim');
-
-        if ($this->bf_form_validation->run() === FALSE) {
-            $data = array();
-            $data['hospitalData'] = $this->Hospital_model->fetchHospitalData($hospitalId);
-            $data['hospitalType'] = $this->Hospital_model->getHospitalType();
-            $data['allCountry'] = $this->Hospital_model->fetchCountry();
-            $data['allCities'] = $this->Hospital_model->fetchCity($data['hospitalData'][0]->hospital_stateId);
-            $data['allStates'] = $this->Hospital_model->fetchStates($data['hospitalData'][0]->hospital_countryId);
-
-            $data['hospitalId'] = $hospitalId;
-            $data['showStatus'] = 'none';
-            $data['detailShow'] = 'block';
-            $insurance_condition = '';
-            $data['insurance'] = $this->Hospital_model->fetchInsurance($hospitalId);
-            $option = array(
-                'table' => 'qyura_hospitalTimeSlot',
-                'where' => array(
-                    'hospitalTimeSlot_hospitalId' => $hospitalId,
-                    'hospitalTimeSlot_deleted' => 0
-                )
-            );
-            $data['AlltimeSlot'] = $this->Hospital_model->customGet($option);
-
-            $data['gallerys'] = $this->Hospital_model->customGet(array('table' => 'qyura_hospitalImages', 'where' => array('hospitalImages_hospitalId' => $hospitalId, 'hospitalImages_deleted' => 0)));
-            if (!empty($data['insurance'])) {
-                foreach ($data['insurance'] as $key => $val) {
-                    $insurance_condition[] = $val->hospitalInsurance_insuranceId;
-                }
-            }
-
-            $data['allInsurance'] = $this->Hospital_model->fetchAllInsurance($insurance_condition);
-
-            // $this->load->super_admin_template('hospitalDetail', $data, 'bloodBankScript');
-            //$this->load->view('hospitalDetail',$data);
-            $data['title'] = 'Hospital Detail';
-            $this->load->super_admin_template('hospitalDetail', $data, 'hospitalScript');
-        } else {
-
-            $morningSession = $this->input->post('morningSession');
-            $afternoonSession = $this->input->post('afternoonSession');
-            $eveningSession = $this->input->post('eveningSession');
-            $nightSession = $this->input->post('nightSession');
-
-            if ($_POST['morningStartTime'] && $_POST['morningEndTime'] && $_POST['hospitalId']) {
-                $insertData = array(
-                    'hospitalTimeSlot_hospitalId' => $this->input->post('hospitalId'),
-                    'hospitalTimeSlot_startTime' => date('H:i:s', strtotime($this->input->post('morningStartTime'))),
-                    'hospitalTimeSlot_endTime' => date('H:i:s', strtotime($this->input->post('morningEndTime'))),
-                    'hospitalTimeSlot_sessionType' => $morningSession,
-                    'hospitalTimeSlot_deleted' => 0,
-                    'creationTime' => strtotime(date("Y-m-d H:i:s")),
-                    'status' => 1
-                );
-                $option = array(
-                    'table' => 'qyura_hospitalTimeSlot',
-                    'data' => $insertData
-                );
-                $this->Hospital_model->customInsert($option);
-            }
-
-            if ($_POST['afternoonStartTime'] && $_POST['afternoonEndTime'] && $_POST['hospitalId']) {
-                $insertData = array(
-                    'hospitalTimeSlot_hospitalId' => $this->input->post('hospitalId'),
-                    'hospitalTimeSlot_startTime' => date('H:i:s', strtotime($this->input->post('afternoonStartTime'))),
-                    'hospitalTimeSlot_endTime' => date('H:i:s', strtotime($this->input->post('afternoonEndTime'))),
-                    'hospitalTimeSlot_sessionType' => $afternoonSession,
-                    'hospitalTimeSlot_deleted' => 0,
-                    'creationTime' => strtotime(date("Y-m-d H:i:s")),
-                    'status' => 1
-                );
-                $option = array(
-                    'table' => 'qyura_hospitalTimeSlot',
-                    'data' => $insertData
-                );
-                $this->Hospital_model->customInsert($option);
-            }
-
-            if ($_POST['eveningStartTime'] && $_POST['eveningEndTime'] && $_POST['hospitalId']) {
-                $insertData = array(
-                    'hospitalTimeSlot_hospitalId' => $this->input->post('hospitalId'),
-                    'hospitalTimeSlot_startTime' => date('H:i:s', strtotime($this->input->post('eveningStartTime'))),
-                    'hospitalTimeSlot_endTime' => date('H:i:s', strtotime($this->input->post('eveningEndTime'))),
-                    'hospitalTimeSlot_sessionType' => $eveningSession,
-                    'hospitalTimeSlot_deleted' => 0,
-                    'creationTime' => strtotime(date("Y-m-d H:i:s")),
-                    'status' => 1
-                );
-                $option = array(
-                    'table' => 'qyura_hospitalTimeSlot',
-                    'data' => $insertData
-                );
-                $this->Hospital_model->customInsert($option);
-            }
-
-            /*  if ($_POST['nightStartTime'] && $_POST['nightEndTime'] && $_POST['hospitalId']) {
-              $insertData = array(
-              'hospitalTimeSlot_hospitalId' => $this->input->post('hospitalId'),
-              'hospitalTimeSlot_startTime' => date('H:i:s', strtotime($this->input->post('nightStartTime'))),
-              'hospitalTimeSlot_endTime' => date('H:i:s', strtotime($this->input->post('nightEndTime'))),
-              'hospitalTimeSlot_sessionType' => $nightSession,
-              'hospitalTimeSlot_deleted' => 0,
-              'creationTime' => strtotime(date("Y-m-d H:i:s")),
-              'status' => 1
-              );
-              $option = array(
-              'table' => 'qyura_hospitalTimeSlot',
-              'data' => $insertData
-              );
-              $this->Hospital_model->customInsert($option);
-              }
-             * */
-
-            $this->session->set_flashdata('message', 'Your Time Slot has been successfully Added!');
-            redirect("hospital/detailHospital/$hospitalId");
-        }
-    }
-
-    function UpdateHospitalTimeSlot($hospitalId) {
-
-        $this->bf_form_validation->set_rules('morningStartTime', 'Morning Start Time', 'required|trim');
-        $this->bf_form_validation->set_rules('morningEndTime', 'Morning End Time', 'required|trim');
-
-        $this->bf_form_validation->set_rules('afternoonStartTime', 'Afternoon End Time', 'required|trim');
-        $this->bf_form_validation->set_rules('afternoonEndTime', 'Afternoon End Time', 'required|trim');
-
-        $this->bf_form_validation->set_rules('eveningStartTime', 'Evening End Time', 'required|trim');
-        $this->bf_form_validation->set_rules('eveningEndTime', 'Evening End Time', 'required|trim');
-
-        // $this->bf_form_validation->set_rules('nightStartTime', 'Night End Time', 'required|trim');
-        //   $this->bf_form_validation->set_rules('nightEndTime', 'Night End Time', 'required|trim');
-
-        if ($this->bf_form_validation->run() === FALSE) {
-            $data = array();
-            $data['hospitalData'] = $this->Hospital_model->fetchHospitalData($hospitalId);
-            $data['hospitalType'] = $this->Hospital_model->getHospitalType();
-            $data['allCountry'] = $this->Hospital_model->fetchCountry();
-            $data['allCities'] = $this->Hospital_model->fetchCity($data['hospitalData'][0]->hospital_stateId);
-            $data['allStates'] = $this->Hospital_model->fetchStates($data['hospitalData'][0]->hospital_countryId);
-
-            $data['hospitalId'] = $hospitalId;
-            $data['showStatus'] = 'none';
-            $data['detailShow'] = 'block';
-            $data['showTimeSlot'] = 'active';
-            $data['showTimeSlotBox'] = 'active';
-            $insurance_condition = '';
-            $data['insurance'] = $this->Hospital_model->fetchInsurance($hospitalId);
-            $option = array(
-                'table' => 'qyura_hospitalTimeSlot',
-                'where' => array(
-                    'hospitalTimeSlot_hospitalId' => $hospitalId,
-                    'hospitalTimeSlot_deleted' => 0
-                )
-            );
-            $data['AlltimeSlot'] = $this->Hospital_model->customGet($option);
-
-            $data['gallerys'] = $this->Hospital_model->customGet(array('table' => 'qyura_hospitalImages', 'where' => array('hospitalImages_hospitalId' => $hospitalId, 'hospitalImages_deleted' => 0)));
-            if (!empty($data['insurance'])) {
-                foreach ($data['insurance'] as $key => $val) {
-                    $insurance_condition[] = $val->hospitalInsurance_insuranceId;
-                }
-            }
-
-            $data['allInsurance'] = $this->Hospital_model->fetchAllInsurance($insurance_condition);
-
-            // $this->load->super_admin_template('hospitalDetail', $data, 'bloodBankScript');
-            //$this->load->view('hospitalDetail',$data);
-            $data['title'] = 'Hospital Detail';
-            $this->load->super_admin_template('hospitalDetail', $data, 'hospitalScript');
-        } else {
-
-
-            $morningSession = $this->input->post('morningSession');
-            $afternoonSession = $this->input->post('afternoonSession');
-            $eveningSession = $this->input->post('eveningSession');
-            //   $nightSession = $this->input->post('nightSession');
-
-            if ($_POST['morningStartTime'] && $_POST['morningEndTime'] && $_POST['hospitalId']) {
-                $insertData = array(
-                    'hospitalTimeSlot_startTime' => date('H:i:s', strtotime($this->input->post('morningStartTime'))),
-                    'hospitalTimeSlot_endTime' => date('H:i:s', strtotime($this->input->post('morningEndTime')))
-                );
-                $option = array(
-                    'table' => 'qyura_hospitalTimeSlot',
-                    'data' => $insertData,
-                    'where' => array(
-                        'hospitalTimeSlot_sessionType' => $morningSession,
-                        'hospitalTimeSlot_hospitalId' => $this->input->post('hospitalId')
-                    )
-                );
-                $this->Hospital_model->customUpdate($option);
-            }
-
-            if ($_POST['afternoonStartTime'] && $_POST['afternoonEndTime'] && $_POST['hospitalId']) {
-                $insertData = array(
-                    'hospitalTimeSlot_startTime' => date('H:i:s', strtotime($this->input->post('afternoonStartTime'))),
-                    'hospitalTimeSlot_endTime' => date('H:i:s', strtotime($this->input->post('afternoonEndTime'))),
-                );
-                $option = array(
-                    'table' => 'qyura_hospitalTimeSlot',
-                    'data' => $insertData,
-                    'where' => array(
-                        'hospitalTimeSlot_sessionType' => $afternoonSession,
-                        'hospitalTimeSlot_hospitalId' => $this->input->post('hospitalId')
-                    )
-                );
-                $this->Hospital_model->customUpdate($option);
-            }
-
-            if ($_POST['eveningStartTime'] && $_POST['eveningEndTime'] && $_POST['hospitalId']) {
-                $insertData = array(
-                    'hospitalTimeSlot_startTime' => date('H:i:s', strtotime($this->input->post('eveningStartTime'))),
-                    'hospitalTimeSlot_endTime' => date('H:i:s', strtotime($this->input->post('eveningEndTime')))
-                );
-                $option = array(
-                    'table' => 'qyura_hospitalTimeSlot',
-                    'data' => $insertData,
-                    'where' => array(
-                        'hospitalTimeSlot_sessionType' => $eveningSession,
-                        'hospitalTimeSlot_hospitalId' => $this->input->post('hospitalId')
-                    )
-                );
-                $this->Hospital_model->customUpdate($option);
-            }
-
-            /* if ($_POST['nightStartTime'] && $_POST['nightEndTime'] && $_POST['hospitalId']) {
-              $insertData = array(
-              'hospitalTimeSlot_startTime' => date('H:i:s', strtotime($this->input->post('nightStartTime'))),
-              'hospitalTimeSlot_endTime' => date('H:i:s', strtotime($this->input->post('nightEndTime')))
-              );
-              $option = array(
-              'table' => 'qyura_hospitalTimeSlot',
-              'data' => $insertData,
-              'where' => array(
-              'hospitalTimeSlot_sessionType' => $nightSession,
-              'hospitalTimeSlot_hospitalId' => $this->input->post('hospitalId')
-              )
-              );
-              $this->Hospital_model->customUpdate($option);
-              } */
-
-            $this->session->set_flashdata('message', 'Your Time Slot has been successfully update!');
-            redirect("hospital/detailHospital/$hospitalId/timeslot");
-        }
-    }
+//    function UpdateHospitalTimeSlot($hospitalId) {
+//
+//        $this->bf_form_validation->set_rules('morningStartTime', 'Morning Start Time', 'required|trim');
+//        $this->bf_form_validation->set_rules('morningEndTime', 'Morning End Time', 'required|trim');
+//
+//        $this->bf_form_validation->set_rules('afternoonStartTime', 'Afternoon End Time', 'required|trim');
+//        $this->bf_form_validation->set_rules('afternoonEndTime', 'Afternoon End Time', 'required|trim');
+//
+//        $this->bf_form_validation->set_rules('eveningStartTime', 'Evening End Time', 'required|trim');
+//        $this->bf_form_validation->set_rules('eveningEndTime', 'Evening End Time', 'required|trim');
+//
+//        // $this->bf_form_validation->set_rules('nightStartTime', 'Night End Time', 'required|trim');
+//        //   $this->bf_form_validation->set_rules('nightEndTime', 'Night End Time', 'required|trim');
+//
+//        if ($this->bf_form_validation->run() === FALSE) {
+//            $data = array();
+//            $data['hospitalData'] = $this->Hospital_model->fetchHospitalData($hospitalId);
+//            $data['hospitalType'] = $this->Hospital_model->getHospitalType();
+//            $data['allCountry'] = $this->Hospital_model->fetchCountry();
+//            $data['allCities'] = $this->Hospital_model->fetchCity($data['hospitalData'][0]->hospital_stateId);
+//            $data['allStates'] = $this->Hospital_model->fetchStates($data['hospitalData'][0]->hospital_countryId);
+//
+//            $data['hospitalId'] = $hospitalId;
+//            $data['showStatus'] = 'none';
+//            $data['detailShow'] = 'block';
+//            $data['showTimeSlot'] = 'active';
+//            $data['showTimeSlotBox'] = 'active';
+//            $insurance_condition = '';
+//            $data['insurance'] = $this->Hospital_model->fetchInsurance($hospitalId);
+//            $option = array(
+//                'table' => 'qyura_hospitalTimeSlot',
+//                'where' => array(
+//                    'hospitalTimeSlot_hospitalId' => $hospitalId,
+//                    'hospitalTimeSlot_deleted' => 0
+//                )
+//            );
+//            $data['AlltimeSlot'] = $this->Hospital_model->customGet($option);
+//
+//            $data['gallerys'] = $this->Hospital_model->customGet(array('table' => 'qyura_hospitalImages', 'where' => array('hospitalImages_hospitalId' => $hospitalId, 'hospitalImages_deleted' => 0)));
+//            if (!empty($data['insurance'])) {
+//                foreach ($data['insurance'] as $key => $val) {
+//                    $insurance_condition[] = $val->hospitalInsurance_insuranceId;
+//                }
+//            }
+//
+//            $data['allInsurance'] = $this->Hospital_model->fetchAllInsurance($insurance_condition);
+//
+//            // $this->load->super_admin_template('hospitalDetail', $data, 'bloodBankScript');
+//            //$this->load->view('hospitalDetail',$data);
+//            $data['title'] = 'Hospital Detail';
+//            $this->load->super_admin_template('hospitalDetail', $data, 'hospitalScript');
+//        } else {
+//
+//
+//            $morningSession = $this->input->post('morningSession');
+//            $afternoonSession = $this->input->post('afternoonSession');
+//            $eveningSession = $this->input->post('eveningSession');
+//            //   $nightSession = $this->input->post('nightSession');
+//
+//            if ($_POST['morningStartTime'] && $_POST['morningEndTime'] && $_POST['hospitalId']) {
+//                $insertData = array(
+//                    'hospitalTimeSlot_startTime' => date('H:i:s', strtotime($this->input->post('morningStartTime'))),
+//                    'hospitalTimeSlot_endTime' => date('H:i:s', strtotime($this->input->post('morningEndTime')))
+//                );
+//                $option = array(
+//                    'table' => 'qyura_hospitalTimeSlot',
+//                    'data' => $insertData,
+//                    'where' => array(
+//                        'hospitalTimeSlot_sessionType' => $morningSession,
+//                        'hospitalTimeSlot_hospitalId' => $this->input->post('hospitalId')
+//                    )
+//                );
+//                $this->Hospital_model->customUpdate($option);
+//            }
+//
+//            if ($_POST['afternoonStartTime'] && $_POST['afternoonEndTime'] && $_POST['hospitalId']) {
+//                $insertData = array(
+//                    'hospitalTimeSlot_startTime' => date('H:i:s', strtotime($this->input->post('afternoonStartTime'))),
+//                    'hospitalTimeSlot_endTime' => date('H:i:s', strtotime($this->input->post('afternoonEndTime'))),
+//                );
+//                $option = array(
+//                    'table' => 'qyura_hospitalTimeSlot',
+//                    'data' => $insertData,
+//                    'where' => array(
+//                        'hospitalTimeSlot_sessionType' => $afternoonSession,
+//                        'hospitalTimeSlot_hospitalId' => $this->input->post('hospitalId')
+//                    )
+//                );
+//                $this->Hospital_model->customUpdate($option);
+//            }
+//
+//            if ($_POST['eveningStartTime'] && $_POST['eveningEndTime'] && $_POST['hospitalId']) {
+//                $insertData = array(
+//                    'hospitalTimeSlot_startTime' => date('H:i:s', strtotime($this->input->post('eveningStartTime'))),
+//                    'hospitalTimeSlot_endTime' => date('H:i:s', strtotime($this->input->post('eveningEndTime')))
+//                );
+//                $option = array(
+//                    'table' => 'qyura_hospitalTimeSlot',
+//                    'data' => $insertData,
+//                    'where' => array(
+//                        'hospitalTimeSlot_sessionType' => $eveningSession,
+//                        'hospitalTimeSlot_hospitalId' => $this->input->post('hospitalId')
+//                    )
+//                );
+//                $this->Hospital_model->customUpdate($option);
+//            }
+//
+//            /* if ($_POST['nightStartTime'] && $_POST['nightEndTime'] && $_POST['hospitalId']) {
+//              $insertData = array(
+//              'hospitalTimeSlot_startTime' => date('H:i:s', strtotime($this->input->post('nightStartTime'))),
+//              'hospitalTimeSlot_endTime' => date('H:i:s', strtotime($this->input->post('nightEndTime')))
+//              );
+//              $option = array(
+//              'table' => 'qyura_hospitalTimeSlot',
+//              'data' => $insertData,
+//              'where' => array(
+//              'hospitalTimeSlot_sessionType' => $nightSession,
+//              'hospitalTimeSlot_hospitalId' => $this->input->post('hospitalId')
+//              )
+//              );
+//              $this->Hospital_model->customUpdate($option);
+//              } */
+//
+//            $this->session->set_flashdata('message', 'Your Time Slot has been successfully update!');
+//            redirect("hospital/detailHospital/$hospitalId/timeslot");
+//        }
+//    }
 
     function updateDiagonasticTest() {
         $quotationDetailTests_testName = $this->input->post('quotationDetailTests_testName');

@@ -41,7 +41,7 @@
                                 <label for="cname" class="control-label col-md-4  col-sm-4">Select Name :</label>
                                 <div class="col-md-8 col-sm-8">
                                     <?php $publishHospital[] = (object) array('hospital_id' =>0, 'hospital_name' => 'Other') ?>
-                                    <select class="form-control selectpicker" data-width="100%" name="hospital_id" id="hospital_id" onchange="getHospitaldetail(this.value)" >
+                                    <select class="form-control select2" data-width="100%" name="hospital_id" id="hospital_id" onchange="getHospitaldetail(this.value)" >
                                         <option value="">Select Hospital</option>
                                         <?php if (!empty($publishHospital)) {
                                             
@@ -70,7 +70,7 @@
                             <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4  col-sm-4">Hospital Type :</label>
                                 <div class="col-md-8 col-sm-8">
-                                    <select class="form-control selectpicker" data-width="100%" name="hospital_type" id="hospital_type" >
+                                    <select class="form-control select2" data-width="100%" name="hospital_type" id="hospital_type" >
                                         <?php if (!empty($hospitalType)) {
                                             foreach ($hospitalType as $key => $val) {
                                                 ?>
@@ -111,7 +111,7 @@
                                 <label for="cname" class="control-label col-md-4 col-sm-4">Address:</label>
                                 <div class="col-md-8 col-sm-8">
 
-                                    <select class="form-control selectpicker" data-width="100%" name="hospital_countryId" id="hospital_countryId" onchange ="fetchState(this.value)" <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'disabled'; } ?>>
+                                    <select class="form-control select2" data-width="100%" name="hospital_countryId" id="hospital_countryId" onchange ="fetchState(this.value)" <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'disabled'; } ?>>
                                         <option value="">Select Country</option>
                                         <?php
                                         if (isset($allCountry) && !empty($allCountry)) {
@@ -132,7 +132,7 @@
 
                             <article class="clearfix">
                                 <div class="col-md-8  col-sm-8 col-sm-offset-4">
-                                    <select class="selectpicker form-control" data-width="100%" name="hospital_stateId" id="hospital_stateId" data-size="4" onchange ="fetchCity(this.value)" <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'disabled'; } ?>>
+                                    <select class="select2 form-control" data-width="100%" name="hospital_stateId" id="hospital_stateId" data-size="4" onchange ="fetchCity(this.value)" <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'disabled'; } ?>>
 
                                         <option value="">Select State</option>
                                         <?php
@@ -152,7 +152,7 @@
                             <article class="clearfix">
                                 <div class="col-md-8  col-sm-8 col-sm-offset-4">
 
-                                    <select class="form-control selectpicker" data-width="100%" name="hospital_cityId" id="hospital_cityId" data-size="4" <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'disabled'; } ?>>
+                                    <select class="form-control select2" data-width="100%" name="hospital_cityId" id="hospital_cityId" data-size="4" <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'disabled'; } ?>>
                                         <option value="">Select City</option>
                                         <?php
                                         if (isset($allCities) && !empty($allCities)) {
@@ -320,7 +320,7 @@
                             <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type :</label>
                                 <div class="col-md-8  col-sm-8">
-                                    <select class="selectpicker" data-width="100%" name="hospital_mmbrTyp" id="hospital_mmbrTyp">
+                                    <select class="select2" data-width="100%" name="hospital_mmbrTyp" id="hospital_mmbrTyp">
                                         <option value="1"  <?php echo set_select('hospital_mmbrTyp', '1', TRUE); ?>
                                                 >Life Time</option>
                                         <option value="2"  <?php echo set_select('hospital_mmbrTyp', '2'); ?>
@@ -351,7 +351,7 @@
                                         <label class="control-label col-md-4 col-xs-9" for="cname">Bloodbank </label>
                                         <div class="col-md-8 col-xs-3">
                                             <aside class="checkbox checkbox-success m-t-5">
-                                                <input type="checkbox" id="bloodbank" name="bloodbank_chk" value="1">
+                                                <input type="checkbox" id="bloodbank" name="bloodbank_chk" value="1" <?php echo set_checkbox('bloodbank_chk', '1'); ?>>
                                                 <label>
 
                                                 </label>
@@ -359,11 +359,15 @@
                                         </div>
                                     </article>
 
-                                    <section class="clearfix m-t-10" id="bloodbankOption" style="display:none">
+                                    <section class="clearfix m-t-10" id="bloodbankOption" style="<?php if (isset($bloodBankstatus) && $bloodBankstatus == 1) {
+    echo 'display:block';
+} else {
+    echo 'display:none';
+} ?>">
                                         <article class="clearfix m-t-10 ">
                                             <label for="cemail" class="control-label col-md-4 col-sm-4">Name : </label>
                                             <div class="col-md-8 col-sm-8">
-                                                <input class="form-control" id="bloodBank_name" name="bloodBank_name" type="text" maxlength="30" <?php echo set_value('bloodBank_name'); ?> onblur="bbname();">
+                                                <input class="form-control" id="bloodBank_name" name="bloodBank_name" type="text" maxlength="30" value="<?php echo set_value('bloodBank_name'); ?>" onblur="bbname();">
                                                 <label class="error" style="display:none;" id="error-bloodBank_name"> please Check your BloodBank name</label>
                                             </div>
                                         </article>
@@ -395,7 +399,7 @@
                                                     </div> -->
 
                                                     <div class="col-xs-10 m-t-xs-10" id="multiBloodbnkPhoneNumber">
-                                                        <input type="text" class="form-control" name="bloodBank_phn" id="bloodBank_phn1" maxlength="10" onkeypress="return isNumberKey(event)" minlength="10" pattern=".{10,10}" <?php set_value('bloodBank_phn'); ?>/>
+                                                        <input type="text" class="form-control" name="bloodBank_phn" id="bloodBank_phn1" maxlength="10" onkeypress="return isNumberKey(event)" minlength="10" pattern=".{10,10}" value="<?php echo set_value('bloodBank_phn'); ?>"/>
                                                         <label class="error" style="display:none;" id="error-bloodBank_phone"> please Check your BloodBank Phone</label>
                                                     </div>
 
@@ -417,65 +421,19 @@
                                         <label class="control-label col-md-4 col-xs-9" for="cname">Pharmacy </label>
                                         <div class="col-md-8 col-xs-3">
                                             <aside class="checkbox checkbox-success m-t-5">
-                                                <input type="checkbox" id="pharmacy" name="pharmacy_chk" value="1">
+                                                <input type="checkbox" id="pharmacy" name="pharmacy_chk" value="1" <?php echo set_checkbox('pharmacy_chk', '1'); ?> >
                                                 <label>
 
                                                 </label>
                                             </aside>
                                         </div>
                                     </article>
-                                    
-                                   <!-- <section class="clearfix m-t-10" id="pharmacyOption" style="display:none">
-                                        <article class="form-group m-lr-0 ">
-                                            <label for="cemail" class="control-label col-md-4 col-sm-4">Name : </label>
-                                            <div class="col-md-8 col-sm-8">
-                                                <input class="form-control" id="pharmacy_name" name="pharmacy_name" type="text" maxlength="30" onblur="phname()" value="<?php// set_value('pharmacy_name'); ?>">
-                                                <label class="error" style="display:none;" id="error-pharmacy_name"> please Check your Pharmacy Name</label>
-                                            </div>
-                                        </article>
-                                        <article class="clearfix m-t-10">
-                                            <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
-                                            <div class="col-md-8 col-sm-8 text-right">
-                                                <label for="file-input3"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x"></i></label>
-                                                <input type="file" style="display:none;" class="no-display" id="file-input3" name="pharmacy_img" onchange="ValidateSingleInput(this, '2', '5');">
-                                            </div>
-                                        </article>
-                                        <article class="clearfix m-t-10">
-                                            <label for="cname" class="control-label col-md-4 col-sm-4">Phone:</label>
-                                            <div class="col-md-8 col-sm-8">
-                                                <aside class="row">
-                                                    <div class="col-md-3 col-sm-3 col-xs-12" id="multipharmacyPreNumber">
-                                                        <select class="selectpicker" data-width="100%" name="prePharmacy[]" id="prePharmacy1">
-                                                            <option value='91'>+91</option>
-                                                            <!--<option value='1'>+1</option> -->
-                                                      <!--  </select>
-                                                    </div>
-
-                                                    <div class="col-md-4 col-sm-4 col-xs-10 m-t-xs-10">
-                                                        <input type="text" onkeypress="return isNumberKey(event)" onblur="checkNumber('midNumber', 1)" maxlength="5"  id="pharmacyMidNumber" name="pharmacyMidNumber[]" class="form-control" requird>
-                                                        <label class="error" > <?php // echo form_error("pharmacyMidNumber"); ?></label>
-                                                    </div>
-
-                                                    <div class="col-md-5 col-sm-4 col-xs-10 m-t-xs-10" id="multipharmacyNumber" >
-                                                        <input type="text" class="form-control" name="pharmacy_phn[]" id="pharmacy_phn1" maxlength="8" onblur="phphone()" onkeypress="return isNumberKey(event)"/>
-                                                        <label class="error" style="display:none;" id="error-pharmacy_phn1"> please Check your Pharmacy Phone</label>
-                                                    </div>
-
-                                                    <div class="col-md-2 col-sm-2 col-xs-2 m-t-xs-10">
-                                                    </div>
-                                                   <!-- <a href="javascript:void(0)" onclick="countPharmacyPhoneNumber()"> <i class="fa fa-plus-circle fa-2x m-t-5 label-plus"></i><a> -->
-
-                                               <!-- </aside>
-                                               <!-- <p class="m-t-10">* If it is landline, include Std code with number </p>-->
-                                            <!--</div>
-                                        </article>
-                                    </section> -->
 
                                     <article class="clearfix">
                                         <label class="control-label col-md-4 col-xs-9" for="cname">Ambulance </label>
                                         <div class="col-md-8 col-xs-3">
                                             <aside class="checkbox checkbox-success m-t-5">
-                                                <input type="checkbox"  id="ambulance" name="ambulance_chk" value="1">
+                                                <input type="checkbox"  id="ambulance" name="ambulance_chk" value="1" <?php echo set_checkbox('bloodbank_chk', '1'); ?>>
                                                 <label>
 
                                                 </label>
@@ -483,11 +441,15 @@
                                         </div>
                                     </article>
                                             
-                                    <section class="clearfix m-t-10" id="ambulanceOption" style="display:none">
+                                    <section class="clearfix m-t-10" id="ambulanceOption" style="<?php if (isset($amobulancestatus) && $amobulancestatus == 1) {
+    echo 'display:block';
+} else {
+    echo 'display:none';
+} ?>">
                                         <article class="form-group m-lr-0 ">
                                             <label for="cemail" class="control-label col-md-4 col-sm-4">Name : </label>
                                             <div class="col-md-8 col-sm-8">
-                                                <input <?php set_value('ambulance_name'); ?> class="form-control" id="ambulance_name" name="ambulance_name" type="text" maxlength="30" onblur="amname()">
+                                                <input value="<?php echo set_value('ambulance_name'); ?>" class="form-control" id="ambulance_name" name="ambulance_name" type="text" maxlength="30" onblur="amname()">
                                                 <label class="error" style="display:none;" id="error-ambulance_name"> please Check your Ambulance Name</label>
                                             </div>
                                         </article>
@@ -506,7 +468,7 @@
                                             <label class="control-label col-md-4 col-xs-9" for="cname">Doctor On board</label>
                                             <div class="col-md-8 col-xs-3">
                                                 <aside class="checkbox checkbox-success m-t-5">
-                                                    <input type="checkbox" id="docOnBoard" name="docOnBoard" value="1" >
+                                                    <input type="checkbox" id="docOnBoard" name="docOnBoard" value="1" <?php echo set_checkbox('docOnBoard', '1'); ?>>
                                                     <label>
 
                                                     </label>
@@ -519,20 +481,9 @@
                                             <label for="cname" class="control-label col-md-4 col-sm-4">Phone:</label>
                                             <div class="col-md-8 col-sm-8">
                                                 <aside class="row">
-                                                   <!-- <div class="col-md-3 col-sm-3 col-xs-12" id="preAmbulance_name">
-                                                        <select class="selectpicker" data-width="100%" name="preAmbulance[]" id="preAmbulance1">
-                                                            <option value='91'>+91</option>
-                                                            <option value='1'>+1</option>
-                                                        </select>
-                                                    </div> -->
-
-                                                   <!-- <div class="col-md-4 col-sm-4 col-xs-10 m-t-xs-10">
-                                                        <input type="text" onkeypress="return isNumberKey(event)" onblur="checkNumber('midNumber', 1)" maxlength="5"  id="ambulanceMidNumber" name="ambulanceMidNumber[]" class="form-control" requird>
-                                                        <label class="error" > <?php // echo form_error("ambulanceMidNumber"); ?></label>
-                                                    </div> -->
 
                                                     <div class="col-xs-10 m-t-xs-10" id="phoneAmbulance">
-                                                        <input type="text" class="form-control" name="ambulance_phn" id="ambulance_phn1" maxlength="10" onkeypress="return isNumberKey(event)" minlength="10" pattern=".{10,10}" <?php set_value('ambulance_phn'); ?>/>
+                                                        <input type="text" class="form-control" name="ambulance_phn" id="ambulance_phn1" maxlength="10" onkeypress="return isNumberKey(event)" minlength="10" pattern=".{10,10}" value="<?php echo set_value('ambulance_phn'); ?>"/>
                                                         <label class="error" style="display:none;" id="error-ambulance_phn1"> please Check your Ambulance Phone</label>
                                                     </div>
                                                     <div class="col-md-2 col-sm-2 col-xs-2 m-t-xs-10">

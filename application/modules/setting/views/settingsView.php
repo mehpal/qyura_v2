@@ -30,7 +30,7 @@
                                              <article class="form-group m-lr-0 ">
                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">User Name :</label>
                                                 <div class="col-md-8 col-sm-8">
-                                                    <input class="form-control" id="user_name" name="user_name" type="text" required="" value="<?php if(!empty($users[0]->name)): echo ucwords($users[0]->name);endif;?>" readonly="">
+                                                    <input class="form-control" id="user_name" name="user_name" type="text" required="" value="<?php if(!empty($users[0]->name)): echo ucwords($users[0]->name);endif;?>">
                                                     <label class="error" style="display:none;" id="error-user_name"> please enter user name</label>
                                                     <label class="error" > <?php echo form_error("user_name"); ?></label>
                                                 </div>
@@ -52,7 +52,7 @@
                               <img src="<?php echo base_url()?>assets/default-images/Blood-logo.png" alt="" class="image-preview-show" />
                               <?php } ?>
 
-                                        <input type="hidden" name="userProfile" value="<?php echo $users[0]->patientDetails_patientImg ?>" />
+                                        <input type="text" name="userProfile" value="<?php echo $users[0]->patientDetails_patientImg ?>" />
                                     </div>
                                     </div>
 
