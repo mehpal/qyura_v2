@@ -91,7 +91,7 @@
                                   
                                 </ul>
                              </article>
-                                <article class="tab-content p-b-20 m-t-50">
+                                <article class="tab-content  m-t-50">
                   <!-- General Detail Starts -->
                
                   <section class="tab-pane fade in <?php if(isset($active) && $active == 'general'){echo "active";}?>" id="general">
@@ -393,6 +393,12 @@
                   </section>
                    <section class="tab-pane fade in <?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>" id="timeSlot">
                        
+                    <?php if($ambulanceData[0]->ambulance_27Src == 1){ echo '<div class="row"><div class="col-md-12">24/7 service available</div></div></br></br>'; } else { ?>
+                        
+                        
+                   
+                       
+
                               <?php if(isset($timeSlot) && !empty($timeSlot)):?>
                          
                     <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('ambulance/updateTimeSlot');?>">
@@ -428,7 +434,7 @@
                          
                     <?php endif;?>   
                        
-                       
+                             <?php }?>  
                        
                   </section>
                                 </article>
@@ -445,6 +451,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
+                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     <h3>Change Background</h3>
                                 </div>
                                 <div class="modal-body">
@@ -452,7 +459,18 @@
                                         <div id="messageErrors"></div>
                                         <form class="form-horizontal" id="uploadimage" action="" method="post" enctype="multipart/form-data">
 
-                         <div id="image_preview"> <img id="previewing" src="<?php echo base_url();?>assets/default-images/ambulance.png" class="img-responsive center-block" /></div>
+                                <?php if(isset($backgroundImage[0]->ambulance_background_img) && !empty($backgroundImage[0]->ambulance_background_img)):?>
+                                           
+                                            <div id="image_preview"> <img id="previewing" src="<?php echo base_url();?>assets/ambulanceImages/<?php echo $backgroundImage[0]->ambulance_background_img;?>" class="img-responsive center-block" /></div>
+                                    
+                                    <?php else : ?>
+                                            
+                                                    <div id="image_preview"> <img id="previewing" src="<?php echo base_url();?>assets/default-images/ambulance.png" class="img-responsive center-block" /></div>
+                                            
+                                            
+                                             <?php endif;?>
+                                            
+                 
                          
 
                                             <article class="form-group m-lr-0 ">

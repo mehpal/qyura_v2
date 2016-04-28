@@ -37,6 +37,7 @@ class Mi_master extends MY_Controller {
         $data['title'] = 'List Hospital';
         $this->load->super_admin_template('hospital_view', $data, 'masterScript');
     }
+    
     function getHospitalDl() {
 
         echo $this->Master_model->fetchHospitalDataTables();
@@ -232,6 +233,7 @@ class Mi_master extends MY_Controller {
         $data['title'] = 'List Diagnostic';
         $this->load->super_admin_template('diagnostic_view', $data, 'masterScript');
     }
+    
     function getDiagnosticDl() {
 
         echo $this->Master_model->fetchDiagnosticDataTables();
