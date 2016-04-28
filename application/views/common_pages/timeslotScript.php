@@ -88,7 +88,9 @@
     }
     
     $('.timepicker').timepicker({
-        showMeridian:false,
+        showMeridian:true,
+        defaultTime:false,
+        minuteStep:30
        
     });
     

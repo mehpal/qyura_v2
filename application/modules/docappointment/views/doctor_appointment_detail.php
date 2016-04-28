@@ -12,7 +12,6 @@
             <!-- Main Div Start -->
             <section class="clearfix detailbox">
 
-
                 <div class="bg-white">
                     <!-- Table Section Start -->
                     <?php if (isset($doctorAppointmentDetails) && $doctorAppointmentDetails != NULL){
@@ -38,19 +37,20 @@
 
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4">Session :</label>
-                                <p class="col-md-8"><?php $session = getSession($doctorAppointment->doctorAvailabilitySession_type);
-                                echo $session." | ".$doctorAppointment->doctorAvailabilitySession_start. " - " .$doctorAppointment->doctorAvailabilitySession_end ?> </p>
+                                <p class="col-md-8">
+                                    <?php echo date("H:i", strtotime($doctorAppointment->docTimeDay_open)). " - " .date("H:i", strtotime($doctorAppointment->docTimeDay_close)); ?>
+                                </p>
                             </div>
 
 
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4">Final Time :</label>
-                                <p class="col-md-8"> <?php echo date("g:i a" ,strtotime($doctorAppointment->doctorAppointment_finalTiming)); ?></p>
+                                <p class="col-md-8"> <?php echo date("g:i a" ,$doctorAppointment->doctorAppointment_finalTiming); ?></p>
                             </div>
 
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4">Status:</label>
-                                <p class="col-md-8"><?php if($doctorAppointment->doctorAppointment_status == 1){ echo "Completed"; }elseif($doctorAppointment->doctorAppointment_status == 2){ echo "Cancelled"; }elseif($doctorAppointment->doctorAppointment_status == 3){ echo "Pending"; }else{ echo "Completed"; } ?></p>
+                                <p class="col-md-8"><?php if($doctorAppointment->doctorAppointment_status == 11){ echo "Pending"; }elseif($doctorAppointment->doctorAppointment_status == 12){ echo "Confirm"; }elseif($doctorAppointment->doctorAppointment_status == 13){ echo "Cancel"; }elseif($doctorAppointment->doctorAppointment_status == 14){ echo "Completed"; } ?></p>
                             </div>
 
                             <div class="clearfix m-t-10">
@@ -76,7 +76,7 @@
                                     <img src="<?php echo base_url("assets/doctorsImages")."/".$doctorAppointment->doctors_img ?>" alt="" class="img-responsive patient-pic" width="60" height="60">
                                 </article>
                                 <article class="col-md-5 text-right pull-right">
-                                    <h3>Dr. <?php echo $doctorAppointment->patientDetails_patientName ?></h3>
+                                    <h3>Dr. <?php if(isset($doctorAppointment->doctors_fName) && $doctorAppointment->doctors_fName != ''){ echo ucfirst($doctorAppointment->doctors_fName); }echo " "; if(isset($doctorAppointment->doctors_lName) && $doctorAppointment->doctors_lName != ''){ echo ucfirst($doctorAppointment->doctors_lName); } ?></h3>
                                     <p><?php echo $doctorAppointment->specialities_name; ?></p>
                                     <p><?php echo $doctorAppointment->doctors_mobile; ?></p>
                                 </article>
@@ -132,7 +132,7 @@
 
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4 col-sm-4">Other Fee :</label>
-                                <p class="col-md-8 col-sm-8"><?php echo $doctorAppointment->doctorAppointment_otherFee; ?></p>
+                                <p class="col-md-8 col-sm-8"><i class="fa fa-inr"></i> <?php echo $doctorAppointment->doctorAppointment_otherFee; ?></p>
                             </div>
 
                             <div class="clearfix m-t-10">
@@ -147,12 +147,12 @@
 
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4 col-sm-4">Payment Status :</label>
-                                <p class="col-md-8 col-sm-8"><?php if($doctorAppointment->doctorAppointment_payStatus == 1){ echo "Paid"; }else{ echo "Unpaid"; } ?></p>
+                                <p class="col-md-8 col-sm-8"><?php if($doctorAppointment->doctorAppointment_payStatus == 16){ echo "Paid"; }if($doctorAppointment->doctorAppointment_payStatus == 15){ echo "Unpaid"; } ?></p>
                             </div>
 
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4 col-sm-4">Payment Mode :</label>
-                                <p class="col-md-8 col-sm-8"><?php if($doctorAppointment->doctorAppointment_payMode == 1){ echo "Cash"; }else{ echo "other"; } ?></p>
+                                <p class="col-md-8 col-sm-8"><?php if($doctorAppointment->doctorAppointment_payMode == 17){ echo "Cash"; }else{ echo "other"; } ?></p>
                             </div>
 
                         </aside>

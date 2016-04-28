@@ -977,6 +977,7 @@ $(document).ready(function (e) {
                      setTimeout(function(){ $("#messageErrors").html(""); }, 2000);
                       changebackgroundImage(bloodBankId);
                       $("#changeBg").modal('hide');
+                      $("#uploadBtnDd").val("");
                     
                 }else{
                     $("#messageErrors").html("<div class='alert alert-danger'>"+obj.messsage+"</div>");
