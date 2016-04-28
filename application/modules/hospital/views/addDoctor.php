@@ -136,7 +136,7 @@
                                                     <aside class="row">
                                                         <label for="cname" class="control-label col-md-4">Degree</label>
                                                         <div class="col-md-4 col-sm-4">
-                                                            <select class="selectpicker" data-width="100%" data-size="4" name="doctorAcademic_degreeId[]" id="doctorAcademic_degreeId1">
+                                                            <select class="select2" data-width="100%" data-size="4" name="doctorAcademic_degreeId[]" id="doctorAcademic_degreeId1">
                                                                  <option value="">Select Degree </option>
                                                                 <?php foreach($degree as $key=>$val){?>
                                                                 <option value="<?php echo $val->degree_id;?>"><?php echo $val->degree_SName;?></option>
@@ -145,7 +145,7 @@
                                                             <label class="error" style="display:none;" id="error-doctorAcademic_degreeId1"> please select Degree</label>
                                                         </div>
                                                         <div class="col-md-4 col-sm-4 m-t-xs-10">
-                                                            <select class="selectpicker" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId1">
+                                                            <select class="select2" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId1">
                                                                   <option value="">Select Specialities </option>
                                                                 <?php foreach($speciality as $key=>$val) {?>
                                                             <option value="<?php echo $val->specialities_id;?>"><?php echo $val->specialities_name;?></option>
