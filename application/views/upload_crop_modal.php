@@ -27,11 +27,10 @@
                     </div>
 
                     <div class="row avatar-btns">
-                        <div class="col-md-9">
-
-                        </div>
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-primary btn-block avatar-save" id="savebtnUpload" data-dismiss="modal">Done</button>
+                      
+                        <div class="col-md-6 col-md-offset-9">
+                            <button class="btn btn-danger" data-dismiss="modal" type="button">Close</button>
+                            <button type="button" class="btn btn-primary avatar-save" id="savebtnUpload" data-dismiss="modal">Done</button>
                         </div>
                     </div>
                 </div>
