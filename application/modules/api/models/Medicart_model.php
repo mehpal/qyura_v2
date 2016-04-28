@@ -13,7 +13,14 @@ class Medicart_model extends Common_model
     }
     
     function specialityList(){
-        $this->db->select("");
+        
+        $this->db->select("specialities_drName, specialities_name, specialities_id, (SELECT count(medicartSpecialities_medicartId) from qyura_medicartSpecialities JOIN `qyura_medicartOffer` ON `qyura_medicartOffer`.`medicartOffer_id` = `medicartSpecialities_medicartId` where `qyura_medicartOffer`.`status` = 1 AND `qyura_medicartSpecialities`.`status` = 1 AND `medicartSpecialities_specialitiesId` = `specialities_id`) as specialityCount")
+                ->from("qyura_specialities")
+                ->where(array("status"=>1, "specialities_deleted"=>0, "type"=>0 ));
+        
+        return $this->db->get()->result();
+        
+        
     }
 
 

@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-//$serverName = explode("/", $_SERVER[""]); 
+//$serverName = explode("/", $_SERVER[""]);
 
 $config['base_url'] = 'http://localhost/qyura_v2';
 //$config['base_url'] = "http://".$_SERVER['HTTP_HOST'];
