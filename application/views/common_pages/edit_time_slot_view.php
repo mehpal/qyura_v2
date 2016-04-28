@@ -50,12 +50,12 @@
                                 <div class="col-md-3" data-autoclose="true">
                                     <div class="bootstrap-timepicker input-group">
                               <input id="openTime_<?php echo $i; ?>_1" autocomplete="off" class="form-control timepicker " type="text" name="openTime_<?php echo $i; ?>_1" value="<?php foreach($timeSlot as $slot): if($slot->dayNumber == $j):
-                                            echo $slot->openingHours;endif;endforeach;?>" readonly="">
+                                            echo date('h:i a',$slot->openingHours);endif;endforeach;?>" readonly="">
                                     </div>
                                 </div>
                                 <div class="col-md-3" data-autoclose="true">
                                     <div class="bootstrap-timepicker input-group">
-                                        <input id="closeTime_<?php echo $i; ?>_1" autocomplete="off" class="form-control timepicker" type="text" name="closeTime_<?php echo $i; ?>_1" value="<?php foreach($timeSlot as $slot): if($slot->dayNumber == $j):echo $slot->closingHours;endif;endforeach;?>" readonly="">
+                                        <input id="closeTime_<?php echo $i; ?>_1" autocomplete="off" class="form-control timepicker" type="text" name="closeTime_<?php echo $i; ?>_1" value="<?php foreach($timeSlot as $slot): if($slot->dayNumber == $j):echo date('h:i a',$slot->closingHours);endif;endforeach;?>" readonly="">
                                     </div>
                                 </div>
                             </div>

@@ -410,10 +410,10 @@ if (!function_exists("defalutTimeSlots")) {
 
     }
 
-    if (!function_exists('status')) {
+  if (!function_exists('status')) {
 
         function status($stat) {
-            $status = array(1 => 'Pending', 2 => 'Confirm', 3 => 'Cancle', 4 => 'Completed');
+            $status = array(11 => 'Pending', 12 => 'Confirm', 13 => 'Cancle', 14 => 'Completed');
             return $status[$stat];
         }
 

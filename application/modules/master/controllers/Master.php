@@ -524,7 +524,8 @@ class Master extends MY_Controller {
             );
             $response = $this->common_model->customInsert($options);
             if ($response) {
-                $responce = array('status' => 1, 'msg' => "Record Added successfully", 'url' => "master/miType/$hospitalType_miRole");
+                $this->session->set_flashdata('active_tag', $hospitalType_miRole);
+                $responce = array('status' => 1, 'msg' => "Record Added successfully", 'url' => "master/miType/");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
@@ -564,7 +565,8 @@ class Master extends MY_Controller {
                 $response = $this->common_model->customUpdate($options);
             }
             if ($response) {
-                $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "master/miType/$hospitalType_miRole");
+                $this->session->set_flashdata('active_tag', $hospitalType_miRole);
+                $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "master/miType/");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
@@ -576,12 +578,13 @@ class Master extends MY_Controller {
     function miTypePublish() {
         $ena_id = $this->input->post('id');
         $status = $this->input->post('status');
+        $activeTag = $this->input->post('activeTag');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 2) {
-                $update_data['status'] = 3;
-            } else {
+            if ($status == 3) {
                 $update_data['status'] = 2;
+            } else {
+                $update_data['status'] = 3;
             }
             $where = array('hospitalType_id' => $ena_id);
             $updateOptions = array
@@ -593,10 +596,12 @@ class Master extends MY_Controller {
 
             $update = $this->common_model->customUpdate($updateOptions);
 
-            if ($update)
+            if ($update){
+                $this->session->set_flashdata('active_tag', $activeTag);
                 echo $update;
-            else
+            }else{
                 echo '0';
+            }
         }
         else {
             echo 0;
