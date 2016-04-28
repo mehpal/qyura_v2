@@ -156,7 +156,7 @@
         var city_id = $("#appointment_city").val();
         var special_id = $('#speciallity').val();
         var url = '<?php echo site_url(); ?>/docappointment/find_doctor';
-        if (typeof city_id == 'string' && typeof special_id == 'string'){
+        if (typeof city_id == 'string' && typeof special_id == 'string' && special_id != ''){
             $.ajax({
                 url: url,
                 async: false,

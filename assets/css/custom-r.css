@@ -1480,13 +1480,16 @@ aside.show-image a.delete {
 
 
 /*-- 14 March --*/
-
+.m-t-0
+{
+    margin-top: 0px !important;
+}
 .bg-white {
     box-shadow: 0px 0px 4px #e6e6e6;
 }
 
 img.image-preview-show {
-    margin-top: -20px;
+  /*  margin-top: -20px;*/
 }
 .modal#avatar-modal
 {

@@ -126,6 +126,7 @@ if($current != 'detailDiagnostic'):?>
           loadServices();
           loadSpeciality();
           loadDiagnostic();
+          loadCenter();
           
         function fetchStates(){
             
@@ -172,14 +173,13 @@ if($current != 'detailDiagnostic'):?>
      * @description  datepicker
      * @access public
      */
-    $('.selectpicker').selectpicker({
-        style: 'btn-default',
-        size: "auto",
-        width: "100%"
-    });
+//    $('.selectpicker').selectpicker({
+//        style: 'btn-default',
+//        size: "auto",
+//        width: "100%"
+//    });
 
-     
-//   $(".selectpicker").select2();
+       $(".select2").select2();
     
     function fetchCity(stateId) {
         $.ajax({
@@ -218,6 +218,7 @@ if($current != 'detailDiagnostic'):?>
                 {"data": "city_name"},
                 {"data": "diagnostic_phn"},
                 {"data": "diagnostic_address"},
+                {"data": "status"},
                 {"data": "view"},
             ],
             "ajax": {
@@ -226,14 +227,15 @@ if($current != 'detailDiagnostic'):?>
                 "data": function (d) {
                     d.cityId = $("#diagnostic_cityId").val();
                     d.bloodBank_name = $("#search").val();
-                    if ($("#diagnostic_stateId").val() != ' ') {
-                        d.hosStateId = $("#diagnostic_stateId").val();
-                    }
+                    d.status = $("#status").val();
+                   // if ($("#diagnostic_stateId").val() != ' ') {
+                   //     d.hosStateId = $("#diagnostic_stateId").val();
+                  //  }
                     d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
                 }
             }
         });
-        $('#diagnostic_cityId,#diagnostic_stateId').change(function () {
+        $('#diagnostic_cityId,#status').change(function () {
             oTable.draw();
         });
         $('#search').on('keyup', function () {
@@ -266,7 +268,7 @@ if($current != 'detailDiagnostic'):?>
                 {"data": "specialityName"},
                 {"data": "consFee"},
                 {"data": "exp"},
-                {"data": "doctors_phn"},
+                {"data": "doctors_phon"},
                 {"data": "view"},
             ],
             "ajax": {
@@ -361,6 +363,9 @@ if($current != 'detailDiagnostic'):?>
     
     function addAwards(){
         var dialAwards_awardsName = $.trim($('#diagnostic_awardsName').val());
+        
+        var diagnosticAwards_agencyName = $.trim($('#diagnosticAwards_agencyName').val());
+        
         var dialAwards_awardsYear = $.trim($('#diagnostic_awardsyear').val());
         var currentYear = new Date().getFullYear();
         
@@ -380,23 +385,33 @@ if($current != 'detailDiagnostic'):?>
              $('#diagnostic_awardsyear').val('');
              $("#error-years-valid").fadeIn().delay(3000).fadeOut('slow');
              
+        }else if(diagnosticAwards_agencyName == ''){
+           
+            $('#error-diagnosticAwards_agencyName').fadeIn().delay(3000).fadeOut('slow');
+            
         }else{
             $.ajax({
                url : urls + 'index.php/diagnostic/addDiagnosticAwards',
                type: 'POST',
-              data: {'diagnosticId' : diagnosticId , 'diaAwards_awardsName' : dialAwards_awardsName, 'dialAwards_awardsYear' : dialAwards_awardsYear },
+              data: {'diagnosticId' : diagnosticId , 'diaAwards_awardsName' : dialAwards_awardsName, 'dialAwards_awardsYear' : dialAwards_awardsYear, 'diagnosticAwards_agencyName' : diagnosticAwards_agencyName },
               success:function(datas){
                // console.log(datas);
                   loadAwards();
                   $('#diagnostic_awardsName').val('');
                   $('#diagnostic_awardsyear').val('');
+                  $('#diagnosticAwards_agencyName').val('');
               }
            });
         }   
     }
+    
+    
     function editAwards(awardsId){
          var edit_awardsName = $.trim($('#'+awardsId).val());
+         var edit_awardsAgency = $.trim($('#agency'+awardsId).val());
          var edit_awardsYear = $.trim($('#year'+awardsId).val());
+         
+         var currentYear = new Date().getFullYear();
         
         if(edit_awardsName == ''){
            
@@ -409,13 +424,22 @@ if($current != 'detailDiagnostic'):?>
         }else if(edit_awardsYear.length != 4){
             
             $('#error-years'+awardsId).fadeIn().delay(3000).fadeOut('slow');
+        }else if(edit_awardsYear > currentYear || edit_awardsYear < 1920){
+            
+             $('#year'+awardsId).val('');
+             $("#error-years-valid"+awardsId).fadeIn().delay(3000).fadeOut('slow');
+             
+        }else if(edit_awardsAgency == ''){
+           
+            $('#error-agency'+awardsId).fadeIn().delay(3000).fadeOut('slow');
+            
         }
         else{
             
             $.ajax({
                url : urls + 'index.php/diagnostic/editDiagnosticAwards',
                type: 'POST',
-              data: {'awardsId' : awardsId , 'diaAwards_awardsName' : edit_awardsName ,'edit_awardsYear' : edit_awardsYear },
+              data: {'awardsId' : awardsId , 'diaAwards_awardsName' : edit_awardsName ,'edit_awardsYear' : edit_awardsYear, 'edit_awardsAgency' : edit_awardsAgency },
               success:function(datas){
               console.log(datas);
                   loadAwards();
@@ -632,6 +656,38 @@ if($current != 'detailDiagnostic'):?>
     } 
     
      function addSpeciality(){
+         
+        var specialityId = [];
+        var checkValues = [];
+        
+        var checkValues = $('.myCheckbox:input:checkbox:checked').map(function() {
+                return this.value;
+            }).get();
+            
+      // alert(checkValues.length);
+       if(checkValues.length > 1){
+        var reYesNo = true;   
+        $.ajax({
+                    url: urls + 'index.php/diagnostic/checkSpeciality',
+                    type: 'POST',
+                    async: false, //=>>>>>>>>>>> here >>>>>>>>>>>
+                    data: {'diagnosticId': diagnosticId, 'allValuers': checkValues},
+                    success: function (datas) {
+                        if (datas == 0) {
+                             reYesNo = false;
+                           //  console.log(reYesNo,'andar');
+                             bootbox.alert("Sorry, you can't add more than three specialities!");
+                             
+                        }
+                    }
+                });
+                
+              //  console.log(reYesNo,'bahar');
+                if(!reYesNo)
+                   return false; 
+         
+       }
+         
          $('.diagonasticSpecialCheck').each(function() {
             if($(this).is(':checked')){
                 $(this).removeClass( "diagonasticSpecialCheck diagonasticSpecialCheck1" );
@@ -645,10 +701,15 @@ if($current != 'detailDiagnostic'):?>
                     $("#defaultloader").show();
                     
                    },
-                   success:function(datas){
-                        $("#defaultloader").hide();
-                       loadSpeciality();
-                   }
+                   success: function (datas) {
+                        if (datas == 0) {
+                             bootbox.alert("Sorry, you can't add more than three specialities!");
+                             return false;
+                             
+                        } else {
+                            loadSpeciality();
+                        }
+                    }
                 });
             }
             
@@ -2140,6 +2201,182 @@ function imageIsLoaded(e) {
             $('#error-ambulance_phn1').fadeIn().delay(3000).fadeOut('slow');
         }
     }
+    
+    function setSpecialityNameFormate(specialityFormate) {
+        var diagnoId = <?php echo $check; ?>;
+        if (diagnoId != '') {
+            var specialityFormate = specialityFormate;
+            $.ajax({
+                url: urls + 'index.php/diagnostic/setSpecialityNameFormate',
+                type: 'POST',
+                data: {'diagnoId': diagnoId, 'specialityFormate': specialityFormate},
+                success: function (data) {
+                    if (data) {
+                        // $('#users_email').addClass('bdr-error');
+                        return false;
+                    } else{
+
+                        return true;
+                    }
+                }
+            });
+        }
+    }
+    
+    
+      function addNewDoctor(){
+      
+     // alert($( "#doctorForm" ).hasClass( "myForm" ));
+      if($( "#doctorForm" ).hasClass( "myForm" )){
+           $('#doctorForm').removeClass('myForm');
+           $('#doctorForm').css("display",'none');
+           $('#doctorList').css("display",'block');
+           $(".addDoctorButton").html('Add New Doctor');
+      }else{
+          $('#doctorForm').addClass('myForm');
+          $('#doctorForm').css("display",'block');
+          $('#doctorList').css("display",'none');
+         // $('#doctorList').css("display",'none');
+          $(".addDoctorButton").html('Cancel Add Doctor');
+        }
+      
+  }
+  
+  
+      /**
+     * @project Qyura
+     * @description add center collectio detail
+     * @access public
+     */   
+    
+    function addCenter(){
+        var centerName = $.trim($('#centerName').val());
+        var centerAddress = $.trim($('#centerAddress').val());
+        var centerLat = $.trim($('#centerLat').val());
+        var centerLong = $.trim($('#centerLong').val());
+        
+        if(centerName == ''){
+           
+            $('#error-centerName').fadeIn().delay(3000).fadeOut('slow');
+            
+        }else if(centerAddress == '' ){
+            
+           $('#error-centerAddress').fadeIn().delay(3000).fadeOut('slow');
+            
+        }else if(centerLat == ''){
+            $('#error-centerLat').fadeIn().delay(3000).fadeOut('slow');
+            
+        }else if(centerLong == ''){
+            
+            $('#error-centerLong').fadeIn().delay(3000).fadeOut('slow');
+             
+        }else{
+            $.ajax({
+               url : urls + 'index.php/diagnostic/addDiagnosticCenterDetail',
+               type: 'POST',
+              data: {'centerName' : centerName , 'centerAddress' : centerAddress, 'centerLat' : centerLat, 'centerLong'  : centerLong, 'diagnosticId' : diagnosticId ,},
+              success:function(datas){
+               // console.log(datas);
+                  loadCenter();
+                  $('#centerName').val('');
+                  $('#centerAddress').val('');
+                  $('#centerLat').val('');
+                  $('#centerLong').val('');
+                  
+              }
+           });
+        }   
+    }
+    
+    
+    function loadCenter(){
+       
+        $('#loadCenter').load(urls + 'index.php/diagnostic/diagnosticCollectonCentrs/'+diagnosticId,function () {
+           // alert('callback function ');
+        });
+        $('#totalCenter').load(urls + 'index.php/diagnostic/detailCollectoCenter/'+diagnosticId,function () {
+           // alert('callback function implementation');
+        });
+    }
+    
+    
+    function editCenters(centerId){
+        
+         var centerName = $.trim($('#'+centerId).val());
+         var centerAddress = $.trim($('#centerAddress'+centerId).val());
+         var centerLat = $.trim($('#centerLat'+centerId).val());
+         var centerLong = $.trim($('#centerLong'+centerId).val());
+        
+        if(centerName == ''){
+           
+            $('#error-centerName').fadeIn().delay(3000).fadeOut('slow');
+            
+        }else if(centerAddress == '' ){
+            
+           $('#error-centerAddress').fadeIn().delay(3000).fadeOut('slow');
+            
+        }else if(centerLat == ''){
+            $('#error-centerLat').fadeIn().delay(3000).fadeOut('slow');
+            
+        }else if(centerLong == ''){
+            
+            $('#error-centerLong').fadeIn().delay(3000).fadeOut('slow');
+            
+        }else{
+            
+            $.ajax({
+               url : urls + 'index.php/diagnostic/editDiagnosticCenters',
+               type: 'POST',
+              data: {'centerId' : centerId , 'centerName' : centerName ,'centerAddress' : centerAddress, 'centerLat' : centerLat, 'centerLong' : centerLong },
+              success:function(datas){
+              console.log(datas);
+                  loadCenter();
+              }
+           });
+        }  
+    }
+    
+    function deleteCenters(centerId){
+         bootbox.confirm("Are you sure want to remove this collection center?", function (result) {
+         if(result){
+         $.ajax({
+               url : urls + 'index.php/diagnostic/deleteCollectionCenters',
+               type: 'POST',
+              data: {'centerId' : centerId },
+              success:function(datas){
+              console.log(datas);
+                  loadCenter();
+              }
+           });
+           }
+        });
+    }
+    
+    
+     function deletInsurance(insuranceId) {
+        var insuranceId = insuranceId;
+        bootbox.confirm("Are you sure want to remove this insurance?", function (result) {
+            if (result) {
+                $.ajax({
+                    url: urls + 'index.php/diagnostic/deletInsurance',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {'insuranceId': insuranceId},
+                    success: function (data, status, xhr) {
+                        var obj = JSON.parse(data);
+                        if (obj.status == 1) {
+                            window.location.reload();
+                            return true;
+                        } else if (obj.status == 0) {
+                            return false;
+                        }
+                    }
+                });
+            }
+
+        });
+    }
+    
 </script>
 
 </body>

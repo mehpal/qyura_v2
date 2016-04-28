@@ -184,22 +184,6 @@ class Pharmacy extends MY_Controller {
 
             //echo $imagesname;exit;
             $pharmacy_phn = $this->input->post('pharmacy_phn');
-            //$pre_number = $this->input->post('pre_number');
-            //$midNumber = $this->input->post('midNumber');
-            //$countPnone = $this->input->post('countPnone');
-            
-            
-
-//            $finalNumber = '';
-//            for ($i = 0; $i < count($pharmacy_phn); $i++) {
-//                if ($pharmacy_phn[$i] != '' && $pre_number[$i] != '') {
-//                    if ($i == count($pharmacy_phn) - 1)
-//                        $finalNumber .= $pre_number[$i].' '.$midNumber[$i].' ' .$pharmacy_phn[$i];
-//                    else
-//                        $finalNumber .= $pre_number[$i].' '.$midNumber[$i].' ' .$pharmacy_phn[$i] . '|';
-//                }
-//            }
-
 
             $pharmacy_name = $this->input->post('pharmacy_name');
             $countryId = $this->input->post('pharmacy_countryId');
@@ -273,6 +257,7 @@ class Pharmacy extends MY_Controller {
 
                 $insertData['pharmacy_usersId'] = $pharmacy_usersId;
                 $pharmacyId = $this->Pharmacy_model->insertPharmacy($insertData);
+                $this->sendEmailRegister($this->input->post('users_email'));
                 $this->session->set_flashdata('message', 'Data inserted successfully !');
             }
             
@@ -284,18 +269,24 @@ class Pharmacy extends MY_Controller {
         $path = realpath(FCPATH . 'assets/' . $folderName . '/');
         $config['upload_path'] = $path;
         //echo $config['upload_path']; 
-        $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size'] = '5000';
+        $config['allowed_types'] = 'jpg|png|jpeg';
+        $config['max_size'] = '1024';
         $config['max_width'] = '1024';
-        $config['max_height'] = '768';
+        $config['max_height'] = '540';
         $config['file_name'] = $newName;
-
 
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
-        $this->upload->do_upload($imageName);
-        $this->upload->display_errors();
-        return TRUE;
+        if (!$this->upload->do_upload($imageName)) {
+
+            $data ['error'] = $this->upload->display_errors();
+            $data ['status'] = 0;
+            return $data;
+        } else {
+            $data['imageData'] = $this->upload->data();
+            $data ['status'] = 1;
+            return $data;
+        }
     }
 
     function getImageBase64Code($img) {
@@ -369,6 +360,10 @@ class Pharmacy extends MY_Controller {
         $this->bf_form_validation->set_rules('pharmacy_phn', 'pharmacy mobile no.', 'required|trim');
         $this->bf_form_validation->set_rules('pharmacy_docatId', 'Docat Id', 'required|trim');
         
+        if(!empty($this->input->post('pharmacy_qapCode'))){
+           $this->bf_form_validation->set_rules('pharmacy_qapCode', 'Qap code', 'callback_isQapCodeValid');
+        }
+        
         
         if ($this->bf_form_validation->run() === FALSE) {
             $data = array();
@@ -376,31 +371,39 @@ class Pharmacy extends MY_Controller {
             $data['pharmacyData'] = $this->Pharmacy_model->fetchpharmacyData($pharmacyId);
             $data['allCountry'] = $this->Pharmacy_model->fetchCountry();
             $data['allCities'] = $this->Pharmacy_model->fetchCity($data['pharmacyData'][0]->pharmacy_stateId);
-            $data['allStates'] = $this->Pharmacy_model->fetchStates($data['pharmacyData'][0]->pharmacy_stateId);
+            $data['allStates'] = $this->Pharmacy_model->fetchStates();
 
             $data['pharmacyId'] = $pharmacyId;
-            $data['showStatus'] = 'none';
-            $data['detailShow'] = 'block';
+            $data['showStatus'] = 'block';
+            $data['detailShow'] = 'none';
             $data['title'] = 'Pharmacy Detail';
-            //  $this->load->view('pharmacyDetail',$data);
+            $data['active'] = 'general';
+            //$data['editActive'] = 1;
             $this->load->super_admin_template('pharmacyDetail', $data, 'pharmacy_script');
         } else {
             $pharmacy_phn = $this->input->post('pharmacy_phn');
-            //$pre_number = $this->input->post('pre_number');
-             //$midNumber = $this->input->post('midNumber');
-            //$countPnone = $this->input->post('countPnone');
-
-//            $finalNumber = '';
-//            for ($i = 0; $i < count($pharmacy_phn); $i++) {
-//                if ($pharmacy_phn[$i] != '' && $pre_number[$i] != '') {
-//
-//                    if ($i == count($pharmacy_phn) - 1)
-//                        $finalNumber .= $pre_number[$i] . ' '.$midNumber[$i].' ' . $pharmacy_phn[$i];
-//                    else
-//                        $finalNumber .= $pre_number[$i] . ' '.$midNumber[$i].' ' . $pharmacy_phn[$i] . '|';
-//                }
-//            }
-
+            $qapDate = '';
+            $qapCodes = '';
+            
+            if(!empty($this->input->post('pharmacy_qapCode'))){
+              $qapCode = $this->input->post('pharmacy_qapCode');
+              $option = array(
+                  'table' => 'qyura_pharmacy',
+                  'select' => 'pharmacy_qapCode,pharmacy_qapDate',
+                  'where' => array('pharmacy_id' => $pharmacyId,'pharmacy_qapCode'=>$qapCode)
+              );
+              $response = $this->common_model->customGet($option);
+              if($response){
+                 $qapCodes = $response[0]->pharmacy_qapCode;
+                 $qapDate = $response[0]->pharmacy_qapDate;
+              }else{
+                 $qapDate = strtotime(date("Y-m-d H:i:s"));
+                 $qapCodes = $qapCode;
+              }
+              
+            }
+            
+            
             $updatePharmacy = array(
                 'pharmacy_name' => $this->input->post('pharmacy_name'),
                 'pharmacy_cityId' => $this->input->post('pharmacy_cityId'),
@@ -417,11 +420,12 @@ class Pharmacy extends MY_Controller {
                 'pharmacy_27Src' => $this->input->post('isEmergency'),
                 'pharmacy_lat' => $this->input->post('lat'),
                 'pharmacy_long' => $this->input->post('lng'),
-                 'pharmacy_docatId' => $this->input->post('pharmacy_docatId'),
+                'pharmacy_docatId' => $this->input->post('pharmacy_docatId'),
+                'pharmacy_qapCode' => $qapCodes,
+                'pharmacy_qapDate' =>  $qapDate,
                 
                 'modifyTime' => strtotime(date("Y-m-d H:i:s"))
             );
-
             $where = array(
                 'pharmacy_id' => $pharmacyId
             );
@@ -524,18 +528,20 @@ class Pharmacy extends MY_Controller {
     }
 
     function pharmacyBackgroundUpload($pharmacyId) {
-        if (isset($_FILES["file"]["name"])) {
-
+        
+        
+         if (isset($_FILES["file"]["name"])) {
+     
             $temp = explode(".", $_FILES['file']["name"]);
             $microtime = round(microtime(true));
             $imageName = "pharmacy";
             $newfilename = "" . $imageName . "_" . $microtime . '.' . end($temp);
             $uploadData = $this->uploadImages('file', 'pharmacyImages', $newfilename);
-            if ($uploadData) {
+            if ($uploadData['status']) {
                 $imageName = $uploadData['imageData']['file_name'];
-
-                $data = array('pharmacy_background_img' => $newfilename);
+                $data = array('pharmacy_background_img' => $imageName);
                 $where = array('pharmacy_id' => $pharmacyId);
+
                 $response = $this->Pharmacy_model->UpdateTableData($data, $where, 'qyura_pharmacy');
                 if ($response) {
                     $result = array('status' => 200, 'messsage' => "successfully update image");
