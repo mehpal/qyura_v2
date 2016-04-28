@@ -40,7 +40,8 @@
                                     <span class="col-md-4 text-right">
                                        <h6>
                                           <a href="javascript:void(0)"><i class="md md-edit membership-btn"></i></a>
-                                          <a href="javascript:void(0)" onclick="enableFn('master', 'designationPublish', '<?php echo $list->designation_id; ?>','<?php echo $list->dsgnStatus; ?>')" title='<?php if($list->dsgnStatus == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Designation' class="pull-right m-l-10 "><i class="fa fa-thumbs-<?php if($list->dsgnStatus == 3){ echo "up"; }else{ echo "down danger"; } ?> "></i></a>
+                                          <button onclick="if((<?php echo $list->dsgnStatus; ?>)===2)enableFn('master', 'designationPublish', '<?php echo $list->designation_id; ?>','<?php echo $list->dsgnStatus; ?>')" type="button" class="btn btn-<?php if($list->dsgnStatus == 2){ echo "danger"; }else if($list->dsgnStatus == 0){ echo "warning"; }else if($list->dsgnStatus == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($list->dsgnStatus == 3){ echo "Verified"; }else if($list->dsgnStatus == 2){ echo "Unverified"; }else if($list->dsgnStatus == 1){ echo "Active"; }else if($list->dsgnStatus == 0){ echo "Inactive"; } ?></button>
+                                          
                                        </h6>
                                     </span>
                                  </li>

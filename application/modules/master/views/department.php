@@ -37,8 +37,8 @@
                                  <span class="col-md-3 text-right">
                                     <h6>
                                       <a href="#"><i class="md md-edit membership-btn"></i></a>
-                                      <button onclick="if((<?php echo $val->status; ?>)===2)enableFn('master', 'specialityPublish', '<?php echo $val->specialities_id; ?>','<?php echo $val->status; ?>')" type="button" class="btn btn-<?php if($val->status == 2){ echo "danger"; }else if($val->status == 0){ echo "warning"; }else if($val->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($val->status == 3){ echo "Verified"; }else if($val->status == 2){ echo "Unverified"; }else if($val->status == 1){ echo "Active"; }else if($val->status == 0){ echo "Inactive"; } ?></button>
-                                      <a href="javascript:void(0)" onclick="enableFn('master', 'departmentPublish', '<?php echo $list->department_id; ?>','<?php echo $list->status; ?>')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Department' class="pull-right m-l-10 "><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?> "></i></a>
+                                      <button onclick="if((<?php echo $list->status; ?>)===2)enableFn('master', 'departmentPublish', '<?php echo $list->department_id; ?>','<?php echo $list->status; ?>')" type="button" class="btn btn-<?php if($list->status == 2){ echo "danger"; }else if($list->status == 0){ echo "warning"; }else if($list->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($list->status == 3){ echo "Verified"; }else if($list->status == 2){ echo "Unverified"; }else if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
+                                      
                                     </h6>
                                  </span>
                               </li>

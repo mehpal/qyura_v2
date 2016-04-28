@@ -1,8 +1,20 @@
 <script>
     $(document).ready(function () {
+
+        $(".select2").select2({
+            width: '100%'
+        });
+
+        $(".bs-select").select2({
+            placeholder: "Select a Speciality",
+            //allowClear: true,
+            tags: true
+        });
+
+
         $("#timeEditForm").submit(function (event) {
             event.preventDefault();
-            var url = '<?php echo site_url(); ?>/doctor/addDocTime/';
+            var url = '<?php echo site_url(); ?>/doctor/editDocTime/';
             var formData = new FormData(this);
             submitData(url, formData);
         });
