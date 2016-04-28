@@ -414,7 +414,7 @@ class Master_model extends CI_Model {
             $this->datatables->where(array('hospital_id' => $condition));
         $this->datatables->where(array('hospital_deleted' => 0));
 
-        $this->datatables->add_column('action', '<a class="btn btn-success waves-effect waves-light m-b-5 applist-btn" hide href="editHospitalView/$1">Edit</a>','id');
+        $this->datatables->add_column('action', '<a class="btn btn-success waves-effect waves-light m-b-5 applist-btn" hide href="editHospitalView/$1">Edit</a>','hospital_id');
         $this->datatables->edit_column('status','$1','puStatusCheck(master/mi_master,qyura_hospital,hospital_id,id,Status)');
         $this->datatables->order_by("creationTime");
         return $this->datatables->generate();
@@ -433,7 +433,7 @@ class Master_model extends CI_Model {
             $this->datatables->where(array('diagnostic_id' => $condition));
         $this->datatables->where(array('diagnostic_deleted' => 0));
 
-        $this->datatables->add_column('action', '<a class="btn btn-success waves-effect waves-light m-b-5 applist-btn" hide href="editDiagnosticView/$1">Edit</a>','id');
+        $this->datatables->add_column('action', '<a class="btn btn-success waves-effect waves-light m-b-5 applist-btn" hide href="editDiagnosticView/$1">Edit</a>','diagnostic_id');
         $this->datatables->edit_column('status','$1','puStatusCheck(master/mi_master,qyura_diagnostic,diagnostic_id,id,Status)');
         $this->datatables->order_by("creationTime");
         return $this->datatables->generate();
@@ -452,7 +452,7 @@ class Master_model extends CI_Model {
             $this->datatables->where(array('city_id' => $condition));
         $this->datatables->where(array('city_deleted' => 0));
 
-        $this->datatables->add_column('action', '<a class="btn btn-success waves-effect waves-light m-b-5 applist-btn" hide href="city_master/editCityView/$1">Edit</a>','id');
+        $this->datatables->add_column('action', '<a class="btn btn-success waves-effect waves-light m-b-5 applist-btn" hide href="city_master/editCityView/$1">Edit</a>','city_id');
         $this->datatables->edit_column('status','$1','puStatusCheck(master/mi_master,qyura_city,city_id,id,Status)');
 
         $this->datatables->order_by("creationTime");

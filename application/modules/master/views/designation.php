@@ -32,16 +32,16 @@
                                     ?>
                                  <li class="clearfix  border-t membership-plan m-t-10">
                                     <span class="col-md-4">
-                                       <h6><?php echo $list->department_name;?> </h6>
+                                           
+                                       <h6><?php echo strip_tags(substr($list->department_name, 0,20));?> </h6>
                                     </span>
                                     <span class="col-md-4">
-                                       <h6><?php echo $list->designation_name; ?></h6>
+                                       <h6><?php echo strip_tags(substr($list->designation_name, 0, 20)); ?></h6>
                                     </span>
                                     <span class="col-md-4 text-right">
                                        <h6>
                                           <a href="javascript:void(0)"><i class="md md-edit membership-btn"></i></a>
-                                          <button onclick="if((<?php echo $list->dsgnStatus; ?>)===2)enableFn('master', 'designationPublish', '<?php echo $list->designation_id; ?>','<?php echo $list->dsgnStatus; ?>')" type="button" class="btn btn-<?php if($list->dsgnStatus == 2){ echo "danger"; }else if($list->dsgnStatus == 0){ echo "warning"; }else if($list->dsgnStatus == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($list->dsgnStatus == 3){ echo "Verified"; }else if($list->dsgnStatus == 2){ echo "Unverified"; }else if($list->dsgnStatus == 1){ echo "Active"; }else if($list->dsgnStatus == 0){ echo "Inactive"; } ?></button>
-                                          
+                                          <a href="javascript:void(0)" onclick="enableFn('master', 'designationPublish', '<?php echo $list->designation_id; ?>','<?php echo $list->dsgnStatus; ?>')" title='<?php if($list->dsgnStatus == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Designation' class="pull-right m-l-10 "><i class="fa fa-thumbs-<?php if($list->dsgnStatus == 3){ echo "up"; }else{ echo "down danger"; } ?> "></i></a>
                                        </h6>
                                     </span>
                                  </li>
@@ -86,7 +86,7 @@
                         <aside class="clearfix">
                            <!-- Add Category -->
                            <figure>
-                              <h3>Add Designations</h3>
+                              <h3>Add Designation</h3>
                            </figure>
                            <div class="col-sm-12">
                               <form name="designationaddForm" action="#" id="designationaddForm" method="post" class="form-horizontal" >
@@ -110,8 +110,8 @@
                                  <article class="clearfix m-t-10">
                                     <label for="" class="control-label">Add New Designation:</label>
                                     <div class="">
-                                       <input type="text" required="" name="designation_name" id="designation_name" class="form-control" pattern="[a-zA-Z]+">
-                                       <label class="error" id="err_designation_name" > <?php echo form_error("designation_name"); ?></label>
+                                       <input type="text" name="designation_name" id="designation_name" class="form-control" pattern="[a-zA-Z]+">
+                                       <label class="error" id="err_designation_name"> <?php echo form_error("designation_name"); ?></label>
                                     </div>
                                  </article>
                                  <article class="clearfix m-t-10 m-b-20">

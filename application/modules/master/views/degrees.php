@@ -31,26 +31,26 @@
                                 foreach ($degrees_list as $degrees){ ?>
                                 <li class="clearfix degrees membership-plan">
                                     <span class="col-md-3 col-sm-3 col-xs-12">
-                                        <?php echo $degrees->degree_SName; ?>
+                                       
+                                        <?php echo strip_tags(substr($degrees->degree_SName, 0,18)); ?>
                                     </span>
                                     <span class="col-lg-7 col-sm-7 col-xs-10">
-                                        <?php echo $degrees->degree_FName; ?>
+                                        <?php echo strip_tags(substr($degrees->degree_FName, 0,35)); ?>
                                     </span>
                                     <span class="col-lg-2 col-sm-2 col-xs-2">
                                         <a href="#" style="line-height: 1.8"><i class="md md-edit membership-btn"></i></a>
-                                        
-                                        <button onclick="if((<?php echo $degrees->status; ?>)===2)enableFn('master', 'degreePublish', '<?php echo $degrees->degree_id; ?>','<?php echo $degrees->status; ?>')" type="button" class="btn btn-<?php if($degrees->status == 2){ echo "danger"; }else if($degrees->status == 0){ echo "warning"; }else if($degrees->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($degrees->status == 3){ echo "Verified"; }else if($degrees->status == 2){ echo "Unverified"; }else if($degrees->status == 1){ echo "Active"; }else if($degrees->status == 0){ echo "Inactive"; } ?></button>
+                                        <button onclick="enableFn('master', 'degreePublish', '<?php echo $degrees->degree_id; ?>','<?php echo $degrees->status; ?>')" title='<?php if($degrees->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Degree' type="button" class="btn"><i class="fa fa-thumbs-<?php if($degrees->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
                                     </span>
                                 </li>
                                 <li class="newmembership" style="display:none">
                                     <span class="col-md-5">
                                         <input type="hidden" id="degree_id_<?php echo $countDegree; ?>" name="degree_id_<?php echo $countDegree; ?>" value="<?php echo $degrees->degree_id; ?>" >
-                                        <input type="text" required="" name="degree_SName_<?php echo $countDegree; ?>" id="degree_SName_<?php echo $countDegree; ?>" class="form-control" value="<?php if($degrees->degree_SName){ echo $degrees->degree_SName; }else{echo ''; } ?>">
-                                        <label class="error" id="degree_SName_<?php echo $countDegree; ?>" > <?php echo form_error("degree_SName_$countDegree"); ?></label>
+                                        <input type="text" name="degree_SName_<?php echo $countDegree; ?>" id="degree_SName_<?php echo $countDegree; ?>" class="form-control" value="<?php if($degrees->degree_SName){ echo $degrees->degree_SName; }else{echo ''; } ?>">
+                                        <label class="error" id="err_degree_SName_<?php echo $countDegree; ?>" > <?php echo form_error("degree_SName_$countDegree"); ?></label>
                                     </span>
                                     <span class="col-md-5">
-                                        <input type="text" required="" name="degree_FName_<?php echo $countDegree; ?>" id="degree_FName_<?php echo $countDegree; ?>" class="form-control" value="<?php if($degrees->degree_FName){ echo $degrees->degree_FName; }else{echo ''; } ?>">
-                                        <label class="error" id="hospitalType_name_<?php echo $countDegree; ?>" > <?php echo form_error("degree_FName_$countDegree"); ?></label>
+                                        <input type="text"  name="degree_FName_<?php echo $countDegree; ?>" id="degree_FName_<?php echo $countDegree; ?>" class="form-control" value="<?php if($degrees->degree_FName){ echo $degrees->degree_FName; }else{echo ''; } ?>">
+                                        <label class="error" id="err_degree_FName_<?php echo $countDegree; ?>" > <?php echo form_error("degree_FName_$countDegree"); ?></label>
                                     </span>
                                     <span class="col-md-2">
                                         <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
@@ -80,14 +80,14 @@
                                 <article class="clearfix m-t-30">
                                     <label for="" class="control-label">Full Name of the Degree :</label>
                                     <div class="">
-                                        <input class="form-control m-t-10" id="degree_FName" type="text" name="degree_FName" placeholder="Medicinae Baccalaureus and Bachelor of Surgery">
+                                        <input class="form-control m-t-10" id="degree_FName" type="text" name="degree_FName" placeholder="">
                                         <label class="error" id="err_degree_FName" > <?php echo form_error("doctors_fName"); ?></label>
                                     </div>
                                 </article>
                                 <article class="clearfix m-t-30">
                                     <label for="" class="control-label">Abbreviation :</label>
                                     <div class="">
-                                        <input class="form-control m-t-10" id="degree_SName" type="text" name="degree_SName" placeholder="MBBS">
+                                        <input class="form-control m-t-10" id="degree_SName" type="text" name="degree_SName" placeholder="">
                                         <label class="error" id="err_degree_SName" > <?php echo form_error("doctors_fName"); ?></label>
                                     </div>
                                 </article>
