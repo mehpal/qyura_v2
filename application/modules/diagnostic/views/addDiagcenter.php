@@ -282,7 +282,7 @@
                                             <article class="clearfix m-t-10 ">
                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Name : </label>
                                                 <div class="col-md-8 col-sm-8">
-                                                    <input class="form-control" id="bloodBank_name" name="bloodBank_name" type="text" maxlength="30" value="<?php echo set_value('bloodBank_name'); ?>">
+                                                    <input class="form-control" id="bloodBank_name" name="bloodBank_name" type="text" maxlength="30" value="<?php echo set_value('bloodBank_name'); ?>" onblur="bbname();">
                                                     <label class="error" style="display:none;" id="error-bloodBank_name"> please Check your BloodBank name</label>
                                                     <label class="error" > <?php echo form_error("bloodBank_name"); ?></label>
                                                 </div>

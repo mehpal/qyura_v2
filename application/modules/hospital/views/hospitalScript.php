@@ -152,7 +152,7 @@ if (isset($mapData) && !empty($mapData)) {
                     if (data) {
                         // $('#users_email').addClass('bdr-error');
                         return false;
-                    } else if (obj.status == 1) {
+                    } else {
 
                         return true;
                     }
@@ -184,7 +184,7 @@ if (isset($mapData) && !empty($mapData)) {
         }
     }
 
-    //$(".selectpicker").select2();
+    $(".selectpicker").select2();
 
     function IsAdrManual(val) {
         if (val == 1) {
@@ -291,9 +291,8 @@ if (isset($mapData) && !empty($mapData)) {
 
         });
 
-        $(".bs-select").select2({placeholder: "Select Insurance",
-            allowClear: true
-        });
+       
+        
         loadAwards();
         loadServices();
         var pharmacy_status = '';
@@ -2127,6 +2126,15 @@ if (isset($mapData) && !empty($mapData)) {
         });
       }
     }
+    
+    
+      $(".select2").select2({
+        width: '100%'
+    });
+
+    $(".bs-select").select2({placeholder: "Select a Speciality",
+        allowClear: true
+    });
 </script>
 </body>
 </html>

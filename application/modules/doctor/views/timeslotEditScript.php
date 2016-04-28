@@ -1,5 +1,6 @@
 <script>
     $(document).ready(function () {
+
         $(".select2").select2({
             width: '100%'
         });
@@ -9,6 +10,8 @@
             //allowClear: true,
             tags: true
         });
+
+
         $("#timeEditForm").submit(function (event) {
             event.preventDefault();
             var url = '<?php echo site_url(); ?>/doctor/editDocTime/';

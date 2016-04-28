@@ -277,7 +277,7 @@ class Doctor extends MY_Controller {
                 if ($doctorAcademic_degreeId[$i] != '' && $doctorSpecialities_specialitiesCatId[$i] != '' && $acdemic_addaddress[$i] != '' && $acdemic_addyear[$i] != '') {
                     $doctorAcademicData = array(
                         'doctorAcademic_degreeId' => $doctorAcademic_degreeId[$i],
-                        'doctorSpecialities_specialitiesCatId' => $doctorSpecialities_specialitiesCatId[$i],
+                        'doctorAcademic_specialitiesId' => $doctorSpecialities_specialitiesCatId[$i],
                         'doctorAcademic_degreeInsAddress' => $acdemic_addaddress[$i],
                         'doctorAcademic_degreeYear' => $acdemic_addyear[$i],
                         'doctorAcademic_doctorsId' => $doctorsProfileId,
@@ -1741,14 +1741,15 @@ class Doctor extends MY_Controller {
         $con = array('docTimeTable_id' => $docTimeTableId);
         $data['allStates'] = $this->Doctor_model->fetchStates();
 
+       
         $data['timeData'] = $this->Doctor_model->geTimeTable($con);
-
-        $data['stateId'] = isset($data['timeData']->stateId) && $data['timeData']->stateId != null ? $data['timeData']->stateId : '';
+        
+        $data['stateId'] = isset($data['timeData']->stateId) && $data['timeData']->stateId != null? $data['timeData']->stateId :''; 
         $data['cityInfo'] = $this->Doctor_model->getCityInfo($data['timeData']->cityId);
         $data['hospitals'] = $this->Doctor_model->fetchHosByStatus(null);
-
+        
         $data['diagnostics'] = $this->Doctor_model->fetchDigByStatus(null);
-
+        
         $form = $this->load->view('editTimeSloat', $data, true);
         $responce = array('status' => 1, 'isAlive' => TRUE, 'data' => $form);
         echo json_encode($responce);
@@ -1782,6 +1783,7 @@ class Doctor extends MY_Controller {
         }
     }
 
+
     function checkEditSloat() {
         $docTimeDay_days = isset($_POST['docTimeDay_day']) ? $this->input->post('docTimeDay_day') : '';
         $docTimeDay_open = isset($_POST['openingHour']) ? $this->input->post('openingHour') : '';
@@ -1812,6 +1814,7 @@ class Doctor extends MY_Controller {
             return true;
         }
     }
+
 
     function checkOpenTime() {
         $openingHour = $this->input->post('openingHour');

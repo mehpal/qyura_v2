@@ -21,9 +21,10 @@
                         <aside class="col-lg-1 col-md-2 col-sm-2 col-xs-6 m-tb-xs-3">
                             <a href="<?php echo base_url(); ?>index.php/diagnostic/addDiagnostic" class="btn btn-appointment waves-effect waves-light" title="Add New Diagnostic Center"><i class="fa fa-plus"></i> Add</a>
                         </aside>
-                        <aside class="col-md-2 col-sm-2 col-xs-6 visible-xs pull-right m-tb-xs-3">
+                        
+<!--                        <aside class="col-md-2 col-sm-2 col-xs-6 visible-xs pull-right m-tb-xs-3">
    <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit" onclick="createCSV()">Export</button>
-                        </aside>
+                        </aside>-->
                         
 <!--                        <aside class="col-md-3 col-sm-3 m-tb-xs-3">
                             <select class="selectpicker form-control" data-width="100%" name="diagnostic_stateId" id="diagnostic_stateId" data-size="4" onchange ="fetchCity(this.value)">
@@ -35,21 +36,33 @@
                             </select>
                         </aside>-->
                         
-                        <aside class="col-md-3 col-sm-3 m-tb-xs-3">
+                        <aside class="col-md-3 col-sm-3 m-tb-xs-3 col-md-offset-1">
                             <select type="text" name="diagnostic_cityId" class="selectpicker form-control" data-width="100%"  placeholder="Search" id="diagnostic_cityId" data-size="4" />
-                            <!-- <option>Delhi</option>
-                             <option>Kolkata</option> -->
+                           <option value=>Select Your City</option>
+                             <?php foreach ($allCities as $key => $val) { ?>
+                                    <option value="<?php echo $val->city_id; ?>"><?php echo $val->city_name; ?></option>
+                                <?php } ?>
                             </select>
                         </aside>
+
                         <aside class="col-md-3 col-sm-3 m-tb-xs-3">
+                            <select name="status" class="selectpicker" data-width="100%" id="status" />
+                           <option value="">Select Status</option>
+                           <option value="1">Active</option>
+                           <option value="0">Inactive</option>
+                            </select>
+                        </aside>
+
+                        <aside class="col-md-3 col-sm-4 m-tb-xs-3">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-search"></i></span>
                                 <input type="text" name="search" id="search" class="form-control" placeholder="Search" /> 
                             </div>
                         </aside>
-                        <aside class="col-md-2 col-sm-2 pull-right hidden-xs">
+
+<!--                        <aside class="col-md-2 col-sm-2 pull-right hidden-xs">
    <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit" onclick="createCSV()">Export</button>
-                        </aside>
+                        </aside>-->
 
                     </form>
                 </article>
@@ -67,8 +80,7 @@
                                         <th>City</th>
                                         <th>Phone</th>
                                         <th>Address</th>
-<!--                                            <th class="text-center">Total Appointments</th>
-                                        <th class="text-center">Reviews Received</th>-->
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>  
 

@@ -32,19 +32,8 @@ class MY_Controller extends CI_Controller {
         $this->small_loader = '<div><img src="' . base_url() . 'images/loader.gif" /></div>';
         $this->access_denied = $this->session->flashdata('access_denied');
         $this->load->helper(array('csv', 'download'));
+        $this->Common_model->mypermission("7");
 
-        /* if ($this->input->is_ajax_request()) {
-          if (!$this->ion_auth->logged_in()) {
-          if (!($this->router->fetch_class() == 'auth' && ($this->router->fetch_method() == 'loginAjax' || $this->router->fetch_method() == 'forgotPasswordAjax'))) {
-          $script = '<script type="text/javascript">
-          $("#headLoginModal").modal("show");
-          </script>';
-          $responce = array('status' => 0, 'isAlive' => FALSE, 'loginMod' => $script);
-          header('Content-Type: application/json');
-          echo json_encode($responce);
-          }
-          }
-          } */
     }
 
     /**
@@ -371,8 +360,8 @@ class MY_Controller extends CI_Controller {
                             'table' => 'qyura_miTimeSlot',
                             'data' => array(
                                 'hourLabel' => $hour_label,
-                                'openingHours' => $openTime,
-                                'closingHours' => $closeTime,
+                                'openingHours' => strtotime($openTime),
+                                'closingHours' => strtotime($closeTime),
                                 'modifyTime' => strtotime(date('Y-m-d H:i:s'))
                             ),
                             'where' => array(
@@ -390,8 +379,8 @@ class MY_Controller extends CI_Controller {
                                 'mi_user_id' => $mi_user_id,
                                 'dayNumber' => $dayNUmber,
                                 'hourLabel' => $hour_label,
-                                'openingHours' => $openTime,
-                                'closingHours' => $closeTime,
+                                'openingHours' => strtotime($openTime),
+                                'closingHours' => strtotime($closeTime),
                                 'creationTime' => strtotime(date('Y-m-d H:i:s'))
                             ),
                         );
@@ -446,8 +435,8 @@ class MY_Controller extends CI_Controller {
                         'mi_user_id' => $this->input->post('mi_user_id'),
                         'dayNumber' => $this->input->post('dayNumber_' . $j),
                         'hourLabel' => $hour_label,
-                        'openingHours' => $openTime,
-                        'closingHours' => $closeTime,
+                        'openingHours' => strtotime($openTime),
+                        'closingHours' => strtotime($closeTime),
                         'creationTime' => strtotime(date('Y-m-d H:i:s'))
                     );
 
@@ -493,6 +482,48 @@ class MY_Controller extends CI_Controller {
             return false;
         } 
         
+    }
+
+     function updateMultipleIds($formData, $dbData, $mainId, $table) {
+        $newDbData = array();
+        $newDbData = '';
+        $date = strtotime(date('Y-m-d'));
+         if(isset($dbData) && count($dbData) == 0){
+            foreach ($formData as $key => $value) {
+                 $insert = $this->common_model->customQuery("insert into $table(`doctorSpecialities_doctorsId`,`doctorSpecialities_specialitiesId`,`creationTime`)values($mainId,$value,$date)", $single = false, $updDelete = false, $noReturn = true);
+                 
+            }
+           return true;
+        }
+        
+        foreach ($dbData as $key => $value) {
+            $newDbData[] = $dbData[$key]->doctorSpecialities_specialitiesId;
+        }
+
+
+        // array to delete rows from table
+        $deleteArray = array();
+        $addArray = array();
+
+        $deleteArray = array_diff($newDbData, $formData);
+
+        // array to add rows in table
+        $addArray = array_diff($formData, $newDbData);
+
+        // loop to delete rows
+        if (!empty($deleteArray) && count($deleteArray)) {
+            foreach ($deleteArray as $key => $value) {
+                $response = $this->common_model->customQuery("delete from $table where doctorSpecialities_doctorsId = $mainId and doctorSpecialities_specialitiesId = $value", $single = false, $updDelete = false, $noReturn = true);
+            }
+        }
+
+        // loop to add rows
+        if (!empty($addArray) && count($addArray)) {
+            foreach ($addArray as $key => $value) {
+                $response = $this->common_model->customQuery("insert into $table(`doctorSpecialities_doctorsId`,`doctorSpecialities_specialitiesId`,`creationTime`)values($mainId,$value,$date)", $single = false, $updDelete = false, $noReturn = true);
+            }
+        }
+        return $response;
     }
 
 }

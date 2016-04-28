@@ -343,7 +343,7 @@
                             </ul>
                         </li>
                         <li class="has_sub">
-                            <a class="waves-effect <?php if($this->router->fetch_class() == 'master' || $this->router->fetch_class() == 'healthcategory' || $this->router->fetch_class() == 'membership'):echo"boldTitle  active";endif;?>" href="#"><i class="fa fa-gift"></i> <span>Master</span><span class="pull-right"><i class="md md-add"></i></span></a>
+                            <a class="waves-effect <?php if($this->router->fetch_class() == 'master' || $this->router->fetch_class() == 'mi_master' || $this->router->fetch_class() == 'healthcategory' || $this->router->fetch_class() == 'membership'):echo"boldTitle  active";endif;?>" href="#"><i class="fa fa-gift"></i> <span>Master</span><span class="pull-right"><i class="md md-add"></i></span></a>
                             <ul class="list-unstyled">
                                 <li class="<?php if($this->router->fetch_class() == 'master' && $this->router->fetch_method() == 'index' OR $this->router->fetch_method() == 'specialities'):echo"boldTitle  active";endif;?>" ><a href="<?php echo site_url('master/specialities/');?>">MI Specialities</a></li>
                                 <li class="<?php if($this->router->fetch_class() == 'master' && $this->router->fetch_method() == 'index' OR $this->router->fetch_method() == 'docspecialities'):echo"boldTitle  active";endif;?>" ><a href="<?php echo site_url('master/docspecialities/');?>">Doctor Specialities</a></li>

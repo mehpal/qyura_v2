@@ -274,7 +274,8 @@ class Ambulance extends MY_Controller {
                 'ambulance_lat' => $this->input->post('lat'),
                 'ambulance_long' => $this->input->post('lng'),
                 'ambulance_docatId' => $ambulance_docatId,
-                'ambulanceType' => $this->input->post('ambulanceType')
+                'ambulanceType' => $this->input->post('ambulanceType'),
+                'status' => 0
             );
 
             $users_email_status = $this->input->post('users_email_status');
@@ -305,31 +306,13 @@ class Ambulance extends MY_Controller {
 
 
                 $insertData['ambulance_usersId'] = $ambulance_usersId;
-                //print_r($insertData);
-                //exit;
+                $this->sendEmailRegister($this->input->post('users_email'));
                 $ambulanceId = $this->Ambulance_model->insertAmbulance($insertData);
                 $this->session->set_flashdata('message', 'Data inserted successfully !');
             }
-            redirect('ambulance/addAmbulance');
+            redirect('ambulance');
         }
     }
-
-    /* function uploadImages($imageName, $folderName, $newName) {
-      $path = realpath(FCPATH . 'assets/' . $folderName . '/');
-      $config['upload_path'] = $path;
-      //echo $config['upload_path'];
-      $config['allowed_types'] = 'gif|jpg|png';
-      $config['max_size'] = '5000';
-      $config['max_width'] = '1024';
-      $config['max_height'] = '768';
-      $config['file_name'] = $newName;
-
-
-      $this->load->library('upload', $config);
-      $this->upload->initialize($config);
-      $this->upload->do_upload($imageName);
-      return TRUE;
-      } */
 
     function getImageBase64Code($img) {
         $img = str_replace('data:image/png;base64,', '', $img);

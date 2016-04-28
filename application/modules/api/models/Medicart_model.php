@@ -13,25 +13,28 @@ class Medicart_model extends Common_model
 	
     }
     
-    
+    function specialityList(){
+        
+        $this->db->select("specialities_drName, specialities_name, specialities_id, CONCAT('assets/specialityImages/3x','/',specialities_img) img,  (SELECT count(medicartSpecialities_medicartId) from qyura_medicartSpecialities JOIN `qyura_medicartOffer` ON `qyura_medicartOffer`.`medicartOffer_id` = `medicartSpecialities_medicartId` where `qyura_medicartOffer`.`status` = 1 AND medicartSpecialities_deleted = 0 AND `qyura_medicartSpecialities`.`status` = 1 AND `medicartSpecialities_specialitiesId` = `specialities_id`) as specialityCount")
+                ->from("qyura_specialities")
+                ->where(array("status"=>1, "specialities_deleted"=>0, "type"=>0 ));
+        
+        return $this->db->get()->result();
+    }
+
+
    public function getMedlists($option)
     {
-        $lat        =   '';
-        $long      =   '';
-        $search    =   ''; 
-        $notin       =   '';
+        $lat            =   '';
+        $long           =   '';
+        $search         =   ''; 
+        $notin          =   '';
+        $speciality     =   '';
         
         extract($option);
-//        dump($option);die();
-        $nowDt      =   time();
-//        $con = array(
-//                        'qyura_diagnostic.diagnostic_deleted'=>0,
-//                        'qyura_users.users_deleted'=>0,
-//                        'qyura_medicartOffer.medicartOffer_deleted'=>0,
-//                        'qyura_offerCat.offerCat_deleted'=>0,
-//                        'qyura_medicartOffer.medicartOffer_endDate >'=>$nowDt
-//                    );
-        
+ 
+        $nowDt          =   time();
+ 
         if(isset($city) && $city != ""){
             
      

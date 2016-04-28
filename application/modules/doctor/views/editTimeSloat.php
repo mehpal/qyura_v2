@@ -2,9 +2,13 @@
     <article class="clearfix m-t-10">
         <label class="control-label" for="docTimeTable_stayAt">Seating Place Type:</label>
         <div class="">
+<<<<<<< HEAD
             <input type="text" name="doctorId" id="" value="<?php echo $timeData->doctorId; ?>" />
             <input type="text" name="docTimeTableId" id="docTimeTableId" value="<?php echo $timeData->docTimeTableId; ?>" />
             
+=======
+            <input type="hidden" name="doctorId" id="" value="<?php echo $timeData->doctorId; ?>" />
+>>>>>>> 9d14d3b86926ace805c90dbd445eb84dfca44625
             <aside class="radio radio-info radio-inline">
                 <input type="radio" <?php echo isset($timeData->stayAt) && $timeData->stayAt == 1 ? 'checked':''; ?>  required="" name="docTimeTable_stayAt" value="1" class="docTimeTable_stayAt" onclick="placeDetail(this.value)" >
                 <label for="inlineRadio1"> MI Place</label>
@@ -177,8 +181,11 @@
     <article class="clearfix">
         <label class="control-label" for="docTimeDay_day">Weekdays:</label>
         <div class="">
+
             <input name="docTimeDayId" id="docTimeDayId" type="text" value="<?php echo $timeData->docTimeDayId; ?>" />
              <input name="day" id="day" type="text" value="<?php echo $timeData->day; ?>" />
+
+
             <select class="m-t-5 select2" data-width="100%" name="docTimeDay_day[]" id="docTimeDay_day" multiple="">
                 <?php
                 $days = getDay();
@@ -188,7 +195,7 @@
                 
                 if (isset($days) && $days != NULL) {
                     foreach ($days as $d => $dayName) {
-                       
+
                         ?>
                         <option <?php echo in_array($dayName, $dbDays) ? 'selected':''; ?> value="<?php echo $dayName ?>"><?php echo $d ?></option>
                         <?php
