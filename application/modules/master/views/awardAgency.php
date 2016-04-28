@@ -36,7 +36,8 @@
                                    
                                     <span class="col-lg-2 col-sm-2 col-xs-2">
                                         <a href="#"><i class="md md-edit membership-btn"></i></a>
-                                        <a href="javascript:void(0)" onclick="enableFn('master', 'awardAgencyPublish', '<?php echo $awardAgency->awardAgency_id; ?>','<?php echo $awardAgency->status; ?>')" title='<?php if($awardAgency->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Award Agency' class="pull-right m-l-10 "><i class="fa fa-thumbs-<?php if($awardAgency->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></a>
+                                        <button onclick="if((<?php echo $awardAgency->status; ?>)===2)enableFn('master', 'awardAgencyPublish', '<?php echo $awardAgency->awardAgency_id; ?>','<?php echo $awardAgency->status; ?>')" type="button" class="btn btn-<?php if($awardAgency->status == 2){ echo "danger"; }else if($awardAgency->status == 0){ echo "warning"; }else if($awardAgency->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($awardAgency->status == 3){ echo "Verified"; }else if($awardAgency->status == 2){ echo "Unverified"; }else if($awardAgency->status == 1){ echo "Active"; }else if($awardAgency->status == 0){ echo "Inactive"; } ?></button>
+                                        
                                     </span>
                                 </li>
                                 <li class="newmembership" style="display:none">

@@ -63,7 +63,8 @@
                                           </span>
                                           <span class="col-md-2">
                                           <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
-                                          <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>','1')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
+                                          
+                                          <button onclick="if((<?php echo $list->status; ?>)===2)enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" type="button" class="btn btn-<?php if($list->status == 2){ echo "danger"; }else if($list->status == 0){ echo "warning"; }else if($list->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($list->status == 3){ echo "Verified"; }else if($list->status == 2){ echo "Unverified"; }else if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
                                           </span>
                                        </div>
                                     <li class="newmembership" style="display:none">
@@ -143,24 +144,24 @@
                                        if($list->hospitalType_miRole == 3){ ?>
                                     <input type="hidden" id="hospitalType_miRole" name="hospitalType_miRole" value="<?php echo $list->hospitalType_miRole; ?>">
                                     <li class="clearfix degrees">
-                                       <div class="membership-plan2" >
+                                       <div class="membership-plan" >
                                           <span class="col-md-10">
                                           <?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>
                                           </span>
                                           <span class="col-md-2">
-                                          <a href="#"><i class="md md-edit membership-btn2 l-height"></i></a>
-                                          <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>','3')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
+                                          <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
+                                          <button onclick="if((<?php echo $list->status; ?>)===2)enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" type="button" class="btn btn-<?php if($list->status == 2){ echo "danger"; }else if($list->status == 0){ echo "warning"; }else if($list->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($list->status == 3){ echo "Verified"; }else if($list->status == 2){ echo "Unverified"; }else if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
                                           </span>
                                        </div>
-                                    <li class="newmembership2" style="display:none">
+                                    <li class="newmembership" style="display:none">
                                        <span class="col-md-10">
                                        <input type="hidden" id="hospitalType_id_<?php echo $countHospi; ?>" name="hospitalType_id_<?php echo $countHospi; ?>" value="<?php echo $list->hospitalType_id; ?>" >
                                        <input type="text" required="" name="hospitalType_name_<?php echo $countHospi; ?>" id="hospitalType_name_<?php echo $countHospi; ?>" class="form-control" value="<?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>">
                                        <label class="error" id="hospitalType_name_<?php echo $countHospi; ?>" > <?php echo form_error("hospitalType_name_$countHospi"); ?></label>
                                        </span>
                                        <span class="col-md-2">
-                                       <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn2"></i></button>
-                                       <a href="#"><i class="md md-cancel membership-btn2 l-height"></i></a>
+                                       <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
+                                       <a href="#"><i class="md md-cancel membership-btn l-height"></i></a>
                                        </span>
                                     </li>
                                     </li>
@@ -229,24 +230,24 @@
                                        if($list->hospitalType_miRole == 2){ ?>
                                     <input type="hidden" id="hospitalType_miRole" name="hospitalType_miRole" value="<?php echo $list->hospitalType_miRole; ?>">
                                     <li class="clearfix degrees">
-                                       <div class="membership-plan3" >
+                                       <div class="membership-plan" >
                                           <span class="col-md-10">
                                           <?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>
                                           </span>
                                           <span class="col-md-2">
-                                          <a href="#"><i class="md md-edit membership-btn3 l-height"></i></a>
-                                          <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>','2')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
+                                          <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
+                                          <button onclick="if((<?php echo $list->status; ?>)===2)enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" type="button" class="btn btn-<?php if($list->status == 2){ echo "danger"; }else if($list->status == 0){ echo "warning"; }else if($list->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($list->status == 3){ echo "Verified"; }else if($list->status == 2){ echo "Unverified"; }else if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
                                           </span>
                                        </div>
-                                    <li class="newmembership3" style="display:none">
+                                    <li class="newmembership" style="display:none">
                                        <span class="col-md-10">
                                        <input type="hidden" id="hospitalType_id_<?php echo $countHospi; ?>" name="hospitalType_id_<?php echo $countHospi; ?>" value="<?php echo $list->hospitalType_id; ?>" >
                                        <input type="text" required="" name="hospitalType_name_<?php echo $countHospi; ?>" id="hospitalType_name_<?php echo $countHospi; ?>" class="form-control" value="<?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>">
                                        <label class="error" id="hospitalType_name_<?php echo $countHospi; ?>" > <?php echo form_error("hospitalType_name_$countHospi"); ?></label>
                                        </span>
                                        <span class="col-md-2">
-                                       <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn3"></i></button>
-                                       <a href="#"><i class="md md-cancel membership-btn3 l-height"></i></a>
+                                       <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
+                                       <a href="#"><i class="md md-cancel membership-btn l-height"></i></a>
                                        </span>
                                     </li>
                                     </li>
@@ -315,24 +316,24 @@
                                        if($list->hospitalType_miRole == 5){ ?>
                                     <input type="hidden" id="hospitalType_miRole" name="hospitalType_miRole" value="<?php echo $list->hospitalType_miRole; ?>">
                                     <li class="clearfix degrees">
-                                       <div class="membership-plan4" >
+                                       <div class="membership-plan" >
                                           <span class="col-md-10">
                                           <?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>
                                           </span>
                                           <span class="col-md-2">
-                                          <a href="#"><i class="md md-edit membership-btn4 l-height"></i></a>
-                                          <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>','5')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
+                                          <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
+                                          <button onclick="if((<?php echo $list->status; ?>)===2)enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" type="button" class="btn btn-<?php if($list->status == 2){ echo "danger"; }else if($list->status == 0){ echo "warning"; }else if($list->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($list->status == 3){ echo "Verified"; }else if($list->status == 2){ echo "Unverified"; }else if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
                                           </span>
                                        </div>
-                                    <li class="newmembership4" style="display:none">
+                                    <li class="newmembership" style="display:none">
                                        <span class="col-md-10">
                                        <input type="hidden" id="hospitalType_id_<?php echo $countHospi; ?>" name="hospitalType_id_<?php echo $countHospi; ?>" value="<?php echo $list->hospitalType_id; ?>" >
                                        <input type="text" required="" name="hospitalType_name_<?php echo $countHospi; ?>" id="hospitalType_name_<?php echo $countHospi; ?>" class="form-control" value="<?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>">
                                        <label class="error" id="hospitalType_name_<?php echo $countHospi; ?>" > <?php echo form_error("hospitalType_name_$countHospi"); ?></label>
                                        </span>
                                        <span class="col-md-2">
-                                       <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn4"></i></button>
-                                       <a href="#"><i class="md md-cancel membership-btn4 l-height"></i></a>
+                                       <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
+                                       <a href="#"><i class="md md-cancel membership-btn l-height"></i></a>
                                        </span>
                                     </li>
                                     </li>
@@ -401,24 +402,24 @@
                                        if($list->hospitalType_miRole == 8){ ?>
                                     <input type="hidden" id="hospitalType_miRole" name="hospitalType_miRole" value="<?php echo $list->hospitalType_miRole; ?>">
                                     <li class="clearfix degrees">
-                                       <div class="membership-plan5" >
+                                       <div class="membership-plan" >
                                           <span class="col-md-10">
                                           <?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>
                                           </span>
                                           <span class="col-md-2">
-                                          <a href="#"><i class="md md-edit membership-btn5 l-height"></i></a>
-                                          <button onclick="enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>','8')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Mitype' type="button" class="btn"><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
+                                          <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
+                                          <button onclick="if((<?php echo $list->status; ?>)===2)enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" type="button" class="btn btn-<?php if($list->status == 2){ echo "danger"; }else if($list->status == 0){ echo "warning"; }else if($list->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($list->status == 3){ echo "Verified"; }else if($list->status == 2){ echo "Unverified"; }else if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
                                           </span>
                                        </div>
-                                    <li class="newmembership5" style="display:none">
+                                    <li class="newmembership" style="display:none">
                                        <span class="col-md-10">
                                        <input type="hidden" id="hospitalType_id_<?php echo $countHospi; ?>" name="hospitalType_id_<?php echo $countHospi; ?>" value="<?php echo $list->hospitalType_id; ?>" >
                                        <input type="text" required="" name="hospitalType_name_<?php echo $countHospi; ?>" id="hospitalType_name_<?php echo $countHospi; ?>" class="form-control" value="<?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>">
                                        <label class="error" id="hospitalType_name_<?php echo $countHospi; ?>" > <?php echo form_error("hospitalType_name_$countHospi"); ?></label>
                                        </span>
                                        <span class="col-md-2">
-                                       <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn5"></i></button>
-                                       <a href="#"><i class="md md-cancel membership-btn5 l-height"></i></a>
+                                       <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
+                                       <a href="#"><i class="md md-cancel membership-btn l-height"></i></a>
                                        </span>
                                     </li>
                                     </li>
