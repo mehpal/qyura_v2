@@ -37,14 +37,15 @@
                                  <span class="col-md-3 text-right">
                                     <h6>
                                       <a href="#"><i class="md md-edit membership-btn"></i></a>
-                                      <a href="javascript:void(0)" onclick="enableFn('master', 'departmentPublish', '<?php echo $list->department_id; ?>','<?php echo $list->status; ?>')" title='<?php if($list->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Department' class="pull-right m-l-10 "><i class="fa fa-thumbs-<?php if($list->status == 3){ echo "up"; }else{ echo "down danger"; } ?> "></i></a>
+                                      <button onclick="if((<?php echo $list->status; ?>)===2)enableFn('master', 'departmentPublish', '<?php echo $list->department_id; ?>','<?php echo $list->status; ?>')" type="button" class="btn btn-<?php if($list->status == 2){ echo "danger"; }else if($list->status == 0){ echo "warning"; }else if($list->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($list->status == 3){ echo "Verified"; }else if($list->status == 2){ echo "Unverified"; }else if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
+                                      
                                     </h6>
                                  </span>
                               </li>
                            <li class="newmembership" style="display:none">
                                 <input type="hidden" id="department_id_<?php echo $countDepartment; ?>" name="department_id_<?php echo $countDepartment; ?>" value="<?php echo $list->department_id; ?>" >
                                 <span class="col-md-10">
-                                <input type="text" required="" name="department_name_<?php echo $countDepartment; ?>" id="department_name_<?php echo $countDepartment; ?>" class="form-control" value="<?php echo $list->department_name; ?>" pattern="[a-zA-Z]+">
+                                <input type="text" required="" name="department_name_<?php echo $countDepartment; ?>" id="department_name_<?php echo $countDepartment; ?>" class="form-control" value="<?php echo $list->department_name; ?>">
                                    <label class="error" id="err_department_name_<?php echo $countDepartment; ?>" > <?php echo form_error("department_name"); ?></label>
                                 </span>
                                 <span class="col-md-2">
@@ -74,7 +75,7 @@
                                  <article class="clearfix m-t-10">
                                     <label for="" class="control-label">Add New Department:</label>
                                     <div class="">
-                                       <input type="text" required="" name="department_name" id="department_name" class="form-control" pattern="[a-zA-Z]+">
+                                       <input type="text"  name="department_name" id="department_name" class="form-control">
                                        <label class="error" id="err_department_name" > <?php echo form_error("department_name"); ?></label>
                                     </div>
                                  </article>
