@@ -326,7 +326,7 @@
                                                             <article class="clearfix">
                                                                 <label for="cname" class="control-label col-md-4  col-sm-4">Hospital Type :</label>
                                                                 <div class="col-md-8 col-sm-8">
-                                                                    <select class="form-control select2" data-width="100%" name="hospital_type" id="hospital_type" tabindex="-98">
+                                                                    <select class="form-control selectpicker" data-width="100%" name="hospital_type" id="hospital_type" tabindex="-98">
                                                                         <?php if(!empty($hospitalType)){ foreach($hospitalType as $key=>$val) {
                                                                                 $selected = '';
                                                                                 if(isset($hospitalData[0]->hospital_type) && $hospitalData[0]->hospital_type == $val->hospitalType_id){ $selected = 'selected = "selected" ';  }
@@ -339,7 +339,7 @@
                                                             <article class="clearfix m-t-10">
                                                             <label for="cemail" class="control-label col-md-4 col-sm-4">Address :</label>
                                                             <div class="col-md-8 col-sm-8">
-                                                                         <select class="form-control select2" data-width="100%" name="hospital_countryId" onchange ="fetchState(this.value)">
+                                                                         <select class="form-control selectpicker" data-width="100%" name="hospital_countryId" onchange ="fetchState(this.value)">
                                                                              <option value="" >Select Country</option>
                                                                              <?php if(!empty($allCountry)):
                                                                                     foreach($allCountry as $country):?>
@@ -354,7 +354,7 @@
                                                             <article class="clearfix">
                                                             	<div class="col-sm-offset-4 col-sm-8">
                                                                            <?php // print_r($allStates); ?>
-                                                                            <select class="form-control select2" data-width="100%" name="hospital_stateId" onchange ="fetchCity(this.value)" id="hospital_stateId">
+                                                                            <select class="form-control selectpicker" data-width="100%" name="hospital_stateId" onchange ="fetchCity(this.value)" id="hospital_stateId">
                                                                                 <?php foreach($allStates as $key=>$val) {?>
                                                                                   <option <?php if($hospitalData[0]->hospital_stateId == $val->state_id):echo"selected";endif;?> value="<?php echo $val->state_id;?>"><?php echo $val->state_statename;?></option>
                                                                                  <?php }?>
@@ -368,7 +368,7 @@
                                                             </article>
                                                             <article class="clearfix">
                                                             	<div class="col-sm-offset-4 col-sm-8">
-                                                                <select class="form-control select2" data-width="100%" name="hospital_cityId" id="hospital_cityId">
+                                                                <select class="form-control selectpicker" data-width="100%" name="hospital_cityId" id="hospital_cityId">
                                                                               <?php foreach($allCities as $key=>$val) {?>
                                                                                 <option <?php if($hospitalData[0]->hospital_cityId == $val->city_id):echo"selected";endif;?> value="<?php echo $val->city_id;?>"><?php echo $val->city_name;?></option>
                                                                               <?php }?>
@@ -797,7 +797,7 @@
                                                                         <label for="cemail" class="control-label col-md-4 col-sm-4">Company Name :</label>
                                                                         <div class="col-md-8 col-sm-8">
                                                                             <!--<input class="form-control" id="diagnosticCenter" name="name" type="text" required=""> -->
-                                                                            <select  multiple="" class="select2" data-width="100%" name="insurances[]" Id="insurances" data-size="4" >
+                                                                            <select  multiple="" class="bs-select form-control-select2 " data-width="100%" name="insurances[]" Id="insurances" data-size="4" >
 
                                                                                     <?php foreach($allInsurance as $key=>$val) {?>
                                                                                      <option value="<?php echo $val->insurance_id;?>"><?php echo $val->insurance_Name;?></option>
@@ -805,7 +805,16 @@
                                                                                  </select>
                                                                         </div>
                                                                     </article>
-                                                                
+                                                                   <!-- <article class="form-group m-lr-0 ">
+                                                                        <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
+                                                                        <div class="col-md-8 col-sm-8 text-right">
+                                                                            <input id="uploadFileBb" class="showUpload" disabled="disabled" />
+                                                                            <div class="fileUpload btn btn-sm btn-upload">
+                                                                                <span><i class="fa fa-cloud-upload fa-3x"></i></span>
+                                                                                <input id="uploadBtnBb" type="file" class="upload" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </article>-->
                                                                     <article class="clearfix ">
                                                                         <div class="col-md-12 m-t-20 m-b-20">
                                                                             <button type="submit" class="btn btn-success waves-effect waves-light pull-right">Add More</button>
@@ -1337,7 +1346,7 @@
                                                 <article class="clearfix m-b-10">
                                                     <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type:</label>
                                                     <div class="col-md-8 col-sm-8">
-                                                        <select class="select2" data-width="100%" name="hospital_mmbrTyp" id="hospital_mmbrTyp">
+                                                        <select class="selectpicker" data-width="100%" name="hospital_mmbrTyp" id="hospital_mmbrTyp">
                                                             <option value="1" <?php if($hospitalData[0]->hospital_mmbrTyp == 1){echo "selected";} ?>>Life Time</option>
                                                             <option value="2" <?php if($hospitalData[0]->hospital_mmbrTyp == 2){echo "selected";} ?>>Health Club</option>
 

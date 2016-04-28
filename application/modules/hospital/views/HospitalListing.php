@@ -35,7 +35,7 @@
                         </aside> -->
                         
                         <aside class="col-md-3 col-sm-3 m-tb-xs-3 col-md-offset-1">
-                            <select type="text" name="hospital_cityId" class="selectpicker" data-width="100%"  placeholder="Search" id="hospital_cityId" data-size="4" />
+                            <select type="text" name="hospital_cityId" class="select2" data-width="100%"  placeholder="Search" id="hospital_cityId" data-size="4" />
                             <option value=>Select Your City</option>
                              <?php foreach ($allCities as $key => $val) { ?>
                                     <option value="<?php echo $val->city_id; ?>"><?php echo $val->city_name; ?></option>
@@ -44,7 +44,7 @@
                         </aside>
                         
                          <aside class="col-md-3 col-sm-3 m-tb-xs-3">
-                            <select name="status" class="selectpicker" data-width="100%" id="status" />
+                            <select name="status" class="select2" data-width="100%" id="status" />
                            <option value="">Select Status</option>
                            <option value="1">Active</option>
                            <option value="0">Inactive</option>
