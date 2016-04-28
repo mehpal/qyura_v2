@@ -166,18 +166,21 @@ if (isset($mapData) && !empty($mapData)) {
         if ($('#pharmacy_name').val() == '') {
             $('#pharmacy_name').addClass('bdr-error');
             $('#error-pharmacy_name').fadeIn().delay(3000).fadeOut('slow');
+             setTimeout(function(){ $('#pharmacy_name').removeClass('bdr-error'); }, 3000);
             status = 0;
             // $('#hospital_name').focus();
         }
         if ($('#pharmacy_type').val() == '') {
             $('#pharmacy_type').addClass('bdr-error');
             $('#error-pharmacy_type').fadeIn().delay(3000).fadeOut('slow');
+             setTimeout(function(){ $('#pharmacy_type').removeClass('bdr-error'); }, 3000);
             status = 0;
             // $('#hospital_type').focus();
         }
         if ($.trim($('#pharmacy_countryId').val()) == '') {
             $('#pharmacy_countryId').addClass('bdr-error');
             $('#error-pharmacy_countryId').fadeIn().delay(3000).fadeOut('slow');
+             setTimeout(function(){ $('#pharmacy_countryId').removeClass('bdr-error'); }, 3000);
             status = 0;
             // $('#hospital_countryId').focus();
         }
@@ -185,12 +188,14 @@ if (isset($mapData) && !empty($mapData)) {
             // console.log("in state");
             $('#pharmacy_stateId').addClass('bdr-error');
             $('#error-pharmacy_stateId').fadeIn().delay(3000).fadeOut('slow');
+             setTimeout(function(){ $('#pharmacy_stateId').removeClass('bdr-error'); }, 3000);
             status = 0;
             // $('#hospital_stateId').focus();
         }
         if (cityId === '') {
             $('#pharmacy_cityId').addClass('bdr-error');
             $('#error-pharmacy_cityId').fadeIn().delay(3000).fadeOut('slow');
+             setTimeout(function(){ $('#pharmacy_cityId').removeClass('bdr-error'); }, 3000);
             status = 0;
             // $('#hospital_cityId').focus();
         }
@@ -206,6 +211,7 @@ if (isset($mapData) && !empty($mapData)) {
 
             $('#pharmacy_zip').addClass('bdr-error');
             $('#error-pharmacy_zip_long').fadeIn().delay(3000).fadeOut('slow');
+             setTimeout(function(){ $('#pharmacy_zip').removeClass('bdr-error'); }, 3000);
             status = 0;
             // $('#hospital_zip').focus();
         }
@@ -213,6 +219,7 @@ if (isset($mapData) && !empty($mapData)) {
         if ($("input[name='pharmacy_address']").val() == '') {
             $('#pharmacy_address').addClass('bdr-error');
             $('#error-pharmacy_address').fadeIn().delay(3000).fadeOut('slow');
+             setTimeout(function(){ $('#pharmacy_address').removeClass('bdr-error'); }, 3000);
             status = 0;
             // $('#hospital_address').focus();
         }
@@ -221,6 +228,7 @@ if (isset($mapData) && !empty($mapData)) {
         if (!$.isNumeric(phn)) {
             $('#pharmacy_phn').addClass('bdr-error');
             $('#error-pharmacy_phn').fadeIn().delay(3000).fadeOut('slow');
+             setTimeout(function(){ $('#pharmacy_phn').removeClass('bdr-error'); }, 3000);
             status = 0;
             // $('#hospital_phn').focus();
         }
@@ -228,6 +236,7 @@ if (isset($mapData) && !empty($mapData)) {
         if (!check.test(cpname)) {
             $('#pharmacy_cntPrsn').addClass('bdr-error');
             $('#error-pharmacy_cntPrsn').fadeIn().delay(3000).fadeOut('slow');
+             setTimeout(function(){ $('#pharmacy_cntPrsn').removeClass('bdr-error'); }, 3000);
             status = 0;
             // $('#hospital_cntPrsn').focus();
         }
@@ -235,12 +244,14 @@ if (isset($mapData) && !empty($mapData)) {
         if ($('#pharmacy_mmbrTyp').val() == '') {
             $('#pharmacy_mmbrTyp').addClass('bdr-error');
             $('#error-pharmacy_mmbrTyp').fadeIn().delay(3000).fadeOut('slow');
+             setTimeout(function(){ $('#pharmacy_mmbrTyp').removeClass('bdr-error'); }, 3000);
             status = 0;
             // $('#hospital_mmbrType').focus();
         }
         if ($('#users_email').val() === '') {
             $('#users_email').addClass('bdr-error');
             $('#error-users_email').fadeIn().delay(3000).fadeOut('slow');
+             setTimeout(function(){ $('#users_email').removeClass('bdr-error'); }, 3000);
             status = 0;
             // $('#users_email').focus();
         }
@@ -248,6 +259,7 @@ if (isset($mapData) && !empty($mapData)) {
         if (myzip.length < 6) {
             $('#pharmacy_zip').addClass('bdr-error');
             $('#error-pharmacy_zip').fadeIn().delay(3000).fadeOut('slow');
+             setTimeout(function(){ $('#pharmacy_zip').removeClass('bdr-error'); }, 3000);
             status = 0;
         }
 
@@ -255,6 +267,7 @@ if (isset($mapData) && !empty($mapData)) {
         if ($('#lat').val() == '') {
             $('#lat').addClass('bdr-error');
             $('#error-lat').fadeIn().delay(3000).fadeOut('slow');
+            
             setTimeout(function () {
                 $('#lat').removeClass('bdr-error');
             }, 3000);
@@ -273,7 +286,7 @@ if (isset($mapData) && !empty($mapData)) {
          if($('#pharmacy_docatId').val()==''){
                 $('#pharmacy_docatId').addClass('bdr-error');
                 $('#error-pharmacy_docatId').fadeIn().delay(3000).fadeOut('slow');
-               
+                setTimeout(function(){ $('#pharmacy_docatId').removeClass('bdr-error'); }, 3000);
                status = 0;
             }
             
@@ -282,6 +295,7 @@ if (isset($mapData) && !empty($mapData)) {
                 
                 $('#pharmacy_phn').addClass('bdr-error');
                 $('#error-pharmacy_phn').fadeIn().delay(3000).fadeOut('slow');
+                 setTimeout(function(){ $('#pharmacy_phn').removeClass('bdr-error'); }, 3000);
                 // $('#hospital_phn').focus();
                 status = 0;
             }else{
@@ -290,6 +304,7 @@ if (isset($mapData) && !empty($mapData)) {
                      
                 $('#pharmacy_phn').addClass('bdr-error');
                 $('#error-pharmacy_phn').fadeIn().delay(3000).fadeOut('slow'); 
+                 setTimeout(function(){ $('#pharmacy_phn').removeClass('bdr-error'); }, 3000);
                  status = 0;
                 }
             }
@@ -611,81 +626,148 @@ if (isset($mapData) && !empty($mapData)) {
             }
         });
     }
-
-    function changebackgroundImage(id) {
-        $.ajax({
+    
+        function changebackgroundImage(id){
+           $.ajax({
             url: urls + 'index.php/pharmacy/getBackgroundImage/' + id, // Url to which the request is send
-            type: "POST",
-            contentType: false, // The content type used when sending data to the server.
-            cache: false, // To unable request pages to be cached
-            processData: false, // To send DOMDocument or non processed data file it is set to false
-            success: function (data)   // A function to be called if request succeeds
+            type: "POST",            
+            contentType: false,       // The content type used when sending data to the server.
+            cache: false,             // To unable request pages to be cached
+            processData:false,        // To send DOMDocument or non processed data file it is set to false
+            success: function(data)   // A function to be called if request succeeds
             {
-                $('.bg-picture').css("background-image", "url(" + data + ")");
+              $('.bg-picture').css("background-image", "url("+data+")");   
             }
-
-        });
-
+               
+          });
+    
     }
+
+//    function changebackgroundImage(id) {
+//        $.ajax({
+//            url: urls + 'index.php/pharmacy/getBackgroundImage/' + id, // Url to which the request is send
+//            type: "POST",
+//            contentType: false, // The content type used when sending data to the server.
+//            cache: false, // To unable request pages to be cached
+//            processData: false, // To send DOMDocument or non processed data file it is set to false
+//            success: function (data)   // A function to be called if request succeeds
+//            {
+//                $('.bg-picture').css("background-image", "url(" + data + ")");
+//            }
+//
+//        });
+//
+//    }
 
     $(document).ready(function (e) {
 
-        $("#uploadimage").on('submit', (function (e) {
+//        $("#uploadimage").on('submit', (function (e) {
+//            e.preventDefault();
+//            $("#messageErrors").empty();
+//            $('#loading').show();
+//            $.ajax({
+//                url: urls + 'index.php/pharmacy/pharmacyBackgroundUpload/' + pharmacyId, // Url to which the request is send
+//                type: "POST", // Type of request to be send, called as method
+//                data: new FormData(this), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+//                contentType: false, // The content type used when sending data to the server.
+//                cache: false, // To unable request pages to be cached
+//                processData: false, // To send DOMDocument or non processed data file it is set to false
+//                success: function (data)   // A function to be called if request succeeds
+//                {
+//                    var obj = jQuery.parseJSON(data);
+//                    if (obj.status == 200) {
+//                        $("#messageErrors").html("<div class='alert alert-success'>" + obj.messsage + "</div>");
+//                        setTimeout(function(){ $("#messageErrors").html(""); }, 2000);
+//                        changebackgroundImage(pharmacyId);
+//                        $("#changeBg").modal('hide');
+//
+//                    } else {
+//                        $("#messageErrors").html("<div class='alert alert-danger'>" + obj.messsage + "</div>");
+//                         setTimeout(function(){ $("#messageErrors").html(""); }, 2000);
+//                    }
+//
+//                }
+//            });
+//        }));
+        
+         $("#uploadimage").on('submit',(function(e) {
             e.preventDefault();
             $("#messageErrors").empty();
             $('#loading').show();
             $.ajax({
-                url: urls + 'index.php/pharmacy/pharmacyBackgroundUpload/' + pharmacyId, // Url to which the request is send
-                type: "POST", // Type of request to be send, called as method
-                data: new FormData(this), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
-                contentType: false, // The content type used when sending data to the server.
-                cache: false, // To unable request pages to be cached
-                processData: false, // To send DOMDocument or non processed data file it is set to false
-                success: function (data)   // A function to be called if request succeeds
-                {
-                    var obj = jQuery.parseJSON(data);
-                    if (obj.status == 200) {
-                        $("#messageErrors").html("<div class='alert alert-success'>" + obj.messsage + "</div>");
-                        changebackgroundImage(pharmacyId);
-                        $("#changeBg").modal('hide');
-
-                    } else {
-                        $("#messageErrors").html("<div class='alert alert-danger'>" + obj.messsage + "</div>");
-                    }
-
+            url: urls + 'index.php/pharmacy/pharmacyBackgroundUpload/' + pharmacyId, // Url to which the request is send
+            type: "POST",             // Type of request to be send, called as method
+            data: new FormData(this), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+            contentType: false,       // The content type used when sending data to the server.
+            cache: false,             // To unable request pages to be cached
+            processData:false,        // To send DOMDocument or non processed data file it is set to false
+            success: function(data)   // A function to be called if request succeeds
+            {
+                var obj = jQuery.parseJSON(data);
+                if(obj.status == 200){
+                     $("#messageErrors").html("<div class='alert alert-success'>"+obj.messsage+"</div>");
+                     setTimeout(function(){ $("#messageErrors").html(""); }, 2000);
+                      changebackgroundImage(pharmacyId);
+                      $("#changeBg").modal('hide');
+                      $("#uploadBtnDd").val("");
+                    
+                }else{
+                    $("#messageErrors").html("<div class='alert alert-danger'>"+obj.messsage+"</div>");
+                    setTimeout(function(){ $("#messageErrors").html(""); }, 2000);
                 }
-            });
-        }));
-// Function to preview image after validation
 
-
-        $("#uploadBtnDd").change(function () {
-
-            $("#messageErrors").empty(); // To remove the previous error message
-            var file = this.files[0];
-            var imagefile = file.type;
-            var match = ["image/jpeg", "image/png", "image/jpg"];
-            if (!((imagefile == match[0]) || (imagefile == match[1]) || (imagefile == match[2])))
-            {
-                $('#previewing').attr('src', 'noimage.png');
-                $("#messageErrors").html("<div class='alert alert-danger'><p id='error'>Please Select A valid Image File</p><span id='error_message'>Only jpeg, jpg and png Images type allowed</span></div>");
-                return false;
-            } else
-            {
-                var reader = new FileReader();
-                reader.onload = imageIsLoaded;
-                reader.readAsDataURL(this.files[0]);
             }
-        });
+            });
+    }));
+        
+// Function to preview image after validation
+$("#uploadBtnDd").change(function() {
 
-        function imageIsLoaded(e) {
-            $("#file").css("color", "green");
-            $('#image_preview').css("display", "block");
-            $('#previewing').attr('src', e.target.result);
-            $('#previewing').attr('width', '500px');
-            $('#previewing').attr('height', '230px');
-        }
+$("#messageErrors").empty(); // To remove the previous error message
+    var file = this.files[0];
+    var imagefile = file.type;
+    var match= ["image/jpeg","image/png","image/jpg"];
+    if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2])))
+    {
+    $('#previewing').attr('src','noimage.png');
+    $("#messageErrors").html("<div class='alert alert-danger'><p id='error'>Please Select A valid Image File</p><span id='error_message'>Only jpeg, jpg and png Images type allowed</span></div>");
+    return false;
+    }
+    else
+    {
+    var reader = new FileReader();
+    reader.onload = imageIsLoaded;
+    reader.readAsDataURL(this.files[0]);
+    }
     });
+
+//        $("#uploadBtnDd").change(function () {
+//
+//            $("#messageErrors").empty(); // To remove the previous error message
+//            var file = this.files[0];
+//            var imagefile = file.type;
+//            var match = ["image/jpeg", "image/png", "image/jpg"];
+//            if (!((imagefile == match[0]) || (imagefile == match[1]) || (imagefile == match[2])))
+//            {
+//                $('#previewing').attr('src', 'noimage.png');
+//                $("#messageErrors").html("<div class='alert alert-danger'><p id='error'>Please Select A valid Image File</p><span id='error_message'>Only jpeg, jpg and png Images type allowed</span></div>");
+//                return false;
+//            } else
+//            {
+//                var reader = new FileReader();
+//                reader.onload = imageIsLoaded;
+//                reader.readAsDataURL(this.files[0]);
+//            }
+//        });
+
+function imageIsLoaded(e) {
+    $("#file").css("color","green");
+    $('#image_preview').css("display", "block");
+    $('#previewing').attr('src', e.target.result);
+    $('#previewing').attr('width', '500px');
+    $('#previewing').attr('height', '230px');
+}
+});
 
     $("#edit").click(function () {
         $("#detail").toggle();
@@ -757,7 +839,7 @@ if (isset($mapData) && !empty($mapData)) {
 
                 if (obj.state == 400) {
                     $("#message_upload").html("<div class='alert alert-danger'>" + obj.message + "</div>");
-                    $(".close").hide();
+                   // $(".close").hide();
                 } else {
                     $("#avatar-modal").modal('hide');
                     $("#message_upload").html("");

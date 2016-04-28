@@ -65,9 +65,9 @@
                      <li class="<?php if(isset($active) && $active == 'general'){echo "active";}?>" >
                         <a data-toggle="tab" href="#general" id="g">General Detail</a>
                      </li>
-                     <li class="<?php if(isset($active) && $active == 'ba'){echo "active";}?>">
+<!--                     <li class="<?php //if(isset($active) && $active == 'ba'){echo "active";}?>">
                         <a data-toggle="tab" href="#ba">Blood Availability</a>
-                     </li>
+                     </li>-->
                       <li class="<?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>">
                         <a data-toggle="tab" href="#timeSlot" id="t">Time Slot</a>
                      </li>

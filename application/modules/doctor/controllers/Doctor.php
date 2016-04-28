@@ -155,8 +155,12 @@ class Doctor extends MY_Controller {
 
             $pos = strpos($doctors_phn, "0");
             $doctors_phnNo = '';
-            if($pos == "0"){ $doctors_phnNo = explode("0", $doctors_phn);  }
-            if(isset($doctors_phnNo[1])){ $doctors_phn = $doctors_phnNo[1]; }
+            if ($pos == "0") {
+                $doctors_phnNo = explode("0", $doctors_phn);
+            }
+            if (isset($doctors_phnNo[1])) {
+                $doctors_phn = $doctors_phnNo[1];
+            }
 
             $users_email_status = $this->input->post('users_email_status');
             if ($users_email_status == 0) {
@@ -273,7 +277,7 @@ class Doctor extends MY_Controller {
                 if ($doctorAcademic_degreeId[$i] != '' && $doctorSpecialities_specialitiesCatId[$i] != '' && $acdemic_addaddress[$i] != '' && $acdemic_addyear[$i] != '') {
                     $doctorAcademicData = array(
                         'doctorAcademic_degreeId' => $doctorAcademic_degreeId[$i],
-                        'doctorSpecialities_specialitiesCatId' => $doctorSpecialities_specialitiesCatId[$i],
+                        'doctorAcademic_specialitiesId' => $doctorSpecialities_specialitiesCatId[$i],
                         'doctorAcademic_degreeInsAddress' => $acdemic_addaddress[$i],
                         'doctorAcademic_degreeYear' => $acdemic_addyear[$i],
                         'doctorAcademic_doctorsId' => $doctorsProfileId,
@@ -527,15 +531,16 @@ class Doctor extends MY_Controller {
         $data['timeSlots'] = $this->Doctor_model->getDoctorAvailability($where);
         $data['hospitals'] = $this->Doctor_model->fetchHosByStatus(null);
         $data['diagnostics'] = $this->Doctor_model->fetchDigByStatus(null);
-        
+
         $timeSloats = array();
-        
-        foreach (getDay() as $weekDay => $weekIndex){
-            $where = array('docTimeDay_day'=>$weekIndex,'docTimeTable_doctorId'=>$doctorId);
-            $result  = $this->Doctor_model->getDocTimeOnDay($where);
-            if($result)
-            $timeSloats[$weekDay] = $result;
+
+        foreach (getDay() as $weekDay => $weekIndex) {
+            $where = array('docTimeDay_day' => $weekIndex, 'docTimeTable_doctorId' => $doctorId);
+            $result = $this->Doctor_model->getDocTimeOnDay($where);
+            if ($result)
+                $timeSloats[$weekDay] = $result;
         }
+
         $data['timeSloats'] = $timeSloats;
         $data['doctorId'] = $doctorId;
         $data['title'] = 'Doctor Details';
@@ -1139,10 +1144,14 @@ class Doctor extends MY_Controller {
 
             $pos = strpos($doctors_phn, "0");
             $doctors_phnNo = '';
-            if($pos == "0"){ $doctors_phnNo = explode("0", $doctors_phn);  }
-            if(isset($doctors_phnNo[1])){ $doctors_phn = $doctors_phnNo[1]; }
-	    $doctors_27Src = $this->input->post('doctors_27Src');
-            
+            if ($pos == "0") {
+                $doctors_phnNo = explode("0", $doctors_phn);
+            }
+            if (isset($doctors_phnNo[1])) {
+                $doctors_phn = $doctors_phnNo[1];
+            }
+            $doctors_27Src = $this->input->post('doctors_27Src');
+
 
             $home_visit = $this->input->post('home_visit');
             $show_exp = $this->input->post('show_exp');
@@ -1330,7 +1339,7 @@ class Doctor extends MY_Controller {
         }
 
 
-        
+
 
 
         if (isset($_POST['docTimeTable_MItype']) && $_POST['docTimeTable_MItype'] == 1) {
@@ -1436,7 +1445,7 @@ class Doctor extends MY_Controller {
 
             if ($docTimeDayId) {
                 $this->session->set_flashdata('active_tag', 4);
-                $responce = array('status' => 1, 'msg' => "Time sloat added successfully", 'url' => "master/degree/");
+                $responce = array('status' => 1, 'msg' => "Time sloat added successfully", 'url' => "doctor");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
@@ -1444,7 +1453,7 @@ class Doctor extends MY_Controller {
             echo json_encode($responce);
         } else {
             $er = implode('<br/>', $this->error);
-            $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => array('docTimeDay_day'=>$er));
+            $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => array('docTimeDay_day' => $er));
             echo json_encode($responce);
         }
     }
@@ -1627,13 +1636,34 @@ class Doctor extends MY_Controller {
 
             if ($id) {
                 $this->session->set_flashdata('active_tag', 4);
-                $responce = array('status' => 1, 'msg' => "Time sloat updated successfully", 'url' => "master/degree/");
+                $responce = array('status' => 1, 'msg' => "Time sloat updated successfully", 'url' => "doctor");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
             echo json_encode($responce);
         }
+    }
+
+    function editDocTimeView() {
+        $docTimeTableId = $this->input->post('docTimeTableId');
+        $doctorId = $this->input->post('doctorId');
+        $docTimeDayId = $this->input->post('docTimeDayId');
+        $day = $this->input->post('day');
+        $con = array('docTimeTable_id' => $docTimeTableId);
+        $data['allStates'] = $this->Doctor_model->fetchStates();
+       
+        $data['timeData'] = $this->Doctor_model->geTimeTable($con);
+        
+        $data['stateId'] = isset($data['timeData']->stateId) && $data['timeData']->stateId != null? $data['timeData']->stateId :''; 
+        $data['cityInfo'] = $this->Doctor_model->getCityInfo($data['timeData']->cityId);
+        $data['hospitals'] = $this->Doctor_model->fetchHosByStatus(null);
+        
+        $data['diagnostics'] = $this->Doctor_model->fetchDigByStatus(null);
+        
+        $form = $this->load->view('editTimeSloat', $data, true);
+        $responce = array('status' => 1, 'isAlive' => TRUE, 'data' => $form);
+        echo json_encode($responce);
     }
 
     function checkSloat() {
@@ -1663,30 +1693,28 @@ class Doctor extends MY_Controller {
             return true;
         }
     }
-    
-    function checkOpenTime()
-    {
+
+    function checkOpenTime() {
         $openingHour = $this->input->post('openingHour');
         $closeingHour = $this->input->post('closeingHour');
         $openingHour = strtotime($openingHour);
         $closeingHour = strtotime($closeingHour);
-        
-        if ($closeingHour < $openingHour ) {
+
+        if ($closeingHour < $openingHour) {
             $this->bf_form_validation->set_message('checkOpenTime', 'Opening time should be less than closing time');
             return FALSE;
         } else {
             return TRUE;
         }
     }
-    
-    function checkCloseTime()
-    {
+
+    function checkCloseTime() {
         $openingHour = $this->input->post('openingHour');
         $closeingHour = $this->input->post('closeingHour');
         $openingHour = strtotime($openingHour);
         $closeingHour = strtotime($closeingHour);
-        
-        if ($closeingHour < $openingHour ) {
+
+        if ($closeingHour < $openingHour) {
             $this->bf_form_validation->set_message('checkCloseTime', 'Closing time should be greater than opening time');
             return FALSE;
         } else {

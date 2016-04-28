@@ -56,7 +56,7 @@
                 $("#" + checkId).prop('checked', false);
             } else {
                 var i;
-                for (i = 2; i < 8; i++) {
+                for (i = 1; i < 8; i++) {
                     $("#check_" + i +"_1").prop('checked', true);
                     //$("#dayDiv" + i +"_1").show();
                     $("#openTime_" + i +"_1").val(openHour);
@@ -65,7 +65,7 @@
             }
         } else {
             var j;
-            for (j = 2; j < 8; j++) {
+            for (j = 1; j < 8; j++) {
                 $("#check_" + j +"_1").prop('checked', false);
                 //$("#dayDiv" + j).hide();;
                 $("#openTime_" + j +"_1").val('');
@@ -88,8 +88,10 @@
     }
     
     $('.timepicker').timepicker({
-        showMeridian:false,
-        defaultTime: false,
+        showMeridian:true,
+        defaultTime:false,
+        minuteStep:30
+       
     });
     
     function addNewSlot(dayType,value) {

@@ -191,7 +191,7 @@
                                     <article class="clearfix m-t-10">
                                         <label class="control-label col-md-4 col-sm-4" for="cname"> Phone :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input type="text" class="form-control" name="pharmacy_phn" id="pharmacy_phn" maxlength="10" minlength="10" onkeypress="return isNumberKey(event)" value="<?php set_value('pharmacy_phn') ?>" />
+                                            <input type="text" class="form-control" name="pharmacy_phn" id="pharmacy_phn" maxlength="10" minlength="10" onkeypress="return isNumberKey(event)" value="<?php echo set_value('pharmacy_phn') ?>" />
 
                                             <label class="error" style="display:none;" id="error-pharmacy_phn"> please enter a valid phone min length should be min 10 and max 10</label>
 
@@ -267,7 +267,7 @@
                             <input type="hidden" value="<?php echo set_value('userId'); ?>" name="userId" id="userId">
                             <label class="error" style="display:none;" id="error-userexist">Pharmacy already exist!</label>
 
-                            <button class="btn btn-danger waves-effect pull-right" type="button">Reset</button>
+                            <button class="btn btn-danger waves-effect pull-right" type="button" onclick="location.reload();">Reset</button>
                             <div>
                                 <input class="btn btn-success waves-effect waves-light pull-right m-r-20" onclick="return validationPharmacy();" type="submit"  value="Submit" />
                             </div>

@@ -977,6 +977,7 @@ $(document).ready(function (e) {
                      setTimeout(function(){ $("#messageErrors").html(""); }, 2000);
                       changebackgroundImage(bloodBankId);
                       $("#changeBg").modal('hide');
+                      $("#uploadBtnDd").val("");
                     
                 }else{
                     $("#messageErrors").html("<div class='alert alert-danger'>"+obj.messsage+"</div>");
@@ -1031,7 +1032,7 @@ function imageIsLoaded(e) {
                 
                 if(obj.state == 400){
                     $("#message_upload").html("<div class='alert alert-danger'>"+obj.message+"</div>");
-                    $(".close").hide();
+                   // $(".close").hide();
                 }else{
                     $("#avatar-modal").modal('hide');
                      $("#message_upload").html("");
