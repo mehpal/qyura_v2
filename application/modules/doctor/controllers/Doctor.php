@@ -155,8 +155,12 @@ class Doctor extends MY_Controller {
 
             $pos = strpos($doctors_phn, "0");
             $doctors_phnNo = '';
-            if($pos == "0"){ $doctors_phnNo = explode("0", $doctors_phn);  }
-            if(isset($doctors_phnNo[1])){ $doctors_phn = $doctors_phnNo[1]; }
+            if ($pos == "0") {
+                $doctors_phnNo = explode("0", $doctors_phn);
+            }
+            if (isset($doctors_phnNo[1])) {
+                $doctors_phn = $doctors_phnNo[1];
+            }
 
             $users_email_status = $this->input->post('users_email_status');
             if ($users_email_status == 0) {
@@ -527,15 +531,16 @@ class Doctor extends MY_Controller {
         $data['timeSlots'] = $this->Doctor_model->getDoctorAvailability($where);
         $data['hospitals'] = $this->Doctor_model->fetchHosByStatus(null);
         $data['diagnostics'] = $this->Doctor_model->fetchDigByStatus(null);
-        
+
         $timeSloats = array();
-        
-        foreach (getDay() as $weekDay => $weekIndex){
-            $where = array('docTimeDay_day'=>$weekIndex,'docTimeTable_doctorId'=>$doctorId);
-            $result  = $this->Doctor_model->getDocTimeOnDay($where);
-            if($result)
-            $timeSloats[$weekDay] = $result;
+
+        foreach (getDay() as $weekDay => $weekIndex) {
+            $where = array('docTimeDay_day' => $weekIndex, 'docTimeTable_doctorId' => $doctorId);
+            $result = $this->Doctor_model->getDocTimeOnDay($where);
+            if ($result)
+                $timeSloats[$weekDay] = $result;
         }
+
         $data['timeSloats'] = $timeSloats;
         $data['doctorId'] = $doctorId;
         $data['title'] = 'Doctor Details';
@@ -1139,10 +1144,14 @@ class Doctor extends MY_Controller {
 
             $pos = strpos($doctors_phn, "0");
             $doctors_phnNo = '';
-            if($pos == "0"){ $doctors_phnNo = explode("0", $doctors_phn);  }
-            if(isset($doctors_phnNo[1])){ $doctors_phn = $doctors_phnNo[1]; }
-	    $doctors_27Src = $this->input->post('doctors_27Src');
-            
+            if ($pos == "0") {
+                $doctors_phnNo = explode("0", $doctors_phn);
+            }
+            if (isset($doctors_phnNo[1])) {
+                $doctors_phn = $doctors_phnNo[1];
+            }
+            $doctors_27Src = $this->input->post('doctors_27Src');
+
 
             $home_visit = $this->input->post('home_visit');
             $show_exp = $this->input->post('show_exp');
@@ -1330,7 +1339,7 @@ class Doctor extends MY_Controller {
         }
 
 
-        
+
 
 
         if (isset($_POST['docTimeTable_MItype']) && $_POST['docTimeTable_MItype'] == 1) {
@@ -1436,7 +1445,7 @@ class Doctor extends MY_Controller {
 
             if ($docTimeDayId) {
                 $this->session->set_flashdata('active_tag', 4);
-                $responce = array('status' => 1, 'msg' => "Time sloat added successfully", 'url' => "master/degree/");
+                $responce = array('status' => 1, 'msg' => "Time sloat added successfully", 'url' => "doctor");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
@@ -1444,7 +1453,7 @@ class Doctor extends MY_Controller {
             echo json_encode($responce);
         } else {
             $er = implode('<br/>', $this->error);
-            $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => array('docTimeDay_day'=>$er));
+            $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => array('docTimeDay_day' => $er));
             echo json_encode($responce);
         }
     }
@@ -1546,23 +1555,66 @@ class Doctor extends MY_Controller {
 
     function editDocTime() {
 
+
+
         $this->bf_form_validation->set_rules('docTimeTable_stayAt', 'stayAt', 'required|trim');
-        $this->bf_form_validation->set_rules('docTimeTable_MItype', 'MItype', 'required|trim');
-        $this->bf_form_validation->set_rules('docTimeTable_MIprofileId', 'MIprofileId', 'required|trim');
-        $this->bf_form_validation->set_rules('docTimeTable_price', 'price', 'required|trim');
+
+        if (isset($_POST['docTimeTable_stayAt']) && $_POST['docTimeTable_stayAt'] == 1) {
+            $this->bf_form_validation->set_rules('docTimeTable_MItype', 'MItype', 'required|trim');
+        }
+
+        if (isset($_POST['docTimeTable_stayAt']) && $_POST['docTimeTable_stayAt'] != '' && $_POST['docTimeTable_stayAt'] == 0) {
+
+            $this->bf_form_validation->set_rules('psChamber_name', 'Chamber Name', 'required|trim');
+            $this->bf_form_validation->set_rules('stateId', 'State Name', 'required|trim');
+            $this->bf_form_validation->set_rules('cityId', 'City Name', 'required|trim');
+            $this->bf_form_validation->set_rules('pinn', 'Pin Code', 'required|trim');
+            $this->bf_form_validation->set_rules('addr', 'Address', 'required|trim');
+            $this->bf_form_validation->set_rules('lat', 'lat', 'required|trim');
+            $this->bf_form_validation->set_rules('lng', 'lng', 'required|trim');
+        }
+
+
+
+
+
+        if (isset($_POST['docTimeTable_MItype']) && $_POST['docTimeTable_MItype'] == 1) {
+
+            $this->bf_form_validation->set_rules('docTimeTable_MIprofileId_h', 'Hospital Name', 'required|trim');
+        }
+
+        if (isset($_POST['docTimeTable_MItype']) && $_POST['docTimeTable_MItype'] != null && $_POST['docTimeTable_MItype'] == 2) {
+            $this->bf_form_validation->set_rules('docTimeTable_MIprofileId_d', 'Diagnostic Name', 'required|trim');
+        }
+
+
+        if ((isset($_POST['docTimeTable_MIprofileId_d']) && $_POST['docTimeTable_MIprofileId_d'] == 0 && $_POST['docTimeTable_MIprofileId_d'] != '') || (isset($_POST['docTimeTable_MIprofileId_h']) && $_POST['docTimeTable_MIprofileId_h'] == 0 && $_POST['docTimeTable_MIprofileId_h'] != '')) {
+
+            $this->bf_form_validation->set_rules('Miname', 'MI Name', 'required|trim');
+            $this->bf_form_validation->set_rules('stateId', 'State Name', 'required|trim');
+            $this->bf_form_validation->set_rules('cityId', 'City Name', 'required|trim');
+            $this->bf_form_validation->set_rules('pinn', 'Pin Code', 'required|trim');
+            $this->bf_form_validation->set_rules('addr', 'Address', 'required|trim');
+            $this->bf_form_validation->set_rules('lat', 'lat', 'required|trim');
+            $this->bf_form_validation->set_rules('lng', 'lng', 'required|trim');
+        }
+
 
         $this->bf_form_validation->set_rules('docTimeDay_day[]', 'day', 'required|trim');
-        $this->bf_form_validation->set_rules('docTimeDay_open', 'open', 'required|trim');
-        $this->bf_form_validation->set_rules('docTimeDay_close', 'close', 'required|trim');
-
-
-        dump($_POST['docTimeDay_day']);
-        dump($this->bf_form_validation->run($this));
+        $this->bf_form_validation->set_rules('openingHour', 'open', 'required|trim|callback_checkOpenTime');
+        $this->bf_form_validation->set_rules('closeingHour', 'close', 'required|trim|callback_checkCloseTime');
+        $this->bf_form_validation->set_rules('fees', 'fees', 'required|trim');
 
         if ($this->bf_form_validation->run($this) === FALSE) {
-            $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
+            $errorAr = ajax_validation_errors();
+            if (array_key_exists('docTimeDay_day[]', $errorAr)) {
+                $er_msg = $errorAr['docTimeDay_day[]'];
+                unset($errorAr['docTimeDay_day[]']);
+                $errorAr['docTimeDay_day'] = $er_msg;
+            }
+            $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $errorAr);
             echo json_encode($responce);
-        } else {
+        } elseif ($this->checkEditSloat()) {
 
             $docTimeTable_stayAt = isset($_POST['docTimeTable_stayAt']) ? $this->input->post() : '';
             $docTimeTable_MItype = isset($_POST['docTimeTable_MItype']) ? $this->input->post('docTimeTable_MItype') : '';
@@ -1570,12 +1622,14 @@ class Doctor extends MY_Controller {
             $docTimeTable_price = isset($_POST['docTimeTable_price']) ? $this->input->post('docTimeTable_price') : '';
 
             $docTimeDay_days = isset($_POST['docTimeDay_day']) ? $this->input->post('docTimeDay_day') : '';
-            $docTimeDay_open = isset($_POST['docTimeDay_open']) ? $this->input->post('docTimeDay_open') : '';
-            $docTimeDay_close = isset($_POST['docTimeDay_close']) ? $this->input->post('docTimeDay_close') : '';
+            $docTimeDay_open = isset($_POST['openingHour']) ? $this->input->post('openingHour') : '';
+            $docTimeDay_close = isset($_POST['closeingHour']) ? $this->input->post('closeingHour') : '';
             $docTimeTableId = isset($_POST['docTimeTableId']) ? $this->input->post('docTimeTableId') : '';
 
-            $docTimeDay_open = strtotime($docTimeDay_open);
-            $docTimeDay_close = strtotime($docTimeDay_close);
+
+
+            $docTimeDay_open = date('H:i:s', strtotime($docTimeDay_open));
+            $docTimeDay_close = date('H:i:s', strtotime($docTimeDay_close));
             $selectedDays = $docTimeDay_days;
 
 
@@ -1596,7 +1650,7 @@ class Doctor extends MY_Controller {
                     $param = array(
                         'table' => 'qyura_docTimeDay',
                         'data' => array(
-                            'qyura_docTimeDay' => $selectedDay,
+                            'docTimeDay_day' => $selectedDay,
                             'docTimeDay_open' => $docTimeDay_open,
                             'docTimeDay_close' => $docTimeDay_close,
                             'docTimeDay_docTimeTableId' => $docTimeTableId
@@ -1605,6 +1659,21 @@ class Doctor extends MY_Controller {
 
                     $id = $this->common_model->customInsert($param);
                     array_push($newAvabilityIds, $id);
+                } else {
+                    $where = array('docTimeDay_day' => $selectedDay, 'docTimeDay_docTimeTableId' => $docTimeTableId);
+                    $records_upg['modifyTime'] = time();
+                    $records_upg['docTimeDay_open'] = $docTimeDay_open;
+                    $records_upg['docTimeDay_close'] = $docTimeDay_close;
+
+                    $updateOptions = array
+                        (
+                        'where' => $where,
+                        'data' => $records_upg,
+                        'table' => 'qyura_docTimeDay'
+                    );
+
+                    $id = $this->common_model->customUpdate($updateOptions);
+                    $id = true;
                 }
             }
 
@@ -1622,18 +1691,67 @@ class Doctor extends MY_Controller {
                     );
 
                     $id = $this->common_model->customUpdate($updateOptions);
+                    $id = true;
+                } else {
+                    $where = array('docTimeDay_day' => $day->day, 'docTimeDay_docTimeTableId' => $docTimeTableId);
+                    $records_upg['modifyTime'] = time();
+                    $records_upg['docTimeDay_open'] = $docTimeDay_open;
+                    $records_upg['docTimeDay_close'] = $docTimeDay_close;
+
+                    $updateOptions = array
+                        (
+                        'where' => $where,
+                        'data' => $records_upg,
+                        'table' => 'qyura_docTimeDay'
+                    );
+
+                    $id = $this->common_model->customUpdate($updateOptions);
+                    $id = true;
                 }
             }
+            
+            $sql = '';
+            foreach ($this->db->queries as $key => $query) {
+                $sql = $query . " \n Execution Time:" . $times[$key]; // Generating SQL file alongwith execution time
+                //fwrite($handle, $sql . "\n\n");              // Writing it in the log file
+
+                if (count($this->db->queries) == $count)
+                    $sql = $sql . " \n \n \n END mahi889@gmail.com >>>>>";
+
+                $count++;
+            }
+            //dump($sql);
 
             if ($id) {
                 $this->session->set_flashdata('active_tag', 4);
-                $responce = array('status' => 1, 'msg' => "Time sloat updated successfully", 'url' => "master/degree/");
+                $responce = array('status' => 1, 'msg' => "Time sloat updated successfully", 'url' => "doctor");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
             echo json_encode($responce);
         }
+    }
+
+    function editDocTimeView() {
+        $docTimeTableId = $this->input->post('docTimeTableId');
+        $doctorId = $this->input->post('doctorId');
+        $docTimeDayId = $this->input->post('docTimeDayId');
+        $day = $this->input->post('day');
+        $con = array('docTimeTable_id' => $docTimeTableId);
+        $data['allStates'] = $this->Doctor_model->fetchStates();
+
+        $data['timeData'] = $this->Doctor_model->geTimeTable($con);
+
+        $data['stateId'] = isset($data['timeData']->stateId) && $data['timeData']->stateId != null ? $data['timeData']->stateId : '';
+        $data['cityInfo'] = $this->Doctor_model->getCityInfo($data['timeData']->cityId);
+        $data['hospitals'] = $this->Doctor_model->fetchHosByStatus(null);
+
+        $data['diagnostics'] = $this->Doctor_model->fetchDigByStatus(null);
+
+        $form = $this->load->view('editTimeSloat', $data, true);
+        $responce = array('status' => 1, 'isAlive' => TRUE, 'data' => $form);
+        echo json_encode($responce);
     }
 
     function checkSloat() {
@@ -1663,33 +1781,69 @@ class Doctor extends MY_Controller {
             return true;
         }
     }
-    
-    function checkOpenTime()
-    {
+
+    function checkEditSloat() {
+        $docTimeDay_days = isset($_POST['docTimeDay_day']) ? $this->input->post('docTimeDay_day') : '';
+        $docTimeDay_open = isset($_POST['openingHour']) ? $this->input->post('openingHour') : '';
+        $docTimeDay_close = isset($_POST['closeingHour']) ? $this->input->post('closeingHour') : '';
+        $docTimeDayId = isset($_POST['docTimeDayId']) ? $this->input->post('docTimeDayId') : '';
+
+
+        $docTimeDay_open = date('H:i:s', strtotime($docTimeDay_open));
+        $docTimeDay_close = date('H:i:s', strtotime($docTimeDay_close));
+        $this->error = array();
+        foreach ($docTimeDay_days as $key => $docTimeDay_day) {
+            $data = array(
+                'day' => $docTimeDay_day,
+                'openTime' => $docTimeDay_open,
+                'closeTime' => $docTimeDay_close,
+                'doctorId' => $this->input->post('doctorId'),
+                'docTimeDayId' => $docTimeDayId
+            );
+
+            $row = $this->Doctor_model->checkSloat($data);
+            if ($row)
+                $this->error[] = $docTimeDay_day . $docTimeDay_open . $docTimeDay_close;
+        }
+
+        if (count($this->error))
+            return false;
+        else {
+            return true;
+        }
+    }
+
+    function checkOpenTime() {
         $openingHour = $this->input->post('openingHour');
         $closeingHour = $this->input->post('closeingHour');
         $openingHour = strtotime($openingHour);
         $closeingHour = strtotime($closeingHour);
-        
-        if ($closeingHour < $openingHour ) {
+
+        if ($closeingHour < $openingHour) {
             $this->bf_form_validation->set_message('checkOpenTime', 'Opening time should be less than closing time');
             return FALSE;
         } else {
             return TRUE;
         }
     }
-    
-    function checkCloseTime()
-    {
+
+    function checkCloseTime() {
         $openingHour = $this->input->post('openingHour');
         $closeingHour = $this->input->post('closeingHour');
         $openingHour = strtotime($openingHour);
         $closeingHour = strtotime($closeingHour);
-        
-        if ($closeingHour < $openingHour ) {
+
+        if ($closeingHour < $openingHour) {
             $this->bf_form_validation->set_message('checkCloseTime', 'Closing time should be greater than opening time');
             return FALSE;
         } else {
+            $timeDiff = $closeingHour - $openingHour;
+            $diff = 30 * 60;
+            if ($timeDiff < $diff) {
+                $this->bf_form_validation->set_message('checkCloseTime', 'Time diffrence sould be 30 min');
+                return FALSE;
+            }
+
             return TRUE;
         }
     }

@@ -21,10 +21,24 @@ class Doctor_model extends My_model {
         return $this->db->get()->result();
     }
 
+    function getCityInfo($cityId = NULL) {
+        $this->db->select('city_id,city_name');
+        $this->db->from('qyura_city');
+        if ($cityId != null)
+            $this->db->where('city_id', $cityId);
+        
+        $this->db->order_by("city_name", "asc");
+        
+        if ($cityId != null)
+            return $this->db->get()->row();
+        else
+            return $this->db->get()->result();
+    }
+
     function fetchSpeciality() {
         $this->db->select('specialities_id,specialities_name');
         $this->db->from('qyura_specialities');
-        $this->db->where(array('specialities_deleted' => 0,'type' => 1));
+        $this->db->where(array('specialities_deleted' => 0, 'type' => 1));
         $this->db->order_by("specialities_name", "asc");
         return $this->db->get()->result();
     }
@@ -111,14 +125,14 @@ class Doctor_model extends My_model {
         $this->db->join('qyura_specialities as spec', 'spec.specialities_id=docSpec.doctorSpecialities_specialitiesId', 'left');
 
         if ($condition)
-        $this->db->where(array('doc.doctors_id' => $condition));
+            $this->db->where(array('doc.doctors_id' => $condition));
         $this->db->where(array('doc.doctors_deleted' => 0));
         $this->db->where(array('docSer.doctorServicess_deleted' => 0));
         $this->db->where(array('deg.degree_deleted' => 0));
         $this->db->where(array('docAca.doctorAcademic_deleted' => 0));
         $this->db->where(array('docSpec.doctorSpecialities_deleted' => 0));
         $this->db->where(array('spec.specialities_deleted' => 0));
- 
+
         $data = $this->db->get();
         return $data->result();
     }
@@ -492,7 +506,6 @@ class Doctor_model extends My_model {
         return $doctorAvailability;
     }
 
-    
     function fetchDiagnostic() {
         $this->db->select('diagnostic_id,diagnostic_name');
         $this->db->from('qyura_diagnostic');
@@ -501,8 +514,6 @@ class Doctor_model extends My_model {
         return $this->db->get()->result();
     }
 
-
-
     function checkSloat($options) {
         $table = false;
         $data = false;
@@ -510,13 +521,17 @@ class Doctor_model extends My_model {
         $openTime = '';
         $closeTime = '';
         $doctorId = '';
+        $docTimeDayId = false;
         extract($options);
         
+        if($docTimeDayId)
+            $notIn = 'NOT IN ('.$docTimeDayId.')';
+
         $query = "SELECT `docTimeTable_id`
                                 FROM (`qyura_docTimeTable`)
                                 LEFT JOIN qyura_docTimeDay ON qyura_docTimeDay.docTimeDay_docTimeTableId = qyura_docTimeTable.docTimeTable_id
                                 WHERE 
-                                docTimeDay_day = {$day} AND qyura_docTimeDay.docTimeTable_deleted = 0 AND qyura_docTimeTable.docTimeTable_deleted = 0 AND 
+                                docTimeDay_day = {$day} AND qyura_docTimeDay.docTimeDay_deleted = 0 AND qyura_docTimeTable.docTimeTable_deleted = 0 AND 
                                  
                                         (
                                             (
@@ -535,31 +550,29 @@ class Doctor_model extends My_model {
 
                                             )
 
-                                        ) AND docTimeTable_doctorId =  {$doctorId}";
+                                        ) AND docTimeTable_doctorId =  {$doctorId}  {$notIn}";
 
         $query = $this->db->query($query);
         // dump($query3->row());
         //dump($this->db->last_query()); 
         // echo $query3->num_rows();
         return $query->num_rows();
-        
     }
 
     function getDoctorAvailableOnDaysNew($where) {
-        $con = array('docTimeTable_deleted' => 0);
+        $con = array('docTimeDay_deleted' => 0);
         $where = array_merge($con, $where);
 
-        $this->db->select('docTimeDay_id AS docTimeDay_id,docTimeDay_docTimeTableId AS docTimeTableId,docTimeDay_day AS day,docTimeTable_deleted')
+        $this->db->select('docTimeDay_id AS docTimeDay_id,docTimeDay_docTimeTableId AS docTimeTableId,docTimeDay_day AS day')
                 ->from('qyura_docTimeDay')
-                ->where($where)
-                ->group_by('docTimeDay_id');
+                ->where($where);
+                //->group_by('docTimeDay_id');
         $doctorAvailability = $this->db->get()->result();
         return $doctorAvailability;
     }
-    
-    function getDocTimeOnDay($where)
-    {
-        $con = array('docTimeTable_deleted' => 0,'docTimeDay_deleted' => 0);
+
+    function getDocTimeOnDay($where) {
+        $con = array('docTimeTable_deleted' => 0, 'docTimeDay_deleted' => 0);
         $where = array_merge($con, $where);
 
         $this->db->select('(CASE 
@@ -575,17 +588,117 @@ class Doctor_model extends My_model {
  END)
  AS address,docTimeDay_open as open,docTimeDay_close as close,docTimeDay_day as day,docTimeDay_docTimeTableId as docTimeTableId,docTimeDay_id as docTimeDayId,docTimeTable_price as price,docTimeTable_MIprofileId as MIprofileId,docTimeTable_MItype as MItype,docTimeTable_stayAt as stayAt,docTimeTable_doctorId as doctorId,doctors_fName,doctors_lName')
                 ->from('qyura_docTimeTable')
-                ->join('qyura_hospital','qyura_hospital.hospital_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 1 AND docTimeTable_MItype = 1','LEFT')
-                ->join('qyura_doctors','qyura_doctors.doctors_id=qyura_docTimeTable.docTimeTable_doctorId','LEFT')
-                ->join('qyura_diagnostic','qyura_diagnostic.diagnostic_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 1 AND docTimeTable_MItype = 2','LEFT')
-                ->join('qyura_psChamber','qyura_psChamber.psChamber_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 2','LEFT')
-                ->join('qyura_docTimeDay','qyura_docTimeDay.docTimeDay_docTimeTableId = qyura_docTimeTable.docTimeTable_id','RIGHT')
+                ->join('qyura_hospital', 'qyura_hospital.hospital_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 1 AND docTimeTable_MItype = 1', 'LEFT')
+                ->join('qyura_doctors', 'qyura_doctors.doctors_id=qyura_docTimeTable.docTimeTable_doctorId', 'LEFT')
+                ->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 1 AND docTimeTable_MItype = 2', 'LEFT')
+                ->join('qyura_psChamber', 'qyura_psChamber.psChamber_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 2', 'LEFT')
+                ->join('qyura_docTimeDay', 'qyura_docTimeDay.docTimeDay_docTimeTableId = qyura_docTimeTable.docTimeTable_id', 'RIGHT')
                 ->where($where)
                 ->group_by('docTimeDay_id');
         $doctorAvailability = $this->db->get()->result();
         return $doctorAvailability;
     }
-    
-    
+
+    function geTimeTable($where = array()) {
+
+        $con = array('docTimeTable_deleted' => 0, 'docTimeDay_deleted' => 0);
+        $where = array_merge($con, $where);
+
+        $this->db->select('(CASE 
+ WHEN (hospital_address IS NOT NULL) 
+ THEN
+      hospital_address
+ WHEN (psChamber_address IS NOT NULL) 
+ THEN 
+      psChamber_address
+ WHEN (diagnostic_address IS NOT NULL) 
+ THEN
+      diagnostic_address
+ END)
+ AS address,
+ (CASE 
+ WHEN (hospital_stateId IS NOT NULL) 
+ THEN
+      hospital_stateId
+ WHEN (psChamber_stateId IS NOT NULL) 
+ THEN 
+      psChamber_stateId
+ WHEN (diagnostic_stateId IS NOT NULL) 
+ THEN
+      diagnostic_stateId
+ END)
+ AS stateId,
+  (CASE 
+ WHEN (hospital_cityId IS NOT NULL) 
+ THEN
+      hospital_cityId
+ WHEN (psChamber_cityId IS NOT NULL) 
+ THEN 
+      psChamber_cityId
+ WHEN (diagnostic_cityId IS NOT NULL) 
+ THEN
+      diagnostic_cityId
+ END)
+ AS cityId,
+   (CASE 
+ WHEN (hospital_zip IS NOT NULL) 
+ THEN
+      hospital_zip
+ WHEN (psChamber_zip IS NOT NULL) 
+ THEN 
+      psChamber_zip
+ WHEN (diagnostic_zip IS NOT NULL) 
+ THEN
+      diagnostic_zip
+ END)
+ AS zip,
+    (CASE 
+ WHEN (hospital_lat IS NOT NULL) 
+ THEN
+      hospital_lat
+ WHEN (psChamber_lat IS NOT NULL) 
+ THEN 
+      psChamber_lat
+ WHEN (diagnostic_lat IS NOT NULL) 
+ THEN
+      diagnostic_lat
+ END)
+ AS lat,
+    (CASE 
+ WHEN (hospital_long IS NOT NULL) 
+ THEN
+      hospital_long
+ WHEN (psChamber_long IS NOT NULL) 
+ THEN 
+      psChamber_long
+ WHEN (diagnostic_long IS NOT NULL) 
+ THEN
+      diagnostic_long
+ END)
+ AS `lng`,
+(CASE 
+ WHEN (hospital_name IS NOT NULL) 
+ THEN
+      hospital_name
+ WHEN (psChamber_name IS NOT NULL) 
+ THEN 
+      psChamber_name
+ WHEN (diagnostic_name IS NOT NULL) 
+ THEN
+      diagnostic_name
+ END)
+ AS `psChamberName`,GROUP_CONCAT(docTimeDay_day) as `day`,GROUP_CONCAT(docTimeDay_id) as `docTimeDayId`,
+ docTimeDay_open as open,docTimeDay_close as close,docTimeDay_docTimeTableId as docTimeTableId,docTimeTable_price as price,docTimeTable_MIprofileId as MIprofileId,docTimeTable_MItype as MItype,docTimeTable_stayAt as stayAt,docTimeTable_doctorId as doctorId,doctors_fName,doctors_lName')
+                ->from('qyura_docTimeTable')
+                ->join('qyura_hospital', 'qyura_hospital.hospital_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 1 AND docTimeTable_MItype = 1', 'LEFT')
+                ->join('qyura_doctors', 'qyura_doctors.doctors_id=qyura_docTimeTable.docTimeTable_doctorId', 'LEFT')
+                ->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 1 AND docTimeTable_MItype = 2', 'LEFT')
+                ->join('qyura_psChamber', 'qyura_psChamber.psChamber_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 2', 'LEFT')
+                ->join('qyura_docTimeDay', 'qyura_docTimeDay.docTimeDay_docTimeTableId = qyura_docTimeTable.docTimeTable_id', 'RIGHT')
+                ->where($where)
+                ->group_by('docTimeDay_docTimeTableId');
+        $doctorAvailability = $this->db->get()->row();
+        return $doctorAvailability;
+    }
 
 }
