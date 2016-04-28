@@ -331,7 +331,9 @@ if(isset($ambulanceId) && !empty($ambulanceId)){
               if($('#ambulance_docatId').val()==''){
                 $('#ambulance_docatId').addClass('bdr-error');
                 $('#error-ambulance_docatId').fadeIn().delay(3000).fadeOut('slow');
-               
+                  setTimeout(function(){
+                    $('#ambulance_docatId').removeClass('bdr-error');
+                 }, 3000);
                status = 0;
             }
             
@@ -432,10 +434,10 @@ if(isset($ambulanceId) && !empty($ambulanceId)){
                         "type": "POST", 
                         "data": function ( d ) {
                                          d.cityId = $("#ambulance_cityId").val();
-                                         d.bloodBank_name = $("#search").val();
-                                         if($("#status").val() != ' '){
+                                         d.ambulanceName = $("#search").val();
+                                       
                                          d.status = $("#status").val();
-                                        }
+                                        
                                          d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
                                     } 
                     }
@@ -653,7 +655,9 @@ if(isset($ambulanceId) && !empty($ambulanceId)){
               if($('#ambulance_docatId').val()==''){
                 $('#ambulance_docatId').addClass('bdr-error');
                 $('#error-ambulance_docatId').fadeIn().delay(3000).fadeOut('slow');
-               
+                  setTimeout(function(){
+                    $('#ambulance_docatId').removeClass('bdr-error');
+                 }, 3000);
                status = 0;
             }
             
@@ -751,11 +755,14 @@ $(document).ready(function (e) {
                 var obj = jQuery.parseJSON(data);
                 if(obj.status == 200){
                      $("#messageErrors").html("<div class='alert alert-success'>"+obj.messsage+"</div>");
+                     setTimeout(function(){ $("#messageErrors").html(""); }, 2000);
                       changebackgroundImage(ambulanceId);
                       $("#changeBg").modal('hide');
+                      $("#uploadBtnDd").val("");
                     
                 }else{
                     $("#messageErrors").html("<div class='alert alert-danger'>"+obj.messsage+"</div>");
+                    setTimeout(function(){ $("#messageErrors").html(""); }, 2000);
                 }
 
             }
@@ -783,6 +790,8 @@ $("#messageErrors").empty(); // To remove the previous error message
     reader.readAsDataURL(this.files[0]);
     }
     });
+    
+    
 
 function imageIsLoaded(e) {
     $("#file").css("color","green");
