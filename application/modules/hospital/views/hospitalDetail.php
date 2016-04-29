@@ -836,9 +836,23 @@
                                                                                     <input type="text" class="form-control" name="hospitalAwards_awardsName" id="hospitalAwards_awardsName" placeholder="Award Name" />
                                                                                      
                                                                                      <label style="display: none;"class="error" id="error-awards"> Please enter award name </label>  
-                                                                                     <input type="text" class="form-control" name="hospitalAwards_agencyName" id="hospitalAwards_agencyName" placeholder="Award Agency" />
-                                                                                     <label style="display: none;"class="error" id="error-hospitalAwards_agencyName"> Please enter agency name </label>
                                                                                      
+<!--                                                                                     <input type="text" class="form-control" name="hospitalAwards_agencyName" id="hospitalAwards_agencyName" placeholder="Award Agency" />
+                                                                                     <label style="display: none;"class="error" id="error-hospitalAwards_agencyName"> Please enter agency name </label>-->
+                                                                                     
+                                                                                      <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                                          <select class="selectpicker" data-width="100%" id="hospitalAwards_agencyName" name="hospitalAwards_agencyName">
+                                                                                              <option value="">Select Agency</option>
+                                                                                               <?php if(!empty($awardAgency)){
+                                                                                                    foreach($awardAgency as $key => $val){    
+                                                                                                 ?>
+                                                                                              <option value="<?php echo $val->awardAgency_id;  ?>"><?php echo $val->agency_name;  ?></option>
+                                                                                               <?php }  } ?>
+                                                                                            </select>
+                                                                                           <label style="display: none;"class="error" id="error-hospitalAwards_agencyName"> Please enter agency name </label>
+                                                                                     
+                                                                                        </div>
+
                                                                                      <input type="text" class="form-control m-t-20" placeholder="Year" id="hospital_awardsyear" name="hospital_awardsyear" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="4" />
                                                                                     <label style="display: none;"class="error" id="error-years"> Please enter year only number formate minium and maximum length 4 </label>  
                                                                                     <label style="display: none;"class="error" id="error-years-valid">Award year should be greater then 1920 or less then <?php echo date('Y'); ?></label>
@@ -1222,7 +1236,7 @@
                                     </article>
                                     
                                     <!-- Form Section End -->
-                                    <article class="clearfix m-top-40 p-b-20" id="doctorList" style="<?php if(isset($showDiv) && $showDiv == 'adddoctor'){echo "display:none";}?>" >
+                                    <article class="clearfix m-top-40 p-b-20" id="doctorList" style="<?php if(isset($showDiv) &&  ($showDiv == 'adddoctor' OR  $showDiv == 'editDoctor' )){echo "display:none";}?>" >
                                         <aside class="table-responsive">
                                            <table class="table all-doctor" id="hospital_doctors">
                                               <thead>

@@ -60,11 +60,12 @@ class Membership extends MY_Controller {
         
         $option = array(
             'table' => 'qyura_membershipFacilities',
-            'select' => 'membershipFacilities_facilitiesId',
+            'select' => 'membershipFacilities_facilitiesId,membershipFacilities_quantity,membershipFacilities_duration',
             'where' => array('qyura_membershipFacilities.membershipFacilities_deleted' => 0,'qyura_membershipFacilities.membershipFacilities_membershipId' => $membershipId),
             'single' => FALSE
         );
-        $membershipFacilities = $this->common_model->customGet($option);
+        $data['membershipFacilities'] = $membershipFacilities = $this->common_model->customGet($option);
+        
         $membershipFacilitiesArray = array();
         if(isset($membershipFacilities) && $membershipFacilities != NULL){
             foreach($membershipFacilities as $memFacilities){
@@ -78,59 +79,78 @@ class Membership extends MY_Controller {
     
     function membershipSave() {
         
-        $this->bf_form_validation->set_rules("membership_type", "Membership Type", 'required|xss_clean');
+        //$this->bf_form_validation->set_rules("membership_type", "Membership Type", 'required|xss_clean');
         $this->bf_form_validation->set_rules("membership_name", "Tital", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("membership_plan", "Plan", 'required|xss_clean');
+        //$this->bf_form_validation->set_rules("membership_plan", "Plan", 'required|xss_clean');
         $this->bf_form_validation->set_rules("membership_price", "Price", 'required|xss_clean');
         $this->bf_form_validation->set_rules("membership_tax", "Tax", 'required|xss_clean');
         $this->bf_form_validation->set_rules("membership_totalPrice", "Total Price", 'required|xss_clean');
-        
+        for($i = 1; $i <= 12; $i++){
+            $checkbox = $this->input->post("checkbox_$i");
+            if($checkbox != ''){
+                $this->bf_form_validation->set_rules("membership_quantity_$i", "Price", 'required|xss_clean');
+                if($checkbox == 3 || $checkbox == 5){
+                    $this->bf_form_validation->set_rules("membership_duration_$i", "Price", 'required|xss_clean');
+                }
+            }
+        }
         if ($this->bf_form_validation->run() == FALSE) {
             $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
             echo json_encode($responce);
         } else {
-            
+           
             $membership_type       = $this->input->post('membership_type');
             $membership_name       = $this->input->post('membership_name');
-            $membership_plan       = $this->input->post('membership_plan');
+            $membership_plan       = 18; //$this->input->post('membership_plan');
             $membership_price      = $this->input->post('membership_price');
             $membership_tax        = $this->input->post('membership_tax');
             $membership_totalPrice = $this->input->post('membership_totalPrice');
-            
-            $records_array = array(
-                'membership_type'  => $membership_type,
-                'membership_name'  => $membership_name,
-                'membership_plan'  => $membership_plan,
-                'membership_price' => $membership_price,
-                'membership_tax'   => $membership_tax,
-                'membership_totalPrice' => $membership_totalPrice,
-                'creationTime' => strtotime(date("d-m-Y H:i:s"))
-            );
-            
-            $options = array
-            (
-                'data' => $records_array,
-                'table' => 'qyura_membership'
-            );
-            $insertId = $this->common_model->customInsert($options);
-            for($i = 1; $i <= 12; $i++){
-                $checkbox = $this->input->post("checkbox_$i");
-                if($checkbox != ''){
-                    $records_array = array(
-                        'membershipFacilities_membershipId'  => $insertId,
-                        'membershipFacilities_facilitiesId'  => $checkbox,
-                        'creationTime' => strtotime(date("d-m-Y H:i:s"))
-                    );
+            $count = count($membership_type);
+            for($j = 0;$j< $count;$j++){
+                $records_array = array(
+                    'membership_type'  => $membership_type[$j],
+                    'membership_name'  => $membership_name,
+                    'membership_plan'  => $membership_plan,
+                    'membership_price' => $membership_price,
+                    'membership_tax'   => $membership_tax,
+                    'membership_totalPrice' => $membership_totalPrice,
+                    'creationTime' => strtotime(date("d-m-Y H:i:s"))
+                );
 
-                    $options = array
-                    (
-                        'data' => $records_array,
-                        'table' => 'qyura_membershipFacilities'
-                    );
-                    $fId = $this->common_model->customInsert($options);
+                $options = array
+                (
+                    'data' => $records_array,
+                    'table' => 'qyura_membership'
+                );
+                $insertId = $this->common_model->customInsert($options);
+                for($i = 1; $i <= 12; $i++){
+                    $checkbox = $this->input->post("checkbox_$i");
+                    $quantity = $this->input->post("membership_quantity_$i");
+                    $duration = $this->input->post("membership_duration_$i");
+                    if($checkbox != ''){
+                        $records_array = array(
+                            'membershipFacilities_membershipId'  => $insertId,
+                            'membershipFacilities_facilitiesId'  => $checkbox,
+                            'creationTime' => strtotime(date("d-m-Y H:i:s"))
+                        );
+                        if($quantity != ''){
+                            $records_array['membershipFacilities_quantity'] = $quantity;
+                        }
+                        if($duration != ''){
+                            $records_array['membershipFacilities_duration'] = $duration;
+                        }
+                        $options = array
+                        (
+                            'data' => $records_array,
+                            'table' => 'qyura_membershipFacilities'
+                        );
+                        $fId = $this->common_model->customInsert($options);
+                    }
                 }
             }
             if ($insertId) {
+                $active_tag = $this->input->post('active_tag');
+                $this->session->set_flashdata('active_tag', $active_tag);
                 $responce = array('status' => 1, 'msg' => "Record Added successfully", 'url' => "membership/");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
@@ -144,11 +164,19 @@ class Membership extends MY_Controller {
         
         $this->bf_form_validation->set_rules("membership_type", "Membership Type", 'required|xss_clean');
         $this->bf_form_validation->set_rules("membership_name", "Tital", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("membership_plan", "Plan", 'required|xss_clean');
+        //$this->bf_form_validation->set_rules("membership_plan", "Plan", 'required|xss_clean');
         $this->bf_form_validation->set_rules("membership_price", "Price", 'required|xss_clean');
         $this->bf_form_validation->set_rules("membership_tax", "Tax", 'required|xss_clean');
         $this->bf_form_validation->set_rules("membership_totalPrice", "Total Price", 'required|xss_clean');
-        
+        for($i = 1; $i <= 12; $i++){
+            $checkbox = $this->input->post("checkbox_$i");
+            if($checkbox != ''){
+                $this->bf_form_validation->set_rules("membership_quantity_$i", "Price", 'required|xss_clean');
+                if($checkbox == 3 || $checkbox == 5){
+                    $this->bf_form_validation->set_rules("membership_duration_$i", "Price", 'required|xss_clean');
+                }
+            }
+        }
         if ($this->bf_form_validation->run() == FALSE) {
             $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
             echo json_encode($responce);
@@ -157,7 +185,7 @@ class Membership extends MY_Controller {
             $membership_id         = $this->input->post('membership_id');
             $membership_type       = $this->input->post('membership_type');
             $membership_name       = $this->input->post('membership_name');
-            $membership_plan       = $this->input->post('membership_plan');
+            $membership_plan       = 18; //$this->input->post('membership_plan');
             $membership_price      = $this->input->post('membership_price');
             $membership_tax        = $this->input->post('membership_tax');
             $membership_totalPrice = $this->input->post('membership_totalPrice');
@@ -185,13 +213,20 @@ class Membership extends MY_Controller {
             
             for($i = 1; $i <= 12; $i++){
                 $checkbox = $this->input->post("checkbox_$i");
+                $quantity = $this->input->post("membership_quantity_$i");
+                $duration = $this->input->post("membership_duration_$i");
                 if($checkbox != ''){
                     $records_array = array(
                         'membershipFacilities_membershipId'  => $membership_id,
                         'membershipFacilities_facilitiesId'  => $checkbox,
                         'creationTime' => strtotime(date("d-m-Y H:i:s"))
                     );
-
+                    if($quantity != ''){
+                        $records_array['membershipFacilities_quantity'] = $quantity;
+                    }
+                    if($duration != ''){
+                        $records_array['membershipFacilities_duration'] = $duration;
+                    }
                     $options = array
                     (
                         'data' => $records_array,
@@ -200,6 +235,8 @@ class Membership extends MY_Controller {
                     $fId = $this->common_model->customInsert($options);
                 }
             }
+            $active_tag = $this->input->post('active_tag');
+            $this->session->set_flashdata('active_tag', $active_tag);
             $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "membership/");
             echo json_encode($responce);
         }

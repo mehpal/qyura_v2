@@ -7,6 +7,15 @@ class Hospital_model extends My_model {
     }
 
     
+       // fetch award agency
+   function fetchAwardAgency() {
+        $this->db->select('awardAgency_id,agency_name');
+        $this->db->from('qyura_awardAgency');
+        $this->db->where(array('agency_deleted' => 0, 'status' => 3));
+        $this->db->order_by("agency_name", "asc");
+        $this->db->group_by("awardAgency_id");
+        return $this->db->get()->result();
+    }
     
    // fetch all cities associated to hospital
    function allCities() {
@@ -229,6 +238,7 @@ class Hospital_model extends My_model {
         if ($condition)
         $this->datatables->where(array('Hos.hospital_id' => $condition));
         $this->datatables->where(array('Hos.hospital_deleted' => 0));
+        $this->datatables->where_in('Hos.status', array(0,1));
 
         $this->datatables->add_column('hospital_img', '<img class="img-responsive" height="80px;" width="80px;" src=' . $imgUrl . '>', 'hospital_img');
 
@@ -282,8 +292,9 @@ class Hospital_model extends My_model {
     }
 
     function fetchAwards($hospitalId) {
-        $this->db->select('hospitalAwards_awardsName,hospitalAwards_id,hospitalAwards_awardYear,hospitalAwards_awardsAgency');
+        $this->db->select('hospitalAwards_awardsName,hospitalAwards_id,hospitalAwards_awardYear, qyura_awardAgency.agency_name as hospitalAwards_awardsAgency, qyura_awardAgency.awardAgency_id');
         $this->db->from('qyura_hospitalAwards');
+        $this->db->join('qyura_awardAgency', 'qyura_awardAgency.awardAgency_id = qyura_hospitalAwards.hospitalAwards_awardsAgency');
         $this->db->where(array('hospitalAwards_deleted' => 0, 'hospitalAwards_hospitalId' => $hospitalId));
         $data = $this->db->get();
         //echo $this->db->last_query(); exit;
@@ -459,7 +470,7 @@ class Hospital_model extends My_model {
         $imgUrl = base_url() . 'assets/doctorsImages/thumb/thumb_100/$1';
         $doctorUrl = site_url() . '/hospital/detailHospital/$2/doctor/$1/editDoctor';
         
-        $this->datatables->select('doctors_userId userId,qyura_doctors.doctors_id as id, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, qyura_doctors.doctors_consultaionFee as consFee, qyura_specialities.specialities_name as specialityName,qyura_doctors.doctors_phon,qyura_doctors.doctors_img,qyura_doctors.doctors_id,qyura_doctors.doctors_mobile,qyura_doctors.doctors_unqId, qyura_hospital.hospital_id'); 
+        $this->datatables->select('doctors_userId userId,qyura_doctors.doctors_id as id, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, qyura_doctors.doctors_consultaionFee as consFee, GROUP_CONCAT(qyura_specialities.specialities_name) as specialityName,qyura_doctors.doctors_phon,qyura_doctors.doctors_img,qyura_doctors.doctors_id,qyura_doctors.doctors_mobile,qyura_doctors.doctors_unqId, qyura_hospital.hospital_id, qyura_doctors.doctors_showExp, qyura_doctors.doctors_expYear as exp'); 
 
         $this->datatables->from('qyura_doctors');
         
@@ -472,6 +483,8 @@ class Hospital_model extends My_model {
         $this->datatables->join('qyura_specialities', 'qyura_specialities.specialities_id = qyura_doctorSpecialities.doctorSpecialities_specialitiesId', 'left');
 
         $this->db->group_by('doctors_id');
+        
+        $this->db->order_by('doctors_id', 'desc');
 
 
         $search = $this->input->post('doctor_search');
@@ -481,13 +494,13 @@ class Hospital_model extends My_model {
             $this->db->or_like('qyura_doctors.doctors_phn', $search);
             $this->db->or_like('qyura_doctors.doctors_consultaionFee', $search);
             $this->db->or_like('qyura_specialities.specialities_name', $search);
-            $this->db->or_like('( FROM_UNIXTIME(qyura_professionalExp.professionalExp_end,"%Y") - FROM_UNIXTIME(qyura_professionalExp.professionalExp_start,"%Y"))', $search);
+            $this->db->or_like('qyura_doctors.doctors_expYear', $search);
             $this->db->group_end();
         }
 
         $this->datatables->where(array('doctors_deleted' => 0, 'doctors_roll' => 9, 'doctors_parentId' => $hospitalUserId));
 
-        $this->datatables->add_column('exp', '$1 Years', 'exp');
+        $this->datatables->add_column('exp', '$1 Years', 'getDocExp(exp)');
         $this->datatables->add_column('name', '$1</br>$2', 'name,doctors_unqId');
         $this->datatables->add_column('consFee', "<i class='fa fa-inr'></i> $1", 'consFee');
 
@@ -565,14 +578,18 @@ class Hospital_model extends My_model {
   
    function getDocAcaSpec($condition){
        
-        $this->db->select('doc.doctors_id,spec.specialities_id,docAca.doctorAcademic_id,docAca.doctorAcademic_specialitiesId');
+        $this->db->select('spec.specialities_id, docAca.doctorAcademic_id, degree.degree_FName, degree.degree_SName, degree.degree_id, docAca.doctorAcademic_degreeInsAddress, docAca.doctorAcademic_degreeYear');
        
         $this->db->from('qyura_doctorAcademic AS docAca');
-        $this->db->join('qyura_doctors as doc', 'doc.doctors_id=docAca.doctorAcademic_doctorsId', 'left');
+       // $this->db->join('qyura_doctors as doc', 'doc.doctors_id=docAca.doctorAcademic_doctorsId', 'left');
         $this->db->join('qyura_specialities as spec', 'spec.specialities_id=docAca.doctorAcademic_specialitiesId', 'left');
+        $this->db->join('qyura_degree as degree', 'degree.degree_id = docAca.doctorAcademic_degreeId', 'left');
+        
         if ($condition)
-        $this->db->where(array('doc.doctors_id' => $condition));
-        $this->db->where(array('doc.doctors_deleted' => 0));
+            
+        $this->db->where(array('docAca.doctorAcademic_doctorsId' => $condition));
+        
+       // $this->db->where(array('doc.doctors_deleted' => 0));
         $this->db->where(array('spec.specialities_deleted' => 0,'spec.type' => 1));
         $this->db->where(array('docAca.doctorAcademic_deleted' => 0));
         return  $this->db->get()->result();

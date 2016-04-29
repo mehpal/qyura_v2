@@ -118,7 +118,9 @@
                   </figure>
                   <aside class="clearfix m-t-20">
                   <article class="form-group m-lr-0">
-                     <div class="col-md-12">
+                     <div class="col-md-12" id="mostParent">
+                         
+                       <?php $i = 0; if(!empty($docAcaSpecialities)){ foreach ($docAcaSpecialities as $key => $value) { ?>
                         <div id="parentDegreeDiv2">
                            <div id="childDegreeDiv2">
                               <aside class="row">
@@ -127,7 +129,7 @@
                                     <select class="selectpicker" data-width="100%" data-size="4" name="doctorAcademic_degreeId[]" id="doctorAcademic_degreeId2">
                                        <option value="">Select Degree </option>
                                        <?php foreach($degree as $key=>$val){?>
-                                       <option <?php if ($doctorDetail[0]->degree_id == $val->degree_id):echo"selected";
+                                       <option <?php if ($value->degree_id == $val->degree_id):echo"selected";
                                           endif; ?> value="<?php echo $val->degree_id; ?>"><?php echo $val->degree_SName; ?></option>
                                        <?php }?>
                                     </select>
@@ -138,7 +140,7 @@
                                     <select class="selectpicker" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId2">
                                        <option value="">Select Specialities </option>
                                        <?php foreach($speciality as $val) {?>
-                                       <option <?php if ($docAcaSpecialities[0]->specialities_id == $val->specialities_id):echo"selected";
+                                       <option <?php if ($value->specialities_id == $val->specialities_id):echo"selected";
                                           endif; ?> value="<?php echo $val->specialities_id; ?>"><?php echo $val->specialities_name; ?></option>
                                        <?php }?>
                                     </select>
@@ -148,23 +150,30 @@
                               <aside class="row">
                                  <label for="cname" class="control-label col-md-4 m-t-20">Address</label>
                                  <div class="col-md-8 col-sm-8 m-t-20">
-                                    <textarea class="form-control" id="acdemic_addaddress1" name="acdemic_addaddress[]" required="" placeholder="Address"><?php echo $doctorDetail[0]->doctorAcademic_degreeInsAddress;?></textarea>
+                                    <textarea class="form-control" id="acdemic_addaddress1" name="acdemic_addaddress[]" required="" placeholder="Address"><?php echo $value->doctorAcademic_degreeInsAddress;?></textarea>
                                     <label class="error" style="display:none;" id="error-acdemic_addaddress1"> please fill Address</label>
                                  </div>
                                  <label for="cname" class="control-label col-md-4">Year</label>
                                  <div class="col-md-8 col-sm-8 m-b-20 m-t-10">
-                                    <input class="form-control" name="acdemic_addyear[]" required="" id="acdemic_addyear1" value="<?php echo $doctorDetail[0]->doctorAcademic_degreeYear;?>"  onkeypress="return isNumberKey(event)" placeholder="Year" maxlength="4">
+                                    <input class="form-control" name="acdemic_addyear[]" required="" id="acdemic_addyear1" value="<?php echo $value->doctorAcademic_degreeYear; ?>"  onkeypress="return isNumberKey(event)" placeholder="Year" maxlength="4">
                                     <label class="error" style="display:none;" id="error-acdemic_addyear1"> please fill Year</label>
                                  </div>
                               </aside>
+                               
+                            <?php if($i != 0){ ?>
+                               <aside class="col-sm-2 text-right"><a id="btn-service2" href="javascript:void(0)"  pull-right="" class="gadd"><i class="fa fa-minus-circle fa-2x m-t-5 label-plus"></i></a>
+                               </aside> <?php } ?>
+                       
                               <br />
                            </div>
                         </div>
+                       <?php $i++;  } } ?>
+                         
                      </div>
                   </article>
                   <article class="form-group m-lr-0">
                      <div class="col-md-8 col-md-offset-4">
-                        <button class="btn btn-success waves-effect waves-light m-r-20" type="button" onclick="multipleAcademicForDoctor()">Add More</button>
+                        <button class="btn btn-success waves-effect waves-light m-r-20" type="button" onclick="multipleAcademicForEditDoctor()">Add More</button>
                      </div>
                   </article>
                   <!-- Degree End -->

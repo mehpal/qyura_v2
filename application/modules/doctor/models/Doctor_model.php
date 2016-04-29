@@ -535,7 +535,13 @@ class Doctor_model extends My_model {
         $openTime = '';
         $closeTime = '';
         $doctorId = '';
+        $docTimeDayId = false;
         extract($options);
+
+        
+        if($docTimeDayId)
+            $notIn = 'NOT IN ('.$docTimeDayId.')';
+
 
         $query = "SELECT `docTimeTable_id`
                                 FROM (`qyura_docTimeTable`)
@@ -560,7 +566,7 @@ class Doctor_model extends My_model {
 
                                             )
 
-                                        ) AND docTimeTable_doctorId =  {$doctorId}";
+                                        ) AND docTimeTable_doctorId =  {$doctorId}  {$notIn}";
 
         $query = $this->db->query($query);
         // dump($query3->row());
@@ -570,13 +576,13 @@ class Doctor_model extends My_model {
     }
 
     function getDoctorAvailableOnDaysNew($where) {
-        $con = array('docTimeTable_deleted' => 0);
+        $con = array('docTimeDay_deleted' => 0);
         $where = array_merge($con, $where);
 
-        $this->db->select('docTimeDay_id AS docTimeDay_id,docTimeDay_docTimeTableId AS docTimeTableId,docTimeDay_day AS day,docTimeTable_deleted')
+        $this->db->select('docTimeDay_id AS docTimeDay_id,docTimeDay_docTimeTableId AS docTimeTableId,docTimeDay_day AS day')
                 ->from('qyura_docTimeDay')
-                ->where($where)
-                ->group_by('docTimeDay_id');
+                ->where($where);
+                //->group_by('docTimeDay_id');
         $doctorAvailability = $this->db->get()->result();
         return $doctorAvailability;
     }
@@ -697,8 +703,10 @@ class Doctor_model extends My_model {
  THEN
       diagnostic_name
  END)
- AS `psChamberName`,GROUP_CONCAT(docTimeDay_day) as `day`,
- docTimeDay_open as open,docTimeDay_close as close,docTimeDay_docTimeTableId as docTimeTableId,docTimeDay_id as docTimeDayId,docTimeTable_price as price,docTimeTable_MIprofileId as MIprofileId,docTimeTable_MItype as MItype,docTimeTable_stayAt as stayAt,docTimeTable_doctorId as doctorId,doctors_fName,doctors_lName')
+
+ AS `psChamberName`,GROUP_CONCAT(docTimeDay_day) as `day`,GROUP_CONCAT(docTimeDay_id) as `docTimeDayId`,
+ docTimeDay_open as open,docTimeDay_close as close,docTimeDay_docTimeTableId as docTimeTableId,docTimeTable_price as price,docTimeTable_MIprofileId as MIprofileId,docTimeTable_MItype as MItype,docTimeTable_stayAt as stayAt,docTimeTable_doctorId as doctorId,doctors_fName,doctors_lName')
+
                 ->from('qyura_docTimeTable')
                 ->join('qyura_hospital', 'qyura_hospital.hospital_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 1 AND docTimeTable_MItype = 1', 'LEFT')
                 ->join('qyura_doctors', 'qyura_doctors.doctors_id=qyura_docTimeTable.docTimeTable_doctorId', 'LEFT')
