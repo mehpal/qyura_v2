@@ -27,23 +27,7 @@ class Bloodbank_model extends CI_Model {
         return $this->db->get()->result();
     }
     
-    function fetchEmail($email,$usersId = NULL){
-       $this->db->select('users_email');
-        $this->db->from('qyura_users');
-        $this->db->join('qyura_usersRoles','qyura_usersRoles.usersRoles_userId = qyura_users.users_id','left');
-        if($usersId) {
-            $this->db->where('qyura_users.users_id !=',$usersId);
-        }
-        $this->db->where('qyura_usersRoles.usersRoles_roleId',2);
-         $this->db->where('qyura_users.users_email',$email); 
-       $result = $this->db->get();
-       //return $this->db->last_query();
-       
-        if($result->num_rows() > 0)
-            return 1;
-        else             
-            return 0; 
-    }
+   
     
     // check existence
     function checkExisting($email){
@@ -158,7 +142,7 @@ class Bloodbank_model extends CI_Model {
        
         $this->datatables->add_column('status', '$1', 'statusCheck(bloodbank,qyura_bloodBank,bloodBank_id,id,sts)');
        
-       $this->datatables->add_column('bloodBank_add', '$1 </br><a  href="bloodbank/map/$2" class="btn btn-info btn-xs waves-effect waves-light" target="_blank">View Map</a>', 'bloodBank_add,bloodBank_id');
+       $this->datatables->add_column('bloodBank_add', '$1 </br><a  href="bloodbank/map/$2" class="btn btn-info btn-xs waves-effect waves-light" target="_blank">View Map</a>', 'bloodBank_add,id');
        
        $this->datatables->order_by("blood.creationTime");
        return $this->datatables->generate(); 
