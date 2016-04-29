@@ -192,6 +192,7 @@ class Hospital extends MY_Controller {
         if ($dataAwards) {
             $showTotalAwards = '';
             foreach ($dataAwards as $key => $val) {
+                
              $agencyOption  = '';
              foreach ($awardAgency as $key => $value) {
                //  echo $value->awardAgency_id.'-'.$val->awardAgency_id.'</br>';
