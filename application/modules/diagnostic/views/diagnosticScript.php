@@ -6,6 +6,21 @@
    .pointer:hover {
      cursor:pointer;
    }
+   .avatar-preview-bloodbank {
+    float: none;
+}
+.avatar-preview-bloodbank img {
+    width: 100%;
+}
+.avatar-preview-bloodbank {
+    background-color: #FFFFFF;
+    border: 1px solid #EEEEEE;
+    border-radius: 4px;
+    float: left;
+    margin-right: 15px;
+    margin-top: 15px;
+    overflow: hidden;
+}
 </style>
 <?php $check= 0; 
 if(isset($diagnosticId) && !empty($diagnosticId)){
@@ -20,6 +35,7 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
 <?php $current = $this->router->fetch_method();
 if($current != 'detailDiagnostic'):?>
 <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
+<script src="<?php echo base_url(); ?>assets/cropper/bloodbank_cropper.js"></script>
 <?php else:?>
 
 <script src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
@@ -442,7 +458,16 @@ if($current != 'detailDiagnostic'):?>
               data: {'awardsId' : awardsId , 'diaAwards_awardsName' : edit_awardsName ,'edit_awardsYear' : edit_awardsYear, 'edit_awardsAgency' : edit_awardsAgency },
               success:function(datas){
               console.log(datas);
+              
+                  bootbox.alert("Award updated successfully!");
+
                   loadAwards();
+                  
+                    $('.selectpicker').selectpicker({
+                        style: 'btn-default',
+                        size: "auto",
+                       width: "100%"
+                   });
               }
            });
         }  
@@ -504,6 +529,7 @@ if($current != 'detailDiagnostic'):?>
               data: {'awardsId' : awardsId , 'service_name' : edit_awardsName },
               success:function(datas){
               console.log(datas);
+                  bootbox.alert("Service updated successfully!");
                   loadServices();
               }
            });
@@ -1463,15 +1489,15 @@ if($current != 'detailDiagnostic'):?>
         var centerName = $.trim($("#diagnosticCenter").val());
        // var cnfpswd = $.trim($("#cnfpassword").val());
         //var mbl= $.trim($('#diagnostic_mblNo').val());
-        var phn= $.trim($('#diagnostic_phn1').val());
+        var phn= $.trim($('#diagnostic_phn').val());
         var myzip = $.trim($('#diagnostic_zip').val());
         var cityId =$.trim($('#diagnostic_cityId').val());
         var stateIds = $.trim($('#diagnostic_stateId').val());
         var diagnostic_mblNo = $.trim($('#diagnostic_mblNo').val());
-        var emailCheck =  checkEmailFormatValidation(emails);
+       // var emailCheck =  checkEmailFormatValidation(emails);
         var ckeck = 1;
-         var about = document.getElementById("diagnostic_aboutUs");
-         var dsgn = $('#diagnostic_dsgn').val();
+        var about = document.getElementById("diagnostic_aboutUs");
+        var dsgn = $('#diagnostic_dsgn').val();
 
             if($('#diagnosticCenter').val()==''){
   
@@ -1638,8 +1664,6 @@ if($current != 'detailDiagnostic'):?>
                //status = 0;
                 return false;
                
-            }else if(!emailCheck){
-                return false; 
             }else{
                 return true;
             }
@@ -2114,30 +2138,51 @@ function imageIsLoaded(e) {
   }  
   
   
-  $("#bloodbank").click(function () {
-    if($(this).is(':checked')){
-     bootbox.confirm("Do you outsource the blood?", function(result) {
-        if (result) {
-            $('#isBloodBankOutsource').val(1);
-            $("#bloodbankOption").fadeIn();
+  $("#bloodbank,#bloodbankbtn").click(function () {
+        if($(this).is(':checked')){
+         bootbox.confirm({
+                    message: 'Do you outsource the blood?',
+                    buttons: {
+                        'cancel': {
+                            label: 'No',
+                            className: 'btn-default pull-left'
+                        },
+                        'confirm': {
+                            label: 'Yes',
+                            className: 'btn-primary pull-right'
+                        }
+                    },
+                    callback: function(result) {
+                        if (result) {
+                            $('#isBloodBankOutsource').val(1);
+                            $("#bloodbankOption,#bloodbankdetail").fadeIn();
+                        }else{
+                            $("#bloodbankOption,#bloodbankdetail").fadeOut();
+                            $('#isBloodBankOutsource').val(0);
+                    }
+               
+              }
+         });
+            
         }else{
-            $("#bloodbankOption").fadeOut();
+            $("#bloodbankOption,#bloodbankdetail").fadeOut();
             $('#isBloodBankOutsource').val(0);
         }
-      });
-    }else{
-        $("#bloodbankOption").fadeOut();
-        $('#isBloodBankOutsource').val(0);
-    }
-});
+        
+        
+    });
+    
+    
+    
 
     $("#pharmacy").click(function () {
         $("#pharmacyOption").fadeToggle();
     });
 
-    $("#ambulance").click(function () {
-        $("#ambulanceOption").fadeToggle();
+    $("#ambulance,#ambulancebtn").click(function () {
+        $("#ambulanceOption,#ambulancedetail").fadeToggle();
     });
+    
     
     
     
@@ -2330,6 +2375,7 @@ function imageIsLoaded(e) {
               data: {'centerId' : centerId , 'centerName' : centerName ,'centerAddress' : centerAddress, 'centerLat' : centerLat, 'centerLong' : centerLong },
               success:function(datas){
               console.log(datas);
+                  bootbox.alert("Diagnostic collection center update sussefully!");
                   loadCenter();
               }
            });
@@ -2345,6 +2391,7 @@ function imageIsLoaded(e) {
               data: {'centerId' : centerId },
               success:function(datas){
               console.log(datas);
+                   // bootbox.alert("Diagnostic collection center update sussefully!");
                   loadCenter();
               }
            });
