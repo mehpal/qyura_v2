@@ -416,9 +416,7 @@ class Doctor extends MY_Controller {
     function doctorDetails($doctorId) {
         $data = array();
 
-
         $data['MI_reffralId'] = $MI_reffralId = (isset($_GET['reffralId']) && $_GET['reffralId'] != "") ? $_GET['reffralId'] : "";
-
         $MainSlot = array();
 
         if ($MI_reffralId != "") {
@@ -471,10 +469,7 @@ class Doctor extends MY_Controller {
         $data['qyura_city'] = $this->common_model->customGet($option);
 
         $avWhere = array('doctorAvailability_docUsersId' => $data['doctorDetail'][0]->doctors_userId);
-        $data['doctorAvailability'] = $doctorAvailability = $this->Doctor_model->getDoctorAvailability($avWhere);
-
-
-
+   
         $data['showStatus'] = 'none';
         $data['detailShow'] = 'block';
         $option = array(
@@ -502,16 +497,16 @@ class Doctor extends MY_Controller {
         );
         $data['qyura_specialitiesCat'] = $this->common_model->customGet($option);
 
-        $option = array(
-            'table' => 'qyura_professionalExp',
-            'select' => 'professionalExp_id ,professionalExp_designation ,professionalExp_usersId,professionalExp_hospitalId,professionalExp_start,professionalExp_end,hospital_name,hospital_id,hospital_address',
-            'where' => array('qyura_professionalExp.professionalExp_deleted' => 0, 'qyura_professionalExp.professionalExp_usersId' => $doctorId),
-            'join' => array(
-                array('qyura_hospital', 'qyura_hospital.hospital_id = qyura_professionalExp.professionalExp_hospitalId', 'left')
-            ),
-            'single' => FALSE
-        );
-        $professional_exp = $this->common_model->customGet($option);
+//        $option = array(
+//            'table' => 'qyura_professionalExp',
+//            'select' => 'professionalExp_id ,professionalExp_designation ,professionalExp_usersId,professionalExp_hospitalId,professionalExp_start,professionalExp_end,hospital_name,hospital_id,hospital_address',
+//            'where' => array('qyura_professionalExp.professionalExp_deleted' => 0, 'qyura_professionalExp.professionalExp_usersId' => $doctorId),
+//            'join' => array(
+//                array('qyura_hospital', 'qyura_hospital.hospital_id = qyura_professionalExp.professionalExp_hospitalId', 'left')
+//            ),
+//            'single' => FALSE
+//        );
+//        $professional_exp = $this->common_model->customGet($option);
 
 
         $option = array(
@@ -524,11 +519,10 @@ class Doctor extends MY_Controller {
         $data['qyura_services'] = $this->common_model->customGet($option);
 
 
-        $where = array("doctorAvailability_docUsersId" => 46);
-
-        $data['exprerience'] = $this->Doctor_model->fetchExprience($doctorId);
+//        $where = array("doctorAvailability_docUsersId" => 46);
+//        $data['exprerience'] = $this->Doctor_model->fetchExprience($doctorId);
         $data['doctorAcademic'] = $this->Doctor_model->fetchAcademic($doctorId);
-        $data['timeSlots'] = $this->Doctor_model->getDoctorAvailability($where);
+        
         $data['hospitals'] = $this->Doctor_model->fetchHosByStatus(null);
         $data['diagnostics'] = $this->Doctor_model->fetchDigByStatus(null);
 
@@ -559,136 +553,6 @@ class Doctor extends MY_Controller {
         if ($hospitalId != '') {
             $response = $this->Doctor_model->getHospitaldetail($hospitalId);
         }
-    }
-
-    function availability() {
-
-        $selectedDays = array();
-
-        if (isset($_POST['day']) && $_POST['day'] != NULL) {
-            foreach ($_POST['day'] as $key => $day) {
-                array_push($selectedDays, $day);
-                for ($i = 0; $i < 3; $i++) {
-////                    "0_session_0_st";
-//                    $this->bf_form_validation->set_rules($day.'_session_'.$i."_st", 'Start Time', 'xss_clean|trim|required');
-//                    $this->bf_form_validation->set_rules($day.'_session_'.$i."_ed", 'End Time', 'xss_clean|trim|required');
-//
-//                    if ($this->bf_form_validation->run($this) == FALSE) {
-//                        // setup the input
-//                        $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
-//                        $this->response($response, 400);
-//                    } else {
-//                        
-//                    }
-//                    $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $this->_error,'custom'=>1);
-//                    echo json_encode($responce);
-                    $start = $_POST["{$day}_session_{$i}_st"];
-                    $end = $_POST["{$day}_session_{$i}_ed"];
-
-                    $session = getDoctorAvailibilitySession($i);
-                    $dayName = convertNumberToDay($day);
-                    $this->_startTime = $start = trim($start);
-                    $this->_endTime = $end = trim($end);
-
-                    if ($i == 0 && ($start != '' || $end != ''))
-                        $this->checkMorningTime($start, $end, $session, $dayName, $i, $day);
-
-                    if ($i == 1 && ($start != '' || $end != ''))
-                        $this->checkAfternoonTime($start, $end, $session, $dayName, $i, $day);
-
-                    if ($i == 2 && ($start != '' || $end != ''))
-                        $this->checkEveningTime($start, $end, $session, $dayName, $i, $day);
-
-                    if ($i == 3 && ($start != '' || $end != ''))
-                        $this->checkNightTime($start, $end, $session, $dayName, $i, $day);
-                }
-            }
-        }else {
-            $this->_error['er_TopError'] = "Please seclect the respective day for slot!!";
-        }
-
-        if (count($this->_error)) {
-            $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $this->_error, 'custom' => 1);
-            echo json_encode($responce);
-        } else {
-
-            $this->db->trans_start();
-            $docUserId = $this->input->post('doctors_userId');
-            $refferalId = $this->input->post('doctors_refferalId');
-
-            $con = array('doctorAvailability_docUsersId' => $docUserId);
-            $days = $this->Doctor_model->getDoctorAvailableOnDays($con);
-            $preDays = array();
-            if (isset($days) && $days != null) {
-                foreach ($days as $day) {
-                    array_push($preDays, $day->day);
-                }
-            }
-
-            $newAvabilityIds = array();
-
-            foreach ($selectedDays as $selectedDay) {
-                if (!in_array($selectedDay, $preDays)) {
-                    $records_day = array('doctorAvailability_docUsersId' => $docUserId, 'doctorAvailability_day' => $selectedDay);
-                    $dayOptions = array
-                        (
-                        'data' => $records_day,
-                        'table' => 'qyura_doctorAvailability'
-                    );
-//                    dump($dayOptions);
-//                    $id = $this->common_model->customInsert($dayOptions);
-                    $this->db->insert('qyura_doctorAvailability', $records_day);
-                    $id = $this->db->insert_id();
-                    array_push($newAvabilityIds, $id);
-                }
-            }
-
-            $records_day = array('doctorAvailability_docUsersId' => $docUserId, 'doctorAvailability_deleted' => 0);
-            $dayOptions = array(
-                'where' => $records_day,
-                'table' => 'qyura_doctorAvailability',
-                'single' => FALSE,
-                'select' => 'doctorAvailability_id AS id',
-            );
-            $availabilityids = $this->common_model->customGet($dayOptions);
-//                } 
-//            }
-
-            foreach ($availabilityids as $id) {
-                $delCon = array('doctorAvailability_refferalId' => $refferalId, 'doctorAvailability_doctorAvailabilityId' => $id->id);
-                $this->db->update("qyura_doctorAvailabilitySession", array("doctorAvailabilitySession_deleted" => 1), $delCon);
-            }
-
-            foreach ($_POST['day'] as $key => $day) {
-                $records_day = array('doctorAvailability_docUsersId' => $docUserId, 'doctorAvailability_day' => $day, 'doctorAvailability_deleted' => 0);
-
-                $dayOptions = array
-                    (
-                    'where' => $records_day,
-                    'table' => 'qyura_doctorAvailability',
-                    'single' => true,
-                    'select' => 'doctorAvailability_id AS id',
-                );
-
-                $availabilityid = $this->common_model->customGet($dayOptions);
-
-                for ($i = 0; $i < 3; $i++) {
-                    $start = $_POST["{$day}_session_{$i}_st"];
-                    $end = $_POST["{$day}_session_{$i}_ed"];
-                    $start = $start = trim($start);
-                    $end = $end = trim($end);
-                    if ($start != '' && $end != '') {
-                        $insert_rec = array('doctorAvailability_refferalId' => $refferalId, 'doctorAvailabilitySession_type' => $i, 'doctorAvailability_doctorAvailabilityId' => $availabilityid->id, 'doctorAvailabilitySession_start' => date("H:i:s", strtotime(date("Y-m-d") . " " . $start)), 'doctorAvailabilitySession_end' => date("H:i:s", strtotime(date("Y-m-d") . " " . $end)));
-
-                        $this->db->insert('qyura_doctorAvailabilitySession', $insert_rec);
-                    }
-                }
-            }
-
-            $responce = array('status' => 1, 'isAlive' => TRUE, 'success' => "Time slotes managed successfully!!");
-            echo json_encode($responce);
-        }
-        $this->db->trans_complete();
     }
 
     function checkMorningTime($satrt, $end, $session, $day, $sessionInx, $dayIndex) {
@@ -1555,8 +1419,6 @@ class Doctor extends MY_Controller {
 
     function editDocTime() {
 
-
-
         $this->bf_form_validation->set_rules('docTimeTable_stayAt', 'stayAt', 'required|trim');
 
         if (isset($_POST['docTimeTable_stayAt']) && $_POST['docTimeTable_stayAt'] == 1) {
@@ -1625,9 +1487,14 @@ class Doctor extends MY_Controller {
             $docTimeDay_open = isset($_POST['openingHour']) ? $this->input->post('openingHour') : '';
             $docTimeDay_close = isset($_POST['closeingHour']) ? $this->input->post('closeingHour') : '';
             $docTimeTableId = isset($_POST['docTimeTableId']) ? $this->input->post('docTimeTableId') : '';
+            $MIprofileId = isset($_POST['MIprofileId']) ? $this->input->post('MIprofileId') : '';
 
+            //$this->db->taransaction
+            
+            if($_POST['docTimeTable_stayAt'] == 0)
+            $this->updateChamber($MIprofileId);
 
-
+            
             $docTimeDay_open = date('H:i:s', strtotime($docTimeDay_open));
             $docTimeDay_close = date('H:i:s', strtotime($docTimeDay_close));
             $selectedDays = $docTimeDay_days;
@@ -1709,7 +1576,7 @@ class Doctor extends MY_Controller {
                     $id = true;
                 }
             }
-            
+
             $sql = '';
             foreach ($this->db->queries as $key => $query) {
                 $sql = $query . " \n Execution Time:" . $times[$key]; // Generating SQL file alongwith execution time
@@ -1721,6 +1588,28 @@ class Doctor extends MY_Controller {
                 $count++;
             }
             //dump($sql);
+            
+            
+            $param = array(
+                'table' => 'qyura_docTimeTable',
+                
+            );
+            
+            
+            $updateOptions = array
+                (
+                'where' => array('docTimeTable_id'=>$docTimeTableId),
+                'data' => array(
+                    'docTimeTable_stayAt' => $docTimeTable_stayAt,
+                    'docTimeTable_doctorId' => $this->input->post('doctorId'),
+                    'docTimeTable_MItype' => $docTimeTable_MItype,
+                    'docTimeTable_price' => $docTimeTable_price,
+                    'creationTime' => time()
+                ),
+                'table' => 'qyura_docTimeTable'
+            );
+
+            $id = $this->common_model->customUpdate($updateOptions);
 
             if ($id) {
                 $this->session->set_flashdata('active_tag', 4);
@@ -1733,6 +1622,44 @@ class Doctor extends MY_Controller {
         }
     }
 
+    function updateChamber($id) {
+        $doctorId = $this->input->post('doctorId');
+        $psChamber_name = $this->input->post('psChamber_name');
+        $psChamber_countryId = 1;
+        $psChamber_stateId = $this->input->post('stateId');
+        $psChamber_cityId = $this->input->post('cityId');
+        $psChamber_zip = $this->input->post('pinn');
+        $psChamber_address = $this->input->post('addr');
+        $psChamber_lat = $this->input->post('lat');
+        $psChamber_long = $this->input->post('lng');
+
+        $records_array = array(
+            'psChamber_name' => $psChamber_name,
+            'psChamber_countryId' => $psChamber_countryId,
+            'psChamber_stateId' => $psChamber_stateId,
+            'psChamber_cityId' => $psChamber_cityId,
+            'psChamber_zip' => $psChamber_zip,
+            'psChamber_address' => $psChamber_address,
+            'psChamber_lat' => $psChamber_lat,
+            'psChamber_long' => $psChamber_long,
+            'psChamber_doctorId' => $doctorId,
+            'status' => 2,
+            'creationTime' => strtotime(date("d-m-Y H:i:s"))
+        );
+
+        $updateOptions = array
+            (
+            'where' => array('psChamber_id'=>$id),
+            'data' => $records_array,
+            'table' => 'qyura_psChamber'
+        );
+
+        $id = $this->common_model->customUpdate($updateOptions);
+        $id = true;
+
+        return $id;
+    }
+
     function editDocTimeView() {
         $docTimeTableId = $this->input->post('docTimeTableId');
         $doctorId = $this->input->post('doctorId');
@@ -1741,15 +1668,15 @@ class Doctor extends MY_Controller {
         $con = array('docTimeTable_id' => $docTimeTableId);
         $data['allStates'] = $this->Doctor_model->fetchStates();
 
-       
+
         $data['timeData'] = $this->Doctor_model->geTimeTable($con);
-        
-        $data['stateId'] = isset($data['timeData']->stateId) && $data['timeData']->stateId != null? $data['timeData']->stateId :''; 
+
+        $data['stateId'] = isset($data['timeData']->stateId) && $data['timeData']->stateId != null ? $data['timeData']->stateId : '';
         $data['cityInfo'] = $this->Doctor_model->getCityInfo($data['timeData']->cityId);
         $data['hospitals'] = $this->Doctor_model->fetchHosByStatus(null);
-        
+
         $data['diagnostics'] = $this->Doctor_model->fetchDigByStatus(null);
-        
+
         $form = $this->load->view('editTimeSloat', $data, true);
         $responce = array('status' => 1, 'isAlive' => TRUE, 'data' => $form);
         echo json_encode($responce);
@@ -1783,7 +1710,6 @@ class Doctor extends MY_Controller {
         }
     }
 
-
     function checkEditSloat() {
         $docTimeDay_days = isset($_POST['docTimeDay_day']) ? $this->input->post('docTimeDay_day') : '';
         $docTimeDay_open = isset($_POST['openingHour']) ? $this->input->post('openingHour') : '';
@@ -1814,7 +1740,6 @@ class Doctor extends MY_Controller {
             return true;
         }
     }
-
 
     function checkOpenTime() {
         $openingHour = $this->input->post('openingHour');
