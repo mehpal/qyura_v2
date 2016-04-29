@@ -41,7 +41,7 @@
                                 <label for="cname" class="control-label col-md-4  col-sm-4">Select Name :</label>
                                 <div class="col-md-8 col-sm-8">
                                     <?php $publishHospital[] = (object) array('hospital_id' =>0, 'hospital_name' => 'Other') ?>
-                                    <select class="form-control select2" data-width="100%" name="hospital_id" id="hospital_id" onchange="getHospitaldetail(this.value)" >
+                                    <select class="form-control selectpicker" data-width="100%" name="hospital_id" id="hospital_id" onchange="getHospitaldetail(this.value)" >
                                         <option value="">Select Hospital</option>
                                         <?php if (!empty($publishHospital)) {
                                             
@@ -70,7 +70,7 @@
                             <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4  col-sm-4">Hospital Type :</label>
                                 <div class="col-md-8 col-sm-8">
-                                    <select class="form-control select2" data-width="100%" name="hospital_type" id="hospital_type" >
+                                    <select class="form-control selectpicker" data-width="100%" name="hospital_type" id="hospital_type" >
                                         <?php if (!empty($hospitalType)) {
                                             foreach ($hospitalType as $key => $val) {
                                                 ?>
@@ -111,7 +111,7 @@
                                 <label for="cname" class="control-label col-md-4 col-sm-4">Address:</label>
                                 <div class="col-md-8 col-sm-8">
 
-                                    <select class="form-control select2" data-width="100%" name="hospital_countryId" id="hospital_countryId" onchange ="fetchState(this.value)" <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'disabled'; } ?>>
+                                    <select class="form-control selectpicker" data-width="100%" name="hospital_countryId" id="hospital_countryId" onchange ="fetchState(this.value)" <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'disabled'; } ?>>
                                         <option value="">Select Country</option>
                                         <?php
                                         if (isset($allCountry) && !empty($allCountry)) {
@@ -132,7 +132,7 @@
 
                             <article class="clearfix">
                                 <div class="col-md-8  col-sm-8 col-sm-offset-4">
-                                    <select class="select2 form-control" data-width="100%" name="hospital_stateId" id="hospital_stateId" data-size="4" onchange ="fetchCity(this.value)" <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'disabled'; } ?>>
+                                    <select class="selectpicker form-control" data-width="100%" name="hospital_stateId" id="hospital_stateId" data-size="4" onchange ="fetchCity(this.value)" <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'disabled'; } ?>>
 
                                         <option value="">Select State</option>
                                         <?php
@@ -152,7 +152,7 @@
                             <article class="clearfix">
                                 <div class="col-md-8  col-sm-8 col-sm-offset-4">
 
-                                    <select class="form-control select2" data-width="100%" name="hospital_cityId" id="hospital_cityId" data-size="4" <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'disabled'; } ?>>
+                                    <select class="form-control selectpicker" data-width="100%" name="hospital_cityId" id="hospital_cityId" data-size="4" <?php if(isset($hospital_id) && $hospital_id != 0){ echo 'disabled'; } ?>>
                                         <option value="">Select City</option>
                                         <?php
                                         if (isset($allCities) && !empty($allCities)) {
@@ -320,7 +320,7 @@
                             <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type :</label>
                                 <div class="col-md-8  col-sm-8">
-                                    <select class="select2" data-width="100%" name="hospital_mmbrTyp" id="hospital_mmbrTyp">
+                                    <select class="selectpicker" data-width="100%" name="hospital_mmbrTyp" id="hospital_mmbrTyp">
                                         <option value="1"  <?php echo set_select('hospital_mmbrTyp', '1', TRUE); ?>
                                                 >Life Time</option>
                                         <option value="2"  <?php echo set_select('hospital_mmbrTyp', '2'); ?>
