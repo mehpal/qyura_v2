@@ -469,5 +469,21 @@ if (!function_exists('getDocExp')) {
                 $diff = abs(strtotime($date2) - $date1);
               return  $years = floor($diff / (365*60*60*24));
     }
-}           
+} 
+
+if (!function_exists("expYear")) {
+
+    function expYear($date = NULL) {
+        $date2 = date('Y-m-d');
+        if (isset($date) && $date != NULL) {
+            $date1 = $date;
+        } else {
+            $date1 = strtotime(date('Y-m-d'));
+        }
+        $diff = abs(strtotime($date2) - $date1);
+        $years = floor($diff / (365 * 60 * 60 * 24));
+        return $years;
+    }
+
+}          
 ?>
