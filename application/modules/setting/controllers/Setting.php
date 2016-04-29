@@ -12,8 +12,6 @@ class Setting extends MY_Controller {
     function index() {
        
         $userid = $this->session->userdata("ses_sa_userid");
-        if(!$userid)
-            $userid = 63;
         $data['allStates'] = $this->Setting_model->fetchStates();
         $data['users'] = $users = $this->Setting_model->getAdmin($userid);
        // print_r( $data['users']);  exit;
@@ -85,7 +83,7 @@ class Setting extends MY_Controller {
             'patientDetails_dob' => strtotime($this->input->post('dob')),
             'patientDetails_patientImg' => $imagesname
         );
-
+    
         $password = $this->input->post('users_password');
         $cPassword = $this->input->post('cnfPassword');
         if (!empty($password) && !empty($cPassword) && $password == $cPassword) {
@@ -117,7 +115,7 @@ class Setting extends MY_Controller {
 
         $response = $this->common_model->customUpdate($option);
         
-        if ($response) {
+        if (true) {
             $this->session->set_flashdata('message', 'Your profile successfully update.');
             redirect('setting');
         } else {

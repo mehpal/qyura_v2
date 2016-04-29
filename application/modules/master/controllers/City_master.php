@@ -38,12 +38,10 @@ class City_master extends MY_Controller {
         $data['title'] = 'List City';
         $this->load->super_admin_template('city_view', $data, 'masterScript');
     }
-    
     function getCityDl() {
 
         echo $this->Master_model->fetchCityDataTables();
     }
-    
     function saveCity() {
        
         $this->bf_form_validation->set_rules("city_countryid", "Country", 'required|xss_clean');
@@ -181,10 +179,10 @@ class City_master extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 3) {
-                $update_data['status'] = 2;
-            } else {
+            if ($status == 2) {
                 $update_data['status'] = 3;
+            } else {
+                $update_data['status'] = 2;
             }
             $where = array('city_id' => $ena_id);
             $updateOptions = array

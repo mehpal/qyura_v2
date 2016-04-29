@@ -38,7 +38,8 @@
                                     </span>
                                     <span class="col-lg-2 col-sm-2 col-xs-2">
                                         <a href="#" style="line-height: 1.8"><i class="md md-edit membership-btn"></i></a>
-                                        <button onclick="enableFn('master', 'degreePublish', '<?php echo $degrees->degree_id; ?>','<?php echo $degrees->status; ?>')" title='<?php if($degrees->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Degree' type="button" class="btn"><i class="fa fa-thumbs-<?php if($degrees->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
+                                        
+                                        <button onclick="if((<?php echo $degrees->status; ?>)===2)enableFn('master', 'degreePublish', '<?php echo $degrees->degree_id; ?>','<?php echo $degrees->status; ?>')" type="button" class="btn btn-<?php if($degrees->status == 2){ echo "danger"; }else if($degrees->status == 0){ echo "warning"; }else if($degrees->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($degrees->status == 3){ echo "Verified"; }else if($degrees->status == 2){ echo "Unverified"; }else if($degrees->status == 1){ echo "Active"; }else if($degrees->status == 0){ echo "Inactive"; } ?></button>
                                     </span>
                                 </li>
                                 <li class="newmembership" style="display:none">
