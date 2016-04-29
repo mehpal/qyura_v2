@@ -2344,15 +2344,15 @@ class Hospital extends MY_Controller {
 
             $result = $this->updateMultipleIds($specialitiesIds,$res,$doctor_hidden_id,'qyura_doctorSpecialities');
 
-            //dump($result);
-
-            //exit();
-            
-
             $doctorAcademic_degreeId = $this->input->post('doctorAcademic_degreeId');
             $doctorSpecialities_specialitiesCatId = $this->input->post('doctorSpecialities_specialitiesCatId');
             $acdemic_addaddress = $this->input->post('acdemic_addaddress');
             $acdemic_addyear = $this->input->post('acdemic_addyear');
+            
+             if(!empty($doctorAcademic_degreeId) && $doctor_hidden_id != ''){
+                $this->db->delete('qyura_doctorAcademic', array('doctorAcademic_doctorsId' => $doctor_hidden_id)); 
+            }
+            
             for ($i = 0; $i < count($doctorAcademic_degreeId); $i++) {
                 /* here one more table insertion needed for academic image load on qyura_doctorAcademicImage table,
                  *  but write now it is not here
@@ -2361,16 +2361,15 @@ class Hospital extends MY_Controller {
                     $doctorAcademicData = array(
                         'doctorAcademic_degreeId' => $doctorAcademic_degreeId[$i],
                         'doctorAcademic_specialitiesId' => $doctorSpecialities_specialitiesCatId[$i],
-                        'doctorAcademic_doctorsId' => $doctor_hidden_id,
                         'doctorAcademic_degreeInsAddress' => $acdemic_addaddress[$i],
                         'doctorAcademic_degreeYear' => $acdemic_addyear[$i],
+                        'doctorAcademic_doctorsId' => $doctor_hidden_id,
                         'creationTime' => strtotime(date('Y-m-d'))
                     );
-                    $whereDocAca = array(
-                    'doctorAcademic_id' => $doctorAcademic_hidden_id
-                );
 
-                    $this->Doctor_model->updateDoctorData($doctorAcademicData,$whereDocAca, 'qyura_doctorAcademic');
+                    $this->Doctor_model->insertDoctorData($doctorAcademicData, 'qyura_doctorAcademic');
+                    //dump($this->db->last_query());
+                    unset($doctorAcademicData);
                 }
             }
          
