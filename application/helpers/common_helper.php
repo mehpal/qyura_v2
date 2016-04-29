@@ -460,4 +460,14 @@ if (!function_exists('puStatusCheck')) {
     }
 
 }
+
+// get doc exp
+if (!function_exists('getDocExp')) {
+    function getDocExp($docDate){
+                $date2 = date('Y-m-d');
+                if(isset($docDate) && $docDate != NULL){ $date1 = $docDate; }else{ $date1 = strtotime(date('Y-m-d'));}
+                $diff = abs(strtotime($date2) - $date1);
+              return  $years = floor($diff / (365*60*60*24));
+    }
+}           
 ?>

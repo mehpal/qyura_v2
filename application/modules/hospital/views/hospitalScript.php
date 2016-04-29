@@ -184,7 +184,7 @@ if (isset($mapData) && !empty($mapData)) {
         }
     }
 
-    $(".selectpicker").select2();
+   // $(".selectpicker").select2();
 
     function IsAdrManual(val) {
         if (val == 1) {
@@ -636,13 +636,14 @@ if (isset($mapData) && !empty($mapData)) {
         });
     }
     function loadAwards() {
-
+       
         $('#loadAwards').load(urls + 'index.php/hospital/hospitalAwards/' + hospitalId, function () {
             // alert('callback function ');
         });
         $('#totalAwards').load(urls + 'index.php/hospital/detailAwards/' + hospitalId, function () {
             // alert('callback function implementation');
         });
+        
     }
     function loadServices() {
         $('#loadServices').load(urls + 'index.php/hospital/hospitalServices/' + hospitalId, function (data) {
@@ -2004,11 +2005,13 @@ if (isset($mapData) && !empty($mapData)) {
            $('#doctorForm').removeClass('myForm');
            $('#doctorForm').css("display",'none');
            $('#doctorList').css("display",'block');
+           $('#editDoctorForm').css("display",'none');
            $(".addDoctorButton").html('Add New Doctor');
       }else{
           $('#doctorForm').addClass('myForm');
           $('#doctorForm').css("display",'block');
           $('#doctorList').css("display",'none');
+          $('#editDoctorForm').css("display",'none');
          // $('#doctorList').css("display",'none');
           $(".addDoctorButton").html('Cancel Add Doctor');
         }
