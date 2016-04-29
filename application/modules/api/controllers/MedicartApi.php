@@ -27,35 +27,22 @@ class MedicartApi extends MyRest {
             $all["specialities_id"] = "0" ;
             $all["name"] = "All" ;
 //            $all["scientificName"] = "All" ;
-            $all["specialities_img"] = "assets/specialityImages/3x/allSpeciality.png" ;
+            $all["specialitiesImg"] = "assets/specialityImages/3x/allSpeciality.png" ;
             $all["specialityCount"] = $count;
             $finalArray[] = $all;
             
             foreach($specialities as $sp){
-<<<<<<< HEAD
                 $medicartCount =  (isset($sp->specialityCount) && $sp->specialityCount != NULL) ? $sp->specialityCount: "0" ;
                 if($medicartCount != 0){
                 
                     $array["specialities_id"] = (isset($sp->specialities_id) && $sp->specialities_id != NULL) ? $sp->specialities_id: "" ;
                     $array["name"] = (isset($sp->specialities_drName) && $sp->specialities_drName != NULL) ? $sp->specialities_drName: "" ;
-    //                $array["scientificName"] = (isset($sp->specialities_name) && $sp->specialities_name != NULL) ? $sp->specialities_name: "" ;
                     $array["specialitiesImg"] = (isset($sp->img) && $sp->img != NULL) ? $sp->img: "" ;
 
                     $array["specialityCount"] = (isset($sp->specialityCount) && $sp->specialityCount != NULL) ? $sp->specialityCount: "" ;
                     $count = $count + $array['specialityCount'];
                     $finalArray[] = $array;
                 }
-=======
-                
-                $array["specialities_id"] = (isset($sp->specialities_id) && $sp->specialities_id != NULL) ? $sp->specialities_id: "" ;
-                $array["name"] = (isset($sp->specialities_drName) && $sp->specialities_drName != NULL) ? $sp->specialities_drName: "" ;
-//                $array["scientificName"] = (isset($sp->specialities_name) && $sp->specialities_name != NULL) ? $sp->specialities_name: "" ;
-                $array["specialitiesImg"] = (isset($sp->img) && $sp->img != NULL) ? $sp->img: "" ;
-                
-                $array["specialityCount"] = (isset($sp->specialityCount) && $sp->specialityCount != NULL) ? $sp->specialityCount: "" ;
-                $count = $count + $array['specialityCount'];
-                $finalArray[] = $array;
->>>>>>> 0207b220f80fd4d4fddbd77f7b1630001d719daa
             }
             $finalArray[0]["specialityCount"] = "".$count."";
         }
@@ -91,6 +78,7 @@ class MedicartApi extends MyRest {
             $option['lat'] = isset($_POST['lat']) ? $this->input->post('lat') : '';
             $option['long'] = isset($_POST['long']) ? $this->input->post('long') : '';
             $option['city'] = isset($_POST['cityId']) ? $this->input->post('cityId') : '';
+            $option['speciality'] = isset($_POST['speciality']) ? $this->input->post('speciality') : '';
             
             $option['search'] = isset($_POST['q']) ? $this->input->post('q') : '';
 
