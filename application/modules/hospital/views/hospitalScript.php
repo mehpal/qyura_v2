@@ -250,7 +250,11 @@ if (isset($mapData) && !empty($mapData)) {
 
     }
     // datatable get records
+    $(function () {
+     //new CropAvatar($('#blood-crop-avatar'));
+  });
     $(document).ready(function () {
+        
         var oTable = $('#hospital_datatable').DataTable({
             "processing": true,
             "bServerSide": true,
