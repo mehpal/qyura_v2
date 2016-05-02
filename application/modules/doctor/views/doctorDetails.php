@@ -1237,7 +1237,7 @@ if (!empty($sMsg)) {
                                                                                 <div class="">
 
                                                                                         <?php $hospitals[] = (object) array('hospital_id' => 0, 'hospital_name' => 'Other') ?>
-                                                                                    <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId_h" id="docTimeTable_MIprofileId_h" onchange="getHospitaldetail(this.value)" >
+                                                                                    <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId_h" id="docTimeTable_MIprofileId_h" onchange="getMIdetail(this.value)" >
                                                                                         <option value="">-- Select Hospital --</option>
                                                                                         <?php
                                                                                         if (!empty($hospitals)) {
@@ -1259,7 +1259,7 @@ if (!empty($sMsg)) {
                                                                                 <div class="">
 
 <?php $diagnostics[] = (object) array('diagnostic_id' => 0, 'diagnostic_name' => 'Other') ?>
-                                                                                    <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId_d" id="docTimeTable_MIprofileId_d">
+                                                                                    <select class="m-t-5 select2" data-width="100%" onchange="getMIdetail(this.value)" name="docTimeTable_MIprofileId_d" id="docTimeTable_MIprofileId_d">
 
                                                                                         <option value="">-- Select Diagnostic --</option>
 <?php
@@ -1278,13 +1278,13 @@ if (!empty($diagnostics)) {
                                                                                     <label id="err_docTimeTable_MIprofileId_d" class="error"><?php echo form_error("docTimeTable_MIprofileId_d"); ?></label>
                                                                                 </div>
                                                                             </article>
-                                                                            <article class="clearfix" id="div_Mi_name">
+<!--                                                                            <article class="clearfix" id="div_Mi_name">
                                                                                 <label class="control-label" for="Mi_name">MI Name:</label>
                                                                                 <div class="">
                                                                                     <input type="text" name="Mi_name" id="Mi_name" class="form-control" placeholder="MI Name" value="<?php echo set_value('Mi_name'); ?>">
                                                                                     <label id="err_Mi_name" class="error"><?php echo form_error("Mi_name"); ?></label>
                                                                                 </div>
-                                                                            </article>
+                                                                            </article>-->
                                                                             <article class="clearfix m-t-10 " id="div_psChamber_name">
                                                                                 <label class="control-label" for="psChamber_name">Personal Chamber Name:</label>
                                                                                 <div class="">

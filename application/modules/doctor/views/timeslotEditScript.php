@@ -94,14 +94,14 @@
         }
     }
 
-    function getHospitaldetail(Id) {
+    function getMIdetail(Id) {
         var subUrl = '';
         if ($("#docTimeTable_MItype").val() == "1") {
             subUrl = 'index.php/doctor/getHospitaldetail';
         }
         else
         {
-            subUrl = 'index.php/doctor/getHospitaldetail';
+            subUrl = 'index.php/doctor/getDiagnosticdetail';
         }
 
         var Id = Id;
@@ -116,7 +116,7 @@
                     var obj = $.parseJSON(data);
 
                     if (obj.status == 1) {
-                        $("#addr").val(obj.hospital_address);
+                        $("#addr").val(obj.address);
                         $("#timeCountryId").html(obj.country);
                         $("#stateId").html(obj.state);
                         $("#timeCityId").html(obj.city);

@@ -9,7 +9,7 @@
 
         hideMI();
         $("#div_psChamber_name").hide();
-        $("#div_Mi_name").hide();
+                $("#div_Mi_name").hide();
         $("#div_address").hide();
 
 
@@ -90,14 +90,14 @@
         }
     }
 
-    function getHospitaldetail(Id) {
+    function getMIdetail(Id) {
         var subUrl = '';
         if ($("#docTimeTable_MItype").val() == "1") {
             subUrl = 'index.php/doctor/getHospitaldetail';
         }
         else
         {
-            subUrl = 'index.php/doctor/getHospitaldetail';
+            subUrl = 'index.php/doctor/getDiagnosticdetail';
         }
 
         var Id = Id;
@@ -110,9 +110,9 @@
                 data: {'Id': Id},
                 success: function (data) {
                     var obj = $.parseJSON(data);
-
+                    console.log(obj);
                     if (obj.status == 1) {
-                        $("#addr").val(obj.hospital_address);
+                        $("#addr").val(obj.address);
                         $("#timeCountryId").html(obj.country);
                         $("#stateId").html(obj.state);
                         $("#timeCityId").html(obj.city);
