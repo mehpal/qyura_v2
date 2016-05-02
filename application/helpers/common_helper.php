@@ -460,4 +460,81 @@ if (!function_exists('puStatusCheck')) {
     }
 
 }
+
+
+if(!function_exists('togalHospital')){
+    function togalHospital($timeData)
+    {
+        if($timeData->stayAt == 1)
+        {
+            if($timeData->MItype == 1)
+            {
+                return  TRUE;
+            }
+            
+            return FALSE;
+        }
+        
+        return FALSE;
+        
+    }
+}
+
+if(!function_exists('togalDiagnostic')){
+    function togalDiagnostic($timeData)
+    {
+        if($timeData->stayAt == 1)
+        {
+            if($timeData->MItype == 2)
+            {
+                return  TRUE;
+            }
+            
+            return FALSE;
+        }
+        
+        return FALSE;
+        
+    }
+}
+
+if(!function_exists('togalpsChamber')){
+    function togalpsChamber($timeData)
+    {
+        if($timeData->stayAt == 0)
+        {
+            return  TRUE;
+        }
+        
+        return FALSE;
+    }
+}
+
+
+// get doc exp
+if (!function_exists('getDocExp')) {
+    function getDocExp($docDate){
+                $date2 = date('Y-m-d');
+                if(isset($docDate) && $docDate != NULL){ $date1 = $docDate; }else{ $date1 = strtotime(date('Y-m-d'));}
+                $diff = abs(strtotime($date2) - $date1);
+              return  $years = floor($diff / (365*60*60*24));
+    }
+} 
+
+if (!function_exists("expYear")) {
+
+    function expYear($date = NULL) {
+        $date2 = date('Y-m-d');
+        if (isset($date) && $date != NULL) {
+            $date1 = $date;
+        } else {
+            $date1 = strtotime(date('Y-m-d'));
+        }
+        $diff = abs(strtotime($date2) - $date1);
+        $years = floor($diff / (365 * 60 * 60 * 24));
+        return $years;
+    }
+
+}          
+
 ?>

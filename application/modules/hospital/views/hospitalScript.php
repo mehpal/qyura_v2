@@ -3,6 +3,9 @@
     {
         display:none;
     }
+    .pointer:hover {
+     cursor:pointer;
+   }
 </style>
 
 
@@ -20,6 +23,7 @@ if (isset($hospitalId) && !empty($hospitalId)) {
 <script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js" type="text/javascript"></script>
 
 
 <?php
@@ -184,7 +188,7 @@ if (isset($mapData) && !empty($mapData)) {
         }
     }
 
-    $(".selectpicker").select2();
+   // $(".selectpicker").select2();
 
     function IsAdrManual(val) {
         if (val == 1) {
@@ -615,6 +619,7 @@ if (isset($mapData) && !empty($mapData)) {
                 data: {'awardsId': awardsId, 'hospitalAwards_awardsName': edit_awardsName, 'hospitalAwards_awardYear': edit_awardsYear, 'hospitalAwards_agencyName': edit_awardsAgency},
                 success: function (datas) {
                     console.log(datas);
+                    bootbox.alert("Award updated successfully!");
                     loadAwards();
                 }
             });
@@ -636,13 +641,14 @@ if (isset($mapData) && !empty($mapData)) {
         });
     }
     function loadAwards() {
-
+       
         $('#loadAwards').load(urls + 'index.php/hospital/hospitalAwards/' + hospitalId, function () {
             // alert('callback function ');
         });
         $('#totalAwards').load(urls + 'index.php/hospital/detailAwards/' + hospitalId, function () {
             // alert('callback function implementation');
         });
+        
     }
     function loadServices() {
         $('#loadServices').load(urls + 'index.php/hospital/hospitalServices/' + hospitalId, function (data) {
@@ -682,6 +688,7 @@ if (isset($mapData) && !empty($mapData)) {
                 data: {'serviceId': serviceId, 'hospitalServices_serviceName': edit_serviceName},
                 success: function (datas) {
                     console.log(datas);
+                    bootbox.alert("Service updated successfully!");
                     loadServices();
                 }
             });
@@ -2004,11 +2011,13 @@ if (isset($mapData) && !empty($mapData)) {
            $('#doctorForm').removeClass('myForm');
            $('#doctorForm').css("display",'none');
            $('#doctorList').css("display",'block');
+           $('#editDoctorForm').css("display",'none');
            $(".addDoctorButton").html('Add New Doctor');
       }else{
           $('#doctorForm').addClass('myForm');
           $('#doctorForm').css("display",'block');
           $('#doctorList').css("display",'none');
+          $('#editDoctorForm').css("display",'none');
          // $('#doctorList').css("display",'none');
           $(".addDoctorButton").html('Cancel Add Doctor');
         }
@@ -2036,7 +2045,6 @@ if (isset($mapData) && !empty($mapData)) {
         }
       
   }
-  
   
  function getDcotorDeatil(doctorId) {
 

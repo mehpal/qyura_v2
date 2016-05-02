@@ -27,7 +27,8 @@
                                         <label for="" class="control-label col-md-4 col-sm-4">First Name :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <input class="form-control " id="doctors_fName" type="text" name="doctors_fName" value="<?php echo set_value('doctors_fName'); ?>" placeholder="First Name" >
-                                             <label class="error" style="display:none;" id="error-doctors_fName"> Please enter doctor's First name</label>
+                                             <label class="error" style="display:none;" id="error-doctors_fName"> Please enter doctor's first name!</label>
+                                             <label class="error" style="display:none;" id="error-doctors_fName1"> Please enter characters only!</label>
                                             <label class="error" > <?php echo form_error("doctors_fName"); ?></label>
                                         </div>
                                     </article>
@@ -35,7 +36,8 @@
                                         <label for="" class="control-label col-md-4 col-sm-4">Last Name :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <input class="form-control " id="doctors_lName" type="text" name="doctors_lName" value="<?php echo set_value('doctors_lName'); ?>" placeholder="Last Name"/>
-                                            <label class="error" style="display:none;" id="error-doctors_lName"> Please enter doctor's Last name</label>
+                                            <label class="error" style="display:none;" id="error-doctors_lName"> Please enter doctor's last name!</label>
+                                            <label class="error" style="display:none;" id="error-doctors_lName1"> Please enter characters only!</label>
                                             <label class="error" > <?php echo form_error("doctors_lName"); ?></label>
                                         </div>
                                     </article>
@@ -55,6 +57,7 @@
                                                 </div>
 
                                                 <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                                <label class="error" id="error-avatarInput" style="display: none">Please upload an image!</label>
                                                 <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
 
 
@@ -78,7 +81,7 @@
                                                      <?php }?>
                                                 </select>
                                             <div class='setValues'></div>
-                                            <label class="error" style="display:none;" id="error-doctorSpecialities_specialitiesId"> Please select speciality(s)</label>
+                                            <label class="error" style="display:none;" id="error-doctorSpecialities_specialitiesId"> Please select one or more specalities!</label>
                                             <label class="error" > <?php echo form_error("doctorSpecialities_specialitiesId"); ?></label>
                                         </div>
                                     </article>
@@ -90,7 +93,7 @@
                                             <input type="hidden" name="referralId" id="referralId" value="<?php if($this->uri->segment(4) != NULL){ echo $this->uri->segment(4); } ?>">
                                             <input type="hidden" name="pRoleId" id="pRoleId" value="<?php if($this->uri->segment(3) != NULL){ echo $this->uri->segment(3); } ?>">
                                             
-                                            <input type="email" class="form-control" id="users_email" name="users_email" placeholder="Email" value="<?php  echo set_value('users_email');  ?>" onblur="checkEmailFormat()"/>
+                                            <input type="email" class="form-control" id="users_email" name="users_email" placeholder="Email" value="<?php  echo set_value('users_email');  ?>" onblur="checkHospitalDoctorEmailFormat()"/>
                                             
                                             <label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>
                                             <label class="error" style="display:none;" id="error-users_email_check"> Doctor Email Already Exists!</label>
@@ -106,10 +109,10 @@
                                         <div class="col-md-8 col-sm-8">
                                             <aside class="row">
                                                 <div class="col-md-12 col-sm-4 col-xs-10 m-t-xs-10 ">
-                                                    <input type="text" class="form-control" name="doctors_phn" id="doctors_phn1" maxlength="10" placeholder="Number" onblur="checkNumber('doctors_phn',1)" onkeypress="return isNumberKey(event)" value="<?php  echo set_value('doctors_phn');  ?>" />
+                                                    <input type="text" class="form-control" name="doctors_phn" id="doctors_phn1" maxlength="10" placeholder="Number"onkeypress="return isNumberKey(event)" value="<?php  echo set_value('doctors_phn');  ?>" />
                                                 </div>
                                             </aside>
-                                            <label class="error" style="display:none;" id="error-doctors_phn1"> Please select your phone number</label>
+                                            <label class="error" style="display:none;" id="error-doctors_phn1"> Please enter numbers only!</label>
                                         </div>
                                     </article>
                                     </div>
@@ -142,7 +145,7 @@
                                                                 <option value="<?php echo $val->degree_id;?>"><?php echo $val->degree_SName;?></option>
                                                                 <?php }?>
                                                             </select>
-                                                            <label class="error" style="display:none;" id="error-doctorAcademic_degreeId1"> please select Degree</label>
+                                                            <label class="error" style="display:none;" id="error-doctorAcademic_degreeId1"> Please select a degree!</label>
                                                         </div>
                                                         <div class="col-md-4 col-sm-4 m-t-xs-10">
                                                             <select class="select2" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId1">
@@ -151,19 +154,19 @@
                                                             <option value="<?php echo $val->specialities_id;?>"><?php echo $val->specialities_name;?></option>
                                                              <?php }?>
                                                             </select>
-                                                            <label class="error" style="display:none;" id="error-doctorSpecialities_specialitiesCatId1"> please select Specialities</label>
+                                                            <label class="error" style="display:none;" id="error-doctorSpecialities_specialitiesCatId1"> Please select a speciality!</label>
                                                         </div>
                                                     </aside>
                                                     <aside class="row">
                                                         <label for="cname" class="control-label col-md-4 m-t-20">Address</label>
                                                         <div class="col-md-8 col-sm-8 m-t-20">
                                                             <textarea class="form-control" id="acdemic_addaddress1" name="acdemic_addaddress[]" required="" placeholder="Address"></textarea>
-                                                            <label class="error" style="display:none;" id="error-acdemic_addaddress1"> please fill Address</label>
+                                                            <label class="error" style="display:none;" id="error-acdemic_addaddress1"> Please enter an address!</label>
                                                         </div>
                                                         <label for="cname" class="control-label col-md-4">Year</label>
                                                         <div class="col-md-8 col-sm-8 m-b-20 m-t-10">
                                                             <input class="form-control" name="acdemic_addyear[]" required="" id="acdemic_addyear1" value=""  onkeypress="return isNumberKey(event)" placeholder="Year" maxlength="4">
-                                                            <label class="error" style="display:none;" id="error-acdemic_addyear1"> please fill Year</label>
+                                                            <label class="error" style="display:none;" id="error-acdemic_addyear1"> Please enter academic year!</label>
                                                         </div>
                                                     </aside>
                                                     <br />
@@ -186,16 +189,16 @@
                                         <aside class="row">
                                             <label for="cname" class="control-label col-md-4 m-t-10 m-l-10">No of Year</label>
                                             <div class="col-md-7 col-sm-7 m-b-20 m-t-10">
-                                                <input type="number" class="form-control" name="exp_year" required="" id="exp_year" placeholder="Experience" min="1" max="50" value="<?php echo set_value('exp_year') ?>">
-                                                <label class="error" style="display:none;" id="error-exp_year"> please fill Experience</label>
+                                                <input type="number" class="form-control" name="exp_year" required="" id="exp_year" placeholder="Experience" min="1" max="50" onkeypress="return isNumberKey(event)" value="<?php echo set_value('exp_year') ?>">
+                                                <label class="error" style="display:none;" id="error-exp_year"> Please enter years of experience!</label>
                                             </div>
                                         </aside>
                                         
                                         <aside class="row">
                                             <label for="cname" class="control-label col-md-4 m-t-10 m-l-10">Fee</label>
                                             <div class="col-md-7 col-sm-7 m-b-20 m-t-10">
-                                                <input type="text" class="form-control" name="fee" required="" id="fee" placeholder="Fee">
-                                                <label class="error" style="display:none;" id="error-fee"> please fill Fee</label>
+                                                <input type="text" class="form-control" name="fee" required="" id="fee" placeholder="Fee" onkeypress="return isNumberKey(event)">
+                                                <label class="error" style="display:none;" id="error-fee"> Please enter consultation fees!</label>
                                             </div>
                                         </aside>
                                         
@@ -222,7 +225,7 @@
                             <div class="col-md-12 m-t-20 m-b-20">
                                 <div id="load_consulting" class="text-center text-success " style="display: none"><image alt="Please wait data is loading" src="<?php echo base_url('assets/images/loader/Heart_beat.gif'); ?>" /></div>
                                 <button class="btn btn-danger waves-effect pull-right" type="button">Reset</button>
-                                <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit">Submit</button>
+                                <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return validateHospitalDoctor()">Submit</button>
                             </div>
                         </section>
                         <div id="upload_modal_form">

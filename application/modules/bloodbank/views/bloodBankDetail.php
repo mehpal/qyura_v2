@@ -210,13 +210,13 @@
                                           <div class="col-md-8 col-sm-8 col-sm-offset-4">
                                              <aside class="row">
                                                 <div class="col-sm-6">
-                                                   <input class="form-control" name="lat" type="text"  id="lat" <?php if(isset($bloodBankData[0]->bloodBank_isManual) && $bloodBankData[0]->bloodBank_isManual == 0){ echo 'readonly="readonly"'; }?> value="<?php echo $bloodBankData[0]->bloodBank_lat;?>" placeholder="Latitude"/>
+                                                   <input class="form-control" name="lat" type="text"  id="lat" value="<?php echo $bloodBankData[0]->bloodBank_lat;?>" placeholder="Latitude"/>
                                                    
                                                    <label class="error" > <?php echo form_error("lat"); ?></label>
                                                    <label class="error" style="display:none;" id="error-lat">Please enter the correct format for latitude</label>
                                                 </div>
                                                 <div class="col-sm-6">
-                                                   <input class="form-control" name="lng" type="text"   id="lng" <?php if(isset($bloodBankData[0]->bloodBank_isManual) && $bloodBankData[0]->bloodBank_isManual == 0){ echo 'readonly="readonly"'; }?> value="<?php echo $bloodBankData[0]->bloodBank_long;?>" placeholder="Longitude" />
+                                                   <input class="form-control" name="lng" type="text"   id="lng" value="<?php echo $bloodBankData[0]->bloodBank_long;?>" placeholder="Longitude" />
                                                    <label class="error" > <?php echo form_error("lng"); ?></label>
                                                    <label class="error" style="display:none;" id="error-lng"> Please enter the correct format for longitude</label>
                                                 </div>
@@ -293,7 +293,7 @@
                                         
                                        <article class="clearfix m-t-10">
                                           <div class="col-md-12">
-                                             <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" onclick="return validationBloodbankEdit();">Submit</button>
+                                             <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" onclick="">Submit</button>
                                           </div>
                                        </article>
                                     </aside>

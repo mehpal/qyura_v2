@@ -30,9 +30,9 @@
                            <aside class="col-md-3 col-sm-3 m-tb-xs-3">
                                <input type="text" name="search" id="search" class="form-control" placeholder="Search" />
                            </aside>
-                           <aside class="col-md-2 col-sm-2 pull-right">
+                           <!--<aside class="col-md-2 col-sm-2 pull-right">
                               <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit" onclick="createCSV()">Export</button>
-                           </aside>
+                           </aside>-->
                         </form>
                      </article>
                      <!-- Form Section End -->
