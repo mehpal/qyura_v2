@@ -1062,7 +1062,7 @@ class Diagnostic extends MY_Controller {
                                      <input type="text" class="form-control" name="hospitalAwards_awardsName" id=' . $val->diagnosticAwards_id . ' value="' . $val->diagnosticAwards_awardsName . '" placeholder="Awards name" />
                                           <label style="display: none;"class="error" id="error-awards' . $val->diagnosticAwards_id . '"> Please enter award name </label> 
                                               
-                                          <div class="col-md-12 col-sm-12 col-xs-12">
+                                          <div class="clearfix m-t-10">
                                             <select class="selectpicker" data-width="100%" id=agency' . $val->diagnosticAwards_id . ' name="diagnosticAwards_agencyName">
                                                   '.$agencyOption.'
                                                 </select>
@@ -1070,13 +1070,14 @@ class Diagnostic extends MY_Controller {
 
                                           </div>
                                               
-                                    
+                                    <aside class="clearfix m-t-10">
                    
-                                    <input type="text" class="form-control m-t-10" placeholder="Year" id=year' . $val->diagnosticAwards_id . ' name="diagnostic_awardsyear" value="' . $val->diagnosticAwards_awardYear . '" onkeypress="return isNumberKey(event)"/>
+                                    <input type="text" class="form-control " placeholder="Year" id=year' . $val->diagnosticAwards_id . ' name="diagnostic_awardsyear" value="' . $val->diagnosticAwards_awardYear . '" onkeypress="return isNumberKey(event)"/>
                                            <label style="display: none;"class="error" id="error-years' . $val->diagnosticAwards_id . '"> Please enter year only number formate minium and maximum length 4 </label> 
                                                
                                           <label id="error-years-valid' . $val->diagnosticAwards_id . '" class="error" style="display: none;">Invalid Year! Please enter year between 1920 to 2016  </label>
-                                               
+                                    
+                        </aside>
                                 </div>
                                 
                                 <div class="clearfix">
@@ -2272,12 +2273,12 @@ class Diagnostic extends MY_Controller {
                                      <input type="text" class="form-control" name="centerName" id=' . $val->collectionCenter_id . ' value="' . $val->collectionCenter_name . '" placeholder="Cneter Name" />
                                           <label style="display: none;"class="error" id="error-centerName' . $val->collectionCenter_id . '"> Please enter collection center name </label>  
                                               
-                                   
-                                     <input type="text" class="form-control m-t-20" placeholder="Address" id=centerAddress'.$val->collectionCenter_id.'  name="centerAddress" value="' . $val->collectionCenter_address . '"/>
+                                    <aside class="clearfix m-t-10">
+                                     <input type="text" class="form-control" placeholder="Address" id=centerAddress'.$val->collectionCenter_id.'  name="centerAddress" value="' . $val->collectionCenter_address . '"/>
                                      <label style="display: none;"class="error" id="error-centerAddress' . $val->collectionCenter_id . '"> Please enter center address</label> 
-                                          
+                                        </aside>  
 
-                                      <aside class="row m-t-20">
+                                      <aside class="row m-t-10">
                                         <div class="col-sm-6">
                                             <input name="centerLat" class="form-control" required="" type="text"   id=centerLat'.$val->collectionCenter_id.'  value="' . $val->collectionCenter_lat . '" onchange="latChack(this.value)" placeholder="latitude"/>
                                             <label class="error" style="display:none;" id="error-centerLat' . $val->collectionCenter_id . '">Please enter the correct format for latitude</label>
