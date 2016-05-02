@@ -85,13 +85,12 @@ class Membership extends MY_Controller {
         $this->bf_form_validation->set_rules("membership_price", "Price", 'required|xss_clean');
         $this->bf_form_validation->set_rules("membership_tax", "Tax", 'required|xss_clean');
         $this->bf_form_validation->set_rules("membership_totalPrice", "Total Price", 'required|xss_clean');
-        for($i = 1; $i <= 12; $i++){
+        $faci_count = $this->input->post('faci_count');
+        for($i = 1; $i <= $faci_count; $i++){
             $checkbox = $this->input->post("checkbox_$i");
-            if($checkbox != ''){
-                $this->bf_form_validation->set_rules("membership_quantity_$i", "Price", 'required|xss_clean');
-                if($checkbox == 3 || $checkbox == 5){
-                    $this->bf_form_validation->set_rules("membership_duration_$i", "Price", 'required|xss_clean');
-                }
+            $this->bf_form_validation->set_rules("membership_quantity_$i", "Price", 'required|xss_clean');
+            if($checkbox == 2 || $checkbox == 4){
+                $this->bf_form_validation->set_rules("membership_duration_$i", "Price", 'required|xss_clean');
             }
         }
         if ($this->bf_form_validation->run() == FALSE) {
@@ -106,6 +105,7 @@ class Membership extends MY_Controller {
             $membership_tax        = $this->input->post('membership_tax');
             $membership_totalPrice = $this->input->post('membership_totalPrice');
             $count = count($membership_type);
+            
             for($j = 0;$j< $count;$j++){
                 $records_array = array(
                     'membership_type'  => $membership_type[$j],
@@ -114,6 +114,7 @@ class Membership extends MY_Controller {
                     'membership_price' => $membership_price,
                     'membership_tax'   => $membership_tax,
                     'membership_totalPrice' => $membership_totalPrice,
+                    'status'       => 2,
                     'creationTime' => strtotime(date("d-m-Y H:i:s"))
                 );
 
@@ -123,29 +124,28 @@ class Membership extends MY_Controller {
                     'table' => 'qyura_membership'
                 );
                 $insertId = $this->common_model->customInsert($options);
-                for($i = 1; $i <= 12; $i++){
+                $faci_count = $this->input->post('faci_count');
+                for($i = 1; $i <= $faci_count; $i++){
                     $checkbox = $this->input->post("checkbox_$i");
                     $quantity = $this->input->post("membership_quantity_$i");
                     $duration = $this->input->post("membership_duration_$i");
-                    if($checkbox != ''){
-                        $records_array = array(
-                            'membershipFacilities_membershipId'  => $insertId,
-                            'membershipFacilities_facilitiesId'  => $checkbox,
-                            'creationTime' => strtotime(date("d-m-Y H:i:s"))
-                        );
-                        if($quantity != ''){
-                            $records_array['membershipFacilities_quantity'] = $quantity;
-                        }
-                        if($duration != ''){
-                            $records_array['membershipFacilities_duration'] = $duration;
-                        }
-                        $options = array
-                        (
-                            'data' => $records_array,
-                            'table' => 'qyura_membershipFacilities'
-                        );
-                        $fId = $this->common_model->customInsert($options);
+                    $records_array = array(
+                        'membershipFacilities_membershipId'  => $insertId,
+                        'membershipFacilities_facilitiesId'  => $checkbox,
+                        'creationTime' => strtotime(date("d-m-Y H:i:s"))
+                    );
+                    if($quantity != ''){
+                        $records_array['membershipFacilities_quantity'] = $quantity;
                     }
+                    if($duration != ''){
+                        $records_array['membershipFacilities_duration'] = $duration;
+                    }
+                    $options = array
+                    (
+                        'data' => $records_array,
+                        'table' => 'qyura_membershipFacilities'
+                    );
+                    $fId = $this->common_model->customInsert($options);
                 }
             }
             if ($insertId) {
@@ -168,13 +168,11 @@ class Membership extends MY_Controller {
         $this->bf_form_validation->set_rules("membership_price", "Price", 'required|xss_clean');
         $this->bf_form_validation->set_rules("membership_tax", "Tax", 'required|xss_clean');
         $this->bf_form_validation->set_rules("membership_totalPrice", "Total Price", 'required|xss_clean');
-        for($i = 1; $i <= 12; $i++){
-            $checkbox = $this->input->post("checkbox_$i");
-            if($checkbox != ''){
-                $this->bf_form_validation->set_rules("membership_quantity_$i", "Price", 'required|xss_clean');
-                if($checkbox == 3 || $checkbox == 5){
-                    $this->bf_form_validation->set_rules("membership_duration_$i", "Price", 'required|xss_clean');
-                }
+        $faci_count = $this->input->post('faci_count');
+        for($i = 1; $i <= $faci_count; $i++){
+            $this->bf_form_validation->set_rules("membership_quantity_$i", "Price", 'required|xss_clean');
+            if($checkbox == 2 || $checkbox == 4){
+                $this->bf_form_validation->set_rules("membership_duration_$i", "Price", 'required|xss_clean');
             }
         }
         if ($this->bf_form_validation->run() == FALSE) {
@@ -211,29 +209,28 @@ class Membership extends MY_Controller {
             $query = "DELETE FROM `qyura_membershipFacilities` WHERE `membershipFacilities_membershipId` = '$membership_id'";
             $delete_facilities = $this->common_model->customQuery($query,FALSE,TRUE);
             
-            for($i = 1; $i <= 12; $i++){
+            $faci_count = $this->input->post('faci_count');
+            for($i = 1; $i <= $faci_count; $i++){
                 $checkbox = $this->input->post("checkbox_$i");
                 $quantity = $this->input->post("membership_quantity_$i");
                 $duration = $this->input->post("membership_duration_$i");
-                if($checkbox != ''){
-                    $records_array = array(
-                        'membershipFacilities_membershipId'  => $membership_id,
-                        'membershipFacilities_facilitiesId'  => $checkbox,
-                        'creationTime' => strtotime(date("d-m-Y H:i:s"))
-                    );
-                    if($quantity != ''){
-                        $records_array['membershipFacilities_quantity'] = $quantity;
-                    }
-                    if($duration != ''){
-                        $records_array['membershipFacilities_duration'] = $duration;
-                    }
-                    $options = array
-                    (
-                        'data' => $records_array,
-                        'table' => 'qyura_membershipFacilities'
-                    );
-                    $fId = $this->common_model->customInsert($options);
+                $records_array = array(
+                    'membershipFacilities_membershipId'  => $membership_id,
+                    'membershipFacilities_facilitiesId'  => $checkbox,
+                    'creationTime' => strtotime(date("d-m-Y H:i:s"))
+                );
+                if($quantity != ''){
+                    $records_array['membershipFacilities_quantity'] = $quantity;
                 }
+                if($duration != ''){
+                    $records_array['membershipFacilities_duration'] = $duration;
+                }
+                $options = array
+                (
+                    'data' => $records_array,
+                    'table' => 'qyura_membershipFacilities'
+                );
+                $fId = $this->common_model->customInsert($options);
             }
             $active_tag = $this->input->post('active_tag');
             $this->session->set_flashdata('active_tag', $active_tag);
@@ -247,10 +244,10 @@ class Membership extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 2) {
-                $update_data['status'] = 3;
-            } else {
+            if ($status == 3) {
                 $update_data['status'] = 2;
+            } else {
+                $update_data['status'] = 3;
             }
             $where = array('membership_id' => $ena_id);
             $updateOptions = array
