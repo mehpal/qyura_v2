@@ -2273,7 +2273,7 @@ class Diagnostic extends MY_Controller {
                                      <input type="text" class="form-control" name="centerName" id=' . $val->collectionCenter_id . ' value="' . $val->collectionCenter_name . '" placeholder="Cneter Name" />
                                           <label style="display: none;"class="error" id="error-centerName' . $val->collectionCenter_id . '"> Please enter collection center name </label>  
                                               
-                                    <aside class="clearfix m-t-10">
+                                    <aside class="clearfix m-t-20">
                                      <input type="text" class="form-control" placeholder="Address" id=centerAddress'.$val->collectionCenter_id.'  name="centerAddress" value="' . $val->collectionCenter_address . '"/>
                                      <label style="display: none;"class="error" id="error-centerAddress' . $val->collectionCenter_id . '"> Please enter center address</label> 
                                         </aside>  

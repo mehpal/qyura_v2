@@ -749,7 +749,7 @@
                                                                         <label for="cname" class="control-label col-md-3 col-sm-4">Awards:</label>
                                                                         <div class="col-md-9 col-sm-8">
                                                                             <aside class="row">
-                                                                                <div class="col-md-10 col-sm-10 col-xs-10">
+                                                                                <div class="clearfix">
                                                                                     <input type="text" class="form-control" name="hospitalAwards_awardsName" id="hospitalAwards_awardsName" placeholder="Award Name" />
                                                                                      
                                                                                      <label style="display: none;"class="error" id="error-awards"> Please enter award name </label>  
@@ -775,8 +775,8 @@
                                                                                     <label style="display: none;"class="error" id="error-years-valid">Award year should be greater then 1920 or less then <?php echo date('Y'); ?></label>
 </aside>
                                                                                 </div>
-                                                                                <div class="col-md-2 col-sm-2 col-xs-2">
-                                                                                    <a class="pointer" onclick="addAwards()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus" title="Add Awards"></i></a>
+                                                                                <div class="clerafix">
+                                                                                    <a class="pointer" onclick="addAwards()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus pull-right" title="Add Awards"></i></a>
                                                                                    
                                                                                 </div>
                                                                                 
