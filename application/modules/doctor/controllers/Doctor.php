@@ -1383,6 +1383,8 @@ class Doctor extends MY_Controller {
             'table' => 'qyura_diagnostic'
         );
         $diagnostic_insert = $this->common_model->customInsert($options);
+        
+        return $diagnostic_insert;
     }
 
     function saveChamber() {
@@ -1703,7 +1705,7 @@ class Doctor extends MY_Controller {
 
             $row = $this->Doctor_model->checkSloat($data);
             if ($row)
-                $this->error[] = $docTimeDay_day . $docTimeDay_open . $docTimeDay_close;
+                $this->error[] =  'This time '. date('h:i A', strtotime($docTimeDay_open)) . $docTimeDay_close.'match with '.convertNumberToDay($docTimeDay_day);
         }
 
         if (count($this->error))
@@ -1734,7 +1736,7 @@ class Doctor extends MY_Controller {
 
             $row = $this->Doctor_model->checkSloat($data);
             if ($row)
-                $this->error[] = $docTimeDay_day . $docTimeDay_open . $docTimeDay_close;
+                $this->error[] =  'This time '. date('h:i A', strtotime($docTimeDay_open)) . $docTimeDay_close.'match with '.convertNumberToDay($docTimeDay_day);
         }
 
         if (count($this->error))
