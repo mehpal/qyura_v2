@@ -1209,17 +1209,20 @@ class Doctor extends MY_Controller {
 
 
 
-        if (isset($_POST['docTimeTable_MItype']) && $_POST['docTimeTable_MItype'] == 1) {
+        if (isset($_POST['docTimeTable_MItype']) && $_POST['docTimeTable_MItype'] == 1 && $_POST['docTimeTable_stayAt'] == 1) {
 
             $this->bf_form_validation->set_rules('docTimeTable_MIprofileId_h', 'Hospital Name', 'required|trim');
         }
 
-        if (isset($_POST['docTimeTable_MItype']) && $_POST['docTimeTable_MItype'] != null && $_POST['docTimeTable_MItype'] == 2) {
+        if (isset($_POST['docTimeTable_MItype']) && $_POST['docTimeTable_MItype'] != null && $_POST['docTimeTable_MItype'] == 2 && $_POST['docTimeTable_stayAt'] == 1) {
             $this->bf_form_validation->set_rules('docTimeTable_MIprofileId_d', 'Diagnostic Name', 'required|trim');
         }
 
 
-        if ((isset($_POST['docTimeTable_MIprofileId_d']) && $_POST['docTimeTable_MIprofileId_d'] == 0 && $_POST['docTimeTable_MIprofileId_d'] != '') || (isset($_POST['docTimeTable_MIprofileId_h']) && $_POST['docTimeTable_MIprofileId_h'] == 0 && $_POST['docTimeTable_MIprofileId_h'] != '')) {
+        
+        
+        
+        if ((isset($_POST['docTimeTable_MIprofileId_d']) && $_POST['docTimeTable_MIprofileId_d'] == 0 && $_POST['docTimeTable_MIprofileId_d'] != '' && $_POST['docTimeTable_stayAt'] == 1 ) || (isset($_POST['docTimeTable_MIprofileId_h']) && $_POST['docTimeTable_MIprofileId_h'] == 0 && $_POST['docTimeTable_MIprofileId_h'] != '' && $_POST['docTimeTable_stayAt'] == 1)) {
 
             $this->bf_form_validation->set_rules('Miname', 'MI Name', 'required|trim');
             $this->bf_form_validation->set_rules('stateId', 'State Name', 'required|trim');
@@ -1253,20 +1256,21 @@ class Doctor extends MY_Controller {
 
             if ($docTimeTable_stayAt == 1) {
 
-                if (isset($_POST['docTimeTable_MIprofileId_h']) && $_POST['docTimeTable_MIprofileId_h'] != '' && $_POST['docTimeTable_MIprofileId_h'] == 0 && $docTimeTable_MItype == 1) {
+                if (isset($_POST['docTimeTable_MIprofileId_h']) && $_POST['docTimeTable_MIprofileId_h'] != '' && $_POST['docTimeTable_MIprofileId_h'] == 0 && $docTimeTable_MItype == 1 && $_POST['docTimeTable_stayAt'] == 1) {
                     $MIprofileId = $this->saveHospital();
-                } else {
-                    $MIprofileId = isset($_POST['docTimeTable_MIprofileId_h']) && $_POST['docTimeTable_MIprofileId_h'] != '' ? $this->input->post('docTimeTable_MIprofileId_h') : '';
+                } elseif ($_POST['docTimeTable_stayAt'] == 1){
+                    
+                    $MIprofileId = isset($_POST['docTimeTable_MIprofileId_h']) && $_POST['docTimeTable_MIprofileId_h'] != '' ? $this->input->post('docTimeTable_MIprofileId_h' ) : '';
                 }
 
-                if (isset($_POST['docTimeTable_MIprofileId_d']) && $_POST['docTimeTable_MIprofileId_d'] != '' && $_POST['docTimeTable_MIprofileId_d'] == 0 && $docTimeTable_MItype == 2) {
+                if (isset($_POST['docTimeTable_MIprofileId_d']) && $_POST['docTimeTable_MIprofileId_d'] != '' && $_POST['docTimeTable_MIprofileId_d'] == 0 && $docTimeTable_MItype == 2 && $_POST['docTimeTable_stayAt'] == 1) {
                     $MIprofileId = $this->saveDiagnostic();
-                } elseif ($docTimeTable_MItype == 2) {
+                } elseif ($docTimeTable_MItype == 2 && $_POST['docTimeTable_stayAt'] == 1) {
                     $MIprofileId = isset($_POST['docTimeTable_MIprofileId_d']) && $_POST['docTimeTable_MIprofileId_d'] != '' ? $this->input->post('docTimeTable_MIprofileId_d') : '';
                 }
-            } else {
-                $MIprofileId = $this->saveChamber();
-            }
+                } else {
+                    $MIprofileId = $this->saveChamber();
+                }
 
 
             $docTimeTable_price = isset($_POST['fees']) ? $this->input->post('fees') : '';
@@ -1705,7 +1709,7 @@ class Doctor extends MY_Controller {
 
             $row = $this->Doctor_model->checkSloat($data);
             if ($row)
-                $this->error[] = $docTimeDay_day . $docTimeDay_open . $docTimeDay_close;
+                $this->error[] =  'This time '. date('h:i A', strtotime($docTimeDay_open)) .' to '. date('h:i A', strtotime($docTimeDay_close)).' match with '.convertNumberToDay($docTimeDay_day.' please select diffrent sloat');
         }
 
         if (count($this->error))
@@ -1736,7 +1740,7 @@ class Doctor extends MY_Controller {
 
             $row = $this->Doctor_model->checkSloat($data);
             if ($row)
-                $this->error[] = $docTimeDay_day . $docTimeDay_open . $docTimeDay_close;
+                $this->error[] =  'This time '. date('h:i A', strtotime($docTimeDay_open)) .' to '. date('h:i A', strtotime($docTimeDay_close)).' match with '.convertNumberToDay($docTimeDay_day.' please select diffrent sloat');
         }
 
         if (count($this->error))

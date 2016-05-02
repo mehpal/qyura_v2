@@ -700,7 +700,7 @@
 
                                                                                 
                                                                                 
-                                                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                                <div class="clearfix m-t-10">
                                                                                           <select class="selectpicker" data-width="100%" id="diagnosticAwards_agencyName" name="diagnosticAwards_agencyName">
                                                                                               <option value="">Select Agency</option>
                                                                                                <?php if(!empty($awardAgency)){
@@ -713,10 +713,11 @@
                                                                                      
                                                                                    </div>
                                                                                 
-                                                                                
-                                                                                <input type="text" class="form-control m-t-20" placeholder="Year" id="diagnostic_awardsyear" name="diagnostic_awardsyear" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  />
+                                                                                <div class="clearfix m-t-10">
+                                                                                <input type="text" class="form-control" placeholder="Year" id="diagnostic_awardsyear" name="diagnostic_awardsyear" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  />
                                                                                 <label style="display: none;"class="error" id="error-years"> Please enter year only number formate minium and maximum length 4 </label> 
                                                                                 <label style="display: none;"class="error" id="error-years-valid">Invalid Year! Please enter year between 1920 to <?php echo date('Y') ?>  </label> 
+                                                                                </div>
                                                                             </div>
 
                                                                             <div class="clearfix">
@@ -799,13 +800,14 @@
                                                                                 <input type="text" class="form-control" placeholder="Center Name" id="centerName" name="centerName"/>
                                                                                 <label style="display: none;"class="error" id="error-centerName"> Please enter collection center name </label>  
                                                                                 
-                                                                                
-                                                                                <input type="text" class="form-control m-t-20" placeholder="Address" id="centerAddress" name="centerAddress"/>
+                                                                                <aside class="clearfix m-t-10">
+                                                                                <input type="text" class="form-control" placeholder="Address" id="centerAddress" name="centerAddress"/>
                                                                                 <label style="display: none;"class="error" id="error-centerAddress"> Please enter center address</label> 
+                                                                                </aside>
 
                                                                                 
                                                                               
-                                                                                    <aside class="row">
+                                                                                    <aside class="row m-t-10">
                                                                                         <div class="col-sm-6">
                                                                                             <input name="centerLat" class="form-control" required="" type="text"   id="centerLat"  value="" onchange="latChack(this.value)" placeholder="latitude"/>
                                                                                             <label class="error" style="display:none;" id="error-centerLat">Please enter the correct format for latitude</label>
