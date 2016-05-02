@@ -163,7 +163,7 @@
                               </aside>
                                
                             <?php if($i != 0){ ?>
-                               <aside class="col-sm-2 text-right"><a id="btn-service2" href="javascript:void(0)"  pull-right="" class="gadd"><i class="fa fa-minus-circle fa-2x m-t-5 label-plus"></i></a>
+                               <aside class="col-sm-8 text-right pull-right"><a id="btn-service2" href="javascript:void(0)"  pull-right="" class="gadd"><i class="fa fa-minus-circle fa-2x m-t-5 label-plus pull-right"></i></a>
                                </aside> <?php } ?>
                        
                               <br />

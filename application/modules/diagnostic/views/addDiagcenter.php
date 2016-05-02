@@ -65,15 +65,18 @@
                                         <label class="error" > <?php echo form_error("diagnostic_name"); ?></label>
                                     </div>
                                 </article>
-
+                                <div id="crop-avatar">
                                 <article class="clearfix m-t-10">
+                                    <div id="upload_modal_form">
+<?php $this->load->view('upload_crop_modal'); ?>
+                        </div>
                                     <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
 
                                     <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
                                         <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
 
                                         <div class="pre col-md-4 col-sm-4 ">
-                                            <div id="preImgLogo" class="avatar-preview preview-md">
+                                            <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
 
                                                 <img src="<?php echo base_url() ?>assets/default-images/Dignostics-logo.png"  class="image-preview-show"/>
 
@@ -86,7 +89,7 @@
                                     </div>
 
                                 </article>
-
+                                </div>    
                                 <article class="clearfix m-t-10">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Address:</label>
                                     <div class="col-md-8 col-sm-8">
@@ -507,9 +510,7 @@
                             <!-- Account Detail Section End -->
 
                         </div>
-                        <div id="upload_modal_form">
-<?php $this->load->view('upload_crop_modal'); ?>
-                        </div>
+                        
                     </section>
                     <section class="clearfix ">
                         <div class="col-md-12 m-t-20 m-b-20">

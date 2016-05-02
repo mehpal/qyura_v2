@@ -15,24 +15,23 @@
   var useBlob = false && window.URL; // `true` to use Blob instead of Data-URL
   var console = window.console || { log: function () {} };
 
-  function CropAvatar($element) {
+  var CropAvatar = function ($element,$modalId) {
     this.$container = $element;
-
+    
     this.$avatarView = this.$container.find('.avatar-view');
     this.$avatar = this.$avatarView.find('img');
-    this.$avatarModal = this.$container.find('#avatar-modal');
+    this.$avatarModal = this.$container.find('#'+$modalId);
     this.$pre = this.$container.find('.pre');
     
     this.$loading = this.$container.find('.loading');
 
-    this.$uploadForm = this.$container.find('#submitForm');
+    //this.$uploadForm = $('#submitForm');
 
-
-    this.$avatarForm = this.$container.find('.avatar-form');
+    this.$avatarForm = this.$container.find('.avatar-body');
     this.$avatarUpload = this.$avatarForm.find('.avatar-upload');
-    this.$avatarSrc = this.$uploadForm.find('.avatar-src');
-    this.$avatarData = this.$uploadForm.find('.avatar-data');
-    this.$avatarUploadPreview = this.$uploadForm.find('.image-preview-show');
+    this.$avatarSrc = this.$container.find('.avatar-src');
+    this.$avatarData = this.$container.find('.avatar-data');
+    this.$avatarUploadPreview = this.$container.find('.image-preview-show');
     this.$avatarInput = this.$avatarForm.find('.avatar-input');
     this.$avatarSave = this.$avatarForm.find('.avatar-save');
     this.$avatarBtns = this.$avatarForm.find('.avatar-btns');
@@ -41,7 +40,8 @@
     this.$avatarPreview = this.$pre.find('.avatar-preview');
     
     this.preImage = this.$avatarUploadPreview;
-    this.preUrl = $('#preImgLogo img').attr('src');
+    this.preUrl = $('.preImgLogo img').attr('src');
+    //console.log(this);
     this.init();
   }
   
@@ -88,10 +88,9 @@
       });
     },
 
-    initPreview: function () {
-      this.url = $('#preImgLogo img').attr('src');
-      
-      console.log('hi',this.$avatarUploadPreview.attr('src').length);
+    initPreview: function ($container) {
+      this.url = $container.find('.preImgLogo img').attr('src');
+      //console.log('hi',this.$avatarUploadPreview.attr('src').length);
       this.$avatarPreview.html('<img src="' + this.url + '">');
     },
 
@@ -139,16 +138,18 @@
 
     click: function () {
       this.$avatarModal.modal('show');
-      this.initPreview();
+      
+      this.initPreview(this.$container);
     },
 
     change: function () {
       var files;
       var file;
-
+     console.log('change');
+     console.info(this.support.datauri);
       if (this.support.datauri) {
         files = this.$avatarInput.prop('files');
-
+console.log(files);
         if (files.length > 0) {
           file = files[0];
 
@@ -304,7 +305,7 @@
     },
 
     submitDone: function (data) {
-      console.log(data);
+      //console.log(data);
 
       if ($.isPlainObject(data) && data.state === 200) {
         if (data.result) {
@@ -337,7 +338,7 @@
     },
 
     cropDone: function () {
-        console.log('cropDone');
+      //console.log('cropDone');
       this.$avatarForm.get(0).reset();
       //this.$avatarUploadPreview.attr('src', this.url);
       this.stopCropper();
@@ -348,7 +349,7 @@
             // 2.1
             // Create a new FileReader instance
             // https://developer.mozilla.org/en/docs/Web/API/FileReader
-            console.log(currentObj);
+            //console.log(currentObj);
             
             var reader = new FileReader();
             // 2.3
@@ -410,8 +411,20 @@
   };
 
   $(function () {
-    return new CropAvatar($('#crop-avatar'));
+    return new CropAvatar($('#crop-avatar'),'avatar-modal');
   });
+  
+  $(function () {
+    return new CropAvatar($('#blood-crop-avatar'),'blood-avatar-modal');
+  });
+  
+  $(function () {
+    return new CropAvatar($('#ambulance-crop-avatar'),'ambulance-avatar-modal');
+  });
+  
+  
+  
+  
 
 });
 

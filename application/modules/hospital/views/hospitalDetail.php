@@ -749,7 +749,7 @@
                                                                         <label for="cname" class="control-label col-md-3 col-sm-4">Awards:</label>
                                                                         <div class="col-md-9 col-sm-8">
                                                                             <aside class="row">
-                                                                                <div class="col-md-10 col-sm-10 col-xs-10">
+                                                                                <div class="clearfix">
                                                                                     <input type="text" class="form-control" name="hospitalAwards_awardsName" id="hospitalAwards_awardsName" placeholder="Award Name" />
                                                                                      
                                                                                      <label style="display: none;"class="error" id="error-awards"> Please enter award name </label>  
@@ -757,7 +757,7 @@
 <!--                                                                                     <input type="text" class="form-control" name="hospitalAwards_agencyName" id="hospitalAwards_agencyName" placeholder="Award Agency" />
                                                                                      <label style="display: none;"class="error" id="error-hospitalAwards_agencyName"> Please enter agency name </label>-->
                                                                                      
-                                                                                      <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                                      <div class="clearfix m-t-10">
                                                                                           <select class="selectpicker" data-width="100%" id="hospitalAwards_agencyName" name="hospitalAwards_agencyName">
                                                                                               <option value="">Select Agency</option>
                                                                                                <?php if(!empty($awardAgency)){
@@ -769,13 +769,14 @@
                                                                                            <label style="display: none;"class="error" id="error-hospitalAwards_agencyName"> Please enter agency name </label>
                                                                                      
                                                                                         </div>
-
-                                                                                     <input type="text" class="form-control m-t-20" placeholder="Year" id="hospital_awardsyear" name="hospital_awardsyear" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="4" />
+<aside class="clearfix m-t-10">
+                                                                                     <input type="text" class="form-control" placeholder="Year" id="hospital_awardsyear" name="hospital_awardsyear" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="4" />
                                                                                     <label style="display: none;"class="error" id="error-years"> Please enter year only number formate minium and maximum length 4 </label>  
                                                                                     <label style="display: none;"class="error" id="error-years-valid">Award year should be greater then 1920 or less then <?php echo date('Y'); ?></label>
+</aside>
                                                                                 </div>
-                                                                                <div class="col-md-2 col-sm-2 col-xs-2">
-                                                                                    <a class="pointer" onclick="addAwards()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus" title="Add Awards"></i></a>
+                                                                                <div class="clerafix">
+                                                                                    <a class="pointer" onclick="addAwards()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus pull-right" title="Add Awards"></i></a>
                                                                                    
                                                                                 </div>
                                                                                 

@@ -1,6 +1,6 @@
 <!-- Cropping modal -->
-<div class="modal fade pre" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade pre avatar-modal" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg" >
         <div class="modal-content">
             <!--                              <form class="avatar-form" action="#" enctype="multipart/form-data" method="post">-->
             <div class="modal-body">

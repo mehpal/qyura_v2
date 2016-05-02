@@ -39,7 +39,7 @@
     
 </head>
 
-<body class="fixed-left" id="crop-avatar">
+<body class="fixed-left" >
 <!--<div id="loaderMainDiv" style="position: absolute; background-color: black;opacity: 0.4;width: 100%;height: 100%;z-index:9999;">
     </div>
   -->
