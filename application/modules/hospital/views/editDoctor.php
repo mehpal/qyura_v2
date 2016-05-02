@@ -220,7 +220,7 @@
                   <div id="load_consulting" class="text-center text-success " style="display: none">
                      <image alt="Please wait data is loading" src="<?php echo base_url('assets/images/loader/Heart_beat.gif'); ?>" />
                   </div>
-                  <a class="btn btn-danger waves-effect pull-right" type="button" href="<?php echo base_url().'/index.php//hospital/detailHospital/'.$hospitalId.'/doctor'; ?>">Cancel</a>
+                  <a class="btn btn-danger waves-effect pull-right" type="button" href="<?php echo base_url().'/index.php/hospital/detailHospital/'.$hospitalId.'/doctor'; ?>">Cancel</a>
                   <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit">Update</button>
                </div>
             </section>
