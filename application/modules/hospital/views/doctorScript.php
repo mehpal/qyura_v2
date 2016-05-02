@@ -18,7 +18,6 @@
 <script src="<?php echo base_url(); ?>assets/js/pages/add-doctor.js" type="text/javascript"></script>
 
 
-
 <script> 
     $("#savebtn").click(function () {
         $("#avatar-modal").modal('hide');
@@ -259,230 +258,7 @@
             }
         });
     }
-    
-    function validateHospitalDoctor() {
-        
-        // $("form[name='doctorForm']").submit();
-        
-        var currentYear = new Date().getFullYear();
-        var check = /^[a-zA-Z\s]+$/;
-        var numcheck = /^[0-9]+$/;
-        var doctors_fName = $.trim($('#doctors_fName').val());
-        var doctors_lName = $.trim($('#doctors_lName').val());
-        var doctorSpecialities_specialitiesId = $.trim($('#doctorSpecialities_specialitiesId').val());
-        
-        var image = $("#avatarInput").val();
-        var exp_year = $("#exp_year").val();
-        var fee = $("#fee").val();
-        var count = 0;
-                
-        if (doctors_fName === '') {
-            $('#doctors_fName').addClass('bdr-error');
-            $('#error-doctors_fName').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-
-        }
-        else if(!check.test(doctors_fName)){
-            $('#doctors_fName').addClass('bdr-error');
-            $('#error-doctors_fName1').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-        }
-
-        if (doctors_lName === '') {
-            $('#doctors_lName').addClass('bdr-error');
-            $('#error-doctors_lName').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-        }
-        else if(!check.test(doctors_lName)){
-            $('#doctors_lName').addClass('bdr-error');
-            $('#error-doctors_lName1').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-        }
-        
-        if (image == '') {
-            $('#image_select').addClass('bdr-error');
-            $('#error-avatarInput').fadeIn().delay(3000).fadeOut('slow');
-        }
-        
-        if (doctorSpecialities_specialitiesId === '') {
-            $('#s2id_autogen1').addClass('bdr-error');
-            $('#error-doctorSpecialities_specialitiesId').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-        }
-        
-        //Academic Start
-        countsAccademic = parseInt(countsAccademic);
-        for(a=1; a <= countsAccademic; a++){
-            if ($('#doctorAcademic_degreeId'+a).val() === '') {
-                $('#doctorAcademic_degreeId'+a).addClass('bdr-error');
-                $('#error-doctorAcademic_degreeId'+a).fadeIn().delay(3000).fadeOut('slow');
-                count++;
-            }
-            if ($('#doctorSpecialities_specialitiesCatId'+a).val() === '') {
-                $('#doctorSpecialities_specialitiesCatId'+a).addClass('bdr-error');
-                $('#error-doctorSpecialities_specialitiesCatId'+a).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-            if ($('#acdemic_addaddress'+a).val() === '') {
-                $('#acdemic_addaddress'+a).addClass('bdr-error');
-                $('#error-acdemic_addaddress'+a).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-            if ($('#acdemic_addyear'+a).val() === '') {
-                $('#acdemic_addyear'+a).addClass('bdr-error');
-                $('#error-acdemic_addyear'+a).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-            var acdemic_addyear = $('#acdemic_addyear'+a).val();
-            if (acdemic_addyear > currentYear) {
-                $('#acdemic_addyear'+a).addClass('bdr-error');
-                $("#error-acdemic_addyear"+a).text("Please Select Correct Year");
-                $('#error-acdemic_addyear'+a).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-        }
-        //Academic End
-        //experience starts 
-        if (exp_year === '') {
-            $('#exp_year').addClass('bdr-error');
-            $('#error-exp_year').fadeIn().delay(4000).fadeOut('slow');
-            count++;
-            //$('#users_email').focus();
-        }
-        if (fee === '') {
-            $('#fee').addClass('bdr-error');
-            $('#error-fee').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-
-        }
-        //Experience End
-        setTimeout(function () {
-            $(".bdr-error").css( "border-color", "#eee" );
-        }, 3000);
-
-        return false;
-
-    }
-    function validateEditHospitalDoctor() {
-        
-        // $("form[name='doctorForm']").submit();
-        
-        var currentYear = new Date().getFullYear();
-        var check = /^[a-zA-Z\s]+$/;
-        var numcheck = /^[0-9]+$/;
-        var doctors_fName = $.trim($('#doctors_fName').val());
-        var doctors_lName = $.trim($('#doctors_lName').val());
-        var doctorSpecialities_specialitiesId = $.trim($('#doctorSpecialities_specialitiesId').val());
-        
-        var image = $("#avatarInput").val();
-        var exp_year = $("#exp_year").val();
-        var fee = $("#fee").val();
-        var count = 0;
-                
-        if (doctors_fName === '') {
-            $('#doctors_fName').addClass('bdr-error');
-            $('#error-doctors_fName').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-
-        }
-        else if(!check.test(doctors_fName)){
-            $('#doctors_fName').addClass('bdr-error');
-            $('#error-doctors_fName1').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-        }
-
-        if (doctors_lName === '') {
-            $('#doctors_lName').addClass('bdr-error');
-            $('#error-doctors_lName').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-        }
-        else if(!check.test(doctors_lName)){
-            $('#doctors_lName').addClass('bdr-error');
-            $('#error-doctors_lName1').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-        }
-        
-        if (image == '') {
-            $('#image_select').addClass('bdr-error');
-            $('#error-avatarInput').fadeIn().delay(3000).fadeOut('slow');
-        }
-        
-        if (doctorSpecialities_specialitiesId === '') {
-            $('#s2id_autogen1').addClass('bdr-error');
-            $('#error-doctorSpecialities_specialitiesId').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-        }
-        
-        //Academic Start
-        countsAccademic = parseInt(countsAccademic);
-        for(a=1; a <= countsAccademic; a++){
-            if ($('#doctorAcademic_degreeId'+a).val() === '') {
-                $('#doctorAcademic_degreeId'+a).addClass('bdr-error');
-                $('#error-doctorAcademic_degreeId'+a).fadeIn().delay(3000).fadeOut('slow');
-                count++;
-            }
-            if ($('#doctorSpecialities_specialitiesCatId'+a).val() === '') {
-                $('#doctorSpecialities_specialitiesCatId'+a).addClass('bdr-error');
-                $('#error-doctorSpecialities_specialitiesCatId'+a).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-            if ($('#acdemic_addaddress'+a).val() === '') {
-                $('#acdemic_addaddress'+a).addClass('bdr-error');
-                $('#error-acdemic_addaddress'+a).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-            if ($('#acdemic_addyear'+a).val() === '') {
-                $('#acdemic_addyear'+a).addClass('bdr-error');
-                $('#error-acdemic_addyear'+a).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-            var acdemic_addyear = $('#acdemic_addyear'+a).val();
-            if (acdemic_addyear > currentYear) {
-                $('#acdemic_addyear'+a).addClass('bdr-error');
-                $("#error-acdemic_addyear"+a).text("Please Select Correct Year");
-                $('#error-acdemic_addyear'+a).fadeIn().delay(4000).fadeOut('slow');
-                count++;
-            }
-        }
-        //Academic End
-        //experience starts 
-        if (exp_year === '') {
-            $('#exp_year').addClass('bdr-error');
-            $('#error-exp_year').fadeIn().delay(4000).fadeOut('slow');
-            count++;
-            //$('#users_email').focus();
-        }
-        if (fee === '') {
-            $('#fee').addClass('bdr-error');
-            $('#error-fee').fadeIn().delay(3000).fadeOut('slow');
-            count++;
-
-        }
-        //Experience End
-        setTimeout(function () {
-            $(".bdr-error").css( "border-color", "#eee" );
-        }, 3000);
-        
-        if(count === 0){
-            return true;
-        }
-        else{
-            return false;
-        }
-
-    }
-
-    function checkHospitalDoctorEmailFormat() {
-        var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-        var email = $('#users_email').val();
-        if (email !== '') {
-            if (!filter.test(email)) {
-                $('#users_email').addClass('bdr-error');
-                $('#error-users_email').fadeIn().delay(3000).fadeOut('slow');
-            }
-        }
-    }
-    
+          
     function fetchHospitalSpeciality(hospitalId, numbers) {
         $.ajax({
             url: urls + 'index.php/doctor/fetchHospitalSpeciality',
@@ -771,6 +547,97 @@ if ($current == 'doctorDetails'){ ?>
     }
     </script>
 <?php } ?>
+ <script>
+    var urls = "<?php echo base_url() ?>";
+    $(document).ready(function () {
+    $("#submitForm").validate({
+        rules: {
+            doctors_fName: {
+                required: true
+            },
+            doctors_lName: {
+                required : true
+            },
+             avatarInput: {
+                required : true
+            },
+            'doctorSpecialities_specialitiesId[]': {
+                required: true
+            },
+            users_email: {
+                email: true,
+                            
+            },
+       'doctorAcademic_degreeId[]':{
+         
+           required: true
+      },
+      'doctorSpecialities_specialitiesCatId[]':{
+         
+           required: true
+      },
+      'acdemic_addaddress[]':{
+         
+           required: true
+      },
+      'acdemic_addyear[]':{
+         
+           required: true
+      },
+      exp_year: {
+        required: true,
+      }, 
+      fee: {
+        required: true,
+                            
+      }    
+        },
+        messages: {
+            doctors_fName: {
+                required: "Please enter doctor's first name!",
+            },
+              doctors_lName: {
+                required : "Please enter doctor's last name!"
+            },
+              avatarInput: {
+                required : "Please upload an image!"
+            },
+
+              'doctorSpecialities_specialitiesId[]': {
+                required: "Please select one or more specialities!"
+            },
+            users_email: {
+                email: "Please enter the correct email format!"
+            },
+          
+             'doctorAcademic_degreeId[]': {
+                required: "Please select a degree!"
+            },
+            'doctorSpecialities_specialitiesCatId[]': {
+                required: "Please select a speciality!"
+            },
+            'acdemic_addaddress[]': {
+                required: "Please enter an address!"
+            },
+            'acdemic_addyear[]': {
+                required: "Please enter a year!"
+            },
+            exp_year: {
+                required: "Please enter year(s) of experience!"
+            },
+            fee:{
+         
+           required: "Please enter the consultation fees!"
+         
+      }
+      
+           
+        }
+
+    });
+    
+});
+</script>
 </body>
 
 </html>

@@ -9,7 +9,7 @@
             </div>
          </div>
          <div class="map_canvas"></div>
-         <form class="cmxform form-horizontal tasi-form avatar-form-doctor-edit" id="submitFormDoctorEdit" method="post" action="<?php echo site_url(); ?>/hospital/editDoctor" name="doctorForm" enctype="multipart/form-data">
+         <form class="cmxform form-horizontal tasi-form avatar-form-doctor-edit" id="submitForm" method="post" action="<?php echo site_url(); ?>/hospital/editDoctor" name="doctorForm" enctype="multipart/form-data">
             <input type="hidden" name="ProfessionalExpCount" id="ProfessionalExpCount" value="1" />
             <?php
                 $date2 = date('Y-m-d');
@@ -221,7 +221,7 @@
                      <image alt="Please wait data is loading" src="<?php echo base_url('assets/images/loader/Heart_beat.gif'); ?>" />
                   </div>
                   <a class="btn btn-danger waves-effect pull-right" type="button" href="<?php echo base_url().'/index.php//hospital/detailHospital/'.$hospitalId.'/doctor'; ?>">Cancel</a>
-                  <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return validateEditHospitalDoctor()">Update</button>
+                  <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit">Update</button>
                </div>
             </section>
             <div id="upload_modal_form">

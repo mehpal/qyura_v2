@@ -20,6 +20,7 @@ if (isset($hospitalId) && !empty($hospitalId)) {
 <script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js" type="text/javascript"></script>
 
 
 <?php
@@ -2039,7 +2040,6 @@ if (isset($mapData) && !empty($mapData)) {
         }
       
   }
-  
   
  function getDcotorDeatil(doctorId) {
 
