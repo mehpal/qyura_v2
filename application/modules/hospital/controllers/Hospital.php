@@ -209,16 +209,17 @@ class Hospital extends MY_Controller {
                <label style="display: none;"class="error" id="error-awards' . $val->hospitalAwards_id . '"> Please enter award name </label>  
                    
 
-              <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="clearfix m-t-10">
                 <select class="selectpicker" data-width="100%" id=agency' . $val->hospitalAwards_id . ' name="hospitalAwards_agencyName">
                       '.$agencyOption.'
                     </select>
                  <label style="display: none;"class="error" id="error-agency' . $val->hospitalAwards_id . '"> Please enter agency name </label>
 
               </div>
-
+            <aside class="clearfix m-t-10">
             <input type="text" class="form-control m-t-10" name="hospital_awardsyear" id=year' . $val->hospitalAwards_id . ' value="' . $val->hospitalAwards_awardYear . '" placeholder="" />
                  <label style="display: none;"class="error" id="error-years' . $val->hospitalAwards_id . '"> Please enter year only number formate minium and maximum length 4 </label>
+                     </aside>
            
          </div>
            <div class="col-md-2 col-sm-2 col-xs-2">
