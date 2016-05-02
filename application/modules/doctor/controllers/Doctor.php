@@ -1740,7 +1740,7 @@ class Doctor extends MY_Controller {
 
             $row = $this->Doctor_model->checkSloat($data);
             if ($row)
-                $this->error[] =  'This time '. date('h:i A', strtotime($docTimeDay_open)) . $docTimeDay_close.'match with '.convertNumberToDay($docTimeDay_day);
+                $this->error[] =  'This time '. date('h:i A', strtotime($docTimeDay_open)) .' to '. date('h:i A', strtotime($docTimeDay_close)).' match with '.convertNumberToDay($docTimeDay_day.' please select diffrent sloat');
         }
 
         if (count($this->error))
