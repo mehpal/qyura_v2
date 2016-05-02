@@ -643,8 +643,8 @@ if (isset($amobulancestatus) && $amobulancestatus == 1) {
 
 
 
-                <!-- Right Section Start -->
-                <section class="col-md-6 detailbox mi-form-section">
+                <!-- Right Section Start1 -->
+                <section class="col-md-6 detailbox mi-form-section"> 
                     <div class="bg-white clearfix">
                         <!-- Feature Access Section Start -->
                         <!--    <div>
