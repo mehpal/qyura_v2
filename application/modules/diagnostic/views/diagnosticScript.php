@@ -473,16 +473,19 @@ if($current != 'detailDiagnostic'):?>
         }  
     }
     function deleteAwards(awardsId){
-        
-         $.ajax({
-               url : urls + 'index.php/diagnostic/deleteDiagnosticAwards',
-               type: 'POST',
-              data: {'awardsId' : awardsId },
-              success:function(datas){
-              console.log(datas);
-                  loadAwards();
-              }
-           });
+          bootbox.confirm("Are you sure want to remove this service?", function (result) {
+            if (result) {
+            $.ajax({
+                  url : urls + 'index.php/diagnostic/deleteDiagnosticAwards',
+                  type: 'POST',
+                 data: {'awardsId' : awardsId },
+                 success:function(datas){
+                 console.log(datas);
+                     loadAwards();
+                 }
+              });
+          }
+   });
         
     }
     function loadAwards(){
@@ -538,7 +541,8 @@ if($current != 'detailDiagnostic'):?>
         }  
     }
     function deleteServices(awardsId){
-        
+         bootbox.confirm("Are you sure want to remove this service?", function (result) {
+            if (result) {
          $.ajax({
                url : urls + 'index.php/diagnostic/deleteDiagnosticServices',
                type: 'POST',
@@ -548,7 +552,8 @@ if($current != 'detailDiagnostic'):?>
                   loadServices();
               }
            });
-        
+       }
+     });
     }
     function loadServices(){
        
