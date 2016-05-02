@@ -78,6 +78,7 @@ class MedicartApi extends MyRest {
             $option['lat'] = isset($_POST['lat']) ? $this->input->post('lat') : '';
             $option['long'] = isset($_POST['long']) ? $this->input->post('long') : '';
             $option['city'] = isset($_POST['cityId']) ? $this->input->post('cityId') : '';
+            $option['speciality'] = isset($_POST['speciality']) ? $this->input->post('speciality') : '';
             
             $option['search'] = isset($_POST['q']) ? $this->input->post('q') : '';
 
