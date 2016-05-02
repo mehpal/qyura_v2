@@ -1383,6 +1383,8 @@ class Doctor extends MY_Controller {
             'table' => 'qyura_diagnostic'
         );
         $diagnostic_insert = $this->common_model->customInsert($options);
+        
+        return $diagnostic_insert;
     }
 
     function saveChamber() {
