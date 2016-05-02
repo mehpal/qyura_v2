@@ -525,5 +525,22 @@ class MY_Controller extends CI_Controller {
         }
         return $response;
     }
+    
+      function isEmailRegister() {
+
+        $email = $this->input->post('email');
+        $id = $this->input->post('id');
+        $role = $this->input->post('role');
+        if (!empty($email)) {
+            $resonse = $this->common_model->fetchEmail($email,$role, $id);
+            if ($resonse) {
+                echo "false";
+            } else {
+                echo "true";
+            }
+        } else {
+            echo "false";
+        }
+    }
 
 }

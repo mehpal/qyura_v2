@@ -3,6 +3,12 @@
     {
         display:none;
     }
+/*    .form-control.valid {
+       border-color: #F05350;
+     }
+     label.error{
+         color: #F05350;
+     }*/
 </style> 
 
 <?php $check= 0; 
@@ -28,6 +34,9 @@ if($current == 'detailBloodBank'):?>
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
 <script src="<?php echo base_url(); ?>assets/js/jquery.geocomplete.min.js"></script>
 <script src="<?php echo base_url();?>assets/vendor/select2/select2.min.js" type="text/javascript"></script> 
+
+
+
     <script src="<?php echo base_url(); ?>assets/js/common_js.js"></script>
 <?php if(isset($mapData) && !empty($mapData)){
         $lat = $mapData[0]->bloodBank_lat;
@@ -65,7 +74,7 @@ if($current == 'detailBloodBank'):?>
 
 
 <script>
-    
+     var urls = "<?php echo base_url() ?>";
     
    function checkExisting(email){
        var email = email;
@@ -125,7 +134,7 @@ if($current == 'detailBloodBank'):?>
         }
 
     }
-        var urls = "<?php echo base_url() ?>";
+       
     var bloodBankId = "<?php echo $check?>";
      
       /**
@@ -537,32 +546,7 @@ if($current == 'detailBloodBank'):?>
            });
         }
      
-   function check_email_detail(myEmail){
-            var user_table_id = $('#user_tables_id').val();
-           $.ajax({
-               url : urls + 'index.php/bloodbank/check_email',
-               type: 'POST',
-              data: {'users_email' : myEmail,'user_table_id' : user_table_id },
-              success:function(datas){
-                 // console.log(datas);
-                  if(datas == 0){
-                   $("form[name='submitForm']").submit();
-                   return true;
-              }
-              else if(datas == 1){
-                $('#users_email').addClass('bdr-error');
-                $('#error-users_email_check').fadeIn().delay(3000).fadeOut('slow');;
-               
-               return false;
-              }
-              else{
-                  //$('#users_email_status').val(datas);
-                  $("form[name='submitForm']").submit();
-                  return true;
-              }
-              } 
-           });
-    }
+  
    function checkNumber(inputName, ids) {
 
         var mobileNumber = 0;
@@ -824,30 +808,10 @@ if($current == 'detailBloodBank'):?>
             return false;
             
         }
-              
-//   function check_email(myEmail){
-//           $.ajax({
-//               url : urls + 'index.php/bloodbank/check_email',
-//               type: 'POST',
-//              data: {'users_email' : myEmail},
-//              success:function(datas){
-//                  console.log(datas);
-//                  if(datas == 0){
-//                   $("form[name='bloodbankForm']").submit();
-//                   return true;
-//              }
-//              else {
-//                $('#users_email').addClass('bdr-error');
-//                $('#error-users_email_check').fadeIn().delay(3000).fadeOut('slow');;
-//               // $('#users_email').focus();
-//               return false;
-//              }
-//              } 
-//           });
-//        }
+             
 
 
-    $("#savebtn").click(function(){
+ $("#savebtn").click(function(){
          $("#avatar-modal").modal('hide');
      }); 
  
@@ -859,7 +823,7 @@ if($current == 'detailBloodBank'):?>
 
 });
 
-$("#picEditClose").click(function () {
+ $("#picEditClose").click(function () {
     $(".logo-up").hide();
     $(".logo-img").show();
     $("#picEdit").show();
@@ -879,25 +843,6 @@ function isNumberKey(evt, id) {
 }
 </script>
  <script>
-   /* $(".editbu").click(function () {
-    $("#detailbu").toggle();
-    $("#newbu").toggle();
-    });
-    
-    $(".editbu1").click(function () {
-    $("#detailbu1").toggle();
-    $("#newbu1").toggle();
-    });
-    
-    $(".editbu2").click(function () {
-    $("#detailbu2").toggle();
-    $("#newbu2").toggle();
-    });
-    
-    $(".editbu3").click(function () {
-    $("#detailbu3").toggle();
-    $("#newbu3").toggle();
-    });*/
     
     function openBloodUnit(id){
         if($("#anve_"+id).prop("checked") == true){
@@ -956,7 +901,7 @@ function isNumberKey(evt, id) {
     
     }
 
-$(document).ready(function (e) {
+    $(document).ready(function (e) {
     
     $("#uploadimage").on('submit',(function(e) {
             e.preventDefault();
@@ -990,9 +935,9 @@ $(document).ready(function (e) {
 // Function to preview image after validation
 
     
-$("#uploadBtnDd").change(function() {
+   $("#uploadBtnDd").change(function() {
 
-$("#messageErrors").empty(); // To remove the previous error message
+   $("#messageErrors").empty(); // To remove the previous error message
     var file = this.files[0];
     var imagefile = file.type;
     var match= ["image/jpeg","image/png","image/jpg"];
@@ -1010,17 +955,16 @@ $("#messageErrors").empty(); // To remove the previous error message
     }
     });
 
-function imageIsLoaded(e) {
-    $("#file").css("color","green");
-    $('#image_preview').css("display", "block");
-    $('#previewing').attr('src', e.target.result);
-    $('#previewing').attr('width', '500px');
-    $('#previewing').attr('height', '230px');
-}
-});
+    function imageIsLoaded(e) {
+        $("#file").css("color","green");
+        $('#image_preview').css("display", "block");
+        $('#previewing').attr('src', e.target.result);
+        $('#previewing').attr('width', '500px');
+        $('#previewing').attr('height', '230px');
+    }
+    });
 
-
-         function checkValidFileUploads(urls){
+    function checkValidFileUploads(urls){
        
            var avatar_file = $(".avatar-data").val();
             $.ajax({
@@ -1041,11 +985,178 @@ function imageIsLoaded(e) {
           });
    }
    
-//   $("#resetBtn").on('click',function(){
-//      
-////       $("#preImgLogo").html(' <img src="<?php //echo base_url() ?>assets/default-images/Blood-logo.png"  class="image-preview-show"/>'); 
-//    
-//       
-//   });
+    function check_email_detail(myEmail){
+           var user_table_id = $('#user_tables_id').val();
+           $.ajax({
+               url : urls + 'index.php/bloodbank/check_email',
+               type: 'POST',
+              data: {'users_email' : myEmail,'user_table_id' : user_table_id },
+              success:function(datas){
+                 // console.log(datas);
+                  if(datas == 0){
+                   $("form[name='submitForm']").submit();
+                   return true;
+              }
+              else if(datas == 1){
+                $('#users_email').addClass('bdr-error');
+                $('#error-users_email_check').fadeIn().delay(3000).fadeOut('slow');;
+               
+               return false;
+              }
+              else{
+                  //$('#users_email_status').val(datas);
+                  $("form[name='submitForm']").submit();
+                  return true;
+              }
+              } 
+           });
+    }
+   
+
+   
+    $(document).ready(function () {
+
+        $("#submitForm").validate({
+           
+
+            rules: {
+                bloodBank_name: {
+                    required: true,
+                    lettersonly: true
+                },
+                countryId: {
+                    required: true
+                },
+                stateId: {
+                    required: true
+                },
+                cityId: {
+                    required: true
+                },
+                bloodBank_zip: {
+                    required: true,
+                    number: true,
+                    minlength:6,
+                    maxlength:6
+                },
+                bloodBank_add: {
+                    required: true
+                },
+                lat: {
+                    required: true,
+                },
+                lng: {
+                    required: true
+                },
+                bloodBank_phn: {
+                    required: true,
+                     number: true,
+                    minlength:10,
+                    maxlength:10
+                },
+                bloodBank_cntPrsn: {
+                    required: true,
+                    lettersonly: true
+                },
+                bloodBank_mbrTyp: {
+                    required: true
+                },
+                isEmergency: {
+                    required: true,
+                },
+                bloodbank_docatId: {
+                    required: true
+                },
+                users_email: {
+                    required: true,
+                    email: true,
+                    remote: {
+                    url:  urls + 'index.php/bloodbank/isEmailRegister',
+                    type: "post",
+                    data: {
+                            email: function(){ return $("#users_email").val(); },
+                            id: function(){ return $("#users_id").val(); },
+                            role: function(){ return 2; }
+                    }
+                  }
+                },
+                bloodBank_mblNo: {
+                    required: true,
+                    number: true,
+                    minlength:10,
+                    maxlength:10
+                },
+                  users_password: {
+                    required: true, 
+                },
+                  cnfPassword: {
+                    required: true,
+                    equalTo: "#users_password"
+                },
+                 avatar_file: {
+                    required: true,
+                },
+            },
+            messages: {
+                bloodBank_name: {
+                    required: "Please enter bloodbank name",
+                },
+                 countryId: {
+                    required: "Please select city",
+                },
+                cityId: {
+                    required: "Please select country",
+                },
+                stateId: {
+                    required: "Please select state",
+                },
+                bloodBank_zip: {
+                    required: "Please enter zip",
+
+                },
+                bloodBank_add: {
+                    required: "Please enter address",
+                },
+                lat: {
+                    required: "Please enter latitude",
+                },
+                lng: {
+                    required: "Please enter longitude",
+                },
+                bloodBank_phn: {
+                    required: "Please enter phone number",
+                },
+                bloodBank_cntPrsn: {
+                    required: "Please enter contact person name",
+                },
+                bloodBank_mbrTyp: {
+                    required: "Please select member type",
+                },
+                isEmergency: {
+                    required: "Please select 24/7 service",
+                },
+                bloodbank_docatId: {
+                    required: "Please enter docat id",
+                },
+                users_email: {
+                    required: "Please enter email",
+                    remote: jQuery.validator.format("{0} is already exists.")
+                },
+                bloodBank_mblNo: {
+                    required: "Please enter mobile number",
+                },
+                users_password: {
+                    required: "Please enter password",
+                },
+                cnfPassword: {
+                    required: "Please enter confirm password",
+                }
+            },
+            submitHandler: function (form) {
+                form.submit();
+            },
+        });
+
+    });
 
     </script>

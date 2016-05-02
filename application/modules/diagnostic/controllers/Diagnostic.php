@@ -92,7 +92,8 @@ class Diagnostic extends MY_Controller {
         $data['gallerys'] = $this->diagnostic_model->customGet(array('table' => 'qyura_diagonsticsImages', 'where' => array('diagonsticImages_diagonsticId' => $diagnosticId, 'diagonsticImages_deleted' => 0)));
 
         $data['allCountry'] = $this->diagnostic_model->fetchCountry();
-        $data['allStates'] = $this->diagnostic_model->fetchStates();
+        $data['allCities'] = $this->Hospital_model->fetchCity($data['diagnosticData'][0]->diagnostic_stateId);
+        $data['allStates'] = $this->diagnostic_model->fetchStates($data['diagnosticData'][0]->diagnostic_countryId);
         $data['diagnosticId'] = $diagnosticId;
         $option = array(
             'table' => 'qyura_diagnosticCenterTimeSlot',
@@ -123,6 +124,8 @@ class Diagnostic extends MY_Controller {
         }
         
         $data['allInsurance'] = $this->Hospital_model->fetchAllInsurance($insurance_condition);
+        
+        $data['awardAgency'] = $this->Hospital_model->fetchAwardAgency();
 
         $data['diagnosticId'] = $diagnosticId;
         $data['showStatus'] = 'none';
@@ -344,6 +347,7 @@ class Diagnostic extends MY_Controller {
                     'diagnostic_long' => $this->input->post('lng'),
                     'diagnostic_aboutUs' => $this->input->post('aboutUs'),
                     'inherit_status' => 1,
+                    
                     'diagnostic_availibility_24_7' => $this->input->post('availibility_24_7'),
                     'diagnostic_isEmergency' => $this->input->post('isEmergency'),
                     'diagnostic_hasBloodbank' => $this->input->post('bloodbank_chk'),
@@ -555,12 +559,35 @@ class Diagnostic extends MY_Controller {
         $this->bf_form_validation->set_rules('diagnostic_aboutUs', 'About Us', 'trim|required');
         $this->bf_form_validation->set_rules('lat', 'Latitude', 'required|callback_isValidLatitude[lat]');
         $this->bf_form_validation->set_rules('lng', 'Longitude', 'required|callback_isValidLongitude[lng]');
+        $this->bf_form_validation->set_rules('diagnostic_phn', 'diagnostic phon no.', 'required|numeric');
+        
+        // other
+        $this->bf_form_validation->set_rules('bloodbank_chk', 'blood bank checkbox', 'trim');
+        $this->bf_form_validation->set_rules('bloodBank_name', 'blood bank name', 'trim');
+        $this->bf_form_validation->set_rules('bloodBank_phn', 'blood bank phon no.', 'trim');
+
+        $this->bf_form_validation->set_rules('pharmacy_chk', 'pharmacy checkbox', 'trim');
+
+        $this->bf_form_validation->set_rules('ambulance_chk', 'ambulance checkbox', 'trim');
+        $this->bf_form_validation->set_rules('ambulance_name', 'ambulance name', 'trim');
+        $this->bf_form_validation->set_rules('docOnBoard', 'doctor on board', 'trim');
+        $this->bf_form_validation->set_rules('ambulance_phn', 'ambulance phon no.', 'trim');
+
+        $this->bf_form_validation->set_rules('availibility_24_7', '27*7 availability', 'trim');
+        $this->bf_form_validation->set_rules('isEmergency', 'Is Emergency', 'trim');
+        $this->bf_form_validation->set_rules('docatId', 'Docat id', 'trim');
+        
+      //  $this->bf_form_validation->set_rules('diagno_id', 'Diagnostic id', 'required|trim');
 
 
         if ($this->bf_form_validation->run() === FALSE) {
+           // echo validation_errors(); exit;
             $data = array();
             $data['allCountry'] = $this->diagnostic_model->fetchCountry();
             $data['diagnosticData'] = $this->diagnostic_model->fetchdiagnosticData($diagnosticId);
+            $data['allCountry'] = $this->diagnostic_model->fetchCountry();
+            $data['allCities'] = $this->Hospital_model->fetchCity($data['diagnosticData'][0]->diagnostic_stateId);
+            $data['allStates'] = $this->diagnostic_model->fetchStates($data['diagnosticData'][0]->diagnostic_countryId);
             $data['diagnosticId'] = $diagnosticId;
             $data['showStatus'] = 'block';
             $data['active'] = 'general';
@@ -569,22 +596,7 @@ class Diagnostic extends MY_Controller {
             $this->load->super_admin_template('diagnosticDetail', $data, 'diagnosticScript');
         } else {
             $diagnostic_phn = $this->input->post('diagnostic_phn');
-            $pre_number = $this->input->post('pre_number');
-            //$countPnone = $this->input->post('countPnone');
-            $midNumber = $this->input->post('midNumber');
-
-            $finalNumber = '';
-            for ($i = 0; $i < count($diagnostic_phn); $i++) {
-               /* if ($diagnostic_phn[$i] != '' && $pre_number[$i] != '') {
-                    $finalNumber .= $pre_number[$i] . ' ' . $diagnostic_phn[$i] . '|';
-                }*/
-                if ($diagnostic_phn[$i] != '' && $pre_number[$i] != '') {
-                 if($i == count($diagnostic_phn)-1)
-                          $finalNumber .= $pre_number[$i].' '.$midNumber[$i]. ' '.$diagnostic_phn[$i];
-                        else        
-                       $finalNumber .= $pre_number[$i] .' ' .$midNumber[$i]. ' ' . $diagnostic_phn[$i] . '|';
-                }
-            }
+            
             $updateDiagnostic = array(
                 'diagnostic_name' => $this->input->post('diagnostic_name'),
                 'diagnostic_countryId' => $this->input->post('diagnostic_countryId'),
@@ -594,21 +606,157 @@ class Diagnostic extends MY_Controller {
                 'isManual' => $this->input->post('isManual'),
                 'diagnostic_zip' => $this->input->post('diagnostic_zip'),
                 'diagnostic_dsgn' => $this->input->post('diagnostic_dsgn'),
-                'diagnostic_phn' => rtrim($finalNumber,'|'),
+                'diagnostic_phn' => ltrim($diagnostic_phn,'0'),
                 'diagnostic_cntPrsn' => $this->input->post('diagnostic_cntPrsn'),
                 'diagnostic_lat' => $this->input->post('lat'),
                 'diagnostic_long' => $this->input->post('lng'),
                 'diagnostic_aboutUs' => $this->input->post('diagnostic_aboutUs'),
-                 'diagnostic_mblNo' => $this->input->post('diagnostic_mobileNo'),
+                'diagnostic_mblNo' => $this->input->post('diagnostic_mobileNo'),
+                
+                'diagnostic_availibility_24_7' => $this->input->post('availibility_24_7'),
+                'diagnostic_isEmergency' => $this->input->post('isEmergency'),
+                'diagnostic_hasBloodbank' => $this->input->post('bloodbank_chk'),
+                'diagnostic_isBloodBankOutsource' => $this->input->post('isBloodBankOutsource'),
+                'diagnostic_hasPharmacy' => $this->input->post('pharmacy_chk'),
+                'diagnostic_docatId' => $this->input->post('docatId'),
+                
                 'modifyTime' => strtotime(date("Y-m-d H:i:s"))
             );
 
             $where = array(
                 'diagnostic_id' => $diagnosticId
             );
-            $response = '';
-            $response = $this->diagnostic_model->UpdateTableData($updateDiagnostic, $where, 'qyura_diagnostic');
+            
+           $response = '';
+           $response = $this->diagnostic_model->UpdateTableData($updateDiagnostic, $where, 'qyura_diagnostic');
+            
             if ($response) {
+                if (isset($_POST['bloodbank_chk']) == 1) {
+
+                    $bloodBank_phn = $this->input->post('bloodBank_phn');
+                    $conditions = array();
+                    $conditions['users_id'] = $this->input->post('user_tables_id');
+                    $conditions['bloodBank_deleted'] = 0;
+                    $select = array('bloodBank_id');
+                    $getData = '';
+                    $getData = $this->Hospital_model->fetchTableData($select, 'qyura_bloodBank', $conditions);
+                    $bloodBankDetail = array(
+                        'bloodBank_name' => $this->input->post('bloodBank_name'),
+                        
+                        'countryId' => $this->input->post('diagnostic_countryId'),
+                        'stateId' => $this->input->post('diagnostic_stateId'),
+                        'cityId' => $this->input->post('diagnostic_cityId'),
+                        
+                        'bloodBank_lat' => $this->input->post('lat'),
+                        'bloodBank_long' => $this->input->post('lng'),
+                        'bloodBank_add' => $this->input->post('diagnostic_address'),
+                        'bloodBank_phn' => ltrim($bloodBank_phn, 0),
+                        'modifyTime' => strtotime(date("Y-m-d H:i:s"))
+                    );
+                    if ($getData) {
+                        
+                        $bloodWhereUser = array(
+                            'users_id' => $this->input->post('user_tables_id')
+                        );
+                        //$bloodBankId = $this->Hospital_model->insertBloodbank($bloodBankDetail);
+                        $this->Hospital_model->UpdateTableData($bloodBankDetail, $bloodWhereUser, 'qyura_bloodBank');
+                    } else {
+                         
+                        unset($bloodBankDetail['modifyTime']);
+                        $bloodBankDetail['users_id'] = $this->input->post('user_tables_id');
+                        $bloodBankDetail['creationTime'] =  strtotime(date("Y-m-d H:i:s"));
+                        
+                        $optionInsert = array(
+                            
+                            'table' => 'qyura_bloodBank',
+                            'data' => $bloodBankDetail,
+                        );
+                        
+                        $bloodBankId = $this->common_model->customInsert($optionInsert);
+
+                        $conditions = array();
+                        $conditions['bloodCat_deleted'] = 0;
+                        $select = array('bloodCat_name', 'bloodCat_id');
+                        $bloodBankCatData = $this->Bloodbank_model->fetchTableData($select, 'qyura_bloodCat', $conditions);
+
+                        foreach ($bloodBankCatData as $key => $val) {
+                            $bloodCatData = array(
+                                'bloodBank_id' => $this->input->post('user_tables_id'),
+                                'bloodCats_id' => $val->bloodCat_id,
+                                'bloodCatBank_Unit' => 0,
+                                'creationTime' => strtotime(date("Y-m-d H:i:s"))
+                            );
+                            $this->Hospital_model->insertTableData('qyura_bloodCatBank', $bloodCatData);
+                            $bloodCatData = '';
+                        }
+                    }
+                } else {
+                    $bloodWhereUser = array(
+                        'users_id' => $this->input->post('user_tables_id')
+                    );
+                    $this->Hospital_model->deleteTable('qyura_bloodBank', $bloodWhereUser);
+
+                    $bloodCatDataDelete = array(
+                        'bloodBank_id' => $this->input->post('user_tables_id'),
+                    );
+                    $this->Hospital_model->deleteTable('qyura_bloodCatBank', $bloodCatDataDelete);
+                }
+
+                if (isset($_POST['ambulance_chk']) == 1) {
+
+                    $ambulance_phn = $this->input->post('ambulance_phn');
+                 
+                    $ambulance_name = $this->input->post('ambulance_name');
+                    $docOnBoard = $this->input->post('docOnBoard');
+                    
+                    //echo $finalAmbulanceNumber;exit;
+                    $ambulance_lat = $this->input->post('lat');
+                    $ambulance_long = $this->input->post('lng');
+
+                    $ambulanceDetail = array(
+                        'ambulance_name' => $ambulance_name,
+                        
+                        'ambulance_countryId' => $this->input->post('diagnostic_countryId'),
+                        'ambulance_stateId' => $this->input->post('diagnostic_stateId'),
+                        'ambulance_cityId' => $this->input->post('diagnostic_cityId'),
+                        
+                        'ambulance_lat' => $ambulance_lat,
+                        'ambulance_long' => $ambulance_long,
+                        'ambulance_usersId' => $this->input->post('user_tables_id'),
+                        'creationTime' => strtotime(date("Y-m-d H:i:s")),
+                        'ambulance_phn' => ltrim($ambulance_phn, 0),
+                        'ambulance_address' => $this->input->post('diagnostic_address'),
+                        'docOnBoard' => $docOnBoard,
+                    );
+                    $ambulanceConditions = array();
+                    $ambulanceConditions['ambulance_usersId'] = $this->input->post('user_tables_id');
+                    $ambulanceConditions['ambulance_deleted'] = 0;
+                    $ambulanceSelect = array('ambulance_id');
+                    $getDataAmbulance = '';
+                    $getDataAmbulance = $this->Hospital_model->fetchTableData($ambulanceSelect, 'qyura_ambulance', $ambulanceConditions);
+
+                    if ($getDataAmbulance) {
+                        unset($ambulanceDetail['creationTime']);
+                        unset($ambulanceDetail['ambulance_usersId']);
+                        
+                        $ambulanceDetail['modifyTime'] = strtotime(date("Y-m-d H:i:s"));
+                        
+                        $ambulanceWhereUser = array(
+                            'ambulance_usersId' => $this->input->post('user_tables_id')
+                        );
+                        // print_r($ambulanceDetail);exit;
+                        $this->Hospital_model->UpdateTableData($ambulanceDetail, $ambulanceWhereUser, 'qyura_ambulance');
+                        
+                    } else {
+                        $ambulanceData = array('table' => 'qyura_ambulance', 'data' => $ambulanceDetail);
+                        $ambulanceId = $this->common_model->customInsert($ambulanceData);
+                    }
+                } else {
+                    $ambulanceWhereUser = array(
+                        'ambulance_usersId' => $this->input->post('user_tables_id')
+                    );
+                    $this->Hospital_model->deleteTable('qyura_ambulance', $ambulanceWhereUser);
+                }
                 $this->session->set_flashdata('message', 'Record has been updated successfully!');
                 redirect("diagnostic/detailDiagnostic/$diagnosticId/general");
             }
@@ -868,12 +1016,14 @@ class Diagnostic extends MY_Controller {
         $option = array(
             'table' => 'qyura_diagnosticAwards',
             'where' => array('diagnosticAwards_diagnosticId' => $hospitalId, 'diagnosticAwards_deleted' => 0),
+            'join' => array(array('qyura_awardAgency', 'qyura_awardAgency.awardAgency_id = qyura_diagnosticAwards.diagnosticAwards_awardsAgency', 'left') ),
         );
         $dataAwards = $this->diagnostic_model->customGet($option);
+      //  echo $this->db->last_query(); exit;
         $showAwards = '';
         if ($dataAwards) {
             foreach ($dataAwards as $key => $val) {
-                $showAwards .='<li>' . $val->diagnosticAwards_awardsName . ' ' . $val->diagnosticAwards_awardYear.' ' . $val->diagnosticAwards_awardsAgency . '</li>';
+                $showAwards .='<li>' . $val->diagnosticAwards_awardsName . ', ' . $val->diagnosticAwards_awardYear.', ' . $val->agency_name . '</li>';
             }
         } else {
             $showAwards = 'Add Awards';
@@ -884,21 +1034,43 @@ class Diagnostic extends MY_Controller {
 
     function detailAwards($hospitalId) {
         $option = array(
+            'select' => '*, qyura_diagnosticAwards.diagnosticAwards_awardsAgency as awardAgency_id',
             'table' => 'qyura_diagnosticAwards',
             'where' => array('diagnosticAwards_diagnosticId' => $hospitalId, 'diagnosticAwards_deleted' => 0),
         );
-        $dataAwards = $this->diagnostic_model->customGet($option);
+         $dataAwards = $this->diagnostic_model->customGet($option);
+        // dump($dataAwards);
+         $awardAgency = $this->Hospital_model->fetchAwardAgency();
         if ($dataAwards) {
             $showTotalAwards = '';
             foreach ($dataAwards as $key => $val) {
+                
+                
+                 $agencyOption  = '';
+                    foreach ($awardAgency as $key => $value) {
+                       // echo $value->awardAgency_id.'-'.$val->awardAgency_id.'</br>';
+                        if($value->awardAgency_id ==  $val->awardAgency_id){
+                           $agencyOption .= '<option selected="selected" value= '.$value->awardAgency_id.' >  '.$value->agency_name.' </option>';
+                        }else{
+                            $agencyOption .= '<option value= '.$value->awardAgency_id.' >  '.$value->agency_name.' </option>';
+                        }
+                   }
+            
                 $showTotalAwards .= '     <aside class="row">
                                 <div class="col-md-12 ">
                                 
                                      <input type="text" class="form-control" name="hospitalAwards_awardsName" id=' . $val->diagnosticAwards_id . ' value="' . $val->diagnosticAwards_awardsName . '" placeholder="Awards name" />
-                                          <label style="display: none;"class="error" id="error-awards' . $val->diagnosticAwards_id . '"> Please enter award name </label>  
+                                          <label style="display: none;"class="error" id="error-awards' . $val->diagnosticAwards_id . '"> Please enter award name </label> 
                                               
-                                     <input type="text" class="form-control m-t-10" name="diagnosticAwards_agencyName" id=agency' . $val->diagnosticAwards_id . ' value="' . $val->diagnosticAwards_awardsAgency . '" placeholder="Award Agency" />
-                                    <label style="display: none;"class="error" id="error-agency' . $val->hospitalAwards_id . '"> Please enter agency name </label> 
+                                          <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <select class="selectpicker" data-width="100%" id=agency' . $val->diagnosticAwards_id . ' name="diagnosticAwards_agencyName">
+                                                  '.$agencyOption.'
+                                                </select>
+                                             <label style="display: none;"class="error" id="error-agency' . $val->diagnosticAwards_id . '"> Please enter agency name </label>
+
+                                          </div>
+                                              
+                                    
                    
                                     <input type="text" class="form-control m-t-10" placeholder="Year" id=year' . $val->diagnosticAwards_id . ' name="diagnostic_awardsyear" value="' . $val->diagnosticAwards_awardYear . '" onkeypress="return isNumberKey(event)"/>
                                            <label style="display: none;"class="error" id="error-years' . $val->diagnosticAwards_id . '"> Please enter year only number formate minium and maximum length 4 </label> 
@@ -2057,7 +2229,7 @@ class Diagnostic extends MY_Controller {
         
         $centerdData = array('collectionCenter_name' => $centerName, 'collectionCenter_address' => $centerAddress, 'collectionCenter_lat' => $centerLat, 'collectionCenter_long' => $centerLong, 'creationTime' => strtotime(date("Y-m-d H:i:s")), 'collectionCenter_diagnoId' => $Id);
         $option = array(
-            'table' => 'qyura_collectionCenter',
+            'table' => 'qyura_diagnoCollectionCenter',
             'data' => $centerdData
         );
         $insert = $this->diagnostic_model->customInsert($option);
@@ -2068,7 +2240,7 @@ class Diagnostic extends MY_Controller {
     
      function diagnosticCollectonCentrs($diagnosticId) {
         $option = array(
-            'table' => 'qyura_collectionCenter',
+            'table' => 'qyura_diagnoCollectionCenter',
             'where' => array('collectionCenter_diagnoId' => $diagnosticId, 'collectionCenter_deleted' => 0),
         );
         $dataCenters = $this->diagnostic_model->customGet($option);
@@ -2087,7 +2259,7 @@ class Diagnostic extends MY_Controller {
     
      function detailCollectoCenter($diagnosticId) {
         $option = array(
-            'table' => 'qyura_collectionCenter',
+            'table' => 'qyura_diagnoCollectionCenter',
             'where' => array('collectionCenter_diagnoId' => $diagnosticId, 'collectionCenter_deleted' => 0),
         );
         $dataCenters = $this->diagnostic_model->customGet($option);
@@ -2158,7 +2330,7 @@ class Diagnostic extends MY_Controller {
         $updatedDataWhere = array('collectionCenter_id' => $id);
         
         $option = array(
-            'table' => 'qyura_collectionCenter',
+            'table' => 'qyura_diagnoCollectionCenter',
             'where' => $updatedDataWhere,
             'data' => $updatedData
         );
@@ -2176,7 +2348,7 @@ class Diagnostic extends MY_Controller {
         $updatedDataWhere = array('collectionCenter_id' => $id);
 
         $option = array(
-            'table' => 'qyura_collectionCenter',
+            'table' => 'qyura_diagnoCollectionCenter',
             'where' => $updatedDataWhere,
             'data' => $updatedData
         );

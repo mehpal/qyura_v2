@@ -3,10 +3,12 @@
         <label class="control-label" for="docTimeTable_stayAt">Seating Place Type:</label>
         <div class="">
 
-            <input type="text" name="doctorId" id="" value="<?php echo $timeData->doctorId; ?>" />
-            <input type="text" name="docTimeTableId" id="docTimeTableId" value="<?php echo $timeData->docTimeTableId; ?>" />
+            <input type="hidden" name="doctorId" id="" value="<?php echo $timeData->doctorId; ?>" />
+            <input type="hidden" name="docTimeTableId" id="docTimeTableId" value="<?php echo $timeData->docTimeTableId; ?>" />
+            <input type="hidden" name="MIprofileId" id="MIprofileId" value="<?php echo $timeData->MIprofileId; ?>" />
+            <input type="hidden" name="hidden" id="day"  value="<?php echo $timeData->day; ?>" />
+            <input type="hidden" name="docTimeDayId" id="docTimeDayId"  value="<?php echo $timeData->docTimeDayId; ?>" />
             
-
             <aside class="radio radio-info radio-inline">
                 <input type="radio" <?php echo isset($timeData->stayAt) && $timeData->stayAt == 1 ? 'checked':''; ?>  required="" name="docTimeTable_stayAt" value="1" class="docTimeTable_stayAt" onclick="placeDetail(this.value)" >
                 <label for="inlineRadio1"> MI Place</label>
@@ -18,7 +20,7 @@
             <label id="err_docTimeTable_stayAt" class="error"><?php echo form_error("psChamber_name"); ?></label>
         </div>
     </article>
-    <article class="clearfix m-t-10" id="div_docTimeTable_MItype">
+    <article class="clearfix m-t-10" id="div_docTimeTable_MItype"  style="display: <?php echo isset($timeData->stayAt) && $timeData->stayAt == 1 ? 'block':'none'; ?> ">
         <label class="control-label" for="docTimeTable_MItype">MI Type:</label>
         <div class="">
             <select class="m-t-5 selectpicker" data-width="100%" name="docTimeTable_MItype" id="docTimeTable_MItype">
@@ -30,11 +32,12 @@
         </div>
 
     </article>
-    <article class="clearfix m-t-10" style="display: <?php echo $timeData->MItype == 1 ? 'block' : 'none' ?>" id="div_docTimeTable_HprofileId">
+    <?php ?>
+    <article class="clearfix m-t-10" style="display: <?php echo togalpsChamber($timeData) ? togalHospital($timeData) ? 'block' : 'none' : 'none'; ?>"    id="div_docTimeTable_HprofileId">
         <label class="control-label" for="docTimeTable_MIprofileId_h">Hospital Name:</label>
         <div class=""> 
             <?php $hospitals[] = (object) array('hospital_id' => 0, 'hospital_name' => 'Other') ?>
-            <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId_h" id="docTimeTable_MIprofileId_h" onchange="getHospitaldetail(this.value)" >
+            <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId_h" id="docTimeTable_MIprofileId_h" onchange="getMIdetail(this.value)" >
                 <option value="">-- Select Hospital --</option>
                 <?php
                 if (!empty($hospitals)) {
@@ -53,12 +56,12 @@
             <label id="err_docTimeTable_MIprofileId_h" class="error"><?php echo form_error("docTimeTable_MIprofileId_h"); ?></label>
         </div>
     </article>
-    <article class="clearfix m-t-10" style="display: <?php echo $timeData->MItype == 2 ? 'block' : 'none' ?>" id="div_docTimeTable_DprofileId">
+    <article class="clearfix m-t-10" style="display: <?php echo togalpsChamber($timeData) ? togalDiagnostic($timeData) ? 'block' : 'none' : 'none'; ?>"" id="div_docTimeTable_DprofileId">
         <label class="control-label" for="docTimeTable_MIprofileId_d">Diagnostic Name:</label>
         <div class="">
 
             <?php $diagnostics[] = (object) array('diagnostic_id' => 0, 'diagnostic_name' => 'Other') ?>
-            <select class="m-t-5 select2" data-width="100%" name="docTimeTable_MIprofileId_d" id="docTimeTable_MIprofileId_d">
+            <select class="m-t-5 select2" data-width="100%" onchange="getMIdetail(this.value)" name="docTimeTable_MIprofileId_d" id="docTimeTable_MIprofileId_d">
 
                 <option value="">-- Select Diagnostic --</option>
                 <?php
@@ -78,17 +81,19 @@
             <label id="err_docTimeTable_MIprofileId_d" class="error"><?php echo form_error("docTimeTable_MIprofileId_d"); ?></label>
         </div>
     </article>
-    <article class="clearfix" style="display: <?php echo $timeData->stayAt == 0 ? 'block' : 'none' ?>" id="div_Mi_name">
+<!--    <article class="clearfix" style="display: <?php echo $timeData->stayAt == 0 ? 'block' : 'none' ?>" id="div_Mi_name">
         <label class="control-label" for="Mi_name">MI Name:</label>
         <div class="">
             <input type="text" name="Mi_name" id="Mi_name" class="form-control" placeholder="MI Name" value="<?php echo set_value('Mi_name'); ?>">
             <label id="err_Mi_name" class="error"><?php echo form_error("Mi_name"); ?></label>
         </div>
-    </article>
+    </article>-->
     <article class="clearfix m-t-10" style="display: <?php echo $timeData->stayAt == 0 ? 'block' : 'none' ?>" id="div_psChamber_name">
         <label class="control-label" for="psChamber_name">Personal Chamber Name:</label>
+        
         <div class="">
-            <input type="text" name="psChamber_name" id="psChamber_name" class="form-control"  value="<?php echo set_value('psChamber_name') && set_value('psChamber_name') != null ? set_value('psChamber_name') : isset($timeData->psChamber_name) ? $timeData->psChamber_name : ''; ?>">
+            
+            <input type="text" name="psChamber_name" id="psChamber_name" class="form-control"  value="<?php echo $timeData->psChamberName; ?>">
             <label id="err_psChamber_name" class="error"><?php echo form_error("psChamber_name"); ?></label>
         </div>
     </article>
@@ -97,10 +102,10 @@
         </aside>
     </article>
 
-    <article class="clearfix" id="div_address" style="display: <?php echo $timeData->stayAt == 1 ? 'block' : 'none' ?>">
+    <article class="clearfix" id="div_address" >
 
         <div class="">
-            <div id="Miname_div" style="display: <?php echo $timeData->stayAt == 0 ? 'block' : 'none' ?>" style="display: block">
+            <div id="Miname_div" style="display: none" style="display: block">
                 <aside class="row">
                     <div class="col-md-12">
 
@@ -180,8 +185,8 @@
         <label class="control-label" for="docTimeDay_day">Weekdays:</label>
         <div class="">
 
-            <input name="docTimeDayId" id="docTimeDayId" type="text" value="<?php echo $timeData->docTimeDayId; ?>" />
-             <input name="day" id="day" type="text" value="<?php echo $timeData->day; ?>" />
+            
+            
 
 
             <select class="m-t-5 select2" data-width="100%" name="docTimeDay_day[]" id="docTimeDay_day" multiple="">

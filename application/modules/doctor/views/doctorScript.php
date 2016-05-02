@@ -674,9 +674,6 @@ if ($current != 'detailDoctor'):
                     if(count == 0){
                         var erlength = $("form[name='doctorForm']").find('.bdr-error').length;
                         if(erlength > 0){
-                            $("#qapIdTb").val('');
-                            $('#qapId').addClass('bdr-error');
-                            $('#error-qapIdTb').fadeIn().delay(3000).fadeOut('slow');
                             return false;
                         }else{
                             $("form[name='doctorForm']").submit();

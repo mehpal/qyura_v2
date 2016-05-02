@@ -3,6 +3,9 @@
     {
         display:none;
     }
+    .pointer:hover {
+     cursor:pointer;
+   }
 </style>
 
 
@@ -616,6 +619,7 @@ if (isset($mapData) && !empty($mapData)) {
                 data: {'awardsId': awardsId, 'hospitalAwards_awardsName': edit_awardsName, 'hospitalAwards_awardYear': edit_awardsYear, 'hospitalAwards_agencyName': edit_awardsAgency},
                 success: function (datas) {
                     console.log(datas);
+                    bootbox.alert("Award updated successfully!");
                     loadAwards();
                 }
             });
@@ -684,6 +688,7 @@ if (isset($mapData) && !empty($mapData)) {
                 data: {'serviceId': serviceId, 'hospitalServices_serviceName': edit_serviceName},
                 success: function (datas) {
                     console.log(datas);
+                    bootbox.alert("Service updated successfully!");
                     loadServices();
                 }
             });
