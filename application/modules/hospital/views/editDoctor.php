@@ -9,7 +9,7 @@
             </div>
          </div>
          <div class="map_canvas"></div>
-         <form class="cmxform form-horizontal tasi-form avatar-form-doctor-edit" id="submitFormDoctorEdit" method="post" action="<?php echo site_url(); ?>/hospital/editDoctor" name="doctorForm" enctype="multipart/form-data">
+         <form class="cmxform form-horizontal tasi-form avatar-form-doctor-edit" id="submitForm" method="post" action="<?php echo site_url(); ?>/hospital/editDoctor" name="doctorForm" enctype="multipart/form-data">
             <input type="hidden" name="ProfessionalExpCount" id="ProfessionalExpCount" value="1" />
             <?php
                 $date2 = date('Y-m-d');
@@ -33,7 +33,8 @@
                         <label for="" class="control-label col-md-4 col-sm-4">First Name :</label>
                         <div class="col-md-8 col-sm-8">
                            <input class="form-control doctors_fName" id="doctors_fName" type="text" name="doctors_fName" value="<?php echo $doctorDetail[0]->doctors_fName; ?>" placeholder="First Name" >
-                           <label class="error" style="display:none;" id="error-doctors_fName"> Please enter doctor's First name</label>
+                           <label class="error" style="display:none;" id="error-doctors_fName"> Please enter doctor's first name</label>
+                           <label class="error" style="display:none;" id="error-doctors_fName1"> Please enter characters only!</label>
                            <label class="error" > <?php echo form_error("doctors_fName"); ?></label>
                         </div>
                      </article>
@@ -41,7 +42,8 @@
                         <label for="" class="control-label col-md-4 col-sm-4">Last Name :</label>
                         <div class="col-md-8 col-sm-8">
                            <input class="form-control doctors_lName" id="doctors_lName" type="text" name="doctors_lName" value="<?php echo $doctorDetail[0]->doctors_lName; ?>" placeholder="Last Name"/>
-                           <label class="error" style="display:none;" id="error-doctors_lName"> Please enter doctor's Last name</label>
+                           <label class="error" style="display:none;" id="error-doctors_lName"> Please enter doctor's last name</label>
+                           <label class="error" style="display:none;" id="error-doctors_lName1"> Please enter characters only!</label>
                            <label class="error" > <?php echo form_error("doctors_lName"); ?></label>
                         </div>
                      </article>
@@ -84,7 +86,7 @@
                         <div class="col-md-8 col-sm-8">
                            <input type="hidden" name="referralId" id="referralId" value="<?php if($this->uri->segment(4) != NULL){ echo $this->uri->segment(4); } ?>">
                            <input type="hidden" name="pRoleId" id="pRoleId" value="<?php if($this->uri->segment(3) != NULL){ echo $this->uri->segment(3); } ?>">
-                           <input type="email" class="form-control users_email" id="users_email" name="users_email" placeholder="Email" value="<?php echo $doctorDetail[0]->doctors_email; ?>" onblur="checkEmailFormat()"/>
+                           <input type="email" class="form-control users_email" id="users_email" name="users_email" placeholder="Email" value="<?php echo $doctorDetail[0]->doctors_email; ?>" onblur="checkHospitalDoctorEmailFormat()"/>
                            <label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>
                            <label class="error" style="display:none;" id="error-users_email_check"> Doctor Email Already Exists!</label>
                            <label class="error" > <?php echo form_error("users_email"); ?></label>
@@ -185,14 +187,14 @@
                      <aside class="row">
                         <label for="cname" class="control-label col-md-4 m-t-10 m-l-10">No of Year</label>
                         <div class="col-md-7 col-sm-7 m-b-20 m-t-10">
-                           <input type="number" class="form-control exp_year" name="exp_year" required="" id="exp_year" placeholder="Experience" min="1" max="50" value="<?php if(isset($years) && $years != NULL){ echo $years; }?>">
+                           <input type="number" class="form-control exp_year" name="exp_year" required="" id="exp_year" placeholder="Experience" min="1" max="50" onkeypress="return isNumberKey(event)" value="<?php if(isset($years) && $years != NULL){ echo $years; }?>">
                            <label class="error" style="display:none;" id="error-exp_year"> please fill Experience</label>
                         </div>
                      </aside>
                      <aside class="row">
                         <label for="cname" class="control-label col-md-4 m-t-10 m-l-10">Fee</label>
                         <div class="col-md-7 col-sm-7 m-b-20 m-t-10">
-                           <input type="text" class="form-control fee" name="fee" required="" id="fee" placeholder="Fee" value="<?php echo $doctorDetail[0]->doctors_consultaionFee;?>">
+                           <input type="text" class="form-control fee" name="fee" required="" id="fee" placeholder="Fee" onkeypress="return isNumberKey(event)" value="<?php echo $doctorDetail[0]->doctors_consultaionFee;?>">
                            <label class="error" style="display:none;" id="error-fee"> please fill Fee</label>
                         </div>
                      </aside>

@@ -3,6 +3,9 @@
     {
         display:none;
     }
+    .pointer:hover {
+     cursor:pointer;
+   }
 </style>
 
 
@@ -20,6 +23,7 @@ if (isset($hospitalId) && !empty($hospitalId)) {
 <script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js" type="text/javascript"></script>
 
 
 <?php
@@ -615,6 +619,7 @@ if (isset($mapData) && !empty($mapData)) {
                 data: {'awardsId': awardsId, 'hospitalAwards_awardsName': edit_awardsName, 'hospitalAwards_awardYear': edit_awardsYear, 'hospitalAwards_agencyName': edit_awardsAgency},
                 success: function (datas) {
                     console.log(datas);
+                    bootbox.alert("Award updated successfully!");
                     loadAwards();
                 }
             });
@@ -683,6 +688,7 @@ if (isset($mapData) && !empty($mapData)) {
                 data: {'serviceId': serviceId, 'hospitalServices_serviceName': edit_serviceName},
                 success: function (datas) {
                     console.log(datas);
+                    bootbox.alert("Service updated successfully!");
                     loadServices();
                 }
             });
@@ -2039,7 +2045,6 @@ if (isset($mapData) && !empty($mapData)) {
         }
       
   }
-  
   
  function getDcotorDeatil(doctorId) {
 

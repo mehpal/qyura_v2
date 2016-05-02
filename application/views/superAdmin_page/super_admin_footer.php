@@ -17,6 +17,7 @@
 <script src="<?php echo base_url(); ?>assets/js/datatables/dataTables.bootstrap.js"></script>
 <script src="<?php echo base_url(); ?>assets/bootbox/bootbox.min.js"></script>
 <!--     <script type= 'text/javascript' src="<?php echo base_url(); ?>assets/js/jquery.dataTables.min.js"></script>-->
+<script src="<?php echo base_url();?>assets/jquery.validate.min.js" type="text/javascript"></script> 
 <?php
 $message = "";
 $msg = $this->session->flashdata('message') || $this->session->flashdata('valid_upload') || $this->session->flashdata('error');
@@ -35,6 +36,7 @@ if ($msg != "" || $msg != NULL) {
     <script type="text/javascript">
         $(document).ready(function () {
             bootbox.alert("<?php echo $message; ?>");
+            
         });
     </script>
     <?php }
@@ -47,6 +49,9 @@ if ($msg != "" || $msg != NULL) {
             return false;
         }
     });
+        jQuery.validator.addMethod("lettersonly", function(value, element) {
+      return this.optional(element) || /^[a-zA-Z ]*$/.test(value);
+    }, "Please enter letters only"); 
 </script>       
 <script>
     
