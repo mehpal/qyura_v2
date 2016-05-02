@@ -222,11 +222,11 @@ class Hospital extends MY_Controller {
            
          </div>
            <div class="col-md-2 col-sm-2 col-xs-2">
-            <a onclick="editAwards(' . $val->hospitalAwards_id . ')"><i class="fa fa-pencil-square-o fa-2x m-t-5 label-plus" title="Edit Awards"></i></a>
+            <a class="pointer" onclick="editAwards(' . $val->hospitalAwards_id . ')"><i class="fa fa-pencil-square-o fa-2x m-t-5 label-plus" title="Edit Awards"></i></a>
            </div>
 
           <div class="col-md-2 col-sm-2 col-xs-2">
-          <a onclick="deleteAwards(' . $val->hospitalAwards_id . ')"><i class="fa fa-times fa-2x m-t-5 label-plus" title="Delete Awards"></i></a>
+          <a class="pointer" onclick="deleteAwards(' . $val->hospitalAwards_id . ')"><i class="fa fa-times fa-2x m-t-5 label-plus" title="Delete Awards"></i></a>
           </div>
          </div>';
             }
@@ -248,11 +248,11 @@ class Hospital extends MY_Controller {
            <input type="text" class="form-control" name="hospitalServices_serviceName" id=' . $val->hospitalServices_id . ' value="' . $val->hospitalServices_serviceName . '" placeholder="Service Name" />
          </div>
            <div class="col-md-2 col-sm-2 col-xs-2">
-            <a onclick="editServices(' . $val->hospitalServices_id . ')"><i class="fa fa-pencil-square-o fa-2x m-t-5 label-plus" title="Edit Services"></i></a>
+            <a class="pointer" onclick="editServices(' . $val->hospitalServices_id . ')"><i class="fa fa-pencil-square-o fa-2x m-t-5 label-plus" title="Edit Services"></i></a>
            </div>
 
           <div class="col-md-2 col-sm-2 col-xs-2">
-          <a onclick="deleteServices(' . $val->hospitalServices_id . ')"><i class="fa fa-times fa-2x m-t-5 label-plus" title="Delete Services"></i></a>
+          <a class="pointer" onclick="deleteServices(' . $val->hospitalServices_id . ')"><i class="fa fa-times fa-2x m-t-5 label-plus" title="Delete Services"></i></a>
           </div>
          </div>';
             }

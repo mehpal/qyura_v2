@@ -775,7 +775,7 @@
                                                                                     <label style="display: none;"class="error" id="error-years-valid">Award year should be greater then 1920 or less then <?php echo date('Y'); ?></label>
                                                                                 </div>
                                                                                 <div class="col-md-2 col-sm-2 col-xs-2">
-                                                                                    <a onclick="addAwards()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus" title="Add Awards"></i></a>
+                                                                                    <a class="pointer" onclick="addAwards()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus" title="Add Awards"></i></a>
                                                                                    
                                                                                 </div>
                                                                                 
@@ -821,7 +821,7 @@
                                                                                     <input type="text" class="form-control" name="hospitalServices_serviceName" id="hospitalServices_serviceName" placeholder="" />
                                                                                 </div>
                                                                                 <div class="col-md-2 col-sm-2 col-xs-2">
-                                                                                    <a onclick="addServices()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus" title="Add Services"></i></a>
+                                                                                    <a class="pointer" onclick="addServices()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus" title="Add Services"></i></a>
                                                                                 </div>
                                                                                 
                                                                                 

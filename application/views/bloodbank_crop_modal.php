@@ -8,10 +8,10 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <!-- Upload image and data -->
                     <div class="avatar-upload">
-                        <input type="hidden" class="avatar-src" name="avatar_src">
-                        <input type="hidden" class="avatar-data" name="avatar_data">
-                        <label for="avatarInput">File upload</label>
-                        <input type="file" class="avatar-input" id="avatarInput" name="avatar_file">
+                        <input type="hidden" class="avatar-src" name="avatar_src_bloodbank">
+                        <input type="hidden" class="avatar-data" name="avatar_data_bloodbank">
+                        <label for="avatarInput">Bloodbank File upload</label>
+                        <input type="file" class="avatar-input" id="avatarInput" name="avatar_file_bloodbank">
                     </div>
                 
                     <!-- Crop and preview -->
@@ -20,9 +20,9 @@
                             <div class="avatar-wrapper"></div>
                         </div>
                         <div class="col-md-3">
-                            <div class="avatar-preview preview-lg"></div>
-                            <div class="avatar-preview preview-md"></div>
-                            <div class="avatar-preview preview-sm"></div>
+                            <div class="avatar-preview-bloodbank preview-lg"></div>
+                            <div class="avatar-preview-bloodbank preview-md"></div>
+                            <div class="avatar-preview-bloodbank preview-sm"></div>
                         </div>
                     </div>
 
