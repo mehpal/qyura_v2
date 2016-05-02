@@ -117,14 +117,7 @@ class Hospital extends MY_Controller {
         $data['active'] = $active;
         $data['insurance'] = $this->Hospital_model->fetchInsurance($hospitalId);
         
-//        $option = array(
-//            'table' => 'qyura_hospitalTimeSlot',
-//            'where' => array(
-//                'hospitalTimeSlot_hospitalId' => $hospitalId,
-//                'hospitalTimeSlot_deleted' => 0
-//            )
-//        );
-//        $data['AlltimeSlot'] = $this->Hospital_model->customGet($option);
+
 
         $data['gallerys'] = $this->Hospital_model->customGet(array('table' => 'qyura_hospitalImages', 'where' => array('hospitalImages_hospitalId' => $hospitalId, 'hospitalImages_deleted' => 0)));
         if (!empty($data['insurance'])) {
@@ -156,6 +149,8 @@ class Hospital extends MY_Controller {
         $data['degree'] = $this->Doctor_model->fetchDegree();
         //$data['academic'] = $this->Doctor_model->fetchAcademic();
         $data['hospital'] = $this->Doctor_model->fetchHospital();
+        
+        $data['awardAgency'] = $this->Hospital_model->fetchAwardAgency();
 
         // $this->load->super_admin_template('hospitalDetail', $data, 'bloodBankScript');
         //$this->load->view('hospitalDetail',$data);
@@ -168,7 +163,7 @@ class Hospital extends MY_Controller {
         $showAwards = '';
         if ($dataAwards) {
             foreach ($dataAwards as $key => $val) {
-                $showAwards .='<li>' . $val->hospitalAwards_awardsName . ' ' . $val->hospitalAwards_awardYear .' ' . $val->hospitalAwards_awardsAgency . '</li>';
+                $showAwards .='<li>' . $val->hospitalAwards_awardsName . ', ' . $val->hospitalAwards_awardYear .', ' . $val->hospitalAwards_awardsAgency . '</li>';
             }
         } else {
             $showAwards = 'Add Awards';
@@ -193,15 +188,35 @@ class Hospital extends MY_Controller {
 
     function detailAwards($hospitalId) {
         $dataAwards = $this->Hospital_model->fetchAwards($hospitalId);
+        $awardAgency = $this->Hospital_model->fetchAwardAgency();
         if ($dataAwards) {
             $showTotalAwards = '';
             foreach ($dataAwards as $key => $val) {
+                
+             $agencyOption  = '';
+             foreach ($awardAgency as $key => $value) {
+               //  echo $value->awardAgency_id.'-'.$val->awardAgency_id.'</br>';
+                 if($value->awardAgency_id ==  $val->awardAgency_id){
+                    $agencyOption .= '<option selected="selected" value= '.$value->awardAgency_id.' >  '.$value->agency_name.' </option>';
+                 }else{
+                     $agencyOption .= '<option value= '.$value->awardAgency_id.' >  '.$value->agency_name.' </option>';
+                 }
+            }
+               // echo $agencyOption;
                 $showTotalAwards .= '<div class="row m-t-10">
         <div class="col-md-8 col-sm-8 col-xs-8">
            <input type="text" class="form-control" name="hospitalAwards_awardsName" id=' . $val->hospitalAwards_id . ' value="' . $val->hospitalAwards_awardsName . '" placeholder="" />
                <label style="display: none;"class="error" id="error-awards' . $val->hospitalAwards_id . '"> Please enter award name </label>  
-            <input type="text" class="form-control m-t-10   " name="hospitalAwards_awardsAgency" id=agency' . $val->hospitalAwards_id . ' value="' . $val->hospitalAwards_awardsAgency . '" placeholder="" />
-               <label style="display: none;"class="error" id="error-agency' . $val->hospitalAwards_id . '"> Please enter agency name </label> 
+                   
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <select class="selectpicker" data-width="100%" id=agency' . $val->hospitalAwards_id . ' name="hospitalAwards_agencyName">
+                      '.$agencyOption.'
+                    </select>
+                 <label style="display: none;"class="error" id="error-agency' . $val->hospitalAwards_id . '"> Please enter agency name </label>
+
+              </div>
+
             <input type="text" class="form-control m-t-10" name="hospital_awardsyear" id=year' . $val->hospitalAwards_id . ' value="' . $val->hospitalAwards_awardYear . '" placeholder="" />
                  <label style="display: none;"class="error" id="error-years' . $val->hospitalAwards_id . '"> Please enter year only number formate minium and maximum length 4 </label>
            
@@ -2330,15 +2345,15 @@ class Hospital extends MY_Controller {
 
             $result = $this->updateMultipleIds($specialitiesIds,$res,$doctor_hidden_id,'qyura_doctorSpecialities');
 
-            //dump($result);
-
-            //exit();
-            
-
             $doctorAcademic_degreeId = $this->input->post('doctorAcademic_degreeId');
             $doctorSpecialities_specialitiesCatId = $this->input->post('doctorSpecialities_specialitiesCatId');
             $acdemic_addaddress = $this->input->post('acdemic_addaddress');
             $acdemic_addyear = $this->input->post('acdemic_addyear');
+            
+             if(!empty($doctorAcademic_degreeId) && $doctor_hidden_id != ''){
+                $this->db->delete('qyura_doctorAcademic', array('doctorAcademic_doctorsId' => $doctor_hidden_id)); 
+            }
+            
             for ($i = 0; $i < count($doctorAcademic_degreeId); $i++) {
                 /* here one more table insertion needed for academic image load on qyura_doctorAcademicImage table,
                  *  but write now it is not here
@@ -2347,16 +2362,15 @@ class Hospital extends MY_Controller {
                     $doctorAcademicData = array(
                         'doctorAcademic_degreeId' => $doctorAcademic_degreeId[$i],
                         'doctorAcademic_specialitiesId' => $doctorSpecialities_specialitiesCatId[$i],
-                        'doctorAcademic_doctorsId' => $doctor_hidden_id,
                         'doctorAcademic_degreeInsAddress' => $acdemic_addaddress[$i],
                         'doctorAcademic_degreeYear' => $acdemic_addyear[$i],
+                        'doctorAcademic_doctorsId' => $doctor_hidden_id,
                         'creationTime' => strtotime(date('Y-m-d'))
                     );
-                    $whereDocAca = array(
-                    'doctorAcademic_id' => $doctorAcademic_hidden_id
-                );
 
-                    $this->Doctor_model->updateDoctorData($doctorAcademicData,$whereDocAca, 'qyura_doctorAcademic');
+                    $this->Doctor_model->insertDoctorData($doctorAcademicData, 'qyura_doctorAcademic');
+                    //dump($this->db->last_query());
+                    unset($doctorAcademicData);
                 }
             }
          

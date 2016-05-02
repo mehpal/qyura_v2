@@ -112,6 +112,7 @@ class Doctor_model extends My_model {
         $insert_id = $this->db->insert_id();
         return $insert_id;
     }
+    
     function updateDoctorData($updateData=array(),$where = array(), $tableName = NULL) {
         foreach ($where as $key => $val) {
             $this->db->where($key, $val);
@@ -244,6 +245,7 @@ class Doctor_model extends My_model {
         $imgUrl = base_url() . 'assets/doctorsImages/thumb/thumb_100/$1';
         $this->datatables->select('doc.doctors_id,doc.doctors_pin,doc.doctors_userId,doc.doctors_fname,doc.doctors_lname,doc.doctors_phn,doc.doctor_addr,City.city_name,doc.doctors_img,usr.users_email,doc.doctors_lat,doc.doctors_long,usr.users_id,
         doc.doctors_countryId,doc.doctors_stateId,doc.doctors_cityId,DATE_FORMAT(FROM_UNIXTIME(doc.creationTime),"%d-%m-%Y")As joinDate,doc.doctors_mobile,doc.doctors_unqId,doc.doctors_expYear');
+
         $this->datatables->from('qyura_doctors AS doc');
         $this->db->join('qyura_city AS City', 'City.city_id = doc.doctors_cityId', 'left');
         $this->db->join('qyura_users AS usr', 'usr.users_id = doc.doctors_userId', 'left');
@@ -253,7 +255,6 @@ class Doctor_model extends My_model {
 
         $this->db->group_by("doc.doctors_id");
         $this->db->order_by("doc.creationTime");
-
 
         $search = $this->input->post('name');
         if ($search) {
@@ -271,10 +272,9 @@ class Doctor_model extends My_model {
         $this->db->where(array('doc.doctors_deleted' => 0));
         $this->datatables->add_column('exp', '$1 Years', 'expYear(doctors_expYear)');
         $this->datatables->add_column('name', '$1</br>$2', 'doctors_fname,doctors_unqId');
+        $this->datatables->add_column('specialityName', '$1', 'specname');
         $this->datatables->add_column('consFee', "<i class='fa fa-inr'></i> $1", 'consFee');
-
         $this->datatables->add_column('doctors_img', '<img class="img-responsive" height="80px;" width="80px;" src=' . $imgUrl . '>', 'doctors_img');
-
         $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="doctor/doctorDetails/$1">View Detail</a>', 'doctors_id');
 
         return $this->datatables->generate();

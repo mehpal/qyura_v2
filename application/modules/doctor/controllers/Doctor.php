@@ -416,9 +416,7 @@ class Doctor extends MY_Controller {
     function doctorDetails($doctorId) {
         $data = array();
 
-
         $data['MI_reffralId'] = $MI_reffralId = (isset($_GET['reffralId']) && $_GET['reffralId'] != "") ? $_GET['reffralId'] : "";
-
         $MainSlot = array();
 
         if ($MI_reffralId != "") {
@@ -471,10 +469,6 @@ class Doctor extends MY_Controller {
         $data['qyura_city'] = $this->common_model->customGet($option);
 
         $avWhere = array('doctorAvailability_docUsersId' => $data['doctorDetail'][0]->doctors_userId);
-
-
-
-
         $data['showStatus'] = 'none';
         $data['detailShow'] = 'block';
         $option = array(
@@ -524,9 +518,11 @@ class Doctor extends MY_Controller {
         $data['qyura_services'] = $this->common_model->customGet($option);
 
 
+
         //$where = array("doctorAvailability_docUsersId" => 46);
         //$data['exprerience'] = $this->Doctor_model->fetchExprience($doctorId);
         $data['doctorAcademic'] = $this->Doctor_model->fetchAcademic($doctorId);
+
 
         $data['hospitals'] = $this->Doctor_model->fetchHosByStatus(null);
         $data['diagnostics'] = $this->Doctor_model->fetchDigByStatus(null);
@@ -554,9 +550,11 @@ class Doctor extends MY_Controller {
     }
 
     function getDiagnosticdetail() {
+
         $Id = $this->input->post('Id');
         if ($Id != '') {
             $response = $this->Doctor_model->getDiagnosticdetail($Id);
+
         }
     }
 

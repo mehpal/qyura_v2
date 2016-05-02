@@ -519,5 +519,23 @@ class My_model extends CI_Model {
         $this->db->group_by("city_id");
         return $this->db->get()->result();
     }
+    
+     function fetchEmail($email,$role = NULL,$usersId = NULL){
+       $this->db->select('users_email,users_id');
+        $this->db->from('qyura_users');
+        $this->db->join('qyura_usersRoles','qyura_usersRoles.usersRoles_userId = qyura_users.users_id','left');
+        if($usersId) {
+            $this->db->where('qyura_users.users_id !=',$usersId);
+        }
+        $this->db->where('qyura_usersRoles.usersRoles_roleId',$role);
+         $this->db->where('qyura_users.users_email',$email); 
+        $result = $this->db->get();
+       //return $this->db->last_query();
+       
+        if($result->num_rows() > 0)
+            return 1;
+        else             
+            return 0; 
+    }
 
 }
