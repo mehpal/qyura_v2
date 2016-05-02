@@ -20,12 +20,12 @@
     });
 
     function calculateamount() {
+    
         //var type = $('#input5').val();
         var amount = 0;
         var amount = parseInt($('#membership_price').val());
-
+        
         var tax = parseInt($('#membership_tax').val());
-
         var tax_amount = (amount / 100) * tax;
         var total_amount = amount + tax_amount;
 
@@ -33,7 +33,12 @@
             $("#paidAmount").html(total_amount);
             $("#membership_totalPrice").val(total_amount);
         } else {
-            $("#paidAmount").html('00');
+            if(amount){
+                $("#paidAmount").html(amount);
+                $("#membership_totalPrice").val(amount);
+            }else{
+                $("#paidAmount").html('00');
+            }
         }
     }
 </script>

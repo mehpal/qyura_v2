@@ -38,7 +38,6 @@
                                                             <aside class="row">
                                                                 <div class="col-md-8 col-sm-8">
                                                                     <select class="selectpicker" data-width="100%" name="membership_type[]" id="membership_type" multiple="" required="">
-                                                                        <option value="">Select Type</option>
                                                                         <option <?php if($selectFor == 1){ echo "selected"; } ?> value="1">Hospital</option>
                                                                         <option <?php if($selectFor == 3){ echo "selected"; } ?> value="3">Diagnostics</option>
                                                                     </select>
@@ -50,7 +49,7 @@
                                                     <article class="clearfix ">
                                                         <label for="cemail" class="control-label col-md-4 col-sm-4 m-t-10">Membership Title :</label>
                                                         <div class="col-md-8 col-sm-8 m-t-10">
-                                                            <input class="form-control" id="membership_name" name="membership_name" type="text" required=""> 
+                                                            <input class="form-control" id="membership_name" name="membership_name" type="text" > 
                                                             <label class="error" id="err_membership_name" > <?php echo form_error("membership_name"); ?></label>
                                                         </div>
                                                     </article>
@@ -62,22 +61,22 @@
                                                     </article>
                                                     <article class="clearfix m-t-10">
                                                         <?php $checkBocCount = 1; 
-                                                        if(isset($facilities_list) && $facilities_list != NULL){ 
-                                                        foreach($facilities_list as $facilities){ ?>
-                                                        <label class="control-label col-md-3 col-xs-9" for="cname"><?php echo $facilities->facilities_name; ?></label>
+                                                        if(isset($facilities_list) && $facilities_list != NULL){ ?>
+                                                        <input type="hidden" value="<?php echo count($facilities_list); ?>" id="faci_count" name="faci_count">    
+                                                        <?php foreach($facilities_list as $facilities){ ?>
+                                                        <label class="control-label col-md-4 col-xs-9" for="cname"><?php echo $facilities->facilities_name; ?></label>
                                                         <div class="col-md-8 col-sm-8">
                                                             <aside class="row">
-                                                                <div class="col-md-1 col-sm-1 checkbox checkbox-success">
-                                                                    <input type="checkbox" value="<?php echo $facilities->facilities_id; ?>" id="checkbox_<?php echo $checkBocCount; ?>" name="checkbox_<?php echo $checkBocCount; ?>">
-                                                                <label></label>
-                                                                </div>
+                                                                
+                                                                <input type="hidden" value="<?php echo $facilities->facilities_id; ?>" id="checkbox_<?php echo $checkBocCount; ?>" name="checkbox_<?php echo $checkBocCount; ?>">
+                                                                
                                                                 <div class="col-md-6 col-sm-6">
                                                                     <input type="number" id="membership_quantity_<?php echo $checkBocCount; ?>" name="membership_quantity_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" />
                                                                     <label class="error" id="err_membership_quantity_<?php echo $checkBocCount; ?>" > <?php echo form_error("membership_quantity"); ?></label>
                                                                 </div>
-                                                                <?php if($facilities->facilities_id == 3 || $facilities->facilities_id == 5){ ?>
-                                                                <div class="col-md-5 col-sm-5 m-t-xs-10">
-                                                                    <input type="number" id="membership_duration_<?php echo $checkBocCount; ?>" name="membership_duration_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" />
+                                                                <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){ ?>
+                                                                <div class="col-md-6 col-sm-6 m-t-xs-10">
+                                                                    <input type="number" id="membership_duration_<?php echo $checkBocCount; ?>" name="membership_duration_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){  } ?>/>
                                                                     <label class="error" id="err_membership_duration_<?php echo $checkBocCount; ?>" > <?php echo form_error("membership_duration"); ?></label>
                                                                 </div>
                                                                 <?php } ?>
@@ -90,7 +89,7 @@
                                                         <div class="col-md-8 col-sm-8">
                                                             <aside class="row">
                                                                 <div class="col-md-12 col-sm-12 m-t-xs-10">
-                                                                    <input type="text" id="membership_price" name="membership_price" class="form-control" placeholder="2000" />
+                                                                    <input type="text" id="membership_price" name="membership_price" class="form-control" onblur="calculateamount()" />
                                                                     <label class="error" id="err_membership_price" > <?php echo form_error("membership_price"); ?></label>
                                                                 </div>
                                                             </aside>
