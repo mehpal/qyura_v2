@@ -1949,7 +1949,7 @@ if (isset($mapData) && !empty($mapData)) {
                     var obj = $.parseJSON(data);
 
                     if (obj.status == 1) {
-                        $("#geocomplete1").val(obj.hospital_address);
+                        $("#geocomplete1").val(obj.address);
                         $("#hospital_countryId").html(obj.country);
                         $("#hospital_stateId").html(obj.state);
                         $("#hospital_cityId").html(obj.city);

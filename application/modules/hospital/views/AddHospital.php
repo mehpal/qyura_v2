@@ -676,7 +676,7 @@
                 </section>
                 <section class="clearfix ">
                     <div class="col-md-12 m-t-20 m-b-20">
-                        <button class="btn btn-danger waves-effect pull-right" type="button">Reset</button>
+                        <button class="btn btn-danger waves-effect pull-right" type="reset">Reset</button>
                         <div>
                             <input class="btn btn-success waves-effect waves-light pull-right m-r-20" onclick="return validationHospital()" type="submit" value="Submit"  />
                         </div>

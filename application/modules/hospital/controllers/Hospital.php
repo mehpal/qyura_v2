@@ -203,8 +203,8 @@ class Hospital extends MY_Controller {
                  }
             }
                // echo $agencyOption;
-                $showTotalAwards .= '<div class="row m-t-10">
-        <div class="col-md-8 col-sm-8 col-xs-8">
+                $showTotalAwards .= '<div class="clearfix m-t-20">
+        <div class="clearfix">
            <input type="text" class="form-control" name="hospitalAwards_awardsName" id=' . $val->hospitalAwards_id . ' value="' . $val->hospitalAwards_awardsName . '" placeholder="" />
                <label style="display: none;"class="error" id="error-awards' . $val->hospitalAwards_id . '"> Please enter award name </label>  
                    
@@ -217,18 +217,19 @@ class Hospital extends MY_Controller {
 
               </div>
             <aside class="clearfix m-t-10">
-            <input type="text" class="form-control m-t-10" name="hospital_awardsyear" id=year' . $val->hospitalAwards_id . ' value="' . $val->hospitalAwards_awardYear . '" placeholder="" />
+            <input type="text" class="form-control" name="hospital_awardsyear" id=year' . $val->hospitalAwards_id . ' value="' . $val->hospitalAwards_awardYear . '" placeholder="" />
                  <label style="display: none;"class="error" id="error-years' . $val->hospitalAwards_id . '"> Please enter year only number formate minium and maximum length 4 </label>
                      </aside>
            
          </div>
-           <div class="col-md-2 col-sm-2 col-xs-2">
-            <a class="pointer" onclick="editAwards(' . $val->hospitalAwards_id . ')"><i class="fa fa-pencil-square-o fa-2x m-t-5 label-plus" title="Edit Awards"></i></a>
-           </div>
+          
 
-          <div class="col-md-2 col-sm-2 col-xs-2">
+          <div class="col-md-1 col-sm-2 col-xs-2 pull-right">
           <a class="pointer" onclick="deleteAwards(' . $val->hospitalAwards_id . ')"><i class="fa fa-times fa-2x m-t-5 label-plus" title="Delete Awards"></i></a>
           </div>
+           <div class="col-md-1 col-sm-2 col-xs-2 pull-right">
+            <a class="pointer" onclick="editAwards(' . $val->hospitalAwards_id . ')"><i class="fa fa-pencil-square-o fa-2x m-t-5 label-plus" title="Edit Awards"></i></a>
+           </div>
          </div>';
             }
         } else {
