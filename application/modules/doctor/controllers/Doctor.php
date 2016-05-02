@@ -1219,7 +1219,7 @@ class Doctor extends MY_Controller {
         }
 
 
-        if ((isset($_POST['docTimeTable_MIprofileId_d']) && $_POST['docTimeTable_MIprofileId_d'] == 0 && $_POST['docTimeTable_MIprofileId_d'] != '') || (isset($_POST['docTimeTable_MIprofileId_h']) && $_POST['docTimeTable_MIprofileId_h'] == 0 && $_POST['docTimeTable_MIprofileId_h'] != '')) {
+        if ((isset($_POST['docTimeTable_MIprofileId_d']) && $_POST['docTimeTable_MIprofileId_d'] == 0 && $_POST['docTimeTable_MIprofileId_d'] != '' && $_POST['docTimeTable_stayAt'] == 1 ) || (isset($_POST['docTimeTable_MIprofileId_h']) && $_POST['docTimeTable_MIprofileId_h'] == 0 && $_POST['docTimeTable_MIprofileId_h'] != '' && $_POST['docTimeTable_stayAt'] == 1)) {
 
             $this->bf_form_validation->set_rules('Miname', 'MI Name', 'required|trim');
             $this->bf_form_validation->set_rules('stateId', 'State Name', 'required|trim');
