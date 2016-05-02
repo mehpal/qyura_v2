@@ -340,7 +340,7 @@
                                             </div>
                                         </article>
                                         <article class="form-group m-lr-0">
-                                            <label for="cname" class="control-label col-md-4 col-sm-4">Confirm Password :</label>
+                                            <label for="cname" class="control-label col-md-4 col-sm-4">Confirm Password</label>
                                             <div class="col-md-8 col-sm-8">
                                                 <input type="password" class="form-control" id="cnfPassword" name="cnfPassword" placeholder=" " />
                                                 <label class="error" style="display:none;" id="error-cnfPassword_check">Passwords do not match!</label>

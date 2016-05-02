@@ -65,7 +65,7 @@ class Bloodbank extends MY_Controller {
      * @param bloodBankId
      * @return array
      */
-    function detailBloodBank($bloodBankId = '',$active='general') {
+    function detailBloodBank($bloodBankId = '', $active = 'general') {
         $data = array();
         $data['bloodBankData'] = $bloodBankData = $this->Bloodbank_model->fetchbloodBankData($bloodBankId);
         $data['bloodBankId'] = $bloodBankId;
@@ -81,15 +81,15 @@ class Bloodbank extends MY_Controller {
         $conditions['Bllcat.bloodBank_id'] = $Blooddata[0]->users_id;
         $conditions['Blood.bloodCat_deleted'] = 0;
         $select = array('Bllcat.bloodCatBank_id', 'Bllcat.bloodCatBank_Unit', 'Blood.bloodCat_name');
-        $data['bloodBankCatData'] = $this->Bloodbank_model->fetchbloodBankCategoryData($conditions);  
-        $mi_userId="";
-        if(!empty($bloodBankData)):
-         $mi_userId = $bloodBankData[0]->users_id;
+        $data['bloodBankCatData'] = $this->Bloodbank_model->fetchbloodBankCategoryData($conditions);
+        $mi_userId = "";
+        if (!empty($bloodBankData)):
+            $mi_userId = $bloodBankData[0]->users_id;
         endif;
         $option = array(
             'select' => '*',
-            'table'=> 'qyura_miTimeSlot',
-            'where'=> array('mi_user_id' => $mi_userId),
+            'table' => 'qyura_miTimeSlot',
+            'where' => array('mi_user_id' => $mi_userId),
         );
         $data['timeSlot'] = $this->common_model->customGet($option);
         $data['showStatus'] = 'none';
@@ -279,40 +279,6 @@ class Bloodbank extends MY_Controller {
             $this->session->set_flashdata('message', 'Data inserted successfully !');
             redirect('bloodbank');
         }
-    }
-
-    /**
-     * @project Qyura
-     * @method check_email
-     * @description check email if exists or not
-     * @access public
-     * @param users_email
-     * @return boolean
-     */
-    function check_email() {
-        $user_table_id = '';
-        $users_email = $this->input->post('users_email');
-
-        if (isset($_POST['user_table_id'])) {
-            $user_table_id = $this->input->post('user_table_id');
-        }
-        $email = $this->Bloodbank_model->fetchEmail($users_email, $user_table_id);
-        if ($email == 1)
-            echo $email;
-        else {
-            $select = array('users_id');
-            $where = array('users_email' => $users_email,
-                'users_deleted' => 0);
-            $return = $this->Bloodbank_model->fetchTableData($select, 'qyura_users', $where);
-            $data = 0;
-            if (!empty($return)) {
-                $data = $return[0]->users_id;
-                echo $data;
-            } else {
-                echo $data;
-            }
-        }
-        exit;
     }
 
     /**
@@ -645,6 +611,41 @@ class Bloodbank extends MY_Controller {
             }
         }
     }
-    
+
+    /**
+     * @project Qyura
+     * @method check_email
+     * @description check email if exists or not
+     * @access public
+     * @param users_email
+     * @return boolean
+     */
+    function check_email() {
+        $user_table_id = '';
+        $users_email = $this->input->post('users_email');
+
+        if (isset($_POST['user_table_id'])) {
+            $user_table_id = $this->input->post('user_table_id');
+        }
+        $email = $this->Bloodbank_model->fetchEmail($users_email, $user_table_id);
+        if ($email == 1)
+            echo $email;
+        else {
+            $select = array('users_id');
+            $where = array('users_email' => $users_email,
+                'users_deleted' => 0);
+            $return = $this->Bloodbank_model->fetchTableData($select, 'qyura_users', $where);
+            $data = 0;
+            if (!empty($return)) {
+                $data = $return[0]->users_id;
+                echo $data;
+            } else {
+                echo $data;
+            }
+        }
+        exit;
+    }
+
+  
 
 }

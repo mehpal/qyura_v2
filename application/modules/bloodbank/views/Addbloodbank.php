@@ -47,7 +47,7 @@
                                         
                                     </div>
                                     </div>
-
+                                    <div id="avatar_file_validate"></div>
                                     <label class="error" > <?php echo form_error("avatar_file"); ?></label>
                                     <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
                                     
@@ -113,19 +113,6 @@
                             
    <input type="hidden" <?php echo set_radio('isManual', 1, TRUE); ?>  name="isManual" value="1" id="isManual">
 
-<!--                            <article class="clearfix checkManual">
-                                <label class="control-label col-md-4" for="cname">Manual:</label>
-                                <div class="col-md-8">
-                                    <aside class="radio radio-info radio-inline">
-                                        <input type="radio" <?php //echo set_radio('isManual', 1, TRUE); ?>  name="isManual" value="1" id="isManual" onclick="IsAdrManual(this.value)">
-                                        <label for="inlineRadio1"> Yes</label>
-                                    </aside>
-                                    <aside class="radio radio-info radio-inline">
-                                        <input type="radio" <?php //echo set_radio('myradio', 0); ?> name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.value)">
-                                        <label for="inlineRadio2"> No</label>
-                                    </aside>
-                                </div>
-                            </article>-->
 
                             <article class="clearfix m-t-10">
                                 <div class="col-sm-8 col-sm-offset-4">
@@ -234,7 +221,7 @@
                             <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4 col-sm-4">Email Id:</label>
                                 <div class="col-md-8 col-sm-8">
-                                    <input type="email" class="form-control" id="users_email" name="users_email" onblur="return checkEmailFormat()"   value="<?php echo set_value('users_email'); ?>"/>
+                                    <input type="email" class="form-control" id="users_email" name="users_email"   value="<?php echo set_value('users_email'); ?>"/>
                                     <label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>
                                     <label class="error" style="display:none;" id="error-users_email_check"> Email Already Exists!</label>
                                     <label class="error" > <?php echo form_error("users_email"); ?></label>
@@ -283,7 +270,7 @@
                         <label class="error" style="display:none;" id="error-userexist">Blood bank already exist!</label>
                         <button class="btn btn-danger waves-effect pull-right" type="reset" id="resetBtn" onclick="location.reload();">Reset</button>
                         <div>
-                            <input class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" value="Submit" onclick="return validationBloodbank()" />
+                            <input class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" value="Submit" />
                         </div>
                     </div>
 
