@@ -23,7 +23,7 @@ class Medicart_model extends Common_model
     }
 
 
-   public function getMedlists($option)
+    public function getMedlists($option)
     {
         $lat            =   '';
         $long           =   '';
@@ -33,14 +33,14 @@ class Medicart_model extends Common_model
         
         extract($option);
  
-        $nowDt          =   time();
+        $nowDt  =   time();
  
         if(isset($city) && $city != ""){
-            
-     
+                 
             $con['qyura_medicartOffer.medicartOffer_cityId']= $city;
             $con[ 'qyura_medicartOffer.medicartOffer_endDate >']=$nowDt;
-            $con[ 'qyura_medicartOffer.status']=1;
+            $con[ 'qyura_medicartOffer.status']= 1;
+            $con[ 'qyura_medicartSpecialities.medicartSpecialities_specialitiesId'] = $speciality;
             $con[ 'qyura_medicartOffer.medicartOffer_range'] = 0;
 //            dump($city) ;die();
             $this->db->select('qyura_medicartOffer.medicartOffer_id,'
@@ -57,6 +57,7 @@ class Medicart_model extends Common_model
             ->from('qyura_medicartOffer')
             ->join('qyura_offerCat','qyura_offerCat.offerCat_id=qyura_medicartOffer.medicartOffer_offerCategory','left')
             ->join('qyura_users','qyura_users.users_id=qyura_medicartOffer.medicartOffer_MIId','left')
+            ->join('qyura_medicartSpecialities','qyura_medicartSpecialities.medicartSpecialities_medicartId=qyura_medicartOffer.medicartOffer_id',"inner")
             ->join('qyura_hospital','qyura_hospital.hospital_usersId=qyura_users.users_id','left')   
             ->join('qyura_diagnostic','qyura_diagnostic.diagnostic_usersId=qyura_users.users_id','left') 
             ->where($con)
@@ -94,7 +95,7 @@ class Medicart_model extends Common_model
             ->where($con)
             ->or_where(array('qyura_diagnostic.diagnostic_deleted'=>0,'qyura_hospital.hospital_deleted'=>0))
 //            ->where_not_in('qyura_medicartOffer.medicartOffer_id', $notIn)
-            ->or_having(array('hosDistance <' => 10,'diagDistance <'=> 10))
+//            ->or_having(array('hosDistance <' => 10,'diagDistance <'=> 10))
             ->group_by('qyura_medicartOffer.medicartOffer_id')
             ->limit(20);
       return $this->db->get()->result();
