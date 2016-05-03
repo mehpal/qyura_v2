@@ -32,7 +32,8 @@ if ($current != 'detailHospital'):
     ?>
     <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
 <?php else: ?>
-
+    <script src="<?php echo base_url(); ?>assets/cropper/main2.js"></script>
+    
     <script src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
 
     <script src="<?php  echo base_url(); ?>assets/cropper/doctor_cropper.js"></script>
