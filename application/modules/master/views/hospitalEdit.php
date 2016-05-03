@@ -20,7 +20,7 @@
                             <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4 col-sm-4">Address:</label>
                                 <div class="col-md-8 col-sm-8">
-                                    <select class="form-control selectpicker" data-width="100%" name="hospital_countryId" id="hospital_countryId" onchange ="fetchState(this.value)">
+                                    <select class="form-control select2" data-width="100%" name="hospital_countryId" id="hospital_countryId" onchange ="fetchState(this.value)">
                                         <option value="">Select Country</option>
                                         <?php if (isset($country_list) && !empty($country_list)) {
                                             foreach ($country_list as $key => $val) { ?>
@@ -32,7 +32,7 @@
                             </article>
                             <article class="clearfix">
                                 <div class="col-md-8  col-sm-8 col-sm-offset-4">
-                                    <select class="selectpicker form-control" data-width="100%" name="hospital_stateId" id="stateId" data-size="4" onchange ="fetchCity(this.value)">
+                                    <select class="form-control select2" data-width="100%" name="hospital_stateId" id="stateId" data-size="4" onchange ="fetchCity(this.value)">
                                         <option value="">Select State</option>
                                         <?php if (isset($state_list) && !empty($state_list)) {
                                             foreach ($state_list as $key => $val) { ?>
@@ -44,7 +44,7 @@
                             </article>
                             <article class="clearfix">
                                 <div class="col-md-8  col-sm-8 col-sm-offset-4">
-                                    <select class="form-control selectpicker" data-width="100%" name="hospital_cityId" id="cityId" data-size="4">
+                                    <select class="form-control select2" data-width="100%" name="hospital_cityId" id="cityId" data-size="4">
                                         <option value="">Select City</option>
                                         <?php if (isset($city_list) && !empty($city_list)) {
                                             foreach ($city_list as $key => $val) { ?>
@@ -70,18 +70,18 @@
                                 <div class="col-md-8  col-sm-8 col-sm-offset-4">
                                     <aside class="row">
                                         <div class="col-sm-12">
-                                            <input name="lat" onkeypress="return isNumberKey(event,'err_lat')" class="form-control" type="text" value="<?php if($hospital_value->hospital_lat){ echo $hospital_value->hospital_lat; }else{ echo set_value("lat"); } ?>"  id="lat" placeholder="Latitude" min="9" max="9"/>
+                                            <input name="lat" onkeypress="return isNumberKey(event,'err_lat')" class="form-control" type="text" value="<?php if($hospital_value->hospital_lat){ echo $hospital_value->hospital_lat; }else{ echo set_value("lat"); } ?>"  id="lat" placeholder="Latitude"/>
                                             <label class="error" id="err_lat" > <?php echo form_error("lat"); ?></label>
                                         </div>
                                         <div class="col-sm-12">
-                                            <input name="lng" onkeypress="return isNumberKey(event,'err_lng')" type="text" value="<?php if($hospital_value->hospital_long){ echo $hospital_value->hospital_long; }else{ echo set_value("lng"); } ?>"  id="lng" class="form-control" placeholder="Longitude" min="9" max="9"/>
+                                            <input name="lng" onkeypress="return isNumberKey(event,'err_lng')" type="text" value="<?php if($hospital_value->hospital_long){ echo $hospital_value->hospital_long; }else{ echo set_value("lng"); } ?>"  id="lng" class="form-control" placeholder="Longitude"/>
                                             <label class="error" id="err_lng" > <?php echo form_error("lng"); ?></label>
                                         </div>
                                     </aside>
                                 </div>
                             </article>
                         <article class="clearfix m-t-10 m-b-20">
-                            <button class="btn btn-success waves-effect waves-light pull-right" type="submit">Submit</button>
+                            <button class="btn btn-success waves-effect waves-light pull-right" type="submit">Update</button>
                         </article>
                     <?php } ?>
                 </form>

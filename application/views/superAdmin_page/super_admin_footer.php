@@ -147,17 +147,17 @@ if ($msg != "" || $msg != NULL) {
                         $('#successTop').show();
                         $('#successTop').html(data.msg);
                         if (data.msg != '' && data.msg != "undefined") {
-                            alert(data.msg);
+                            bootbox.alert(data.msg);
                         } else {
-                            alert("Success");
+                            bootbox.alert("Success");
                         }
                         setTimeout(function () {
                             $('#successTop').hide();
                             $('#successTop').html('');
                             if (data.url) {
-                                window.location.href = '<?php echo site_url() ?>' + '/' + data.url;
+                             /*   window.location.href = '<?php echo site_url() ?>' + '/' + data.url;*/
                             } else {
-                                location.reload(true);
+                                //location.reload(true);
                             }
                         }, 1000);
                     }
@@ -255,6 +255,12 @@ if ($msg != "" || $msg != NULL) {
             }
         });
         
+    }
+     function isAlpha(e) { // Alphanumeric only
+        var k;
+        document.all ? k = e.keycode : k = e.which;
+        return((k >= 65 && k <= 90) || (k >= 97 && k <= 122) || k == 0 || k == 32 || k == 8 || k == 127 || k == 9);
+
     }
     function puStatusFn(controller, table_name, table_field_name, table_field_value, status_value)
     {
