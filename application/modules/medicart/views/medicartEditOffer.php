@@ -94,20 +94,49 @@
                                                
                                         </article>
 
-                                        <article class="form-group m-lr-0 ">
+                                        
+<!--                                        <article class="form-group m-lr-0 ">
                                             <label class="control-label col-md-4 col-sm-4" for="cemail">Image:</label>
                                             <div class="col-md-8 col-sm-8 text-right avatar-view">
                                                 <input id="uploadFile" class="showUpload" disabled="disabled" />
                                                 <div class="fileUpload btn btn-sm btn-upload">
                                                     <span><i class="fa fa-cloud-upload fa-3x "></i></span>
-<!--                                                    <input id="uploadBtn12" type="file" class="upload123" />-->
+                                                    <input id="uploadBtn12" type="file" class="upload123" />
                                                 </div>
-                                                <img src="<?php if(!empty($offerData) && !empty($offerData->medicartOffer_image)):echo base_url().$offerData->medicartOffer_image; else: echo base_url().'assets/default-images/Emerg-logo.png'; endif; ?>" alt=" " class="img-responsive image-preview-show" width="180"/>
-                                                <label class="error"><?php echo form_error('avatar_file'); ?></label>
-                                                 <label class="error"><?php echo $this->session->flashdata('valid_upload'); ?></label>
+                                                <img src="<?php //if(!empty($offerData) && !empty($offerData->medicartOffer_image)):echo base_url().$offerData->medicartOffer_image; else: echo base_url().'assets/default-images/Emerg-logo.png'; endif; ?>" alt=" " class="img-responsive image-preview-show" width="180"/>
+                                                <label class="error"><?php //echo form_error('avatar_file'); ?></label>
+                                                 <label class="error"><?php //echo $this->session->flashdata('valid_upload'); ?></label>
                                                 
                                             </div>
+                                        </article>-->
+                                                 <article class="form-group m-lr-0 " id="crop-avatar"><div id="upload_modal_form">
+                            <?php $this->load->view('upload_crop_modal');?>
+                        </div>
+                                        
+                                            
+                                                    <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Image :</label>
+                                
+                                <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
+                                    <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
+
+                                    <div class="pre col-md-4 col-sm-4 ">
+                                    <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
+                                        
+                                      <img src="<?php if(!empty($offerData) && !empty($offerData->medicartOffer_image)):echo base_url().$offerData->medicartOffer_image; else: echo base_url().'assets/default-images/Emerg-logo.png'; endif; ?>" alt=" " class="img-responsive image-preview-show" width="180"/>
+                                        
+                                    </div>
+                                    </div>
+
+                                    <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                    <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
+                                    
+                                    
+                                    
+                                </div>
+                                                       
                                         </article>
+                                        
+                                        
 
                                         <article class="form-group m-lr-0">
                                             <label for="" class="control-label col-md-4 col-sm-4">Description :</label>
@@ -275,14 +304,11 @@
                             
                             <section class="clearfix ">
                                 <div class="col-md-12 m-t-20 m-b-20">
-                                    <button type="reset" class="btn btn-danger waves-effect pull-right" id="resetBtn">Reset</button>
+                                   
                                     <button type="submit" class="btn btn-success waves-effect waves-light pull-right m-r-20">Update</button>
                                 </div>
 
                             </section>
-                         <div id="upload_modal_form">
-                            <?php $this->load->view('upload_crop_modal');?>
-                        </div>
                         </form>
 
                     </div>

@@ -16,7 +16,7 @@ if (isset($diagnosticId) && !empty($diagnosticId)) {
 <link href="<?php echo base_url(); ?>assets/cropper/cropper.min.css" rel="stylesheet">
 <link href="<?php echo base_url(); ?>assets/cropper/main.css" rel="stylesheet">
 <script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
-<script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
+<script src="<?php echo base_url(); ?>assets/cropper_new/dist/cropper.js"></script>
 
 <?php $current = $this->router->fetch_method();
 if ($current != 'detailDiagnostic'):
@@ -100,7 +100,9 @@ var urls = "<?php echo base_url() ?>";
      */
 
     $(document).ready(function () {
-
+        $('.selectepicker2').select2().change(function(){
+           $(this).valid()
+       });
         var oTableOffer = $('#medicart_offer_datatable').DataTable({
             "processing": true,
             "serverSide": true,
@@ -464,7 +466,7 @@ var urls = "<?php echo base_url() ?>";
                 $("#discountOffer").hide('slow');
             }
         }else{
-            alert("Please fill Actual Price");
+            bootbox.alert("Please fill Actual Price.");
             $("#inlineRadio4").prop('checked', true);
             $("#discountOffer").hide();
         }
@@ -514,6 +516,28 @@ var urls = "<?php echo base_url() ?>";
         });
         // }
         //}); 
+    }
+    
+    function getMemberShipDuTime(miUserId){
+           var url = '<?php echo site_url(); ?>/medicart/getMemberShipDuTime';
+           $.ajax({
+            type: 'post',
+            data: {'id': miUserId},
+            url: url,
+            async: false,
+            success: function (response) {
+                var obj = $.parseJSON(response);
+                 
+                if (obj.status == 200)
+                {
+                    alert(obj.status);
+                    
+                }else{
+                    bootbox.alert(obj.message);
+                   $('#miName > option').prop("selected",false);
+                }
+            }
+        });
     }
 
 </script>
