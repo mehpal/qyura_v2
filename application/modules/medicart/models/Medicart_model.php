@@ -64,6 +64,7 @@ class Medicart_model extends CI_Model {
         $this->db->from('qyura_hospital');
         $this->db->where('hospital_cityId',$cityId);
         $this->db->where('hospital_deleted',0);
+        $this->db->where('status',1);
         $this->db->order_by("hospital_name","asc");
         return $this->db->get()->result();
     }
@@ -74,6 +75,7 @@ class Medicart_model extends CI_Model {
         $this->db->from('qyura_diagnostic');
         $this->db->where('diagnostic_cityId',$cityId);
         $this->db->where('diagnostic_deleted',0);
+         $this->db->where('status',1);
         $this->db->order_by("diagnostic_name","asc");
         return $this->db->get()->result();
     }
