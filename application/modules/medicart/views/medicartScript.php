@@ -52,9 +52,9 @@ var urls = "<?php echo base_url() ?>";
     $('#date-1').datepicker({
         startDate: '+0d'
     });
-    $('#date-2').datepicker({
-        startDate: '+0d'
-    });
+//    $('#date-2').datepicker({
+//        startDate: '+0d'
+//    });
 
     $('.pickDate').datepicker()
             .on('changeDate', function (ev) {
@@ -63,11 +63,23 @@ var urls = "<?php echo base_url() ?>";
                 var eDate = $('#date-2').val();
                 var d1 = new Date($('#date-1').val());
                 var d2 = new Date($('#date-2').val());
+                var offerDuration = $("#offerDuration").val();
+                
+                
                 if (d1.getTime() > d2.getTime()) {
                     $("#date_error").html("<p>Start date should be less then end date.</p>");
                     $('#date-1').val("");
+                    $('#date-2').val("");
                 } else {
                     $("#date_error").html("");
+                    var days = (offerDuration * 7);
+                    var newdate = new Date(d1);
+                    newdate.setDate(newdate.getDate() + days);
+                    var dd = newdate.getDate();
+                    var mm = newdate.getMonth() + 1;
+                    var y = newdate.getFullYear();
+                    var someFormattedDate = mm + '/' + dd + '/' + y;
+                    $("#date-2").val(someFormattedDate);
                 }
             });
 
@@ -530,13 +542,28 @@ var urls = "<?php echo base_url() ?>";
                  
                 if (obj.status == 200)
                 {
-                    alert(obj.status);
+                    $("#offerDuration").val(obj.quantity);
+                    $("#date-2").val("");
+                    $("#date-1").val("");
                     
                 }else{
-                    bootbox.alert(obj.message);
-                   $('#miName > option').prop("selected",false);
+                   bootbox.alert(obj.message);
+                   $("#offerDuration").val("");
+                   $("#miName").attr("selected","");
+                   $("#date-2").val("");
+                   $("#date-1").val("");
+////                   var $example = $("#miName").select2();
+//                    $("#miName").select2({
+//                    placeholder: "Select a customer",
+//                    initSelection: function(element, callback) {                   
+//                    }
+//                });
+//                   
+////            $example.val(null);
+////                   $("#miName").select2();
                 }
             }
+              
         });
     }
 
