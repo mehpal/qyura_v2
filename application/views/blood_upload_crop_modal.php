@@ -8,8 +8,8 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <!-- Upload image and data -->
                     <div class="avatar-upload">
-                        <input type="hidden" class="avatar-src" name="avatar_src">
-                        <input type="hidden" class="avatar-data" name="avatar_data">
+                        <input type="hidden" class="avatar-src" name="avatar_src_bloodbank">
+                        <input type="hidden" class="avatar-data" name="avatar_data_bloodbank">
                         <label for="avatarInput">File upload</label>
                         <input type="file" class="avatar-input" id="avatarInput" name="bloodBank_photo">
                     </div>

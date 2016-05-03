@@ -173,6 +173,7 @@ class Bloodbank extends MY_Controller {
             $this->load->super_admin_template('Addbloodbank', $data, 'bloodBankScript');
             return false;
         } else {
+            
             $imagesname = "";
             if ($_FILES['avatar_file']['name']) {
                 $path = realpath(FCPATH . 'assets/BloodBank/');
