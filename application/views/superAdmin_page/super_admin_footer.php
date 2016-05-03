@@ -72,7 +72,9 @@ if ($msg != "" || $msg != NULL) {
         var id = obj.id;
         $('#' + id).removeClass('error');
     }
-    function submitData(url, formData) {
+    
+    
+     function submitData(url, formData) {
         var formData = formData;
 
         $.ajax({
@@ -147,17 +149,17 @@ if ($msg != "" || $msg != NULL) {
                         $('#successTop').show();
                         $('#successTop').html(data.msg);
                         if (data.msg != '' && data.msg != "undefined") {
-                            alert(data.msg);
+                            bootbox.alert(data.msg);
                         } else {
-                            alert("Success");
+                            bootbox.alert("Success");
                         }
                         setTimeout(function () {
                             $('#successTop').hide();
                             $('#successTop').html('');
                             if (data.url) {
-                                window.location.href = '<?php echo site_url() ?>' + '/' + data.url;
+                             /*   window.location.href = '<?php echo site_url() ?>' + '/' + data.url;*/
                             } else {
-                                location.reload(true);
+                                //location.reload(true);
                             }
                         }, 1000);
                     }

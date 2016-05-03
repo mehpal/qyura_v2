@@ -1224,7 +1224,6 @@
                                     
                                     <div id="editDoctorForm" style="<?php if(isset($showDiv) && $showDiv == 'editDoctor'){echo "display:block";}else{ echo "display:none"; } ?>" >
                                             <?php echo $this->load->view('editDoctor'); ?>
-                                            <?php echo $this->load->view('doctorScript.php'); ?>
                                     </div>
                                     
                                     </section>
