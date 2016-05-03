@@ -1075,7 +1075,7 @@ function isNumberKey(evt, id) {
                     type: "post",
                     data: {
                             email: function(){ return $("#users_email").val(); },
-                            id: function(){ return $("#users_id").val(); },
+                            id: function(){ return $("#user_tables_id").val(); },
                             role: function(){ return 2; }
                     }
                   }

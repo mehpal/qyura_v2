@@ -293,7 +293,7 @@
                                         
                                        <article class="clearfix m-t-10">
                                           <div class="col-md-12">
-                                             <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" onclick="">Submit</button>
+                                             <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right">Submit</button>
                                           </div>
                                        </article>
                                     </aside>
