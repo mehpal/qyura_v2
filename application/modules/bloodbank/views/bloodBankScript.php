@@ -142,6 +142,10 @@ if($current == 'detailBloodBank'):?>
      * @description get records in listing using datatables
      */
     $(document).ready(function () {
+        
+         $('.selectpicker').select2().change(function(){
+    $(this).valid()
+});
         var oTable = $('#datatable_bloodbank').DataTable({
             "processing": true,
             "bServerSide": true,
@@ -1075,7 +1079,7 @@ function isNumberKey(evt, id) {
                     type: "post",
                     data: {
                             email: function(){ return $("#users_email").val(); },
-                            id: function(){ return $("#users_id").val(); },
+                            id: function(){ return $("#user_tables_id").val(); },
                             role: function(){ return 2; }
                     }
                   }
@@ -1102,10 +1106,10 @@ function isNumberKey(evt, id) {
                     required: "Please enter bloodbank name",
                 },
                  countryId: {
-                    required: "Please select city",
+                    required: "Please select country",
                 },
                 cityId: {
-                    required: "Please select country",
+                    required: "Please select city",
                 },
                 stateId: {
                     required: "Please select state",

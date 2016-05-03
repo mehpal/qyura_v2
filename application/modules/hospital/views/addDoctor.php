@@ -10,7 +10,7 @@
                         </div>
                     </div>
                     <div class="map_canvas"></div>
-                    <form class="cmxform form-horizontal tasi-form avatar-form-doctor" id="submitFormDoctor" method="post" action="<?php echo site_url('hospital/saveDoctor'); ?>" name="doctorForm" enctype="multipart/form-data">
+                    <form class="cmxform form-horizontal tasi-form avatar-form-doctor" id="submitForm" method="post" action="<?php echo site_url('hospital/saveDoctor'); ?>" name="doctorForm" enctype="multipart/form-data">
                         <input type="hidden" name="ProfessionalExpCount" id="ProfessionalExpCount" value="1" />
                         <!-- Left Section Start -->
                         <section class="col-md-6 detailbox">
@@ -93,7 +93,7 @@
                                             <input type="hidden" name="referralId" id="referralId" value="<?php if($this->uri->segment(4) != NULL){ echo $this->uri->segment(4); } ?>">
                                             <input type="hidden" name="pRoleId" id="pRoleId" value="<?php if($this->uri->segment(3) != NULL){ echo $this->uri->segment(3); } ?>">
                                             
-                                            <input type="email" class="form-control" id="users_email" name="users_email" placeholder="Email" value="<?php  echo set_value('users_email');  ?>" onblur="checkHospitalDoctorEmailFormat()"/>
+                                            <input type="email" class="form-control" id="users_email" name="users_email" placeholder="Email" value="<?php  echo set_value('users_email');  ?>"/>
                                             
                                             <label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>
                                             <label class="error" style="display:none;" id="error-users_email_check"> Doctor Email Already Exists!</label>
@@ -198,7 +198,7 @@
                                             <label for="cname" class="control-label col-md-4 m-t-10 m-l-10">Fee</label>
                                             <div class="col-md-7 col-sm-7 m-b-20 m-t-10">
                                                 <input type="text" class="form-control" name="fee" required="" id="fee" placeholder="Fee" onkeypress="return isNumberKey(event)">
-                                                <label class="error" style="display:none;" id="error-fee"> Please enter consultation fees!</label>
+                                                
                                             </div>
                                         </aside>
                                         
@@ -225,7 +225,7 @@
                             <div class="col-md-12 m-t-20 m-b-20">
                                 <div id="load_consulting" class="text-center text-success " style="display: none"><image alt="Please wait data is loading" src="<?php echo base_url('assets/images/loader/Heart_beat.gif'); ?>" /></div>
                                 <button class="btn btn-danger waves-effect pull-right" type="button">Reset</button>
-                                <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return validateHospitalDoctor()">Submit</button>
+                                <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit">Submit</button>
                             </div>
                         </section>
                         <div id="upload_modal_form">

@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <div class="map_canvas"></div>
-                    <form class="cmxform form-horizontal tasi-form avatar-form-doctor" id="submitFormDoctor" method="post" action="<?php echo site_url('diagnostic/saveDoctor'); ?>" name="doctorForm" enctype="multipart/form-data">
+                    <form class="cmxform form-horizontal tasi-form avatar-form-doctor" id="submitForm" method="post" action="<?php echo site_url('diagnostic/saveDoctor'); ?>" name="doctorForm" enctype="multipart/form-data">
                         <input type="hidden" name="ProfessionalExpCount" id="ProfessionalExpCount" value="1" />
                         <!-- Left Section Start -->
                         <section class="col-md-6 detailbox">
@@ -23,6 +23,7 @@
                                     <h3>General Detail</h3>
                                 </figure>
                                 <!-- Table Section End -->
+                                
                                 <div class="clearfix m-t-20">
                                     
                                     
@@ -241,7 +242,7 @@
                             <?php  $this->load->view('doctor_crop_modal');?>
                         </div>
                         
-                        <input type="hidden" name="hospitalUserIdDoctor" value="<?php if(isset($diagnosticData[0]->diagnostic_usersId)){ echo $diagnosticData[0]->diagnostic_usersId; }?>" id="hospitalUserIdDoctor" />
+                        <input type="hidden" name="diagnoUserIdDoctor" value="<?php if(isset($diagnosticData[0]->diagnostic_usersId)){ echo $diagnosticData[0]->diagnostic_usersId; }?>" id="diagnoUserIdDoctor" />
                         
                     </form>
                 </div>
