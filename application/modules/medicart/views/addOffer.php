@@ -152,7 +152,8 @@
                                                     </div>
                                                     <div class="col-md-6 col-sm-6 m-t-xs-10">
                                                         <div class="input-group">
-                                                            <input class="form-control pickDate" id="date-2" type="text" name="medicartOffer_endDate" placeholder="Date To" disabled="" onkeydown="return false;" value="<?=set_value('medicartOffer_endDate');?>" autocomplete="off">
+                                                            <input type="hidden" id="offerDuration" name="offerDuration" value="0"/>
+                                                            <input class="form-control pickDates" id="date-2" type="text" name="medicartOffer_endDate" placeholder="Date To" readonly="" onkeydown="return false;" value="<?=set_value('medicartOffer_endDate');?>" autocomplete="off">
                                                              <label class="error"><?php echo form_error('medicartOffer_endDate'); ?></label>
                                                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                                         </div>

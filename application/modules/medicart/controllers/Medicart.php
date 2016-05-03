@@ -148,7 +148,6 @@ class Medicart extends MY_Controller {
     }
 
     function saveOffer() {
-
         $this->bf_form_validation->set_rules('medicartOffer_cityId', 'City Name', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('medicartOffer_MIId', 'MI Name', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('medicartOffer_OfferId', 'Offer Id', 'required|trim|is_unique[qyura_medicartOffer.medicartOffer_OfferId]');
@@ -256,7 +255,6 @@ class Medicart extends MY_Controller {
                     $imagesname = $original_imagesname;
                 }
             }
-
             $mxBooking = 0;
             if ($medicartOffer_allowBooking == 1) {
                 $mxBooking = $this->input->post('medicartOffer_maximumBooking');
@@ -407,6 +405,17 @@ class Medicart extends MY_Controller {
             array_push($qyura_medicartSpecialities, $Specialities->medicartSpecialities_specialitiesId);
         }
         $data['qyura_medicartSpecialities'] = $qyura_medicartSpecialities;
+
+        $miId = "";
+        if(!empty($detailData)){
+           $miId = $detailData->medicartOffer_MIId;
+        }
+        $option = array(
+            'table' => 'qyura_miMembership',
+            'select' => 'miMembership_id,miMembership_quantity,miMembership_duration',
+            'where' => array('miMembership_miId' => $miId , 'miMembership_facilitiesId' => 3 , 'status' => 3 , 'miMembership_deleted' => 0),
+        );
+        $data['membershipData'] = $this->common_model->customGet($option);
 
         $data['title'] = 'Edit Offer';
         $this->load->super_admin_template('medicartEditOffer', $data, 'medicartScript');
