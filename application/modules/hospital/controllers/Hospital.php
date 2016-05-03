@@ -460,7 +460,7 @@ class Hospital extends MY_Controller {
             $this->bf_form_validation->set_rules('avatar_file', 'File', 'required');
         }
         if ($this->bf_form_validation->run() === FALSE) {
-            echo validation_errors(); exit;
+          //  echo validation_errors(); exit;
             $data = array();
             $data['allCountry'] = $this->Hospital_model->fetchCountry();
             
@@ -620,19 +620,30 @@ class Hospital extends MY_Controller {
                         $hospitalServicesData = '';
                     }
                 }
-                
                 if ($_POST['bloodbank_chk'] == 1) {
 
-                    $bloodBank_phn = $this->input->post('bloodBank_phn');
-                    
-                    $imageBloodbnkName = '';
-                    if ($_FILES['bloodBank_photo']['name']) {
-                        $tempblood = explode(".", $_FILES["bloodBank_photo"]["name"]);
-                        $newfilenameblood = 'Blood_' . round(microtime(true)) . '.' . end($tempblood);
-                        $status = $this->uploadImages('bloodBank_photo', 'BloodBank', $newfilenameblood);
-                        if ($status == TRUE)
-                            $imageBloodbnkName = $newfilenameblood;
-                    }
+                   $bloodBank_phn = $this->input->post('bloodBank_phn');
+                   $bloodBankImagesname = "";
+                        if ($_FILES['bloodBank_photo']['name']) {
+                            $path = realpath(FCPATH . 'assets/BloodBank/');
+                            $upload_data = $this->input->post('avatar_data_bloodbank');
+                            $upload_data = json_decode($upload_data);
+
+                            $original_imagesname_bloodbank = $this->uploadImageWithThumb($upload_data, 'bloodBank_photo', $path, 'assets/BloodBank/', './assets/BloodBank/thumb/', 'blood');
+                           
+                            if (empty($original_imagesname_bloodbank)) {
+                                $data['hospitalType'] = $this->Hospital_model->getHospitalType();
+                                $data['allCountry'] = $this->Hospital_model->fetchCountry();
+                                $data['allStates'] = $this->Bloodbank_model->fetchStates();
+                                $this->session->set_flashdata('valid_upload', $this->error_message);
+                                $data['title'] = 'Add Hospital';
+                                $this->load->super_admin_template('AddHospital', $data, 'hospitalScript');
+                                return false;
+                            } else {
+                                $bloodBankImagesname = $original_imagesname_bloodbank;
+                            }
+                        }
+                        
                     $bloodBank_name = $this->input->post('bloodBank_name');
                     $bloodBank_photo = $this->input->post('bloodBank_photo');
                     $bloodBank_lat = $this->input->post('lat');
@@ -640,7 +651,7 @@ class Hospital extends MY_Controller {
 
                     $bloodBankDetail = array(
                         'bloodBank_name' => $bloodBank_name,
-                        'bloodBank_photo' => $imageBloodbnkName,
+                        'bloodBank_photo' => $bloodBankImagesname,
                         'bloodBank_lat' => $bloodBank_lat,
                         'bloodBank_long' => $bloodBank_long,
                         'users_id' => $hospital_usersId,
@@ -692,15 +703,26 @@ class Hospital extends MY_Controller {
                 if ($_POST['ambulance_chk'] == 1) {
 
                     $ambulance_phn = $this->input->post('ambulance_phn');
-                  
-                    $imageAmbulanceName = '';
-                    if ($_FILES['ambulance_img']['name']) {
-                        $tempAmbulance = explode(".", $_FILES["ambulance_img"]["name"]);
-                        $newfilenametempAmbulance = 'Ambulance_' . round(microtime(true)) . '.' . end($tempAmbulance);
-                        $status = $this->uploadImages('ambulance_img', 'ambulanceImages', $newfilenametempAmbulance);
-                        if ($status == TRUE)
-                            $imageAmbulanceName = $newfilenametempAmbulance;
-                    }
+                    $ambulanceImagesname = "";
+                        if ($_FILES['ambulance_photo']['name']) {
+                            $path = realpath(FCPATH . 'assets/ambulanceImages/');
+                            $upload_data = $this->input->post('avatar_data_ambulance');
+                            $upload_data = json_decode($upload_data);
+                            $original_imagesname_ambulance = $this->uploadImageWithThumb($upload_data, 'ambulance_photo', $path, 'assets/ambulanceImages/', './assets/ambulanceImages/thumb/', 'ambulance');
+
+                            if (empty($original_imagesname_ambulance)) {
+                                   $data['hospitalType'] = $this->Hospital_model->getHospitalType();
+                                    $data['allCountry'] = $this->Hospital_model->fetchCountry();
+                                    $data['allStates'] = $this->Bloodbank_model->fetchStates();
+                                    $this->session->set_flashdata('valid_upload', $this->error_message);
+                                    $data['title'] = 'Add Hospital';
+                                    $this->load->super_admin_template('AddHospital', $data, 'hospitalScript');
+                                    return false;
+                            } else {
+                                $ambulanceImagesname = $original_imagesname_ambulance;
+                            }
+                        }
+            
                     $ambulance_name = $this->input->post('ambulance_name');
                     $ambulance_img = $this->input->post('ambulance_img');
                     $ambulance_lat = $this->input->post('lat');
@@ -709,7 +731,7 @@ class Hospital extends MY_Controller {
 
                     $ambulanceDetail = array(
                         'ambulance_name' => $ambulance_name,
-                        'ambulance_img' => $imageAmbulanceName,
+                        'ambulance_img' => $ambulanceImagesname,
                         'ambulance_lat' => $ambulance_lat,
                         'ambulance_long' => $ambulance_long,
                         'ambulance_usersId' => $hospital_usersId,

@@ -72,7 +72,9 @@ if ($msg != "" || $msg != NULL) {
         var id = obj.id;
         $('#' + id).removeClass('error');
     }
-    function submitData(url, formData) {
+    
+    
+     function submitData(url, formData) {
         var formData = formData;
 
         $.ajax({

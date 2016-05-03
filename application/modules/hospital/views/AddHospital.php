@@ -80,6 +80,7 @@
                                     <label class="error" > <?php echo form_error("hospital_name"); ?></label>
                                 </div>
                             </article>
+                            
 
                             <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4  col-sm-4">Hospital Type :</label>
@@ -99,10 +100,11 @@
                                     <label class="error" > <?php echo form_error("hospital_type"); ?></label>
                                 </div>
                             </article>
+                            
                             <div id="crop-avatar">
                                 <article class="clearfix m-t-10"  class="avatar-form">
                                     <div id="upload_modal_form">
-<?php $this->load->view('upload_crop_modal'); ?>
+                                    <?php $this->load->view('upload_crop_modal'); ?>
                                     </div>
                                     <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
                                     <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
@@ -124,6 +126,8 @@
                                     </div>
                                 </article>
                             </div>
+                            
+                            
                             <div id="addressDiv">
 
                                 <article class="clearfix m-t-10">
@@ -423,6 +427,7 @@ if (isset($hospital_id) && $hospital_id != 0) {
                                                 <label class="error" style="display:none;" id="error-bloodBank_name"> please Check your BloodBank name</label>
                                             </div>
                                         </article>
+                                        
                                         <article class="clearfix m-t-10">
                                             <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
 <!--                                            <div class="col-md-8 col-sm-8 text-right">
@@ -437,14 +442,13 @@ if (isset($hospital_id) && $hospital_id != 0) {
                                                     
 
                                                    
-                                                    <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
                                                     <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
                                                         <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
 
                                                         <div class="pre col-md-4 col-sm-4 ">
                                                             <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
 
-                                                                <img src="<?php echo base_url() ?>assets/default-images/Hospital-logo.png"  class="image-preview-show"/>
+                                                                <img src="<?php echo base_url() ?>assets/default-images/Blood-logo.png"  class="image-preview-show"/>
 
                                                             </div>
                                                         </div>
@@ -535,21 +539,12 @@ if (isset($amobulancestatus) && $amobulancestatus == 1) {
                                                 <label class="error" style="display:none;" id="error-ambulance_name"> please Check your Ambulance Name</label>
                                             </div>
                                         </article>
+                                        
+                                        
                                         <article class="clearfix m-t-10">
-                                            <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
-<!--                                            <div class="col-md-8 col-sm-8 text-right">
-
-                                                <label for="file-input4"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x"></i></label>
-                                                <input type="file" style="display:none;" class="no-display" id="file-input4" name='ambulance_img' onchange="ValidateSingleInput(this, '2', '5');" >
-
-
-                                            </div>-->
                                             <div id="ambulance-crop-avatar">
                                                 <?php $this->load->view('ambulance_upload_crop_modal'); ?>
                                                 <article class="col-md-8 col-sm-8 text-right"  class="avatar-form">
-                                                    
-
-                                                   
                                                     <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
                                                     <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
                                                         <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
@@ -557,7 +552,7 @@ if (isset($amobulancestatus) && $amobulancestatus == 1) {
                                                         <div class="pre col-md-4 col-sm-4 ">
                                                             <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
 
-                                                                <img src="<?php echo base_url() ?>assets/default-images/Hospital-logo.png"  class="image-preview-show"/>
+                                                                <img src="<?php echo base_url() ?>assets/default-images/ambulance_logo.png"  class="image-preview-show"/>
 
                                                             </div>
                                                         </div>

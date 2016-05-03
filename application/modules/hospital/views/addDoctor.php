@@ -1,3 +1,6 @@
+<style>.error p{
+    color: red;
+}</style>
 <!-- Start content -->
         <div class="content">
             <div class="container">
@@ -42,8 +45,11 @@
                                         </div>
                                     </article>
                                     
-                                    
-                                    <article class="form-group m-lr-0 ">
+                                   <div id='crop-avatar'>
+                                    <article class="form-group m-lr-0">
+                                        <div id="upload_modal_form">
+                                            <?php  $this->load->view('doctor_crop_modal');?>
+                                        </div>
                                         <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>  
                                          <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
                                                 <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view-doctor"></i></label>
@@ -64,7 +70,7 @@
 
                                             </div>
                                     </article>
-                                    
+                                   </div>     
                                    
                                     
                                     
@@ -76,9 +82,8 @@
                                         <div class="col-md-8 col-sm-8">
                                             <select  multiple="" class="bs-select form-control-select2 " data-width="100%" name="doctorSpecialities_specialitiesId[]" Id="doctorSpecialities_specialitiesId" data-size="4">
                                                     <!--<option value="">Select Speciality</option>-->
-                                                   <?php foreach($speciality as $key=>$val) {?>
-                                                    <option value="<?php echo $val->specialities_id;?>"><?php echo $val->specialities_name;?></option>
-                                                     <?php }?>
+                                                   <?php foreach($speciality as $key=>$val) {
+                                                       echo '<option value="' . $val->specialities_id. '"' . (isset($_POST['doctorSpecialities_specialitiesId']) && in_array($val->specialities_id, $_POST['doctorSpecialities_specialitiesId']) ? ' selected' : '') . '>' . $val->specialities_name . '</option>'; } ?>
                                                 </select>
                                             <div class='setValues'></div>
                                             <label class="error" style="display:none;" id="error-doctorSpecialities_specialitiesId"> Please select one or more specalities!</label>
@@ -141,18 +146,19 @@
                                                         <div class="col-md-4 col-sm-4">
                                                             <select class="select2" data-width="100%" data-size="4" name="doctorAcademic_degreeId[]" id="doctorAcademic_degreeId1">
                                                                  <option value="">Select Degree </option>
-                                                                <?php foreach($degree as $key=>$val){?>
-                                                                <option value="<?php echo $val->degree_id;?>"><?php echo $val->degree_SName;?></option>
-                                                                <?php }?>
+                                                                 <?php foreach($degree as $key=>$val){
+                                                                                                                                            echo '<option value="' . $val->degree_id. '"' . (isset($_POST['doctorAcademic_degreeId']) && in_array($val->degree_id, $_POST['doctorAcademic_degreeId']) ? ' selected' : '') . '>' . $val->degree_SName . '</option>';
+                                                                    }
+                                                                ?>
                                                             </select>
                                                             <label class="error" style="display:none;" id="error-doctorAcademic_degreeId1"> Please select a degree!</label>
                                                         </div>
                                                         <div class="col-md-4 col-sm-4 m-t-xs-10">
                                                             <select class="select2" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId1">
                                                                   <option value="">Select Specialities </option>
-                                                                <?php foreach($speciality as $key=>$val) {?>
-                                                            <option value="<?php echo $val->specialities_id;?>"><?php echo $val->specialities_name;?></option>
-                                                             <?php }?>
+                                                               <?php foreach($speciality as $key=>$val) {
+                                                                                                                                                                                                                                                                            echo  '<option value="' . $val->specialities_id. '"' . (isset($_POST['doctorSpecialities_specialitiesCatId']) && in_array($val->specialities_id, $_POST['doctorSpecialities_specialitiesCatId']) ? ' selected' : '') . '>' . $val->specialities_name . '</option>';
+                                                                 }?>
                                                             </select>
                                                             <label class="error" style="display:none;" id="error-doctorSpecialities_specialitiesCatId1"> Please select a speciality!</label>
                                                         </div>
@@ -197,7 +203,7 @@
                                         <aside class="row">
                                             <label for="cname" class="control-label col-md-4 m-t-10 m-l-10">Fee</label>
                                             <div class="col-md-7 col-sm-7 m-b-20 m-t-10">
-                                                <input type="text" class="form-control" name="fee" required="" id="fee" placeholder="Fee" onkeypress="return isNumberKey(event)">
+                                                <input type="text" class="form-control" name="fee" required="" id="fee" placeholder="Fee" onkeypress="return isNumberKey(event)" value="<?php echo set_value('fee'); ?>">
                                                 
                                             </div>
                                         </aside>
@@ -206,11 +212,11 @@
                                             <label for="cname" class="control-label col-md-4 col-sm-4"> Show experience on my profile ? </label>
                                             <div class="col-md-8 col-sm-8">
                                                 <aside class="radio radio-info radio-inline">
-                                                    <input type="radio" id="inlineRadio3" value="1" name="show_exp" checked>
+                                                    <input type="radio" id="inlineRadio3" value="1" name="show_exp" <?php echo set_radio('show_exp', '1', TRUE); ?>>
                                                     <label for="inlineRadio3"> Yes</label>
                                                 </aside>
                                                 <aside class="radio radio-info radio-inline">
-                                                    <input type="radio" id="inlineRadio4" value="0" name="show_exp">
+                                                    <input type="radio" id="inlineRadio4" value="0" name="show_exp" <?php echo set_radio('show_exp', '0'); ?>>
                                                     <label for="inlineRadio4"> No</label>
                                                 </aside>
                                             </div>
@@ -224,13 +230,11 @@
                         <section class="clearfix ">
                             <div class="col-md-12 m-t-20 m-b-20">
                                 <div id="load_consulting" class="text-center text-success " style="display: none"><image alt="Please wait data is loading" src="<?php echo base_url('assets/images/loader/Heart_beat.gif'); ?>" /></div>
-                                <button class="btn btn-danger waves-effect pull-right" type="button">Reset</button>
+                                <button class="btn btn-danger waves-effect pull-right" type="reset">Reset</button>
                                 <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit">Submit</button>
                             </div>
                         </section>
-                        <div id="upload_modal_form">
-                            <?php  $this->load->view('doctor_crop_modal');?>
-                        </div>
+                        
                         
                         <input type="hidden" name="hospitalUserIdDoctor" value="<?php if(isset($hospitalData[0]->hospital_usersId)){ echo $hospitalData[0]->hospital_usersId; }?>" id="hospitalUserIdDoctor" />
                         
