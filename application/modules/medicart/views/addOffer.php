@@ -27,7 +27,7 @@
                                         <article class="form-group m-lr-0">
                                             <label for="cname" class="control-label col-md-4 col-sm-4">City:</label>
                                             <div class="col-md-8 col-sm-8">
-                                                <select class="" data-width="100%" name="medicartOffer_cityId" id="cityId" required="">
+                                                <select class="selectepicker2" data-width="100%" name="medicartOffer_cityId" id="cityId" required="">
                                                   <option value="">Select City</option>
                                                     <?php foreach ($allCity as $key => $val) { ?>
                                                         <option value="<?php echo $val->city_id; ?>" <?php echo set_select('medicartOffer_cityId', $val->city_id); ?>><?php echo $val->city_name; ?></option>
@@ -37,9 +37,9 @@
                                             </div>
                                         </article>
                                   <article class="form-group m-lr-0 ">
-                                    <label class="control-label col-md-4 col-sm-4">MI/Doctor Type :</label>
+                                    <label class="control-label col-md-4 col-sm-4">MI Type :</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <select class="" data-width="100%" name="miType" onchange ="getMIList(this.value, medicartOffer_cityId.value)" id="miType" required="">
+                                        <select class="selectepicker2" data-width="100%" name="miType" onchange ="getMIList(this.value, medicartOffer_cityId.value)" id="miType" required="">
                                             <option value=""> Select MI Type</option>
                                             <option <?php echo set_select('miType', 'Hospital'); ?>>Hospital</option>
                                             <option <?php echo set_select('miType', 'Diagnostic'); ?>>Diagnostic</option>
@@ -51,7 +51,7 @@
                                         <article class="form-group m-lr-0 ">
                                             <label for="cemail" class="control-label col-md-4 col-sm-4">MI Name:</label>
                                             <div class="col-md-8 col-sm-8">
-                                                <select class="" data-width="100%" name="medicartOffer_MIId" id="miName">
+                                                <select class="selectepicker2" data-width="100%" name="medicartOffer_MIId" id="miName" onchange="getMemberShipDuTime(this.value)">
                                                 </select>
                                                  <label class="error"><?php echo form_error('medicartOffer_MIId'); ?></label>
                                             </div>
@@ -66,7 +66,7 @@
                                         </article>
 
                                         <article class="form-group m-lr-0">
-                                            <label for="cname" class="control-label col-md-4 col-sm-4">Offer Category:</label>
+                                            <label for="cname" class="control-label col-md-4 col-sm-4">Offer Specialities:</label>
                                             <div class="col-md-8 col-sm-8">
                                                 <select class="selectpicker" data-width="100%" name="medicartOffer_offerCategory[]"id="medicartOffer_offerCategory" required="" multiple="">
                                                         <?php foreach ($allOffetCategory as $keys => $values) { ?>
@@ -85,19 +85,31 @@
                                             </div>
                                         </article>
 
-                                        <article class="form-group m-lr-0 ">
-                                            <label class="control-label col-md-4 col-sm-4" for="cemail">Image:</label>
-                                            <div class="col-md-8 col-sm-8 text-right avatar-view">
-                                                <input id="uploadFile" class="showUpload" disabled="disabled" />
-                                                <div class="fileUpload btn btn-sm btn-upload">
-                                                    <span><i class="fa fa-cloud-upload fa-3x"></i></span>
-<!--                                                    <input id="uploadBtn12" type="file" class="upload123" />-->
-                                                </div>
-                                                <img src="<?php echo base_url();?>assets/default-images/Emerg-logo.png" alt=" " class="img-responsive image-preview-show" width="180"/>
-                                                <label class="error"><?php echo form_error('avatar_file'); ?></label>
-                                                 <label class="error"><?php echo $this->session->flashdata('valid_upload'); ?></label>
-                                                
-                                            </div>
+                                        <article class="form-group m-lr-0 " id="crop-avatar"><div id="upload_modal_form">
+                            <?php $this->load->view('upload_crop_modal');?>
+                        </div>
+                                        
+                                            
+                                                    <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Image :</label>
+                                
+                                <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
+                                    <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
+
+                                    <div class="pre col-md-4 col-sm-4 ">
+                                    <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
+                                        
+                                     <img src="<?php echo base_url() ?>assets/default-images/Emerg-logo.png"  class="image-preview-show"/>
+                                        
+                                    </div>
+                                    </div>
+
+                                    <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                    <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
+                                    
+                                    
+                                    
+                                </div>
+                                                       
                                         </article>
 
                                         <article class="form-group m-lr-0">
@@ -140,7 +152,8 @@
                                                     </div>
                                                     <div class="col-md-6 col-sm-6 m-t-xs-10">
                                                         <div class="input-group">
-                                                            <input class="form-control pickDate" id="date-2" type="text" name="medicartOffer_endDate" placeholder="Date To" onkeydown="return false;" value="<?=set_value('medicartOffer_endDate');?>" autocomplete="off">
+                                                            <input type="hidden" id="offerDuration" name="offerDuration" value="0"/>
+                                                            <input class="form-control pickDates" id="date-2" type="text" name="medicartOffer_endDate" placeholder="Date To" readonly="" onkeydown="return false;" value="<?=set_value('medicartOffer_endDate');?>" autocomplete="off">
                                                              <label class="error"><?php echo form_error('medicartOffer_endDate'); ?></label>
                                                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                                         </div>
@@ -262,13 +275,11 @@
                             </section>
                             <section class="clearfix ">
                                 <div class="col-md-12 m-t-20 m-b-20">
-                                    <button type="reset" class="btn btn-danger waves-effect pull-right">Reset</button>
+                                    <button type="reset" class="btn btn-danger waves-effect pull-right" onclick="location.reload();">Reset</button>
                                     <button type="submit" class="btn btn-success waves-effect waves-light pull-right m-r-20">Submit</button>
                                 </div>
                             </section>
-                         <div id="upload_modal_form">
-                            <?php $this->load->view('upload_crop_modal');?>
-                        </div>
+                      
                         </form>
                     </div>
                     <!-- consultation -->

@@ -32,7 +32,7 @@ if ($current != 'detailHospital'):
     ?>
     <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
 <?php else: ?>
-
+<!--    <script src="<?php echo base_url(); ?>assets/cropper/main2.js"></script>-->
     <script src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
 
     <script src="<?php  echo base_url(); ?>assets/cropper/doctor_cropper.js"></script>
@@ -250,7 +250,11 @@ if (isset($mapData) && !empty($mapData)) {
 
     }
     // datatable get records
+    $(function () {
+     //new CropAvatar($('#blood-crop-avatar'));
+  });
     $(document).ready(function () {
+        
         var oTable = $('#hospital_datatable').DataTable({
             "processing": true,
             "bServerSide": true,
@@ -803,11 +807,11 @@ if (isset($mapData) && !empty($mapData)) {
     }
 
     function countserviceName() {
-        if (m == 10)
+        if (m == 50)
             return false;
         m = parseInt(m) + parseInt(1);
         $('#serviceName').val(m);
-        $('#multiserviceName').append('<article class="clearfix m-t-10"><aside class="col-sm-10"><input type=text class=form-control name=hospitalServices_serviceName[] placeholder="" maxlength="30" id=hospitalServices_serviceName' + m + ' /></aside><aside class="col-sm-2 text-right"><a class=add pull-right onclick="removeServiceName(' + m + ')" href=javascript:void(0) id=btn-service' + m + '><i class="fa fa-minus-circle fa-2x m-t-5 label-plus" ></i></a></aside></article>');
+        $('#multiserviceName').append('<article id=hospitalServices_serviceName' + m + ' class="clearfix m-t-10"><aside class="col-sm-10"><input type=text class=form-control name=hospitalServices_serviceName[] placeholder="" maxlength="30" /></aside><aside class="col-sm-2 text-right"><a class=add pull-right onclick="removeServiceName(' + m + ')" href=javascript:void(0) id=btn-service' + m + '><i class="fa fa-minus-circle fa-2x m-t-5 label-plus" ></i></a></aside></article>');
     }
 
     function removeServiceName(i) {
@@ -949,7 +953,7 @@ if (isset($mapData) && !empty($mapData)) {
         }
 
         if (!$.isNumeric(phn)) {
-            $('#hospital_phn1').addClass('bdr-error');
+            $('#hospital_phn').addClass('bdr-error');
             $('#error-hospital_phn').fadeIn().delay(3000).fadeOut('slow');
             status = 0;
             // $('#hospital_phn').focus();
@@ -1949,7 +1953,7 @@ if (isset($mapData) && !empty($mapData)) {
                     var obj = $.parseJSON(data);
 
                     if (obj.status == 1) {
-                        $("#geocomplete1").val(obj.hospital_address);
+                        $("#geocomplete1").val(obj.address);
                         $("#hospital_countryId").html(obj.country);
                         $("#hospital_stateId").html(obj.state);
                         $("#hospital_cityId").html(obj.city);
@@ -1958,7 +1962,7 @@ if (isset($mapData) && !empty($mapData)) {
                         $("#hospital_zip").val(obj.zipCode);
                         $("#lat").val(obj.lat);
                         $("#lng").val(obj.lng);
-                        $("#hospital_name").val(obj.hospital_name);
+                        $("#hospital_name").val(obj.name);
                         
                         $("#isAddressDisabled").val(1);
                         
@@ -2143,6 +2147,52 @@ if (isset($mapData) && !empty($mapData)) {
     $(".bs-select").select2({placeholder: "Select a Speciality",
         allowClear: true
     });
+    
+    
+     function find_membershipdata (member_id){
+        
+        var url = '<?php echo site_url(); ?>/diagnostic/find_membership';
+        if (typeof member_id == 'string' ){
+            $.ajax({
+                url: url,
+                async: false,
+                type: 'POST',
+                data: {'member_id': member_id},
+                success: function (data) {
+                    var datas = $.parseJSON(data);
+                    //console.log(data);
+                    var i;
+                    var j = 1;
+                    var k = 1;
+                    if(datas && datas != ''){
+                        for(var datat in datas){
+                            $("#membership_quantity_"+j).val(datas[datat].membershipFacilities_quantity);
+                            if(datas[datat].membershipFacilities_facilitiesId == 2 || datas[datat].membershipFacilities_facilitiesId == 4){
+                                $("#membership_duration_"+j).val(datas[datat].membershipFacilities_duration);
+                            }
+                            j++;
+                        }
+                    }else{
+                        for(k = 1; k < 5; k++){
+                            $("#membership_quantity_"+k).val('');
+                            $("#membership_duration_"+k).val('');
+                        }
+                    }
+                }
+            });
+        }
+    }
+    
+    
+  $(document).ready(function (){
+        $("#membershipForm").submit(function (event) {
+            event.preventDefault();
+            var url = '<?php echo site_url(); ?>/diagnostic/membershipEdit/';
+            var formData = new FormData(this);
+            submitData(url,formData);
+        });
+    });
+    
 </script>
 </body>
 </html>

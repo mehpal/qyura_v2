@@ -216,13 +216,13 @@ class Diagnostic_model extends CI_Model {
     function fetchDiagnosticDoctorDataTables($diagonsticUserId){
         
                 $imgUrl = base_url() . 'assets/doctorsImages/thumb/thumb_100/$1';
-        $doctorUrl = site_url() . '/hospital/detailHospital/$2/doctor/$1/editDoctor';
+        $doctorUrl = site_url() . '/diagnostic/detailDiagnostic/$2/doctor/$1/editDoctor';
         
-        $this->datatables->select('doctors_userId userId,qyura_doctors.doctors_id as id, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, qyura_doctors.doctors_consultaionFee as consFee, GROUP_CONCAT(qyura_specialities.specialities_name) as specialityName,qyura_doctors.doctors_phon,qyura_doctors.doctors_img,qyura_doctors.doctors_id,qyura_doctors.doctors_mobile,qyura_doctors.doctors_unqId, qyura_hospital.hospital_id, qyura_doctors.doctors_showExp, qyura_doctors.doctors_expYear as exp'); 
+        $this->datatables->select('doctors_userId userId,qyura_doctors.doctors_id as id, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, qyura_doctors.doctors_consultaionFee as consFee, GROUP_CONCAT(qyura_specialities.specialities_name) as specialityName,qyura_doctors.doctors_phon,qyura_doctors.doctors_img,qyura_doctors.doctors_id,qyura_doctors.doctors_mobile,qyura_doctors.doctors_unqId, qyura_diagnostic.diagnostic_id, qyura_doctors.doctors_showExp, qyura_doctors.doctors_expYear as exp'); 
 
         $this->datatables->from('qyura_doctors');
         
-        $this->datatables->join('qyura_hospital', 'qyura_hospital.hospital_usersId=qyura_doctors.doctors_parentId', 'left');
+        $this->datatables->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_usersId=qyura_doctors.doctors_parentId', 'left');
        
      //   $this->datatables->join('qyura_professionalExp', 'qyura_professionalExp.professionalExp_usersId=qyura_doctors.doctors_id', 'left');
 
@@ -254,7 +254,7 @@ class Diagnostic_model extends CI_Model {
 
         $this->datatables->add_column('doctors_img', '<img class="img-responsive" height="80px;" width="80px;" src=' . $imgUrl . '>', 'doctors_img');
 
-        $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href=' . $doctorUrl . '>View Detail</a><a class="btn btn-info waves-effect waves-light m-b-5 applist-btn" href=' .$doctorUrl. '>Edit Detail</a>', 'doctors_id,hospital_id');
+        $this->datatables->add_column('view', '<a class="btn btn-info waves-effect waves-light m-b-5 applist-btn" href=' .$doctorUrl. '>Edit Detail</a>', 'doctors_id,diagnostic_id');
 
         return $this->datatables->generate();
     }
@@ -551,4 +551,44 @@ class Diagnostic_model extends CI_Model {
             echo json_encode(array('status' => 0, 'message' => 'some error occurred while removing insurance company!'));
         }
     }
+    function getDoctorDetail($condition){
+       
+       
+        $imgUrl = base_url() . 'assets/doctorsImages/thumb/thumb_100/$1';
+        $this->db->select('doc.doctors_id, doc.doctors_27Src, doc.isManual,doc.doctors_consultaionFee,doc.doctors_pin,doc.doctors_userId,doc.doctors_fName,doc.doctors_lName,CONCAT(doc.doctors_fName," ",doc.doctors_lName)AS doctoesName,doc.doctors_phn,doc.doctor_addr,doc.doctors_img,doc.doctors_email,doc.doctors_phon,doc.doctors_lat,doc.doctors_long,usr.users_id,doc.doctors_registeredMblNo,
+        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_dob,doc.doctors_cityId,doc.creationTime,doc.doctors_mobile,doc.doctors_unqId,usr.users_email, doc.doctors_email, doc.doctors_phon, doc.doctors_showExp,doc.doctors_expYear,spec.specialities_id,spec.specialities_name as specName,deg.degree_id,deg.degree_SName,deg.degree_FName,docAca.doctorAcademic_id,docAca.doctorAcademic_degreeId,docAca.doctorAcademic_degreeInsAddress,docAca.doctorAcademic_degreeYear,docAca.doctorAcademic_specialitiesId');
+       
+        $this->db->from('qyura_doctors AS doc');
+        $this->db->join('qyura_users AS usr', 'usr.users_id = doc.doctors_userId', 'left');
+        $this->db->join('qyura_doctorSpecialities as docSpec', 'docSpec.doctorSpecialities_doctorsId=doc.doctors_id', 'left');
+        $this->db->join('qyura_specialities as spec', 'spec.specialities_id=docSpec.doctorSpecialities_specialitiesId', 'left');
+        $this->db->join('qyura_doctorAcademic as docAca', 'docAca.doctorAcademic_doctorsId=doc.doctors_id', 'left');
+        $this->db->join('qyura_degree as deg', 'deg.degree_id=docAca.doctorAcademic_degreeId', 'left');
+        if ($condition)
+        $this->db->where(array('doc.doctors_id' => $condition));
+        $this->db->where(array('doc.doctors_deleted' => 0));
+        return  $this->db->get()->result();
+   }
+   function getDocAcaSpec($condition){
+       
+        $this->db->select('spec.specialities_id, docAca.doctorAcademic_id, degree.degree_FName, degree.degree_SName, degree.degree_id, docAca.doctorAcademic_degreeInsAddress, docAca.doctorAcademic_degreeYear');
+       
+        $this->db->from('qyura_doctorAcademic AS docAca');
+       // $this->db->join('qyura_doctors as doc', 'doc.doctors_id=docAca.doctorAcademic_doctorsId', 'left');
+        $this->db->join('qyura_specialities as spec', 'spec.specialities_id=docAca.doctorAcademic_specialitiesId', 'left');
+        $this->db->join('qyura_degree as degree', 'degree.degree_id = docAca.doctorAcademic_degreeId', 'left');
+        
+        if ($condition)
+            
+        $this->db->where(array('docAca.doctorAcademic_doctorsId' => $condition));
+        
+       // $this->db->where(array('doc.doctors_deleted' => 0));
+        $this->db->where(array('spec.specialities_deleted' => 0,'spec.type' => 1));
+        $this->db->where(array('docAca.doctorAcademic_deleted' => 0));
+
+        $this->db->get()->result();
+        echo $this->db->last_query();
+
+ 
+   }
 }

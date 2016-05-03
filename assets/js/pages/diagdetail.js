@@ -337,6 +337,12 @@ $("#editac").click(function () {
 });
 
 
+$("#editMem").click(function () {
+    $("#detailMem").toggle();
+    $("#newMem").toggle();
+});
+
+
 /* -- Upload Button -- */
 
 //document.getElementById("uploadBtnDd").onchange = function () {

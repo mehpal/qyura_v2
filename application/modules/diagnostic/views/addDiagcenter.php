@@ -65,15 +65,18 @@
                                         <label class="error" > <?php echo form_error("diagnostic_name"); ?></label>
                                     </div>
                                 </article>
-
+                                <div id="crop-avatar">
                                 <article class="clearfix m-t-10">
+                                    <div id="upload_modal_form">
+<?php $this->load->view('upload_crop_modal'); ?>
+                        </div>
                                     <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
 
                                     <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
                                         <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
 
                                         <div class="pre col-md-4 col-sm-4 ">
-                                            <div id="preImgLogo" class="avatar-preview preview-md">
+                                            <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
 
                                                 <img src="<?php echo base_url() ?>assets/default-images/Dignostics-logo.png"  class="image-preview-show"/>
 
@@ -86,7 +89,7 @@
                                     </div>
 
                                 </article>
-
+                                </div>    
                                 <article class="clearfix m-t-10">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Address:</label>
                                     <div class="col-md-8 col-sm-8">
@@ -233,9 +236,12 @@
                                 <article class="clearfix m-t-10">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type :</label>
                                     <div class="col-md-8  col-sm-8">
-                                        <select class="selectpicker" data-width="100%" name="diagnostic_mbrTyp" id="diagnostic_mbrTyp">
-                                            <option value="1" <?php echo set_select('diagnostic_mbrTyp', '1'); ?>>Life Time</option>
-                                            <option value="2" <?php echo set_select('diagnostic_mbrTyp', '2'); ?>>Health Club</option>
+                                        <select class="selectpicker" data-width="100%" name="diagnostic_mbrTyp" id="diagnostic_mbrTyp" onchange="find_membershipdata(this.value)">
+                                            <option value="">Select Membership</option>
+                                            <?php if(isset($membership_plan) && $membership_plan){ 
+                                                foreach($membership_plan as $membership){ ?>
+                                                    <option value="<?php echo $membership->membership_id; ?>" <?php echo set_select('diagnostic_mbrTyp', $membership->membership_id); ?> ><?php echo $membership->membership_name; ?></option>
+                                            <?php } } ?>
                                         </select>
                                         <label class="error" style="display:none;" id="error-diagnostic_mbrTyp"> please select a member type</label>
                                         <label class="error" > <?php echo form_error("diagnostic_mbrTyp"); ?></label>
@@ -455,6 +461,40 @@
                     <section class="col-md-6 detailbox mi-form-section">
                         <div class="bg-white clearfix">
 
+                            <!-- membership Detail Section Start -->
+                            <figure class="clearfix">
+                                <h3>Membership Detail</h3>
+                            </figure>
+                            <aside class="clearfix m-t-20 p-b-20">
+                                <article class="clearfix m-t-10">
+                                    <?php $checkBocCount = 1; 
+                                    if(isset($facilities_list) && $facilities_list != NULL){ ?>
+                                    <input type="hidden" value="<?php echo count($facilities_list); ?>" id="faci_count" name="faci_count">    
+                                    <?php foreach($facilities_list as $facilities){ ?>
+                                    <label class="control-label col-md-4 col-xs-9" for="cname"><?php echo $facilities->facilities_name; ?></label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <aside class="row">
+                                            <input type="hidden" value="<?php echo $facilities->facilities_id; ?>" id="checkbox_<?php echo $checkBocCount; ?>" name="checkbox_<?php echo $checkBocCount; ?>">
+                                            <div class="col-md-6 col-sm-6">
+                                                <input type="number" id="membership_quantity_<?php echo $checkBocCount; ?>" name="membership_quantity_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" />
+                                                <label class="error" style="display:none;" id="error-membership_quantity_<?php echo $checkBocCount; ?>"> please enter the Quantity!</label>
+                                                <label class="error" > <?php echo form_error("membership_quantity_$checkBocCount"); ?></label>
+                                            </div>
+                                            <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){ ?>
+                                            <div class="col-md-6 col-sm-6 m-t-xs-10">
+                                                <input type="number" id="membership_duration_<?php echo $checkBocCount; ?>" name="membership_duration_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){  } ?>/>
+                                                <label class="error" style="display:none;" id="error-membership_duration_<?php echo $checkBocCount; ?>"> please enter the Duration !</label>
+                                                <label class="error" > <?php echo form_error("membership_duration_$checkBocCount"); ?></label>
+                                            </div>
+                                            <?php } ?>
+                                        </aside>
+                                    </div>
+                                    <?php $checkBocCount++;} } ?>
+                                </article>
+                            </aside>
+                            <!-- membership Detail Section End -->
+                        </div>
+                            
                             <!-- Account Detail Section Start -->
                             <figure class="clearfix">
                                 <h3>Account Detail</h3>
@@ -507,9 +547,7 @@
                             <!-- Account Detail Section End -->
 
                         </div>
-                        <div id="upload_modal_form">
-<?php $this->load->view('upload_crop_modal'); ?>
-                        </div>
+                        
                     </section>
                     <section class="clearfix ">
                         <div class="col-md-12 m-t-20 m-b-20">

@@ -38,7 +38,9 @@
                                         
                                         <div class="bg-picture-overlay"></div>
                                         <div class="profile-info-name">
-                                            <div class='pro-img'>
+                                            <div class='pro-img' id="crop-avatar">
+                                                
+                                                <?php  echo $this->load->view('edit_upload_crop_modal');?>
                                                 <!-- image -->
                                                 <?php if(!empty($hospitalData[0]->hospital_img)){
                                                     ?>
@@ -226,6 +228,18 @@
                                                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Name :</label>
                                                                     <p class="col-md-8 col-sm-8 t-xs-left"><?php echo $hospitalData[0]->bloodBank_name;?></p>
                                                                 </article>
+                                                                
+                                                                
+                                                                <div class='pro-img'>
+                                                                   
+                                                                     <?php $this->load->view('blood_upload_crop_modal'); ?>
+                                                                                <!-- image -->
+                                                                                <?php if(!empty($hospitalData[0]->bloodBank_photo)){ ?>
+                                                                               <img src="<?php echo base_url()?>assets/BloodBank/thumb/thumb_100/<?php echo $hospitalData[0]->bloodBank_photo; ?>" alt="" class="logo-img" />
+                                                                               <?php } else { ?>
+                                                                                 <img src="<?php echo base_url()?>assets/default-images/Blood-logo.png" alt="" class="logo-img" />
+                                                                               <?php } ?>
+                                                                </div>
 
                                                                 <article class="clearfix m-b-10 ">
                                                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
@@ -280,6 +294,15 @@
                                                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Name :</label>
                                                                     <p class="col-md-8 col-sm-8 t-xs-left"><?php echo $hospitalData[0]->ambulance_name;?></p>
                                                                 </article>
+                                                                
+                                                                <div class='pro-img'>
+                                                                            <!-- image -->
+                                                                            <?php if(!empty($hospitalData[0]->ambulance_img)){ ?>
+                                                                           <img src="<?php echo base_url()?>assets/ambulanceImages/thumb/thumb_100/<?php echo $hospitalData[0]->ambulance_img; ?>" alt="" class="logo-img" />
+                                                                           <?php } else { ?>
+                                                                             <img src="<?php echo base_url()?>assets/default-images/ambulance_logo.png" alt="" class="logo-img" />
+                                                                           <?php } ?>
+                                                                 </div>
 
                                                                 <article class="clearfix m-b-10 ">
                                                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
@@ -502,13 +525,24 @@
                                                                     
                                                                     <section id="bloodbankdetail" style="display:none">
                                                                 
-                                                                        <article class="clearfix m-b-10">
+                                                                     <article class="clearfix m-b-10">
                                                                        <label for="cemail" class="control-label col-md-4 col-sm-4">Name :</label>
                                                                        <div class="col-md-8 col-sm-8">
                                                                            <input class="form-control" name="bloodBank_name" id="bloodBank_name" type="text" value="<?php if(isset($hospitalData[0]->bloodBank_name)){ echo $hospitalData[0]->bloodBank_name; } ?>">
                                                                             <label class="error" style="display:none;" id="error-bloodBank_name"> please Check your Blood Bank name</label>
                                                                            <div>
                                                                    </article>
+                                                                        
+                                                                        
+                                                                    <div class='pro-img'>
+                                                                                <!-- image -->
+                                                                                <?php if(!empty($hospitalData[0]->bloodBank_photo)){ ?>
+                                                                               <img src="<?php echo base_url()?>assets/BloodBank/thumb/thumb_100/<?php echo $hospitalData[0]->bloodBank_photo; ?>" alt="" class="logo-img" />
+                                                                               <?php } else { ?>
+                                                                                 <img src="<?php echo base_url()?>assets/default-images/Blood-logo.png" alt="" class="logo-img" />
+                                                                               <?php } ?>
+                                                                     </div>
+                                                                        
                                                                        <article class="clearfix m-b-10 ">
                                                                        <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
                                                                        <div class="col-md-8 col-sm-8">
@@ -553,12 +587,22 @@
                                                                     <section id="ambulancedetail" style="display:none">
                                                                 
                                                                         <article class="clearfix m-b-10">
-                                                                       <label for="cemail" class="control-label col-md-4 col-sm-4">Name :</label>
-                                                                       <div class="col-md-8 col-sm-8">
-                                                                           <input class="form-control" name="ambulance_name" id="ambulance_name" type="text" value="<?php if(isset($hospitalData[0]->ambulance_name)){ echo $hospitalData[0]->ambulance_name; } ?>">
-                                                                          <label class="error" style="display:none;" id="error-ambulance_name"> please Check your Ambulance Name</label>
-                                                                           <div>
-                                                                   </article>
+                                                                            <label for="cemail" class="control-label col-md-4 col-sm-4">Name :</label>
+                                                                            <div class="col-md-8 col-sm-8">
+                                                                                <input class="form-control" name="ambulance_name" id="ambulance_name" type="text" value="<?php if(isset($hospitalData[0]->ambulance_name)){ echo $hospitalData[0]->ambulance_name; } ?>">
+                                                                               <label class="error" style="display:none;" id="error-ambulance_name"> please Check your Ambulance Name</label>
+                                                                                <div>
+                                                                        </article>
+                                                                        
+                                                                        <div class='pro-img'>
+                                                                                    <!-- image -->
+                                                                                    <?php if(!empty($hospitalData[0]->ambulance_img)){ ?>
+                                                                                   <img src="<?php echo base_url()?>assets/ambulanceImages/thumb/thumb_100/<?php echo $hospitalData[0]->ambulance_img; ?>" alt="" class="logo-img" />
+                                                                                   <?php } else { ?>
+                                                                                     <img src="<?php echo base_url()?>assets/default-images/ambulance_logo.png" alt="" class="logo-img" />
+                                                                                   <?php } ?>
+                                                                         </div>
+                                                                        
                                                                        <article class="clearfix m-b-10 ">
                                                                        <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
                                                                        <div class="col-md-8 col-sm-8">
@@ -749,7 +793,7 @@
                                                                         <label for="cname" class="control-label col-md-3 col-sm-4">Awards:</label>
                                                                         <div class="col-md-9 col-sm-8">
                                                                             <aside class="row">
-                                                                                <div class="col-md-10 col-sm-10 col-xs-10">
+                                                                                <div class="clearfix">
                                                                                     <input type="text" class="form-control" name="hospitalAwards_awardsName" id="hospitalAwards_awardsName" placeholder="Award Name" />
                                                                                      
                                                                                      <label style="display: none;"class="error" id="error-awards"> Please enter award name </label>  
@@ -775,8 +819,8 @@
                                                                                     <label style="display: none;"class="error" id="error-years-valid">Award year should be greater then 1920 or less then <?php echo date('Y'); ?></label>
 </aside>
                                                                                 </div>
-                                                                                <div class="col-md-2 col-sm-2 col-xs-2">
-                                                                                    <a class="pointer" onclick="addAwards()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus" title="Add Awards"></i></a>
+                                                                                <div class="clerafix">
+                                                                                    <a class="pointer" onclick="addAwards()"><i class="fa fa-plus-circle fa-2x m-t-5 label-plus pull-right" title="Add Awards"></i></a>
                                                                                    
                                                                                 </div>
                                                                                 
@@ -1180,7 +1224,6 @@
                                     
                                     <div id="editDoctorForm" style="<?php if(isset($showDiv) && $showDiv == 'editDoctor'){echo "display:block";}else{ echo "display:none"; } ?>" >
                                             <?php echo $this->load->view('editDoctor'); ?>
-                                            <?php echo $this->load->view('doctorScript.php'); ?>
                                     </div>
                                     
                                     </section>
@@ -1432,5 +1475,4 @@
                           </div>
                     </div>
                      <?php //echo $this->load->view('edit_gallery_crop_modal');?>
-                     <?php  echo $this->load->view('edit_upload_crop_modal');?>
                     <!-- Gallery Model Ends -->

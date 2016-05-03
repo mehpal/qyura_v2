@@ -1423,6 +1423,33 @@ if($current != 'detailDiagnostic'):?>
                  }, 3000);
                status = 0;
              }
+             
+             
+            var faci_count = $("#faci_count" ).val();
+            var i,j;
+            for(i=1;i<=faci_count;i++){
+                if($("#membership_quantity_"+i).val()==''){
+                    $("#membership_quantity_"+i).addClass('bdr-error');
+                    $("#error-membership_quantity_"+i).fadeIn().delay(3000).fadeOut('slow');
+                    status = 0;
+                }
+                if(i == 1 || i == 2){
+                    if($("#membership_duration_"+i).val()==''){
+                        $("#membership_duration_"+i).addClass('bdr-error');
+                        $("#error-membership_duration_"+i).fadeIn().delay(3000).fadeOut('slow');
+                        status = 0;
+                    }
+                }
+            }
+            
+            setTimeout(function(){
+                for(j=1;j<=faci_count;j++){
+                    $("#membership_quantity_"+j).removeClass('bdr-error');
+                    if(j == 1 || j == 2){
+                        $("#membership_duration_"+j).removeClass('bdr-error');
+                    }
+                }
+            }, 3000);
             
             
             
@@ -2429,6 +2456,50 @@ function imageIsLoaded(e) {
         });
     }
     
+    
+    function find_membershipdata (member_id){
+        
+        var url = '<?php echo site_url(); ?>/diagnostic/find_membership';
+        if (typeof member_id == 'string' ){
+            $.ajax({
+                url: url,
+                async: false,
+                type: 'POST',
+                data: {'member_id': member_id},
+                success: function (data) {
+                    var datas = $.parseJSON(data);
+                    //console.log(data);
+                    var i;
+                    var j = 1;
+                    var k = 1;
+                    if(datas && datas != ''){
+                        for(var datat in datas){
+                            $("#membership_quantity_"+j).val(datas[datat].membershipFacilities_quantity);
+                            if(datas[datat].membershipFacilities_facilitiesId == 2 || datas[datat].membershipFacilities_facilitiesId == 4){
+                                $("#membership_duration_"+j).val(datas[datat].membershipFacilities_duration);
+                            }
+                            j++;
+                        }
+                    }else{
+                        for(k = 1; k < 5; k++){
+                            $("#membership_quantity_"+k).val('');
+                            $("#membership_duration_"+k).val('');
+                        }
+                    }
+                }
+            });
+        }
+    }
+    
+    
+    $(document).ready(function (){
+        $("#membershipForm").submit(function (event) {
+            event.preventDefault();
+            var url = '<?php echo site_url(); ?>/diagnostic/membershipEdit/';
+            var formData = new FormData(this);
+            submitData(url,formData);
+        });
+    });
 </script>
 
 </body>

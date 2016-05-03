@@ -163,7 +163,7 @@
                               </aside>
                                
                             <?php if($i != 0){ ?>
-                               <aside class="col-sm-2 text-right"><a id="btn-service2" href="javascript:void(0)"  pull-right="" class="gadd"><i class="fa fa-minus-circle fa-2x m-t-5 label-plus"></i></a>
+                               <aside class="col-sm-8 text-right pull-right"><a id="btn-service2" href="javascript:void(0)"  pull-right="" class="gadd"><i class="fa fa-minus-circle fa-2x m-t-5 label-plus pull-right"></i></a>
                                </aside> <?php } ?>
                        
                               <br />
@@ -220,7 +220,7 @@
                   <div id="load_consulting" class="text-center text-success " style="display: none">
                      <image alt="Please wait data is loading" src="<?php echo base_url('assets/images/loader/Heart_beat.gif'); ?>" />
                   </div>
-                  <a class="btn btn-danger waves-effect pull-right" type="button" href="<?php echo base_url().'/index.php//hospital/detailHospital/'.$hospitalId.'/doctor'; ?>">Cancel</a>
+                  <a class="btn btn-danger waves-effect pull-right" type="button" href="<?php echo base_url().'/index.php/hospital/detailHospital/'.$hospitalId.'/doctor'; ?>">Cancel</a>
                   <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit">Update</button>
                </div>
             </section>

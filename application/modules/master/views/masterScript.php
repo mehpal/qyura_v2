@@ -64,7 +64,11 @@ if ($current != 'detailDoctor'): ?>
             var formData = new FormData(this);
             submitData(url,formData);
         });
+         $('.select2').select2().change(function(){
+    $(this).valid()
+});
     });
+
     
     $(document).ready(function (){
         $("#degreeEditForm").submit(function (event) {
@@ -671,4 +675,309 @@ if ($current != 'detailDoctor'): ?>
         }
     }); 
     });
+</script>
+<script>
+    var urls = "<?php echo base_url() ?>";
+    $(document).ready(function () {
+    $("#miForm").validate({
+        rules: {
+            mi_name: {
+                required: true
+            },
+            mi_countryId: {
+                required : true
+            },
+            mi_stateId: {
+                required : true
+            },
+            mi_cityId: {
+                required : true
+            },
+            mi_zip: {
+                required: true,
+                            
+            },
+            mi_address:{
+         
+                required: true
+            },
+            lat:{
+         
+           required: true
+            },
+            lng:{
+         
+            required: true
+            }
+        },
+        messages: {
+            mi_name: {
+                required: "Please enter MI name!",
+            },
+            mi_countryId: {
+                required : "Please select a country!"
+            },
+            mi_stateId: {
+                required : "Please select a state!"
+            },
+            mi_cityId: {
+                required : "Please select a city!"
+            },
+         
+            mi_zip: {
+                required: "Please enter a zip code!"
+            },
+            mi_address: {
+                required: "Please enter an address!"
+            },
+            lat: {
+                required: "Please enter the latitude!"
+            },
+            lng: {
+                required: "Please enter the longitude!"
+            }   
+           
+        }
+
+    });
+    
+});
+</script>
+<script>
+    var urls = "<?php echo base_url() ?>";
+    $(document).ready(function () {
+    $("#submitForm").validate({
+        rules: {
+            hospital_name: {
+                required: true
+            },
+            hospital_countryId: {
+                required : true
+            },
+            hospital_stateId: {
+                required : true
+            },
+            hospital_cityId: {
+                required : true
+            },
+            hospital_zip: {
+                required: true,
+                            
+            },
+            hospital_address:{
+         
+                required: true
+            },
+            lat:{
+         
+           required: true
+            },
+            lng:{
+         
+            required: true
+            }
+        },
+        messages: {
+            hospital_name: {
+                required: "Please enter MI name!",
+            },
+            hospital_countryId: {
+                required : "Please select a country!"
+            },
+            hospital_stateId: {
+                required : "Please select a state!"
+            },
+            hospital_cityId: {
+                required : "Please select a city!"
+            },
+         
+            hospital_zip: {
+                required: "Please enter a zip code!"
+            },
+            hospital_address: {
+                required: "Please enter an address!"
+            },
+            lat: {
+                required: "Please enter the latitude!"
+            },
+            lng: {
+                required: "Please enter the longitude!"
+            }   
+           
+        }
+
+    });
+    
+});
+</script>
+<script>
+    var urls = "<?php echo base_url() ?>";
+    $(document).ready(function () {
+    $("#submitEditForm").validate({
+        rules: {
+            diagnostic_name: {
+                required: true
+            },
+            diagnostic_countryId: {
+                required : true
+            },
+            diagnostic_stateId: {
+                required : true
+            },
+            diagnostic_cityId: {
+                required : true
+            },
+            diagnostic_zip: {
+                required: true,
+                            
+            },
+            diagnostic_address:{
+         
+                required: true
+            },
+            lat:{
+         
+           required: true
+            },
+            lng:{
+         
+            required: true
+            }
+        },
+        messages: {
+            diagnostic_name: {
+                required: "Please enter MI name!",
+            },
+            diagnostic_countryId: {
+                required : "Please select a country!"
+            },
+            diagnostic_stateId: {
+                required : "Please select a state!"
+            },
+            diagnostic_cityId: {
+                required : "Please select a city!"
+            },
+         
+            diagnostic_zip: {
+                required: "Please enter a zip code!"
+            },
+            diagnostic_address: {
+                required: "Please enter an address!"
+            },
+            lat: {
+                required: "Please enter the latitude!"
+            },
+            lng: {
+                required: "Please enter the longitude!"
+            }   
+           
+        }
+
+    });
+    
+});
+</script>
+<script>
+    var urls = "<?php echo base_url() ?>";
+    $(document).ready(function () {
+    $("#cityForm").validate({
+        rules: {
+            city_countryid: {
+                required: true
+            },
+            city_stateid: {
+                required : true
+            },
+            city_name: {
+                required : true
+            },
+            city_center: {
+                required : true
+            },
+            lat: {
+                required: true,
+                            
+            },
+            lng:{
+         
+                required: true
+            }
+        },
+        messages: {
+            city_countryid: {
+                required: "Please select a country!",
+            },
+            city_stateid: {
+                required : "Please select a state!"
+            },
+            city_name: {
+                required : "Please select a city!"
+            },
+            city_center: {
+                required : "Please enter the name of city center!"
+            },
+            lat: {
+                required: "Please enter the latitude!"
+            },
+            lng: {
+                required: "Please enter the longitude!"
+            }   
+           
+        }
+
+    });
+    
+});
+</script>
+<script>
+    var urls = "<?php echo base_url() ?>";
+    $(document).ready(function () {
+    $("#submitFormEditCity").validate({
+        rules: {
+            city_countryid: {
+                required: true
+            },
+            city_stateid: {
+                required : true
+            },
+            city_name: {
+                required : true
+            },
+            city_center: {
+                required : true
+            },
+            lat: {
+                required: true,
+                            
+            },
+            lng:{
+         
+                required: true
+            }
+        },
+        messages: {
+            city_countryid: {
+                required: "Please select a country!",
+            },
+            city_stateid: {
+                required : "Please select a state!"
+            },
+            city_name: {
+                required : "Please select a city!"
+            },
+            city_center: {
+                required : "Please enter the name of city center!"
+            },
+            lat: {
+                required: "Please enter the latitude!"
+            },
+            lng: {
+                required: "Please enter the longitude!"
+            }   
+           
+        }
+
+    });
+    
+});
 </script>

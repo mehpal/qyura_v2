@@ -1,14 +1,14 @@
 <article class="clearfix m-t-10">
     <label for="cname" class="control-label col-md-4 col-sm-4">Name:</label>
     <div class="col-md-8 col-sm-8">
-        <input class="form-control m-t-10" id="mi_name" type="text" name="mi_name" placeholder="" value="" >
+        <input class="form-control m-t-10" id="mi_name" type="text" name="mi_name" placeholder="" value="" onkeypress="return isAlpha(event,this.value)">
         <label class="error" id="err_mi_name" > <?php echo form_error("mi_name"); ?></label>
     </div>
 </article>
 <article class="clearfix m-t-10">
     <label for="cname" class="control-label col-md-4 col-sm-4">Address:</label>
     <div class="col-md-8 col-sm-8">
-        <select class="form-control selectpicker" data-width="100%" name="mi_countryId" id="mi_countryId" onchange ="fetchState(this.value)">
+        <select class="form-control select2" data-width="100%" name="mi_countryId" id="mi_countryId" onchange ="fetchState(this.value)">
             <option value="">Select Country</option>
             <?php if (isset($country_list) && !empty($country_list)) {
                 foreach ($country_list as $key => $val) { ?>
@@ -20,7 +20,7 @@
 </article>
 <article class="clearfix">
     <div class="col-md-8  col-sm-8 col-sm-offset-4">
-        <select class="selectpicker form-control" data-width="100%" name="mi_stateId" id="stateId" data-size="4" onchange ="fetchCity(this.value)">
+        <select class="form-control select2 " data-width="100%" name="mi_stateId" id="stateId" data-size="4" onchange ="fetchCity(this.value)">
             <option value="">Select State</option>
             <?php if (isset($allStates) && !empty($allStates)) {
                 foreach ($allStates as $key => $val) { ?>
@@ -32,7 +32,7 @@
 </article>
 <article class="clearfix">
     <div class="col-md-8  col-sm-8 col-sm-offset-4">
-        <select class="form-control selectpicker" data-width="100%" name="mi_cityId" id="cityId" data-size="4">
+        <select class="form-control select2" data-width="100%" name="mi_cityId" id="cityId" data-size="4">
             <option value="">Select City</option>
             <?php if (isset($allCities) && !empty($allCities)) {
                 foreach ($allCities as $key => $val) { ?>
@@ -58,11 +58,11 @@
     <div class="col-md-8  col-sm-8 col-sm-offset-4">
         <aside class="row">
             <div class="col-sm-12">
-                <input name="lat" onkeypress="return isNumberKey(event,'err_lat')" class="form-control" type="text" value=""  id="lat" placeholder="Latitude" min="9" max="9"/>
+                <input name="lat" onkeypress="return isNumberKey(event,'err_lat')" class="form-control" type="text" value=""  id="lat" placeholder="Latitude"/>
                 <label class="error" id="err_lat" > <?php echo form_error("lat"); ?></label>
             </div>
             <div class="col-sm-12">
-                <input name="lng" onkeypress="return isNumberKey(event,'err_lng')" type="text" value=""  id="lng" class="form-control" placeholder="Longitude" min="9" max="9"/>
+                <input name="lng" onkeypress="return isNumberKey(event,'err_lng')" type="text" value=""  id="lng" class="form-control" placeholder="Longitude"/>
                 <label class="error" id="err_lng" > <?php echo form_error("lng"); ?></label>
             </div>
         </aside>

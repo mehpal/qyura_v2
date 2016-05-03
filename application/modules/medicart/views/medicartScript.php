@@ -16,7 +16,7 @@ if (isset($diagnosticId) && !empty($diagnosticId)) {
 <link href="<?php echo base_url(); ?>assets/cropper/cropper.min.css" rel="stylesheet">
 <link href="<?php echo base_url(); ?>assets/cropper/main.css" rel="stylesheet">
 <script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
-<script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
+<script src="<?php echo base_url(); ?>assets/cropper_new/dist/cropper.js"></script>
 
 <?php $current = $this->router->fetch_method();
 if ($current != 'detailDiagnostic'):
@@ -52,9 +52,9 @@ var urls = "<?php echo base_url() ?>";
     $('#date-1').datepicker({
         startDate: '+0d'
     });
-    $('#date-2').datepicker({
-        startDate: '+0d'
-    });
+//    $('#date-2').datepicker({
+//        startDate: '+0d'
+//    });
 
     $('.pickDate').datepicker()
             .on('changeDate', function (ev) {
@@ -63,11 +63,23 @@ var urls = "<?php echo base_url() ?>";
                 var eDate = $('#date-2').val();
                 var d1 = new Date($('#date-1').val());
                 var d2 = new Date($('#date-2').val());
+                var offerDuration = $("#offerDuration").val();
+                
+                
                 if (d1.getTime() > d2.getTime()) {
                     $("#date_error").html("<p>Start date should be less then end date.</p>");
                     $('#date-1').val("");
+                    $('#date-2').val("");
                 } else {
                     $("#date_error").html("");
+                    var days = (offerDuration * 7);
+                    var newdate = new Date(d1);
+                    newdate.setDate(newdate.getDate() + days);
+                    var dd = newdate.getDate();
+                    var mm = newdate.getMonth() + 1;
+                    var y = newdate.getFullYear();
+                    var someFormattedDate = mm + '/' + dd + '/' + y;
+                    $("#date-2").val(someFormattedDate);
                 }
             });
 
@@ -100,7 +112,9 @@ var urls = "<?php echo base_url() ?>";
      */
 
     $(document).ready(function () {
-
+        $('.selectepicker2').select2().change(function(){
+           $(this).valid()
+       });
         var oTableOffer = $('#medicart_offer_datatable').DataTable({
             "processing": true,
             "serverSide": true,
@@ -464,7 +478,7 @@ var urls = "<?php echo base_url() ?>";
                 $("#discountOffer").hide('slow');
             }
         }else{
-            alert("Please fill Actual Price");
+            bootbox.alert("Please fill Actual Price.");
             $("#inlineRadio4").prop('checked', true);
             $("#discountOffer").hide();
         }
@@ -514,6 +528,43 @@ var urls = "<?php echo base_url() ?>";
         });
         // }
         //}); 
+    }
+    
+    function getMemberShipDuTime(miUserId){
+           var url = '<?php echo site_url(); ?>/medicart/getMemberShipDuTime';
+           $.ajax({
+            type: 'post',
+            data: {'id': miUserId},
+            url: url,
+            async: false,
+            success: function (response) {
+                var obj = $.parseJSON(response);
+                 
+                if (obj.status == 200)
+                {
+                    $("#offerDuration").val(obj.quantity);
+                    $("#date-2").val("");
+                    $("#date-1").val("");
+                    
+                }else{
+                   bootbox.alert(obj.message);
+                   $("#offerDuration").val("");
+                   $("#miName").attr("selected","");
+                   $("#date-2").val("");
+                   $("#date-1").val("");
+////                   var $example = $("#miName").select2();
+//                    $("#miName").select2({
+//                    placeholder: "Select a customer",
+//                    initSelection: function(element, callback) {                   
+//                    }
+//                });
+//                   
+////            $example.val(null);
+////                   $("#miName").select2();
+                }
+            }
+              
+        });
     }
 
 </script>
