@@ -953,7 +953,7 @@ if (isset($mapData) && !empty($mapData)) {
         }
 
         if (!$.isNumeric(phn)) {
-            $('#hospital_phn1').addClass('bdr-error');
+            $('#hospital_phn').addClass('bdr-error');
             $('#error-hospital_phn').fadeIn().delay(3000).fadeOut('slow');
             status = 0;
             // $('#hospital_phn').focus();
@@ -1962,7 +1962,7 @@ if (isset($mapData) && !empty($mapData)) {
                         $("#hospital_zip").val(obj.zipCode);
                         $("#lat").val(obj.lat);
                         $("#lng").val(obj.lng);
-                        $("#hospital_name").val(obj.hospital_name);
+                        $("#hospital_name").val(obj.name);
                         
                         $("#isAddressDisabled").val(1);
                         
