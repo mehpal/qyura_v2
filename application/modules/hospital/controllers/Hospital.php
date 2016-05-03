@@ -52,6 +52,23 @@ class Hospital extends MY_Controller {
 
     function addHospital() {
         $data = array();
+        
+       $option = array(
+            'table' => 'qyura_membership',
+            'select' => 'membership_id,membership_name',
+            'where' => array('membership_deleted' => 0,'status' => 3,'membership_type' => 3)
+        );
+        $data['membership_plan'] = $this->common_model->customGet($option);
+        
+        $option = array(
+            'table' => 'qyura_facilities',
+            'select' => '*',
+            'where' => array('qyura_facilities.facilities_deleted' => 0),
+            'order' => array('facilities_name' => 'asc'),
+            'single' => FALSE
+        );
+        $data['facilities_list'] = $this->common_model->customGet($option);
+        
         $data['allCountry'] = $this->Hospital_model->fetchCountry();
         $data['allStates'] = $this->Hospital_model->fetchStates();
         $data['publishHospital'] = $this->Hospital_model->fetchPublishHospital();
@@ -576,6 +593,7 @@ class Hospital extends MY_Controller {
                 $hospital_usersId = $users_email_status;
                 $usersRoles_parentId = $users_email_status;
             }
+            
             if ($hospital_usersId) {
 
                 $inserData['hospital_usersId'] = $hospital_usersId;
@@ -593,6 +611,30 @@ class Hospital extends MY_Controller {
                     );
                     $response = $this->Hospital_model->UpdateTableData($inserData, $where, 'qyura_hospital');
                 }
+                
+                
+                
+                 //membership
+                        $feci_count = $this->input->post("faci_count");
+                        for($i=1;$i<=$feci_count;$i++){
+                            $insert_rec = array(
+                                'miMembership_type' => 10,
+                                'miMembership_miId' => $hospitalId,
+                                'miMembership_facilitiesId' => $this->input->post("checkbox_$i"),
+                                'miMembership_quantity' => $this->input->post("membership_quantity_$i"),
+                                'creationTime' => strtotime(date("d-m-Y H:i:s")),
+                            );
+                            if($i == 1 || $i == 2){
+                               // $insert_rec['miMembership_duration'] = $this->input->post("membership_duration_$i");
+                            }
+                            $dayOptions = array
+                            (
+                                'data' => $insert_rec,
+                                'table' => 'qyura_miMembership'
+                            );
+                            $this->common_model->customInsert($dayOptions);
+                        }
+                //membership
                 
                 $insertusersRoles = array(
                     'usersRoles_userId' => $hospital_usersId,
@@ -2431,6 +2473,63 @@ class Hospital extends MY_Controller {
             echo $data;
         }
         exit;
+    }
+    
+    
+      function find_membership() {
+        $membershipId = $this->input->post('member_id');	
+        $option = array(
+            'table' => 'qyura_membershipFacilities',
+            'select' => '*',
+            'where' => array('membershipFacilities_deleted' => 0, 'status' => 3, 'membershipFacilities_membershipId' =>$membershipId )
+        );
+        $membership_plan = $this->common_model->customGet($option);
+        echo json_encode($membership_plan);
+    }
+    
+    
+    function membershipEdit() {
+        
+        $faci_count = $this->input->post('faci_count');
+        for($i = 1; $i <= $faci_count; $i++){
+            $checkbox = $this->input->post("checkbox_$i");
+            $this->bf_form_validation->set_rules("membership_quantity_$i", "Quantity", 'required|xss_clean');
+            if($checkbox == 2 || $checkbox == 4){
+                $this->bf_form_validation->set_rules("membership_duration_$i", "Duration", 'required|xss_clean');
+            }
+        }
+        if ($this->bf_form_validation->run() == FALSE) {
+            $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
+            echo json_encode($responce);
+        } else {
+            $digo_id = $this->input->post("digo_id");
+            $faci_count = $this->input->post('faci_count');
+            for($i = 1; $i <= $faci_count; $i++){
+                $miMembership_id = $this->input->post("miMembershipId_$i");
+                $miFacilitiesId = $this->input->post("miFacilitiesId_$i");
+                $quantity = $this->input->post("membership_quantity_$i");
+                $duration = $this->input->post("membership_duration_$i");
+                if($quantity != ''){
+                    $records_array['miMembership_quantity'] = $quantity;
+                }
+                if($miFacilitiesId == 2 || $miFacilitiesId == 4){
+                    $records_array['miMembership_duration'] = $duration;
+                }else{
+                    unset($records_array['miMembership_duration']);
+                }
+                $options = array
+                (
+                    'where' => array('miMembership_id' => $miMembership_id),
+                    'data'  => $records_array,
+                    'table' => 'qyura_miMembership'
+                );
+                $this->common_model->customUpdate($options);
+                
+            }
+                
+            $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "diagnostic/detailDiagnostic/$digo_id/membership");
+            echo json_encode($responce);
+        }
     }
     
 }

@@ -32,8 +32,7 @@ if ($current != 'detailHospital'):
     ?>
     <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
 <?php else: ?>
-    <script src="<?php echo base_url(); ?>assets/cropper/main2.js"></script>
-    
+<!--    <script src="<?php echo base_url(); ?>assets/cropper/main2.js"></script>-->
     <script src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
 
     <script src="<?php  echo base_url(); ?>assets/cropper/doctor_cropper.js"></script>
@@ -2148,6 +2147,52 @@ if (isset($mapData) && !empty($mapData)) {
     $(".bs-select").select2({placeholder: "Select a Speciality",
         allowClear: true
     });
+    
+    
+     function find_membershipdata (member_id){
+        
+        var url = '<?php echo site_url(); ?>/diagnostic/find_membership';
+        if (typeof member_id == 'string' ){
+            $.ajax({
+                url: url,
+                async: false,
+                type: 'POST',
+                data: {'member_id': member_id},
+                success: function (data) {
+                    var datas = $.parseJSON(data);
+                    //console.log(data);
+                    var i;
+                    var j = 1;
+                    var k = 1;
+                    if(datas && datas != ''){
+                        for(var datat in datas){
+                            $("#membership_quantity_"+j).val(datas[datat].membershipFacilities_quantity);
+                            if(datas[datat].membershipFacilities_facilitiesId == 2 || datas[datat].membershipFacilities_facilitiesId == 4){
+                                $("#membership_duration_"+j).val(datas[datat].membershipFacilities_duration);
+                            }
+                            j++;
+                        }
+                    }else{
+                        for(k = 1; k < 5; k++){
+                            $("#membership_quantity_"+k).val('');
+                            $("#membership_duration_"+k).val('');
+                        }
+                    }
+                }
+            });
+        }
+    }
+    
+    
+  $(document).ready(function (){
+        $("#membershipForm").submit(function (event) {
+            event.preventDefault();
+            var url = '<?php echo site_url(); ?>/diagnostic/membershipEdit/';
+            var formData = new FormData(this);
+            submitData(url,formData);
+        });
+    });
+    
 </script>
 </body>
 </html>

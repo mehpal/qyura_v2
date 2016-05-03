@@ -55,7 +55,7 @@
                                 <article class="clearfix m-t-10">
                                     <label for="cname" class="control-label col-md-4 col-sm-4 m-t-10">Country:</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <select class="form-control selectpicker" data-width="100%" name="city_countryid" id="city_countryid" onchange ="fetchState(this.value)">
+                                        <select class="form-control select2" data-width="100%" name="city_countryid" id="city_countryid" onchange ="fetchState(this.value)">
                                             <option value="">Select Country</option>
                                             <?php if (isset($country_list) && !empty($country_list)) {
                                                 foreach ($country_list as $key => $val) { ?>
@@ -68,7 +68,7 @@
                                 <article class="clearfix m-t-10">
                                     <label for="cname" class="control-label col-md-4 col-sm-4 m-t-10">State:</label>
                                     <div class="col-md-8  col-sm-8">
-                                        <select class="selectpicker form-control" data-width="100%" name="city_stateid" id="stateId" data-size="4" >
+                                        <select class="form-control select2" data-width="100%" name="city_stateid" id="stateId" data-size="4" >
                                             <option value="">Select State</option>
                                             <?php if (isset($allStates) && !empty($allStates)) {
                                                 foreach ($allStates as $key => $val) { ?>
@@ -81,33 +81,33 @@
                                 <article class="clearfix m-t-10">
                                     <label for="cname" class="control-label col-md-4 col-sm-4 m-t-10">City Name:</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <input class="form-control" id="city_name" type="text" name="city_name" placeholder="City Name">
+                                        <input class="form-control" id="city_name" type="text" name="city_name" placeholder="City Name" onkeypress="return isAlpha(event,this.value)">
                                         <label class="error" id="err_city_name" > <?php echo form_error("city_name"); ?></label>
                                     </div>
                                 </article>
                                 <article class="clearfix m-t-10">
                                     <label for="cname" class="control-label col-md-4 col-sm-4 m-t-10">City Center:</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <input class="form-control" id="city_center" type="text" name="city_center" placeholder="City Center">
+                                        <input class="form-control" id="city_center" type="text" name="city_center" placeholder="City Center" onkeypress="return isAlpha(event,this.value)"> 
                                         <label class="error" id="err_city_center" > <?php echo form_error("city_center"); ?></label>
                                     </div>
                                 </article>
                                 <article class="clearfix">
                                     <label for="cname" class="control-label col-md-4 col-sm-4 m-t-10">Latitude:</label>
                                     <div class="col-md-8  col-sm-8">
-                                        <input name="lat" onkeypress="return isNumberKey(event,'err_lat')" class="form-control" type="text" value="<?php echo set_value('lat'); ?>"  id="lat" placeholder="Latitude" min="9" max="9"/>
+                                        <input name="lat" onkeypress="return isNumberKey(event,'err_lat')" class="form-control" type="text" value="<?php echo set_value('lat'); ?>"  id="lat" placeholder="Latitude"/>
                                         <label class="error" id="err_lat" > <?php echo form_error("lat"); ?></label>
                                     </div>
                                 </article>
                                 <article class="clearfix">
                                     <label for="cname" class="control-label col-md-4 col-sm-4 m-t-10">Longitude:</label>
                                     <div class="col-md-8  col-sm-8 ">
-                                        <input name="lng" onkeypress="return isNumberKey(event,'err_lng')" type="text" value="<?php echo set_value('lng'); ?>"  id="lng" class="form-control" placeholder="Longitude" min="9" max="9"/>
+                                        <input name="lng" onkeypress="return isNumberKey(event,'err_lng')" type="text" value="<?php echo set_value('lng'); ?>"  id="lng" class="form-control" placeholder="Longitude"/>
                                         <label class="error" id="err_lng" > <?php echo form_error("lng"); ?></label>
                                     </div>
                                 </article>
                                 <article class="clearfix m-t-10 m-b-20">
-                                    <button class="btn btn-success waves-effect waves-light pull-right" type="submit">Update</button>
+                                    <button class="btn btn-success waves-effect waves-light pull-right" type="submit">Submit</button>
                                 </article>
                             </form>
                         </div>

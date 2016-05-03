@@ -259,6 +259,16 @@ class Membership extends MY_Controller {
 
             $update = $this->common_model->customUpdate($updateOptions);
 
+	    $where = array('membershipFacilities_membershipId' => $ena_id);
+            $updateOptions = array
+            (
+                'where' => $where,
+                'data'  => $update_data,
+                'table' => 'qyura_membershipFacilities'
+            );
+
+            $update = $this->common_model->customUpdate($updateOptions);
+	    
             if ($update)
                 echo $update;
             else

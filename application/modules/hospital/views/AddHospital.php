@@ -370,20 +370,24 @@ if (isset($hospital_id) && $hospital_id != 0) {
                                     <label class="error" > <?php echo form_error("hospital_dsgn"); ?></label>
                                 </div>
                             </article>
-
+                            
+                            
                             <article class="clearfix m-t-10">
-                                <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type :</label>
-                                <div class="col-md-8  col-sm-8">
-                                    <select class="selectpicker" data-width="100%" name="hospital_mmbrTyp" id="hospital_mmbrTyp">
-                                        <option value="1"  <?php echo set_select('hospital_mmbrTyp', '1', TRUE); ?>
-                                                >Life Time</option>
-                                        <option value="2"  <?php echo set_select('hospital_mmbrTyp', '2'); ?>
-                                                >Health Club</option>
-                                    </select>
-                                    <label class="error" style="display:none;" id="error-hospital_mmbrTyp"> please select a member type</label>
-                                    <label class="error" > <?php echo form_error("hospital_mmbrTyp"); ?></label>
-                                </div>
-                            </article>
+                                    <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type :</label>
+                                    <div class="col-md-8  col-sm-8">
+                                        <select class="selectpicker" data-width="100%" name="hospital_mmbrTyp" id="hospital_mmbrTyp" onchange="find_membershipdata(this.value)">
+                                            <option value="">Select Membership</option>
+                                            <?php if(isset($membership_plan) && $membership_plan){ 
+                                                foreach($membership_plan as $membership){ ?>
+                                                    <option value="<?php echo $membership->membership_id; ?>" <?php echo set_select('hospital_mmbrTyp', $membership->membership_id); ?> ><?php echo $membership->membership_name; ?></option>
+                                            <?php } } ?>
+                                        </select>
+                                        <label class="error" style="display:none;" id="error-hospital_mmbrTyp"> please select a member type</label>
+                                        <label class="error" > <?php echo form_error("hospital_mmbrTyp"); ?></label>
+                                    </div>
+                                </article>
+                            
+                            
                             <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4 col-sm-4">About Us :</label>
                                 <div class="col-md-8  col-sm-8">
@@ -640,89 +644,42 @@ if (isset($amobulancestatus) && $amobulancestatus == 1) {
 
                 <!-- Right Section Start1 -->
                 <section class="col-md-6 detailbox mi-form-section"> 
-                    <div class="bg-white clearfix">
-                        <!-- Feature Access Section Start -->
-                        <!--    <div>
-                                <figure class="clearfix">
-                                    <h3>Feature Access</h3>
-                                </figure>
+                   <div class="bg-white clearfix">
 
-
+                            <!-- membership Detail Section Start -->
+                            <figure class="clearfix">
+                                <h3>Membership Detail</h3>
+                            </figure>
+                            <aside class="clearfix m-t-20 p-b-20">
                                 <article class="clearfix m-t-10">
-                                    <label class="control-label col-md-6 col-xs-9" for="cname"> Doctor Management</label>
-                                    <div class="col-md-6 col-xs-3">
-                                        <aside class="checkbox checkbox-success m-t-5">
-                                            <input type="checkbox" id="checkbox3">
-                                            <label>
-
-                                            </label>
+                                    <?php $checkBocCount = 1; 
+                                    if(isset($facilities_list) && $facilities_list != NULL){ ?>
+                                    <input type="hidden" value="<?php echo count($facilities_list); ?>" id="faci_count" name="faci_count">    
+                                    <?php foreach($facilities_list as $facilities){ ?>
+                                    <label class="control-label col-md-4 col-xs-9" for="cname"><?php echo $facilities->facilities_name; ?></label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <aside class="row">
+                                            <input type="hidden" value="<?php echo $facilities->facilities_id; ?>" id="checkbox_<?php echo $checkBocCount; ?>" name="checkbox_<?php echo $checkBocCount; ?>">
+                                            <div class="col-md-6 col-sm-6">
+                                                <input type="number" id="membership_quantity_<?php echo $checkBocCount; ?>" name="membership_quantity_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" />
+                                                <label class="error" style="display:none;" id="error-membership_quantity_<?php echo $checkBocCount; ?>"> please enter the Quantity!</label>
+                                                <label class="error" > <?php echo form_error("membership_quantity_$checkBocCount"); ?></label>
+                                            </div>
+                                            <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){ ?>
+                                            <div class="col-md-6 col-sm-6 m-t-xs-10">
+                                                <input type="number" id="membership_duration_<?php echo $checkBocCount; ?>" name="membership_duration_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){  } ?>/>
+                                                <label class="error" style="display:none;" id="error-membership_duration_<?php echo $checkBocCount; ?>"> please enter the Duration !</label>
+                                                <label class="error" > <?php echo form_error("membership_duration_$checkBocCount"); ?></label>
+                                            </div>
+                                            <?php } ?>
                                         </aside>
                                     </div>
+                                    <?php $checkBocCount++;} } ?>
                                 </article>
-
-                                <article class="clearfix">
-                                    <label class="control-label col-md-6 col-xs-9" for="cname"> App Consultation Booking </label>
-                                    <div class="col-md-6 col-xs-3">
-                                        <aside class="checkbox checkbox-success m-t-5">
-                                            <input type="checkbox" id="checkbox3">
-                                            <label>
-
-                                            </label>
-                                        </aside>
-                                    </div>
-                                </article>
-
-                                <article class="clearfix">
-                                    <label class="control-label col-md-6 col-xs-9" for="cname">Diagnostic Management </label>
-                                    <div class="col-md-6 col-xs-3">
-                                        <aside class="checkbox checkbox-success m-t-5">
-                                            <input type="checkbox" id="checkbox3">
-                                            <label>
-
-                                            </label>
-                                        </aside>
-                                    </div>
-                                </article>
-
-                                <article class="clearfix">
-                                    <label class="control-label col-md-6 col-xs-9" for="cname">App Diagnostic Booking </label>
-                                    <div class="col-md-6 col-xs-3">
-                                        <aside class="checkbox checkbox-success m-t-5">
-                                            <input type="checkbox" id="checkbox3">
-                                            <label>
-
-                                            </label>
-                                        </aside>
-                                    </div>
-                                </article>
-
-                                <article class="clearfix">
-                                    <label class="control-label col-md-6 col-xs-9" for="cname">Healthcare Packages </label>
-                                    <div class="col-md-6 col-xs-3">
-                                        <aside class="checkbox checkbox-success m-t-5">
-                                            <input type="checkbox" id="checkbox3">
-                                            <label>
-
-                                            </label>
-                                        </aside>
-                                    </div>
-                                </article>
-
-                                <article class="clearfix">
-                                    <label class="control-label col-md-6 col-xs-9" for="cname">Healthcare Package Booking </label>
-                                    <div class="col-md-6 col-xs-3">
-                                        <aside class="checkbox checkbox-success m-t-5">
-                                            <input type="checkbox" id="checkbox3">
-                                            <label>
-
-                                            </label>
-                                        </aside>
-                                    </div>
-                                </article>
-                            
-                            </div>    -->
-
-                        <!-- Feature Access Section End -->
+                            </aside>
+                            <!-- membership Detail Section End -->
+                        </div>
+                       
 
 
                         <!-- Account Detail Section Start -->

@@ -110,7 +110,7 @@
                                  <article class="clearfix m-t-10">
                                     <label for="" class="control-label">Add New Designation:</label>
                                     <div class="">
-                                       <input type="text" required="" name="designation_name" id="designation_name" class="form-control" pattern="[a-zA-Z]+">
+                                       <input type="text" required="" name="designation_name" id="designation_name" class="form-control" onkeypress="return isAlpha(event,this.value)">
                                        <label class="error" id="err_designation_name" > <?php echo form_error("designation_name"); ?></label>
                                     </div>
                                  </article>

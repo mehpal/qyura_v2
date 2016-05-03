@@ -76,7 +76,7 @@
                                 <article class="clearfix m-t-30">
                                     <label for="" class="control-label">Award Agency Name :</label>
                                     <div class="">
-                                        <input class="form-control m-t-10" id="agency_name" type="text" name="agency_name" placeholder="">
+                                        <input class="form-control m-t-10" id="agency_name" type="text" name="agency_name" placeholder="" onkeypress="return isAlpha(event,this.value)">
                                         <label class="error" id="err_agency_name" > <?php echo form_error("agency_name"); ?></label>
                                     </div>
                                 </article>
