@@ -258,6 +258,12 @@ if ($msg != "" || $msg != NULL) {
         });
         
     }
+     function isAlpha(e) { // Alphanumeric only
+        var k;
+        document.all ? k = e.keycode : k = e.which;
+        return((k >= 65 && k <= 90) || (k >= 97 && k <= 122) || k == 0 || k == 32 || k == 8 || k == 127 || k == 9);
+
+    }
     function puStatusFn(controller, table_name, table_field_name, table_field_value, status_value)
     {
         if (status_value == 2)

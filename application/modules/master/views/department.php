@@ -75,8 +75,8 @@
                                  <article class="clearfix m-t-10">
                                     <label for="" class="control-label">Add New Department:</label>
                                     <div class="">
-                                       <input type="text"  name="department_name" id="department_name" class="form-control">
-                                       <label class="error" id="err_department_name" > <?php echo form_error("department_name"); ?></label>
+                                       <input type="text"  name="department_name" id="department_name" class="form-control" onkeypress="return isAlpha(event,this.value)">
+                                       <label class="error" id="err_department_name"> <?php echo form_error("department_name"); ?></label>
                                     </div>
                                  </article>
                                  <article class="clearfix m-t-10 m-b-20">
