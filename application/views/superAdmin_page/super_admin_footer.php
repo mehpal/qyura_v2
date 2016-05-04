@@ -208,7 +208,7 @@ if ($msg != "" || $msg != NULL) {
     }
 
 //Load Custom enable View for all
-    function enableFn(controller, cfunction, id, status)
+    function enableFn(controller, cfunction, id, status,type)
     {
         if(status == 1){
             var con_mess = "Inactive";
@@ -225,7 +225,7 @@ if ($msg != "" || $msg != NULL) {
             if (result) {
                 $.ajax({
                     type: 'post',
-                    data: {'id': id, 'status': status},
+                    data: {'id': id, 'status': status,'type' : type},
                     url: url,
                     async: false,
                     success: function (data) {
