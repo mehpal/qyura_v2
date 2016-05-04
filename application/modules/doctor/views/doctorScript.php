@@ -463,7 +463,9 @@ if ($current != 'detailDoctor'):
     }
     
     function validationDoctor() {
-        
+        $("#submitForm").find( ".bdr-error" ).each(function(){
+            $(this).removeClass('bdr-error');
+        });
         // $("form[name='doctorForm']").submit();
         var todayDate = Date.parse(new Date());
         var currentYear = new Date().getFullYear();
@@ -642,13 +644,22 @@ if ($current != 'detailDoctor'):
 
             // $('#cnfpassword').focus();
         }
-
+        totalService = $("#totalService").val();
+        for(a=1;a<=totalService;a++){
+            if ($("#doctors_service_"+a).val() == '') {
+                $("#doctors_service_"+a).addClass('bdr-error');
+                $("#error-doctors_service_"+a).fadeIn().delay(3000).fadeOut('slow');
+                count++;
+            }
+        }
         if (pswd != cnfpswd) {
             $('#cnfPassword').addClass('bdr-error');
             $('#error-cnfPassword_check').fadeIn().delay(3000).fadeOut('slow');
             count++;
             // $('#cnfpassword').focus();
         }
+        
+        
 
         setTimeout(function () {
             $(".bdr-error").css( "border-color", "#eee" );
@@ -757,7 +768,7 @@ if ($current != 'detailDoctor'):
     function multipleService() {
         var i = parseInt($("#totalService").val());
         var j = i + parseInt(1);
-        $('#doctorService').append('<div id="doctors_service_div_'+j+'"><label for="" class="control-label col-md-4 col-sm-4"></label><div class="col-md-7 col-sm-7"><input class="form-control" id="doctors_service_'+j+'" name="doctors_service_'+j+'" type="text" maxlength="50"/><label class="error" style="display:none;" id="error-doctors_service"> please enter Service</label><label class="error" ></label></div><div class="col-md-1 col-sm-1"><button id="remove_services_'+j+'" class="btn btn-danger" type="button" href="javascript:void(0);" onclick="removeServices(\''+j+'\');" > <i class="fa fa-minus"></i> </button></div><br /></div>');
+        $('#doctorService').append('<div id="doctors_service_div_'+j+'"><label for="" class="control-label col-md-4 col-sm-4"></label><div class="col-md-7 col-sm-7"><input class="form-control" id="doctors_service_'+j+'" name="doctors_service_'+j+'" type="text" maxlength="50"/><label class="error" style="display:none;" id="error-doctors_service_'+j+'"> please enter Service</label><label class="error" ></label></div><div class="col-md-1 col-sm-1"><button id="remove_services_'+j+'" class="btn btn-danger" type="button" href="javascript:void(0);" onclick="removeServices(\''+j+'\');" > <i class="fa fa-minus"></i> </button></div><br /></div>');
         $("#totalService").val(j);
     }
     
@@ -963,6 +974,7 @@ if ($current != 'detailDoctor'):
             }
             
         }
+            
 </script>
 <?php
 $this->load->view("doctor/timeslotScript");
