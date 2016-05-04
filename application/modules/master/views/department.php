@@ -31,12 +31,12 @@
                               <?php $countDepartment = 1; if(isset($departmentList) && $departmentList != NULL){
                                  foreach ($departmentList as $list){ ?>
                               <li class="clearfix  border-t membership-plan m-t-10">
-                                 <span class="col-md-9">
+                                 <span class="col-md-8">
                                     <h6><?php echo $list->department_name; ?></h6>
                                  </span>
-                                 <span class="col-md-3 text-right">
+                                 <span class="col-md-4 text-right">
                                     <h6>
-                                      <a href="#"><i class="md md-edit membership-btn"></i></a>
+                                        <a href="#"><i class="md md-edit membership-btn" style="line-height: 3"></i></a>
                                       <button onclick="if((<?php echo $list->status; ?>)===2)enableFn('master', 'departmentPublish', '<?php echo $list->department_id; ?>','<?php echo $list->status; ?>')" type="button" class="btn btn-<?php if($list->status == 2){ echo "danger"; }else if($list->status == 0){ echo "warning"; }else if($list->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($list->status == 3){ echo "Verified"; }else if($list->status == 2){ echo "Unverified"; }else if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
                                       
                                     </h6>

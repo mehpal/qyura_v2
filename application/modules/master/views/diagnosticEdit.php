@@ -17,30 +17,26 @@
                                 <label class="error" id="err_diagnosticsCat_catName" > <?php echo form_error("diagnosticsCat_catName"); ?></label>
                             </div>
                         </article>
-                        
-                        <article class="form-group m-lr-0 ">
+                        <article class="form-group m-lr-0 " id="crop-avatar">
+                            <div id="upload_modal_form">
+                                <?php $this->load->view('upload_crop_modal');?>
+                            </div>
                             <label class="control-label col-md-4 col-sm-4" for="cemail"><a href="<?php echo base_url('assets/diagnosticsCatImages/' . $diagnosticEdit->diagnosticsCat_catImage); ?>" target="_blank"><img height="80px;" width="80px;" src="<?php echo base_url('assets/diagnosticsCatImages/' . $diagnosticEdit->diagnosticsCat_catImage); ?>" class="img-responsive"></a>
                             </label>
                             <div class="col-md-8 col-sm-8 text-right avatar-view">
                                 <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
-
-                                    <div class="pre col-md-4 col-sm-4 ">
-                                    <div id="preImgLogo" class="avatar-preview preview-md">
-                                        
-                                   <img src="<?php echo base_url() ?>assets/default-images/Dignostics-logo.png"  class="image-preview-show"/>
-                                        
+                                <div class="pre col-md-4 col-sm-4 ">
+                                    <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
+                                        <img src="<?php echo base_url() ?>assets/default-images/Dignostics-logo.png"  class="image-preview-show"/>
                                     </div>
-                                    </div>
-
-                                    <label class="error" > <?php echo form_error("avatar_file"); ?></label>
-                                    <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
+                                </div>
+                                <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
+                            </div>
                         </article>
                         <article class="clearfix m-t-10 m-b-20">
                             <button class="btn btn-success waves-effect waves-light pull-right" type="submit">Update</button>
                         </article>
-                        <div id="upload_modal_form">
-                            <?php echo $this->load->view('upload_crop_modal'); ?>
-                        </div>
                     <?php } ?>
                 </form>
             </div>

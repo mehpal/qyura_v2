@@ -16,12 +16,12 @@
   var useBlob = false && window.URL; // `true` to use Blob instead of Data-URL
   var console = window.console || { log: function () {} };
 
-  function CropAvatar($element) {
+  function CropAvatar($element, $modelId) {
     this.$container = $element;
 
     this.$avatarView = this.$container.find('.avatar-view');
     this.$avatar = this.$avatarView.find('img');
-    this.$avatarModal = this.$container.find('#avatar-modal');
+    this.$avatarModal = this.$container.find('#'+$modelId);
     this.$loading = this.$container.find('.loading');
 
     this.$avatarForm = this.$avatarModal.find('.avatar-form');
@@ -393,7 +393,11 @@
   };
 
   $(function () {
-    return new CropAvatar($('#crop-avatar'));
+    return new CropAvatar($('#crop-avatar'), 'avatar-modal');
+  });
+  
+    $(function () {
+    return new CropAvatar($('#blood-crop-avatar'), 'blood-avatar-modal');
   });
 
 });

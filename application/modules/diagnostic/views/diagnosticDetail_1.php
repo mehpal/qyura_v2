@@ -119,6 +119,11 @@
 } ?>">
                                     <a data-toggle="tab" href="#doctor">Doctor</a>
                                 </li>
+                                
+                                <li class=" <?php if (isset($active) && $active == 'membership') { echo "active"; } ?>">
+                                    <a data-toggle="tab" href="#membership">membership</a>
+                                </li>
+                                
                                 <li class=" <?php if (isset($active) && $active == 'account') {
     echo "active";
 } ?>">
@@ -235,6 +240,16 @@
                                                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Name :</label>
                                                                     <p class="col-md-8 col-sm-8 t-xs-left"><?php echo $diagnosticData[0]->bloodBank_name;?></p>
                                                                 </article>
+                                                                
+                                                                
+                                                                 <div class='pro-img'>
+                                                                                <!-- image -->
+                                                                                <?php if(!empty($diagnosticData[0]->bloodBank_photo)){ ?>
+                                                                               <img src="<?php echo base_url()?>assets/BloodBank/thumb/thumb_100/<?php echo $diagnosticData[0]->bloodBank_photo; ?>" alt="" class="logo-img" />
+                                                                               <?php } else { ?>
+                                                                                 <img src="<?php echo base_url()?>assets/default-images/Blood-logo.png" alt="" class="logo-img" />
+                                                                               <?php } ?>
+                                                                </div>
 
                                                                 <article class="clearfix m-b-10 ">
                                                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
@@ -263,6 +278,16 @@
                                                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Name :</label>
                                                                     <p class="col-md-8 col-sm-8 t-xs-left"><?php echo $diagnosticData[0]->ambulance_name;?></p>
                                                                 </article>
+                                                                
+                                                                
+                                                                <div class='pro-img'>
+                                                                            <!-- image -->
+                                                                            <?php if(!empty($diagnosticData[0]->ambulance_img)){ ?>
+                                                                           <img src="<?php echo base_url()?>assets/ambulanceImages/thumb/thumb_100/<?php echo $diagnosticData[0]->ambulance_img; ?>" alt="" class="logo-img" />
+                                                                           <?php } else { ?>
+                                                                             <img src="<?php echo base_url()?>assets/default-images/ambulance_logo.png" alt="" class="logo-img" />
+                                                                           <?php } ?>
+                                                                 </div>
 
                                                                 <article class="clearfix m-b-10 ">
                                                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
@@ -1127,51 +1152,10 @@
                                 <label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>
                                 <label class="error" style="display:none;" id="error-users_email_check"> Email Already Exists!</label>
                                 <!--Staff and Permission Starts -->
-                                <section class="tab-pane fade in <?php
-    if (isset($active) && $active == 'doctor') {
-        echo "active";
-    }
-    ?>" id="doctor">
+                                <section class="tab-pane fade in <?php if (isset($active) && $active == 'doctor') { echo "active"; } ?>" id="doctor">
                                     <!-- Form Section Start -->
                                     <article class="row p-b-10" style="margin-left: 0">
-
-                                        <!--                                    <form name="addDigoDocForm" action="#" id="addDigoDocForm" method="post">    
-                                                                                <aside class="col-md-4 col-sm-4 m-tb-xs-3">
-                                                                                    <div class="input-group">
-                                                                                        <input type="text" name="doctorEmail" id="doctorEmail" class="form-control" placeholder="Check Doctor" onkeyup="switchButton()" required=""/>
-                                                                                        <input type="hidden" id="docId" name="docId" value="" >
-                                                                                        <input type="hidden" id="digoId" name="digoId" value="<?php
-    if (isset($diagnosticData[0]->diagnostic_usersId) && $diagnosticData[0]->diagnostic_usersId != NULL) {
-        echo $diagnosticData[0]->diagnostic_usersId;
-    } else {
-        echo "";
-    }
-    ?>" >
-                                                                                        <input type="hidden" id="ajaxDigoId" name="ajaxDigoId" value="<?php
-    if (isset($diagnosticData[0]->diagnostic_id) && $diagnosticData[0]->diagnostic_id != NULL) {
-        echo $diagnosticData[0]->diagnostic_id;
-    } else {
-        echo "";
-    }
-    ?>" >
-                                                                                    </div>
-                                                                                    <label class="error" id="err_docId"></label>
-                                                                                    <label class="error" id="err_digoId"></label>
-                                                                                </aside>
-                                                                                <aside class="col-md-2 col-sm-2" id="AddDocDigo" style="display: none">
-                                                                                    <button class="btn btn-appointment  m-l-10 pull-right" type="submit" id="addToDiago" >Add To Diagnostic Doctor</button>
-                                                                                </aside>
                                         
-                                                                            </form>-->
-
-                                        <!--                                    <aside class="col-md-2 col-sm-2" id="checkDoctor">
-                                                                                <button class="btn btn-appointment  m-l-10 pull-right" onclick="checkEmailExits()">Check Doctor</button>
-                                                                            </aside>
-                                                                            <aside class="col-md-2 col-sm-2" id="AddNewDoc" style="display: none">
-                                                                                <button class="btn btn-appointment  m-l-10 pull-right" onclick="newDoctor();" >Add New Doctor</button>
-                                                                            </aside>-->
-
-
                                         <aside class="col-md-2 col-sm-2" id="AddNewDoc">
                                             <button class="btn btn-success waves-effect waves-light m-l-10 pull-right addDoctorButton" onclick="addNewDoctor();" >Add New Doctor</button>
                                         </aside>
@@ -1181,10 +1165,10 @@
                                             <input type="text" name="search" id="search" class="form-control" placeholder="Search" />
                                         </aside>
                                     </article>
+                                    
                                     <!-- Form Section End -->
-                                    <article class="clearfix m-top-40 p-b-20" id="doctorList" style="<?php if (isset($showDiv) && $showDiv == 'adddoctor' OR $showDiv == 'editDoctor') {
-        echo "display:none";
-    } ?>">
+                                    <article class="clearfix m-top-40 p-b-20" id="doctorList" style="<?php if (isset($showDiv) && $showDiv == 'adddoctor' OR $showDiv == 'editDoctor') {  echo "display:none"; } ?>">
+                                        
                                         <aside class="table-responsive">
                                             <table class="table all-doctor" id="diagnostic_doctors" style="width:100%">
                                                 <thead>
@@ -1202,28 +1186,75 @@
                                         </aside>
                                     </article>
 
-    <?php echo $showDiv; ?>
-                                    <div id="doctorForm" style="<?php if (isset($showDiv) && $showDiv == 'adddoctor') {
-        echo "display:block";
-    } else {
-        echo "display:none";
-    } ?>" >
-                            <?php echo $this->load->view('addDoctor'); ?>
-    <?php echo $this->load->view('doctorScript.php'); ?>
-                                    </div>
+    
+                                   <div id="doctorForm" style="<?php if (isset($showDiv) && $showDiv == 'adddoctor') { echo "display:block"; } else { echo "display:none"; } ?>" >
+                                            <?php echo $this->load->view('addDoctor'); ?>
+                                            <?php echo $this->load->view('doctorScript.php'); ?>
+                                </div>
 
 
-                                    <div id="editDoctorForm" style="<?php if (isset($showDiv) && $showDiv == 'editDoctor') {
-        echo "display:block";
-    } else {
-        echo "display:none";
-    } ?>" >
-    <?php echo $this->load->view('editDoctor'); ?>
-    <?php echo $this->load->view('doctorScript.php'); ?>
-                                    </div>
+                                   <div id="editDoctorForm" style="<?php if (isset($showDiv) && $showDiv == 'editDoctor') { echo "display:block"; } else {  echo "display:none"; } ?>" >
+                                            <?php echo $this->load->view('editDoctor'); ?>
+                                   </div>
 
                                 </section>
                                 <!-- Staff and Permission Ends -->
+                                
+                                
+                                <!--Membership Starts -->
+                                <section class="tab-pane fade in <?php if (isset($active) && $active == 'membership') {
+        echo "active";
+    } ?>" id="membership"> 
+                                    <form method="post" name="membershipForm" id="membershipForm">
+                                        <aside class="col-md-9 setting">
+                                            <h4>Membership Detail
+                                                <a id="editMem"  class="pull-right cl-pencil"><i class="fa fa-pencil"></i></a>
+                                            </h4>
+                                            <hr/>
+                                            <div class="clearfix m-t-20 p-b-20 " id="detailMem">
+                                            <?php if(isset($membership_datail) && $membership_datail){
+                                              foreach($membership_datail as $membership){ ?>
+                                            
+                                                <article class="clearfix m-b-10">
+                                                    <label for="cemail" class="control-label col-md-4 col-sm-5"><?php echo $membership->facilities_name; ?>:</label>
+                                                    <p class="col-md-8 col-sm-7"><?php echo $membership->miMembership_quantity; ?> <?php echo $membership->facilities_name; ?> <?php if($membership->facilities_id == 2 || $membership->facilities_id == 4){ if(isset($membership->miMembership_duration) && $membership->miMembership_duration != 0){ echo "For ".$membership->miMembership_duration." "."Weeks"; } } ?></p>
+                                                </article>
+                                            
+                                            <?php } } ?>
+                                            </div>
+                                            <aside id="newMem" style="display:none">
+                                        <?php $checkBocCount = 1; 
+                                        if(isset($membership_datail) && $membership_datail != NULL){ ?>
+                                        <input type="hidden" value="<?php echo count($membership_datail); ?>" id="faci_count" name="faci_count">    
+                                        <input type="hidden" value="<?php echo $diagnosticData[0]->diagnostic_id; ?>" id="digo_id" name="digo_id">    
+                                        <?php foreach($membership_datail as $facilities){ ?>
+                                        <label class="control-label col-md-4 col-xs-9" for="cname"><?php echo $facilities->facilities_name; ?></label>
+                                            <div class="col-md-8 col-sm-8">
+                                                <aside class="row">
+                                                    <input type="hidden" value="<?php echo $facilities->miMembership_id; ?>" id="miMembershipId_<?php echo $checkBocCount; ?>" name="miMembershipId_<?php echo $checkBocCount; ?>">
+                                                    <input type="hidden" value="<?php echo $facilities->miMembership_facilitiesId; ?>" id="miFacilitiesId_<?php echo $checkBocCount; ?>" name="miFacilitiesId_<?php echo $checkBocCount; ?>">
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <input type="number" id="membership_quantity_<?php echo $checkBocCount; ?>" name="membership_quantity_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" value="<?php echo $facilities->miMembership_quantity ?>"/>
+                                                        <label class="error" id="err_membership_quantity_<?php echo $checkBocCount; ?>"> <?php echo form_error("membership_quantity_$checkBocCount"); ?></label>
+                                                    </div>
+                                                    <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){ ?>
+                                                    <div class="col-md-6 col-sm-6 m-t-xs-10">
+                                                        <input type="number" id="membership_duration_<?php echo $checkBocCount; ?>" name="membership_duration_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" value="<?php  echo $facilities->miMembership_duration; ?>"/>
+                                                        <label class="error" id="membership_duration_<?php echo $checkBocCount; ?>"> <?php echo form_error("membership_duration_$checkBocCount"); ?></label>
+                                                    </div>
+                                                    <?php } ?>
+                                                </aside>
+                                            </div>
+                                            <?php $checkBocCount++;} } ?>
+                                        <article class="clearfix ">
+                                            <div class="col-md-12 m-t-20 m-b-20">
+                                                <input type="submit" name="submit" class="btn btn-success waves-effect waves-light pull-right" value="Update" >
+                                            </div>
+                                        </article>
+                                        </aside>
+                                    </form>	
+                                </section>
+                                <!-- Membership Ends -->
 
                                 <!--Account Starts -->
                                 <section class="tab-pane fade in <?php if (isset($active) && $active == 'account') {

@@ -392,7 +392,7 @@ class Master extends MY_Controller {
     }
 
     function editspeciality() {
-
+        
         $id = $this->input->post('specialityId');
 
         $this->bf_form_validation->set_rules("specialityName", "Speciality", 'required|xss_clean');
@@ -439,7 +439,7 @@ class Master extends MY_Controller {
                 'specialities_img' => $imagesname,
                 'modifyTime' => strtotime(date("d-m-Y H:i:s"))
             );
-            if(empty($imagesname) || $imagesname != '' || $imagesname === NULL){
+            if(empty($imagesname) || $imagesname == '' || $imagesname === NULL){
                 unset($records_array['specialities_img']);
             }
             $where = array(

@@ -293,14 +293,36 @@
                                                     <label class="error" > <?php echo form_error("bloodBank_name"); ?></label>
                                                 </div>
                                             </article>
+                                            
                                             <article class="clearfix m-t-10">
                                                 <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
-                                                <div class="col-md-8 col-sm-8 text-right">
-                                                    <label for="file-input2"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x"></i></label>
-                                                    <input  type="file" style="display:none;" class="no-display" id="file-input2" name="bloodBank_photo" onchange="ValidateSingleInput(this, '2', '5');">
+                                            <div id="blood-crop-avatar">
+                                                <?php $this->load->view('blood_upload_crop_modal'); ?>
+                                                <article class="col-md-8 col-sm-8 text-right"  class="avatar-form">
+                                                    
 
-                                                </div>
-                                            </article>
+                                                   
+                                                    <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
+                                                        <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
+
+                                                        <div class="pre col-md-4 col-sm-4 ">
+                                                            <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
+
+                                                                <img src="<?php echo base_url() ?>assets/default-images/Blood-logo.png"  class="image-preview-show"/>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                                        <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
+
+
+
+                                                    </div>
+                                                </article>
+                                            </div>
+
+                                        </article>
 
                                             <article class="clearfix m-t-10">
                                                 <label for="cname" class="control-label col-md-4 col-sm-4">Phone:</label>
@@ -364,16 +386,32 @@
                                                     <label class="error" > <?php echo form_error("ambulance_name"); ?></label>
                                                 </div>
                                             </article>
-                                            <article class="clearfix m-t-10">
-                                                <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
-                                                <div class="col-md-8 col-sm-8 text-right">
+                                            
+                                           <article class="clearfix m-t-10">
+                                            <div id="ambulance-crop-avatar">
+                                                <?php $this->load->view('ambulance_upload_crop_modal'); ?>
+                                                <article class="col-md-8 col-sm-8 text-right"  class="avatar-form">
+                                                    <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
+                                                    <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
+                                                        <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
 
-                                                    <label for="file-input4"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x"></i></label>
-                                                    <input type="file" style="display:none;" class="no-display" id="file-input4" name='ambulance_img' onchange="ValidateSingleInput(this, '2', '5');" >
+                                                        <div class="pre col-md-4 col-sm-4 ">
+                                                            <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
+
+                                                                <img src="<?php echo base_url() ?>assets/default-images/ambulance_logo.png"  class="image-preview-show"/>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                                        <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
 
 
-                                                </div>
-                                            </article>
+
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        </article>
 
                                             <article class="clearfix">
                                                 <label class="control-label col-md-4 col-xs-9" for="cname">Doctor On board</label>

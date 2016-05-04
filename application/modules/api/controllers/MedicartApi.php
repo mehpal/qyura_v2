@@ -60,7 +60,6 @@ class MedicartApi extends MyRest {
      
     function list_post() {
 
-
         $this->bf_form_validation->set_rules('lat', 'Lat', 'required|decimal');
         $this->bf_form_validation->set_rules('long', 'Long', 'required|decimal');
         $this->bf_form_validation->set_rules('q', 'q', 'trim|xss_clean');
@@ -89,8 +88,7 @@ class MedicartApi extends MyRest {
             $aoClumns = array("medicartOffer_id", "MIId", "offerCategory", "title", "image", "description","startDate", "endDate", "actualPrice", "discountPrice",   "medicartOffer_deleted", "modifyTime","by", "lat", "long","allowBooking","maximumBooking","phnNo");
 
             $medList = $this->medicart_model->getMedlists($option);
-//            echo $this->db->last_query();
-//            dump($medList);die();
+
             if ($medList) {
 
                 $finalResult = array();
@@ -104,16 +102,12 @@ class MedicartApi extends MyRest {
                         $finalTemp[] = isset($row->medicartOffer_title) ? $row->medicartOffer_title : "";
                         $finalTemp[] = isset($row->medicartOffer_image) ? $row->medicartOffer_image : "";
                         $finalTemp[] = isset($row->medicartOffer_description) ? $row->medicartOffer_description : "";
-                        //$finalTemp[] = isset($row->medicartOffer_maximumBooking) ? $row->medicartOffer_maximumBooking : "";
-                        $finalTemp[] = isset($row->medicartOffer_startDate) ? $row->medicartOffer_startDate : "";
                         $finalTemp[] = isset($row->medicartOffer_endDate) ? $row->medicartOffer_endDate : "";
-                        //$finalTemp[] = isset($row->medicartOffer_discount) ? $row->medicartOffer_discount : "";
+                        $finalTemp[] = isset($row->medicartOffer_discount) ? $row->medicartOffer_discount : "";
                         //$finalTemp[] = isset($row->medicartOffer_ageDiscount) ? $row->medicartOffer_ageDiscount : "";
                         $finalTemp[] = isset($row->medicartOffer_actualPrice) ? $row->medicartOffer_actualPrice : "";
-                        $finalTemp[] = (isset($row->medicartOffer_discount) && $row->medicartOffer_discount == 0) ? 0 : isset($row->medicartOffer_discountPrice) ? $row->medicartOffer_discountPrice : "";
-                        $finalTemp[] = isset($row->medicartOffer_deleted) ? $row->medicartOffer_deleted : "";
-                        //$finalTemp[] = isset($row->medicartOffer_discount) ? $row->medicartOffer_discount : "";
-                        $finalTemp[] = isset($row->modifyTime) ? $row->modifyTime : "";
+                        $finalTemp[] = (isset($row->medicartOffer_discount) && $row->medicartOffer_discount == 0) ? 0 : isset($row->medicartOffer_discountPrice) ? $row->medicartOffer_discountPrice : ""; 
+                        //$finalTemp[] = isset($row->medicartOffer_discount) ? $row->medicartOffer_discount : ""; 
                        // dump((isset($row->hospital_name) && $row->hospital_name != null && $row->hospital_name != ''));
                         
                         $by = "";

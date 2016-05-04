@@ -2308,11 +2308,13 @@ function imageIsLoaded(e) {
            $('#doctorForm').removeClass('myForm');
            $('#doctorForm').css("display",'none');
            $('#doctorList').css("display",'block');
+           $('#editDoctorForm').css("display",'none');
            $(".addDoctorButton").html('Add New Doctor');
       }else{
           $('#doctorForm').addClass('myForm');
           $('#doctorForm').css("display",'block');
           $('#doctorList').css("display",'none');
+          $('#editDoctorForm').css("display",'none');
          // $('#doctorList').css("display",'none');
           $(".addDoctorButton").html('Cancel Add Doctor');
         }

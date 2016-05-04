@@ -240,6 +240,16 @@
                                                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Name :</label>
                                                                     <p class="col-md-8 col-sm-8 t-xs-left"><?php echo $diagnosticData[0]->bloodBank_name;?></p>
                                                                 </article>
+                                                                
+                                                                
+                                                                 <div class='pro-img'>
+                                                                                <!-- image -->
+                                                                                <?php if(!empty($diagnosticData[0]->bloodBank_photo)){ ?>
+                                                                               <img src="<?php echo base_url()?>assets/BloodBank/thumb/thumb_100/<?php echo $diagnosticData[0]->bloodBank_photo; ?>" alt="" class="logo-img" />
+                                                                               <?php } else { ?>
+                                                                                 <img src="<?php echo base_url()?>assets/default-images/Blood-logo.png" alt="" class="logo-img" />
+                                                                               <?php } ?>
+                                                                </div>
 
                                                                 <article class="clearfix m-b-10 ">
                                                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
@@ -268,6 +278,16 @@
                                                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Name :</label>
                                                                     <p class="col-md-8 col-sm-8 t-xs-left"><?php echo $diagnosticData[0]->ambulance_name;?></p>
                                                                 </article>
+                                                                
+                                                                
+                                                                <div class='pro-img'>
+                                                                            <!-- image -->
+                                                                            <?php if(!empty($diagnosticData[0]->ambulance_img)){ ?>
+                                                                           <img src="<?php echo base_url()?>assets/ambulanceImages/thumb/thumb_100/<?php echo $diagnosticData[0]->ambulance_img; ?>" alt="" class="logo-img" />
+                                                                           <?php } else { ?>
+                                                                             <img src="<?php echo base_url()?>assets/default-images/ambulance_logo.png" alt="" class="logo-img" />
+                                                                           <?php } ?>
+                                                                 </div>
 
                                                                 <article class="clearfix m-b-10 ">
                                                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
@@ -1132,51 +1152,10 @@
                                 <label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>
                                 <label class="error" style="display:none;" id="error-users_email_check"> Email Already Exists!</label>
                                 <!--Staff and Permission Starts -->
-                                <section class="tab-pane fade in <?php
-    if (isset($active) && $active == 'doctor') {
-        echo "active";
-    }
-    ?>" id="doctor">
+                                <section class="tab-pane fade in <?php if (isset($active) && $active == 'doctor') { echo "active"; } ?>" id="doctor">
                                     <!-- Form Section Start -->
                                     <article class="row p-b-10" style="margin-left: 0">
-
-                                        <!--                                    <form name="addDigoDocForm" action="#" id="addDigoDocForm" method="post">    
-                                                                                <aside class="col-md-4 col-sm-4 m-tb-xs-3">
-                                                                                    <div class="input-group">
-                                                                                        <input type="text" name="doctorEmail" id="doctorEmail" class="form-control" placeholder="Check Doctor" onkeyup="switchButton()" required=""/>
-                                                                                        <input type="hidden" id="docId" name="docId" value="" >
-                                                                                        <input type="hidden" id="digoId" name="digoId" value="<?php
-    if (isset($diagnosticData[0]->diagnostic_usersId) && $diagnosticData[0]->diagnostic_usersId != NULL) {
-        echo $diagnosticData[0]->diagnostic_usersId;
-    } else {
-        echo "";
-    }
-    ?>" >
-                                                                                        <input type="hidden" id="ajaxDigoId" name="ajaxDigoId" value="<?php
-    if (isset($diagnosticData[0]->diagnostic_id) && $diagnosticData[0]->diagnostic_id != NULL) {
-        echo $diagnosticData[0]->diagnostic_id;
-    } else {
-        echo "";
-    }
-    ?>" >
-                                                                                    </div>
-                                                                                    <label class="error" id="err_docId"></label>
-                                                                                    <label class="error" id="err_digoId"></label>
-                                                                                </aside>
-                                                                                <aside class="col-md-2 col-sm-2" id="AddDocDigo" style="display: none">
-                                                                                    <button class="btn btn-appointment  m-l-10 pull-right" type="submit" id="addToDiago" >Add To Diagnostic Doctor</button>
-                                                                                </aside>
                                         
-                                                                            </form>-->
-
-                                        <!--                                    <aside class="col-md-2 col-sm-2" id="checkDoctor">
-                                                                                <button class="btn btn-appointment  m-l-10 pull-right" onclick="checkEmailExits()">Check Doctor</button>
-                                                                            </aside>
-                                                                            <aside class="col-md-2 col-sm-2" id="AddNewDoc" style="display: none">
-                                                                                <button class="btn btn-appointment  m-l-10 pull-right" onclick="newDoctor();" >Add New Doctor</button>
-                                                                            </aside>-->
-
-
                                         <aside class="col-md-2 col-sm-2" id="AddNewDoc">
                                             <button class="btn btn-success waves-effect waves-light m-l-10 pull-right addDoctorButton" onclick="addNewDoctor();" >Add New Doctor</button>
                                         </aside>
@@ -1186,10 +1165,10 @@
                                             <input type="text" name="search" id="search" class="form-control" placeholder="Search" />
                                         </aside>
                                     </article>
+                                    
                                     <!-- Form Section End -->
-                                    <article class="clearfix m-top-40 p-b-20" id="doctorList" style="<?php if (isset($showDiv) && $showDiv == 'adddoctor' OR $showDiv == 'editDoctor') {
-        echo "display:none";
-    } ?>">
+                                    <article class="clearfix m-top-40 p-b-20" id="doctorList" style="<?php if (isset($showDiv) && $showDiv == 'adddoctor' OR $showDiv == 'editDoctor') {  echo "display:none"; } ?>">
+                                        
                                         <aside class="table-responsive">
                                             <table class="table all-doctor" id="diagnostic_doctors" style="width:100%">
                                                 <thead>
@@ -1207,25 +1186,16 @@
                                         </aside>
                                     </article>
 
-    <?php echo $showDiv; ?>
-                                    <div id="doctorForm" style="<?php if (isset($showDiv) && $showDiv == 'adddoctor') {
-        echo "display:block";
-    } else {
-        echo "display:none";
-    } ?>" >
-                            <?php echo $this->load->view('addDoctor'); ?>
-    <?php echo $this->load->view('doctorScript.php'); ?>
-                                    </div>
+    
+                                   <div id="doctorForm" style="<?php if (isset($showDiv) && $showDiv == 'adddoctor') { echo "display:block"; } else { echo "display:none"; } ?>" >
+                                            <?php echo $this->load->view('addDoctor'); ?>
+                                            <?php echo $this->load->view('doctorScript.php'); ?>
+                                </div>
 
 
-                                    <div id="editDoctorForm" style="<?php if (isset($showDiv) && $showDiv == 'editDoctor') {
-        echo "display:block";
-    } else {
-        echo "display:none";
-    } ?>" >
-    <?php echo $this->load->view('editDoctor'); ?>
-    <?php echo $this->load->view('doctorScript.php'); ?>
-                                    </div>
+                                   <div id="editDoctorForm" style="<?php if (isset($showDiv) && $showDiv == 'editDoctor') { echo "display:block"; } else {  echo "display:none"; } ?>" >
+                                            <?php echo $this->load->view('editDoctor'); ?>
+                                   </div>
 
                                 </section>
                                 <!-- Staff and Permission Ends -->
