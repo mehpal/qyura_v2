@@ -40,7 +40,7 @@
                                             <div class="pricing-item">
                                                 <div class="pricing-item-inner">
                                                     <a href="<?php echo site_url() ?>/membership/membershipEditView/<?php echo $membership->membership_id; ?>" class="pull-right m-r-10 m-t-10"><i class="fa fa-pencil"></i></a>
-                                                    <a href="javascript:void(0)" onclick="enableFn('membership', 'membershipPublish', '<?php echo $membership->membership_id; ?>','<?php echo $membership->status; ?>')" title='<?php if($membership->status == 2){ echo "Verified"; }else{ echo "Unverified"; } ?> Membership' class="pull-right m-r-10 m-t-10"><i class="fa fa-thumbs-<?php if($membership->status == 3){ echo "up"; }else{ echo "down danger"; } ?> "></i></a>
+                                                    <a href="javascript:void(0)" onclick="enableFn('membership', 'membershipPublish', '<?php echo $membership->membership_id; ?>','<?php echo $membership->status; ?>','1')" title='<?php if($membership->status == 2){ echo "Verified"; }else{ echo "Unverified"; } ?> Membership' class="pull-right m-r-10 m-t-10"><i class="fa fa-thumbs-<?php if($membership->status == 3){ echo "up"; }else{ echo "down danger"; } ?> "></i></a>
                                                     <div class="pricing-wrap">
                                                         <!-- Pricing Title -->
                                                         <div class="pricing-title">
@@ -98,7 +98,7 @@
                                             <div class="pricing-item">
                                                 <div class="pricing-item-inner">
                                                     <a href="<?php echo site_url() ?>/membership/membershipEditView/<?php echo $membership->membership_id; ?>" class="pull-right m-r-10 m-t-10"><i class="fa fa-pencil"></i></a>
-                                                    <a href="javascript:void(0)" onclick="enableFn('membership', 'membershipPublish', '<?php echo $membership->membership_id; ?>','<?php echo $membership->status; ?>')" title='<?php if($membership->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Membership' class="pull-right m-r-10 m-t-10"><i class="fa fa-thumbs-<?php if($membership->status == 3){ echo "up"; }else{ echo "down danger"; } ?> "></i></a>
+                                                    <a href="javascript:void(0)" onclick="enableFn('membership', 'membershipPublish', '<?php echo $membership->membership_id; ?>','<?php echo $membership->status; ?>','3')" title='<?php if($membership->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> Membership' class="pull-right m-r-10 m-t-10"><i class="fa fa-thumbs-<?php if($membership->status == 3){ echo "up"; }else{ echo "down danger"; } ?> "></i></a>
                                                     <div class="pricing-wrap">
 
                                                         <!-- Pricing Title -->
