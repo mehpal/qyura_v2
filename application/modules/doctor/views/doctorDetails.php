@@ -89,11 +89,14 @@
                                 ?></p>
                         </aside>
                         <form class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" method="post" action="#" novalidate="novalidate" name="doctorForm" enctype="multipart/form-data">
-                            <aside class="col-md-5 col-sm-5 col-xs-12 text-right t-xs-left">
-                                <div class="col-md-8 col-sm-8 pull-right" data-target="#modal" data-toggle="modal">
-                                    <label class="col-md-5 col-sm-5 pull-right" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
+                            <aside class="col-md-5 col-sm-5 col-xs-12" >
+                                <div class="col-md-8 col-sm-8 pull-right" data-target="#modal" data-toggle="modal" id="crop-avatar">
+                                        <div id="upload_modal_form">
+                                            <?php $this->load->view('upload_crop_modal');?>
+                                        </div>
+                                    <label class="col-md-5 col-sm-5 pull-right m-l-20" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
                                     <div class="pre col-md-4 col-sm-4 pull-right" style="margin-top: -10%">
-                                        <div id="preImgLogo" class="avatar-preview preview-md">
+                                        <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
                                             <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png"  class="image-preview-show" width="80px" height="80px" style="margin-top: 0"/>
                                         </div>
                                     </div>
@@ -110,9 +113,6 @@
                                 <label class="error" id="err_doctorAjaxId" > <?php echo form_error("doctorAjaxId"); ?></label>
                                 <div class="col-md-12 m-t-20 m-b-20">
                                     <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return validationImageDoctor()" >Change Image</button>
-                                </div>
-                                <div id="upload_modal_form">
-                                    <?php $this->load->view('upload_crop_modal'); ?>
                                 </div>
                             </aside>
                         </form>
@@ -160,7 +160,7 @@
                     <article class="tab-content p-b-20 m-t-50">
                         <div id="load_consulting" class="text-center text-success " style="display: none"><image alt="Please wait data is loading" src="<?php echo base_url('assets/images/loader/Heart_beat.gif'); ?>" /></div>
                         <div class="alert alert-success" id="successTop" style="display: none"></div>
-                        <div class="alert alert-danger" id="er_TopError" style="display: none"></div>
+<!--                        <div class="alert alert-danger" id="er_TopError" style="display: none"></div>-->
                         <!-- General Detail Starts -->
                         <section class="tab-pane fade in <?php
                         if ($active_tag == '' || $active_tag == 1) {
@@ -234,7 +234,7 @@
                                                 <p class="col-md-8 col-sm-8" style="width: 40%" ><?php
                                                     if (isset($doctorDetail[0]->doctors_27Src) && $doctorDetail[0]->doctors_27Src != NULL) {
                                                         if ($doctorDetail[0]->doctors_27Src == 1) {
-                                                            echo "24x7";
+                                                            echo "Yes";
                                                         } else {
                                                             echo "No";
                                                         }
