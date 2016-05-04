@@ -72,6 +72,7 @@ var urls = "<?php echo base_url() ?>";
                     $('#date-2').val("");
                 } else {
                     $("#date_error").html("");
+                    if(offerDuration != 0){
                     var days = (offerDuration * 7);
                     var newdate = new Date(d1);
                     newdate.setDate(newdate.getDate() + days);
@@ -80,6 +81,10 @@ var urls = "<?php echo base_url() ?>";
                     var y = newdate.getFullYear();
                     var someFormattedDate = mm + '/' + dd + '/' + y;
                     $("#date-2").val(someFormattedDate);
+                 }else{
+                    $("#date_error").html("<p>Please select first valid MI.</p>"); 
+                    $('#date-1').val("");
+                 } 
                 }
             });
 
@@ -293,7 +298,7 @@ var urls = "<?php echo base_url() ?>";
             data: {'cityId': cityId},
             success: function (datas) {
                 $('#miName').html(datas);
-                $('#miName').selectpicker('refresh');
+                //$('#miName').select2('val',"");
             }
         });
 
