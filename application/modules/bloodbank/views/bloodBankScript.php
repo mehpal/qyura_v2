@@ -141,11 +141,11 @@ if($current == 'detailBloodBank'):?>
      * @method datatable
      * @description get records in listing using datatables
      */
-    $(document).ready(function () {
+     $(document).ready(function () {
         
          $('.selectpicker').select2().change(function(){
-    $(this).valid()
-});
+         $(this).valid()
+     });
         var oTable = $('#datatable_bloodbank').DataTable({
             "processing": true,
             "bServerSide": true,
@@ -1019,7 +1019,7 @@ function isNumberKey(evt, id) {
 
    
     $(document).ready(function () {
-
+        var url = "<?php echo base_url();?>";
         $("#submitForm").validate({
            
 
@@ -1048,9 +1048,11 @@ function isNumberKey(evt, id) {
                 },
                 lat: {
                     required: true,
+                    numberdecimalonly: true
                 },
                 lng: {
-                    required: true
+                    required: true,
+                    numberdecimalonly: true
                 },
                 bloodBank_phn: {
                     required: true,
@@ -1075,7 +1077,7 @@ function isNumberKey(evt, id) {
                     required: true,
                     email: true,
                     remote: {
-                    url:  urls + 'index.php/bloodbank/isEmailRegister',
+                    url:  url + 'index.php/bloodbank/isEmailRegister',
                     type: "post",
                     data: {
                             email: function(){ return $("#users_email").val(); },

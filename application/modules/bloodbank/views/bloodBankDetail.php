@@ -140,7 +140,7 @@
                                        <article class="clearfix">
                                           <label for="cemail" class="control-label col-md-4 col-sm-4">Address:</label>
                                           <div class="col-md-8 col-sm-8">
-                                             <select class="form-control selectpicker" data-width="100%" name="countryId" id="countryId">
+                                             <select class="form-control select2" data-width="100%" name="countryId" id="countryId">
                                                 <?php if(!empty($allCountry)):
                                                    foreach($allCountry as $country):?>
                                                    <option value="<?php echo $country->country_id;?>" <?php if($bloodBankData[0]->countryId == $country->country_id):echo"selected";endif;?>><?php echo $country->country;?></option>
@@ -153,7 +153,7 @@
 
                                        <article class="clearfix">
                                           <div class="col-sm-8 col-sm-offset-4">
-                                             <select class="form-control selectpicker" data-width="100%" name="stateId" onchange ="fetchCity(this.value)" id="stateId">
+                                             <select class="form-control select2" data-width="100%" name="stateId" onchange ="fetchCity(this.value)" id="stateId">
                                                 <?php foreach($allStates as $key=>$val) {?>
                                                 <option <?php if($bloodBankData[0]->stateId == $val->state_id):echo"selected";endif;?> value="<?php echo $val->state_id;?>"><?php echo $val->state_statename;?></option>
                                                 <?php }?>
@@ -164,7 +164,7 @@
 
                                        <article class="clearfix m-t-10">
                                           <div class="col-sm-8 col-sm-offset-4">
-                                             <select class="selectpicker" data-width="100%" name="cityId" id="cityId">
+                                             <select class="select2" data-width="100%" name="cityId" id="cityId">
                                                 <?php foreach($allCities as $key=>$val) {?>
                                                 <option <?php if($bloodBankData[0]->cityId == $val->city_id):echo"selected";endif;?> value="<?php echo $val->city_id;?>"><?php echo $val->city_name;?></option>
                                                 <?php }?>

@@ -287,6 +287,12 @@ $("#editac").click(function () {
 });
 
 
+$("#editMem").click(function () {
+    $("#detailMem").toggle();
+    $("#newMem").toggle();
+});
+
+
 /*center modal*/
 
 $(function () {

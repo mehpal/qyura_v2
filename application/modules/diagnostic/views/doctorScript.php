@@ -497,9 +497,17 @@
         $('.selectpicker').selectpicker({
             width: "100%"
         })
+        
+          $('.gadd').on('click', function() {
+            $(this).parent().parent().remove();
+       });
 
     }
 
+
+  $('.gadd').on('click', function() {
+            $(this).parent().parent().remove();
+       });
 
 </script>    
 <script>

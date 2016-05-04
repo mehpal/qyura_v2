@@ -14,7 +14,7 @@ class Reviews extends MY_Controller {
 
     function index() {
         $data = array();
-        $data['topRateds'] = $this->reviews_model->fetchReviewRatingTopRated();
+        $data['topRateds'] = $this->reviews_model->topRatedReviewRated();
         $data['title'] = 'Rate & Reviews';
         
         $totalRec = count($this->reviews_model->fetchReviews());

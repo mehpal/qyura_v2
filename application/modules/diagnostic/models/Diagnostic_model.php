@@ -151,7 +151,7 @@ class Diagnostic_model extends CI_Model {
 
     function fetchdiagnosticData($condition = NULL) {
         
-        $this->db->select('qyura_country.country,qyura_state.state_statename,diag.diagnostic_mblNo as mobile,diag.diagnostic_aboutUs,diag.diagnostic_mbrTyp,diag.diagnostic_email,diag.diagnostic_dsgn,diag.diagnostic_id,diag.diagnostic_zip,diag.diagnostic_usersId,diag.diagnostic_name,diag.diagnostic_phn,diag.diagnostic_address,City.city_name,diag.diagnostic_img,diag.diagnostic_cntPrsn,usr.users_email,diag.diagnostic_lat,diag.diagnostic_long,usr.users_id,diag.diagnostic_countryId,diag.diagnostic_stateId,diag.diagnostic_cityId,usr.users_mobile,diag.diagnostic_background_img, diag.isManual, Blood.bloodBank_name,Blood.bloodBank_phn, Ambu.ambulance_name,Ambu.ambulance_phn, Ambu.docOnBoard, diag.diagnostic_availibility_24_7, diag.diagnostic_hasPharmacy, diag.diagnostic_docatId, diag.diagnostic_specialityNameFormate, diag.diagnostic_hasBloodbank, diag.diagnostic_isBloodBankOutsource, diag.diagnostic_isEmergency');
+        $this->db->select('qyura_country.country,qyura_state.state_statename,diag.diagnostic_mblNo as mobile,diag.diagnostic_aboutUs,diag.diagnostic_mbrTyp,diag.diagnostic_email,diag.diagnostic_dsgn,diag.diagnostic_id,diag.diagnostic_zip,diag.diagnostic_usersId,diag.diagnostic_name,diag.diagnostic_phn,diag.diagnostic_address,City.city_name,diag.diagnostic_img,diag.diagnostic_cntPrsn,usr.users_email,diag.diagnostic_lat,diag.diagnostic_long,usr.users_id,diag.diagnostic_countryId,diag.diagnostic_stateId,diag.diagnostic_cityId,usr.users_mobile,diag.diagnostic_background_img, diag.isManual, Blood.bloodBank_name,Blood.bloodBank_phn, Blood.bloodBank_photo, Ambu.ambulance_name,Ambu.ambulance_phn, Ambu.docOnBoard, Ambu.ambulance_img, diag.diagnostic_availibility_24_7, diag.diagnostic_hasPharmacy, diag.diagnostic_docatId, diag.diagnostic_specialityNameFormate, diag.diagnostic_hasBloodbank, diag.diagnostic_isBloodBankOutsource, diag.diagnostic_isEmergency');
         
         $this->db->from('qyura_diagnostic AS diag');
         $this->db->join('qyura_city AS City', 'City.city_id = diag.diagnostic_cityId', 'left');
@@ -569,6 +569,7 @@ class Diagnostic_model extends CI_Model {
         $this->db->where(array('doc.doctors_deleted' => 0));
         return  $this->db->get()->result();
    }
+   
    function getDocAcaSpec($condition){
        
         $this->db->select('spec.specialities_id, docAca.doctorAcademic_id, degree.degree_FName, degree.degree_SName, degree.degree_id, docAca.doctorAcademic_degreeInsAddress, docAca.doctorAcademic_degreeYear');
@@ -586,8 +587,8 @@ class Diagnostic_model extends CI_Model {
         $this->db->where(array('spec.specialities_deleted' => 0,'spec.type' => 1));
         $this->db->where(array('docAca.doctorAcademic_deleted' => 0));
 
-        $this->db->get()->result();
-        echo $this->db->last_query();
+      return  $this->db->get()->result();
+       // echo $this->db->last_query();
 
  
    }

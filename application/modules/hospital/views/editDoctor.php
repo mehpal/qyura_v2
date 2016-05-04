@@ -121,8 +121,7 @@
                   <aside class="clearfix m-t-20">
                   <article class="form-group m-lr-0">
                      <div class="col-md-12" id="mostParent">
-                         
-                       <?php $i = 0; if(!empty($docAcaSpecialities)){ foreach ($docAcaSpecialities as $key => $value) { ?>
+                        <?php $i = 0; if(!empty($docAcaSpecialities)){ foreach ($docAcaSpecialities as $key => $value) { ?>
                         <div id="parentDegreeDiv2">
                            <div id="childDegreeDiv2">
                               <aside class="row">
@@ -135,10 +134,8 @@
                                           endif; ?> value="<?php echo $val->degree_id; ?>"><?php echo $val->degree_SName; ?></option>
                                        <?php }?>
                                     </select>
-                                    <label class="error" style="display:none;" id="error-doctorAcademic_degreeId1"> please select Degree</label>
                                  </div>
                                  <div class="col-md-4 col-sm-4 m-t-xs-10">
-
                                     <select class="selectpicker" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId2">
                                        <option value="">Select Specialities </option>
                                        <?php foreach($speciality as $val) {?>
@@ -152,7 +149,7 @@
                               <aside class="row">
                                  <label for="cname" class="control-label col-md-4 m-t-20">Address</label>
                                  <div class="col-md-8 col-sm-8 m-t-20">
-                                    <textarea class="form-control" id="acdemic_addaddress1" name="acdemic_addaddress[]" required="" placeholder="Address"><?php echo $value->doctorAcademic_degreeInsAddress;?></textarea>
+                                     <textarea class="form-control" id="acdemic_addaddress1" name="acdemic_addaddress[]" required="" placeholder="Address"><?php echo $value->doctorAcademic_degreeInsAddress;?></textarea>
                                     <label class="error" style="display:none;" id="error-acdemic_addaddress1"> please fill Address</label>
                                  </div>
                                  <label for="cname" class="control-label col-md-4">Year</label>
@@ -161,21 +158,19 @@
                                     <label class="error" style="display:none;" id="error-acdemic_addyear1"> please fill Year</label>
                                  </div>
                               </aside>
-                               
-                            <?php if($i != 0){ ?>
-                               <aside class="col-sm-8 text-right pull-right"><a id="btn-service2" href="javascript:void(0)"  pull-right="" class="gadd"><i class="fa fa-minus-circle fa-2x m-t-5 label-plus pull-right"></i></a>
+                              <?php if($i != 0){ ?>
+                               <aside class="col-sm-2 text-right"><a id="btn-service2" href="javascript:void(0)"  pull-right="" class="gadd"><i class="fa fa-minus-circle fa-2x m-t-5 label-plus"></i></a>
                                </aside> <?php } ?>
                        
                               <br />
                            </div>
                         </div>
-                       <?php $i++;  } } ?>
-                         
+                         <?php $i++;  } } ?>
                      </div>
                   </article>
                   <article class="form-group m-lr-0">
                      <div class="col-md-8 col-md-offset-4">
-                        <button class="btn btn-success waves-effect waves-light m-r-20" type="button" onclick="multipleAcademicForEditDoctor()">Add More</button>
+                        <button class="btn btn-success waves-effect waves-light m-r-20" type="button" onclick="multipleAcademicForDoctor()">Add More</button>
                      </div>
                   </article>
                   <!-- Degree End -->

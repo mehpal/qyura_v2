@@ -56,7 +56,7 @@ class Hospital extends MY_Controller {
        $option = array(
             'table' => 'qyura_membership',
             'select' => 'membership_id,membership_name',
-            'where' => array('membership_deleted' => 0,'status' => 3,'membership_type' => 3)
+            'where' => array('membership_deleted' => 0, 'status' => 3, 'membership_type' => 1)
         );
         $data['membership_plan'] = $this->common_model->customGet($option);
         
@@ -93,6 +93,17 @@ class Hospital extends MY_Controller {
 
        
         $data = array();
+        
+        
+        $option = array(
+            'table' => 'qyura_miMembership',
+            'where' => array('qyura_miMembership.miMembership_miId' => $hospitalId,'qyura_miMembership.miMembership_deleted' => 0),
+            'join' => array(
+                array('qyura_facilities', 'qyura_facilities.facilities_id = qyura_miMembership.miMembership_facilitiesId', 'left')
+            ),
+            'order' => array('qyura_facilities.facilities_name' => 'asc'),
+        );
+        $data['membership_datail'] = $this->common_model->customGet($option);
         
          if($this->uri->segment(5) != '' && $this->uri->segment(5) != 0){
             $doctorId =   $this->uri->segment(5);
@@ -625,7 +636,7 @@ class Hospital extends MY_Controller {
                                 'creationTime' => strtotime(date("d-m-Y H:i:s")),
                             );
                             if($i == 1 || $i == 2){
-                               // $insert_rec['miMembership_duration'] = $this->input->post("membership_duration_$i");
+                                $insert_rec['miMembership_duration'] = $this->input->post("membership_duration_$i");
                             }
                             $dayOptions = array
                             (
@@ -665,6 +676,7 @@ class Hospital extends MY_Controller {
                 if ($_POST['bloodbank_chk'] == 1) {
 
                    $bloodBank_phn = $this->input->post('bloodBank_phn');
+                   
                    $bloodBankImagesname = "";
                         if ($_FILES['bloodBank_photo']['name']) {
                             $path = realpath(FCPATH . 'assets/BloodBank/');
@@ -745,6 +757,7 @@ class Hospital extends MY_Controller {
                 if ($_POST['ambulance_chk'] == 1) {
 
                     $ambulance_phn = $this->input->post('ambulance_phn');
+                    
                     $ambulanceImagesname = "";
                         if ($_FILES['ambulance_photo']['name']) {
                             $path = realpath(FCPATH . 'assets/ambulanceImages/');
