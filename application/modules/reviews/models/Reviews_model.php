@@ -160,7 +160,8 @@ class Reviews_model extends CI_Model {
     
     
     function topRatedReviewRated($condition = NULL) {
-         $current = date('Y-m-d');
+         $current = strtotime(date('Y-m-d'));
+         $dates = strtotime(date('Y-m-d', strtotime('-1 months')));
          $this->db->select('qyura_doctors.doctors_id,qyura_doctors.doctors_userId,qyura_doctors.doctors_img,'
                  . 'CONCAT(doctors_fName, " ",doctors_lName) as name,qyura_ratings.rating,qyura_reviews.reviews_rating,'
                  . '(
@@ -185,19 +186,24 @@ class Reviews_model extends CI_Model {
                      qyura_ratings.creationTime 
                      ELSE qyura_reviews.creationTime END) 
                      )) AS days');
-
         
         $this->db->from('qyura_doctors');
         $this->db->join('qyura_ratings', 'qyura_ratings.rating_relateId=qyura_doctors.doctors_userId', 'left');
         $this->db->join('qyura_reviews', 'qyura_reviews.reviews_relateId=qyura_doctors.doctors_userId', 'left');
         $this->db->join('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId = qyura_doctors.doctors_userId', 'left');
 
-        $this->db->where(array("qyura_doctors.doctors_deleted" => 0));
-        $this->db->group_by("qyura_doctors.doctors_id");
+        $this->db->where(
+                array("qyura_doctors.doctors_deleted" => 0,
+                      "qyura_ratings.creationTime >=" => $dates,
+                      "qyura_reviews.creationTime >=" => $dates
+                   )
+                );
+        
+        $this->db->group_by("qyura_doctors.doctors_userId");
         $this->db->order_by('rat','desc');
         
         $qry = $this->db->get();
-        //return $this->db->last_query();
+        return $this->db->last_query();
         return $qry->result();
         
     }
