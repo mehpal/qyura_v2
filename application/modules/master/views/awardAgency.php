@@ -30,12 +30,12 @@
                             <?php $countAgency = 1; if(isset($awardAgency_list) && $awardAgency_list != NULL){ 
                                 foreach ($awardAgency_list as $awardAgency){ ?>
                                 <li class="clearfix degrees membership-plan">
-                                    <span class="col-md-10 col-sm-10 col-xs-10">
+                                    <span class="col-md-8 col-sm-9 col-xs-10">
                                         <?php echo $awardAgency->agency_name; ?>
                                     </span>
                                    
-                                    <span class="col-lg-2 col-sm-2 col-xs-2">
-                                        <a href="#"><i class="md md-edit membership-btn"></i></a>
+                                    <span class="col-lg-4 col-sm-3 col-xs-2">
+                                        <a href="#"><i class="md md-edit membership-btn" style="line-height: 3"></i></a>
                                         <button onclick="if((<?php echo $awardAgency->status; ?>)===2)enableFn('master', 'awardAgencyPublish', '<?php echo $awardAgency->awardAgency_id; ?>','<?php echo $awardAgency->status; ?>')" type="button" class="btn btn-<?php if($awardAgency->status == 2){ echo "danger"; }else if($awardAgency->status == 0){ echo "warning"; }else if($awardAgency->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($awardAgency->status == 3){ echo "Verified"; }else if($awardAgency->status == 2){ echo "Unverified"; }else if($awardAgency->status == 1){ echo "Active"; }else if($awardAgency->status == 0){ echo "Inactive"; } ?></button>
                                         
                                     </span>

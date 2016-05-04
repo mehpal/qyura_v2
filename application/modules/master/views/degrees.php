@@ -33,12 +33,11 @@
                                     <span class="col-md-3 col-sm-3 col-xs-12">
                                         <?php echo $degrees->degree_SName; ?>
                                     </span>
-                                    <span class="col-lg-7 col-sm-7 col-xs-10">
+                                    <span class="col-lg-6 col-sm-6 col-xs-10">
                                         <?php echo $degrees->degree_FName; ?>
                                     </span>
-                                    <span class="col-lg-2 col-sm-2 col-xs-2">
-                                        <a href="#" style="line-height: 1.8"><i class="md md-edit membership-btn"></i></a>
-                                        
+                                    <span class="col-lg-3 col-sm-3 col-xs-2">
+                                        <a href="#" style="line-height: 3"><i class="md md-edit membership-btn"></i></a> 
                                         <button onclick="if((<?php echo $degrees->status; ?>)===2)enableFn('master', 'degreePublish', '<?php echo $degrees->degree_id; ?>','<?php echo $degrees->status; ?>')" type="button" class="btn btn-<?php if($degrees->status == 2){ echo "danger"; }else if($degrees->status == 0){ echo "warning"; }else if($degrees->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($degrees->status == 3){ echo "Verified"; }else if($degrees->status == 2){ echo "Unverified"; }else if($degrees->status == 1){ echo "Active"; }else if($degrees->status == 0){ echo "Inactive"; } ?></button>
                                     </span>
                                 </li>
