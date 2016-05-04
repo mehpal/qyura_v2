@@ -40,7 +40,7 @@
                                             </div>
                                         </article>
                                   <article class="form-group m-lr-0 ">
-                                    <label class="control-label col-md-4 col-sm-4">MI/Doctor Type :</label>
+                                    <label class="control-label col-md-4 col-sm-4">MI Type :</label>
                                     <div class="col-md-8 col-sm-8">
                                         <select class="" data-width="100%" name="miType" onchange ="getMIList(this.value, medicartOffer_cityId.value)" id="miType" required="">
                                             <option value=""> Select MI Type</option>
@@ -54,7 +54,7 @@
                                         <article class="form-group m-lr-0 ">
                                             <label for="cemail" class="control-label col-md-4 col-sm-4">MI Name:</label>
                                             <div class="col-md-8 col-sm-8">
-                                                <select class="" data-width="100%" name="medicartOffer_MIId" id="miName">
+                                                <select class="" data-width="100%" name="medicartOffer_MIId" id="miName" onchange="getMemberShipDuTime(this.value)">
 <!--                                                    <option value="<?php //echo $offerData->miId; ?>"><?php //echo $offerData->MIname; ?></option>-->
                                                     <?php if(!empty($options)){echo $options;}?>
                                                 </select>
@@ -71,7 +71,7 @@
                                         </article>
 
                                         <article class="form-group m-lr-0">
-                                            <label for="cname" class="control-label col-md-4 col-sm-4">Offer Category:</label>
+                                            <label for="cname" class="control-label col-md-4 col-sm-4">Offer Specialities:</label>
                                             <div class="col-md-8 col-sm-8">
                                                 <?php $cat =0;if(isset($offerData) && !empty($offerData)){$cat = $offerData->medicartOffer_offerCategory;}?>
                                                 <select class="selectpicker" data-width="100%" name="medicartOffer_offerCategory[]"id="medicartOffer_offerCategory" required="" multiple="">
@@ -178,7 +178,8 @@
                                                     </div>
                                                     <div class="col-md-6 col-sm-6 m-t-xs-10">
                                                         <div class="input-group">
-                                                            <input class="form-control pickDate" id="date-2" type="text" name="medicartOffer_endDate" placeholder="Date From" onkeydown="return false;" value="<?php if(isset($offerData) && !empty($offerData)){ echo date('m/d/Y',$offerData->medicartOffer_endDate);}?>" autocomplete="off">
+                                                    <input type="hidden" id="offerDuration" name="offerDuration" value="<?php if(isset($membershipData) && !empty($membershipData)){ echo $membershipData[0]->miMembership_duration;}else{echo 0;}?>"/>
+                                                            <input class="form-control pickDates" id="date-2" type="text" name="medicartOffer_endDate" placeholder="Date From" onkeydown="return false;" value="<?php if(isset($offerData) && !empty($offerData)){ echo date('m/d/Y',$offerData->medicartOffer_endDate);}?>" autocomplete="off">
                                                              <label class="error"><?php echo form_error('medicartOffer_endDate'); ?></label>
                                                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                                         </div>
