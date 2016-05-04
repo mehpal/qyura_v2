@@ -49,9 +49,16 @@ if ($msg != "" || $msg != NULL) {
             return false;
         }
     });
-        jQuery.validator.addMethod("lettersonly", function(value, element) {
+    
+    jQuery.validator.addMethod("lettersonly", function(value, element) {
       return this.optional(element) || /^[a-zA-Z ]*$/.test(value);
     }, "Please enter letters only"); 
+    
+    jQuery.validator.addMethod("numberdecimalonly", function(value, element) {
+      return this.optional(element) || /^[0-9.]*$/.test(value);
+    }, "Please enter number and decimal value only"); 
+    
+    
 </script>       
 <script>
     
@@ -298,6 +305,12 @@ if ($msg != "" || $msg != NULL) {
          $(document).ready(function () {
              $('body').find('.bootbox').css( "top", "25%" );
          });
+         
+       $(document).ready(function () {
+         $('.select2').select2().change(function(){
+            $(this).valid()
+        });
+      });
 </script>
  <?php echo $this->load->view('common_pages/timeslotScript');?>
 
