@@ -150,6 +150,7 @@ if ($msg != "" || $msg != NULL) {
                         $('#successTop').html(data.msg);
                         if (data.msg != '' && data.msg != "undefined") {
                             bootbox.alert(data.msg);
+                             bootbox.alert("HI");
                             window.location.href = '<?php echo site_url() ?>' + '/' + data.url;
                         } else {
                             bootbox.alert("Success");
