@@ -63,7 +63,7 @@
                      <article class="form-group m-lr-0">
                         <label for="" class="control-label col-md-4 col-sm-4">Speciality:</label>
                         <div class="col-md-8 col-sm-8">
-                           <select  multiple="" class="bs-select form-control-select2 doctorSpecialities_specialitiesId" data-width="100%" name="doctorSpecialities_specialitiesId[]" Id="doctorSpecialities_specialitiesId" data-size="4">
+                           <select  multiple="" class="bs-select form-control-select2 doctorSpecialities_specialitiesId select2" data-width="100%" name="doctorSpecialities_specialitiesId[]" Id="doctorSpecialities_specialitiesId" data-size="4">
                               <!--<option value="">Select Speciality</option>-->
                               <?php foreach($speciality as $val) {?>
                               <option <?php if(isset($qyura_doctorSpecialities) && $qyura_doctorSpecialities != NULL){ if(in_array($val->specialities_id, $qyura_doctorSpecialities)){ echo "selected";} } ?> value="<?php echo $val->specialities_id; ?>"><?php echo $val->specialities_name; ?>
@@ -114,7 +114,7 @@
                   <aside class="clearfix m-t-20">
                   <article class="form-group m-lr-0">
                      <div class="col-md-12" id="mostParent">
-<?php dump($docAcaSpecialities); $i = 0; if(!empty($docAcaSpecialities)){ foreach ($docAcaSpecialities as $key => $value) { ?>
+                        <?php $i = 0; if(!empty($docAcaSpecialities)){ foreach ($docAcaSpecialities as $key => $value) { ?>
                         <div id="parentDegreeDiv2">
                            <div id="childDegreeDiv2">
                               <aside class="row">

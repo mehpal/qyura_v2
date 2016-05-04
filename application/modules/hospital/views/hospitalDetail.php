@@ -110,6 +110,10 @@
                                             <a data-toggle="tab" href="#doctor">All Doctors</a>
                                         </li>
                                         
+                                        <li class=" <?php if (isset($active) && $active == 'membership') { echo "active"; } ?>">
+                                            <a data-toggle="tab" href="#membership">membership</a>
+                                        </li>
+                                        
                                         <li class="<?php if(isset($active) && $active == 'account'){echo "active";}?>">
                                             <a data-toggle="tab" href="#account">Account</a>
                                         </li>
@@ -231,8 +235,6 @@
                                                                 
                                                                 
                                                                 <div class='pro-img'>
-                                                                   
-                                                                     <?php $this->load->view('blood_upload_crop_modal'); ?>
                                                                                 <!-- image -->
                                                                                 <?php if(!empty($hospitalData[0]->bloodBank_photo)){ ?>
                                                                                <img src="<?php echo base_url()?>assets/BloodBank/thumb/thumb_100/<?php echo $hospitalData[0]->bloodBank_photo; ?>" alt="" class="logo-img" />
@@ -1166,27 +1168,6 @@
                                     <section class="tab-pane fade in <?php if(isset($active) && $active == 'doctor'){echo "active";}?>" id="doctor">
                                     <!-- Form Section Start -->
                                         <article class="row p-b-10" style="margin-left: 0">
-                                            <!--<form name="addHospiDocForm" action="#" id="addHospiDocForm" method="post">    
-                                                <aside class="col-md-4 col-sm-4 m-tb-xs-3">
-                                                    <div class="input-group">
-                                                        <input type="text" name="doctorEmail" id="doctorEmail" class="form-control" placeholder="Check Doctor" onkeyup="switchButton()"/>
-                                                        <input type="hidden" id="docId" name="docId" value="" >
-                                                        <input type="hidden" id="hospiId" name="hospiId" value="<?php //if(isset($hospitalData[0]->hospital_usersId) && $hospitalData[0]->hospital_usersId != NULL){ echo $hospitalData[0]->hospital_usersId; }else{ echo ""; } ?>" >           
-                                                        <input type="hidden" id="ajaxHospiId" name="ajaxHospiId" value="<?php //if(isset($hospitalData[0]->hospital_id) && $hospitalData[0]->hospital_id != NULL){ echo $hospitalData[0]->hospital_id; }else{ echo ""; } ?>" >
-                                                    </div>
-                                                    <label class="error" id="err_docId"></label>
-                                                    <label class="error" id="err_hospiId"></label>
-                                                </aside>
-                                                <aside class="col-md-2 col-sm-2" id="AddDocHospi" style="display: none">
-                                                    <button class="btn btn-success  m-l-10 pull-right" type="submit" id="addToHospi" >Add To Hospital Doctor</button>
-                                                </aside>
-                                            </form> 
-                                        <aside class="col-md-2 col-sm-2" id="checkDoctor">
-                                            <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" onclick="checkEmailExits()">Check Doctor</button>
-                                        </aside>
-                                        <aside class="col-md-2 col-sm-2" id="AddNewDoc" style="display: none">
-                                            <button class="btn btn-success waves-effect waves-light m-l-10 pull-right" onclick="newDoctor();" >Add New Doctor</button>
-                                        </aside>-->
                                             
                                           <aside class="col-md-2 col-sm-2" id="AddNewDoc">
                                             <button class="btn btn-success waves-effect waves-light m-l-10 pull-right addDoctorButton" onclick="addNewDoctor();" >Add New Doctor</button>
@@ -1228,6 +1209,62 @@
                                     
                                     </section>
                                     <!-- All Doctors Ends -->
+                                    
+                                    <!--Membership Starts -->
+                                <section class="tab-pane fade in <?php if (isset($active) && $active == 'membership') {
+        echo "active";
+    } ?>" id="membership"> 
+                                    <form method="post" name="membershipForm" id="membershipForm">
+                                        <aside class="col-md-9 setting">
+                                            <h4>Membership Detail
+                                                <a id="editMem"  class="pull-right cl-pencil"><i class="fa fa-pencil"></i></a>
+                                            </h4>
+                                            <hr/>
+                                            <div class="clearfix m-t-20 p-b-20 " id="detailMem">
+                                            <?php if(isset($membership_datail) && $membership_datail){
+                                              foreach($membership_datail as $membership){ ?>
+                                            
+                                                <article class="clearfix m-b-10">
+                                                    <label for="cemail" class="control-label col-md-4 col-sm-5"><?php echo $membership->facilities_name; ?>:</label>
+                                                    <p class="col-md-8 col-sm-7"><?php echo $membership->miMembership_quantity; ?> <?php echo $membership->facilities_name; ?> <?php if($membership->facilities_id == 2 || $membership->facilities_id == 4){ if(isset($membership->miMembership_duration) && $membership->miMembership_duration != 0){ echo "For ".$membership->miMembership_duration." "."Weeks"; } } ?></p>
+                                                </article>
+                                            
+                                            <?php } } ?>
+                                            </div>
+                                            <aside id="newMem" style="display:none">
+                                        <?php $checkBocCount = 1; 
+                                        if(isset($membership_datail) && $membership_datail != NULL){ ?>
+                                        <input type="hidden" value="<?php echo count($membership_datail); ?>" id="faci_count" name="faci_count">    
+                                        <input type="hidden" value="<?php echo $diagnosticData[0]->diagnostic_id; ?>" id="digo_id" name="digo_id">    
+                                        <?php foreach($membership_datail as $facilities){ ?>
+                                        <label class="control-label col-md-4 col-xs-9" for="cname"><?php echo $facilities->facilities_name; ?></label>
+                                            <div class="col-md-8 col-sm-8">
+                                                <aside class="row">
+                                                    <input type="hidden" value="<?php echo $facilities->miMembership_id; ?>" id="miMembershipId_<?php echo $checkBocCount; ?>" name="miMembershipId_<?php echo $checkBocCount; ?>">
+                                                    <input type="hidden" value="<?php echo $facilities->miMembership_facilitiesId; ?>" id="miFacilitiesId_<?php echo $checkBocCount; ?>" name="miFacilitiesId_<?php echo $checkBocCount; ?>">
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <input type="number" id="membership_quantity_<?php echo $checkBocCount; ?>" name="membership_quantity_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" value="<?php echo $facilities->miMembership_quantity ?>"/>
+                                                        <label class="error" id="err_membership_quantity_<?php echo $checkBocCount; ?>"> <?php echo form_error("membership_quantity_$checkBocCount"); ?></label>
+                                                    </div>
+                                                    <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){ ?>
+                                                    <div class="col-md-6 col-sm-6 m-t-xs-10">
+                                                        <input type="number" id="membership_duration_<?php echo $checkBocCount; ?>" name="membership_duration_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" value="<?php  echo $facilities->miMembership_duration; ?>"/>
+                                                        <label class="error" id="membership_duration_<?php echo $checkBocCount; ?>"> <?php echo form_error("membership_duration_$checkBocCount"); ?></label>
+                                                    </div>
+                                                    <?php } ?>
+                                                </aside>
+                                            </div>
+                                            <?php $checkBocCount++;} } ?>
+                                        <article class="clearfix ">
+                                            <div class="col-md-12 m-t-20 m-b-20">
+                                                <input type="submit" name="submit" class="btn btn-success waves-effect waves-light pull-right" value="Update" >
+                                            </div>
+                                        </article>
+                                        </aside>
+                                    </form>	
+                                </section>
+                                <!-- Membership Ends -->
+                                    
                                     
                                    <!--Account Starts -->
                                     <section class="tab-pane fade in <?php if(isset($active) && $active == 'account'){echo "active";}?>" id="account">
