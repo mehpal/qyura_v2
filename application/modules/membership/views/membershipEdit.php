@@ -61,7 +61,7 @@
                                                         <label for="cname" class="control-label col-sm-3">Facilities :</label>
                                                         <label for="cname" class="control-label col-sm-1"></label>
                                                         <label for="cname" class="control-label col-sm-4">Quantity :</label>
-                                                        <label for="cname" class="control-label col-sm-4">Duration :</label>
+                                                        <label for="cname" class="control-label col-sm-4">Duration (Weeks) :</label>
                                                     </article>
                                                     <article class="clearfix m-t-10">
                                                         <?php $checkBocCount = 1; 

@@ -707,7 +707,7 @@ if($current != 'detailDiagnostic'):?>
                         if (datas == 0) {
                              reYesNo = false;
                            //  console.log(reYesNo,'andar');
-                             bootbox.alert("Sorry, you can't add more than three specialities!");
+                             bootbox.alert("Sorry, you can't add more than given specialities!");
                              
                         }
                     }
@@ -734,7 +734,7 @@ if($current != 'detailDiagnostic'):?>
                    },
                    success: function (datas) {
                         if (datas == 0) {
-                             bootbox.alert("Sorry, you can't add more than three specialities!");
+                             bootbox.alert("Sorry, you can't add more than given specialities!");
                              return false;
                              
                         } else {

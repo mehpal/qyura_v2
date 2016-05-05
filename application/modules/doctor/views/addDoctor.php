@@ -40,15 +40,23 @@
                                             <input type="hidden" class="form-control" id="users_email_status" name="users_email_status" value="" />
                                         </div>
                                     </article>
-                                    <article class="clearfix m-t-10">
+                                    
+                                    
+                                    <article class="clearfix m-t-10" id="crop-avatar">
+                                        
+                                        <div id="upload_modal_form">
+                                            <?php $this->load->view('upload_crop_modal');?>
+                                        </div>
+                                        
                                         <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
                                         <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
                                             <label class="col-md-4 col-sm-4 pull-right" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
                                             <div class="pre col-md-4 col-sm-4 pull-right" style="margin-top: -10%">
-                                                <div id="preImgLogo" class="avatar-preview preview-md">
+                                                <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
                                                     <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png"  class="image-preview-show" width="80px" height="80px" style="margin-top: 0"/>
                                                 </div>
                                             </div>
+                                            <label class="error" id="error-avatarInput" style="display: none"> Please select image</label>
                                             <label class="error" > <?php echo form_error("avatar_file"); ?></label>
                                             <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
                                         </div>
@@ -56,7 +64,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="" class="control-label col-md-4 col-sm-4">First Name :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input class="form-control " id="doctors_fName" type="text" name="doctors_fName" value="<?php echo set_value('doctors_fName'); ?>" placeholder="First Name" >
+                                            <input class="form-control " id="doctors_fName" type="text" name="doctors_fName" value="<?php echo set_value('doctors_fName'); ?>" placeholder="First Name" onkeypress="return isAlpha(event,this.value)">
                                              <label class="error" style="display:none;" id="error-doctors_fName"> Please enter doctor's First name</label>
                                             <label class="error" > <?php echo form_error("doctors_fName"); ?></label>
                                         </div>
@@ -64,7 +72,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="" class="control-label col-md-4 col-sm-4">Last Name :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input class="form-control " id="doctors_lName" type="text" name="doctors_lName" value="<?php echo set_value('doctors_lName'); ?>" placeholder="Last Name"/>
+                                            <input class="form-control " id="doctors_lName" type="text" name="doctors_lName" value="<?php echo set_value('doctors_lName'); ?>" placeholder="Last Name" onkeypress="return isAlpha(event,this.value)"/>
                                             <label class="error" style="display:none;" id="error-doctors_lName"> Please enter doctor's Last name</label>
                                             <label class="error" > <?php echo form_error("doctors_lName"); ?></label>
                                         </div>
@@ -174,8 +182,8 @@
                                         <label for="" class="control-label col-md-4 col-sm-4">Doctor Services :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <input type="hidden" id="totalService" name="totalService" value="1">
-                                            <input class="form-control" id="doctors_service_1" name="doctors_service_1" type="text" value="<?php echo set_value('doctors_service_1'); ?>" maxlength="50"/>
-                                            <label class="error" style="display:none;" id="error-doctors_service"> please enter Service</label>
+                                            <input class="form-control" id="doctors_service_1" name="doctors_service_1" type="text" value="<?php echo set_value('doctors_service_1'); ?>" maxlength="50" />
+                                            <label class="error" style="display:none;" id="error-doctors_service_1"> please enter Service</label>
                                             <label class="error" > <?php echo form_error("doctors_service_1"); ?></label>
                                         </div>
                                     </article>
@@ -357,9 +365,7 @@
                                 <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return validationDoctor()">Submit</button>
                             </div>
                         </section>
-                        <div id="upload_modal_form">
-                            <?php $this->load->view('upload_crop_modal');?>
-                        </div>
+                        
                     </form>
                 </div>
                 <!-- consultation -->

@@ -115,11 +115,13 @@ class Ambulance extends MY_Controller {
 //                }
 //            }
 
+            
             $updateAmbulance = array(
                 'ambulance_name' => $this->input->post('ambulance_name'),
                 'ambulanceType' => $this->input->post('ambulanceType'),
                 'ambulance_phn' => $ambulance_phn,
                 'ambulance_address' => $this->input->post('ambulance_address'),
+                 'ambulance_mmbrTyp' => $this->input->post('ambulance_mmbrTyp'),
                 'ambulance_cntPrsn' => $this->input->post('ambulance_cntPrsn'),
                 'ambulance_27Src' => $this->input->post('ambulance_27Src'),
                 'ambulance_lat' => $this->input->post('lat'),
