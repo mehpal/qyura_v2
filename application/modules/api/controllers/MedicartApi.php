@@ -88,18 +88,12 @@ class MedicartApi extends MyRest {
             $aoClumns = array("medicartOffer_id", "MIId", "offerCategory","title","image","description","endDate","actualPrice", "discountPrice","by","allowBooking","maximumBooking","phnNo");
 
             $medList = $this->medicart_model->getMedlists($option);
+            $finalResult = array();
+            if (isset($medList) && $medList != NULL) {
 
-            if ($medList) {
-
-                $finalResult = array();
                 if (!empty($medList)) {
                     foreach ($medList as $row) {
-<<<<<<< HEAD
-//dump($row);die();
                         
-=======
-dump($row);die();
->>>>>>> b44c61b71d2da25a7c1f677a75eacb8c9a92245f
                         $finalTemp = array();
                         $finalTemp[] = isset($row->medicartOffer_id) ? $row->medicartOffer_id : "";
                         $finalTemp[] = isset($row->medicartOffer_MIId) ? $row->medicartOffer_MIId : "";
@@ -108,11 +102,7 @@ dump($row);die();
                         $finalTemp[] = isset($row->medicartOffer_image) ? $row->medicartOffer_image : "";
                         $finalTemp[] = isset($row->medicartOffer_description) ? $row->medicartOffer_description : "";
                         $finalTemp[] = isset($row->medicartOffer_endDate) ? $row->medicartOffer_endDate : "";
-<<<<<<< HEAD
                         $finalTemp[] = (isset($row->medicartOffer_actualPrice )&& $row->medicartOffer_actualPrice != "") ? $row->medicartOffer_actualPrice : 0;
-=======
-                        $finalTemp[] = (isset($row->medicartOffer_actualPrice )&& $row->medicartOffer_discount == 0) ? $row->medicartOffer_actualPrice : 0;
->>>>>>> b44c61b71d2da25a7c1f677a75eacb8c9a92245f
                         $finalTemp[] = (isset($row->medicartOffer_discount) && $row->medicartOffer_discount == 0) ? 0 : isset($row->medicartOffer_discountPrice) ? $row->medicartOffer_discountPrice : 0; 
                        
                         $diagnostic_name = (isset($row->diagnostic_name) && $row->diagnostic_name != null && $row->diagnostic_name != '') ? $row->diagnostic_name : "" ;
@@ -125,10 +115,6 @@ dump($row);die();
                         if($hospital_name != "") $by= $hospital_name; elseif($diagnostic_name != ""){$by = $diagnostic_name;}
                         if($hospital_phn != "") $phnNo= $hospital_phn; elseif($diagnostic_phn != ""){$phnNo = $diagnostic_phn;}
                         
-<<<<<<< HEAD
-=======
-                        
->>>>>>> b44c61b71d2da25a7c1f677a75eacb8c9a92245f
                         $phnNo = str_replace('0','', $phnNo);
                         $phnNo = str_replace(' ','', $phnNo);
                         $phnNo = trim($phnNo);
