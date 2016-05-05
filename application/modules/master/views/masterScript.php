@@ -978,6 +978,7 @@ if ($current != 'detailDoctor'): ?>
         }
 
     });
+
     
 });
 </script>

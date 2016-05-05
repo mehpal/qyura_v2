@@ -23,7 +23,7 @@ if (isset($hospitalId) && !empty($hospitalId)) {
 <script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
-<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js" type="text/javascript"></script>
+
 
 
 <?php
@@ -60,6 +60,7 @@ if ($current != 'detailHospital'):
 <script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.js"></script>
 
 <script src="<?php echo base_url(); ?>assets/js/pages/add-doctor.js" type="text/javascript"></script>
+
 
 
 <?php
@@ -1943,6 +1944,7 @@ if (isset($mapData) && !empty($mapData)) {
     function getHospitaldetail(hospitalId) {
 
         var hospitalId = hospitalId;
+
         if (hospitalId != '' && hospitalId != 0) {
             $("#hospitalName").css("display", "none");
             $.ajax({
@@ -1969,6 +1971,15 @@ if (isset($mapData) && !empty($mapData)) {
                         //$("#addressDiv").css("display","none");
                         $("#geocomplete1,#hospital_zip,#lat,#lng").attr("readonly", true);
                         $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", true);
+                        $("#hospital_zip").valid();
+                        $("#hospital_countryId").valid();
+                        $("#hospital_stateId").valid();
+                        $("#hospital_cityId").valid();
+                        $("#geocomplete1").valid();
+                        $("#lat").valid();
+                        $("#lng").valid();
+                       
+
                     } else {
                         $("#hospitalName").css("display", "block");
                         $("#geocomplete1").val('');
@@ -1985,6 +1996,7 @@ if (isset($mapData) && !empty($mapData)) {
                         $('#hospital_cityId,#hospital_stateId,#hospital_countryId').selectpicker('refresh');
                         $("#geocomplete1,#hospital_zip,#lat,#lng").removeAttr("readonly");
                         $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", false);
+
                     }
                 }
             });
@@ -2193,6 +2205,418 @@ if (isset($mapData) && !empty($mapData)) {
         });
     });
     
+</script>
+<script>
+    var urls = "<?php echo base_url() ?>";
+
+    $(document).ready(function () {
+
+    $("#submitForm").validate({
+        rules: {
+            hospital_id:{
+                required : true,
+            },
+            hospital_name: {
+                required : true,
+                lettersonly: true
+
+            },
+            hospital_type: {
+                required: true
+            },
+             avatar_file: {
+                required : true
+            },
+            
+            hospital_countryId:{
+         
+                required: true
+            },
+            hospital_stateId:{
+         
+                required: true
+            },
+            hospital_cityId:{
+         
+                required: true
+            },
+            hospital_zip:{
+         
+                required: true,
+                number: true,
+                minlength:6,
+                maxlength:6
+
+            },
+            hospital_address: {
+                required: true,
+            }, 
+            lat: {
+                required: true,
+                
+
+                            
+            },
+            lng: {
+                required: true,
+                 
+
+                            
+            },
+            hospital_phn: {
+                required: true,
+                number: true,
+                minlength:10,
+                maxlength:10
+
+                            
+            },
+            'hospitalServices_serviceName[]': {
+                required: true
+                            
+            },
+            hospital_cntPrsn: {
+                required: true,
+                lettersonly: true
+                            
+            },
+            docatId: {
+                required: true,
+                            
+            },
+            hospital_dsgn: {
+                required: true,
+                 lettersonly: true                         
+            },
+            hospital_mmbrTyp: {
+                required: true
+            },
+            hospital_aboutUs: {
+                required: true
+                         
+            },
+            users_email: {
+                required: true,
+                email: true,
+                remote: {
+                url:  urls + 'index.php/hospital/isEmailRegister',
+                type: "post",
+                data: {
+                        email: function(){ return $("#users_email").val(); },
+                        id: function(){ return $("#user_tables_id").val(); },
+                        role: function(){ return 1; }
+                    }
+                  }
+
+                            
+            },
+            hospital_mblNo: {
+                required: true,
+                         
+            },
+            users_password: {
+                required: true,
+                         
+            },
+            cnfPassword: {
+                required: true,
+                equalTo: "#users_password"
+
+                         
+            }
+      
+
+        },
+        messages: {
+            hospital_id:{
+                required : "Either select a hospital or select other!",
+            },
+              hospital_name: {
+                required : "Please enter hospital's name!",
+            },
+            hospital_type: {
+                required : "Please select type of hospital!",
+            },
+            
+              avatar_file: {
+                required : "Please upload an image!",
+            },
+
+              hospital_countryId: {
+                required: "Please select a country!",
+            },
+            hospital_stateId: {
+                required: "Please select a state!",
+            },
+                    
+             hospital_cityId: {
+                required: "Please select country,state and a city!",
+            },
+            hospital_zip: {
+                required: "Please enter a zip code!",
+            },
+            hospital_address: {
+                required: "Please enter an address!",
+            },
+            lat: {
+                required: "Please enter latitude!",
+            },
+            lng: {
+                required: "Please enter longitude!",
+            },
+            hospital_phn: {
+                required: "Please enter hospital's phone number!",
+            },
+            'hospitalServices_serviceName[]': {
+                required: "Please enter one of more hospital services!",
+            },
+            hospital_cntPrsn: {
+                required: "Please enter contact person's name!",
+            },
+
+            docatId: {
+                required: "Please enter docat Id!",
+            },
+            hospital_dsgn: {
+                required: "Please enter designation!",
+            },
+            hospital_mmbrTyp: {
+                required: "Please select a member type!",
+            },
+            hospital_aboutUs: {
+                required: "Please fill the about us section!",
+            },
+            users_email: {
+                required:"Please enter an email id!",
+                email: "Please enter the correct email format!",
+            },
+            hospital_mblNo: {
+                required: "Please enter a mobile no.!",
+            },
+
+            users_password: {
+                required: "Please enter a password!",
+            },
+            cnfPassword:{
+                required: "Please confirm your password!",
+         
+      }
+      
+           
+        }
+
+    });
+ $('.select2').select2().change(function(){
+    $(this).valid()
+});
+ 
+});
+</script>
+<script>
+    var urls = "<?php echo base_url() ?>";
+
+    $(document).ready(function () {
+
+    $("#updateForm").validate({
+        rules: {
+            hospital_id:{
+                required : true,
+            },
+            hospital_name: {
+                required : true,
+                lettersonly: true
+
+            },
+            hospital_type: {
+                required: true
+            },
+             avatar_file: {
+                required : true
+            },
+            
+            hospital_countryId:{
+         
+                required: true
+            },
+            hospital_stateId:{
+         
+                required: true
+            },
+            hospital_cityId:{
+         
+                required: true
+            },
+            hospital_zip:{
+         
+                required: true,
+                number: true,
+                minlength:6,
+                maxlength:6
+
+            },
+            hospital_address: {
+                required: true,
+            }, 
+            lat: {
+                required: true,
+                
+
+                            
+            },
+            lng: {
+                required: true,
+                 
+
+                            
+            },
+            hospital_phn: {
+                required: true,
+                number: true,
+                minlength:10,
+                maxlength:10
+
+                            
+            },
+            'hospitalServices_serviceName[]': {
+                required: true
+                            
+            },
+            hospital_cntPrsn: {
+                required: true,
+                lettersonly: true
+                            
+            },
+            docatId: {
+                required: true,
+                            
+            },
+            hospital_dsgn: {
+                required: true,
+                 lettersonly: true                         
+            },
+            hospital_mmbrTyp: {
+                required: true
+            },
+            hospital_aboutUs: {
+                required: true
+                         
+            },
+            users_email: {
+                required: true,
+                email: true,
+                remote: {
+                url:  urls + 'index.php/hospital/isEmailRegister',
+                type: "post",
+                data: {
+                        email: function(){ return $("#users_email").val(); },
+                        id: function(){ return $("#user_tables_id").val(); },
+                        role: function(){ return 1; }
+                    }
+                  }
+
+                            
+            },
+            hospital_mblNo: {
+                required: true,
+                         
+            },
+            users_password: {
+                required: true,
+                         
+            },
+            cnfPassword: {
+                required: true,
+                equalTo: "#users_password"
+
+                         
+            }
+      
+
+        },
+        messages: {
+            hospital_id:{
+                required : "Either select a hospital or select other!",
+            },
+              hospital_name: {
+                required : "Please enter hospital's name!",
+            },
+            hospital_type: {
+                required : "Please select type of hospital!",
+            },
+            
+              avatar_file: {
+                required : "Please upload an image!",
+            },
+
+              hospital_countryId: {
+                required: "Please select a country!",
+            },
+            hospital_stateId: {
+                required: "Please select a state!",
+            },
+                    
+             hospital_cityId: {
+                required: "Please select a city!",
+            },
+            hospital_zip: {
+                required: "Please enter a zip code!",
+            },
+            hospital_address: {
+                required: "Please enter an address!",
+            },
+            lat: {
+                required: "Please enter latitude!",
+            },
+            lng: {
+                required: "Please enter longitude!",
+            },
+            hospital_phn: {
+                required: "Please enter hospital's phone number!",
+            },
+            'hospitalServices_serviceName[]': {
+                required: "Please enter one of more hospital services!",
+            },
+            hospital_cntPrsn: {
+                required: "Please enter contact person's name!",
+            },
+
+            docatId: {
+                required: "Please enter docat Id!",
+            },
+            hospital_dsgn: {
+                required: "Please enter designation!",
+            },
+            hospital_mmbrTyp: {
+                required: "Please select a member type!",
+            },
+            hospital_aboutUs: {
+                required: "Please fill the about us section!",
+            },
+            users_email: {
+                required:"Please enter an email id!",
+                email: "Please enter the correct email format!",
+            },
+            hospital_mblNo: {
+                required: "Please enter a mobile no.!",
+            },
+
+            users_password: {
+                required: "Please enter a password!",
+            },
+            cnfPassword:{
+                required: "Please confirm your password!",
+         
+      }
+      
+           
+        }
+
+    });
+ $('.select2').select2().change(function(){
+    $(this).valid()
+});
+ 
+});
 </script>
 </body>
 </html>

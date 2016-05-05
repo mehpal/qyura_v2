@@ -558,7 +558,7 @@ if ($current == 'doctorDetails'){ ?>
             doctors_lName: {
                 required : true
             },
-             avatarInput: {
+             avatar_file: {
                 required : true
             },
             'doctorSpecialities_specialitiesId[]': {
@@ -599,7 +599,7 @@ if ($current == 'doctorDetails'){ ?>
               doctors_lName: {
                 required : "Please enter doctor's last name!"
             },
-              avatarInput: {
+              avatar_file: {
                 required : "Please upload an image!"
             },
 

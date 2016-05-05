@@ -47,7 +47,7 @@
                                 <label for="cname" class="control-label col-md-4  col-sm-4">Select Name :</label>
                                 <div class="col-md-8 col-sm-8">
                                         <?php $publishHospital[] = (object) array('hospital_id' => 0, 'hospital_name' => 'Other') ?>
-                                    <select class="form-control selectpicker" data-width="100%" name="hospital_id" id="hospital_id" onchange="getHospitaldetail(this.value)" >
+                                    <select class="form-control select2" data-width="100%" name="hospital_id" id="hospital_id" onchange="getHospitaldetail(this.value)" >
                                         <option value="">Select Hospital</option>
                                         <?php
                                         if (!empty($publishHospital)) {
@@ -85,7 +85,8 @@
                             <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4  col-sm-4">Hospital Type :</label>
                                 <div class="col-md-8 col-sm-8">
-                                    <select class="form-control selectpicker" data-width="100%" name="hospital_type" id="hospital_type" >
+                                    <select class="form-control select2" data-width="100%" name="hospital_type" id="hospital_type" >
+                                    <option value="">Select Type</option>
                                         <?php
                                         if (!empty($hospitalType)) {
                                             foreach ($hospitalType as $key => $val) {
@@ -160,7 +161,7 @@
 
                                 <article class="clearfix">
                                     <div class="col-md-8  col-sm-8 col-sm-offset-4">
-                                        <select class="selectpicker form-control" data-width="100%" name="hospital_stateId" id="hospital_stateId" data-size="4" onchange ="fetchCity(this.value)" <?php
+                                        <select class="form-control selectpicker" data-width="100%" name="hospital_stateId" id="hospital_stateId" data-size="4" onchange ="fetchCity(this.value)" <?php
                                             if (isset($hospital_id) && $hospital_id != 0) {
                                                 echo 'disabled';
                                             }
@@ -375,7 +376,7 @@ if (isset($hospital_id) && $hospital_id != 0) {
                             <article class="clearfix m-t-10">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type :</label>
                                     <div class="col-md-8  col-sm-8">
-                                        <select class="selectpicker" data-width="100%" name="hospital_mmbrTyp" id="hospital_mmbrTyp" onchange="find_membershipdata(this.value)">
+                                        <select class="select2" data-width="100%" name="hospital_mmbrTyp" id="hospital_mmbrTyp" onchange="find_membershipdata(this.value)">
                                             <option value="">Select Membership</option>
                                             <?php if(isset($membership_plan) && $membership_plan){ 
                                                 foreach($membership_plan as $membership){ ?>
@@ -732,13 +733,13 @@ if (isset($amobulancestatus) && $amobulancestatus == 1) {
 
                         <!-- Account Detail Section End -->
 
-                    </div>
+                  
                 </section>
                 <section class="clearfix ">
                     <div class="col-md-12 m-t-20 m-b-20">
                         <button class="btn btn-danger waves-effect pull-right" type="reset">Reset</button>
                         <div>
-                            <input class="btn btn-success waves-effect waves-light pull-right m-r-20" onclick="return validationHospital()" type="submit" value="Submit"  />
+                            <input class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" value="Submit"  />
                         </div>
                     </div>
 

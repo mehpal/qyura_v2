@@ -103,7 +103,7 @@
                                        <!-- <li class="<?php // if(isset($active) && $active == 'gallery'){echo "active";}?>">
                                             <a data-toggle="tab" href="#gallery">Gallery</a>
                                         </li>-->
-                                        <li class="<?php if(isset($active) && $active == 'timeslot'){echo "active";}?>">
+                                        <li class="<?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>">
                                             <a data-toggle="tab" href="#timeslot">Time Slot</a>
                                         </li>
                                        <li class="<?php if(isset($active) && $active == 'doctor'){echo "active";}?>">
@@ -334,7 +334,7 @@
                                                         </aside>
                                                         
                                                         <!--edit-->
-                                                         <form name="hospitalDetail" action="<?php echo site_url("hospital/saveDetailHospital/$hospitalId"); ?>" id="hospitalDetail" method="post">
+                                                         <form name="hospitalDetail" id="updateForm" action="<?php echo site_url("hospital/saveDetailHospital/$hospitalId"); ?>" id="hospitalDetail" method="post">
                                                          <input type="hidden" id="StateId" name="StateId" value="<?php echo $hospitalData[0]->hospital_stateId;?>" />
                                                           <input type="hidden" id="countryId" name="countryId" value="<?php echo $hospitalData[0]->hospital_countryId;?>" />
                                                           <input type="hidden" id="cityId" name="cityId" value="<?php echo $hospitalData[0]->hospital_cityId;?>" />
@@ -689,7 +689,7 @@
                                                             <article class="clearfix m-b-10">
 
                                                               <div class="col-md-12">
-                                                              <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" onclick="return validationHospitalDetail();">Update</button>
+                                                              <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right">Update</button>
                                                               </div>
 
                                                              </article>
