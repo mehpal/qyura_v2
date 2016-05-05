@@ -1239,8 +1239,7 @@
                                                             <option value="<?php echo $membership->membership_id; ?>" <?php if($diagnosticData[0]->diagnostic_mbrTyp == $membership->membership_id){ echo "selected"; } ?> ><?php echo $membership->membership_name; ?></option>
                                                     <?php } } ?>
                                                 </select>
-                                                <label class="error" style="display:none;" id="error-diagnostic_mbrTyp"> please select a member type</label>
-                                                <label class="error" > <?php echo form_error("diagnostic_mbrTyp"); ?></label>
+                                                <label class="error" id="err_diagnostic_mbrTyp" > <?php echo form_error("diagnostic_mbrTyp"); ?></label>
                                             </div>
                                         </article>
                                         <?php foreach($membership_datail as $facilities){ ?>
@@ -1251,12 +1250,12 @@
                                                     <input type="hidden" value="<?php echo $facilities->miMembership_facilitiesId; ?>" id="miFacilitiesId_<?php echo $checkBocCount; ?>" name="miFacilitiesId_<?php echo $checkBocCount; ?>">
                                                     <div class="col-md-6 col-sm-6">
                                                         <input type="number" id="membership_quantity_<?php echo $checkBocCount; ?>" name="membership_quantity_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" value="<?php echo $facilities->miMembership_quantity ?>"/>
-                                                        <label class="error" id="err_membership_quantity_<?php echo $checkBocCount; ?>"> <?php echo form_error("membership_quantity_$checkBocCount"); ?></label>
+                                                        <label class="error" id="err_membership_quantity_<?php echo $checkBocCount; ?>" > <?php echo form_error("membership_quantity"); ?></label>
                                                     </div>
                                                     <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){ ?>
                                                     <div class="col-md-6 col-sm-6 m-t-xs-10">
                                                         <input type="number" id="membership_duration_<?php echo $checkBocCount; ?>" name="membership_duration_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" value="<?php  echo $facilities->miMembership_duration; ?>"/>
-                                                        <label class="error" id="membership_duration_<?php echo $checkBocCount; ?>"> <?php echo form_error("membership_duration_$checkBocCount"); ?></label>
+                                                        <label class="error" id="err_membership_duration_<?php echo $checkBocCount; ?>" > <?php echo form_error("membership_duration"); ?></label>
                                                     </div>
                                                     <?php } ?>
                                                 </aside>
@@ -1280,8 +1279,7 @@
                                                                         <option value="<?php echo $membership->membership_id; ?>" <?php echo set_select('diagnostic_mbrTyp', $membership->membership_id); ?> ><?php echo $membership->membership_name; ?></option>
                                                                 <?php } } ?>
                                                             </select>
-                                                            <label class="error" style="display:none;" id="error-diagnostic_mbrTyp"> please select a member type</label>
-                                                            <label class="error" > <?php echo form_error("diagnostic_mbrTyp"); ?></label>
+                                                            <label class="error" id="err_diagnostic_mbrTyp" > <?php echo form_error("diagnostic_mbrTyp"); ?></label>
                                                         </div>
                                                     </article>
                                                     <article class="clearfix m-t-10">
@@ -1295,14 +1293,12 @@
                                                                 <input type="hidden" value="<?php echo $facilities->facilities_id; ?>" id="miFacilitiesId_<?php echo $checkBocCount; ?>" name="miFacilitiesId_<?php echo $checkBocCount; ?>">
                                                                 <div class="col-md-6 col-sm-6">
                                                                     <input type="number" id="membership_quantity_<?php echo $checkBocCount; ?>" name="membership_quantity_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" />
-                                                                    <label class="error" style="display:none;" id="error-membership_quantity_<?php echo $checkBocCount; ?>"> please enter the Quantity!</label>
-                                                                    <label class="error" > <?php echo form_error("membership_quantity_$checkBocCount"); ?></label>
+                                                                    <label class="error" id="err_membership_quantity_<?php echo $checkBocCount; ?>" > <?php echo form_error("membership_quantity"); ?></label>
                                                                 </div>
                                                                 <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){ ?>
                                                                 <div class="col-md-6 col-sm-6 m-t-xs-10">
                                                                     <input type="number" id="membership_duration_<?php echo $checkBocCount; ?>" name="membership_duration_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){  } ?>/>
-                                                                    <label class="error" style="display:none;" id="error-membership_duration_<?php echo $checkBocCount; ?>"> please enter the Duration !</label>
-                                                                    <label class="error" > <?php echo form_error("membership_duration_$checkBocCount"); ?></label>
+                                                                    <label class="error" id="err_membership_duration_<?php echo $checkBocCount; ?>" > <?php echo form_error("membership_duration"); ?></label>
                                                                 </div>
                                                                 <?php } ?>
                                                             </aside>

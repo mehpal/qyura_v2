@@ -2527,9 +2527,10 @@ class Hospital extends MY_Controller {
     
      function membershipEdit() {
         //print_r($_POST);exit;
+        $this->bf_form_validation->set_rules("diagnostic_mbrTyp", "Membership Type", 'required|xss_clean');
         $faci_count = $this->input->post('faci_count');
         for($i = 1; $i <= $faci_count; $i++){
-            $checkbox = $this->input->post("checkbox_$i");
+            $checkbox = $this->input->post("miFacilitiesId_$i");
             $this->bf_form_validation->set_rules("membership_quantity_$i", "Quantity", 'required|xss_clean');
             if($checkbox == 2 || $checkbox == 4){
                 $this->bf_form_validation->set_rules("membership_duration_$i", "Duration", 'required|xss_clean');
