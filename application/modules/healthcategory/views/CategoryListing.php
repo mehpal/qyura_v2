@@ -47,6 +47,7 @@
                                     <tr class="border-a-dull">
                                         <th>Category</th>
                                         <th class="no-sort">Action</th>
+                                        <th class="no-sort">Status</th>
                                     </tr>
                                 </thead>
                             </table>

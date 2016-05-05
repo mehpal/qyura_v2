@@ -125,7 +125,7 @@ class Doctor_model extends My_model {
     function fetchDoctorData($condition = NULL) {
 
         $this->db->select('doc.doctors_id,doc.doctors_27Src,doc.isManual,doc.doctors_consultaionFee,doc.doctors_pin,doc.doctors_userId,doc.doctors_fName,doc.doctors_lName,CONCAT(doc.doctors_fName," ",doc.doctors_lName)AS doctoesName,doc.doctors_phn,doc.doctor_addr,City.city_name,doc.doctors_img,usr.users_email,doc.doctors_lat,doc.doctors_long,usr.users_id,doc.doctors_registeredMblNo,
-        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_dob,doc.doctors_cityId,doc.creationTime,doc.doctors_mobile,doc.doctors_unqId,usr.users_email,doc.doctors_joiningDate,doc.doctors_pin,doc.doctors_homeVisit,doc.doctors_showExp,doc.doctors_expYear,doc.doctors_docatId,doc.doctors_qapId,Qap.qap_code,Qap.qap_id,DocService.doctorServices_id,DocService.doctorServices_doctorId,docAca.doctorAcademic_doctorsId,docAca.doctorAcademic_degreeId,deg.degree_id,GROUP_CONCAT(deg.degree_SName) AS degreeSmallName,docSer.doctorServices_id,docSer.doctorServices_doctorId,GROUP_CONCAT(DISTINCT(docSer.doctorServices_serviceName)) AS serviceName,docSpec.doctorSpecialities_doctorsId,docSpec.doctorSpecialities_specialitiesId,spec.specialities_id,GROUP_CONCAT(DISTINCT(spec.specialities_name)) AS specname');
+        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_dob,doc.doctors_cityId,doc.creationTime,doc.doctors_mobile,doc.doctors_unqId,usr.users_email,doc.doctors_joiningDate,doc.doctors_pin,doc.doctors_homeVisit,doc.doctors_showExp,doc.doctors_expYear,doc.doctors_docatId,doc.doctors_qapId,Qap.qap_code,Qap.qap_id,DocService.doctorServices_id,DocService.doctorServices_doctorId,docAca.doctorAcademic_doctorsId,docAca.doctorAcademic_degreeId,deg.degree_id,GROUP_CONCAT(DISTINCT(deg.degree_SName)) AS degreeSmallName,docSer.doctorServices_id,docSer.doctorServices_doctorId,GROUP_CONCAT(DISTINCT(docSer.doctorServices_serviceName)) AS serviceName,docSpec.doctorSpecialities_doctorsId,docSpec.doctorSpecialities_specialitiesId,spec.specialities_id,GROUP_CONCAT(DISTINCT(spec.specialities_name)) AS specname');
         $this->db->from('qyura_doctors AS doc');
         $this->db->join('qyura_doctorServices AS DocService', 'DocService.doctorServices_doctorId = doc.doctors_id', 'left');
         $this->db->join('qyura_city AS City', 'City.city_id = doc.doctors_cityId', 'left');
@@ -151,8 +151,6 @@ class Doctor_model extends My_model {
         $data = $this->db->get();
         return $data->result();
     }
-
-    
 
     function getDoctorAvailabilityBK($where = array()) {
 
@@ -244,7 +242,7 @@ class Doctor_model extends My_model {
     function fetchDoctorDataTables() {
         $imgUrl = base_url() . 'assets/doctorsImages/thumb/thumb_100/$1';
         $this->datatables->select('doc.doctors_id,doc.doctors_pin,doc.doctors_userId,doc.doctors_fname,doc.doctors_lname,doc.doctors_phn,doc.doctor_addr,City.city_name,doc.doctors_img,usr.users_email,doc.doctors_lat,doc.doctors_long,usr.users_id,
-        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_cityId,DATE_FORMAT(FROM_UNIXTIME(doc.creationTime),"%d-%m-%Y")As joinDate,doc.doctors_mobile,doc.doctors_unqId,doc.doctors_expYear');
+        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_cityId,DATE_FORMAT(FROM_UNIXTIME(doc.creationTime),"%d-%m-%Y")As joinDate,doc.doctors_mobile,doc.doctors_unqId,doc.doctors_expYear,GROUP_CONCAT(DISTINCT(qyura_specialities.specialities_name) SEPARATOR ",") AS specname');
 
         $this->datatables->from('qyura_doctors AS doc');
         $this->db->join('qyura_city AS City', 'City.city_id = doc.doctors_cityId', 'left');
@@ -269,7 +267,7 @@ class Doctor_model extends My_model {
 //        $docSpecialities = $this->input->post('docSpecialitiesId');
 //        isset($docSpecialities) && $docSpecialities != '' ? $this->db->where('qyura_specialities.specialities_id', $docSpecialities) : '';
 
-        $this->db->where(array('doc.doctors_deleted' => 0));
+        $this->db->where(array('doc.doctors_deleted' => 0,'doc.doctors_roll' => 0));
         $this->datatables->add_column('exp', '$1 Years', 'expYear(doctors_expYear)');
         $this->datatables->add_column('name', '$1</br>$2', 'doctors_fname,doctors_unqId');
         $this->datatables->add_column('specialityName', '$1', 'specname');
@@ -331,8 +329,6 @@ class Doctor_model extends My_model {
     function deleteDoctorAvailability($con = null) {
         $this->db->delete('qyura_doctorAvailability', $con);
     }
-
-    
 
 //    function deleteDoctorAvailability($con=null)
 //    {
@@ -429,8 +425,6 @@ class Doctor_model extends My_model {
         return $response;
     }
     
-    
-
     function getDoctorOtherPlaceInfo($where) {
         $con = array('doctorAvailabilitySession_deleted' => 0);
         $where = array_merge($con, $where);

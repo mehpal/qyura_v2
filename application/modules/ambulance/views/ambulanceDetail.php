@@ -160,7 +160,7 @@
                                     <!-- Ambulance Provider Detail Ends -->
                                     
                                     <!-- Ambulance Provider Detail in Edit Mode -->
-                                     <form name="ambulanceDetail" action="<?php echo site_url(); ?>/ambulance/saveDetailAmbulance/<?php echo $ambulanceId; ?>" id="ambulanceDetail" method="post">
+                                     <form name="ambulanceDetail" action="<?php echo site_url(); ?>/ambulance/saveDetailAmbulance/<?php echo $ambulanceId; ?>" id="submitForm" method="post">
                                     <section id="editdetail" style="display:<?php echo $editdetail;?>">
                                         <div class="clearfix m-t-20 p-b-20 doctor-description">
                                             <article class="clearfix m-t-10">
@@ -175,7 +175,7 @@
                                             <article class="clearfix m-t-10">
                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Provider Type :</label>
                                                  <div class="col-md-8 col-sm-8">
-                                                    <select class="selectpicker" data-width="100%" name="ambulanceType">
+                                                    <select class="select2" data-width="100%" name="ambulanceType">
                                                         
 
 
@@ -197,7 +197,7 @@
                                                      <article class="clearfix m-t-10">
                                                 <label for="cname" class="control-label col-md-4 col-sm-4">Address:</label>
                                                 <div class="col-md-8 col-sm-8">
-                                                            <select class="selectpicker form-control" data-width="100%" name="ambulance_countryId" id="ambulance_countryId">
+                                                            <select class="form-control select2" data-width="100%" name="ambulance_countryId" id="ambulance_countryId">
                                                                <option value=''>Select Country</option>
                                                                <option value="1" <?php if($ambulanceData[0]->ambulance_countryId == 1){ echo 'selected';}?>>INDIA</option>
                                                               
@@ -208,7 +208,7 @@
                                             </article>
                                             <article class="clearfix">
                                                 <div class="col-sm-8 col-sm-offset-4">
-                                             <select class="selectpicker form-control" data-width="100%" name="ambulance_stateId" Id="ambulance_stateId" data-size="4" onchange ="fetchCity(this.value)">
+                                             <select class="form-control select2" data-width="100%" name="ambulance_stateId" Id="ambulance_stateId" data-size="4" onchange ="fetchCity(this.value)">
                                                         <option value="">Select State</option>
                                                        <?php foreach($allStates as $key=>$val) {?>
                                                         <option value="<?php echo $val->state_id;?>" <?php if($ambulanceData[0]->ambulance_stateId == $val->state_id){ echo 'selected';}?>><?php echo $val->state_statename;?></option>
@@ -221,7 +221,7 @@
 
                                             <article class="clearfix">
                                                 <div class="col-sm-8 col-sm-offset-4">
-                                                    <select class="form-control selectpicker" data-width="100%" name="ambulance_cityId" id="ambulance_cityId" data-size="4">
+                                                    <select class="form-control select2" data-width="100%" name="ambulance_cityId" id="ambulance_cityId" data-size="4">
                                                       <option value="">Select City</option>
                                                       <?php if(isset($citys) && !empty($citys)){?>
                                                        <?php foreach($citys as $key=>$city) {?>
@@ -274,11 +274,11 @@
                                           
                                             <aside class="row">
                                                    <div class="col-sm-6"> 
-                                                            <input name="lat" class="form-control" required="" type="text"  id="lat" readonly="" value="<?php echo $ambulanceData[0]->ambulance_lat;?>"/>
+                                                            <input name="lat" class="form-control" required="" type="text"  id="lat"  value="<?php echo $ambulanceData[0]->ambulance_lat;?>"/>
                                                             <label class="error" style="display:none;" id="error-lat">Please enter the correct format for latitude</label>
                                                      </div>
                                                      <div class="col-sm-6"> 
-                                                           <input name="lng" class="form-control" required="" type="text"   id="lng" readonly="" value="<?php echo $ambulanceData[0]->ambulance_long;?>" />
+                                                           <input name="lng" class="form-control" required="" type="text"   id="lng" value="<?php echo $ambulanceData[0]->ambulance_long;?>" />
                                                             <label class="error" style="display:none;" id="error-lng"> Please enter the correct format for longitude</label>                                          
                                             </div>
                                           </aside>
@@ -346,7 +346,7 @@
                                             <article class="clearfix m-b-10">
                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Membership Type:</label>
                                                 <div class="col-md-8 col-sm-8">
-                                                    <select class="selectpicker" data-width="100%" name="ambulance_mbrTyp" id="ambulance_mbrTyp">
+                                                    <select class="select2" data-width="100%" name="ambulance_mmbrTyp" id="ambulance_mmbrTyp">
                                                         <option value="1" <?php if($ambulanceData[0]->ambulance_mmbrTyp == 1){ echo 'selected';}?>>Life Time</option>
                                                         <option value="2" <?php if($ambulanceData[0]->ambulance_mmbrTyp == 2){ echo 'selected';}?>>Health Club</option>
                                                     </select>
@@ -377,7 +377,7 @@
 
                                             <article class="clearfix ">
                                                 <div class="col-md-12 m-t-20 m-b-20">
-                                                <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" onclick="return validationAmbulanceEdit();">Submit</button>
+                                                <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right">Submit</button>
                                                 </div>
                                             </article>
                                         </div>

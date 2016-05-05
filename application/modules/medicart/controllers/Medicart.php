@@ -69,7 +69,7 @@ class Medicart extends MY_Controller {
         $option = array(
             'select' => 'specialities_id,specialities_name',
             'table' => 'qyura_specialities',
-            'where' => array('specialities_deleted' => 0, 'type' => 0, 'status' => 3),
+            'where' => array('specialities_deleted' => 0, 'type' => 0, 'status' => 1),
             'order_by' => array("specialities_name", "asc")
         );
         $data['allOffetCategory'] = $this->medicart_model->customGet($option);
@@ -318,7 +318,7 @@ class Medicart extends MY_Controller {
 
             if ($medicartId) {
                 $this->session->set_flashdata('message', 'Record has been saved successfully!');
-                redirect('medicart/addOffer');
+                redirect('medicart');
             } else {
                 $this->session->set_flashdata('error', 'Failed to saved records!');
                 redirect('medicart/addOffer');
@@ -353,7 +353,7 @@ class Medicart extends MY_Controller {
         $option = array(
             'select' => 'specialities_id,specialities_name',
             'table' => 'qyura_specialities',
-            'where' => array('specialities_deleted' => 0, 'type' => 0, 'status' => 3),
+            'where' => array('specialities_deleted' => 0, 'type' => 0, 'status' => 1),
             'order_by' => array("specialities_name", "asc")
         );
         $data['allOffetCategory'] = $this->medicart_model->customGet($option);
@@ -634,7 +634,7 @@ class Medicart extends MY_Controller {
         $option = array(
             'table' => 'qyura_miMembership',
             'select' => 'miMembership_id,miMembership_quantity,miMembership_duration',
-            'where' => array('miMembership_miId' => $id , 'miMembership_facilitiesId' => 3 , 'status' => 3 , 'miMembership_deleted' => 0, 'miMembership_quantity >' => $offerData),
+            'where' => array('miMembership_miId' => $id , 'miMembership_facilitiesId' => 2 , 'status' => 3 , 'miMembership_deleted' => 0, 'miMembership_quantity >' => $offerData),
         );
         $result = $this->common_model->customGet($option);
         if($result && !empty($result)){

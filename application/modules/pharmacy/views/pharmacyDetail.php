@@ -199,7 +199,7 @@ for ($i = 0; $i < count($explode); $i++) {
 <?php endif;?>
                                                 </aside>
                                                 <!--edit-->
-                                                <form name="pharmacyDetail" action="<?php echo site_url(); ?>/pharmacy/saveDetailPharmacy/<?php echo $pharmacyId; ?>" id="pharmacyDetail" method="post">
+                                                <form name="pharmacyDetail" action="<?php echo site_url(); ?>/pharmacy/saveDetailPharmacy/<?php echo $pharmacyId; ?>" id="submitForm" method="post">
                                                     <aside id="newDetail" style="display:<?php echo $showStatus; ?>;">
                                                         <article class="clearfix m-t-10">
                                                             <label for="cemail" class="control-label col-md-4 col-sm-4">Pharmacy Name :</label>
@@ -212,7 +212,7 @@ for ($i = 0; $i < count($explode); $i++) {
                                                         <article class="clearfix">
                                                             <label for="cemail" class="control-label col-md-4 col-sm-4">Pharmacy Type :</label>
                                                             <div class="col-md-8 col-sm-8">
-                                                                <select class="form-control selectpicker" data-width="100%" name="pharmacy_type">
+                                                                <select class="form-control select2" data-width="100%" name="pharmacy_type">
                                                                     <option value="1" <?php if ($pharmacyData[0]->pharmacy_type == "Medicine") {
     echo 'selected';
 } ?>>Medicine</option>
@@ -232,7 +232,7 @@ for ($i = 0; $i < count($explode); $i++) {
                                                         <article class="clearfix">
                                                             <label for="cemail" class="control-label col-md-4 col-sm-4">Address:</label>
                                                             <div class="col-md-8 col-sm-8">
-                                                                <select class="form-control selectpicker" data-width="100%" name="pharmacy_countryId">
+                                                                <select class="form-control select2" data-width="100%" name="pharmacy_countryId">
                                                                     <option>Select Country</option>
 <?php if (!empty($allCountry)):
     foreach ($allCountry as $country):
@@ -249,7 +249,7 @@ for ($i = 0; $i < count($explode); $i++) {
                                                         </article>
                                                         <article class="clearfix">
                                                             <div class="col-sm-8 col-sm-offset-4">
-                                                                <select class="form-control selectpicker" data-width="100%" name="pharmacy_stateId" onchange ="fetchCity(this.value)" id="pharmacy_stateId">
+                                                                <select class="form-control select2" data-width="100%" name="pharmacy_stateId" onchange ="fetchCity(this.value)" id="pharmacy_stateId">
 <?php foreach ($allStates as $key => $val) { ?>
                                                                         <option <?php if ($pharmacyData[0]->pharmacy_stateId == $val->state_id):echo"selected";
     endif; ?> value="<?php echo $val->state_id; ?>"><?php echo $val->state_statename; ?></option>
@@ -262,7 +262,7 @@ for ($i = 0; $i < count($explode); $i++) {
                                                         </article>
                                                         <article class="clearfix m-t-10">
                                                             <div class="col-sm-8 col-sm-offset-4">
-                                                                <select class="selectpicker" data-width="100%" name="pharmacy_cityId" id="pharmacy_cityId">
+                                                                <select class="select2" data-width="100%" name="pharmacy_cityId" id="pharmacy_cityId">
 <?php foreach ($allCities as $key => $val) { ?>
                                                                         <option <?php if ($pharmacyData[0]->pharmacy_cityId == $val->city_id):echo"selected";
     endif; ?> value="<?php echo $val->city_id; ?>"><?php echo $val->city_name; ?></option>
@@ -388,7 +388,7 @@ endif; ?> name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.valu
                                                         <article class="clearfix m-t-10">
                                                             <label for="cemail" class="control-label col-md-4 col-sm-4">Membership Type:</label>
                                                             <div class="col-md-8 col-sm-8">
-                                                                <select class="selectpicker" data-width="100%" name="pharmacy_mmbrTyp" id="pharmacy_mmbrTyp">
+                                                                <select class="select2" data-width="100%" name="pharmacy_mmbrTyp" id="pharmacy_mmbrTyp">
                                                                     <option value="1" <?php if ($pharmacyData[0]->pharmacy_mmbrTyp == "Life Time") {
     echo 'selected';
 } ?>>Life Time</option>
@@ -448,7 +448,7 @@ endif; ?> name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.valu
                                                         <article class="clearfix m-t-10">
 
                                                             <div class="col-md-12">
-                                                                <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" onclick="return validationPharmacyDetail();">Update</button>
+                                                                <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right">Update</button>
                                                             </div>
 
                                                         </article>

@@ -25,12 +25,14 @@
     this.$loading = this.$container.find('.loading');
 
     this.$avatarForm = this.$avatarModal.find('.avatar-form');
-    this.$avatarUpload = this.$avatarForm.find('.avatar-upload');
-    this.$avatarSrc = this.$avatarForm.find('.avatar-src');
-    this.$avatarData = this.$avatarForm.find('.avatar-data');
-    this.$avatarInput = this.$avatarForm.find('.avatar-input');
-    this.$avatarSave = this.$avatarForm.find('.avatar-save');
-    this.$avatarBtns = this.$avatarForm.find('.avatar-btns');
+    console.log(this.$avatarForm);
+    this.$avatarUpload = this.$avatarModal.find('.avatar-upload');
+    this.$avatarSrc = this.$avatarModal.find('.avatar-src');
+    this.$avatarData = this.$avatarModal.find('.avatar-data');
+    this.$avatarInput = this.$avatarModal.find('.avatar-input');
+    this.$avatarSave = this.$avatarModal.find('.avatar-save');
+    this.$avatarBtns = this.$avatarModal.find('.avatar-btns');
+    this.$imgUploadBtn = this.$avatarModal.find('.imgUploadBtn');
 
     this.$avatarWrapper = this.$avatarModal.find('.avatar-wrapper');
     this.$avatarPreview = this.$avatarModal.find('.avatar-preview');
@@ -62,7 +64,7 @@
     addListener: function () {
       this.$avatarView.on('click', $.proxy(this.click, this));
       this.$avatarInput.on('change', $.proxy(this.change, this));
-      this.$avatarForm.on('submit', $.proxy(this.submit, this));
+      this.$imgUploadBtn.on('click', $.proxy(this.submit, this));
       this.$avatarBtns.on('click', $.proxy(this.rotate, this));
     },
 
@@ -87,6 +89,7 @@
     },
 
     initIframe: function () {
+        console.log(this,'initIframe');
       var target = 'upload-iframe-' + (new Date()).getTime();
       var $iframe = $('<iframe>').attr({
             name: target,
@@ -103,6 +106,7 @@
 
           try {
             data = $(this).contents().find('body').text();
+            console.log(data,'data');
           } catch (e) {
             console.log(e.message);
           }
@@ -125,7 +129,7 @@
       });
 
       this.$iframe = $iframe;
-      this.$avatarForm.attr('target', target).after($iframe.hide());
+      this.$avatarModal.attr('target', target).after($iframe.hide());
     },
 
     click: function () {
@@ -142,7 +146,7 @@
 
         if (files.length > 0) {
           file = files[0];
-
+          this.uploadFile = file;
           if (this.isImageFile(file)) {
             if (this.url) {
               URL.revokeObjectURL(this.url); // Revoke the old one
@@ -247,14 +251,25 @@
     },
 
     ajaxUpload: function () {
-      var url = this.$container.find('#file_action_url').val();
-      var data = new FormData(this.$avatarForm[0]);
+      var url = this.$container.find('.file_action_url').val();
+      
+      //var data = new FormData(this.$avatarForm[0]);
+    //var data = this.uploadFile;
+    var form_data = new FormData();                  // Creating object of FormData class
+    //form_data.append("file", data);    
+    form_data.append("avatar_file", this.$avatarInput.prop("files")[0]);
+    console.log(this.$avatarModal.prop("name"));
+    
+    form_data.append('avatar-src',this.$container.find('.avatar-src').val());
+    form_data.append('avatar-data',this.$container.find('.avatar-data').val());
+    form_data.append('avatar_id',this.$container.find('.avatar_id').val());
+    
       var _this = this;
-
+      console.log(form_data);
       $.ajax(url, {
         type: 'post',
         url:url,
-        data: data,
+        data: form_data,
         dataType: 'json',
         processData: false,
         contentType: false,
@@ -282,16 +297,18 @@
     },
 
     submitStart: function () {
-      this.$loading.fadeIn();
+      qyuraLoader.startLoader();
     },
 
     submitDone: function (data) {
-
+ console.log(data);
       if ($.isPlainObject(data) && data.state === 200) {
-           this.$container.find('.text-success').html(data.message);
-           var loadUrl = this.$container.find('#load_url').val();
-           this.$container.find('.pro-img').load(loadUrl,function () {
-           });
+          console.log(data);
+           //this.$container.find('.text-success').html(data.message);
+           
+          this.$container.find('.logo-img').attr('src',data.image);
+          this.$container.find('.'+data.reset).trigger('click');
+           
           if (this.support.datauri || this.uploaded) {
             this.uploaded = false;
             this.cropDone();
@@ -315,11 +332,11 @@
     },
 
     submitEnd: function () {
-      this.$loading.fadeOut();
+      qyuraLoader.stopLoader();
     },
 
     cropDone: function () {
-      this.$avatarForm.get(0).reset();
+      //this.$avatarModal.get(0).reset();
       this.$avatar.attr('src', this.url);
       this.stopCropper();
       //this.$avatarModal.modal('hide');
@@ -396,8 +413,12 @@
     return new CropAvatar($('#crop-avatar'), 'avatar-modal');
   });
   
-    $(function () {
+ $(function () {
     return new CropAvatar($('#blood-crop-avatar'), 'blood-avatar-modal');
+  });
+  
+  $(function () {
+    return new CropAvatar($('#crop-ambulance'), 'ambulance-modal');
   });
 
 });

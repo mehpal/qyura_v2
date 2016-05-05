@@ -69,12 +69,12 @@
                                 ?></h3>
                             <p><?php
                                 if (isset($doctorDetail[0]->degreeSmallName) && $doctorDetail[0]->degreeSmallName != NULL) {
-                                    echo $doctorAcademic[0]->degreeSmallName;
+                                    echo $doctorDetail[0]->degreeSmallName;
                                 }
                                 ?></p>
                             <p><?php
-                                if (isset($doctorDetail[0]->degreeFullName) && $doctorDetail[0]->degreeFullName != NULL) {
-                                    echo $doctorAcademic[0]->degreeFullName;
+                                if (isset($doctorDetail[0]->serviceName) && $doctorDetail[0]->serviceName != NULL) {
+                                    echo $doctorDetail[0]->serviceName;
                                 }
                                 ?></p>
                             <p><?php
@@ -83,17 +83,25 @@
                                 }
                                 ?> Years Experience</p>
                             <p><?php
-                                if (isset($doctorDetail[0]->speciality) && $doctorDetail[0]->speciality != NULL) {
-                                    echo $doctorDetail[0]->speciality;
+                                if (isset($doctorDetail[0]->specname) && $doctorDetail[0]->specname != NULL) {
+                                    echo $doctorDetail[0]->specname;
                                 }
                                 ?></p>
                         </aside>
+                        <aside class="col-md-5 col-sm-5 col-xs-12 text-right t-xs-left">
+                            <h6><?php echo $rating_avg[0]->rating_count ?> Ratings &nbsp; <span class="label label-success waves-effect waves-light m-b-5 center-block"><?php echo round($rating_avg[0]->rating_avg); ?>.0</span></h6>
+                            <h6><?php echo $review_count[0]->review_count ?> Reviews &nbsp; <i class="fa fa-commenting clg"></i></h6>
+                            <h6>Doctor on Call &nbsp; <i class="fa fa-<?php if (isset($doctorDetail[0]->doctors_27Src) && $doctorDetail[0]->doctors_27Src != NULL) { if ($doctorDetail[0]->doctors_27Src == 1) { echo "phone clg"; } else { echo "times danger"; } } ?> "></i></h6>
+                        </aside>
                         <form class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" method="post" action="#" novalidate="novalidate" name="doctorForm" enctype="multipart/form-data">
-                            <aside class="col-md-5 col-sm-5 col-xs-12 text-right t-xs-left">
-                                <div class="col-md-8 col-sm-8 pull-right" data-target="#modal" data-toggle="modal">
-                                    <label class="col-md-5 col-sm-5 pull-right" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
+                            <aside class="col-md-5 col-sm-5 col-xs-12" >
+                                <div class="col-md-8 col-sm-8 pull-right m-t-10" data-target="#modal" data-toggle="modal" id="crop-avatar">
+                                    <div id="upload_modal_form">
+                                        <?php $this->load->view('upload_crop_modal');?>
+                                    </div>
+                                    <label class="col-md-5 col-sm-5 pull-right m-l-20" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
                                     <div class="pre col-md-4 col-sm-4 pull-right" style="margin-top: -10%">
-                                        <div id="preImgLogo" class="avatar-preview preview-md">
+                                        <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
                                             <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png"  class="image-preview-show" width="80px" height="80px" style="margin-top: 0"/>
                                         </div>
                                     </div>
@@ -110,9 +118,6 @@
                                 <label class="error" id="err_doctorAjaxId" > <?php echo form_error("doctorAjaxId"); ?></label>
                                 <div class="col-md-12 m-t-20 m-b-20">
                                     <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return validationImageDoctor()" >Change Image</button>
-                                </div>
-                                <div id="upload_modal_form">
-                                    <?php $this->load->view('upload_crop_modal'); ?>
                                 </div>
                             </aside>
                         </form>
@@ -234,7 +239,7 @@
                                                 <p class="col-md-8 col-sm-8" style="width: 40%" ><?php
                                                     if (isset($doctorDetail[0]->doctors_27Src) && $doctorDetail[0]->doctors_27Src != NULL) {
                                                         if ($doctorDetail[0]->doctors_27Src == 1) {
-                                                            echo "24x7";
+                                                            echo "Yes";
                                                         } else {
                                                             echo "No";
                                                         }
@@ -367,7 +372,7 @@
                                                 <article class="clearfix m-t-10">
                                                     <label for="" class="control-label col-md-3 col-sm-3">Speciality:</label>
                                                     <div class="col-md-4 col-sm-4">
-                                                        <select  multiple="" class="bs-select form-control-select2 " data-width="100%" name="doctorSpecialities_specialitiesId[]" Id="doctorSpecialities_specialitiesId" data-size="4">
+                                                        <select  multiple="" class="bs-select form-control select2 " data-width="100%" name="doctorSpecialities_specialitiesId[]" Id="doctorSpecialities_specialitiesId" data-size="4">
                                                             <?php foreach ($speciality as $key => $val) { ?>
                                                                 <option <?php
                                                                 if (isset($qyura_doctorSpecialities) && $qyura_doctorSpecialities != NULL) {

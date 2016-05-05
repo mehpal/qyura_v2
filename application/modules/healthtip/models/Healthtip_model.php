@@ -10,7 +10,7 @@ class Healthtip_model extends CI_Model {
     function fetchCategory (){
         $this->db->select('category_id,category_name');
         $this->db->from('qyura_healthCategory');
-        $this->db->where('category_deleted',0);
+        $this->db->where(array('category_deleted'=>0,'status'=>1));
         $this->db->order_by("category_name","asc");
         return $this->db->get()->result();
     }
@@ -71,7 +71,7 @@ class Healthtip_model extends CI_Model {
             
     $imgUrl = base_url().'assets/Health_tipimages/$1'; 
          
-    $this->datatables->select('HTip.healthTips_id,HTip.healthTips_image,HTip.healthTips_categoryId,HTip.healthTips_detail,HTip.healthTips_amount,Cat.category_name');
+    $this->datatables->select('HTip.healthTips_id as tipid,HTip.healthTips_image,HTip.healthTips_categoryId,HTip.healthTips_detail,HTip.healthTips_amount,Cat.category_name,HTip.status');
     $this->datatables->from('qyura_healthTips AS HTip');
     $this->datatables->join('qyura_healthCategory Cat','HTip.healthTips_categoryId = Cat.category_id');
 
@@ -83,10 +83,11 @@ class Healthtip_model extends CI_Model {
         }
         if($condition)
              $this->datatables->where(array('Hos.hospital_id'=> $condition));
-      $this->datatables->where(array('HTip.healthTips_deleted'=> 0));
+      $this->datatables->where(array('HTip.healthTips_deleted'=> 0,'Cat.status'=>1));
       
         $this->datatables->add_column('healthtip_img', '<img class="img-responsive" height="80px;" width="80px;" src='.$imgUrl.'>', 'healthTips_image'); 
-        $this->datatables->add_column('view', '<div><a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="healthtip/detailHealthtip/$1" style="color : black !important">View Detail</a></div><div><a class="btn btn-appointment waves-effect waves-light m-l-10 pull-left" href="healthtip/deleteHealthtip/$1" >Delete</a></div>', 'healthTips_id');
+        $this->datatables->add_column('view', '<div><a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="healthtip/detailHealthtip/$1" style="color : black !important">View Detail</a></div><div><a class="btn btn-appointment waves-effect waves-light m-l-10 pull-left" href="healthtip/deleteHealthtip/$1" >Delete</a></div>', 'tipid');
+        $this->datatables->edit_column('status','$1','statusCheck(healthtip/healthtip,qyura_healthTips,healthTips_id,tipid,status)');
        
        
       

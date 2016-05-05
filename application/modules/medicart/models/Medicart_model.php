@@ -256,13 +256,13 @@ class Medicart_model extends CI_Model {
 
         $imgUrl = base_url() . 'assets/Medicart/$1';
 
-        $this->datatables->select('qyura_medicartOffer.medicartOffer_range,qyura_medicartOffer.medicartOffer_id,'
+        $this->datatables->select('qyura_medicartOffer.medicartOffer_range,qyura_medicartOffer.medicartOffer_id as id,'
                 . 'qyura_medicartOffer.medicartOffer_MIId,qyura_medicartOffer.medicartOffer_offerCategory,'
                 . 'qyura_medicartOffer.medicartOffer_description,qyura_medicartOffer.medicartOffer_allowBooking,'
                 . 'qyura_medicartOffer.medicartOffer_maximumBooking,qyura_medicartOffer.medicartOffer_startDate,'
                 . 'qyura_medicartOffer.medicartOffer_endDate,qyura_medicartOffer.medicartOffer_discount,'
                 . 'qyura_medicartOffer.medicartOffer_ageDiscount,qyura_medicartOffer.medicartOffer_actualPrice,'
-                . 'qyura_medicartOffer.medicartOffer_discountPrice,qyura_medicartOffer.medicartOffer_title,qyura_medicartOffer.status,qyura_city.city_name,qyura_medicartOffer.medicartOffer_OfferId,'
+                . 'qyura_medicartOffer.medicartOffer_discountPrice,qyura_medicartOffer.medicartOffer_title,qyura_medicartOffer.status as sts,qyura_city.city_name,qyura_medicartOffer.medicartOffer_OfferId,'
                
                 . '(CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_name WHEN(hospital_usersId is not null) THEN hospital_name END) as MIname,(select count(*) from qyura_medicartBooking where qyura_medicartBooking.medicartBooking_medicartOfferId = qyura_medicartOffer.medicartOffer_id and qyura_medicartBooking.medicartBooking_deleted =0) as totalBooking,'
                 . '(select count(*) from qyura_medicartContect where qyura_medicartContect.medicartContect_medicartOfferId = qyura_medicartOffer.medicartOffer_id and qyura_medicartContect.medicartContect_deleted =0) as totalInquiries');
@@ -287,6 +287,18 @@ class Medicart_model extends CI_Model {
         $status = $this->input->post('statusId');
         isset($status) && $status != '' ? $this->datatables->where('qyura_medicartOffer.status', $status) : '';
         
+         $search = $this->input->post('searchOffer');
+        if($search){
+             $this->db->group_start();
+             $this->db->or_like('qyura_medicartOffer.medicartOffer_title',$search);
+             $this->db->or_like('qyura_medicartOffer.medicartOffer_OfferId',$search);
+             $this->db->or_like('qyura_hospital.hospital_name',$search);
+             $this->db->or_like('qyura_diagnostic.diagnostic_name',$search);
+             $this->db->or_like('qyura_city.city_name',$search);
+             $this->db->group_end();
+        }
+        
+        
         $this->datatables->add_column('medicartOffer_startDate','$1', 'dateFormateConvert(medicartOffer_startDate)');
         $this->datatables->add_column('medicartOffer_endDate','$1', 'dateFormateConvert(medicartOffer_endDate)');
         $this->datatables->add_column('medicartOffer_title','$1', 'medicartOffer_title');
@@ -295,8 +307,8 @@ class Medicart_model extends CI_Model {
         $this->datatables->add_column('MIname','$1<p>$2</p>', 'MIname,city_name');
         $this->datatables->add_column('totalBooking','$1','totalBooking');
         $this->datatables->add_column('totalInquiries','$1','totalInquiries');
-        $this->datatables->edit_column('status', '$1', 'checkStatus(status,medicartOffer_id)');
-        $this->datatables->add_column('action', '<a href="medicart/editOffer/$1" class="btn btn-warning waves-effect waves-light m-b-5 applist-btn">Edit</a>', 'medicartOffer_id');
+        $this->datatables->edit_column('status', '$1', 'statusCheck(medicart,qyura_medicartOffer,medicartOffer_id,id,sts)');
+        $this->datatables->add_column('action', '<a href="medicart/editOffer/$1" class="btn btn-warning waves-effect waves-light m-b-5 applist-btn">Edit</a>', 'id');
 
        return  $this->datatables->generate();
        // return $this->datatables->last_query();
@@ -328,6 +340,19 @@ class Medicart_model extends CI_Model {
         $city = $this->input->post('cityId');
         isset($city) && $city != '' ? $this->datatables->where('qyura_medicartOffer.medicartOffer_cityId', $city) : '';
         
+        $search = $this->input->post('searchOffers');
+        if($search){
+             $this->db->group_start();
+             $this->db->or_like('qyura_medicartContect.medicartContect_enquiryId',$search);
+             $this->db->or_like('qyura_medicartContect.medicartContect_name',$search);
+             $this->db->or_like('qyura_medicartContect.medicartContect_mobileNo',$search);
+             $this->db->or_like('qyura_medicartContect.medicartContect_email',$search);
+             $this->db->or_like('qyura_medicartOffer.medicartOffer_title',$search);
+             $this->db->or_like('qyura_hospital.hospital_name',$search);
+             $this->db->or_like('qyura_diagnostic.diagnostic_name',$search);
+             $this->db->or_like('qyura_city.city_name',$search);
+             $this->db->group_end();
+        }
 
         $this->datatables->add_column('medicartContect_name','$1', 'medicartContect_name');
         $this->datatables->add_column('medicartContect_enquiryId','$1', 'medicartContect_enquiryId');
@@ -371,6 +396,21 @@ class Medicart_model extends CI_Model {
         $this->datatables->order_by('medicartBooking_id','asc');
         $city = $this->input->post('cityId');
         isset($city) && $city != '' ? $this->datatables->where('qyura_medicartOffer.medicartOffer_cityId', $city) : '';
+        
+        
+        $search = $this->input->post('searchOffer');
+        if($search){
+             $this->db->group_start();
+             $this->db->or_like('qyura_medicartBooking.medicartBooking_bookId',$search);
+             $this->db->or_like('qyura_medicartOffer.medicartOffer_title',$search);
+             $this->db->or_like('qyura_city.city_name',$search);
+             $this->db->or_like('qyura_users.users_email',$search);
+             $this->db->or_like('qyura_users.users_mobile',$search);
+             $this->db->or_like('qyura_hospital.hospital_name',$search);
+             $this->db->or_like('qyura_diagnostic.diagnostic_name',$search);
+             $this->db->or_like('qyura_patientDetails.patientDetails_patientName',$search);
+             $this->db->group_end();
+        }
         
 
         $this->datatables->add_column('medicartBooking_preferredDate','$1', 'dateFormateConvert(medicartBooking_preferredDate)');
