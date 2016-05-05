@@ -6,25 +6,35 @@
 
 </style>
 <link href="<?php echo base_url(); ?>assets/cropper/cropper.min.css" rel="stylesheet">
-<link href="<?php echo base_url(); ?>assets/vendor/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
 <link href="<?php echo base_url(); ?>assets/cropper/main.css" rel="stylesheet">
-<script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.js"></script>
+
+<link href="<?php echo base_url();?>assets/vendor/timepicker/bootstrap-timepicker.min.css" rel="stylesheet" />
 <script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
 
+<script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.js"></script>
 <script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
+
 
 <?php
 $current = $this->router->fetch_method();
 if ($current == 'detailHealthtip'):
     ?>
     <script src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
+    <script src="<?php echo base_url(); ?>assets/cropper/gallery_cropper.js"></script>
 <?php else: ?>
     <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
+<script src="<?php echo base_url(); ?>assets/cropper/bloodbank_cropper.js"></script>
 <?php endif; ?>
 
 <script src="<?php echo base_url(); ?>assets/js/reCopy.js"></script>
+
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/vendor/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/vendor/x-editable/jquery.xeditable.js"> </script>
+    
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
 <script src="<?php echo base_url(); ?>assets/js/jquery.geocomplete.min.js"></script>
+<script src="<?php echo base_url();?>assets/vendor/select2/select2.min.js" type="text/javascript"></script> 
+<script src="<?php echo base_url(); ?>assets/js/common_js.js"></script>
 <?php
 $check = 0;
 if (isset($healthtipId) && !empty($healthtipId)) {
@@ -46,18 +56,7 @@ if (isset($healthtipId) && !empty($healthtipId)) {
         $("#detail").toggle();
         $("#editdetail").toggle();
     });
-    $(function () {
-        $(".no-sort").removeClass("sorting");
-        $("#geocomplete").geocomplete({
-            map: ".map_canvas",
-            details: "form",
-            types: ["geocode", "establishment"],
-        });
-
-        $("#find").click(function () {
-            $("#geocomplete").trigger("geocode");
-        });
-    });
+   
     $(function () {
         var removeLink = '<a class="remove" href="#" onclick="$(this).parent().slideUp(function(){ $(this).remove() }); return false"> <i class="fa fa-minus-circle fa-2x m-t-5 label-plus"></i></a>';
         $('a.add').relCopy({append: removeLink});
@@ -83,6 +82,7 @@ if (isset($healthtipId) && !empty($healthtipId)) {
                 {"data": "healthTips_amount"},
                 {"data": "healthtip_img", "orderable": false},
                 {"data": "view", "orderable": false},
+                {"data": "status", "orderable": false},
             ],
               "columnDefs": [{
                     "targets": [0,1,2,3,4],
@@ -159,7 +159,6 @@ if (isset($healthtipId) && !empty($healthtipId)) {
 
     }
  function checkValidFileUploads(urls){
-       
            var avatar_file = $(".avatar-data").val();
             $.ajax({
               url : urls + 'index.php/healthtip/checkFileUploadValidation',

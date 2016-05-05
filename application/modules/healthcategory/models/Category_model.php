@@ -24,13 +24,12 @@ class Category_model extends CI_Model {
        $this->db->where(array('cat.category_deleted'=> 0));
        $this->db->order_by("cat.creationTime", "desc"); 
        $data= $this->db->get(); 
-      
      return $data->result();
     }
     
     function fetchHealthCategoryDataTables( $condition = NULL){
          
-    $this->datatables->select('cat.category_id,cat.category_name');
+    $this->datatables->select('cat.category_id as catid,cat.category_name,status');
     $this->datatables->from('qyura_healthCategory cat');
     
     $search = $this->input->post('category_name');
@@ -41,8 +40,8 @@ class Category_model extends CI_Model {
         
         $this->datatables->where(array('cat.category_deleted'=> 0));
       
-        $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="healthcategory/detailcategory/$1">View Detail</a><a class="btn btn-appointment waves-effect waves-light m-l-10 pull-left" href="healthcategory/deleteCategory/$1">Delete</a>', 'category_id');
-       
+        $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="healthcategory/detailcategory/$1" style="margin-left:3px;">View Detail</a><a class="btn btn-appointment waves-effect waves-light m-l-10 pull-left" href="healthcategory/deleteCategory/$1">Delete</a>', 'catid');
+        $this->datatables->edit_column('status','$1','statusCheck(healthcategory/healthcategory,qyura_healthCategory,category_id,catid,status)');
        
       
         $this->datatables->order_by("cat.creationTime"); 
