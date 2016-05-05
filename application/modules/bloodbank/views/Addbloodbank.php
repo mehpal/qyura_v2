@@ -65,7 +65,7 @@
                             <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4 col-sm-4">Address:</label>
                                 <div class="col-md-8 col-sm-8">
-                                    <select class="form-control selectpicker" data-width="100%" name="countryId" id="countryId">
+                                    <select class="form-control select2" data-width="100%" name="countryId" id="countryId">
                                         <option value=''>Select Country</option>
                                         <option value="1" <?php echo set_select('countryId', '1'); ?> >India</option>
 
@@ -77,7 +77,7 @@
 
                             <article class="clearfix">
                                 <div class="col-md-8 col-sm-8 col-sm-offset-4">
-                                    <select class="selectpicker" data-width="100%" name="stateId" Id="stateId" data-size="4" onchange ="fetchCity(this.value)">
+                                    <select class="select2" data-width="100%" name="stateId" Id="stateId" data-size="4" onchange ="fetchCity(this.value)">
                                         <option value="">Select State</option>
                                         <?php if (isset($allStates) && !empty($allStates)) {
                                             foreach ($allStates as $key => $val) { ?>
@@ -93,7 +93,7 @@
 
                             <article class="clearfix">
                                 <div class="col-sm-8 col-sm-offset-4">
-                                    <select class="selectpicker" data-width="100%" name="cityId" id="cityId" data-size="4">
+                                    <select class="select2" data-width="100%" name="cityId" id="cityId" data-size="4">
                                         <option value="">Select City</option>
                                         <?php if (isset($allCities) && !empty($allCities)) {
                                             foreach ($allCities as $key => $val) { ?>
@@ -130,12 +130,12 @@
                                 <div class="col-sm-8 col-sm-offset-4">
                                     <aside class="row">
                                         <div class="col-sm-6">
-                                            <input name="lat" value="<?php echo set_value('lat'); ?>" class="form-control" type="text"  id="lat" placeholder="Latitude" onkeypress="return isNumberKey(event)" />
+                                            <input name="lat" value="<?php echo set_value('lat'); ?>" class="form-control" type="text"  id="lat" placeholder="Latitude"  />
                                             <label class="error" > <?php echo form_error("lat"); ?></label>
                                             <label class="error" style="display:none;" id="error-lat">Please enter latitude</label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <input name="lng" value="<?php echo set_value('lng'); ?>" class="form-control" type="text"   id="lng" placeholder="Longitude" onkeypress="return isNumberKey(event)"  />
+                                            <input name="lng" value="<?php echo set_value('lng'); ?>" class="form-control" type="text"   id="lng" placeholder="Longitude"  />
 
                                             <label class="error" > <?php echo form_error("lng"); ?></label>
                                             <label class="error" style="display:none;" id="error-lng"> Please enter longitude</label> 
@@ -170,7 +170,7 @@
                             <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type :</label>
                                 <div class="col-md-8 col-sm-8">
-                                    <select class="selectpicker" data-width="100%" name="bloodBank_mbrTyp" id="bloodBank_mbrTyp">
+                                    <select class="select2" data-width="100%" name="bloodBank_mbrTyp" id="bloodBank_mbrTyp">
                                         <option value="1" <?php echo set_select('bloodBank_mbrTyp', '1', TRUE); ?>
                                                 >Life Time</option>
                                         <option value="2" <?php echo set_select('bloodBank_mbrTyp', '2'); ?>

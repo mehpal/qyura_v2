@@ -242,6 +242,7 @@ class Membership extends MY_Controller {
     function membershipPublish() {
         $ena_id = $this->input->post('id');
         $status = $this->input->post('status');
+        
         if ($ena_id != '' && $status != '') {
             //Group
             if ($status == 3) {
@@ -269,10 +270,13 @@ class Membership extends MY_Controller {
 
             $update = $this->common_model->customUpdate($updateOptions);
 	    
-            if ($update)
+            if ($update){
+                $active_tag = $this->input->post('type');
+                $this->session->set_flashdata('active_tag', $active_tag);
                 echo $update;
-            else
+            }else {
                 echo '0';
+            }
         }
         else {
             echo 0;

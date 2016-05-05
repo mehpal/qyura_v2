@@ -141,7 +141,8 @@
                                 <div tabindex="5000" style="overflow: hidden;" class="inbox-widget nicescroll mx-box">
                                     <table class="table rating-table">
                                         <?php if(!empty($topRateds)):
-                                                foreach($topRateds as $rated):?>
+                                                foreach($topRateds as $rated):
+                                            if(!empty($rated->rating)):?>
                                         
                                           <tr>
                                             <td>
@@ -158,7 +159,7 @@
                                             </td>
                                         </tr>
                                             
-                                       <?php endforeach;
+                                       <?php endif;endforeach;
                                         endif; ?>
                         
 

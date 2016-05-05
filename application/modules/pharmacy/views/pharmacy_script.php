@@ -888,6 +888,146 @@ function imageIsLoaded(e) {
     
 
 </script>   
+<script>
+      var urls = "<?php echo base_url() ?>";
+        $(document).ready(function () {
 
+        $("#submitForm").validate({
+           
+
+            rules: {
+                pharmacy_name: {
+                    required: true,
+                    lettersonly: true
+                },
+                 users_email: {
+                    required: true,
+                    email: true,
+                    remote: {
+                    url:  urls + 'index.php/pharmacy/isEmailRegister',
+                    type: "post",
+                    data: {
+                            email: function(){ return $("#users_email").val(); },
+                            id: function(){ return $("#user_tables_id").val(); },
+                            role: function(){ return 5; }
+                    }
+                  }
+                },
+                pharmacyType: {
+                     required: true
+                },
+                pharmacy_countryId: {
+                    required: true
+                },
+                pharmacy_stateId: {
+                    required: true
+                },
+                pharmacy_cityId: {
+                    required: true
+                },
+                pharmacy_zip: {
+                    required: true,
+                    number: true,
+                    minlength:6,
+                    maxlength:6
+                },
+                pharmacy_address: {
+                    required: true
+                },
+                lat: {
+                    required: true,
+                    numberdecimalonly: true
+                },
+                lng: {
+                    required: true,
+                    numberdecimalonly: true
+                },
+                pharmacy_phn: {
+                    required: true,
+                     number: true,
+                    minlength:10,
+                    maxlength:10
+                },
+                pharmacy_cntPrsn: {
+                    required: true,
+                    lettersonly: true
+                },
+                pharmacy_mmbrTyp: {
+                    required: true
+                },
+                isEmergency: {
+                    required: true,
+                },
+                pharmacy_docatId: {
+                    required: true
+                },
+              
+              
+                 avatar_file: {
+                    required: true,
+                },
+            },
+            messages: {
+                pharmacy_name: {
+                    required: "Please enter Pharmacy Name",
+                },
+                 users_email: {
+                    required: "Please enter Email Id",
+                    remote: jQuery.validator.format("{0} is already exists.")
+                },
+                pharmacyType:{
+                    required : "Please select Pharmacy Type."
+                },
+                 pharmacy_countryId: {
+                    required: "Please select Country.",
+                },
+                  pharmacy_stateId: {
+                    required: "Please select State.",
+                },
+                pharmacy_cityId: {
+                    required: "Please select City.",
+                },
+              
+                pharmacy_zip: {
+                    required: "Please enter Zip.",
+
+                },
+                pharmacy_address: {
+                    required: "Please enter Address.",
+                },
+                lat: {
+                    required: "Please enter Latitude.",
+                },
+                lng: {
+                    required: "Please enter Longitude.",
+                },
+                pharmacy_phn: {
+                    required: "Please enter Phone Number.",
+                },
+                pharmacy_cntPrsn: {
+                    required: "Please enter Contact Person Name.",
+                },
+                pharmacy_mmbrTyp: {
+                    required: "Please select Membership Type.",
+                },
+                isEmergency: {
+                    required: "Please select 24/7 service.",
+                },
+                pharmacy_docatId: {
+                    required: "Please enter Docat Id.",
+                },
+        
+               avatar_file: {
+                   required: "Please select an Image.",
+               }
+               
+            },
+            submitHandler: function (form) {
+                form.submit();
+            },
+        });
+
+    });
+</script>
 </body>
 </html>
