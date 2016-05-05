@@ -95,15 +95,7 @@ class Hospital extends MY_Controller {
         $data = array();
         
         
-        $option = array(
-            'table' => 'qyura_miMembership',
-            'where' => array('qyura_miMembership.miMembership_miId' => $hospitalId,'qyura_miMembership.miMembership_deleted' => 0),
-            'join' => array(
-                array('qyura_facilities', 'qyura_facilities.facilities_id = qyura_miMembership.miMembership_facilitiesId', 'left')
-            ),
-            'order' => array('qyura_facilities.facilities_name' => 'asc'),
-        );
-        $data['membership_datail'] = $this->common_model->customGet($option);
+     
         
         
         $option = array(
@@ -170,6 +162,17 @@ class Hospital extends MY_Controller {
                 $insurance_condition[] = $val->hospitalInsurance_insuranceId;
             }
         }
+        
+        
+        $option = array(
+            'table' => 'qyura_miMembership',
+            'where' => array('qyura_miMembership.miMembership_miId' => $hospitalData[0]->hospital_usersId,'qyura_miMembership.miMembership_deleted' => 0),
+            'join' => array(
+                array('qyura_facilities', 'qyura_facilities.facilities_id = qyura_miMembership.miMembership_facilitiesId', 'left')
+            ),
+            'order' => array('qyura_facilities.facilities_name' => 'asc'),
+        );
+        $data['membership_datail'] = $this->common_model->customGet($option);
         
         
         $mi_userId="";
@@ -647,7 +650,7 @@ class Hospital extends MY_Controller {
                         for($i=1;$i<=$feci_count;$i++){
                             $insert_rec = array(
                                 'miMembership_type' => 9,
-                                'miMembership_miId' => $hospitalId,
+                                'miMembership_miId' => $hospital_usersId,
                                 'miMembership_facilitiesId' => $this->input->post("checkbox_$i"),
                                 'miMembership_quantity' => $this->input->post("membership_quantity_$i"),
                                 'creationTime' => strtotime(date("d-m-Y H:i:s")),
@@ -1911,9 +1914,11 @@ class Hospital extends MY_Controller {
 
         if ($_POST['avatar_file']['name']) {
             $path = realpath(FCPATH . 'assets/hospitalsImages/');
-            $upload_data = $this->input->post('avatar_data');
+            $upload_data = $this->input->post('avatar-data');
+            
             $upload_data = json_decode($upload_data);
-            if ($upload_data->width > 120) {
+            
+            if ($upload_data->width > 425) {
                 $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/hospitalsImages/', './assets/hospitalsImages/thumb/', 'hospital');
 
                 if (empty($original_imagesname)) {
@@ -1929,7 +1934,46 @@ class Hospital extends MY_Controller {
                     );
                     $response = $this->Hospital_model->UpdateTableData($option, $where, 'qyura_hospital');
                     if ($response) {
-                        $response = array('state' => 200, 'message' => 'Successfully update avtar');
+                        $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/hospitalsImages/thumb/thumb_100/{$original_imagesname}"),'reset'=>"hospital_edit");
+                    } else {
+                        $response = array('state' => 400, 'message' => 'Failed to update avtar');
+                    }
+                }
+            } else {
+                $response = array('state' => 400, 'message' => 'Height and Width must exceed 150px.');
+            }
+            echo json_encode($response);
+        } else {
+            $response = array('state' => 400, 'message' => 'Please select avtar');
+            echo json_encode($response);
+        }
+    }
+    
+    function editUploadImageAmbulance() {
+
+        if ($_POST['avatar_file']['name']) {
+            $path = realpath(FCPATH . 'assets/ambulanceImages/');
+            $upload_data = $this->input->post('avatar-data');
+            
+            $upload_data = json_decode($upload_data);
+           
+            if ($upload_data->width > 425) {
+                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/ambulanceImages/', './assets/ambulanceImages/thumb/', 'ambulance');
+
+                if (empty($original_imagesname)) {
+                    $response = array('state' => 400, 'message' => $this->error_message);
+                } else {
+
+                    $option = array(
+                        'ambulance_img' => $original_imagesname,
+                        'modifyTime' => strtotime(date("Y-m-d H:i:s"))
+                    );
+                    $where = array(
+                        'ambulance_id' => $this->input->post('ambulance_id')
+                    );
+                    $response = $this->Hospital_model->UpdateTableData($option, $where, 'qyura_ambulance');
+                    if ($response) {
+                        $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/ambulanceImages/thumb/thumb_100/{$original_imagesname}"),'reset'=>"ambulance_edit");
                     } else {
                         $response = array('state' => 400, 'message' => 'Failed to update avtar');
                     }
@@ -2529,6 +2573,7 @@ class Hospital extends MY_Controller {
         //print_r($_POST);exit;
         $this->bf_form_validation->set_rules("diagnostic_mbrTyp", "Membership Type", 'required|xss_clean');
         $faci_count = $this->input->post('faci_count');
+        
         for($i = 1; $i <= $faci_count; $i++){
             $checkbox = $this->input->post("miFacilitiesId_$i");
             $this->bf_form_validation->set_rules("membership_quantity_$i", "Quantity", 'required|xss_clean');
@@ -2547,7 +2592,7 @@ class Hospital extends MY_Controller {
             $digo_array['hospital_mmbrTyp'] = $this->input->post('diagnostic_mbrTyp');
             $options = array
             (
-                'where' => array('hospital_id' => $digo_id),
+                'where' => array('hospital_usersId' => $digo_id),
                 'data'  => $digo_array,
                 'table' => 'qyura_hospital'
             );
