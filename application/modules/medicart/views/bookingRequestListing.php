@@ -21,7 +21,7 @@
                                         <a href="<?php echo site_url('medicart/addOffer');?>" title="Add New Offer" class="btn btn-appointment waves-effect waves-light"> <i class="fa fa-plus"></i> Add</a>
                                 </aside>
                                   <aside class="col-md-3 col-sm-3">
-                                     <select class="selectpicker" data-width="100%" name="cityIdEnq" id="cityIdEnq" data-size="4">
+                                     <select class="selectpicker" data-width="100%" name="cityIdEnq" id="cityId" data-size="4">
 
                                          <option value="">Select City</option>
                                          <?php foreach ($allCity as $key => $val) { ?>

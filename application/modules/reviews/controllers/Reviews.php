@@ -14,13 +14,13 @@ class Reviews extends MY_Controller {
 
     function index() {
         $data = array();
-        //echo strtotime(date('2016-04-15'));
-       // exit();
-        $data['topRateds'] = $this->reviews_model->topRatedReviewRated();
-        //echo"<pre>";
-        //print_r( $data['topRateds']);
-        //echo"<pre>";
+        //echo strtotime(date('2016-05-01 09:38:55'));
         //exit();
+        $data['topRateds'] = $this->reviews_model->topRatedReviewRated();
+       // echo"<pre>";
+       // print_r( $data['topRateds']);
+       // echo"<pre>";
+       // exit();
         $data['title'] = 'Rate & Reviews';
         
         $totalRec = count($this->reviews_model->fetchReviews());
