@@ -10,6 +10,7 @@ class MedicartApi extends MyRest {
         // Construct our parent class
         parent::__construct();
         $this->load->model(array('medicart_model'));
+//        echo    strtotime("2016-05-15"); die();
         //$this->methods['hospital_post']['limit'] = 1; //500 requests per hour per user/key
         // $this->methods['user_post']['limit'] = 100; //100 requests per hour per user/key
         // $this->methods['user_delete']['limit'] = 50; //50 requests per hour per user/key
@@ -66,7 +67,6 @@ class MedicartApi extends MyRest {
         $this->bf_form_validation->set_rules('notin', 'notin', 'trim|xss_clean');
         $this->bf_form_validation->set_rules('speciality', 'speciality', 'trim|xss_clean|required');
 
-
         if ($this->bf_form_validation->run() == FALSE) {
             // setup the input
             $message = $this->validation_post_warning();
@@ -85,7 +85,7 @@ class MedicartApi extends MyRest {
 
             $option['notIn'] = explode(',', $notIn);
             
-            $aoClumns = array("medicartOffer_id", "MIId", "offerCategory", "title", "image", "description","startDate", "endDate", "actualPrice", "discountPrice",   "medicartOffer_deleted", "modifyTime","by", "lat", "long","allowBooking","maximumBooking","phnNo");
+            $aoClumns = array("medicartOffer_id", "MIId", "offerCategory","title","image","description","endDate","actualPrice", "discountPrice","by","allowBooking","maximumBooking","phnNo");
 
             $medList = $this->medicart_model->getMedlists($option);
 
@@ -94,7 +94,7 @@ class MedicartApi extends MyRest {
                 $finalResult = array();
                 if (!empty($medList)) {
                     foreach ($medList as $row) {
-
+dump($row);die();
                         $finalTemp = array();
                         $finalTemp[] = isset($row->medicartOffer_id) ? $row->medicartOffer_id : "";
                         $finalTemp[] = isset($row->medicartOffer_MIId) ? $row->medicartOffer_MIId : "";
@@ -103,43 +103,26 @@ class MedicartApi extends MyRest {
                         $finalTemp[] = isset($row->medicartOffer_image) ? $row->medicartOffer_image : "";
                         $finalTemp[] = isset($row->medicartOffer_description) ? $row->medicartOffer_description : "";
                         $finalTemp[] = isset($row->medicartOffer_endDate) ? $row->medicartOffer_endDate : "";
-                        $finalTemp[] = isset($row->medicartOffer_discount) ? $row->medicartOffer_discount : "";
-                        //$finalTemp[] = isset($row->medicartOffer_ageDiscount) ? $row->medicartOffer_ageDiscount : "";
-                        $finalTemp[] = isset($row->medicartOffer_actualPrice) ? $row->medicartOffer_actualPrice : "";
-                        $finalTemp[] = (isset($row->medicartOffer_discount) && $row->medicartOffer_discount == 0) ? 0 : isset($row->medicartOffer_discountPrice) ? $row->medicartOffer_discountPrice : ""; 
-                        //$finalTemp[] = isset($row->medicartOffer_discount) ? $row->medicartOffer_discount : ""; 
-                       // dump((isset($row->hospital_name) && $row->hospital_name != null && $row->hospital_name != ''));
-                        
-                        $by = "";
-                        $lat = "";
-                        $long = "";
-                        $phnNo = "";
-                        
+                        $finalTemp[] = (isset($row->medicartOffer_actualPrice )&& $row->medicartOffer_discount == 0) ? $row->medicartOffer_actualPrice : 0;
+                        $finalTemp[] = (isset($row->medicartOffer_discount) && $row->medicartOffer_discount == 0) ? 0 : isset($row->medicartOffer_discountPrice) ? $row->medicartOffer_discountPrice : 0; 
+                       
                         $diagnostic_name = (isset($row->diagnostic_name) && $row->diagnostic_name != null && $row->diagnostic_name != '') ? $row->diagnostic_name : "" ;
                         $hospital_name = (isset($row->hospital_name) && $row->hospital_name != null && $row->hospital_name != '') ? $row->hospital_name : "";
                         
                         $diagnostic_phn = (isset($row->diagnostic_phn) && $row->diagnostic_phn != null && $row->diagnostic_phn != '') ? $row->diagnostic_phn : "" ;
                         
                         $hospital_phn = (isset($row->hospital_phn) && $row->hospital_phn != null && $row->hospital_phn != '') ? $row->hospital_phn: "";
-                        
-                        $hospital_lat = (isset($row->hospital_lat) && $row->hospital_lat != null && $row->hospital_lat != '') ? $row->hospital_lat : "";
-                        $diagnostic_lat = (isset($row->diagnostic_lat) && $row->diagnostic_lat != null && $row->diagnostic_lat != '') ? $row->diagnostic_lat : "";
-                        
-                        $hospital_long = (isset($row->hospital_long) && $row->hospital_long != null && $row->hospital_long != '') ? $row->hospital_long : "";
-                        $diagnostic_long = (isset($row->diagnostic_long) && $row->diagnostic_long != null && $row->diagnostic_long != '') ? $row->diagnostic_long : '';
-                        
+                        $by = "";
                         if($hospital_name != "") $by= $hospital_name; elseif($diagnostic_name != ""){$by = $diagnostic_name;}
-                        if($hospital_lat != "") $lat= $hospital_lat; elseif($diagnostic_lat != ""){$lat = $diagnostic_lat;}
-                        if($hospital_long != "") $long= $hospital_long; elseif($diagnostic_long != ""){$long = $diagnostic_long;}
                         if($hospital_phn != "") $phnNo= $hospital_phn; elseif($diagnostic_phn != ""){$phnNo = $diagnostic_phn;}
                         
                         
-                        $phnNo = str_replace('91','', $phnNo);
+                        $phnNo = str_replace('0','', $phnNo);
                         $phnNo = str_replace(' ','', $phnNo);
                         $phnNo = trim($phnNo);
+                        
                         $finalTemp[] = $by;
-                        $finalTemp[] = $lat;
-                        $finalTemp[] = $long;
+                        
                         $finalTemp[] = isset($row->medicartOffer_allowBooking) ? $row->medicartOffer_allowBooking : "";
                         $finalTemp[] = isset($row->medicartOffer_maximumBooking) ? $row->medicartOffer_maximumBooking : "";
                         $finalTemp[] = $phnNo;
