@@ -72,9 +72,10 @@ class Medicart_model extends Common_model
         $con[ 'qyura_medicartOffer.medicartOffer_endDate >'] = $nowDt;
         $con[ 'qyura_medicartOffer.status'] = 1;
         $con[ 'qyura_medicartOffer.medicartOffer_range'] = 0;
+        $con[ 'qyura_medicartSpecialities.medicartSpecialities_medicartId'] =$speciality;
         $this->db->select('qyura_medicartOffer.medicartOffer_id,'
                 . 'qyura_medicartOffer.medicartOffer_MIId,qyura_medicartOffer.medicartOffer_offerCategory,'
-                . 'qyura_medicartOffer.medicartOffer_title,CONCAT("assets/Medicart","/",qyura_medicartOffer.medicartOffer_image) as medicartOffer_image,'
+                . 'qyura_medicartOffer.medicartOffer_title,CONCAT("assets/Medicart","/",qyura_medicartOffer.medicartOffer_image) as medicartOffer_image, qyura_specialities.specialities_name, '
                 . 'qyura_medicartOffer.medicartOffer_description,qyura_medicartOffer.medicartOffer_allowBooking,'
                 . 'qyura_medicartOffer.medicartOffer_maximumBooking,qyura_medicartOffer.medicartOffer_startDate,'
                 . 'qyura_medicartOffer.medicartOffer_endDate,qyura_medicartOffer.medicartOffer_discount,'
@@ -89,6 +90,8 @@ class Medicart_model extends Common_model
                 ) AS diagDistance')
             ->from('qyura_medicartOffer')
             ->join('qyura_offerCat','qyura_offerCat.offerCat_id=qyura_medicartOffer.medicartOffer_offerCategory','left')
+            ->join('qyura_medicartSpecialities','qyura_medicartSpecialities.medicartSpecialities_medicartId=qyura_medicartOffer.medicartOffer_id','left')
+            ->join('qyura_specialities','qyura_specialities.specialities_id = qyura_medicartSpecialities.medicartSpecialities_medicartId','left')
             ->join('qyura_users','qyura_users.users_id=qyura_medicartOffer.medicartOffer_MIId','left')
             ->join('qyura_hospital','qyura_hospital.hospital_usersId=qyura_users.users_id','left')   
             ->join('qyura_diagnostic','qyura_diagnostic.diagnostic_usersId=qyura_users.users_id','left') 
@@ -100,7 +103,7 @@ class Medicart_model extends Common_model
             ->limit(20);
       return $this->db->get()->result();
         }
-         
+//         $this->db->get();
 //        echo $this->db->last_query();die();
         
     }
