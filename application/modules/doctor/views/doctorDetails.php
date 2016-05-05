@@ -367,7 +367,7 @@
                                                 <article class="clearfix m-t-10">
                                                     <label for="" class="control-label col-md-3 col-sm-3">Speciality:</label>
                                                     <div class="col-md-4 col-sm-4">
-                                                        <select  multiple="" class="bs-select form-control-select2 " data-width="100%" name="doctorSpecialities_specialitiesId[]" Id="doctorSpecialities_specialitiesId" data-size="4">
+                                                        <select  multiple="" class="bs-select form-control select2 " data-width="100%" name="doctorSpecialities_specialitiesId[]" Id="doctorSpecialities_specialitiesId" data-size="4">
                                                             <?php foreach ($speciality as $key => $val) { ?>
                                                                 <option <?php
                                                                 if (isset($qyura_doctorSpecialities) && $qyura_doctorSpecialities != NULL) {
