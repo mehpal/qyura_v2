@@ -95,16 +95,6 @@ class Diagnostic extends MY_Controller {
         
         
         $option = array(
-            'table' => 'qyura_miMembership',
-            'where' => array('qyura_miMembership.miMembership_miId' => $diagnosticId,'qyura_miMembership.miMembership_deleted' => 0),
-            'join' => array(
-                array('qyura_facilities', 'qyura_facilities.facilities_id = qyura_miMembership.miMembership_facilitiesId', 'left')
-            ),
-            'order' => array('qyura_facilities.facilities_name' => 'asc'),
-        );
-        $data['membership_datail'] = $this->diagnostic_model->customGet($option);
-        
-        $option = array(
             'table' => 'qyura_membership',
             'select' => 'membership_id,membership_name',
             'where' => array('membership_deleted' => 0,'status' => 3,'membership_type' => 3)
@@ -164,6 +154,18 @@ class Diagnostic extends MY_Controller {
             )
         );
       //  $data['AlltimeSlot'] = $this->diagnostic_model->customGet($option);
+        
+        
+        
+         $option = array(
+            'table' => 'qyura_miMembership',
+            'where' => array('qyura_miMembership.miMembership_miId' => $diagnosticData[0]->diagnostic_usersId,'qyura_miMembership.miMembership_deleted' => 0),
+            'join' => array(
+                array('qyura_facilities', 'qyura_facilities.facilities_id = qyura_miMembership.miMembership_facilitiesId', 'left')
+            ),
+            'order' => array('qyura_facilities.facilities_name' => 'asc'),
+        );
+        $data['membership_datail'] = $this->diagnostic_model->customGet($option);
         
         $mi_userId="";
         if(!empty($diagnosticData)):
@@ -440,7 +442,7 @@ class Diagnostic extends MY_Controller {
                         for($i=1;$i<=$feci_count;$i++){
                             $insert_rec = array(
                                 'miMembership_type' => 10,
-                                'miMembership_miId' => $diagnosticId,
+                                'miMembership_miId' => $diagnostic_usersId,
                                 'miMembership_facilitiesId' => $this->input->post("checkbox_$i"),
                                 'miMembership_quantity' => $this->input->post("membership_quantity_$i"),
                                 'creationTime' => strtotime(date("d-m-Y H:i:s")),
@@ -2686,13 +2688,15 @@ class Diagnostic extends MY_Controller {
             echo json_encode($responce);
         } else {
             $digo_id = $this->input->post("digo_id");
+            $diagnoId = $this->input->post("diagnoId");
+            
             $faci_count = $this->input->post('faci_count');
             
             $mem_id = $this->input->post('faci_count');
             $digo_array['diagnostic_mbrTyp'] = $this->input->post('diagnostic_mbrTyp');
             $options = array
             (
-                'where' => array('diagnostic_id' => $digo_id),
+                'where' => array('diagnostic_usersId' => $digo_id),
                 'data'  => $digo_array,
                 'table' => 'qyura_diagnostic'
             );
@@ -2745,7 +2749,7 @@ class Diagnostic extends MY_Controller {
                 
             }
                 
-            $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "diagnostic/detailDiagnostic/$digo_id/membership");
+            $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "diagnostic/detailDiagnostic/$diagnoId/membership");
             echo json_encode($responce);
         }
     }

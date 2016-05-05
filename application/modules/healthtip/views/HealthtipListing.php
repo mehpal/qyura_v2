@@ -51,6 +51,7 @@
                                         <th>Amount</th>
                                         <th>Image</th>
                                         <th>Action</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                             </table>

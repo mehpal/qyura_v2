@@ -1914,11 +1914,9 @@ class Hospital extends MY_Controller {
 
         if ($_POST['avatar_file']['name']) {
             $path = realpath(FCPATH . 'assets/hospitalsImages/');
-            $upload_data = $this->input->post('avatar-data');
-            
+            $upload_data = $this->input->post('avatar_data');
             $upload_data = json_decode($upload_data);
-            
-            if ($upload_data->width > 425) {
+            if ($upload_data->width > 120) {
                 $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/hospitalsImages/', './assets/hospitalsImages/thumb/', 'hospital');
 
                 if (empty($original_imagesname)) {
@@ -1934,7 +1932,7 @@ class Hospital extends MY_Controller {
                     );
                     $response = $this->Hospital_model->UpdateTableData($option, $where, 'qyura_hospital');
                     if ($response) {
-                        $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/hospitalsImages/thumb/thumb_100/{$original_imagesname}"),'reset'=>"hospital_edit");
+                        $response = array('state' => 200, 'message' => 'Successfully update avtar');
                     } else {
                         $response = array('state' => 400, 'message' => 'Failed to update avtar');
                     }
@@ -1987,6 +1985,7 @@ class Hospital extends MY_Controller {
             echo json_encode($response);
         }
     }
+
 
     function getUpdateAvtar($id) {
         if (!empty($id)) {
@@ -2586,6 +2585,7 @@ class Hospital extends MY_Controller {
             echo json_encode($responce);
         } else {
             $digo_id = $this->input->post("digo_id");
+            $hospitalId = $this->input->post("hospitalId");
             $faci_count = $this->input->post('faci_count');
             
             $mem_id = $this->input->post('faci_count');
@@ -2647,7 +2647,7 @@ class Hospital extends MY_Controller {
                 
             }
                 
-            $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "hospital/detailHospital/$digo_id/membership");
+            $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "hospital/detailHospital/$hospitalId/membership");
             echo json_encode($responce);
         }
     }
