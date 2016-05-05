@@ -309,8 +309,15 @@ if ($msg != "" || $msg != NULL) {
          });
          
        $(document).ready(function () {
+//         $('.select2').select2({
+//              tags: "true",
+//            placeholder: "Select an option",
+//            allowClear: true
+//         });
+         
          $('.select2').select2().change(function(){
-            $(this).valid()
+            $(this).valid();
+            
         });
       });
 </script>

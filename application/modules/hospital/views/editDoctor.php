@@ -230,4 +230,9 @@
    </div>
    <!-- container -->
 </div>
+<script>
+     $('.gadd').on('click', function() {
+            $(this).parent().parent().parent().remove();
+       });
+    </script>
 <!-- content -->

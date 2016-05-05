@@ -60,7 +60,7 @@
                                             <img src="<?php if(!empty($review['patientDetails_patientImg'])): echo base_url().'assets/patientImages/'.$review['patientDetails_patientImg'];else: echo base_url().'assets/images/imgpsh_fullsize.png'; endif;?>" alt="" class="img-responsive review-pic" />
                                             <h3><?php echo ucfirst($review['reviewBy']);?></h3>
 <!--                                            <p>4 Reviews</p>-->
-                                            <p class="cl-dull"><?php echo isTimeCalculate($review['times']);?> Ago</p>
+                                            <p class="cl-dull"><?php  echo isTimeCalculate($review['times']);?> Ago</p>
                                         </aside>
                                         <aside class="col-md-2 col-sm-2 text-right m-t-10">
                                             <span class="label label-success waves-effect waves-light m-b-5 center-block"><?php echo $review['reviews_rating'].".0";?></span>
@@ -150,7 +150,8 @@
                                             </td>
                                             <td>
                                                 <h6><?php echo ucwords($rated->name);?></h6>
-                                                <p><?php echo isConvertDays($rated->days);?> Ago</p>
+                                                <p><?php echo isConvertDays($rated->days);?></p>
+<!--                                                <p><?php //echo isTimeCalculate(date('H:i:s',strtotime($rated->time)));?></p>-->
                                                 <p><?php echo ucwords($rated->MIname);?> - <?php echo ucwords($rated->cityName);?></p>
                                             </td>
                                             <td>

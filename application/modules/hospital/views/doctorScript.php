@@ -334,16 +334,12 @@
         })
         
          $('.gadd').on('click', function() {
-            $(this).parent().parent().remove();
+            $(this).parent().parent().parent().remove();
        });
 
     }
     
-    
-     $('.gadd').on('click', function() {
-            $(this).parent().parent().remove();
-       });
-    
+
 
 </script>    
 <script>
