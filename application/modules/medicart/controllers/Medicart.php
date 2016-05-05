@@ -413,7 +413,7 @@ class Medicart extends MY_Controller {
         $option = array(
             'table' => 'qyura_miMembership',
             'select' => 'miMembership_id,miMembership_quantity,miMembership_duration',
-            'where' => array('miMembership_miId' => $miId , 'miMembership_facilitiesId' => 3 , 'status' => 3 , 'miMembership_deleted' => 0),
+            'where' => array('miMembership_miId' => $miId , 'miMembership_facilitiesId' => 2 , 'status' => 3 , 'miMembership_deleted' => 0),
         );
         $data['membershipData'] = $this->common_model->customGet($option);
 
