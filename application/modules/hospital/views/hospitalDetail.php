@@ -1237,7 +1237,8 @@
                                         <?php $checkBocCount = 1; 
                                         if(isset($membership_datail) && $membership_datail != NULL){ ?>
                                         <input type="hidden" value="<?php echo count($membership_datail); ?>" id="faci_count" name="faci_count">    
-                                        <input type="hidden" value="<?php echo $hospitalData[0]->hospital_id; ?>" id="digo_id" name="digo_id">
+                                        <input type="hidden" value="<?php echo $hospitalData[0]->hospital_usersId; ?>" id="digo_id" name="digo_id">
+                                        <input type="hidden" value="<?php echo $hospitalData[0]->hospital_id; ?>" id="hospitalId" name="hospitalId">
                                         <article class="clearfix m-t-10">
                                             <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type :</label>
                                             <div class="col-md-8  col-sm-8">
@@ -1278,7 +1279,8 @@
                                             </article>
                                             <?php }else{ ?>
                                                 <aside class="clearfix m-t-20 p-b-20">
-                                                    <input type="hidden" value="<?php echo $hospitalData[0]->hospital_id; ?>" id="digo_id" name="digo_id">
+                                                    <input type="hidden" value="<?php echo $hospitalData[0]->hospital_usersId; ?>" id="digo_id" name="digo_id">
+                                                     <input type="hidden" value="<?php echo $hospitalData[0]->hospital_id; ?>" id="hospitalId" name="hospitalId">
                                                     <article class="clearfix m-t-10">
                                                         <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type :</label>
                                                         <div class="col-md-8  col-sm-8">
