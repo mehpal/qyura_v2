@@ -163,7 +163,7 @@
                   </article>
                   <article class="form-group m-lr-0">
                      <div class="col-md-8 col-md-offset-4">
-                        <button class="btn btn-success waves-effect waves-light m-r-20" type="button" onclick="multipleAcademicForDoctor()">Add More</button>
+                        <button class="btn btn-success waves-effect waves-light m-r-20" type="button" onclick="multipleAcademicForEditDoctor()">Add More</button>
                      </div>
                   </article>
                   <!-- Degree End -->
@@ -223,4 +223,10 @@
    </div>
    <!-- container -->
 </div>
+
+<script>
+     $('.gadd').on('click', function() {
+            $(this).parent().parent().parent().remove();
+       });
+    </script>
 <!-- content -->

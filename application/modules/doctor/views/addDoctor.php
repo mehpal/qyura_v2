@@ -95,7 +95,7 @@
                                                     <!--<option value="">Select Speciality</option>-->
                                                    <?php foreach($speciality as $key=>$val) {?>
                                                     <option value="<?php echo $val->specialities_id;?>"><?php echo $val->specialities_name;?></option>
-                                                     <?php }?>
+                                                     <?php } ?>
                                                 </select>
                                             <div class='setValues'></div>
                                             <label class="error" style="display:none;" id="error-doctorSpecialities_specialitiesId"> Please select speciality(s)</label>

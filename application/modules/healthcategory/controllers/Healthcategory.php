@@ -66,7 +66,7 @@ class HealthCategory extends MY_Controller {
         } else {
                 $insertdata = array(
                     'category_name' => $this->input->post('health_category'),
-                    'status' => 1,
+                    'status' => 0,
                     'creationTime' => strtotime(date("Y-m-d H:i:s"))
                 );
 
