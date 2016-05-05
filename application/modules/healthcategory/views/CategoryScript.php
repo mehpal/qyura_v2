@@ -5,13 +5,27 @@
     }
     
 </style>
-<link href="<?php echo base_url(); ?>assets/cropper/cropper.min.css" rel="stylesheet">
+
 <link href="<?php echo base_url(); ?>assets/vendor/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+
+<link href="<?php echo base_url(); ?>assets/cropper/cropper.min.css" rel="stylesheet">
 <link href="<?php echo base_url(); ?>assets/cropper/main.css" rel="stylesheet">
-<script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.js"></script>
-<script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
+<script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.js">
+</script>
+<script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript">
+</script>
+<script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.js"></script>
+
+
+
+<script src="<?php echo base_url(); ?>assets/vendor/select2/select2.min.js" type="text/javascript"></script>
+
 
 <script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
+
+<script src="<?php echo base_url(); ?>assets/js/common_js.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/bootbox.min.js"></script>
+
 
 <?php $current = $this->router->fetch_method();
 if ($current == 'detailHealthtip'):
@@ -20,8 +34,8 @@ if ($current == 'detailHealthtip'):
 <?php else: ?>
     <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
 <?php endif; ?>
-
-<script src="<?php echo base_url(); ?>assets/js/reCopy.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/vendor/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<script onkeypress="" onkeydown="" type="text/javascript" src="<?php echo base_url(); ?>assets/vendor/x-editable/jquery.xeditable.js"></script>
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
 <script src="<?php echo base_url(); ?>assets/js/jquery.geocomplete.min.js"></script>
 <?php
@@ -46,21 +60,11 @@ if (isset($healthtipId) && !empty($healthtipId)) {
         $("#detail").toggle();
         $("#editdetail").toggle();
     });
-    $(function () {
- $(".no-sort").removeClass("sorting");
-        $("#geocomplete").geocomplete({
-            map: ".map_canvas",
-            details: "form",
-            types: ["geocode", "establishment"],
-        });
-
-        $("#find").click(function () {
-            $("#geocomplete").trigger("geocode");
-        });
-    });
+    
+   
     $(function () {
         var removeLink = '<a class="remove" href="#" onclick="$(this).parent().slideUp(function(){ $(this).remove() }); return false"> <i class="fa fa-minus-circle fa-2x m-t-5 label-plus"></i></a>';
-        $('a.add').relCopy({append: removeLink});
+       // $('a.add').relCopy({append: removeLink});
 
     });
     var urls = "<?php echo base_url() ?>";
@@ -81,6 +85,7 @@ if (isset($healthtipId) && !empty($healthtipId)) {
             "columns": [
                 {"data": "category_name"},
                 {"data": "view","orderable":false},
+                {"data": "status","orderable":false},
             ],
             "columnDefs": [{
                     "targets": [0],
@@ -92,6 +97,7 @@ if (isset($healthtipId) && !empty($healthtipId)) {
                 "url": "<?php echo site_url('healthcategory/getHealthtipDl'); ?>",
                 "type": "POST",
                 "data": function (d) {
+                    
                     d.category_name = $("#search").val();
                     d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
                 }

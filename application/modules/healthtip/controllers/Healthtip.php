@@ -57,8 +57,7 @@ class HealthTip extends MY_Controller {
         $this->bf_form_validation->set_rules('healthtip_category', 'Category', 'required|trim');
         $this->bf_form_validation->set_rules('healthtip_detail', 'Detail', 'required|trim');
         $this->bf_form_validation->set_rules('healthtip_amount', 'Amount', 'required|trim|numeric');
-        
-        
+       
         if (empty($_FILES['avatar_file']['name'])) {
             $this->bf_form_validation->set_rules('avatar_file', 'Health Tip Image', 'required');
            

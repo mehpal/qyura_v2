@@ -91,11 +91,11 @@
                                     <article class="form-group m-lr-0">
                                         <label for="" class="control-label col-md-4 col-sm-4">Speciality:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select  multiple="" class="bs-select form-control-select2 " data-width="100%" name="doctorSpecialities_specialitiesId[]" Id="doctorSpecialities_specialitiesId" data-size="4">
+                                            <select  multiple="" class="bs-select form-control select2 " data-width="100%" name="doctorSpecialities_specialitiesId[]" Id="doctorSpecialities_specialitiesId" data-size="4">
                                                     <!--<option value="">Select Speciality</option>-->
                                                    <?php foreach($speciality as $key=>$val) {?>
                                                     <option value="<?php echo $val->specialities_id;?>"><?php echo $val->specialities_name;?></option>
-                                                     <?php }?>
+                                                     <?php } ?>
                                                 </select>
                                             <div class='setValues'></div>
                                             <label class="error" style="display:none;" id="error-doctorSpecialities_specialitiesId"> Please select speciality(s)</label>

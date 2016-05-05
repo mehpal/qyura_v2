@@ -95,15 +95,7 @@ class Hospital extends MY_Controller {
         $data = array();
         
         
-        $option = array(
-            'table' => 'qyura_miMembership',
-            'where' => array('qyura_miMembership.miMembership_miId' => $hospitalId,'qyura_miMembership.miMembership_deleted' => 0),
-            'join' => array(
-                array('qyura_facilities', 'qyura_facilities.facilities_id = qyura_miMembership.miMembership_facilitiesId', 'left')
-            ),
-            'order' => array('qyura_facilities.facilities_name' => 'asc'),
-        );
-        $data['membership_datail'] = $this->common_model->customGet($option);
+     
         
         
         $option = array(
@@ -170,6 +162,17 @@ class Hospital extends MY_Controller {
                 $insurance_condition[] = $val->hospitalInsurance_insuranceId;
             }
         }
+        
+        
+        $option = array(
+            'table' => 'qyura_miMembership',
+            'where' => array('qyura_miMembership.miMembership_miId' => $hospitalData[0]->hospital_usersId,'qyura_miMembership.miMembership_deleted' => 0),
+            'join' => array(
+                array('qyura_facilities', 'qyura_facilities.facilities_id = qyura_miMembership.miMembership_facilitiesId', 'left')
+            ),
+            'order' => array('qyura_facilities.facilities_name' => 'asc'),
+        );
+        $data['membership_datail'] = $this->common_model->customGet($option);
         
         
         $mi_userId="";
@@ -647,7 +650,7 @@ class Hospital extends MY_Controller {
                         for($i=1;$i<=$feci_count;$i++){
                             $insert_rec = array(
                                 'miMembership_type' => 9,
-                                'miMembership_miId' => $hospitalId,
+                                'miMembership_miId' => $hospital_usersId,
                                 'miMembership_facilitiesId' => $this->input->post("checkbox_$i"),
                                 'miMembership_quantity' => $this->input->post("membership_quantity_$i"),
                                 'creationTime' => strtotime(date("d-m-Y H:i:s")),
@@ -2529,6 +2532,7 @@ class Hospital extends MY_Controller {
         //print_r($_POST);exit;
         $this->bf_form_validation->set_rules("diagnostic_mbrTyp", "Membership Type", 'required|xss_clean');
         $faci_count = $this->input->post('faci_count');
+        
         for($i = 1; $i <= $faci_count; $i++){
             $checkbox = $this->input->post("miFacilitiesId_$i");
             $this->bf_form_validation->set_rules("membership_quantity_$i", "Quantity", 'required|xss_clean');
@@ -2541,13 +2545,14 @@ class Hospital extends MY_Controller {
             echo json_encode($responce);
         } else {
             $digo_id = $this->input->post("digo_id");
+            $hospitalId = $this->input->post("hospitalId");
             $faci_count = $this->input->post('faci_count');
             
             $mem_id = $this->input->post('faci_count');
             $digo_array['hospital_mmbrTyp'] = $this->input->post('diagnostic_mbrTyp');
             $options = array
             (
-                'where' => array('hospital_id' => $digo_id),
+                'where' => array('hospital_usersId' => $digo_id),
                 'data'  => $digo_array,
                 'table' => 'qyura_hospital'
             );
@@ -2602,7 +2607,7 @@ class Hospital extends MY_Controller {
                 
             }
                 
-            $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "hospital/detailHospital/$digo_id/membership");
+            $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "hospital/detailHospital/$hospitalId/membership");
             echo json_encode($responce);
         }
     }

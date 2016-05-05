@@ -130,7 +130,7 @@ if (isset($healthtipId) && !empty($healthtipId)) {
                         data: "city_id=" + city_id + "&mi_centre=" + mi_centre + "&htipid=" + htipid,
                         success: function (msg)
                         {
-
+alert(msg);
 			   $('#sponser-dates').multiDatesPicker('resetDates', 'disabled');
 			   $("#bookdates").val("");
                             var arr = msg.split(",");

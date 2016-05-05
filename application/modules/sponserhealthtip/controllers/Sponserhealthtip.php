@@ -156,16 +156,27 @@ class Sponserhealthtip extends MY_Controller {
         $where = array("sponsor_cityId" => $city_id);
 
         $sponserdate = $this->Sponser_model->fetchsponserdates($where);
-        $dateArray = NULL;
-        foreach($sponserdate as $sd){
-            $dateArray[] = $sd->sponsor_date;
-        }
-        $vals = array_count_values($dateArray); 
+//        $dateArray = NULL;
+//        foreach($sponserdate as $sd){
+//            $dateArray[] = $sd->sponsor_date;
+//        }
+//        $vals = array_count_values($dateArray); 
+//        $i = 0;
+//        foreach ($vals as $key=>$spdate) {
+//            if($spdate >= 20)
+//                $datestr .= date("Y-m-d", $key) . ",";
+//            //$datestr = $spdate->sponsor_date.",";
+//            $i++;
+//        }
+//        echo trim($datestr, ",");
+        
         $i = 0;
-        foreach ($vals as $key=>$spdate) {
-            if($spdate >= 20)
-                $datestr .= date("Y-m-d", $key) . ",";
+        foreach ($sponserdate as $spdate) {
+
+            $datestr .= date("Y-m-d", $spdate->sponsor_date) . ",";
+
             //$datestr = $spdate->sponsor_date.",";
+
             $i++;
         }
         echo trim($datestr, ",");

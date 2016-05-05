@@ -64,7 +64,7 @@ WHERE hospital_deleted =0";
 
         $this->db->where($where);
 
-        $this->db->where(array('HTip.healthTips_deleted' => 0));
+        $this->db->where(array('HTip.healthTips_deleted' => 0,'HTip.status'=>1,'Cat.status'=>1));
         $this->db->group_by('HTip.healthTips_id');
         $this->db->order_by("HTip.creationTime", "desc");
 
@@ -104,14 +104,17 @@ WHERE hospital_deleted =0";
     }
 
     function fetchsponserdates($where) {
-
-        $this->db->select('Spon.sponsor_id,Spon.sponsor_date');
-        //$this->db->select('Htip.healthTips_id,Htip.healthTips_categoryId,Htip.healthTips_detail,Htip.healthTips_image,Htip.healthTips_image,healthTips_amount,Hcat.category_name');
+        $sponserlimit = 2;
+        $this->db->select('Spon.sponsor_id,Spon.sponsor_date,count(*) totbooks');
         $this->db->from('qyura_healthTipSponsor Spon');
 
         $this->db->where($where);
 	$this->db->where('Spon.sponsor_deleted','0');
+        $this->db->group_by('sponsor_date');
+        $this->db->having("count(*) > $sponserlimit");
         $data = $this->db->get();
+        echo $this->db->last_query();
+        exit;
         return $data->result();
        
     }

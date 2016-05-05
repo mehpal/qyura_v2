@@ -226,11 +226,15 @@ if (!function_exists('isConvertDays')) {
         $days = ($convert % 365) % 30.5; // the rest of days
 
         if (!empty($years)) {
-            return $years . ' years ' . $month . ' month ' . $days . ' days';
+            return $years . ' years ' . $month . ' month ' . $days . ' days ago';
         } elseif (!empty($month)) {
-            return $month . ' month ' . $days . ' days';
+            return $month . ' month ' . $days . ' days ago';
         } else {
-            return $days . ' days';
+            if($days == 0){
+             return 'today';
+            }else{
+                return $days . ' days ago';
+            }
         }
     }
 

@@ -335,22 +335,7 @@ $("#editservices").click(function () {
     $("#newservices").toggle();
 });
 
-$("#picEdit").click(function () {
-    $(".logo-img").hide();
-    $(".logo-up").show();
-    $("#picEdit").hide();
-    $("#picEditClose").show();
 
-});
-
-$("#picEditClose").click(function () {
-    $(".logo-up").hide();
-    $(".logo-img").show();
-    $("#picEdit").show();
-    $("#picEditClose").hide();
-
-
-});
 
 $("#pharmacybtn").click(function () {
     $("#pharmacydetail").fadeToggle();
