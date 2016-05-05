@@ -29,8 +29,6 @@ class Docappointment extends MY_Controller {
     public function index() {
         $data = array();
         $data['title'] = 'Doctor Appointments';
-        //$data['doctorAppointment'] = $this->common_model->customGet($options);
-        //print_r($data['doctorAppointment']);exit;
         $this->load->super_admin_template('doctor_appointment_list', $data, 'miAppScript');
     }
 
