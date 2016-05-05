@@ -101,7 +101,7 @@ class Medicart extends MY_Controller {
         $hosOption .='<option value=>Select Hospital</option>';
         if (!empty($hosData)) {
             foreach ($hosData as $key => $val) {
-                $hosOption .= '<option value=' . $val->hospital_id . '>' . strtoupper($val->hospital_name) . '</option>';
+                $hosOption .= '<option value=' . $val->hospital_userId . '>' . strtoupper($val->hospital_name) . '</option>';
             }
         }
         echo $hosOption;
