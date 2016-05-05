@@ -252,6 +252,26 @@ if (isset($mapData) && !empty($mapData)) {
     // datatable get records
     $(function () {
      //new CropAvatar($('#blood-crop-avatar'));
+     
+
+
+$(".hospital_edit").click(function () {
+    
+    $(".logo-img").toggle();
+    $(".logo-up").toggle();
+    $(".picEdit").toggle();
+    $(".picEditClose").toggle();
+});
+
+
+$(".ambulance_edit").click(function () {
+    $(".logo-img").toggle();
+    $(".logo-up").toggle();
+    $(".picEdit").toggle();
+    $(".picEditClose").toggle();
+});
+
+     
   });
     $(document).ready(function () {
         
