@@ -103,7 +103,7 @@
                                        <!-- <li class="<?php // if(isset($active) && $active == 'gallery'){echo "active";}?>">
                                             <a data-toggle="tab" href="#gallery">Gallery</a>
                                         </li>-->
-                                        <li class="<?php if(isset($active) && $active == 'timeslot'){echo "active";}?>">
+                                        <li class="<?php if(isset($active) && $active == 'timeSlot'){echo "active";}?>">
                                             <a data-toggle="tab" href="#timeslot">Time Slot</a>
                                         </li>
                                        <li class="<?php if(isset($active) && $active == 'doctor'){echo "active";}?>">
@@ -1210,14 +1210,16 @@
                                     </section>
                                     <!-- All Doctors Ends -->
                                     
-                                    <!--Membership Starts -->
-                                <section class="tab-pane fade in <?php if (isset($active) && $active == 'membership') {
-        echo "active";
-    } ?>" id="membership"> 
+                                     <!--Membership Starts -->
+                                <section class="tab-pane fade in <?php if (isset($active) && $active == 'membership') { echo "active"; } ?>" id="membership"> 
                                     <form method="post" name="membershipForm" id="membershipForm">
                                         <aside class="col-md-9 setting">
                                             <h4>Membership Detail
-                                                <a id="editMem"  class="pull-right cl-pencil"><i class="fa fa-pencil"></i></a>
+                                                <?php if(isset($membership_datail) && $membership_datail != NULL){ ?>
+                                                   <a id="editMem"  class="pull-right cl-pencil"><i class="fa fa-pencil"></i></a> 
+                                                <?php }else{ ?>
+                                                  <a id="editMem"  class="pull-right cl-plus"><i class="fa fa-plus"></i></a>   
+                                                <?php } ?>
                                             </h4>
                                             <hr/>
                                             <div class="clearfix m-t-20 p-b-20 " id="detailMem">
@@ -1235,7 +1237,22 @@
                                         <?php $checkBocCount = 1; 
                                         if(isset($membership_datail) && $membership_datail != NULL){ ?>
                                         <input type="hidden" value="<?php echo count($membership_datail); ?>" id="faci_count" name="faci_count">    
-                                        <input type="hidden" value="<?php echo $diagnosticData[0]->diagnostic_id; ?>" id="digo_id" name="digo_id">    
+                                        <input type="hidden" value="<?php echo $hospitalData[0]->hospital_id; ?>" id="digo_id" name="digo_id">
+                                        <article class="clearfix m-t-10">
+                                            <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type :</label>
+                                            <div class="col-md-8  col-sm-8">
+                                                <select class="selectpicker" data-width="100%" name="diagnostic_mbrTyp" id="diagnostic_mbrTyp" onchange="find_membershipdata(this.value)" >
+                                                    <option value="">Select Membership</option>
+                                                    <?php if(isset($membership_plan) && $membership_plan){ 
+                                                        foreach($membership_plan as $membership){ ?>
+                                                            <option value="<?php echo $membership->membership_id; ?>" <?php if($hospitalData[0]->hospital_mmbrTyp == $membership->membership_id){ echo "selected"; } ?> ><?php echo $membership->membership_name; ?></option>
+                                                    <?php } } ?>
+                                                </select>
+                                                <label class="error" style="display:none;" id="error-diagnostic_mbrTyp"> please select a member type</label>
+                                                <label class="error" > <?php echo form_error("diagnostic_mbrTyp"); ?></label>
+                                            </div>
+                                        </article>
+                                        
                                         <?php foreach($membership_datail as $facilities){ ?>
                                         <label class="control-label col-md-4 col-xs-9" for="cname"><?php echo $facilities->facilities_name; ?></label>
                                             <div class="col-md-8 col-sm-8">
@@ -1254,12 +1271,61 @@
                                                     <?php } ?>
                                                 </aside>
                                             </div>
-                                            <?php $checkBocCount++;} } ?>
-                                        <article class="clearfix ">
-                                            <div class="col-md-12 m-t-20 m-b-20">
-                                                <input type="submit" name="submit" class="btn btn-success waves-effect waves-light pull-right" value="Update" >
-                                            </div>
-                                        </article>
+                                            <?php $checkBocCount++; } ?> 
+                                            <article class="clearfix ">
+                                                <div class="col-md-12 m-t-20 m-b-20">
+                                                    <input type="submit" name="submit" class="btn btn-success waves-effect waves-light pull-right" value="Update" >
+                                                </div>
+                                            </article>
+                                            <?php }else{ ?>
+                                                <aside class="clearfix m-t-20 p-b-20">
+                                                    <input type="hidden" value="<?php echo $hospitalData[0]->hospital_id; ?>" id="digo_id" name="digo_id">
+                                                    <article class="clearfix m-t-10">
+                                                        <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type :</label>
+                                                        <div class="col-md-8  col-sm-8">
+                                                            <select class="selectpicker" data-width="100%" name="diagnostic_mbrTyp" id="diagnostic_mbrTyp" onchange="find_membershipdata(this.value)">
+                                                                <option value="">Select Membership</option>
+                                                                <?php if(isset($membership_plan) && $membership_plan){ 
+                                                                    foreach($membership_plan as $membership){ ?>
+                                                                        <option value="<?php echo $membership->membership_id; ?>" <?php echo set_select('diagnostic_mbrTyp', $membership->membership_id); ?> ><?php echo $membership->membership_name; ?></option>
+                                                                <?php } } ?>
+                                                            </select>
+                                                            <label class="error" style="display:none;" id="error-diagnostic_mbrTyp"> please select a member type</label>
+                                                            <label class="error" > <?php echo form_error("diagnostic_mbrTyp"); ?></label>
+                                                        </div>
+                                                    </article>
+                                                    <article class="clearfix m-t-10">
+                                                        <?php $checkBocCount = 1; 
+                                                        if(isset($facilities_list) && $facilities_list != NULL){ ?>
+                                                        <input type="hidden" value="<?php echo count($facilities_list); ?>" id="faci_count" name="faci_count">    
+                                                        <?php foreach($facilities_list as $facilities){ ?>
+                                                        <label class="control-label col-md-4 col-xs-9" for="cname"><?php echo $facilities->facilities_name; ?></label>
+                                                        <div class="col-md-8 col-sm-8">
+                                                            <aside class="row">
+                                                                <input type="hidden" value="<?php echo $facilities->facilities_id; ?>" id="miFacilitiesId_<?php echo $checkBocCount; ?>" name="miFacilitiesId_<?php echo $checkBocCount; ?>">
+                                                                <div class="col-md-6 col-sm-6">
+                                                                    <input type="number" id="membership_quantity_<?php echo $checkBocCount; ?>" name="membership_quantity_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" />
+                                                                    <label class="error" style="display:none;" id="error-membership_quantity_<?php echo $checkBocCount; ?>"> please enter the Quantity!</label>
+                                                                    <label class="error" > <?php echo form_error("membership_quantity_$checkBocCount"); ?></label>
+                                                                </div>
+                                                                <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){ ?>
+                                                                <div class="col-md-6 col-sm-6 m-t-xs-10">
+                                                                    <input type="number" id="membership_duration_<?php echo $checkBocCount; ?>" name="membership_duration_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){  } ?>/>
+                                                                    <label class="error" style="display:none;" id="error-membership_duration_<?php echo $checkBocCount; ?>"> please enter the Duration !</label>
+                                                                    <label class="error" > <?php echo form_error("membership_duration_$checkBocCount"); ?></label>
+                                                                </div>
+                                                                <?php } ?>
+                                                            </aside>
+                                                        </div>
+                                                        <?php $checkBocCount++;} } ?>
+                                                    </article>
+                                                    <article class="clearfix ">
+                                                        <div class="col-md-12 m-t-20 m-b-20">
+                                                            <input type="submit" name="submit" class="btn btn-success waves-effect waves-light pull-right" value="Submit" >
+                                                        </div>
+                                                    </article>
+                                                </aside>
+                                            <?php } ?>
                                         </aside>
                                     </form>	
                                 </section>
