@@ -1914,11 +1914,9 @@ class Hospital extends MY_Controller {
 
         if ($_POST['avatar_file']['name']) {
             $path = realpath(FCPATH . 'assets/hospitalsImages/');
-            $upload_data = $this->input->post('avatar-data');
-            
+            $upload_data = $this->input->post('avatar_data');
             $upload_data = json_decode($upload_data);
-            
-            if ($upload_data->width > 425) {
+            if ($upload_data->width > 120) {
                 $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/hospitalsImages/', './assets/hospitalsImages/thumb/', 'hospital');
 
                 if (empty($original_imagesname)) {
@@ -1934,46 +1932,7 @@ class Hospital extends MY_Controller {
                     );
                     $response = $this->Hospital_model->UpdateTableData($option, $where, 'qyura_hospital');
                     if ($response) {
-                        $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/hospitalsImages/thumb/thumb_100/{$original_imagesname}"),'reset'=>"hospital_edit");
-                    } else {
-                        $response = array('state' => 400, 'message' => 'Failed to update avtar');
-                    }
-                }
-            } else {
-                $response = array('state' => 400, 'message' => 'Height and Width must exceed 150px.');
-            }
-            echo json_encode($response);
-        } else {
-            $response = array('state' => 400, 'message' => 'Please select avtar');
-            echo json_encode($response);
-        }
-    }
-    
-    function editUploadImageAmbulance() {
-
-        if ($_POST['avatar_file']['name']) {
-            $path = realpath(FCPATH . 'assets/ambulanceImages/');
-            $upload_data = $this->input->post('avatar-data');
-            
-            $upload_data = json_decode($upload_data);
-           
-            if ($upload_data->width > 425) {
-                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/ambulanceImages/', './assets/ambulanceImages/thumb/', 'ambulance');
-
-                if (empty($original_imagesname)) {
-                    $response = array('state' => 400, 'message' => $this->error_message);
-                } else {
-
-                    $option = array(
-                        'ambulance_img' => $original_imagesname,
-                        'modifyTime' => strtotime(date("Y-m-d H:i:s"))
-                    );
-                    $where = array(
-                        'ambulance_id' => $this->input->post('ambulance_id')
-                    );
-                    $response = $this->Hospital_model->UpdateTableData($option, $where, 'qyura_ambulance');
-                    if ($response) {
-                        $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/ambulanceImages/thumb/thumb_100/{$original_imagesname}"),'reset'=>"ambulance_edit");
+                        $response = array('state' => 200, 'message' => 'Successfully update avtar');
                     } else {
                         $response = array('state' => 400, 'message' => 'Failed to update avtar');
                     }
@@ -2586,6 +2545,7 @@ class Hospital extends MY_Controller {
             echo json_encode($responce);
         } else {
             $digo_id = $this->input->post("digo_id");
+            $hospitalId = $this->input->post("hospitalId");
             $faci_count = $this->input->post('faci_count');
             
             $mem_id = $this->input->post('faci_count');
@@ -2647,7 +2607,7 @@ class Hospital extends MY_Controller {
                 
             }
                 
-            $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "hospital/detailHospital/$digo_id/membership");
+            $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "hospital/detailHospital/$hospitalId/membership");
             echo json_encode($responce);
         }
     }
