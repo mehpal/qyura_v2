@@ -301,12 +301,18 @@
     },
 
     submitDone: function (data) {
- console.log(data);
+ //console.log(data);
       if ($.isPlainObject(data) && data.state === 200) {
-          console.log(data);
+          
+          // this.$container.find('.text-success').html(data.message);
+         //  var loadUrl = this.$container.find('#load_url').val();
+         //  this.$container.find('.pro-img').load(loadUrl,function () {
+          // });
+        //  console.log(data);
            //this.$container.find('.text-success').html(data.message);
+          // alert(data.image);
            
-          this.$container.find('.logo-img').attr('src',data.image);
+          this.$container.find('.'+data.returnClass).attr('src',data.image);
           this.$container.find('.'+data.reset).trigger('click');
            
           if (this.support.datauri || this.uploaded) {
