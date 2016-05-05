@@ -204,12 +204,14 @@ class Membership extends MY_Controller {
                 'where' => array('qyura_membership.membership_id' => $membership_id),
                 'table' => 'qyura_membership'
             );
+            
             $insertId = $this->common_model->customUpdate($options);
             
             $query = "DELETE FROM `qyura_membershipFacilities` WHERE `membershipFacilities_membershipId` = '$membership_id'";
             $delete_facilities = $this->common_model->customQuery($query,FALSE,TRUE);
             
             $faci_count = $this->input->post('faci_count');
+            
             for($i = 1; $i <= $faci_count; $i++){
                 $checkbox = $this->input->post("checkbox_$i");
                 $quantity = $this->input->post("membership_quantity_$i");
