@@ -234,21 +234,6 @@
                                 </article>
 
                                 <article class="clearfix m-t-10">
-                                    <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type :</label>
-                                    <div class="col-md-8  col-sm-8">
-                                        <select class="selectpicker" data-width="100%" name="diagnostic_mbrTyp" id="diagnostic_mbrTyp" onchange="find_membershipdata(this.value)">
-                                            <option value="">Select Membership</option>
-                                            <?php if(isset($membership_plan) && $membership_plan){ 
-                                                foreach($membership_plan as $membership){ ?>
-                                                    <option value="<?php echo $membership->membership_id; ?>" <?php echo set_select('diagnostic_mbrTyp', $membership->membership_id); ?> ><?php echo $membership->membership_name; ?></option>
-                                            <?php } } ?>
-                                        </select>
-                                        <label class="error" style="display:none;" id="error-diagnostic_mbrTyp"> please select a member type</label>
-                                        <label class="error" > <?php echo form_error("diagnostic_mbrTyp"); ?></label>
-                                    </div>
-                                </article>
-
-                                <article class="clearfix m-t-10">
                                     <label class="control-label col-md-4 col-sm-4" for="cname">About Us :</label>
                                     <div class="col-md-8  col-sm-8">
                                         <textarea value="" id="aboutUs" name="aboutUs" class="form-control" required=""><?php echo set_value('aboutUs'); ?> </textarea>
@@ -497,13 +482,32 @@
 
                     <!-- Right Section Start -->
                     <section class="col-md-6 detailbox mi-form-section">
+                        
+                        
                         <div class="bg-white clearfix">
 
                             <!-- membership Detail Section Start -->
                             <figure class="clearfix">
                                 <h3>Membership Detail</h3>
                             </figure>
+                            
+                            
+                            
                             <aside class="clearfix m-t-20 p-b-20">
+                                <article class="clearfix m-t-10">
+                                    <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type :</label>
+                                    <div class="col-md-8  col-sm-8">
+                                        <select class="selectpicker" data-width="100%" name="diagnostic_mbrTyp" id="diagnostic_mbrTyp" onchange="find_membershipdata(this.value)">
+                                            <option value="">Select Membership</option>
+                                            <?php if(isset($membership_plan) && $membership_plan){ 
+                                                foreach($membership_plan as $membership){ ?>
+                                                    <option value="<?php echo $membership->membership_id; ?>" <?php echo set_select('diagnostic_mbrTyp', $membership->membership_id); ?> ><?php echo $membership->membership_name; ?></option>
+                                            <?php } } ?>
+                                        </select>
+                                        <label class="error" style="display:none;" id="error-diagnostic_mbrTyp"> please select a member type</label>
+                                        <label class="error" > <?php echo form_error("diagnostic_mbrTyp"); ?></label>
+                                    </div>
+                                </article>
                                 <article class="clearfix m-t-10">
                                     <?php $checkBocCount = 1; 
                                     if(isset($facilities_list) && $facilities_list != NULL){ ?>

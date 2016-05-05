@@ -68,7 +68,7 @@
                      <article class="form-group m-lr-0">
                         <label for="" class="control-label col-md-4 col-sm-4">Speciality:</label>
                         <div class="col-md-8 col-sm-8">
-                           <select  multiple="" class="bs-select form-control-select2 doctorSpecialities_specialitiesId" data-width="100%" name="doctorSpecialities_specialitiesId[]" Id="doctorSpecialities_specialitiesId" data-size="4">
+                           <select  multiple="" class="selectpicker" data-width="100%" name="doctorSpecialities_specialitiesId[]" Id="doctorSpecialities_specialitiesId" data-size="4">
 
                               <!--<option value="">Select Speciality</option>-->
                               <?php foreach($speciality as $val) {?>
@@ -170,7 +170,7 @@
                   </article>
                   <article class="form-group m-lr-0">
                      <div class="col-md-8 col-md-offset-4">
-                        <button class="btn btn-success waves-effect waves-light m-r-20" type="button" onclick="multipleAcademicForDoctor()">Add More</button>
+                        <button class="btn btn-success waves-effect waves-light m-r-20" type="button" onclick="multipleAcademicForEditDoctor()">Add More</button>
                      </div>
                   </article>
                   <!-- Degree End -->

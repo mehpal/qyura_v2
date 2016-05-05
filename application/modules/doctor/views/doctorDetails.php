@@ -69,12 +69,12 @@
                                 ?></h3>
                             <p><?php
                                 if (isset($doctorDetail[0]->degreeSmallName) && $doctorDetail[0]->degreeSmallName != NULL) {
-                                    echo $doctorAcademic[0]->degreeSmallName;
+                                    echo $doctorDetail[0]->degreeSmallName;
                                 }
                                 ?></p>
                             <p><?php
-                                if (isset($doctorDetail[0]->degreeFullName) && $doctorDetail[0]->degreeFullName != NULL) {
-                                    echo $doctorAcademic[0]->degreeFullName;
+                                if (isset($doctorDetail[0]->serviceName) && $doctorDetail[0]->serviceName != NULL) {
+                                    echo $doctorDetail[0]->serviceName;
                                 }
                                 ?></p>
                             <p><?php
@@ -83,8 +83,8 @@
                                 }
                                 ?> Years Experience</p>
                             <p><?php
-                                if (isset($doctorDetail[0]->speciality) && $doctorDetail[0]->speciality != NULL) {
-                                    echo $doctorDetail[0]->speciality;
+                                if (isset($doctorDetail[0]->specname) && $doctorDetail[0]->specname != NULL) {
+                                    echo $doctorDetail[0]->specname;
                                 }
                                 ?></p>
                         </aside>
@@ -160,7 +160,7 @@
                     <article class="tab-content p-b-20 m-t-50">
                         <div id="load_consulting" class="text-center text-success " style="display: none"><image alt="Please wait data is loading" src="<?php echo base_url('assets/images/loader/Heart_beat.gif'); ?>" /></div>
                         <div class="alert alert-success" id="successTop" style="display: none"></div>
-<!--                        <div class="alert alert-danger" id="er_TopError" style="display: none"></div>-->
+                        <div class="alert alert-danger" id="er_TopError" style="display: none"></div>
                         <!-- General Detail Starts -->
                         <section class="tab-pane fade in <?php
                         if ($active_tag == '' || $active_tag == 1) {
@@ -367,7 +367,7 @@
                                                 <article class="clearfix m-t-10">
                                                     <label for="" class="control-label col-md-3 col-sm-3">Speciality:</label>
                                                     <div class="col-md-4 col-sm-4">
-                                                        <select  multiple="" class="bs-select form-control-select2 " data-width="100%" name="doctorSpecialities_specialitiesId[]" Id="doctorSpecialities_specialitiesId" data-size="4">
+                                                        <select  multiple="" class="bs-select form-control select2 " data-width="100%" name="doctorSpecialities_specialitiesId[]" Id="doctorSpecialities_specialitiesId" data-size="4">
                                                             <?php foreach ($speciality as $key => $val) { ?>
                                                                 <option <?php
                                                                 if (isset($qyura_doctorSpecialities) && $qyura_doctorSpecialities != NULL) {

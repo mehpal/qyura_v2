@@ -252,6 +252,26 @@ if (isset($mapData) && !empty($mapData)) {
     // datatable get records
     $(function () {
      //new CropAvatar($('#blood-crop-avatar'));
+     
+
+
+$(".hospital_edit").click(function () {
+    
+    $(".logo-img").toggle();
+    $(".logo-up").toggle();
+    $(".picEdit").toggle();
+    $(".picEditClose").toggle();
+});
+
+
+$(".ambulance_edit").click(function () {
+    $(".logo-img").toggle();
+    $(".logo-up").toggle();
+    $(".picEdit").toggle();
+    $(".picEditClose").toggle();
+});
+
+     
   });
     $(document).ready(function () {
         
@@ -467,7 +487,7 @@ if (isset($mapData) && !empty($mapData)) {
                         if (datas == 0) {
                              reYesNo = false;
                            //  console.log(reYesNo,'andar');
-                             bootbox.alert("Sorry, you can't add more than three specialities!");
+                             bootbox.alert("Sorry, you can't add more than givin specialities!");
                              
                         }
                     }
@@ -491,7 +511,7 @@ if (isset($mapData) && !empty($mapData)) {
                     data: {'hospitalId': hospitalId, 'hospitalSpecialities_specialitiesId': $(this).val()},
                     success: function (datas) {
                         if (datas == 0) {
-                             bootbox.alert("Sorry, you can't add more than three specialities!");
+                             bootbox.alert("Sorry, you can't add more than givin specialities!");
                              return false;
                              
                         } else {
@@ -2187,7 +2207,7 @@ if (isset($mapData) && !empty($mapData)) {
   $(document).ready(function (){
         $("#membershipForm").submit(function (event) {
             event.preventDefault();
-            var url = '<?php echo site_url(); ?>/diagnostic/membershipEdit/';
+            var url = '<?php echo site_url(); ?>/hospital/membershipEdit/';
             var formData = new FormData(this);
             submitData(url,formData);
         });
