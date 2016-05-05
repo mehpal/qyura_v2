@@ -862,9 +862,11 @@ function imageIsLoaded(e) {
             
         }
 </script>
-<script>
- $(document).ready(function () {
 
+
+<script>
+        $(document).ready(function () {
+          var url = "<?php echo base_url()?>";  
         $("#submitForm").validate({
            
 
@@ -873,16 +875,17 @@ function imageIsLoaded(e) {
                     required: true,
                     lettersonly: true
                 },
-                ambulanceType:{
-                    required: true,
+                
+                ambulanceType: {
+                     required: true
                 },
                 ambulance_countryId: {
                     required: true
                 },
-                stateId: {
+                ambulance_stateId: {
                     required: true
                 },
-                cityId: {
+                ambulance_cityId: {
                     required: true
                 },
                 ambulance_zip: {
@@ -896,54 +899,43 @@ function imageIsLoaded(e) {
                 },
                 lat: {
                     required: true,
+                    numberdecimalonly: true
                 },
                 lng: {
-                    required: true
+                    required: true,
+                    numberdecimalonly: true
                 },
-                bloodBank_phn: {
+                 users_email: {
+                    required: true,
+                    email: true,
+                    remote: {
+                    url:  url + 'index.php/ambulance/isEmailRegister',
+                    type: "post",
+                    data: {
+                            email: function(){ return $("#users_email").val(); },
+                            id: function(){ return $("#user_tables_id").val(); },
+                            role: function(){ return 8; }
+                    }
+                  }
+                },
+                ambulance_phn: {
                     required: true,
                      number: true,
                     minlength:10,
                     maxlength:10
                 },
-                bloodBank_cntPrsn: {
+                ambulance_cntPrsn: {
                     required: true,
                     lettersonly: true
                 },
-                bloodBank_mbrTyp: {
+                ambulance_mmbrTyp: {
                     required: true
                 },
                 isEmergency: {
                     required: true,
                 },
-                bloodbank_docatId: {
+                ambulance_docatId: {
                     required: true
-                },
-                users_email: {
-                    required: true,
-                    email: true,
-                    remote: {
-                    url:  urls + 'index.php/bloodbank/isEmailRegister',
-                    type: "post",
-                    data: {
-                            email: function(){ return $("#users_email").val(); },
-                            id: function(){ return $("#users_id").val(); },
-                            role: function(){ return 2; }
-                    }
-                  }
-                },
-                bloodBank_mblNo: {
-                    required: true,
-                    number: true,
-                    minlength:10,
-                    maxlength:10
-                },
-                  users_password: {
-                    required: true, 
-                },
-                  cnfPassword: {
-                    required: true,
-                    equalTo: "#users_password"
                 },
                  avatar_file: {
                     required: true,
@@ -951,62 +943,60 @@ function imageIsLoaded(e) {
             },
             messages: {
                 ambulance_name: {
-                    required: "Please enter ambulance name",
+                    required: "Please enter Ambulance Name.",
                 },
+                
                 ambulanceType:{
-                    required:"Please select ambulance type."
+                    required : "Please select Ambulance Type."
                 },
-            
                  ambulance_countryId: {
-                    required: "Please select city",
+                    required: "Please select Country.",
                 },
-                cityId: {
-                    required: "Please select country",
+                  ambulance_stateId: {
+                    required: "Please select State.",
                 },
-                stateId: {
-                    required: "Please select state",
+                ambulance_cityId: {
+                    required: "Please select City.",
                 },
+              
                 ambulance_zip: {
-                    required: "Please enter zip",
+                    required: "Please enter Zip.",
 
                 },
                 ambulance_address: {
-                    required: "Please enter address",
+                    required: "Please enter Address.",
                 },
                 lat: {
-                    required: "Please enter latitude",
+                    required: "Please enter Latitude.",
                 },
                 lng: {
-                    required: "Please enter longitude",
+                    required: "Please enter Longitude.",
                 },
-                bloodBank_phn: {
-                    required: "Please enter phone number",
-                },
-                bloodBank_cntPrsn: {
-                    required: "Please enter contact person name",
-                },
-                bloodBank_mbrTyp: {
-                    required: "Please select member type",
-                },
-                isEmergency: {
-                    required: "Please select 24/7 service",
-                },
-                bloodbank_docatId: {
-                    required: "Please enter docat id",
-                },
-                users_email: {
-                    required: "Please enter email",
+                
+                 users_email: {
+                    required: "Please enter Email Id",
                     remote: jQuery.validator.format("{0} is already exists.")
                 },
-                bloodBank_mblNo: {
-                    required: "Please enter mobile number",
+                ambulance_phn: {
+                    required: "Please enter Phone Number.",
                 },
-                users_password: {
-                    required: "Please enter password",
+                ambulance_cntPrsn: {
+                    required: "Please enter Contact Person Name.",
                 },
-                cnfPassword: {
-                    required: "Please enter confirm password",
-                }
+                ambulance_mmbrTyp: {
+                    required: "Please select Membership Type.",
+                },
+                isEmergency: {
+                    required: "Please select 24/7 service.",
+                },
+                ambulance_docatId: {
+                    required: "Please enter Docat Id.",
+                },
+                
+               avatar_file: {
+                   required: "Please select an Image.",
+               }
+               
             },
             submitHandler: function (form) {
                 form.submit();
@@ -1014,9 +1004,7 @@ function imageIsLoaded(e) {
         });
 
     });
-
-    </script>
-
+</script>
 </body>
 
 </html> 

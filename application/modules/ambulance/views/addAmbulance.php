@@ -37,7 +37,7 @@
                                             <article class="clearfix m-t-10">
                                                 <label for="cname" class="control-label col-md-4 col-sm-4">Ambulance Type :</label>
                                                 <div class="col-md-8 col-sm-8">
-                                                    <select class="selectpicker form-control" data-width="100%" name="ambulanceType">
+                                                    <select class="form-control select2" data-width="100%" name="ambulanceType">
                                         <option value='1' <?php echo set_select('ambulanceType', '1'); ?>>Emergency</option>
                                         <option value='2' <?php echo set_select('ambulanceType', '2'); ?>>Patient Transport</option>
 					<option value='3' <?php echo set_select('ambulanceType', '3'); ?>>Response Unit</option>
@@ -80,7 +80,7 @@
                                             <article class="clearfix m-t-10">
                                                 <label for="cname" class="control-label col-md-4 col-sm-4">Address:</label>
                                                 <div class="col-md-8 col-sm-8">
-                                                            <select class="selectpicker form-control" data-width="100%" name="ambulance_countryId" id="ambulance_countryId">
+                                                            <select class="form-control select2" data-width="100%" name="ambulance_countryId" id="ambulance_countryId">
                                                                <option value=''>Select Country</option>
                                                                 <option value="1" <?php echo set_select('ambulance_countryId', '1'); ?>>INDIA</option>
                                                               
@@ -91,7 +91,7 @@
                                             </article>
                                             <article class="clearfix">
                                                 <div class="col-sm-8 col-sm-offset-4">
-                                             <select class="selectpicker form-control" data-width="100%" name="ambulance_stateId" Id="ambulance_stateId" data-size="4" onchange ="fetchCity(this.value)">
+                                             <select class="form-control select2" data-width="100%" name="ambulance_stateId" Id="ambulance_stateId" data-size="4" onchange ="fetchCity(this.value)">
                                                         <option value="">Select State</option>
                                                        <?php foreach($allStates as $key=>$val) {?>
                                                         <option value="<?php echo $val->state_id;?>" <?php echo set_select('ambulance_stateId', $val->state_id); ?>><?php echo $val->state_statename;?></option>
@@ -104,7 +104,7 @@
 
                                             <article class="clearfix">
                                                 <div class="col-sm-8 col-sm-offset-4">
-                                                    <select class="form-control selectpicker" data-width="100%" name="ambulance_cityId" id="ambulance_cityId" data-size="4">
+                                                    <select class="form-control select2" data-width="100%" name="ambulance_cityId" id="ambulance_cityId" data-size="4">
                                                       <option value="">Select City</option>
                                                       <?php if(isset($citys) && !empty($citys)){?>
                                                        <?php foreach($citys as $key=>$city) {?>
@@ -153,13 +153,13 @@
                                                 <div class="col-sm-8">
                                              <aside class="row m-b-10">
                                               <div class="col-sm-6">
-                                                 <input name="lat" class="form-control" placeholder="Longitude" required="" type="text" value="<?php echo set_value('lat'); ?>"  id="lat"   oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onchange="latChack(this.value)" value="<?php echo set_value('lat'); ?>"/>
+                                                 <input name="lat" class="form-control" placeholder="Longitude" required="" type="text" value="<?php echo set_value('lat'); ?>"  id="lat"  value="<?php echo set_value('lat'); ?>"/>
                                              <label class="error" style="display:none;" id="error-lat">Please enter the correct format for latitude</label>
                                               <label class="error" > <?php echo form_error("lat"); ?></label> 
                                              
                                               </div>
                                                <div class="col-sm-6 m-t-xs-10">
-  <input name="lng" class="form-control" placeholder="Latitude" required="" type="text" value="<?php echo set_value('lng'); ?>"  id="lng"  oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onChange="lngChack(this.value)" value="<?php echo set_value('lng'); ?>"/>
+  <input name="lng" class="form-control" placeholder="Latitude" required="" type="text" value="<?php echo set_value('lng'); ?>"  id="lng" value="<?php echo set_value('lng'); ?>"/>
                                              <label class="error" style="display:none;" id="error-lng"> Please enter the correct format for longitude</label>
                                               <label class="error" > <?php echo form_error("lng"); ?></label> 
                                                 </div>
@@ -216,7 +216,8 @@
                                            <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="selectpicker" data-width="100%" name="ambulance_mmbrTyp" id="ambulance_mmbrTyp">
+                                            <select class="select2" data-width="100%" name="ambulance_mmbrTyp" id="ambulance_mmbrTyp">
+                                            
                                                 <option value="1" <?php echo set_select('ambulance_mmbrTyp', '1'); ?>>Life Time</option>
                                                 <option value="2" <?php echo set_select('ambulance_mmbrTyp', '2'); ?>>Health Club</option>
                                             </select>
@@ -260,6 +261,7 @@
                             <div class="col-md-12 m-t-20 m-b-20">
                                
                                 <div>
+                                        <button class="btn btn-danger waves-effect pull-right" type="reset" id="resetBtn" onclick="location.reload();">Reset</button>
                                     <input class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" value="Submit" />
                                 </div>
                             </div>
