@@ -1,6 +1,7 @@
 <script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.js"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/select2/select2.min.js" type="text/javascript"></script>
 
 
 <script>
@@ -129,7 +130,6 @@
         
         var doc_id = $("#input3").val();
         var date = $("#date-3").val();
-        
         var url = '<?php echo site_url(); ?>/docappointment/appoint_timeSlot';
         if (typeof doc_id == 'string' && typeof date == 'string'){
             $.ajax({
@@ -186,9 +186,39 @@
         
         if(total_amount){
             $("#input21").val(total_amount);
+        }else if(!amount){
+            $("#input21").val(con_fee);
+        }else if(amount){
+            $("#input21").val(amount);
         }else{
             $("#input21").val('');
         }
+    }
+    
+    function check_time(){
+        var url = '<?php echo site_url(); ?>/docappointment/check_timeslot/';
+        var final_timing = $("#timepicker4").val();
+        var timeslot_id = $("#timeSlot").val();
+        var resultAjax = false;
+        $.ajax({
+            url: url,
+            async: false,
+            type: 'POST',
+            data: {'timeslot_id' : timeslot_id,'final_timing': final_timing},
+            beforeSend: function (xhr) {
+                $("#input25").addClass('loadinggif');
+            },
+            success: function (data) {
+                if(data == 1){
+                    $("#err_timepicker4").hide();
+                    resultAjax = true;
+                }else{
+                    $("#err_timepicker4").show();
+                    resultAjax = false;
+                }
+            }
+        });
+        return resultAjax;
     }
     
     function getMember(obj){
@@ -219,7 +249,7 @@
         }
     }
     
-    $('#date-3, #date-4').datepicker();
+    $('#date-3, #date-4').datepicker({autoclose: true});
     $('.timepicker').timepicker({showMeridian:false});
     $(document).ready(function () {
         $("#setData").submit(function (event) {
@@ -228,5 +258,14 @@
             var formData = new FormData(this);
             submitData(url,formData);
         });
+    });
+    $(".select2").select2({
+        width: '100%'
+    });
+
+    $(".bs-select").select2({
+        placeholder: "Select a Speciality",
+        //allowClear: true,
+        tags: true
     });
 </script>

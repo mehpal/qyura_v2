@@ -974,7 +974,10 @@ if ($current != 'detailDoctor'):
             }
             
         }
-            
+    function imageChange(){
+        $("#image_div").toggle();
+        $("#image_btn").toggle();
+    }    
 </script>
 <?php
 $this->load->view("doctor/timeslotScript");
