@@ -149,18 +149,10 @@ var urls = "<?php echo base_url() ?>";
                 "type": "POST",
                 "async": false,
                 "data": function (d) {
-                    d.search['value'] = $("#search").val();
+                    d.searchOffer = $("#search").val();
                     d.cityId = $("#cityId").val();
                     d.statusId = $("#statusId").val();
                     d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
-                },
-                beforeSend: function () {
-                    // setting a timeout
-                    // $('#load_consulting').show();
-                },
-                complete: function ()
-                {
-                    //$('#load_consulting').hide('200');
                 },
             }
         });
@@ -190,18 +182,10 @@ var urls = "<?php echo base_url() ?>";
                 "type": "POST",
                 "async": false,
                 "data": function (d) {
-                    d.search['value'] = $("#search").val();
-                    d.cityId = $("#cityIdEnq").val();
+                    d.searchOffers = $("#search").val();
+                    d.cityId = $("#cityId").val();
                     //d.statusId = $("#statusId").val();
                     d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
-                },
-                beforeSend: function () {
-                    // setting a timeout
-                    // $('#load_consulting').show();
-                },
-                complete: function ()
-                {
-                    //$('#load_consulting').hide('200');
                 },
             }
         });
@@ -233,32 +217,24 @@ var urls = "<?php echo base_url() ?>";
                 "type": "POST",
                 "async": false,
                 "data": function (d) {
-                    d.search['value'] = $("#search").val();
-                    d.cityId = $("#cityIdEnq").val();
+                    d.searchOffer = $("#search").val();
+                    d.cityId = $("#cityId").val();
                     //d.statusId = $("#statusId").val();
                     d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
-                },
-                beforeSend: function () {
-                    // setting a timeout
-                    //$('#load_consulting').show();
-                },
-                complete: function ()
-                {
-                    // $('#load_consulting').hide('200');
                 },
             }
         });
 
-        $('#cityId,#statusId,#cityIdEnq').change(function () {
+        $('#cityId,#statusId').change(function () {
             oTableEnquiries.draw();
             oTableOffer.draw();
             oTableBooking.draw();
         });
 
         $('#search').on('keyup', function () {
-            oTableEnquiries.draw();
-            oTableOffer.draw();
-            oTableBooking.draw();
+             oTableOffer.columns( 5 ).search($(this).val()).draw();
+             oTableBooking.columns( 5 ).search($(this).val()).draw();
+             oTableEnquiries.columns( 5 ).search($(this).val()).draw();
         });
 
         $("#cityId,#cityIdEnq").select2({
