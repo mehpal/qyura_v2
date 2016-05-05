@@ -31,7 +31,7 @@ class MedicartApi extends MyRest {
             $all["specialitiesImg"] = "assets/specialityImages/3x/allSpeciality.png" ;
             $all["specialityCount"] = $count;
             $finalArray[] = $all;
-            print_r($specialities);
+//            print_r($specialities);
             foreach($specialities as $sp){
                 $medicartCount =  (isset($sp->specialityCount) && $sp->specialityCount != NULL) ? $sp->specialityCount: "0" ;
                 if($medicartCount != 0){
