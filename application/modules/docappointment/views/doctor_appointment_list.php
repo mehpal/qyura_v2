@@ -33,7 +33,6 @@
                     <div class="bg-white">
                         <!-- Table Section Start -->
                         <article class="clearfix m-top-40 p-b-20">
-                            <!--<div id="load_appointment" class="text-center text-success "><image alt="Please wait data is loading" src="<?php echo base_url('assets/images/loader/Heart_beat.gif'); ?>" /></div>-->
                             <aside class="table-responsive">
                                 <table class="table" id="doctorAppointmentTable">
                                     <thead>
