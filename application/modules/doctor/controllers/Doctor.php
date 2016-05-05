@@ -496,18 +496,6 @@ class Doctor extends MY_Controller {
         );
         $data['qyura_specialitiesCat'] = $this->common_model->customGet($option);
 
-//        $option = array(
-//            'table' => 'qyura_professionalExp',
-//            'select' => 'professionalExp_id ,professionalExp_designation ,professionalExp_usersId,professionalExp_hospitalId,professionalExp_start,professionalExp_end,hospital_name,hospital_id,hospital_address',
-//            'where' => array('qyura_professionalExp.professionalExp_deleted' => 0, 'qyura_professionalExp.professionalExp_usersId' => $doctorId),
-//            'join' => array(
-//                array('qyura_hospital', 'qyura_hospital.hospital_id = qyura_professionalExp.professionalExp_hospitalId', 'left')
-//            ),
-//            'single' => FALSE
-//        );
-//        $professional_exp = $this->common_model->customGet($option);
-
-
         $option = array(
             'table' => 'qyura_doctorServices',
             'select' => '*',
@@ -517,12 +505,7 @@ class Doctor extends MY_Controller {
         );
         $data['qyura_services'] = $this->common_model->customGet($option);
 
-
-
-        //$where = array("doctorAvailability_docUsersId" => 46);
-        //$data['exprerience'] = $this->Doctor_model->fetchExprience($doctorId);
         $data['doctorAcademic'] = $this->Doctor_model->fetchAcademic($doctorId);
-
 
         $data['hospitals'] = $this->Doctor_model->fetchHosByStatus(null);
         $data['diagnostics'] = $this->Doctor_model->fetchDigByStatus(null);
@@ -536,6 +519,13 @@ class Doctor extends MY_Controller {
                 $timeSloats[$weekDay] = $result;
         }
 
+        $query = "SELECT COUNT(reviews_id) as review_count FROM `qyura_reviews` WHERE `reviews_deleted` =  0 AND `status` =  1 AND `reviews_relateId` =  $doctorId ";
+        $data['review_count'] = $this->common_model->customQuery($query);
+        
+        $query = "SELECT COUNT(rating_id) as rating_count, AVG(rating) as rating_avg FROM `qyura_ratings` WHERE `rating_deleted` =  0 AND `status` =  1 AND `rating_relateId` =  $doctorId ";
+
+        $data['rating_avg'] = $this->common_model->customQuery($query);
+        //print_r($data['rating_avg']);exit;
         $data['timeSloats'] = $timeSloats;
         $data['doctorId'] = $doctorId;
         $data['title'] = 'Doctor Details';

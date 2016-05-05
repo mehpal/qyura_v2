@@ -88,12 +88,17 @@
                                 }
                                 ?></p>
                         </aside>
+                        <aside class="col-md-5 col-sm-5 col-xs-12 text-right t-xs-left">
+                            <h6><?php echo $rating_avg[0]->rating_count ?> Ratings &nbsp; <span class="label label-success waves-effect waves-light m-b-5 center-block"><?php echo round($rating_avg[0]->rating_avg); ?>.0</span></h6>
+                            <h6><?php echo $review_count[0]->review_count ?> Reviews &nbsp; <i class="fa fa-commenting clg"></i></h6>
+                            <h6>Doctor on Call &nbsp; <i class="fa fa-<?php if (isset($doctorDetail[0]->doctors_27Src) && $doctorDetail[0]->doctors_27Src != NULL) { if ($doctorDetail[0]->doctors_27Src == 1) { echo "phone clg"; } else { echo "times danger"; } } ?> "></i></h6>
+                        </aside>
                         <form class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" method="post" action="#" novalidate="novalidate" name="doctorForm" enctype="multipart/form-data">
                             <aside class="col-md-5 col-sm-5 col-xs-12" >
-                                <div class="col-md-8 col-sm-8 pull-right" data-target="#modal" data-toggle="modal" id="crop-avatar">
-                                        <div id="upload_modal_form">
-                                            <?php $this->load->view('upload_crop_modal');?>
-                                        </div>
+                                <div class="col-md-8 col-sm-8 pull-right m-t-10" data-target="#modal" data-toggle="modal" id="crop-avatar">
+                                    <div id="upload_modal_form">
+                                        <?php $this->load->view('upload_crop_modal');?>
+                                    </div>
                                     <label class="col-md-5 col-sm-5 pull-right m-l-20" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
                                     <div class="pre col-md-4 col-sm-4 pull-right" style="margin-top: -10%">
                                         <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
