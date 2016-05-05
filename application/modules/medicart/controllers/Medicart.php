@@ -631,7 +631,7 @@ class Medicart extends MY_Controller {
             'where' => array('medicartOffer_MIId' => $id , 'status' => 1 , 'medicartOffer_deleted' => 0)
         );
         
-       echo $offerData = $this->common_model->customCount($options);
+        $offerData = $this->common_model->customCount($options);
      
         $option = array(
             'table' => 'qyura_miMembership',
@@ -639,7 +639,7 @@ class Medicart extends MY_Controller {
             'where' => array('miMembership_miId' => $id , 'miMembership_facilitiesId' => 2 , 'status' => 3 , 'miMembership_deleted' => 0, 'miMembership_quantity >' => $offerData),
         );
         $result = $this->common_model->customGet($option);
-           echo $this->db->last_query(); die();
+           //echo $this->db->last_query(); die();
         if($result && !empty($result)){
             $response = array('status' => 200, 'quantity' => $result[0]->miMembership_duration, 'message' => '');
         }else{
