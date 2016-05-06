@@ -17,12 +17,7 @@ Back
 </a>
                         </div>
                     </div>
-                     <?php if(!empty($this->session->flashdata('message'))){?>
-                            <div class="alert alert-success"><?php echo $this->session->flashdata('message');?></div>
-                                <?php }?>
-                           <?php if(!empty($this->session->flashdata('error'))){?>
-                            <div class="alert alert-danger"><?php echo $this->session->flashdata('error');?></div>
-                                <?php }?>
+
                     <div class="map_canvas"></div>
                     <form class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" name="submitForm" method="post" action="<?php echo site_url(); ?>/cms/updatecms" novalidate="novalidate" enctype="multipart/form-data" >
                       

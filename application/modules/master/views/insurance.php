@@ -38,7 +38,7 @@
                                 <span class="col-md-4 text-right">
                                     <h6>
                                         <a class="btn btn-success waves-effect waves-light m-b-5" href="<?php echo site_url('master/editInsuranceView/' . $insurance->insurance_id); ?>"><i class="fa fa-pencil"></i></a>
-                                        <button onclick="if((<?php echo $insurance->status; ?>)===2)enableFn('master', 'insurancePublish', '<?php echo $insurance->insurance_id; ?>','<?php echo $insurance->status; ?>')" type="button" class="btn btn-<?php if($insurance->status == 2){ echo "danger"; }else if($insurance->status == 0){ echo "warning"; }else if($insurance->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($insurance->status == 3){ echo "Verified"; }else if($insurance->status == 2){ echo "Unverified"; }else if($insurance->status == 1){ echo "Active"; }else if($insurance->status == 0){ echo "Inactive"; } ?></button>
+                                        <button onclick="if((<?php echo $insurance->status; ?>)===0)enableFn('master', 'insurancePublish', '<?php echo $insurance->insurance_id; ?>','<?php echo $insurance->status; ?>')" type="button" class="btn btn-<?php if($insurance->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($insurance->status == 1){ echo "Active"; }else if($insurance->status == 0){ echo "Inactive"; } ?></button>
                                         
                                     </h6>
                                 </span>

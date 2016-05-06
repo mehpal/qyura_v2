@@ -106,10 +106,10 @@ class Master extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 2) {
-                $update_data['status'] = 3;
+            if ($status == 0) {
+                $update_data['status'] = 1;
             } else {
-                $update_data['status'] = 2;
+                $update_data['status'] = 0;
             }
             $where = array('degree_id' => $ena_id);
             $updateOptions = array
@@ -179,7 +179,7 @@ class Master extends MY_Controller {
                 'insurance_Name' => $insurance_Name,
                 'insurance_detail' => $insurance_detail,
                 'insurance_img' => $imagesname,
-		'status'       => 2,
+		'status'       => 0,
                 'creationTime' => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
@@ -279,10 +279,10 @@ class Master extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 2) {
-                $update_data['status'] = 3;
+            if ($status == 0) {
+                $update_data['status'] = 1;
             } else {
-                $update_data['status'] = 2;
+                $update_data['status'] = 0;
             }
             $where = array('insurance_id' => $ena_id);
             $updateOptions = array
@@ -336,7 +336,7 @@ class Master extends MY_Controller {
 
             $imagesname = '';
             if ($_FILES['avatar_file']['name']) {
-                $path = realpath(FCPATH . 'assets/specialityImages/3x/');
+                $path = realpath(FCPATH . 'assets/specialityImages/');
                 $upload_data = $this->input->post('avatar_data');
                 $upload_data = json_decode($upload_data);
 
@@ -359,7 +359,7 @@ class Master extends MY_Controller {
                 'specialities_drName' => $specialityNamedoctor,
                 'specialities_img' => $imagesname,
 		'type' => $type,
-		'status' => 2,
+		'status' => 0,
                 'creationTime' => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
@@ -514,7 +514,7 @@ class Master extends MY_Controller {
             $records_array = array(
                 'hospitalType_name' => $hospitalType_name,
                 'hospitalType_miRole' => $hospitalType_miRole,
-		'status' => 2,
+		'status' => 0,
                 'creationTime' => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
@@ -578,13 +578,13 @@ class Master extends MY_Controller {
     function miTypePublish() {
         $ena_id = $this->input->post('id');
         $status = $this->input->post('status');
-        $activeTag = $this->input->post('activeTag');
+        $activeTag = $this->input->post('type');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 3) {
-                $update_data['status'] = 2;
+            if ($status == 0) {
+                $update_data['status'] = 1;
             } else {
-                $update_data['status'] = 3;
+                $update_data['status'] = 0;
             }
             $where = array('hospitalType_id' => $ena_id);
             $updateOptions = array
@@ -960,10 +960,10 @@ class Master extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 2) {
-                $update_data['status'] = 3;
+            if ($status == 0) {
+                $update_data['status'] = 1;
             } else {
-                $update_data['status'] = 2;
+                $update_data['status'] = 0;
             }
             $where = array('specialities_id' => $ena_id);
             $updateOptions = array
@@ -1074,10 +1074,10 @@ class Master extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 2) {
-                $update_data['status'] = 3;
+            if ($status == 0) {
+                $update_data['status'] = 1;
             } else {
-                $update_data['status'] = 2;
+                $update_data['status'] = 0;
             }
             $where = array('awardAgency_id' => $ena_id);
             $updateOptions = array
@@ -1185,10 +1185,10 @@ class Master extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 2) {
-                $update_data['status'] = 3;
+            if ($status == 0) {
+                $update_data['status'] = 1;
             } else {
-                $update_data['status'] = 2;
+                $update_data['status'] = 0;
             }
             $where = array('department_id' => $ena_id);
             $updateOptions = array

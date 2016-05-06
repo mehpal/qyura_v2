@@ -89,6 +89,7 @@
                                         <label class="error" id="err_specialityNamedoctor" > <?php echo form_error("specialityNamedoctor"); ?></label>
                                     </div>
                                 </article>
+                                
                                 <article class="clearfix m-t-10" id="crop-avatar">
                                     <div id="upload_modal_form">
                                         <?php $this->load->view('upload_crop_modal');?>
@@ -106,6 +107,7 @@
                                         <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
                                     </div>
                                 </article>
+
                                 <article class="clearfix m-t-10">
                                     <label for="" class="control-label">Keywords/Tags:</label>
                                     <div class="">

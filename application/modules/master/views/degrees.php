@@ -38,7 +38,7 @@
                                     </span>
                                     <span class="col-lg-3 col-sm-3 col-xs-2">
                                         <a href="#" style="line-height: 3"><i class="md md-edit membership-btn"></i></a> 
-                                        <button onclick="if((<?php echo $degrees->status; ?>)===2)enableFn('master', 'degreePublish', '<?php echo $degrees->degree_id; ?>','<?php echo $degrees->status; ?>')" type="button" class="btn btn-<?php if($degrees->status == 2){ echo "danger"; }else if($degrees->status == 0){ echo "warning"; }else if($degrees->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($degrees->status == 3){ echo "Verified"; }else if($degrees->status == 2){ echo "Unverified"; }else if($degrees->status == 1){ echo "Active"; }else if($degrees->status == 0){ echo "Inactive"; } ?></button>
+                                        <button onclick="if((<?php echo $degrees->status; ?>)===0)enableFn('master', 'degreePublish', '<?php echo $degrees->degree_id; ?>','<?php echo $degrees->status; ?>')" type="button" class="btn btn-<?php if($degrees->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($degrees->status == 1){ echo "Active"; }else if($degrees->status == 0){ echo "Inactive"; } ?></button>
                                     </span>
                                 </li>
                                 <li class="newmembership" style="display:none">
@@ -79,14 +79,14 @@
                                 <article class="clearfix m-t-30">
                                     <label for="" class="control-label">Full Name of the Degree :</label>
                                     <div class="">
-                                        <input class="form-control m-t-10" id="degree_FName" type="text" name="degree_FName" placeholder="Medicinae Baccalaureus and Bachelor of Surgery">
+                                        <input class="form-control m-t-10" id="degree_FName" type="text" name="degree_FName" onkeypress="return isAlpha(event,this.value)">
                                         <label class="error" id="err_degree_FName" > <?php echo form_error("doctors_fName"); ?></label>
                                     </div>
                                 </article>
                                 <article class="clearfix m-t-30">
                                     <label for="" class="control-label">Abbreviation :</label>
                                     <div class="">
-                                        <input class="form-control m-t-10" id="degree_SName" type="text" name="degree_SName" placeholder="MBBS">
+                                        <input class="form-control m-t-10" id="degree_SName" type="text" name="degree_SName" onkeypress="return isAlpha(event,this.value)">
                                         <label class="error" id="err_degree_SName" > <?php echo form_error("doctors_fName"); ?></label>
                                     </div>
                                 </article>

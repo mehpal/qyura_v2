@@ -399,6 +399,7 @@ class Diagnostic extends MY_Controller {
                     'diagnostic_phn' =>  $diagnostic_phn,
                     'diagnostic_usersId' => $diagnostic_usersId,
                     'diagnostic_mbrTyp' => $diagnostic_mmbrTyp,
+                    'diagnostic_mbrStart' => strtotime(date("Y-m-d H:i:s")),
                     'diagnostic_countryId' => $diagnostic_countryId,
                     'diagnostic_stateId' => $diagnostic_stateId,
                     'diagnostic_cityId' => $diagnostic_cityId,
@@ -1455,13 +1456,16 @@ class Diagnostic extends MY_Controller {
     function addSpeciality() {
 
         $id = $this->input->post('diagnosticId');
+        $diagnoUserId = $this->input->post('diagnoUserId');
+        
         $diagnosticSpecialities_specialitiesId = $this->input->post('diagnosticSpecialities_specialitiesId');
         
           $sql = 'select diagnosticSpecialities_id from qyura_diagnosticSpecialities where diagnosticSpecialities_diagnosticId = '.$id.' AND diagnosticSpecialities_deleted = 0 ';
         
         $numRows = $this->common_model->customQueryCount($sql);
         
-        $benifitSpeciality = "select miMembership_quantity from qyura_miMembership where miMembership_miId = $id AND miMembership_deleted = 0 AND miMembership_facilitiesId = 1 AND miMembership_type = 10";
+        $benifitSpeciality = "select miMembership_quantity from qyura_miMembership where miMembership_miId = $diagnoUserId AND miMembership_deleted = 0 AND miMembership_facilitiesId = 1 AND miMembership_type = 10";
+        
         $benifitSpecialityResult = $this->common_model->customQuery($benifitSpeciality, true);
         
        // echo $this->db->last_query(); exit;
@@ -2117,13 +2121,14 @@ class Diagnostic extends MY_Controller {
     
      function checkSpeciality() {
         $diagnosticId = $this->input->post('diagnosticId');
+        $diagnoUserId = $this->input->post('diagnoUserId');
        // $allValuers = explode(',',$this->input->post('allValuers'));
         
         $sql = 'select diagnosticSpecialities_id from qyura_diagnosticSpecialities where diagnosticSpecialities_diagnosticId = '.$diagnosticId.' AND diagnosticSpecialities_deleted = 0 ';
         
         $numRows = $this->common_model->customQueryCount($sql);
         
-       $benifitSpeciality = "select miMembership_quantity from qyura_miMembership where miMembership_miId = $diagnosticId AND miMembership_deleted = 0 AND miMembership_facilitiesId = 1 AND miMembership_type = 10";
+       $benifitSpeciality = "select miMembership_quantity from qyura_miMembership where miMembership_miId = $diagnoUserId AND miMembership_deleted = 0 AND miMembership_facilitiesId = 1 AND miMembership_type = 10";
         $benifitSpecialityResult = $this->common_model->customQuery($benifitSpeciality, true);
         
        // echo $this->db->last_query(); exit;
@@ -2133,6 +2138,7 @@ class Diagnostic extends MY_Controller {
             echo 1; exit;
         }
     }
+    
     
     
     function saveDoctor() {

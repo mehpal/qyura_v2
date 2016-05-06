@@ -1091,6 +1091,16 @@ table.top-doctor tr td h6 img {
     border-radius: 50%;
 }
 
+.avatar-preview img {
+    border-radius: 0% !important;
+}
+
+.avatar-wrapper img {
+    width: 90px;
+    height: 90px;
+    border-radius: 0% !important;
+}
+
 .pic-edit {
     position: absolute;
     bottom: 0px;

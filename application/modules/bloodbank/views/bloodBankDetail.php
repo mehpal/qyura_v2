@@ -21,7 +21,8 @@
                   <div class="bg-picture text-center" style="background-image:url('<?php if(isset($bloodBankData[0]->bloodBank_background_img) && !empty($bloodBankData[0]->bloodBank_background_img)): echo base_url().'assets/BloodBank/'.$bloodBankData[0]->bloodBank_background_img; else : echo base_url().'assets/default-images/Blood_Bank.png'; endif;?>')">
                      <div class="bg-picture-overlay"></div>
                      <div class="profile-info-name">
-                        <div class='pro-img'>
+                        <div class='pro-img' id="crop-avatar">
+                              <?php echo $this->load->view('edit_upload_crop_modal');?>
                            <!-- image -->
                            <?php if(!empty($bloodBankData[0]->bloodBank_photo)){
                               ?>
@@ -38,15 +39,15 @@
                               <?php } ?>
                               <div class="fileUpload btn btn-sm btn-upload logo-Upload ">
                                  <span><i class="fa fa-cloud-upload fa-3x "></i></span>
-                                 <input type="hidden" style="display:none;" class="no-display" id="file_action_url" name="file_action_url" value="<?php echo site_url('bloodbank/editUploadImage');?>">
+                                 <input type="hidden" style="display:none;" class="no-display file_action_url" id="file_action_url" name="file_action_url" value="<?php echo site_url('bloodbank/editUploadImage');?>">
                                  <input type="hidden" style="display:none;" class="no-display" id="load_url" name="load_url" value="<?php echo site_url('bloodbank/getUpdateAvtar/'.$this->uri->segment(3));?>">
                               </div>
                            </article>
                            <!-- description div -->
-                           <div class='pic-edit'>
-                              <h3><a id="picEdit" class="pull-center cl-white" title="Edit Logo"><i class="fa fa-pencil"></i></a></h3>
-                              <h3><a id="picEditClose" class="pull-center cl-white" title="Edit Logo"  style="display:none;"><i class="fa fa-times"></i></a></h3>
-                           </div>
+                              <div class='pic-edit common-edit'>
+                                                    <h3><a  class="pull-center cl-white picEdit" title="Edit Logo"><i class="fa fa-pencil"></i></a></h3>
+                                                    <h3><a class="pull-center cl-white picEditClose" title="Cancel"  style="display:none;"><i class="fa fa-times"></i></a></h3>
+                                                </div>
                            <!-- end description div -->
                         </div>
                         <h3 class="text-white"> <?php echo $bloodBankData[0]->bloodBank_name;?> </h3>
@@ -493,5 +494,3 @@
    </div>
 </div>
 <!-- /Change Logo -->
-<?php echo $this->load->view('edit_upload_crop_modal');?>
-<?php echo $this->load->view('edit_gallery_crop_modal');?>
