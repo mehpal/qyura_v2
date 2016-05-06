@@ -10,14 +10,13 @@ class MedicartApi extends MyRest {
         // Construct our parent class
         parent::__construct();
         $this->load->model(array('medicart_model'));
- 
     }
 
     function medicartSpeciality_post() {
 
         $this->bf_form_validation->set_rules('lat', 'Lat', 'required|decimal');
         $this->bf_form_validation->set_rules('long', 'Long', 'required|decimal');
-        
+
         if ($this->bf_form_validation->run() == FALSE) {
             $message = $this->validation_post_warning();
             $response = array('status' => FALSE, 'msg' => $message);
@@ -27,16 +26,15 @@ class MedicartApi extends MyRest {
             $option['lat'] = $lat = isset($_POST['lat']) ? $this->input->post('lat') : '';
             $option['long'] = $lang = isset($_POST['long']) ? $this->input->post('long') : '';
             $option['city'] = $city = isset($_POST['cityId']) ? $this->input->post('cityId') : '';
-            
-            if($city != ""){
-                $specialities = $this->medicart_model->specialityList($lat,$lang,$city);
-            }
-            else{
-                $specialities = $this->medicart_model->specialityList($lat,$lang); 
-            }
-            
-            $finalArray = NULL;
 
+            if ($city != "") {
+                $specialities = $this->medicart_model->specialityList($lat, $lang, $city);
+            } else {
+                $specialities = $this->medicart_model->specialityList($lat, $lang);
+            }
+
+            $finalArray = NULL;
+dump($specialities);die();
             if (isset($specialities) && $specialities != NULL) {
                 $count = 0;
 
@@ -97,7 +95,7 @@ class MedicartApi extends MyRest {
 
             $option['notIn'] = explode(',', $notIn);
 
-            $aoClumns = array("medicartOffer_id", "MIId", "offerCategory", "title", "image", "description", "endDate", "actualPrice", "discountPrice", "by", "allowBooking", "maximumBooking", "phnNo","remainBookings");
+            $aoClumns = array("medicartOffer_id", "MIId", "offerCategory", "title", "image", "description", "endDate", "actualPrice", "discountPrice", "by", "allowBooking", "maximumBooking", "phnNo", "remainBookings");
 
             $medList = $this->medicart_model->getMedlists($option);
             $finalResult = array();
@@ -107,8 +105,8 @@ class MedicartApi extends MyRest {
                     foreach ($medList as $row) {
 
                         $finalTemp = array();
-                        
-                       
+
+
                         $finalTemp[] = $medicartOffer_id = isset($row->medicartOffer_id) ? $row->medicartOffer_id : "";
                         $finalTemp[] = isset($row->medicartOffer_MIId) ? $row->medicartOffer_MIId : "";
                         $finalTemp[] = isset($row->medicartOffer_offerCategory) ? $row->medicartOffer_offerCategory : "";
@@ -126,7 +124,7 @@ class MedicartApi extends MyRest {
 
                         $hospital_phn = (isset($row->hospital_phn) && $row->hospital_phn != null && $row->hospital_phn != '') ? $row->hospital_phn : "";
                         $by = "";
-                        
+
                         if ($hospital_name != "")
                             $by = $hospital_name;
                         elseif ($diagnostic_name != "") {
@@ -147,10 +145,10 @@ class MedicartApi extends MyRest {
                         $finalTemp[] = isset($row->medicartOffer_allowBooking) ? $row->medicartOffer_allowBooking : "";
                         $finalTemp[] = isset($row->medicartOffer_maximumBooking) ? $row->medicartOffer_maximumBooking : "";
                         $finalTemp[] = $phnNo;
-                        
+
                         $count = $this->getBoookingCount($medicartOffer_id);
                         $finalTemp[] = $count;
-                        
+
                         $finalResult[] = $finalTemp;
                     }
                 }
@@ -172,15 +170,14 @@ class MedicartApi extends MyRest {
             }
         }
     }
-    
-    function getBoookingCount($medicartId){
-        $totalbookings =  $this->medicart_model->totalbookings($medicartId);
-//        dump($totalbookings->totalBooking);echo "<br>";
-//        dump($totalbookings->allowedBooking);die();
+
+    function getBoookingCount($medicartId) {
+        $totalbookings = $this->medicart_model->totalbookings($medicartId);
+
         $remainingBookings = ($totalbookings->allowedBooking - $totalbookings->totalBooking);
         return $remainingBookings;
     }
-    
+
     function MedicartDitail_post() {
 
         $this->bf_form_validation->set_rules('medicartOffer_id', 'MedicartOffer id', 'required|is_natural_no_zero');
@@ -317,49 +314,57 @@ class MedicartApi extends MyRest {
             $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
             $this->response($response, 400);
         } else {
-
             $medicartOfferId = isset($_POST['medicartOfferId']) ? $this->input->post('medicartOfferId') : '';
-            $usersId = isset($_POST['userId']) ? $this->input->post('userId') : '';
-            $preferredDate = isset($_POST['preferredDate']) ? $this->input->post('preferredDate') : '';
-            $message = isset($_POST['message']) ? $this->input->post('message') : '';
-
-            $where = array(
-                'medicartBooking_usersId' => $usersId,
-                'medicartBooking_medicartOfferId' => $medicartOfferId,
-                'medicartBooking_deleted' => 0);
-
-            $booking_check = $this->medicart_model->booking_check($where);
-
-            if (!$booking_check) {
-
-                $data = array(
-                    'medicartBooking_medicartOfferId' => $medicartOfferId,
-                    'medicartBooking_usersId' => $usersId,
-                    'medicartBooking_preferredDate' => strtotime($preferredDate),
-                    'medicartBooking_message' => $message,
-                    'creationTime' => time()
-                );
-
-                $isInsert = $this->medicart_model->add('qyura_medicartBooking', $data);
-
-                if ($isInsert) {
-                    $where = array('medicartBooking_id' => $isInsert);
-                    $update_data['medicartBooking_bookId'] = 'BMI_' . $isInsert . '_' . time();
-                    $options = array(
-                        'table' => 'qyura_medicartBooking',
-                        'where' => $where,
-                        'data' => $update_data
-                    );
-                    $update = $this->common_model->customUpdate($options);
-                    $response = array('status' => TRUE, 'message' => 'Your booking request has been submitted successfully. We will get back to you shortly.');
-                    $this->response($response, 200);
-                } else {
-                    $response = array('status' => FALSE, 'message' => 'Network Error .Please retry');
-                    $this->response($response, 400);
-                }
+            
+            if ($this->getBoookingCount($medicartOfferId) <= 0) {
+                $response = array('status' => FALSE, 'message' => "Sorry!! Bookings are full for this medicart.");
+                $this->response($response, 400);
             } else {
-                $response = array('status' => FALSE, 'message' => 'You have already booked this cart.');
-                $this->response($response, 200);
+
+                $usersId = isset($_POST['userId']) ? $this->input->post('userId') : '';
+                $preferredDate = isset($_POST['preferredDate']) ? $this->input->post('preferredDate') : '';
+                $message = isset($_POST['message']) ? $this->input->post('message') : '';
+
+//                $where = array(
+//                    'medicartBooking_usersId' => $usersId,
+//                    'medicartBooking_medicartOfferId' => $medicartOfferId,
+//                    'medicartBooking_deleted' => 0);
+//
+//                $booking_check = $this->medicart_model->booking_check($where);
+                
+                $booking_check = 0; // No Limit of booking for a user
+                
+                if (!$booking_check) {
+
+                    $data = array(
+                        'medicartBooking_medicartOfferId' => $medicartOfferId,
+                        'medicartBooking_usersId' => $usersId,
+                        'medicartBooking_preferredDate' => strtotime($preferredDate),
+                        'medicartBooking_message' => $message,
+                        'creationTime' => time()
+                    );
+
+                    $isInsert = $this->medicart_model->add('qyura_medicartBooking', $data);
+
+                    if ($isInsert) {
+                        $where = array('medicartBooking_id' => $isInsert);
+                        $update_data['medicartBooking_bookId'] = 'BMI_' . $isInsert . '_' . time();
+                        $options = array(
+                            'table' => 'qyura_medicartBooking',
+                            'where' => $where,
+                            'data' => $update_data
+                        );
+                        $update = $this->common_model->customUpdate($options);
+                        $response = array('status' => TRUE, 'message' => 'Your booking request has been submitted successfully. We will get back to you shortly.');
+                        $this->response($response, 200);
+                    } else {
+                        $response = array('status' => FALSE, 'message' => 'Network Error .Please retry');
+                        $this->response($response, 400);
+                    }
+                } else {
+                    $response = array('status' => FALSE, 'message' => 'You have already booked this cart.');
+                    $this->response($response, 200);
+                }
             }
         }
     }

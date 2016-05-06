@@ -26,7 +26,16 @@ class SpecialityApi extends MyRest {
             $type = (isset($_POST['type']) && $_POST['type'] != "") ? $_POST['type'] : NULL;
 
             $specialityList = NULL;
-
+            if(($miType != NULL && $miId == NULL) ){
+                $message = "Please provide MI Id.";
+                $response = array('status' => FALSE, 'msg' => $message);
+                $this->response($response, 400);
+            }elseif($miType == NULL && $miId != NULL ) {
+                $message = "Please provide MI Type.";
+                $response = array('status' => FALSE, 'msg' => $message);
+                $this->response($response, 400);
+            }
+            
             if ($miType == 1)
                 $specialityList = $this->specialityApi_model->getHosSpecialityList($miId);
             elseif ($miType == 2)
