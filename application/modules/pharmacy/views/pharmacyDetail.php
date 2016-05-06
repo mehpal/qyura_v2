@@ -31,7 +31,8 @@
                     endif; ?>')">
                                 <div class="bg-picture-overlay"></div>
                                 <div class="profile-info-name">
-                                    <div class='pro-img'>
+                                    <div class='pro-img' id="crop-avatar">
+                                         <?php echo $this->load->view('edit_upload_crop_modal');?>
                                         <!-- image -->
                                         <?php if (!empty($pharmacyData[0]->pharmacy_img)) {
                                             ?>
@@ -50,16 +51,16 @@
                                             <div class="fileUpload btn btn-sm btn-upload logo-Upload">
                                                 <span><i class="fa fa-cloud-upload fa-3x "></i></span>
 <!--                                                        <input id="uploadBtn" type="file" class="upload" />-->
-                                                <input type="hidden" style="display:none;" class="no-display" id="file_action_url" name="file_action_url" value="<?php echo site_url('pharmacy/editUploadImage'); ?>">
+                                                <input type="hidden" style="display:none;" class="no-display file_action_url" id="file_action_url" name="file_action_url" value="<?php echo site_url('pharmacy/editUploadImage'); ?>">
                                                 <input type="hidden" style="display:none;" class="no-display" id="load_url" name="load_url" value="<?php echo site_url('pharmacy/getUpdateAvtar/' . $this->uri->segment(3)); ?>">
                                             </div>
                                         </article>
 
                                         <!-- description div -->
-                                        <div class='pic-edit'>
-                                            <h3><a id="picEdit" class="pull-center cl-white" title="Edit Logo"><i class="fa fa-pencil"></i></a></h3>
-                                            <h3><a id="picEditClose" class="pull-center cl-white" title="Cancel"  style="display:none;"><i class="fa fa-times"></i></a></h3>
-                                        </div>
+                                      <div class='pic-edit common-edit'>
+                                                    <h3><a  class="pull-center cl-white picEdit" title="Edit Logo"><i class="fa fa-pencil"></i></a></h3>
+                                                    <h3><a class="pull-center cl-white picEditClose" title="Cancel"  style="display:none;"><i class="fa fa-times"></i></a></h3>
+                                                </div>
                                         <!-- end description div -->
                                     </div>
 

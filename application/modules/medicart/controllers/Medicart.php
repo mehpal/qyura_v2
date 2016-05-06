@@ -15,7 +15,7 @@ class Medicart extends MY_Controller {
         $option = array(
             'select' => 'city_id,city_name',
             'table' => 'qyura_city',
-            'order_by' => array("city_name", "asc")
+            'order' => array("city_name"=>'asc')
         );
         $data['allCity'] = $this->medicart_model->customGet($option);
         $data['title'] = 'Medicart';
@@ -41,7 +41,7 @@ class Medicart extends MY_Controller {
         $option = array(
             'select' => 'city_id,city_name',
             'table' => 'qyura_city',
-            'order_by' => array("city_name", "asc")
+            'order' => array("city_name"=>'asc')
         );
         $data['allCity'] = $this->medicart_model->customGet($option);
         $data['title'] = 'Medicart booking';
@@ -52,7 +52,7 @@ class Medicart extends MY_Controller {
         $option = array(
             'select' => 'city_id,city_name',
             'table' => 'qyura_city',
-            'order_by' => array("city_name", "asc")
+            'order' => array("city_name"=>'asc')
         );
         $data['allCity'] = $this->medicart_model->customGet($option);
         $data['title'] = 'Medicart enquiries';
@@ -63,13 +63,13 @@ class Medicart extends MY_Controller {
         $option = array(
             'select' => 'city_id,city_name',
             'table' => 'qyura_city',
-            'order_by' => array("city_name", "asc")
+            'order' => array("city_name"=>'asc')
         );
         $data['allCity'] = $this->medicart_model->customGet($option);
         $option = array(
             'select' => 'specialities_id,specialities_name',
             'table' => 'qyura_specialities',
-            'where' => array('specialities_deleted' => 0, 'type' => 0, 'status' => 3),
+            'where' => array('specialities_deleted' => 0, 'type' => 0, 'status' => 1),
             'order_by' => array("specialities_name", "asc")
         );
         $data['allOffetCategory'] = $this->medicart_model->customGet($option);
@@ -101,7 +101,7 @@ class Medicart extends MY_Controller {
         $hosOption .='<option value=>Select Hospital</option>';
         if (!empty($hosData)) {
             foreach ($hosData as $key => $val) {
-                $hosOption .= '<option value=' . $val->hospital_id . '>' . strtoupper($val->hospital_name) . '</option>';
+                $hosOption .= '<option value=' . $val->hospital_usersId . '>' . strtoupper($val->hospital_name) . '</option>';
             }
         }
         echo $hosOption;
@@ -185,7 +185,7 @@ class Medicart extends MY_Controller {
             $option = array(
                 'select' => 'city_id,city_name',
                 'table' => 'qyura_city',
-                'order_by' => array("city_name", "asc")
+                'order' => array("city_name"=>'asc')
             );
             $data['allCity'] = $this->medicart_model->customGet($option);
             $option = array(
@@ -223,7 +223,7 @@ class Medicart extends MY_Controller {
                     $option = array(
                         'select' => 'city_id,city_name',
                         'table' => 'qyura_city',
-                        'order_by' => array("city_name", "asc")
+                        'order' => array("city_name"=>'asc')
                     );
                     $data['allCity'] = $this->medicart_model->customGet($option);
                     $option = array(
@@ -255,7 +255,7 @@ class Medicart extends MY_Controller {
                     $imagesname = $original_imagesname;
                 }
             }
-            $mxBooking = 0;
+            $mxBooking = 1;
             if ($medicartOffer_allowBooking == 1) {
                 $mxBooking = $this->input->post('medicartOffer_maximumBooking');
             }
@@ -318,7 +318,7 @@ class Medicart extends MY_Controller {
 
             if ($medicartId) {
                 $this->session->set_flashdata('message', 'Record has been saved successfully!');
-                redirect('medicart/addOffer');
+                redirect('medicart');
             } else {
                 $this->session->set_flashdata('error', 'Failed to saved records!');
                 redirect('medicart/addOffer');
@@ -347,13 +347,13 @@ class Medicart extends MY_Controller {
         $option = array(
             'select' => 'city_id,city_name',
             'table' => 'qyura_city',
-            'order_by' => array("city_name", "asc")
+            'order' => array("city_name"=>'asc')
         );
         $data['allCity'] = $this->medicart_model->customGet($option);
         $option = array(
             'select' => 'specialities_id,specialities_name',
             'table' => 'qyura_specialities',
-            'where' => array('specialities_deleted' => 0, 'type' => 0, 'status' => 3),
+            'where' => array('specialities_deleted' => 0, 'type' => 0, 'status' => 1),
             'order_by' => array("specialities_name", "asc")
         );
         $data['allOffetCategory'] = $this->medicart_model->customGet($option);
@@ -413,7 +413,7 @@ class Medicart extends MY_Controller {
         $option = array(
             'table' => 'qyura_miMembership',
             'select' => 'miMembership_id,miMembership_quantity,miMembership_duration',
-            'where' => array('miMembership_miId' => $miId , 'miMembership_facilitiesId' => 3 , 'status' => 3 , 'miMembership_deleted' => 0),
+            'where' => array('miMembership_miId' => $miId , 'miMembership_facilitiesId' => 2 , 'status' => 3 , 'miMembership_deleted' => 0),
         );
         $data['membershipData'] = $this->common_model->customGet($option);
 
@@ -460,7 +460,7 @@ class Medicart extends MY_Controller {
             $option = array(
                 'select' => 'city_id,city_name',
                 'table' => 'qyura_city',
-                'order_by' => array("city_name", "asc")
+                'order' => array("city_name"=>'asc')
             );
             $data['allCity'] = $this->medicart_model->customGet($option);
             $option = array(
@@ -486,7 +486,7 @@ class Medicart extends MY_Controller {
                     $option = array(
                         'select' => 'city_id,city_name',
                         'table' => 'qyura_city',
-                        'order_by' => array("city_name", "asc")
+                       'order' => array("city_name"=>'asc')
                     );
                     $data['allCity'] = $this->medicart_model->customGet($option);
                     $option = array(
@@ -506,7 +506,7 @@ class Medicart extends MY_Controller {
                 }
             }
 
-            $mxBooking = 0;
+            $mxBooking = 1;
             if ($medicartOffer_allowBooking == 1) {
                 $mxBooking = $this->input->post('medicartOffer_maximumBooking');
             }
@@ -631,15 +631,18 @@ class Medicart extends MY_Controller {
             'where' => array('medicartOffer_MIId' => $id , 'status' => 1 , 'medicartOffer_deleted' => 0)
         );
         
-       echo $offerData = $this->common_model->customCount($options);
-     
+        $offerData = $this->common_model->customCount($options);
+      
         $option = array(
             'table' => 'qyura_miMembership',
             'select' => 'miMembership_id,miMembership_quantity,miMembership_duration',
             'where' => array('miMembership_miId' => $id , 'miMembership_facilitiesId' => 2 , 'status' => 3 , 'miMembership_deleted' => 0, 'miMembership_quantity >' => $offerData),
         );
         $result = $this->common_model->customGet($option);
-           echo $this->db->last_query(); die();
+ 
+           //echo $this->db->last_query(); die();
+ 
+ 
         if($result && !empty($result)){
             $response = array('status' => 200, 'quantity' => $result[0]->miMembership_duration, 'message' => '');
         }else{

@@ -63,8 +63,7 @@
                                           </span>
                                           <span class="col-md-3">
                                           <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
-                                          
-                                          <button onclick="if((<?php echo $list->status; ?>)===2)enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" type="button" class="btn btn-<?php if($list->status == 2){ echo "danger"; }else if($list->status == 0){ echo "warning"; }else if($list->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($list->status == 3){ echo "Verified"; }else if($list->status == 2){ echo "Unverified"; }else if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
+                                          <button onclick="if((<?php echo $list->status; ?>)===0)enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>','1')" type="button" class="btn btn-<?php if($list->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
                                           </span>
                                        </div>
                                     <li class="newmembership" style="display:none">
@@ -103,7 +102,7 @@
                                     <label for="" class="control-label">Add New Hospital Type:</label>
                                     <div class="">
                                        <input type="hidden" id="hospitalType_miRole" name="hospitalType_miRole" value="1">
-                                       <input type="text" required="" name="hospitalType_name" id="hospitalType_name" class="form-control" >
+                                       <input type="text" required="" name="hospitalType_name" id="hospitalType_name" class="form-control" onkeypress="return isAlpha(event,this.value)">
                                        <label class="error" id="err_hospitalType_name" > <?php echo form_error("hospitalType_name"); ?></label>
                                     </div>
                                  </article>
@@ -150,7 +149,7 @@
                                           </span>
                                           <span class="col-md-3">
                                           <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
-                                          <button onclick="if((<?php echo $list->status; ?>)===2)enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" type="button" class="btn btn-<?php if($list->status == 2){ echo "danger"; }else if($list->status == 0){ echo "warning"; }else if($list->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($list->status == 3){ echo "Verified"; }else if($list->status == 2){ echo "Unverified"; }else if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
+                                          <button onclick="if((<?php echo $list->status; ?>)===0)enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>','3')" type="button" class="btn btn-<?php if($list->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($list->status == 0){ echo "Inactive"; }else if($list->status == 1){ echo "Active"; } ?></button>
                                           </span>
                                        </div>
                                     <li class="newmembership" style="display:none">
@@ -189,7 +188,7 @@
                                     <label for="" class="control-label">Add New Diagnostic Type:</label>
                                     <div class="">
                                        <input type="hidden" id="hospitalType_miRole" name="hospitalType_miRole" value="3">
-                                       <input type="text" required="" name="hospitalType_name" id="hospitalType_name" class="form-control" >
+                                       <input type="text" required="" name="hospitalType_name" id="hospitalType_name" class="form-control" onkeypress="return isAlpha(event,this.value)">
                                        <label class="error" id="err_hospitalType_name" > <?php echo form_error("hospitalType_name"); ?></label>
                                     </div>
                                  </article>
@@ -236,7 +235,7 @@
                                           </span>
                                           <span class="col-md-3">
                                           <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
-                                          <button onclick="if((<?php echo $list->status; ?>)===2)enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" type="button" class="btn btn-<?php if($list->status == 2){ echo "danger"; }else if($list->status == 0){ echo "warning"; }else if($list->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($list->status == 3){ echo "Verified"; }else if($list->status == 2){ echo "Unverified"; }else if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
+                                          <button onclick="if((<?php echo $list->status; ?>)===0)enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>','2')" type="button" class="btn btn-<?php if($list->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
                                           </span>
                                        </div>
                                     <li class="newmembership" style="display:none">
@@ -275,7 +274,7 @@
                                     <label for="" class="control-label">Add New Blood Bank Type:</label>
                                     <div class="">
                                        <input type="hidden" id="hospitalType_miRole" name="hospitalType_miRole" value="2">
-                                       <input type="text" required="" name="hospitalType_name" id="hospitalType_name" class="form-control" >
+                                       <input type="text" required="" name="hospitalType_name" id="hospitalType_name" class="form-control" onkeypress="return isAlpha(event,this.value)">
                                        <label class="error" id="err_hospitalType_name" > <?php echo form_error("hospitalType_name"); ?></label>
                                     </div>
                                  </article>
@@ -322,7 +321,7 @@
                                           </span>
                                           <span class="col-md-3">
                                           <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
-                                          <button onclick="if((<?php echo $list->status; ?>)===2)enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" type="button" class="btn btn-<?php if($list->status == 2){ echo "danger"; }else if($list->status == 0){ echo "warning"; }else if($list->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($list->status == 3){ echo "Verified"; }else if($list->status == 2){ echo "Unverified"; }else if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
+                                          <button onclick="if((<?php echo $list->status; ?>)===0)enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>','5')" type="button" class="btn btn-<?php if($list->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
                                           </span>
                                        </div>
                                     <li class="newmembership" style="display:none">
@@ -361,7 +360,7 @@
                                     <label for="" class="control-label">Add New Pharmacy Type:</label>
                                     <div class="">
                                        <input type="hidden" id="hospitalType_miRole" name="hospitalType_miRole" value="5">
-                                       <input type="text" required="" name="hospitalType_name" id="hospitalType_name" class="form-control" >
+                                       <input type="text" required="" name="hospitalType_name" id="hospitalType_name" class="form-control" onkeypress="return isAlpha(event,this.value)">
                                        <label class="error" id="err_hospitalType_name" > <?php echo form_error("hospitalType_name"); ?></label>
                                     </div>
                                  </article>
@@ -408,7 +407,7 @@
                                           </span>
                                           <span class="col-md-3">
                                           <a href="#"><i class="md md-edit membership-btn l-height"></i></a>
-                                          <button onclick="if((<?php echo $list->status; ?>)===2)enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>')" type="button" class="btn btn-<?php if($list->status == 2){ echo "danger"; }else if($list->status == 0){ echo "warning"; }else if($list->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($list->status == 3){ echo "Verified"; }else if($list->status == 2){ echo "Unverified"; }else if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
+                                          <button onclick="if((<?php echo $list->status; ?>)===0)enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>','8')" type="button" class="btn btn-<?php if($list->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
                                           </span>
                                        </div>
                                     <li class="newmembership" style="display:none">
@@ -447,7 +446,7 @@
                                     <label for="" class="control-label">Add New Ambulance Type:</label>
                                     <div class="">
                                        <input type="hidden" id="hospitalType_miRole" name="hospitalType_miRole" value="8">
-                                       <input type="text" required="" name="hospitalType_name" id="hospitalType_name" class="form-control" >
+                                       <input type="text" required="" name="hospitalType_name" id="hospitalType_name" class="form-control" onkeypress="return isAlpha(event,this.value)">
                                        <label class="error" id="err_hospitalType_name" > <?php echo form_error("hospitalType_name"); ?></label>
                                     </div>
                                  </article>

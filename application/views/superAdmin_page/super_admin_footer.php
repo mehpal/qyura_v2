@@ -157,20 +157,19 @@ if ($msg != "" || $msg != NULL) {
                         $('#successTop').html(data.msg);
                         if (data.msg != '' && data.msg != "undefined") {
                             bootbox.alert(data.msg);
-                             bootbox.alert("HI");
-                            window.location.href = '<?php echo site_url() ?>' + '/' + data.url;
+                           
                         } else {
                             bootbox.alert("Success");
                         }
-//                        setTimeout(function () {
-////                            $('#successTop').hide();
-////                            $('#successTop').html('');
-//                            if (data.url) {
-//                                
-//                            } else {
-//                                //location.reload(true);
-//                            }
-//                        }, 1000);
+                       setTimeout(function () {
+                          $('#successTop').hide();
+                           $('#successTop').html('');
+                          if (data.url) {
+                               window.location.href = '<?php echo site_url() ?>' + '/' + data.url;
+                            } else {
+                                location.reload(true);
+                          }
+                       }, 1000);
                     }
                 } catch (e) {
                     $('#er_TopError').show();
@@ -211,14 +210,14 @@ if ($msg != "" || $msg != NULL) {
     function enableFn(controller, cfunction, id, status,type)
     {
         if(status == 1){
-            var con_mess = "Inactive";
+            var con_mess = "Deactivate";
         }else if(status == 2){
             var con_mess = "Verify";
         }else if(status == 3){
             var con_mess = "Unverify";
         }
             else{ 
-                con_mess = "Active"
+                con_mess = "Activate"
             }; 
         var url = '<?php echo site_url(); ?>/' + controller + '/' + cfunction;
         bootbox.confirm('Do you want to ' + con_mess.toLowerCase() + ' it?', function (result) {

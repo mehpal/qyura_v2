@@ -25,7 +25,7 @@ class Healthcare_model extends CI_Model {
 
         $this->db->select('hospital_id hosId, hospital_usersId miId, hospital_name miName');
         $this->db->from('qyura_hospital');
-        $this->db->where(array('hospital_cityId' => $cityId, 'hospital_deleted' => 0));
+        $this->db->where(array('hospital_cityId' => $cityId, 'hospital_deleted' => 0, 'status' => 1));
         $this->db->order_by("hospital_name","asc");
         return $this->db->get()->result();
     }
@@ -34,7 +34,7 @@ class Healthcare_model extends CI_Model {
 
         $this->db->select('diagnostic_id dignoId, diagnostic_usersId miId, diagnostic_name miName');
         $this->db->from('qyura_diagnostic');
-        $this->db->where(array('diagnostic_cityId' => $cityId, 'diagnostic_deleted' =>  0));
+        $this->db->where(array('diagnostic_cityId' => $cityId, 'diagnostic_deleted' => 0, 'status' => 1));
         $this->db->order_by("diagnostic_name","asc");
         return $this->db->get()->result();
     }
@@ -112,7 +112,7 @@ class Healthcare_model extends CI_Model {
             
        //  $imgUrl = base_url().'assets/pharmacyImages/$1';    
          
-         $this->datatables->select('healthpkg.healthPackage_id, healthpkg.healthPackage_packageId healthpkgId, healthpkg.healthPackage_packageTitle title,healthpkg.healthPackage_discountedPrice price, healthpkg.status as status, healthpkg.creationTime createdAt, IFNULL(hos.hospital_name,diag.diagnostic_name) as miName, (SELECT city_name from qyura_city where city_id=IFNULL(hos.hospital_cityId,diag.diagnostic_cityId)) as city_name, healthpkg.status');
+         $this->datatables->select('healthpkg.healthPackage_id, healthpkg.healthPackage_packageId healthpkgId, healthpkg.healthPackage_packageTitle title,healthpkg.healthPackage_discountedPrice price, healthpkg.status as status, healthpkg.creationTime createdAt, IFNULL(hos.hospital_name,diag.diagnostic_name) as miName, (SELECT city_name from qyura_city where city_id=IFNULL(hos.hospital_cityId,diag.diagnostic_cityId)) as city_name, healthpkg.status, healthpkg.healthPackage_MIuserId as miId');
         $this->datatables->from('qyura_healthPackage AS healthpkg');
         $this->db->join('qyura_hospital AS hos','hos.hospital_usersId = healthpkg.healthPackage_MIuserId','left');
         $this->db->join('qyura_diagnostic AS diag','diag.diagnostic_usersId = healthpkg.healthPackage_MIuserId','left');

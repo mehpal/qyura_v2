@@ -40,8 +40,7 @@
                                     <span class="col-md-4 text-right">
                                        <h6>
                                            <a href="javascript:void(0)"><i class="md md-edit membership-btn" style="line-height: 3"></i></a>
-                                          <button onclick="if((<?php echo $list->dsgnStatus; ?>)===2)enableFn('master', 'designationPublish', '<?php echo $list->designation_id; ?>','<?php echo $list->dsgnStatus; ?>')" type="button" class="btn btn-<?php if($list->dsgnStatus == 2){ echo "danger"; }else if($list->dsgnStatus == 0){ echo "warning"; }else if($list->dsgnStatus == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($list->dsgnStatus == 3){ echo "Verified"; }else if($list->dsgnStatus == 2){ echo "Unverified"; }else if($list->dsgnStatus == 1){ echo "Active"; }else if($list->dsgnStatus == 0){ echo "Inactive"; } ?></button>
-                                          
+                                           <button onclick="if((<?php echo $dsgnStatus->status; ?>)===0)enableFn('master', 'designationPublish', '<?php echo $dsgnStatus->designation_id; ?>','<?php echo $dsgnStatus->status; ?>')" type="button" class="btn btn-<?php if($dsgnStatus->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($dsgnStatus->status == 0){ echo "Inactive"; }else if($dsgnStatus->status == 1){ echo "Active"; } ?></button>                                         
                                        </h6>
                                     </span>
                                  </li>

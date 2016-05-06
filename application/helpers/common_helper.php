@@ -231,7 +231,7 @@ if (!function_exists('isConvertDays')) {
             return $month . ' month ' . $days . ' days ago';
         } else {
             if($days == 0){
-             return 'today';
+             return $days . ' days ago';
             }else{
                 return $days . ' days ago';
             }

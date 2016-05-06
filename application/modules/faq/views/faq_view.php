@@ -23,7 +23,9 @@
                                     </aside>
                                     <aside class="col-lg-3 col-sm-3 col-xs-3">
                                         <a class="btn btn-success waves-effect waves-light m-b-5" href="<?php echo site_url('faq/editFaqView/' . $faq->faq_id); ?>"><i class="fa fa-pencil"></i></a>
-                                        <button onclick="enableFn('faq', 'faqPublish', '<?php echo $faq->faq_id; ?>','<?php echo $faq->status; ?>')" title='<?php if($faq->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> FAQ' type="button" class="btn btn-success waves-effect waves-light m-b-5"><i class="fa fa-thumbs-<?php if($faq->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>
+<!--                                        <button onclick="enableFn('faq', 'faqPublish', '<?php echo $faq->faq_id; ?>','<?php echo $faq->status; ?>')" title='<?php if($faq->status == 2){ echo "Publish"; }else{ echo "Unpublish"; } ?> FAQ' type="button" class="btn btn-success waves-effect waves-light m-b-5"><i class="fa fa-thumbs-<?php if($faq->status == 3){ echo "up"; }else{ echo "down danger"; } ?>"></i></button>-->
+                                        
+                                        <button onclick="enableFn('faq', 'faqPublish', '<?php echo $faq->faq_id; ?>','<?php echo $faq->status; ?>')" type="button" class="btn btn-<?php if($faq->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($faq->status == 1){ echo "Active"; }else if($faq->status == 0){ echo "Inactive"; } ?></button>
                                         
                                     </aside>
                                 </article>

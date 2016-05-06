@@ -399,6 +399,7 @@ class Diagnostic extends MY_Controller {
                     'diagnostic_phn' =>  $diagnostic_phn,
                     'diagnostic_usersId' => $diagnostic_usersId,
                     'diagnostic_mbrTyp' => $diagnostic_mmbrTyp,
+                    'diagnostic_mbrStart' => strtotime(date("Y-m-d H:i:s")),
                     'diagnostic_countryId' => $diagnostic_countryId,
                     'diagnostic_stateId' => $diagnostic_stateId,
                     'diagnostic_cityId' => $diagnostic_cityId,
@@ -932,13 +933,13 @@ class Diagnostic extends MY_Controller {
      * @return boolean
      */
     function editUploadImage() {
-
+       // dump($_POST); exit;
         if ($_POST['avatar_file']['name']) {
             $path = realpath(FCPATH . 'assets/diagnosticsImage/');
-            $upload_data = $this->input->post('avatar_data');
+            $upload_data = $this->input->post('avatar-data');
             $upload_data = json_decode($upload_data);
-            
-            if($upload_data->width > 110){
+           // echo $upload_data->width; exit;
+            if($upload_data->width > 425){
             
             $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/diagnosticsImage/', './assets/diagnosticsImage/thumb/', 'diagnostic');
 
@@ -955,7 +956,8 @@ class Diagnostic extends MY_Controller {
                 );
                 $response = $this->diagnostic_model->UpdateTableData($option, $where, 'qyura_diagnostic');
                 if ($response) {
-                    $response = array('state' => 200, 'message' => 'Successfully update avtar');
+                    //$response = array('state' => 200, 'message' => 'Successfully update avtar');
+                     $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/diagnosticsImage/thumb/thumb_100/{$original_imagesname}"),'reset'=>"diagno_edit", 'returnClass'  => 'logo-img');
                 } else {
                     $response = array('state' => 400, 'message' => 'Failed to update avtar');
                 }
@@ -1454,13 +1456,16 @@ class Diagnostic extends MY_Controller {
     function addSpeciality() {
 
         $id = $this->input->post('diagnosticId');
+        $diagnoUserId = $this->input->post('diagnoUserId');
+        
         $diagnosticSpecialities_specialitiesId = $this->input->post('diagnosticSpecialities_specialitiesId');
         
           $sql = 'select diagnosticSpecialities_id from qyura_diagnosticSpecialities where diagnosticSpecialities_diagnosticId = '.$id.' AND diagnosticSpecialities_deleted = 0 ';
         
         $numRows = $this->common_model->customQueryCount($sql);
         
-        $benifitSpeciality = "select miMembership_quantity from qyura_miMembership where miMembership_miId = $id AND miMembership_deleted = 0 AND miMembership_facilitiesId = 1 AND miMembership_type = 10";
+        $benifitSpeciality = "select miMembership_quantity from qyura_miMembership where miMembership_miId = $diagnoUserId AND miMembership_deleted = 0 AND miMembership_facilitiesId = 1 AND miMembership_type = 10";
+        
         $benifitSpecialityResult = $this->common_model->customQuery($benifitSpeciality, true);
         
        // echo $this->db->last_query(); exit;
@@ -2116,13 +2121,14 @@ class Diagnostic extends MY_Controller {
     
      function checkSpeciality() {
         $diagnosticId = $this->input->post('diagnosticId');
+        $diagnoUserId = $this->input->post('diagnoUserId');
        // $allValuers = explode(',',$this->input->post('allValuers'));
         
         $sql = 'select diagnosticSpecialities_id from qyura_diagnosticSpecialities where diagnosticSpecialities_diagnosticId = '.$diagnosticId.' AND diagnosticSpecialities_deleted = 0 ';
         
         $numRows = $this->common_model->customQueryCount($sql);
         
-       $benifitSpeciality = "select miMembership_quantity from qyura_miMembership where miMembership_miId = $diagnosticId AND miMembership_deleted = 0 AND miMembership_facilitiesId = 1 AND miMembership_type = 10";
+       $benifitSpeciality = "select miMembership_quantity from qyura_miMembership where miMembership_miId = $diagnoUserId AND miMembership_deleted = 0 AND miMembership_facilitiesId = 1 AND miMembership_type = 10";
         $benifitSpecialityResult = $this->common_model->customQuery($benifitSpeciality, true);
         
        // echo $this->db->last_query(); exit;
@@ -2132,6 +2138,7 @@ class Diagnostic extends MY_Controller {
             echo 1; exit;
         }
     }
+    
     
     
     function saveDoctor() {
@@ -2751,6 +2758,105 @@ class Diagnostic extends MY_Controller {
                 
             $responce = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "diagnostic/detailDiagnostic/$diagnoId/membership");
             echo json_encode($responce);
+        }
+    }
+    
+    function editUploadImageAmbulance() {
+        
+        if ($_POST['avatar_file']['name']) {
+            $path = realpath(FCPATH . 'assets/ambulanceImages/');
+            $upload_data = $this->input->post('avatar-data');
+            
+            $upload_data = json_decode($upload_data);
+           
+            if ($upload_data->width > 425) {
+                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/ambulanceImages/', './assets/ambulanceImages/thumb/', 'ambulance');
+
+                if (empty($original_imagesname)) {
+                    $response = array('state' => 400, 'message' => $this->error_message);
+                } else {
+
+                    $option = array(
+                        'ambulance_img' => $original_imagesname,
+                        'modifyTime' => strtotime(date("Y-m-d H:i:s"))
+                    );
+                    $where = array(
+                        'ambulance_id' => $this->input->post('avatar_id')
+                    );
+                    $response = $this->Hospital_model->UpdateTableData($option, $where, 'qyura_ambulance');
+                    
+                    if ($response) {
+                        $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/ambulanceImages/thumb/thumb_100/{$original_imagesname}"),'reset'=>"ambulance_edit", 'returnClass'  => 'logo-img-ambulance');
+                    } else {
+                        $response = array('state' => 400, 'message' => 'Failed to update avtar');
+                    }
+                }
+            } else {
+                $response = array('state' => 400, 'message' => 'Height and Width must exceed 150px.');
+            }
+            echo json_encode($response);
+        } else {
+            $response = array('state' => 400, 'message' => 'Please select avtar');
+            echo json_encode($response);
+        }
+    }
+    
+      function getUpdateAvtarAmbulance($id) {
+        if (!empty($id)) {
+            $data['hospitalData'] = $this->Hospital_model->fetchHospitalData($id);
+            //  print_r($data); exit;
+            echo "<img src='" . base_url() . "assets/ambulanceImages/thumb/original/" . $data['hospitalData'][0]->ambulance_img . "'alt='' class='logo-img-ambulance' />";
+            exit();
+        }
+    }
+    
+    
+      function editUploadImageBloodbank() {
+        
+        if ($_POST['avatar_file']['name']) {
+            $path = realpath(FCPATH . 'assets/BloodBank/');
+            $upload_data = $this->input->post('avatar-data');
+            
+            $upload_data = json_decode($upload_data);
+           // dump($upload_data); exit;
+            if ($upload_data->width > 425) {
+                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/BloodBank/', './assets/BloodBank/thumb/', 'blood');
+
+                if (empty($original_imagesname)) {
+                    $response = array('state' => 400, 'message' => $this->error_message);
+                } else {
+
+                    $option = array(
+                        'bloodBank_photo' => $original_imagesname,
+                        'modifyTime' => strtotime(date("Y-m-d H:i:s"))
+                    );
+                    $where = array(
+                        'bloodBank_id' => $this->input->post('avatar_id')
+                    );
+                    $response = $this->Hospital_model->UpdateTableData($option, $where, 'qyura_bloodBank');
+                    
+                    if ($response) {
+                        $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/BloodBank/thumb/thumb_100/{$original_imagesname}"),'reset'=>"bloodbank_edit", 'returnClass'  => 'logo-img-bloodbank');
+                    } else {
+                        $response = array('state' => 400, 'message' => 'Failed to update avtar');
+                    }
+                }
+            } else {
+                $response = array('state' => 400, 'message' => 'Height and Width must exceed 150px.');
+            }
+            echo json_encode($response);
+        } else {
+            $response = array('state' => 400, 'message' => 'Please select avtar');
+            echo json_encode($response);
+        }
+    }
+    
+     function getUpdateAvtarBloodbank($id) {
+        if (!empty($id)) {
+            $data['hospitalData'] = $this->Hospital_model->fetchHospitalData($id);
+            //  print_r($data); exit;
+            echo "<img src='" . base_url() . "assets/BloodBank/thumb/original/" . $data['hospitalData'][0]->bloodBank_photo . "'alt='' class='logo-img-bloodbank' />";
+            exit();
         }
     }
     

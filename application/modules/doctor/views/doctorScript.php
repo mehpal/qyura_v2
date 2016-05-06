@@ -761,7 +761,7 @@ if ($current != 'detailDoctor'):
         $('#parentDegreeDiv').append('<div id="childDegreeDiv' + divIds + '"><aside class="row"><label for="cname" class="control-label col-md-4">Degree</label><div class="col-md-4 col-sm-4"><select class="selectpicker" data-width="100%" data-size="4" name="doctorAcademic_degreeId[]" id="doctorAcademic_degreeId' + divIds + '" >' + degreeData + '</select></div><div class="col-md-4 col-sm-4 m-t-xs-10"><select class="selectpicker" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId' + divIds + '" >' + specialitiesData + '</select></div></aside><aside class="row"><label for="cname" class="control-label col-md-4 m-t-20">Address</label><div class="col-md-8 col-sm-8 m-t-20"><textarea class="form-control" id="acdemic_addaddress' + divIds + '" name="acdemic_addaddress[]" required=""></textarea><label class="error" style="display:none;" id="error-acdemic_addaddress' + divIds + '"> please fill Address</label></div><label for="cname" class="control-label col-md-4 m-t-20">Year</label><div class="col-md-8 col-sm-8 m-b-20 m-t-10"><input class="form-control" name="acdemic_addyear[]" required="" id="acdemic_addyear' + divIds + '" value="" onkeypress="return isNumberKey(event)" maxlength="4"><label class="error" style="display:none;" id="error-acdemic_addyear' + divIds + '"> please fill Year</label></div></aside></div><br />');
         $('.selectpicker').selectpicker({
             width: "100%"
-        })
+        });
 
     }
 

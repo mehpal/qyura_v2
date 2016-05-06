@@ -4,8 +4,8 @@
         display:none;
     }
     .pointer:hover {
-     cursor:pointer;
-   }
+        cursor:pointer;
+    }
 </style>
 
 
@@ -17,13 +17,13 @@ if (isset($hospitalId) && !empty($hospitalId)) {
 ?>
 <script src="<?php echo base_url(); ?>assets/ui_1.11.4_jquery-ui.js"></script>
 <link href="<?php echo base_url(); ?>assets/cropper/cropper.min.css" rel="stylesheet">
-<!--<link href="<?php // echo base_url(); ?>assets/vendor/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />-->
+<!--<link href="<?php // echo base_url();  ?>assets/vendor/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />-->
 <link href="<?php echo base_url(); ?>assets/cropper/main.css" rel="stylesheet">
 <script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.js"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
-<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js" type="text/javascript"></script>
+
 
 
 <?php
@@ -32,12 +32,12 @@ if ($current != 'detailHospital'):
     ?>
     <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
 <?php else: ?>
-<!--    <script src="<?php echo base_url(); ?>assets/cropper/main2.js"></script>-->
+    <!--    <script src="<?php echo base_url(); ?>assets/cropper/main2.js"></script>-->
     <script src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
 
-    <script src="<?php  echo base_url(); ?>assets/cropper/doctor_cropper.js"></script>
+    <script src="<?php echo base_url(); ?>assets/cropper/doctor_cropper.js"></script>
 
-    <script src="<?php  echo base_url(); ?>assets/cropper/edit_doctor_cropper.js"></script>
+    <script src="<?php echo base_url(); ?>assets/cropper/edit_doctor_cropper.js"></script>
 <?php endif; ?>
 
 
@@ -60,6 +60,7 @@ if ($current != 'detailHospital'):
 <script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.js"></script>
 
 <script src="<?php echo base_url(); ?>assets/js/pages/add-doctor.js" type="text/javascript"></script>
+
 
 
 <?php
@@ -188,7 +189,7 @@ if (isset($mapData) && !empty($mapData)) {
         }
     }
 
-   // $(".selectpicker").select2();
+    // $(".selectpicker").select2();
 
     function IsAdrManual(val) {
         if (val == 1) {
@@ -249,12 +250,43 @@ if (isset($mapData) && !empty($mapData)) {
         });
 
     }
+    
     // datatable get records
     $(function () {
-     //new CropAvatar($('#blood-crop-avatar'));
-  });
-    $(document).ready(function () {
+        //new CropAvatar($('#blood-crop-avatar'));
+        $(".hospital_edit").click(function () {
+
+            $(".logo-img").toggle();
+            $(".logo-up").toggle();
+            $(".picEdit").toggle();
+            $(".picEditClose").toggle();
+        });
+
+    });
+    
+    
+       $(".ambulance_edit").click(function () {
+           
+            $(".logo-img-ambulance").toggle();
+            $(".logo-up-ambulance").toggle();
+            $(".picEdit-ambulance").toggle();
+            $(".picEditClose-ambulance").toggle();
+        });
         
+         $(".bloodbank_edit").click(function () {
+           
+            $(".logo-img-bloodbank").toggle();
+            $(".logo-up-bloodbank").toggle();
+            $(".picEdit-bloodbank").toggle();
+            $(".picEditClose-bloodbank").toggle();
+        });
+    
+    
+
+    
+    
+    $(document).ready(function () {
+
         var oTable = $('#hospital_datatable').DataTable({
             "processing": true,
             "bServerSide": true,
@@ -299,8 +331,8 @@ if (isset($mapData) && !empty($mapData)) {
 
         });
 
-       
-        
+
+
         loadAwards();
         loadServices();
         var pharmacy_status = '';
@@ -447,38 +479,38 @@ if (isset($mapData) && !empty($mapData)) {
         $('#loadTestDetail').html('');
 
     }
-    function sendSpeciality() {
+    function sendSpeciality(hospitalUserId) {
         var specialityId = [];
         var checkValues = [];
-        
-        var checkValues = $('.myCheckbox:input:checkbox:checked').map(function() {
-                return this.value;
-            }).get();
-            
-      // alert(checkValues.length);
-       if(checkValues.length > 1){
-        var reYesNo = true;   
-        $.ajax({
-                    url: urls + 'index.php/hospital/checkSpeciality',
-                    type: 'POST',
-                    async: false, //=>>>>>>>>>>> here >>>>>>>>>>>
-                    data: {'hospitalId': hospitalId, 'allValuers': checkValues},
-                    success: function (datas) {
-                        if (datas == 0) {
-                             reYesNo = false;
-                           //  console.log(reYesNo,'andar');
-                             bootbox.alert("Sorry, you can't add more than givin specialities!");
-                             
-                        }
+
+        var checkValues = $('.myCheckbox:input:checkbox:checked').map(function () {
+            return this.value;
+        }).get();
+
+        // alert(checkValues.length);
+        if (checkValues.length > 1) {
+            var reYesNo = true;
+            $.ajax({
+                url: urls + 'index.php/hospital/checkSpeciality',
+                type: 'POST',
+                async: false, //=>>>>>>>>>>> here >>>>>>>>>>>
+                data: {'hospitalId': hospitalId, 'hospitalUserId' : hospitalUserId, 'allValuers': checkValues},
+                success: function (datas) {
+                    if (datas == 0) {
+                        reYesNo = false;
+                        //  console.log(reYesNo,'andar');
+                        bootbox.alert("Sorry, you can't add more than givin specialities!");
+
                     }
-                });
-                
-              //  console.log(reYesNo,'bahar');
-                if(!reYesNo)
-                   return false; 
-         
-       }
-       
+                }
+            });
+
+            //  console.log(reYesNo,'bahar');
+            if (!reYesNo)
+                return false;
+
+        }
+
 
         $('.specialityCheck').each(function () {
 
@@ -487,13 +519,13 @@ if (isset($mapData) && !empty($mapData)) {
                 $.ajax({
                     url: urls + 'index.php/hospital/addSpeciality',
                     type: 'POST',
-                   // async: true, //blocks window close
-                    data: {'hospitalId': hospitalId, 'hospitalSpecialities_specialitiesId': $(this).val()},
+                    // async: true, //blocks window close
+                    data: {'hospitalId': hospitalId, 'hospitalUserId' : hospitalUserId,  'hospitalSpecialities_specialitiesId': $(this).val()},
                     success: function (datas) {
                         if (datas == 0) {
-                             bootbox.alert("Sorry, you can't add more than givin specialities!");
-                             return false;
-                             
+                            bootbox.alert("Sorry, you can't add more than givin specialities!");
+                            return false;
+
                         } else {
                             loadSpeciality();
                         }
@@ -645,14 +677,14 @@ if (isset($mapData) && !empty($mapData)) {
         });
     }
     function loadAwards() {
-       
+
         $('#loadAwards').load(urls + 'index.php/hospital/hospitalAwards/' + hospitalId, function () {
             // alert('callback function ');
         });
         $('#totalAwards').load(urls + 'index.php/hospital/detailAwards/' + hospitalId, function () {
             // alert('callback function implementation');
         });
-        
+
     }
     function loadServices() {
         $('#loadServices').load(urls + 'index.php/hospital/hospitalServices/' + hospitalId, function (data) {
@@ -874,15 +906,15 @@ if (isset($mapData) && !empty($mapData)) {
             $('#error-ambulance_phn1').fadeIn().delay(3000).fadeOut('slow');
         }
     }
-    
+
     function validationHospital() {
         //$("form[name='hospitalForm']").submit();
-        
+
         var isAddressDisabled = $('#isAddressDisabled').val();
-        if(isAddressDisabled == 1){
+        if (isAddressDisabled == 1) {
             $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", false);
         }
-        
+
         var check = /^[a-zA-Z\s]+$/;
         var numcheck = /^[0-9]+$/;
         var emails = $.trim($('#users_email').val());
@@ -1943,6 +1975,7 @@ if (isset($mapData) && !empty($mapData)) {
     function getHospitaldetail(hospitalId) {
 
         var hospitalId = hospitalId;
+
         if (hospitalId != '' && hospitalId != 0) {
             $("#hospitalName").css("display", "none");
             $.ajax({
@@ -1963,12 +1996,21 @@ if (isset($mapData) && !empty($mapData)) {
                         $("#lat").val(obj.lat);
                         $("#lng").val(obj.lng);
                         $("#hospital_name").val(obj.name);
-                        
+
                         $("#isAddressDisabled").val(1);
-                        
+
                         //$("#addressDiv").css("display","none");
                         $("#geocomplete1,#hospital_zip,#lat,#lng").attr("readonly", true);
                         $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", true);
+                        $("#hospital_zip").valid();
+                        $("#hospital_countryId").valid();
+                        $("#hospital_stateId").valid();
+                        $("#hospital_cityId").valid();
+                        $("#geocomplete1").valid();
+                        $("#lat").valid();
+                        $("#lng").valid();
+                       
+
                     } else {
                         $("#hospitalName").css("display", "block");
                         $("#geocomplete1").val('');
@@ -1979,12 +2021,13 @@ if (isset($mapData) && !empty($mapData)) {
                         $("#lat").val('');
                         $("#lng").val('');
                         $("#hospital_name").val('');
-                        
+
                         $("#isAddressDisabled").val(0);
-                        
+
                         $('#hospital_cityId,#hospital_stateId,#hospital_countryId').selectpicker('refresh');
                         $("#geocomplete1,#hospital_zip,#lat,#lng").removeAttr("readonly");
                         $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", false);
+
                     }
                 }
             });
@@ -1998,161 +2041,161 @@ if (isset($mapData) && !empty($mapData)) {
             $("#lat").val('');
             $("#lng").val('');
             $("#hospital_name").val('');
-            
+
             $("#isAddressDisabled").val(0);
-            
+
             // $('#hospital_cityId,#hospital_stateId,#hospital_countryId').selectpicker('refresh');
             $("#geocomplete1,#hospital_zip,#lat,#lng").removeAttr("readonly");
             $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", false);
         }
     }
-    
-    
-  function addNewDoctor(){
-      
-     // alert($( "#doctorForm" ).hasClass( "myForm" ));
-      if($( "#doctorForm" ).hasClass( "myForm" )){
-           $('#doctorForm').removeClass('myForm');
-           $('#doctorForm').css("display",'none');
-           $('#doctorList').css("display",'block');
-           $('#editDoctorForm').css("display",'none');
-           $(".addDoctorButton").html('Add New Doctor');
-      }else{
-          $('#doctorForm').addClass('myForm');
-          $('#doctorForm').css("display",'block');
-          $('#doctorList').css("display",'none');
-          $('#editDoctorForm').css("display",'none');
-         // $('#doctorList').css("display",'none');
-          $(".addDoctorButton").html('Cancel Add Doctor');
+
+
+    function addNewDoctor() {
+
+        // alert($( "#doctorForm" ).hasClass( "myForm" ));
+        if ($("#doctorForm").hasClass("myForm")) {
+            $('#doctorForm').removeClass('myForm');
+            $('#doctorForm').css("display", 'none');
+            $('#doctorList').css("display", 'block');
+            $('#editDoctorForm').css("display", 'none');
+            $(".addDoctorButton").html('Add New Doctor');
+        } else {
+            $('#doctorForm').addClass('myForm');
+            $('#doctorForm').css("display", 'block');
+            $('#doctorList').css("display", 'none');
+            $('#editDoctorForm').css("display", 'none');
+            // $('#doctorList').css("display",'none');
+            $(".addDoctorButton").html('Cancel Add Doctor');
         }
-      
-  }
-  
-  
-    function editDoctor(doctorId){
-     // alert('helloo');
-     // alert($( "#doctorForm" ).hasClass( "myForm" ));
-      if($( "#editDoctorForm" ).hasClass( "myForm1" )){
-          // getDcotorDeatil(doctorId);
-           $('#editDoctorForm').removeClass('myForm1');
-           $('#editDoctorForm').css("display",'none');
-           $('#doctorList').css("display",'block');
-           $(".addDoctorButton").css("display",'block');
-      }else{
-          
-          $('#editDoctorForm').addClass('myForm1');
-          $('#editDoctorForm').css("display",'block');
-          $('#doctorList').css("display",'none');
-         // $('#doctorList').css("display",'none');
-          $(".addDoctorButton").css("display",'none');
-          getDcotorDeatil(doctorId);
+
+    }
+
+
+    function editDoctor(doctorId) {
+        // alert('helloo');
+        // alert($( "#doctorForm" ).hasClass( "myForm" ));
+        if ($("#editDoctorForm").hasClass("myForm1")) {
+            // getDcotorDeatil(doctorId);
+            $('#editDoctorForm').removeClass('myForm1');
+            $('#editDoctorForm').css("display", 'none');
+            $('#doctorList').css("display", 'block');
+            $(".addDoctorButton").css("display", 'block');
+        } else {
+
+            $('#editDoctorForm').addClass('myForm1');
+            $('#editDoctorForm').css("display", 'block');
+            $('#doctorList').css("display", 'none');
+            // $('#doctorList').css("display",'none');
+            $(".addDoctorButton").css("display", 'none');
+            getDcotorDeatil(doctorId);
         }
-      
-  }
-  
- function getDcotorDeatil(doctorId) {
+
+    }
+
+    function getDcotorDeatil(doctorId) {
 
         var imgUrl = '<?php echo base_url(); ?>/assets/doctorsImages/thumb/original/';
-        if(getDcotorDeatil != ''){
-        $.ajax({
-            url: urls + 'index.php/hospital/getDoctorDeatil',
-            type: 'POST',
-            async:false,
-            data: {'doctorId': doctorId},
-            success: function (data) {
-                var obj = $.parseJSON(data);
-               // alert(obj.status);
-                if (obj.status == 1) {
-                    $(".doctors_fName").val(obj.doctors_fName);
-                    $(".doctors_lName").val(obj.doctors_lName);
-                    $(".users_email").val(obj.email);
-                    $(".doctors_phn").val(obj.doctors_phon);
-                    $(".exp_year").val(obj.exp_year);
-                    $(".doctorSpecialities_specialitiesId").html(obj.doctorSpecialities_specialitiesId);
-                   // $('.doctorSpecialities_specialitiesId').selectpicker('refresh');
-                   // var arr = jQuery.makeArray( obj.doctorSpecialities_specialitiesId );
-                    $(".fee").val(obj.fee);
-                    
-                    if(obj.doctors_img != ''){
-                    $(".image-preview-show").attr('src',imgUrl+obj.doctors_img);
-                    }else{
-                     $(".image-preview-show").attr('src',"<?php echo base_url() ?>assets/default-images/Doctor-logo.png");  
-                    }
-                    
-                    $.each( obj.academicDeatil, function( key, value ) {
-                       
-                     
-                        if(key == 0){
-                            
-                        countsAccademic = parseInt(countsAccademic) + 1;
-                        var divIds = countsAccademic;
-                        
-                        
-                        var optionValue  = value.doctorAcademic_degreeId;
-                      //  alert(optionValue);
-                      
-                      
-                      
-                        $("#doctorAcademic_degreeId2").val(optionValue)
-                        .find("option[value=" + optionValue +"]").attr('selected', true);
-                
-                        var degreeData = $('#doctorAcademic_degreeId2').html();
-                        
-                        
-                        $('#doctorAcademic_degreeId2').selectpicker('refresh');
-                        
-                        var specialitiesData = $('#doctorSpecialities_specialitiesCatId2').html();
-                        $('#parentDegreeDiv2').html('<div id="childDegreeDiv2' + divIds + '"><aside class="row"><label for="cname" class="control-label col-md-4">Degree</label><div class="col-md-4 col-sm-4"><select class="selectpicker" data-width="100%" data-size="4" name="doctorAcademic_degreeId[]" id="doctorAcademic_degreeId' + divIds + '" >' + degreeData + '</select></div><div class="col-md-4 col-sm-4 m-t-xs-10"><select class="selectpicker" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId' + divIds + '" >' + specialitiesData + '</select></div></aside><aside class="row"><label for="cname" class="control-label col-md-4 m-t-20">Address</label><div class="col-md-8 col-sm-8 m-t-20"><textarea class="form-control" id="acdemic_addaddress' + divIds + '" name="acdemic_addaddress[]" required="">'+value.doctorAcademic_degreeInsAddress+'</textarea><label class="error" style="display:none;" id="error-acdemic_addaddress' + divIds + '"> please fill Address</label></div><label for="cname" class="control-label col-md-4 m-t-20">Year</label><div class="col-md-8 col-sm-8 m-b-20 m-t-10"><input class="form-control" name="acdemic_addyear[]" required="" id="acdemic_addyear' + divIds + '" value="'+value.doctorAcademic_degreeYear+'" onkeypress="return isNumberKey(event)" maxlength="4"><label class="error" style="display:none;" id="error-acdemic_addyear' + divIds + '"> please fill Year</label></div></aside></div><br />');
-                        
-                        }else{
-                        countsAccademic = parseInt(countsAccademic) + 1;
-                        var divIds = countsAccademic;
-                        
-                        $('#doctorAcademic_degreeId2').selectpicker('refresh');
-                        
-                        var optionValue  = value.doctorAcademic_degreeId;
-                        
-                        $("#doctorAcademic_degreeId2").val(optionValue)
-                        .find("option[value=" + optionValue +"]").attr('selected', true);
-                
-                        var degreeData = $('#doctorAcademic_degreeId2').html();
-                        
-                        var specialitiesData = $('#doctorSpecialities_specialitiesCatId2').html();
-                        $('#parentDegreeDiv2').append('<div id="childDegreeDiv2' + divIds + '"><aside class="row"><label for="cname" class="control-label col-md-4">Degree</label><div class="col-md-4 col-sm-4"><select class="selectpicker" data-width="100%" data-size="4" name="doctorAcademic_degreeId[]" id="doctorAcademic_degreeId' + divIds + '" >' + degreeData + '</select></div><div class="col-md-4 col-sm-4 m-t-xs-10"><select class="selectpicker" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId' + divIds + '" >' + specialitiesData + '</select></div></aside><aside class="row"><label for="cname" class="control-label col-md-4 m-t-20">Address</label><div class="col-md-8 col-sm-8 m-t-20"><textarea class="form-control" id="acdemic_addaddress' + divIds + '" name="acdemic_addaddress[]" required="">'+value.doctorAcademic_degreeInsAddress+'</textarea><label class="error" style="display:none;" id="error-acdemic_addaddress' + divIds + '"> please fill Address</label></div><label for="cname" class="control-label col-md-4 m-t-20">Year</label><div class="col-md-8 col-sm-8 m-b-20 m-t-10"><input class="form-control" name="acdemic_addyear[]" required="" id="acdemic_addyear' + divIds + '" value="'+value.doctorAcademic_degreeYear+'" onkeypress="return isNumberKey(event)" maxlength="4"><label class="error" style="display:none;" id="error-acdemic_addyear' + divIds + '"> please fill Year</label></div></aside></div><br />');
-                            
-                         }
-                        
+        if (getDcotorDeatil != '') {
+            $.ajax({
+                url: urls + 'index.php/hospital/getDoctorDeatil',
+                type: 'POST',
+                async: false,
+                data: {'doctorId': doctorId},
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+                    // alert(obj.status);
+                    if (obj.status == 1) {
+                        $(".doctors_fName").val(obj.doctors_fName);
+                        $(".doctors_lName").val(obj.doctors_lName);
+                        $(".users_email").val(obj.email);
+                        $(".doctors_phn").val(obj.doctors_phon);
+                        $(".exp_year").val(obj.exp_year);
+                        $(".doctorSpecialities_specialitiesId").html(obj.doctorSpecialities_specialitiesId);
+                        // $('.doctorSpecialities_specialitiesId').selectpicker('refresh');
+                        // var arr = jQuery.makeArray( obj.doctorSpecialities_specialitiesId );
+                        $(".fee").val(obj.fee);
+
+                        if (obj.doctors_img != '') {
+                            $(".image-preview-show").attr('src', imgUrl + obj.doctors_img);
+                        } else {
+                            $(".image-preview-show").attr('src', "<?php echo base_url() ?>assets/default-images/Doctor-logo.png");
+                        }
+
+                        $.each(obj.academicDeatil, function (key, value) {
+
+
+                            if (key == 0) {
+
+                                countsAccademic = parseInt(countsAccademic) + 1;
+                                var divIds = countsAccademic;
+
+
+                                var optionValue = value.doctorAcademic_degreeId;
+                                //  alert(optionValue);
+
+
+
+                                $("#doctorAcademic_degreeId2").val(optionValue)
+                                        .find("option[value=" + optionValue + "]").attr('selected', true);
+
+                                var degreeData = $('#doctorAcademic_degreeId2').html();
+
+
+                                $('#doctorAcademic_degreeId2').selectpicker('refresh');
+
+                                var specialitiesData = $('#doctorSpecialities_specialitiesCatId2').html();
+                                $('#parentDegreeDiv2').html('<div id="childDegreeDiv2' + divIds + '"><aside class="row"><label for="cname" class="control-label col-md-4">Degree</label><div class="col-md-4 col-sm-4"><select class="selectpicker" data-width="100%" data-size="4" name="doctorAcademic_degreeId[]" id="doctorAcademic_degreeId' + divIds + '" >' + degreeData + '</select></div><div class="col-md-4 col-sm-4 m-t-xs-10"><select class="selectpicker" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId' + divIds + '" >' + specialitiesData + '</select></div></aside><aside class="row"><label for="cname" class="control-label col-md-4 m-t-20">Address</label><div class="col-md-8 col-sm-8 m-t-20"><textarea class="form-control" id="acdemic_addaddress' + divIds + '" name="acdemic_addaddress[]" required="">' + value.doctorAcademic_degreeInsAddress + '</textarea><label class="error" style="display:none;" id="error-acdemic_addaddress' + divIds + '"> please fill Address</label></div><label for="cname" class="control-label col-md-4 m-t-20">Year</label><div class="col-md-8 col-sm-8 m-b-20 m-t-10"><input class="form-control" name="acdemic_addyear[]" required="" id="acdemic_addyear' + divIds + '" value="' + value.doctorAcademic_degreeYear + '" onkeypress="return isNumberKey(event)" maxlength="4"><label class="error" style="display:none;" id="error-acdemic_addyear' + divIds + '"> please fill Year</label></div></aside></div><br />');
+
+                            } else {
+                                countsAccademic = parseInt(countsAccademic) + 1;
+                                var divIds = countsAccademic;
+
+                                $('#doctorAcademic_degreeId2').selectpicker('refresh');
+
+                                var optionValue = value.doctorAcademic_degreeId;
+
+                                $("#doctorAcademic_degreeId2").val(optionValue)
+                                        .find("option[value=" + optionValue + "]").attr('selected', true);
+
+                                var degreeData = $('#doctorAcademic_degreeId2').html();
+
+                                var specialitiesData = $('#doctorSpecialities_specialitiesCatId2').html();
+                                $('#parentDegreeDiv2').append('<div id="childDegreeDiv2' + divIds + '"><aside class="row"><label for="cname" class="control-label col-md-4">Degree</label><div class="col-md-4 col-sm-4"><select class="selectpicker" data-width="100%" data-size="4" name="doctorAcademic_degreeId[]" id="doctorAcademic_degreeId' + divIds + '" >' + degreeData + '</select></div><div class="col-md-4 col-sm-4 m-t-xs-10"><select class="selectpicker" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId' + divIds + '" >' + specialitiesData + '</select></div></aside><aside class="row"><label for="cname" class="control-label col-md-4 m-t-20">Address</label><div class="col-md-8 col-sm-8 m-t-20"><textarea class="form-control" id="acdemic_addaddress' + divIds + '" name="acdemic_addaddress[]" required="">' + value.doctorAcademic_degreeInsAddress + '</textarea><label class="error" style="display:none;" id="error-acdemic_addaddress' + divIds + '"> please fill Address</label></div><label for="cname" class="control-label col-md-4 m-t-20">Year</label><div class="col-md-8 col-sm-8 m-b-20 m-t-10"><input class="form-control" name="acdemic_addyear[]" required="" id="acdemic_addyear' + divIds + '" value="' + value.doctorAcademic_degreeYear + '" onkeypress="return isNumberKey(event)" maxlength="4"><label class="error" style="display:none;" id="error-acdemic_addyear' + divIds + '"> please fill Year</label></div></aside></div><br />');
+
+                            }
+
                         });
-                        
-                      
-        
-                } else {
-                    $(".doctors_fName").val('');
-                    $(".doctors_lName").val('');
-                    $(".users_email").val('');
-                    $(".doctors_phn").val('');
-                    $(".exp_year").val('');
-                    $(".fee").val('');
+
+
+
+                    } else {
+                        $(".doctors_fName").val('');
+                        $(".doctors_lName").val('');
+                        $(".users_email").val('');
+                        $(".doctors_phn").val('');
+                        $(".exp_year").val('');
+                        $(".fee").val('');
+                    }
                 }
-            }
-        });
-      }
+            });
+        }
     }
-    
-    
-      $(".select2").select2({
+
+
+    $(".select2").select2({
         width: '100%'
     });
 
     $(".bs-select").select2({placeholder: "Select a Speciality",
         allowClear: true
     });
-    
-    
-     function find_membershipdata (member_id){
-        
+
+
+    function find_membershipdata(member_id) {
+
         var url = '<?php echo site_url(); ?>/diagnostic/find_membership';
-        if (typeof member_id == 'string' ){
+        if (typeof member_id == 'string') {
             $.ajax({
                 url: url,
                 async: false,
@@ -2164,35 +2207,447 @@ if (isset($mapData) && !empty($mapData)) {
                     var i;
                     var j = 1;
                     var k = 1;
-                    if(datas && datas != ''){
-                        for(var datat in datas){
-                            $("#membership_quantity_"+j).val(datas[datat].membershipFacilities_quantity);
-                            if(datas[datat].membershipFacilities_facilitiesId == 2 || datas[datat].membershipFacilities_facilitiesId == 4){
-                                $("#membership_duration_"+j).val(datas[datat].membershipFacilities_duration);
+                    if (datas && datas != '') {
+                        for (var datat in datas) {
+                            $("#membership_quantity_" + j).val(datas[datat].membershipFacilities_quantity);
+                            if (datas[datat].membershipFacilities_facilitiesId == 2 || datas[datat].membershipFacilities_facilitiesId == 4) {
+                                $("#membership_duration_" + j).val(datas[datat].membershipFacilities_duration);
                             }
                             j++;
                         }
-                    }else{
-                        for(k = 1; k < 5; k++){
-                            $("#membership_quantity_"+k).val('');
-                            $("#membership_duration_"+k).val('');
+                    } else {
+                        for (k = 1; k < 5; k++) {
+                            $("#membership_quantity_" + k).val('');
+                            $("#membership_duration_" + k).val('');
                         }
                     }
                 }
             });
         }
     }
-    
-    
-  $(document).ready(function (){
+
+
+    $(document).ready(function () {
         $("#membershipForm").submit(function (event) {
             event.preventDefault();
             var url = '<?php echo site_url(); ?>/hospital/membershipEdit/';
             var formData = new FormData(this);
-            submitData(url,formData);
+            submitData(url, formData);
         });
     });
-    
+
+</script>
+<script>
+    var urls = "<?php echo base_url() ?>";
+
+    $(document).ready(function () {
+
+    $("#submitForm").validate({
+        rules: {
+            hospital_id:{
+                required : true,
+            },
+            hospital_name: {
+                required : true,
+                lettersonly: true
+
+            },
+            hospital_type: {
+                required: true
+            },
+             avatar_file: {
+                required : true
+            },
+            
+            hospital_countryId:{
+         
+                required: true
+            },
+            hospital_stateId:{
+         
+                required: true
+            },
+            hospital_cityId:{
+         
+                required: true
+            },
+            hospital_zip:{
+         
+                required: true,
+                number: true,
+                minlength:6,
+                maxlength:6
+
+            },
+            hospital_address: {
+                required: true,
+            }, 
+            lat: {
+                required: true,
+                
+
+                            
+            },
+            lng: {
+                required: true,
+                 
+
+                            
+            },
+            hospital_phn: {
+                required: true,
+                number: true,
+                minlength:10,
+                maxlength:10
+
+                            
+            },
+            'hospitalServices_serviceName[]': {
+                required: true
+                            
+            },
+            hospital_cntPrsn: {
+                required: true,
+                lettersonly: true
+                            
+            },
+            docatId: {
+                required: true,
+                            
+            },
+            hospital_dsgn: {
+                required: true,
+                 lettersonly: true                         
+            },
+            hospital_mmbrTyp: {
+                required: true
+            },
+            hospital_aboutUs: {
+                required: true
+                         
+            },
+            users_email: {
+                required: true,
+                email: true,
+                remote: {
+                url:  urls + 'index.php/hospital/isEmailRegister',
+                type: "post",
+                data: {
+                        email: function(){ return $("#users_email").val(); },
+                        id: function(){ return $("#user_tables_id").val(); },
+                        role: function(){ return 1; }
+                    }
+                  }
+
+                            
+            },
+            hospital_mblNo: {
+                required: true,
+                         
+            },
+            users_password: {
+                required: true,
+                         
+            },
+            cnfPassword: {
+                required: true,
+                equalTo: "#users_password"
+
+                         
+            }
+      
+
+        },
+        messages: {
+            hospital_id:{
+                required : "Either select a hospital or select other!",
+            },
+              hospital_name: {
+                required : "Please enter hospital's name!",
+            },
+            hospital_type: {
+                required : "Please select type of hospital!",
+            },
+            
+              avatar_file: {
+                required : "Please upload an image!",
+            },
+
+              hospital_countryId: {
+                required: "Please select a country!",
+            },
+            hospital_stateId: {
+                required: "Please select a state!",
+            },
+                    
+             hospital_cityId: {
+                required: "Please select country,state and a city!",
+            },
+            hospital_zip: {
+                required: "Please enter a zip code!",
+            },
+            hospital_address: {
+                required: "Please enter an address!",
+            },
+            lat: {
+                required: "Please enter latitude!",
+            },
+            lng: {
+                required: "Please enter longitude!",
+            },
+            hospital_phn: {
+                required: "Please enter hospital's phone number!",
+            },
+            'hospitalServices_serviceName[]': {
+                required: "Please enter one of more hospital services!",
+            },
+            hospital_cntPrsn: {
+                required: "Please enter contact person's name!",
+            },
+
+            docatId: {
+                required: "Please enter docat Id!",
+            },
+            hospital_dsgn: {
+                required: "Please enter designation!",
+            },
+            hospital_mmbrTyp: {
+                required: "Please select a member type!",
+            },
+            hospital_aboutUs: {
+                required: "Please fill the about us section!",
+            },
+            users_email: {
+                required:"Please enter an email id!",
+                email: "Please enter the correct email format!",
+            },
+            hospital_mblNo: {
+                required: "Please enter a mobile no.!",
+            },
+
+            users_password: {
+                required: "Please enter a password!",
+            },
+            cnfPassword:{
+                required: "Please confirm your password!",
+         
+      }
+      
+           
+        }
+
+    });
+ $('.select2').select2().change(function(){
+    $(this).valid()
+});
+ 
+});
+</script>
+<script>
+    var urls = "<?php echo base_url() ?>";
+
+    $(document).ready(function () {
+
+    $("#updateForm").validate({
+        rules: {
+            hospital_id:{
+                required : true,
+            },
+            hospital_name: {
+                required : true,
+                lettersonly: true
+
+            },
+            hospital_type: {
+                required: true
+            },
+             avatar_file: {
+                required : true
+            },
+            
+            hospital_countryId:{
+         
+                required: true
+            },
+            hospital_stateId:{
+         
+                required: true
+            },
+            hospital_cityId:{
+         
+                required: true
+            },
+            hospital_zip:{
+         
+                required: true,
+                number: true,
+                minlength:6,
+                maxlength:6
+
+            },
+            hospital_address: {
+                required: true,
+            }, 
+            lat: {
+                required: true,
+                
+
+                            
+            },
+            lng: {
+                required: true,
+                 
+
+                            
+            },
+            hospital_phn: {
+                required: true,
+                number: true,
+                minlength:10,
+                maxlength:10
+
+                            
+            },
+            'hospitalServices_serviceName[]': {
+                required: true
+                            
+            },
+            hospital_cntPrsn: {
+                required: true,
+                lettersonly: true
+                            
+            },
+            docatId: {
+                required: true,
+                            
+            },
+            hospital_dsgn: {
+                required: true,
+                 lettersonly: true                         
+            },
+            hospital_mmbrTyp: {
+                required: true
+            },
+            hospital_aboutUs: {
+                required: true
+                         
+            },
+            users_email: {
+                required: true,
+                email: true,
+                remote: {
+                url:  urls + 'index.php/hospital/isEmailRegister',
+                type: "post",
+                data: {
+                        email: function(){ return $("#users_email").val(); },
+                        id: function(){ return $("#user_tables_id").val(); },
+                        role: function(){ return 1; }
+                    }
+                  }
+
+                            
+            },
+            hospital_mblNo: {
+                required: true,
+                         
+            },
+            users_password: {
+                required: true,
+                         
+            },
+            cnfPassword: {
+                required: true,
+                equalTo: "#users_password"
+
+                         
+            }
+      
+
+        },
+        messages: {
+            hospital_id:{
+                required : "Either select a hospital or select other!",
+            },
+              hospital_name: {
+                required : "Please enter hospital's name!",
+            },
+            hospital_type: {
+                required : "Please select type of hospital!",
+            },
+            
+              avatar_file: {
+                required : "Please upload an image!",
+            },
+
+              hospital_countryId: {
+                required: "Please select a country!",
+            },
+            hospital_stateId: {
+                required: "Please select a state!",
+            },
+                    
+             hospital_cityId: {
+                required: "Please select a city!",
+            },
+            hospital_zip: {
+                required: "Please enter a zip code!",
+            },
+            hospital_address: {
+                required: "Please enter an address!",
+            },
+            lat: {
+                required: "Please enter latitude!",
+            },
+            lng: {
+                required: "Please enter longitude!",
+            },
+            hospital_phn: {
+                required: "Please enter hospital's phone number!",
+            },
+            'hospitalServices_serviceName[]': {
+                required: "Please enter one of more hospital services!",
+            },
+            hospital_cntPrsn: {
+                required: "Please enter contact person's name!",
+            },
+
+            docatId: {
+                required: "Please enter docat Id!",
+            },
+            hospital_dsgn: {
+                required: "Please enter designation!",
+            },
+            hospital_mmbrTyp: {
+                required: "Please select a member type!",
+            },
+            hospital_aboutUs: {
+                required: "Please fill the about us section!",
+            },
+            users_email: {
+                required:"Please enter an email id!",
+                email: "Please enter the correct email format!",
+            },
+            hospital_mblNo: {
+                required: "Please enter a mobile no.!",
+            },
+
+            users_password: {
+                required: "Please enter a password!",
+            },
+            cnfPassword:{
+                required: "Please confirm your password!",
+         
+      }
+      
+           
+        }
+
+    });
+ $('.select2').select2().change(function(){
+    $(this).valid()
+});
+ 
+});
 </script>
 </body>
 </html>

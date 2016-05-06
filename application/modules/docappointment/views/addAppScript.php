@@ -1,6 +1,7 @@
 <script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.js"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/select2/select2.min.js" type="text/javascript"></script>
 
 
 <script>
@@ -129,7 +130,6 @@
         
         var doc_id = $("#input3").val();
         var date = $("#date-3").val();
-        
         var url = '<?php echo site_url(); ?>/docappointment/appoint_timeSlot';
         if (typeof doc_id == 'string' && typeof date == 'string'){
             $.ajax({
@@ -186,12 +186,16 @@
         
         if(total_amount){
             $("#input21").val(total_amount);
+        }else if(!amount){
+            $("#input21").val(con_fee);
+        }else if(amount){
+            $("#input21").val(amount);
         }else{
             $("#input21").val('');
         }
     }
     
-    function getMember(obj){
+ function getMember(obj){
         if(obj == 1){
             var user_id = $("#user_id").val();
             if(user_id != ''){
@@ -219,7 +223,7 @@
         }
     }
     
-    $('#date-3, #date-4').datepicker();
+    $('#date-3, #date-4').datepicker({autoclose: true});
     $('.timepicker').timepicker({showMeridian:false});
     $(document).ready(function () {
         $("#setData").submit(function (event) {
@@ -229,4 +233,71 @@
             submitData(url,formData);
         });
     });
+    $(".select2").select2({
+        width: '100%'
+    });
+
+    $(".bs-select").select2({
+        placeholder: "Select a Speciality",
+        //allowClear: true,
+        tags: true
+    });
+    
+    $(document).ready(function (){
+var urls = "<?php echo base_url() ?>";
+$("#submitForm").validate({
+    rules: {
+    input1: {
+        required: true
+        },
+    input2: {
+        required: true
+        },
+    input4: {
+        required: true
+        },
+    },
+    messages: {
+            input1: {
+                required: "Please enter scientific name!",
+            },
+            input2: {
+                required: "Please enter general name!"
+            },
+            input3: {
+                required: "Please upload an image!"
+            }
+        }
+    });
+});
+    
+    function check_validaton(){
+        var url = '<?php echo site_url(); ?>/docappointment/check_timeslot/';
+        var final_timing = $("#timepicker4").val();
+        var timeslot_id = $("#timeSlot").val();
+        var resultAjax = false;
+        $.ajax({
+            url: url,
+            async: false,
+            type: 'POST',
+            data: {'timeslot_id' : timeslot_id,'final_timing': final_timing},
+            beforeSend: function (xhr) {
+                $("#input25").addClass('loadinggif');
+            },
+            success: function (data) {
+                if(data == 1){
+                    $("#err_timepicker4").hide();
+                    resultAjax = 0;
+                }else{
+                    $("#err_timepicker4").show();
+                    resultAjax++;
+                }
+            }
+        });
+        if(resultAjax == 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 </script>

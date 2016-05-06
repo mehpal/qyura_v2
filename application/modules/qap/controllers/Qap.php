@@ -21,7 +21,7 @@ class Qap extends MY_Controller {
         $option = array(
             'select' => 'city_name',
             'table' => 'qyura_city',
-            'order_by' => array("city_name", "asc")
+            'order' => array("city_name"=>'asc')
         );
         $data['allCity'] = $this->qap_model->customGet($option);
         $this->load->super_admin_template('addQap', $data, 'qapScript');
@@ -50,7 +50,7 @@ class Qap extends MY_Controller {
         $option = array(
             'select' => 'city_name',
             'table' => 'qyura_city',
-            'order_by' => array("city_name", "asc")
+             'order' => array("city_name"=>'asc')
         );
         $data['allCity'] = $this->qap_model->customGet($option);
         $this->load->super_admin_template('addQap', $data, 'qapScript');
@@ -109,6 +109,7 @@ class Qap extends MY_Controller {
                 'qap_bankCity' => $qap_bankCity,
                 "qap_dateOfGeneration" => strtotime(date("Y-m-d H:i:s")),
                 'creationTime' => strtotime(date("Y-m-d H:i:s")),
+                'status' => 0
             );
 
             $options = array
@@ -136,7 +137,7 @@ class Qap extends MY_Controller {
         $options = array(
             'select' => 'city_name',
             'table' => 'qyura_city',
-            'order_by' => array("city_name", "asc")
+            'order' => array("city_name"=>'asc')
         );
         $data['allCity'] = $this->qap_model->customGet($options);
 
@@ -146,6 +147,7 @@ class Qap extends MY_Controller {
             'where' => array("qap_id" => $qapId),
         );
         $data['qapData'] = $this->qap_model->customGet($option);
+       
         $this->load->super_admin_template('qapEdit', $data, 'qapScript');
     }
 
@@ -172,7 +174,7 @@ class Qap extends MY_Controller {
             $options = array(
                 'select' => 'city_name',
                 'table' => 'qyura_city',
-                'order_by' => array("city_name", "asc")
+                 'order' => array("city_name"=>'asc')
             );
             $data['allCity'] = $this->qap_model->customGet($options);
 
@@ -241,6 +243,7 @@ class Qap extends MY_Controller {
                 'qap_bankCity' => $qap_bankCity,
                 'creationTime' => strtotime(date("Y-m-d H:i:s")),
             );
+         
             $where = array(
                 'qap_id' => $id
             );

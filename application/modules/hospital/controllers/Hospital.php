@@ -138,6 +138,8 @@ class Hospital extends MY_Controller {
         
         
         $data['hospitalData'] = $hospitalData = $this->Hospital_model->fetchHospitalData($hospitalId);
+        
+       // dump($data['hospitalData']); exit;
         if (count($data['hospitalData']) == 0) {
             redirect('hospital');
         }
@@ -589,6 +591,7 @@ class Hospital extends MY_Controller {
                 'hospital_cntPrsn' => $hospital_cntPrsn,
                 'hospital_dsgn' => $hospital_dsgn,
                 'hospital_mmbrTyp' => $hospital_mmbrTyp,
+                'hospital_mmbrStart' => strtotime(date("Y-m-d H:i:s")),
                 'hospital_countryId' => $hospital_countryId,
                 'hospital_stateId' => $hospital_stateId,
                 'hospital_cityId' => $hospital_cityId,
@@ -880,6 +883,8 @@ class Hospital extends MY_Controller {
     }
 
     function saveDetailHospital($hospitalId) {
+        
+      //  dump($_POST); exit;
 
         $this->bf_form_validation->set_rules('hospital_name', 'Hospital Name', 'required|trim');
 
@@ -973,7 +978,12 @@ class Hospital extends MY_Controller {
             $isBloodBankOutsource = $this->input->post('isBloodBankOutsource');
             $bloodbank_chk = $this->input->post('bloodbank_chk');
             $hasPharmacy = $this->input->post('pharmacy_chk');
-
+            
+            $isEmergency = 1;
+           // echo $_POST['isEmergency']; exit;
+            if (!isset($_POST['isEmergency']))
+                $isEmergency = 0;
+            
             $updateHospital = array(
                 'hospital_name' => $this->input->post('hospital_name'),
                 'hospital_aboutUs' => $this->input->post('hospital_aboutUs'),
@@ -988,7 +998,7 @@ class Hospital extends MY_Controller {
                 'hospital_phn' => ltrim($this->input->post('hospital_phn'),0),
                 'hospital_cntPrsn' => $this->input->post('hospital_cntPrsn'),
                 'hospital_dsgn' => $this->input->post('hospital_dsgn'),
-                'isEmergency' => $this->input->post('isEmergency'),
+                'isEmergency' => $isEmergency,
                 'hospital_lat' => $hospital_lat,
                 'hospital_long' => $hospital_long,
                 'modifyTime' => strtotime(date("Y-m-d H:i:s")),
@@ -1007,6 +1017,7 @@ class Hospital extends MY_Controller {
 
             //  print_r($updateHospital); exit; 
             $response = $this->Hospital_model->UpdateTableData($updateHospital, $where, 'qyura_hospital');
+          //  echo $this->db->last_query(); exit;
             /* $updateUserdata = array(
               'users_email' => $this->input->post('users_email'),
               'modifyTime'=> strtotime(date("Y-m-d H:i:s"))
@@ -1042,6 +1053,9 @@ class Hospital extends MY_Controller {
                     $getData = $this->Hospital_model->fetchTableData($select, 'qyura_bloodBank', $conditions);
 
                     $bloodBankDetail = array(
+                        'countryId' => $this->input->post('hospital_countryId'),
+                        'stateId' => $this->input->post('hospital_stateId'),
+                        'cityId' => $this->input->post('hospital_cityId'),
                         'bloodBank_name' => $this->input->post('bloodBank_name'),
                         'bloodBank_lat' => $hospital_lat,
                         'bloodBank_long' => $hospital_long,
@@ -1055,6 +1069,7 @@ class Hospital extends MY_Controller {
                         );
                         //$bloodBankId = $this->Hospital_model->insertBloodbank($bloodBankDetail);
                         $this->Hospital_model->UpdateTableData($bloodBankDetail, $bloodWhereUser, 'qyura_bloodBank');
+                        // echo $this->db->last_query(); exit;
                     } else {
 
                         //unset($select,$conditions);
@@ -1063,6 +1078,7 @@ class Hospital extends MY_Controller {
                         $conditionsSecond['hospital_deleted'] = 0;
                         $selectSecond = array('hospital_countryId,hospital_stateId,hospital_cityId,hospital_zip');
                         $bloodBankResult = $this->Hospital_model->fetchTableData($selectSecond, 'qyura_hospital', $conditionsSecond);
+                       // echo $this->db->last_query(); exit;
                         $bloodBankDetail['countryId'] = $bloodBankResult[0]->hospital_countryId;
                         $bloodBankDetail['stateId'] = $bloodBankResult[0]->hospital_stateId;
                         $bloodBankDetail['cityId'] = $bloodBankResult[0]->hospital_cityId;
@@ -1195,6 +1211,9 @@ class Hospital extends MY_Controller {
                     $ambulance_long = $hospital_long;
 
                     $ambulanceDetail = array(
+                        'ambulance_countryId' => $this->input->post('hospital_countryId'),
+                        'ambulance_stateId' => $this->input->post('hospital_stateId'),
+                        'ambulance_cityId' => $this->input->post('hospital_cityId'),
                         'ambulance_name' => $ambulance_name,
                         'ambulance_lat' => $ambulance_lat,
                         'ambulance_long' => $ambulance_long,
@@ -1204,6 +1223,7 @@ class Hospital extends MY_Controller {
                         'ambulance_address' => $hospital_address,
                         'docOnBoard' => $docOnBoard,
                     );
+                    
                     $ambulanceConditions = array();
                     $ambulanceConditions['ambulance_usersId'] = $this->input->post('user_tables_id');
                     $ambulanceConditions['ambulance_deleted'] = 0;
@@ -1381,13 +1401,14 @@ class Hospital extends MY_Controller {
     
      function checkSpeciality() {
         $hospitalId = $this->input->post('hospitalId');
+        $hospitalUserId = $this->input->post('hospitalUserId');
        // $allValuers = explode(',',$this->input->post('allValuers'));
         
         $sql = 'select hospitalSpecialities_id from qyura_hospitalSpecialities where hospitalSpecialities_hospitalId = '.$hospitalId.' AND hospitalSpecialities_deleted = 0 ';
         
         $numRows = $this->common_model->customQueryCount($sql);
         
-        $benifitSpeciality = "select miMembership_quantity from qyura_miMembership where miMembership_miId = $hospitalId AND miMembership_deleted = 0 AND miMembership_facilitiesId = 1 AND miMembership_type = 9";
+        $benifitSpeciality = "select miMembership_quantity from qyura_miMembership where miMembership_miId = $hospitalUserId AND miMembership_deleted = 0 AND miMembership_facilitiesId = 1 AND miMembership_type = 9";
         $benifitSpecialityResult = $this->common_model->customQuery($benifitSpeciality, true);
         
         if($numRows >= $benifitSpecialityResult->miMembership_quantity){
@@ -1399,13 +1420,16 @@ class Hospital extends MY_Controller {
 
     function addSpeciality() {
         $hospitalId = $this->input->post('hospitalId');
+        $hospitalUserId = $this->input->post('hospitalUserId');
+        
         $hospitalSpecialities_specialitiesId = $this->input->post('hospitalSpecialities_specialitiesId');
         
         $sql = 'select hospitalSpecialities_id from qyura_hospitalSpecialities where hospitalSpecialities_hospitalId = '.$hospitalId.' AND hospitalSpecialities_deleted = 0 ';
         
         $numRows = $this->common_model->customQueryCount($sql);
         
-        $benifitSpeciality = "select miMembership_quantity from qyura_miMembership where miMembership_miId = $hospitalId AND miMembership_deleted = 0 AND miMembership_facilitiesId = 1 AND miMembership_type = 9";
+        $benifitSpeciality = "select miMembership_quantity from qyura_miMembership where miMembership_miId = $hospitalUserId AND miMembership_deleted = 0 AND miMembership_facilitiesId = 1 AND miMembership_type = 9";
+        
         $benifitSpecialityResult = $this->common_model->customQuery($benifitSpeciality, true);
         
        // echo $this->db->last_query(); exit;
@@ -1914,9 +1938,10 @@ class Hospital extends MY_Controller {
 
         if ($_POST['avatar_file']['name']) {
             $path = realpath(FCPATH . 'assets/hospitalsImages/');
-            $upload_data = $this->input->post('avatar_data');
+            $upload_data = $this->input->post('avatar-data');
             $upload_data = json_decode($upload_data);
-            if ($upload_data->width > 120) {
+           // echo $upload_data->width; exit;
+            if ($upload_data->width > 425) {
                 $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/hospitalsImages/', './assets/hospitalsImages/thumb/', 'hospital');
 
                 if (empty($original_imagesname)) {
@@ -1932,7 +1957,7 @@ class Hospital extends MY_Controller {
                     );
                     $response = $this->Hospital_model->UpdateTableData($option, $where, 'qyura_hospital');
                     if ($response) {
-                        $response = array('state' => 200, 'message' => 'Successfully update avtar');
+                         $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/hospitalsImages/thumb/thumb_100/{$original_imagesname}"),'reset'=>"hospital_edit", 'returnClass'  => 'logo-img');
                     } else {
                         $response = array('state' => 400, 'message' => 'Failed to update avtar');
                     }
@@ -1946,6 +1971,9 @@ class Hospital extends MY_Controller {
             echo json_encode($response);
         }
     }
+    
+  
+
 
     function getUpdateAvtar($id) {
         if (!empty($id)) {
@@ -1955,6 +1983,109 @@ class Hospital extends MY_Controller {
             exit();
         }
     }
+    
+    
+    function editUploadImageAmbulance() {
+        
+        if ($_POST['avatar_file']['name']) {
+            $path = realpath(FCPATH . 'assets/ambulanceImages/');
+            $upload_data = $this->input->post('avatar-data');
+            
+            $upload_data = json_decode($upload_data);
+           
+            if ($upload_data->width > 425) {
+                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/ambulanceImages/', './assets/ambulanceImages/thumb/', 'ambulance');
+
+                if (empty($original_imagesname)) {
+                    $response = array('state' => 400, 'message' => $this->error_message);
+                } else {
+
+                    $option = array(
+                        'ambulance_img' => $original_imagesname,
+                        'modifyTime' => strtotime(date("Y-m-d H:i:s"))
+                    );
+                    $where = array(
+                        'ambulance_id' => $this->input->post('avatar_id')
+                    );
+                    $response = $this->Hospital_model->UpdateTableData($option, $where, 'qyura_ambulance');
+                    
+                    if ($response) {
+                        $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/ambulanceImages/thumb/thumb_100/{$original_imagesname}"),'reset'=>"ambulance_edit", 'returnClass'  => 'logo-img-ambulance');
+                    } else {
+                        $response = array('state' => 400, 'message' => 'Failed to update avtar');
+                    }
+                }
+            } else {
+                $response = array('state' => 400, 'message' => 'Height and Width must exceed 150px.');
+            }
+            echo json_encode($response);
+        } else {
+            $response = array('state' => 400, 'message' => 'Please select avtar');
+            echo json_encode($response);
+        }
+    }
+    
+      function getUpdateAvtarAmbulance($id) {
+        if (!empty($id)) {
+            $data['hospitalData'] = $this->Hospital_model->fetchHospitalData($id);
+            //  print_r($data); exit;
+            echo "<img src='" . base_url() . "assets/ambulanceImages/thumb/original/" . $data['hospitalData'][0]->ambulance_img . "'alt='' class='logo-img-ambulance' />";
+            exit();
+        }
+    }
+    
+    
+      function editUploadImageBloodbank() {
+        
+        if ($_POST['avatar_file']['name']) {
+            $path = realpath(FCPATH . 'assets/BloodBank/');
+            $upload_data = $this->input->post('avatar-data');
+            
+            $upload_data = json_decode($upload_data);
+           // dump($upload_data); exit;
+            if ($upload_data->width > 425) {
+                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/BloodBank/', './assets/BloodBank/thumb/', 'blood');
+
+                if (empty($original_imagesname)) {
+                    $response = array('state' => 400, 'message' => $this->error_message);
+                } else {
+
+                    $option = array(
+                        'bloodBank_photo' => $original_imagesname,
+                        'modifyTime' => strtotime(date("Y-m-d H:i:s"))
+                    );
+                    $where = array(
+                        'bloodBank_id' => $this->input->post('avatar_id')
+                    );
+                    $response = $this->Hospital_model->UpdateTableData($option, $where, 'qyura_bloodBank');
+                    
+                    if ($response) {
+                        $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/BloodBank/thumb/thumb_100/{$original_imagesname}"),'reset'=>"bloodbank_edit", 'returnClass'  => 'logo-img-bloodbank');
+                    } else {
+                        $response = array('state' => 400, 'message' => 'Failed to update avtar');
+                    }
+                }
+            } else {
+                $response = array('state' => 400, 'message' => 'Height and Width must exceed 150px.');
+            }
+            echo json_encode($response);
+        } else {
+            $response = array('state' => 400, 'message' => 'Please select avtar');
+            echo json_encode($response);
+        }
+    }
+    
+     function getUpdateAvtarBloodbank($id) {
+        if (!empty($id)) {
+            $data['hospitalData'] = $this->Hospital_model->fetchHospitalData($id);
+            //  print_r($data); exit;
+            echo "<img src='" . base_url() . "assets/BloodBank/thumb/original/" . $data['hospitalData'][0]->bloodBank_photo . "'alt='' class='logo-img-bloodbank' />";
+            exit();
+        }
+    }
+    
+    
+     
 
     function createCSV() {
 

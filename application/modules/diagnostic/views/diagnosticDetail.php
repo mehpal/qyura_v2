@@ -30,35 +30,40 @@
                     endif; ?>')">                                      
                                 <div class="bg-picture-overlay"></div>
                                 <div class="profile-info-name">
-                                    <div class='pro-img'>
-                                        <!-- image -->
-                                        <?php if (!empty($diagnosticData[0]->diagnostic_img)) {
-                                            ?>
-                                            <img src="<?php echo base_url() ?>assets/diagnosticsImage/thumb/original/<?php echo $diagnosticData[0]->diagnostic_img; ?>" alt="" class="logo-img" />
-                                        <?php } else { ?>
-                                            <img src="<?php echo base_url() ?>assets/default-images/Dignostics-logo.png" alt="" class="logo-img" />
-                                            <?php } ?>
-                                        <article class="logo-up avatar-view" style="display:none">
+                                    
+                                    <div class='pro-img' id="crop-avatar">
+
+                                            <?php echo $this->load->view('edit_upload_crop_modal'); ?>
+                                            <!-- image -->
                                             <?php if (!empty($diagnosticData[0]->diagnostic_img)) {
                                                 ?>
-                                                <img src="<?php echo base_url() ?>assets/diagnosticsImage/thumb/original/<?php echo $diagnosticData[0]->diagnostic_img; ?>" alt="" class="logo-img" />
+                                                <img src="<?php echo base_url() ?>assets/diagnosticsImage/thumb/thumb_100/<?php echo $diagnosticData[0]->diagnostic_img; ?>" alt="" class="logo-img" style="display:block" />
                                             <?php } else { ?>
-                                                <img src="<?php echo base_url() ?>assets/default-images/Dignostics-logo.png" alt="" class="logo-img" />
-<?php } ?>
-                                            <div class="fileUpload btn btn-sm btn-upload logo-Upload">
-                                                <span><i class="fa fa-cloud-upload fa-3x "></i></span>
+                                                <img src="<?php echo base_url() ?>assets/default-images/Dignostics-logo.png" alt="" class="logo-img" style="display:block" />
+                                            <?php } ?>
+                                            <article class="logo-up avatar-view" style="display:none">
+                                                <?php if (!empty($diagnosticData[0]->diagnostic_img)) {
+                                                    ?>
+                                                    <img src="<?php echo base_url() ?>assets/diagnosticsImage/thumb/thumb_100/<?php echo $diagnosticData[0]->diagnostic_img; ?>" alt="" class="logo-img" />
+                                                <?php } else { ?>
+                                                    <img src="<?php echo base_url() ?>assets/default-images/Dignostics-logo.png" alt="" class="logo-img" />
+                                                <?php } ?>
+                                                <div class="fileUpload btn btn-sm btn-upload logo-Upload">
+                                                    <span><i class="fa fa-cloud-upload fa-3x "></i></span>
 <!--                                                        <input id="uploadBtn" type="file" class="upload" />-->
-                                                <input type="hidden" style="display:none;" class="no-display" id="file_action_url" name="file_action_url" value="<?php echo site_url('diagnostic/editUploadImage'); ?>" />
-                                                <input type="hidden" style="display:none;" class="no-display" id="load_url" name="load_url" value="<?php echo site_url('diagnostic/getUpdateAvtar/' . $this->uri->segment(3)); ?>" />
+                                                    <input type="hidden" style="display:none;" class="no-display file_action_url" id="file_action_url" name="file_action_url" value="<?php echo site_url('diagnostic/editUploadImage'); ?>">
+                                                    <input type="hidden" style="display:none;" class="no-display" id="load_url" name="load_url" value="<?php echo site_url('diagnostic/getUpdateAvtar/' . $this->uri->segment(3)); ?>">
+                                                </div>
+                                            </article>
+                                            <!-- description div -->
+
+                                            <div class="pic-edit diagno_edit">
+                                                <h3><a  class="pull-center cl-white picEdit" title="Edit Logo"><i class="fa fa-pencil"></i></a></h3>
+                                                <h3><a  class="pull-center cl-white picEditClose" title="Cancel"  style="display:none;"><i class="fa fa-times"></i></a></h3>
                                             </div>
-                                        </article>
-                                        <!-- description div -->
-                                        <div class='pic-edit'>
-                                            <h3><a id="picEdit" class="pull-center cl-white" title="Edit Logo"><i class="fa fa-pencil"></i></a></h3>
-                                            <h3><a id="picEditClose" class="pull-center cl-white" title="Cancel"  style="display:none;"><i class="fa fa-times"></i></a></h3>
+                                            <!-- end description div -->
                                         </div>
-                                        <!-- end description div -->
-                                    </div>
+
                                     <h3 class="text-white"><?php if (isset($diagnosticData)) {
     if (!empty($diagnosticData)): echo $diagnosticData[0]->diagnostic_name;
     endif;
@@ -242,14 +247,18 @@
                                                                 </article>
                                                                 
                                                                 
-                                                                 <div class='pro-img'>
+                                                                  <article class="clearfix m-b-10">
+                                                                         <label for="cemail" class="control-label col-md-4 col-sm-4">Image :</label>
+                                                                        <!-- image -->
+                                                                        <aside class="col-md-8 col-sm-8 t-xs-left">
                                                                                 <!-- image -->
                                                                                 <?php if(!empty($diagnosticData[0]->bloodBank_photo)){ ?>
-                                                                               <img src="<?php echo base_url()?>assets/BloodBank/thumb/thumb_100/<?php echo $diagnosticData[0]->bloodBank_photo; ?>" alt="" class="logo-img" />
+                                                                               <img src="<?php echo base_url()?>assets/BloodBank/thumb/thumb_100/<?php echo $diagnosticData[0]->bloodBank_photo; ?>" alt="" />
                                                                                <?php } else { ?>
-                                                                                 <img src="<?php echo base_url()?>assets/default-images/Blood-logo.png" alt="" class="logo-img" />
+                                                                                 <img src="<?php echo base_url()?>assets/default-images/Blood-logo.png" alt="" />
                                                                                <?php } ?>
-                                                                </div>
+                                                                        </aside>
+                                                                </article>
 
                                                                 <article class="clearfix m-b-10 ">
                                                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
@@ -280,14 +289,18 @@
                                                                 </article>
                                                                 
                                                                 
-                                                                <div class='pro-img'>
+                                                                 <article class="clearfix m-b-10">
+                                                                         <label for="cemail" class="control-label col-md-4 col-sm-4">Image :</label>
+                                                                        <!-- image -->
+                                                                        <aside class="col-md-8 col-sm-8 t-xs-left">
                                                                             <!-- image -->
                                                                             <?php if(!empty($diagnosticData[0]->ambulance_img)){ ?>
                                                                            <img src="<?php echo base_url()?>assets/ambulanceImages/thumb/thumb_100/<?php echo $diagnosticData[0]->ambulance_img; ?>" alt="" class="logo-img" />
                                                                            <?php } else { ?>
                                                                              <img src="<?php echo base_url()?>assets/default-images/ambulance_logo.png" alt="" class="logo-img" />
                                                                            <?php } ?>
-                                                                 </div>
+                                                                       </aside>
+                                                               </article>
 
                                                                 <article class="clearfix m-b-10 ">
                                                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
@@ -532,7 +545,40 @@
                                                                             <label class="error" style="display:none;" id="error-bloodBank_name"> please Check your Blood Bank name</label>
                                                                            <div>
                                                                    </article>
-                                                                       <article class="clearfix m-b-10 ">
+                                                                        
+                                                                        <div class="pro-img" id="blood-crop-avatar">
+
+                                                                                        <?php echo $this->load->view('edit_bloodbank_upload_crop_modal', array('id' => $diagnosticData[0]->bloodBank_id)); ?>
+                                                                                                <!-- image -->
+                                                                                                <?php if (!empty($diagnosticData[0]->bloodBank_photo)) { ?>
+                                                                                                    <img src="<?php echo base_url() ?>assets/BloodBank/thumb/thumb_100/<?php echo $diagnosticData[0]->bloodBank_photo; ?>" alt="" class="logo-img-bloodbank" />
+                                                                                                <?php } else { ?>
+                                                                                                    <img src="<?php echo base_url() ?>assets/default-images/Blood_Bank.png" alt="" class="logo-img-bloodbank" />
+                                                                                                <?php } ?>
+                                                                                                <article class="logo-up-bloodbank avatar-view" style="display:none">
+                                                                                                    <?php if (!empty($diagnosticData[0]->bloodBank_photo)) { ?>
+                                                                                                        <img src="<?php echo base_url() ?>assets/BloodBank/thumb/thumb_100/<?php echo $diagnosticData[0]->bloodBank_photo; ?>" alt="" class="logo-img-ambulance" style="display:block" />
+                                                                                                    <?php } else { ?>
+                                                                                                        <img src="<?php echo base_url() ?>assets/default-images/Blood_Bank.png" alt="" class="logo-img-bloodbank" style="display:block" />
+                                                                                                    <?php } ?>
+                                                                                                    <div class="fileUpload btn btn-sm btn-upload logo-Upload">
+                                                                                                        <span><i class="fa fa-cloud-upload fa-3x "></i></span>
+                                                <!--                                                        <input id="uploadBtn" type="file" class="upload" />-->
+                                                                                                        <input type="hidden" style="display:none;" class="no-display file_action_url"  name="file_action_url" value="<?php echo site_url('diagnostic/editUploadImageBloodbank'); ?>">
+                                                                                                        <input type="hidden" style="display:none;" class="no-display load_url" id="load_url" name="load_url" value="<?php echo site_url('diagnostic/getUpdateAvtar/' . $diagnosticData[0]->bloodBank_id); ?>/bloodbank">
+                                                                                                    </div>
+                                                                                                </article>
+                                                                                                <!-- description div -->
+
+                                                                                                <div class='pic-edit bloodbank_edit'>
+                                                                                                    <h3><a  class="pull-center cl-white picEdit-bloodbank" title="Edit Logo" style="display:block;"><i class="fa fa-pencil"></i></a></h3>
+                                                                                                    <h3><a  class="pull-center cl-white picEditClose-bloodbank" title="Cancel"  style="display:none;"><i class="fa fa-times"></i></a></h3>
+                                                                                                </div>
+                                                                                                <!-- end description div -->
+                                                                     </div>
+                                                                        
+                                                                        
+                                                                   <article class="clearfix m-b-10 ">
                                                                        <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
                                                                        <div class="col-md-8 col-sm-8">
                                                                            <aside class="row">
@@ -581,7 +627,41 @@
                                                                            <input class="form-control" name="ambulance_name" id="ambulance_name" type="text" value="<?php if(isset($diagnosticData[0]->ambulance_name)){ echo $diagnosticData[0]->ambulance_name; } ?>">
                                                                           <label class="error" style="display:none;" id="error-ambulance_name"> please Check your Ambulance Name</label>
                                                                            <div>
-                                                                   </article>
+                                                                       </article>
+                                                                        
+                                                                        
+                                                                        <div class="pro-img" id="crop-ambulance">
+
+                                                                                                <?php echo $this->load->view('edit_ambulance_upload_crop_modal', array('id' => $diagnosticData[0]->ambulance_id)); ?>
+                                                                                                <!-- image -->
+                                                                                                <?php if (!empty($diagnosticData[0]->ambulance_img)) { ?>
+                                                                                                    <img src="<?php echo base_url() ?>assets/ambulanceImages/thumb/thumb_100/<?php echo $diagnosticData[0]->ambulance_img; ?>" alt="" class="logo-img-ambulance" />
+                                                                                                <?php } else { ?>
+                                                                                                    <img src="<?php echo base_url() ?>assets/default-images/ambulance_logo.png" alt="" class="logo-img-ambulance" />
+                                                                                                <?php } ?>
+                                                                                                <article class="logo-up-ambulance avatar-view" style="display:none">
+                                                                                                    <?php if (!empty($diagnosticData[0]->ambulance_img)) { ?>
+                                                                                                        <img src="<?php echo base_url() ?>assets/ambulanceImages/thumb/thumb_100/<?php echo $diagnosticData[0]->ambulance_img; ?>" alt="" class="logo-img-ambulance" style="display:block" />
+                                                                                                    <?php } else { ?>
+                                                                                                        <img src="<?php echo base_url() ?>assets/default-images/ambulance_logo.png" alt="" class="logo-img-ambulance" style="display:block" />
+                                                                                                    <?php } ?>
+                                                                                                    <div class="fileUpload btn btn-sm btn-upload logo-Upload">
+                                                                                                        <span><i class="fa fa-cloud-upload fa-3x "></i></span>
+                                                <!--                                                        <input id="uploadBtn" type="file" class="upload" />-->
+                                                                                                        <input type="hidden" style="display:none;" class="no-display file_action_url"  name="file_action_url" value="<?php echo site_url('diagnostic/editUploadImageAmbulance'); ?>">
+                                                                                                        <input type="hidden" style="display:none;" class="no-display load_url" id="load_url" name="load_url" value="<?php echo site_url('diagnostic/getUpdateAvtar/' . $diagnosticData[0]->ambulance_id); ?>/ambulance">
+                                                                                                    </div>
+                                                                                                </article>
+                                                                                                <!-- description div -->
+
+                                                                                                <div class='pic-edit ambulance_edit'>
+                                                                                                    <h3><a  class="pull-center cl-white picEdit-ambulance" title="Edit Logo" style="display:block;"><i class="fa fa-pencil"></i></a></h3>
+                                                                                                    <h3><a  class="pull-center cl-white picEditClose-ambulance" title="Cancel"  style="display:none;"><i class="fa fa-times"></i></a></h3>
+                                                                                                </div>
+                                                                                                <!-- end description div -->
+                                                                                            </div>
+                                                                        
+                                                                        
                                                                        <article class="clearfix m-b-10 ">
                                                                        <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
                                                                        <div class="col-md-8 col-sm-8">
@@ -1034,7 +1114,7 @@
                                         <!-- first Section End -->
                                         <section class="col-md-2 detailbox m-b-20 text-center">
                                             <div class="m-t-150">
-                                                <a onclick="addSpeciality()"><i class="fa fa-arrow-right s-add"></i></a>
+                                                <a onclick="addSpeciality(user_tables_id.value)"><i class="fa fa-arrow-right s-add"></i></a>
                                             </div>
                                             <div class="m-t-50">
                                                 <a onclick="revertSpeciality()"> <i class="fa fa-arrow-left s-add"></i></a>
@@ -1517,5 +1597,3 @@
     </div>
     <!-- /Change Logo -->
     <!-- END wrapper -->
-<?php echo $this->load->view('edit_upload_crop_modal'); ?>
-<?php echo $this->load->view('edit_gallery_crop_modal'); ?>

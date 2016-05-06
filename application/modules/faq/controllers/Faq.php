@@ -121,10 +121,10 @@ class Faq extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 2) {
-                $update_data['status'] = 3;
+            if ($status == 0) {
+                $update_data['status'] = 1;
             } else {
-                $update_data['status'] = 2;
+                $update_data['status'] = 0;
             }
             $where = array('faq_id' => $ena_id);
             $updateOptions = array
