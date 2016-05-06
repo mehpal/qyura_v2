@@ -12,14 +12,14 @@ class SpecialityApi_model extends CI_Model {
         
         $this->db->select('specialities_id id, (CASE WHEN (speciality_display_format = "1") THEN specialities_drName ELSE specialities_name END) as name, CONCAT("assets/specialityImages/3x","/",specialities_img) img, creationTime as created');
         $this->db->from('qyura_specialities');
-        $this->db->where(array('specialities_deleted' => 0,'type' => $type,'status'=>3));
+        $this->db->where(array('specialities_deleted' => 0,'type' => $type,'status'=>1));
         $this->db->order_by('specialities_id', 'ASC');
         return $this->db->get()->result();
     }
     
     public function getHosSpecialityList($miId = NULL) {
         
-        $where = array('specialities_deleted' => 0,'status'=>3);
+        $where = array('specialities_deleted' => 0,'status'=>1);
         $where["hospitalSpecialities_hospitalId"] = $miId; 
           
         $this->db->select('specialities_id id, (CASE WHEN (speciality_display_format = "1") THEN specialities_drName ELSE specialities_name END) as name, CONCAT("assets/specialityImages/3x","/",specialities_img) img');
@@ -35,7 +35,7 @@ class SpecialityApi_model extends CI_Model {
     
     public function getDiaSpecialityList($miId = NULL) {
         
-        $where = array('specialities_deleted' => 0,'status'=>3);
+        $where = array('specialities_deleted' => 0,'status'=>1);
         $where["diagnosticSpecialities_diagnosticId"] = $miId;
           
         $this->db->select('specialities_id id, (CASE WHEN (diagnostic_specialityNameFormate = "1") THEN specialities_drName ELSE specialities_name END) as name, CONCAT("assets/specialityImages/3x","/",specialities_img) img');
