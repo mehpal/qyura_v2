@@ -462,4 +462,90 @@
             }
     
     }
-</script>   
+</script> 
+<script> 
+    
+            $(document).ready(function () {
+          var url = "<?php echo base_url()?>";  
+        $("#commentForm").validate({
+           
+
+            rules: {
+               
+               
+                city: {
+                    required: true
+                },
+                miType: {
+                    required: true
+                },
+                miName: {
+                    required: true
+                },
+                 packagetitle: {
+                    required: true,
+                    lettersonly: true
+                },
+                
+                bestPrice: {
+                    required: true,
+                    number: true,
+                  
+                },
+                discountPercent: {
+                    required: true,
+                    number: true,
+                  
+                },
+                discountPrice: {
+                    required: true,
+                    number: true,
+                  
+                },
+                'testIncluded[]':{
+                   required: true,  
+                }
+              
+            },
+            messages: {
+              
+                
+                 city: {
+                    required: "Please select City.",
+                },
+                  miType: {
+                    required: "Please select MI/Doctor Type.",
+                },
+                miName: {
+                    required: "Please select MI Name.",
+                },
+                  packagetitle: {
+                    required: "Please enter Package Title.",
+                },
+              
+                bestPrice: {
+                    required: "Please enter Best Price.",
+                     number:  "Please enter only number."
+
+                },
+                discountPercent: {
+                    required:"Please enter Discount Percent.",
+                    number:  "Please enter only number."
+                  
+                },
+                discountPrice: {
+                    required:"Please enter Discount Price.",
+                    number:  "Please enter only number."
+                  
+                },
+                 'testIncluded[]':{
+                   required: "Please enter Test Includes",  
+                }
+            },
+            submitHandler: function (form) {
+                form.submit();
+            },
+        });
+
+    });
+    </script>
