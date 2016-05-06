@@ -44,8 +44,9 @@
                                     <div class="col-md-8 col-sm-8">
                                         <select class="" data-width="100%" name="miType" onchange ="getMIList(this.value, medicartOffer_cityId.value)" id="miType" required="">
                                             <option value=""> Select MI Type</option>
-                                            <option <?php if($offerData->miType == 2): echo"selected";endif;?>>Hospital</option>
                                             <option <?php if($offerData->miType == 1): echo"selected";endif;?>>Diagnostic</option>
+                                            <option <?php if($offerData->miType == 2): echo"selected";endif;?>>Hospital</option>
+                                           
                                         </select>
                                     <label class="error"><?php echo form_error('miType'); ?></label>
                                     </div>
@@ -264,6 +265,7 @@
                                             <label for="cname" class="control-label col-md-4 col-sm-4">Discount for Age Group :</label>
                                             <div class="col-md-8 col-sm-8">
                                                 <select class="selectpicker" data-width="100%" name="medicartOffer_ageDiscount" id="medicartOffer_ageDiscount" required="">
+                                                    <option <?php if(isset($offerData) && !empty($offerData)){ if($offerData->medicartOffer_ageDiscount == "0-10"){ echo "selected"; }}?> value="0-10">0-10</option>
                                                     <option <?php if(isset($offerData) && !empty($offerData)){ if($offerData->medicartOffer_ageDiscount == "10-20"){ echo "selected"; }}?> value="10-20">10-20</option>
                                                     <option <?php if(isset($offerData) && !empty($offerData)){ if($offerData->medicartOffer_ageDiscount == "20-30"){ echo "selected"; }}?> value="20-30">20-30</option>
                                                     <option <?php if(isset($offerData) && !empty($offerData)){ if($offerData->medicartOffer_ageDiscount == "30-40"){ echo "selected"; }}?> value="30-40">30-40</option>

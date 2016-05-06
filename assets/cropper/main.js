@@ -244,6 +244,12 @@ console.log(files);
         });
         this.active = true;
       }
+      
+//      this.closeBtnUpload.on('click',function(){
+//          _this.urlUploads = $(".pre").find('.uploadImages img').attr('src');
+//          _this.$avatarPreview.html('<img src="' + _this.urlUploads + '">');
+//          console.log(_this.urlUploads);
+//      });
 
 //      this.$avatarModal.one('hidden.bs.modal', function () {
 //        _this.preImage = _this.$avatarPreview.html();
