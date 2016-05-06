@@ -890,20 +890,11 @@
                                                                                                                 <label class="error" > <?php echo form_error("docatId"); ?></label>
                                                                                                             </div>
                                                                                                         </article>
-
-
-                                                                                                        <article class="clearfix m-b-10">
-
-                                                                                                            <div class="col-md-12">
-                                                                                                                <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" onclick="return validationHospitalDetail();">Update</button>
-                                                                                                            </div>
-
-                                                                                                        </article>
-                                                                                                        </aside>
+                                                            
                                                                                                         <fieldset>
 
 
-                                                                                                            <input name="user_tables_id" id="user_tables_id" type="hidden" value="<?php echo $hospitalData[0]->users_id; ?>">
+                                                                                                            <input name="user_tables_id" id="user_tables_id" type="hidden" value="<?php echo $hospitalData[0]->hospital_usersId; ?>">
                                                                                                             <?php if ($hospitalData[0]->pharmacy_phn != '' OR $hospitalData[0]->pharmacy_name != '') { ?>
                                                                                                                 <input name="pharmacy_status" id="pharmacy_status" type="hidden" value="<?php echo $hospitalData[0]->pharmacy_name; ?>">
                                                                                                             <?php } ?>
@@ -914,6 +905,17 @@
                                                                                                                 <input name="ambulance_status" id="ambulance_status" type="hidden" value="<?php echo $hospitalData[0]->ambulance_name; ?>">
                                                                                                             <?php } ?> 
                                                                                                         </fieldset>  
+
+
+                                                                                                        <article class="clearfix m-b-10">
+
+                                                                                                            <div class="col-md-12">
+                                                                                                                <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" onclick="return validationHospitalDetail();">Update</button>
+                                                                                                            </div>
+
+                                                                                                        </article>
+                                                                                                        </aside>
+                                                                                                        
                                                                                                         </form>  
 
 
@@ -1290,7 +1292,7 @@
                                                                                                     <!-- first Section End -->
                                                                                                     <section class="col-md-2 detailbox m-b-20 text-center">
                                                                                                         <div class="m-t-150">
-                                                                                                            <a onclick="sendSpeciality()"><i class="fa fa-arrow-right s-add"></i></a>
+                                                                                                            <a onclick="sendSpeciality(user_tables_id.value)"><i class="fa fa-arrow-right s-add"></i></a>
                                                                                                         </div>
                                                                                                         <div class="m-t-50">
                                                                                                             <a onclick ="revertSpeciality()"> <i class="fa fa-arrow-left s-add"></i></a>
