@@ -301,6 +301,11 @@ var urls = "<?php echo base_url() ?>";
     });
 
     $(document).ready(function () {
+        
+    jQuery.validator.addMethod("numbermaxonly", function(value, element) {
+      return this.optional(element) || /^[1-9][0-9]*$/.test(value);
+    }, "First number can't be accept 0 please enter 1-9 only"); 
+    
 
         $("#submitForm").validate({
             rules: {
@@ -324,7 +329,8 @@ var urls = "<?php echo base_url() ?>";
                 },
                 medicartOffer_maximumBooking: {
                     required: true,
-                    number: true
+                    number: true,
+                    numbermaxonly:true
                 },
                 medicartOffer_startDate: {
                     required: true
@@ -339,10 +345,6 @@ var urls = "<?php echo base_url() ?>";
                 medicartOffer_ageDiscount: {
                     required: true
                 },
-//                medicartOffer_actualPrice: {
-//                    required: true,
-//                    number: true
-//                },
                 medicartOffer_discountPrice: {
                     required: true,
                     number: true,
@@ -369,10 +371,6 @@ var urls = "<?php echo base_url() ?>";
                     required: "Please enter discount",
                     number: "Please enter only number formate",
                 },
-//                medicartOffer_actualPrice: {
-//                    required: "Please enter actual prize",
-//                    number: "Please enter only number formate",
-//                },
                 medicartOffer_ageDiscount: {
                     required: "Please select age",
                 },

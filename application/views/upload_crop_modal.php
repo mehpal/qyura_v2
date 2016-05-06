@@ -29,7 +29,7 @@
                     <div class="row avatar-btns">
                       
                         <div class="col-md-6 col-md-offset-9">
-                            <button class="btn btn-danger" data-dismiss="modal" type="button">Close</button>
+                            <button class="btn btn-danger" data-dismiss="modal" type="button" id="closeBtnUpload">Close</button>
                             <button type="button" class="btn btn-primary avatar-save" id="savebtnUpload" data-dismiss="modal">Done</button>
                         </div>
                     </div>

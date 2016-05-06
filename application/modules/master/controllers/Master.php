@@ -106,10 +106,10 @@ class Master extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 2) {
-                $update_data['status'] = 3;
+            if ($status == 0) {
+                $update_data['status'] = 1;
             } else {
-                $update_data['status'] = 2;
+                $update_data['status'] = 0;
             }
             $where = array('degree_id' => $ena_id);
             $updateOptions = array
@@ -179,7 +179,7 @@ class Master extends MY_Controller {
                 'insurance_Name' => $insurance_Name,
                 'insurance_detail' => $insurance_detail,
                 'insurance_img' => $imagesname,
-		'status'       => 2,
+		'status'       => 0,
                 'creationTime' => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
@@ -279,10 +279,10 @@ class Master extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 2) {
-                $update_data['status'] = 3;
+            if ($status == 0) {
+                $update_data['status'] = 1;
             } else {
-                $update_data['status'] = 2;
+                $update_data['status'] = 0;
             }
             $where = array('insurance_id' => $ena_id);
             $updateOptions = array
@@ -336,7 +336,7 @@ class Master extends MY_Controller {
 
             $imagesname = '';
             if ($_FILES['avatar_file']['name']) {
-                $path = realpath(FCPATH . 'assets/specialityImages/3x/');
+                $path = realpath(FCPATH . 'assets/specialityImages/');
                 $upload_data = $this->input->post('avatar_data');
                 $upload_data = json_decode($upload_data);
 

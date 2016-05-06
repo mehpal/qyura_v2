@@ -28,7 +28,7 @@
                                 <article class="clearfix m-t-10">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">City :</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <select class="form-control selectpicker" data-width="100%" name="city" id="cityId">
+                                        <select class="form-control select2" data-width="100%" name="city" id="cityId">
                                             <?php
                                             if (isset($allCities) && !empty($allCities)) {
                                                 foreach ($allCities as $key => $val) {
@@ -46,7 +46,7 @@
                                 <article class="clearfix m-t-10">
                                     <label class="control-label col-md-4 col-sm-4">MI/Doctor Type :</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <select class="form-control selectpicker" data-width="100%" name="miType" id="miType" onchange ="fetchHos(this.value, city.value)">
+                                        <select class="form-control select2" data-width="100%" name="miType" id="miType" onchange ="fetchHos(this.value, city.value)">
                                             <option value=""> Select MI Type</option>
                                             <option <?php echo set_select('miType', 'Hospital'); ?> value="Hospital">Hospital</option>
                                             <option <?php echo set_select('miType', 'Diagnostic'); ?> value="Diagnostic">Diagnostic</option>
@@ -60,7 +60,7 @@
                                     <label for="" class="control-label col-md-4 col-sm-4">MI Name:</label>
                                     <div class="col-md-8 col-sm-8">
                                         <!--<input class="form-control" id="miName" type="text" name="miName" required="" placeholder="MI Name"> -->
-                                        <select class="form-control selectpicker" data-width="100%" name="miName" id="miName">
+                                        <select class="form-control select2" data-width="100%" name="miName" id="miName">
                                             <?php
                                             if (isset($miData) && !empty($miData)) {
                                                 foreach ($miData as $key => $val) {
@@ -253,7 +253,7 @@
                     <section class="clearfix ">
                         <div class="col-md-7 m-t-20 m-b-20">
                             <button class="btn btn-danger waves-effect pull-right" type="reset">Reset</button>
-                            <button class="btn btn-success waves-effect waves-light pull-right m-r-20" onclick="return validationHealthpkg()" type="submit">Submit</button>
+                            <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit">Submit</button>
                         </div>
 
                     </section>

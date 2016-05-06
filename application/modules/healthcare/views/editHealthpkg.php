@@ -28,7 +28,7 @@
                                 <article class="clearfix m-t-10">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">City :</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <select class="selectpicker" data-width="100%" name="city" id="cityId">
+                                        <select class="select2" data-width="100%" name="city" id="cityId">
                                             <?php
                                             if (isset($allCities) &&!empty($allCities)) {
                                             foreach ($allCities as $key => $val) {
@@ -49,7 +49,7 @@
                                 <article class="clearfix m-t-10">
                                     <label class="control-label col-md-4 col-sm-4">MI/Doctor Type :</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <select class="selectpicker" data-width="100%" name="miType" id="miType" onchange ="fetchHos(this.value, city.value)">
+                                        <select class="select2" data-width="100%" name="miType" id="miType" onchange ="fetchHos(this.value, city.value)">
                                             <option value=""> Select MI Type</option>
                                             <option <?php
                                             if(isset($editHealthcareData[0]->miType) && $editHealthcareData[0]->miType == 'Hospital'){ echo 'selected=selected';
@@ -69,7 +69,7 @@
                                     <label for="" class="control-label col-md-4 col-sm-4">MI Name:</label>
                                     <div class="col-md-8 col-sm-8">
                                         <!--<input class="form-control" id="miName" type="text" name="miName" required=""> -->
-                                        <select class="selectpicker" data-width="100%" name="miName" id="miName">
+                                        <select class="select2" data-width="100%" name="miName" id="miName">
                                             <?php
                                             if (isset($miData) &&!empty($miData)) {
                                             foreach ($miData as $key => $val) {
@@ -287,8 +287,8 @@
                     <!-- Package Includes Section End -->
                     <section class="clearfix ">
                         <div class="col-md-7 m-t-20 m-b-20">
-                            <button class="btn btn-danger waves-effect pull-right" type="button">Reset</button>
-                            <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return editValidationHealthpkg()">Submit</button>
+<!--                            <button class="btn btn-danger waves-effect pull-right" type="reset">Reset</button>-->
+                            <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit">Submit</button>
                         </div>
 
                     </section>

@@ -195,33 +195,7 @@
         }
     }
     
-    function check_time(){
-        var url = '<?php echo site_url(); ?>/docappointment/check_timeslot/';
-        var final_timing = $("#timepicker4").val();
-        var timeslot_id = $("#timeSlot").val();
-        var resultAjax = false;
-        $.ajax({
-            url: url,
-            async: false,
-            type: 'POST',
-            data: {'timeslot_id' : timeslot_id,'final_timing': final_timing},
-            beforeSend: function (xhr) {
-                $("#input25").addClass('loadinggif');
-            },
-            success: function (data) {
-                if(data == 1){
-                    $("#err_timepicker4").hide();
-                    resultAjax = true;
-                }else{
-                    $("#err_timepicker4").show();
-                    resultAjax = false;
-                }
-            }
-        });
-        return resultAjax;
-    }
-    
-    function getMember(obj){
+ function getMember(obj){
         if(obj == 1){
             var user_id = $("#user_id").val();
             if(user_id != ''){
@@ -268,4 +242,62 @@
         //allowClear: true,
         tags: true
     });
+    
+    $(document).ready(function (){
+var urls = "<?php echo base_url() ?>";
+$("#submitForm").validate({
+    rules: {
+    input1: {
+        required: true
+        },
+    input2: {
+        required: true
+        },
+    input4: {
+        required: true
+        },
+    },
+    messages: {
+            input1: {
+                required: "Please enter scientific name!",
+            },
+            input2: {
+                required: "Please enter general name!"
+            },
+            input3: {
+                required: "Please upload an image!"
+            }
+        }
+    });
+});
+    
+    function check_validaton(){
+        var url = '<?php echo site_url(); ?>/docappointment/check_timeslot/';
+        var final_timing = $("#timepicker4").val();
+        var timeslot_id = $("#timeSlot").val();
+        var resultAjax = false;
+        $.ajax({
+            url: url,
+            async: false,
+            type: 'POST',
+            data: {'timeslot_id' : timeslot_id,'final_timing': final_timing},
+            beforeSend: function (xhr) {
+                $("#input25").addClass('loadinggif');
+            },
+            success: function (data) {
+                if(data == 1){
+                    $("#err_timepicker4").hide();
+                    resultAjax = 0;
+                }else{
+                    $("#err_timepicker4").show();
+                    resultAjax++;
+                }
+            }
+        });
+        if(resultAjax == 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 </script>
