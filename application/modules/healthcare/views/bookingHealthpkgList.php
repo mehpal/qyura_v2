@@ -21,7 +21,7 @@
                                     <a href="<?php echo base_url();?>index.php/healthcare/addHealthpkg" title="Add New Package" class="btn btn-appointment waves-effect waves-light"><i class="fa fa-plus"></i> Add</a>
                                 </aside><?php //print_r($allCities); ?>
                                 <aside class="col-md-3 col-sm-3 m-tb-xs-3">
-                                    <select class="selectpicker" name="helathpkg_cityId" id="helathpkg_cityId" data-width="100%" >
+                                    <select class="select2" name="helathpkg_cityId" id="helathpkg_cityId" data-width="100%" >
                                         <option  value="" >Select City</option>
                                         <?php
                                         if (isset($allCities) && !empty($allCities)) {
