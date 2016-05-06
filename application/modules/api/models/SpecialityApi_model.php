@@ -17,7 +17,7 @@ class SpecialityApi_model extends CI_Model {
         return $this->db->get()->result();
     }
     
-    // Doctor's Speciality registered with the specific Hospital 
+    // Doctor's Speciality 
     public function getHosSpecialityList($miId = NULL) {
         
         $where = array('specialities_deleted' => 0,'type' => 1,'status'=>1);
