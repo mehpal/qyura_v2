@@ -686,7 +686,7 @@ if($current != 'detailDiagnostic'):?>
     
     } 
     
-     function addSpeciality(){
+     function addSpeciality(diagnoUserId){
          
         var specialityId = [];
         var checkValues = [];
@@ -702,7 +702,7 @@ if($current != 'detailDiagnostic'):?>
                     url: urls + 'index.php/diagnostic/checkSpeciality',
                     type: 'POST',
                     async: false, //=>>>>>>>>>>> here >>>>>>>>>>>
-                    data: {'diagnosticId': diagnosticId, 'allValuers': checkValues},
+                    data: {'diagnosticId': diagnosticId, 'diagnoUserId' : diagnoUserId, 'allValuers': checkValues},
                     success: function (datas) {
                         if (datas == 0) {
                              reYesNo = false;
@@ -725,13 +725,8 @@ if($current != 'detailDiagnostic'):?>
                 $.ajax({
                     url : urls + 'index.php/diagnostic/addSpeciality',
                     type: 'POST',
-                   data: {'diagnosticId' : diagnosticId , 'diagnosticSpecialities_specialitiesId' : $(this).val() },
+                   data: {'diagnosticId' : diagnosticId, 'diagnoUserId' : diagnoUserId, 'diagnosticSpecialities_specialitiesId' : $(this).val() },
                    async: false,
-                    beforeSend:function (data){
-                       
-                    $("#defaultloader").show();
-                    
-                   },
                    success: function (datas) {
                         if (datas == 0) {
                              bootbox.alert("Sorry, you can't add more than given specialities!");
