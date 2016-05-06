@@ -91,6 +91,40 @@ if ($current != 'detailDoctor'): ?>
             formData.append('avatar_file', file);
             submitData(url,formData);
         });
+    
+    var urls = "<?php echo base_url() ?>";
+    $("#submitForm").validate({
+        rules: {
+            specialityName: {
+                required: true
+            },
+            specialityNamedoctor: {
+                required : true
+            },
+            avatar_file: {
+                required : true
+            },
+            keywords: {
+                required : true
+            }
+        },
+        messages: {
+            specialityName: {
+                required: "Please enter scientific name!",
+            },
+            specialityNamedoctor: {
+                required : "Please enter general name!"
+            },
+            avatar_file: {
+                required : "Please upload an image!"
+            },
+            keywords: {
+                required : "Please fill up keywords field!"
+            }
+           
+        }
+
+    });
     });
     <?php } ?>
 
@@ -103,6 +137,39 @@ if ($current != 'detailDoctor'): ?>
             var formData = new FormData(this);
             submitData(url,formData);
         });
+        var urls = "<?php echo base_url() ?>";
+    $("#submitForm").validate({
+        rules: {
+            specialityName: {
+                required: true
+            },
+            specialityNamedoctor: {
+                required : true
+            },
+            avatar_file: {
+                required : true
+            },
+            keywords: {
+                required : true
+            }
+        },
+        messages: {
+            specialityName: {
+                required: "Please enter scientific name!",
+            },
+            specialityNamedoctor: {
+                required : "Please enter general name!"
+            },
+            avatar_file: {
+                required : "Please upload an image!"
+            },
+            keywords: {
+                required : "Please fill up keywords field!"
+            }
+           
+        }
+
+    });
     });
     <?php } ?>
     //Diagnostic
@@ -743,73 +810,7 @@ if ($current != 'detailDoctor'): ?>
     
 });
 </script>
-<script>
-    var urls = "<?php echo base_url() ?>";
-    $(document).ready(function () {
-    $("#submitForm").validate({
-        rules: {
-            hospital_name: {
-                required: true
-            },
-            hospital_countryId: {
-                required : true
-            },
-            hospital_stateId: {
-                required : true
-            },
-            hospital_cityId: {
-                required : true
-            },
-            hospital_zip: {
-                required: true,
-                            
-            },
-            hospital_address:{
-         
-                required: true
-            },
-            lat:{
-         
-           required: true
-            },
-            lng:{
-         
-            required: true
-            }
-        },
-        messages: {
-            hospital_name: {
-                required: "Please enter MI name!",
-            },
-            hospital_countryId: {
-                required : "Please select a country!"
-            },
-            hospital_stateId: {
-                required : "Please select a state!"
-            },
-            hospital_cityId: {
-                required : "Please select a city!"
-            },
-         
-            hospital_zip: {
-                required: "Please enter a zip code!"
-            },
-            hospital_address: {
-                required: "Please enter an address!"
-            },
-            lat: {
-                required: "Please enter the latitude!"
-            },
-            lng: {
-                required: "Please enter the longitude!"
-            }   
-           
-        }
 
-    });
-    
-});
-</script>
 <script>
     var urls = "<?php echo base_url() ?>";
     $(document).ready(function () {
@@ -978,6 +979,77 @@ if ($current != 'detailDoctor'): ?>
         }
 
     });
+
     
 });
+</script>
+
+<script>
+//editSpecialities
+ <?php if($this->router->fetch_method() == 'editSpecialitiesView'){ ?>
+$(document).ready(function (){
+    var urls = "<?php echo base_url() ?>";
+    $("#submitForm").validate({
+        rules: {
+            specialityName: {
+                required: true
+            },
+            specialityNamedoctor: {
+                required : true
+            },
+            avatar_file: {
+                required : true
+            }
+        },
+        messages: {
+            specialityName: {
+                required: "Please enter scientific name!",
+            },
+            specialityNamedoctor: {
+                required : "Please enter general name!"
+            },
+            avatar_file: {
+                required : "Please upload an image!"
+            }
+           
+        }
+
+    });
+     });
+    <?php } ?>
+//editSpecialities
+//editDoctorSpecialities
+<?php if($this->router->fetch_method() == 'doceditSpecialitiesView'){ ?>
+
+$(document).ready(function (){
+    var urls = "<?php echo base_url() ?>";
+    $("#submitForm").validate({
+        rules: {
+            specialityName: {
+                required: true
+            },
+            specialityNamedoctor: {
+                required : true
+            },
+            avatar_file: {
+                required : true
+            }
+        },
+        messages: {
+            specialityName: {
+                required: "Please enter scientific name!",
+            },
+            specialityNamedoctor: {
+                required : "Please enter general name!"
+            },
+            avatar_file: {
+                required : "Please upload an image!"
+            }
+           
+        }
+
+    });
+     });
+    <?php } ?>
+//editDoctorSpecialities
 </script>

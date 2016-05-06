@@ -210,14 +210,14 @@ if ($msg != "" || $msg != NULL) {
     function enableFn(controller, cfunction, id, status,type)
     {
         if(status == 1){
-            var con_mess = "Inactive";
+            var con_mess = "Deactivate";
         }else if(status == 2){
             var con_mess = "Verify";
         }else if(status == 3){
             var con_mess = "Unverify";
         }
             else{ 
-                con_mess = "Active"
+                con_mess = "Activate"
             }; 
         var url = '<?php echo site_url(); ?>/' + controller + '/' + cfunction;
         bootbox.confirm('Do you want to ' + con_mess.toLowerCase() + ' it?', function (result) {

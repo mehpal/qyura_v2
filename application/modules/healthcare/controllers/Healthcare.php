@@ -38,6 +38,7 @@ class Healthcare extends MY_Controller {
  
    }
    function addHealthpkg(){
+      
     $data = array();
         $data['allCities'] = $this->Healthcare_model->fetchCity();
         $data['title'] = 'Add Healthpkg';
@@ -53,12 +54,11 @@ class Healthcare extends MY_Controller {
         $this->load->super_admin_template('detailHealthpkg', $data,'scriptHealthpkg');
    }
    function editHealthpkg($healthPackage_id=''){
-       
+     
     $data = array();
     $data['editHealthcareData'] = $this->Healthcare_model->fetchHealthcareData($healthPackage_id);
+  
     $data['healthPackage_id'] = $healthPackage_id;
-    //print_r($healthPackage_id);
-    //exit;
     if($data['editHealthcareData'][0]->miType == "Hospital"){
       $data['miData'] = $this->Healthcare_model->fetchHospital($data['editHealthcareData'][0]->cityId);
     }else{
@@ -165,8 +165,7 @@ class Healthcare extends MY_Controller {
                      'status'=>1,
                      'creationTime' => strtotime(date("Y-m-d H:i:s"))
                     );
-                   // print_r($insertData);
-                 //   exit;
+               
                      $insertId = $this->Healthcare_model->insertHealthpkg($insertData,$miType);
                      if($insertId){
                        $this->session->set_flashdata('message','Data inserted successfully !');
@@ -225,11 +224,12 @@ class Healthcare extends MY_Controller {
               'healthPackage_id' => $healthPackage_id
               );
               $response = '';
-             // var_dump($updateData); exit;
+            
               $response = $this->Healthcare_model->UpdateTableData($updateData,$where, 'qyura_healthPackage');
                 if ($response) {
                 $this->session->set_flashdata('message', 'Data updated successfully !');
-                redirect("healthcare/editHealthpkg/$healthPackage_id");
+//                redirect("healthcare/editHealthpkg/$healthPackage_id");
+                 redirect("healthcare");
                 }
             }
   }  
