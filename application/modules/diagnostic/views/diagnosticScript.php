@@ -2129,6 +2129,13 @@ function imageIsLoaded(e) {
                         //$("#addressDiv").css("display","none");
                         $("#geocompleteId,#diagnostic_zip,#lat,#lng").attr("readonly", true);
                         $('#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId').prop("disabled", true);
+                        $("#diagnostic_zip").valid();
+                        $("#diagnostic_countryId").valid();
+                        $("#diagnostic_stateId").valid();
+                        $("#diagnostic_cityId").valid();
+                        $("#geocompleteId").valid();
+                        $("#lat").valid();
+                        $("#lng").valid();
                     } else {
                            $("#diagnoName").css("display", "block");
                             $("#geocompleteId").val('');
@@ -2527,6 +2534,390 @@ function imageIsLoaded(e) {
             $(".picEditClose-bloodbank").toggle();
         });
         
+</script>
+<script>
+    var urls = "<?php echo base_url() ?>";
+
+    $(document).ready(function () {
+
+    $("#submitForm").validate({
+        rules: {
+            diagno_id:{
+                required : true,
+            },
+            diagnostic_name: {
+                required : true,
+                lettersonly: true
+
+            },
+             avatarInput: {
+                required : true
+            },
+            
+            diagnostic_countryId:{
+         
+                required: true
+            },
+            diagnostic_stateId:{
+         
+                required: true
+            },
+            diagnostic_cityId:{
+         
+                required: true
+            },
+            diagnostic_zip:{
+         
+                required: true,
+                number: true,
+                minlength:6,
+                maxlength:6
+
+            },
+            diagnostic_address: {
+                required: true,
+            }, 
+            lat: {
+                required: true,
+                
+
+                            
+            },
+            lng: {
+                required: true,
+                 
+
+                            
+            },
+            diagnostic_phn: {
+                required: true,
+                number: true,
+                minlength:10,
+                maxlength:10
+
+                            
+            },
+            diagnostic_cntPrsn: {
+                required: true,
+                lettersonly: true
+                            
+            },
+            docatId: {
+                required: true,
+                            
+            },
+            diagnostic_dsgn: {
+                required: true,
+                 lettersonly: true                         
+            },
+            diagnostic_mbrTyp: {
+                required: true
+            },
+            aboutUs: {
+                required: true
+                         
+            },
+            users_email: {
+                required: true,
+                email: true,
+                remote: {
+                url:  urls + 'index.php/hospital/isEmailRegister',
+                type: "post",
+                data: {
+                        email: function(){ return $("#users_email").val(); },
+                        id: function(){ return $("#user_tables_id").val(); },
+                        role: function(){ return 1; }
+                    }
+                  }
+
+                            
+            },
+            diagnostic_mblNo: {
+                required: true,
+                         
+            },
+            users_password: {
+                required: true,
+                         
+            },
+            cnfPassword: {
+                required: true,
+                equalTo: "#users_password"
+
+                         
+            }
+      
+
+        },
+        messages: {
+            diagno_id:{
+                required : "Either select a diagnostic or select other!",
+            },
+              diagnostic_name: {
+                required : "Please enter diagnostic's name!",
+            },
+           
+              avatarInput: {
+                required : "Please upload an image!",
+            },
+
+              diagnostic_countryId: {
+                required: "Please select a country!",
+            },
+            diagnostic_stateId: {
+                required: "Please select a state!",
+            },
+                    
+             diagnostic_cityId: {
+                required: "Please select a city!",
+            },
+            diagnostic_zip: {
+                required: "Please enter a zip code!",
+            },
+            diagnostic_address: {
+                required: "Please enter an address!",
+            },
+            lat: {
+                required: "Please enter latitude!",
+            },
+            lng: {
+                required: "Please enter longitude!",
+            },
+            diagnostic_phn: {
+                required: "Please enter hospital's phone number!",
+            },
+            diagnostic_cntPrsn: {
+                required: "Please enter contact person's name!",
+            },
+            docatId: {
+                required: "Please enter docat Id!",
+            },
+            diagnostic_dsgn: {
+                required: "Please enter designation!",
+            },
+            diagnostic_mmbrTyp: {
+                required: "Please select a member type!",
+            },
+            aboutUs: {
+                required: "Please fill the about us section!",
+            },
+            users_email: {
+                required:"Please enter an email id!",
+                email: "Please enter the correct email format!",
+            },
+            diagnostic_mblNo: {
+                required: "Please enter a mobile no.!",
+            },
+
+            users_password: {
+                required: "Please enter a password!",
+            },
+            cnfPassword:{
+                required: "Please confirm your password!",
+         
+      }
+      
+           
+        }
+
+    });
+ $('.select2').select2().change(function(){
+    $(this).valid()
+});
+ 
+});
+</script>
+<script>
+    var urls = "<?php echo base_url() ?>";
+
+    $(document).ready(function () {
+
+    $("#updateForm").validate({
+        rules: {
+            diagno_id:{
+                required : true,
+            },
+            diagnostic_name: {
+                required : true,
+                lettersonly: true
+
+            },
+             avatarInput: {
+                required : true
+            },
+            
+            diagnostic_countryId:{
+         
+                required: true
+            },
+            diagnostic_stateId:{
+         
+                required: true
+            },
+            diagnostic_cityId:{
+         
+                required: true
+            },
+            diagnostic_zip:{
+         
+                required: true,
+                number: true,
+                minlength:6,
+                maxlength:6
+
+            },
+            diagnostic_address: {
+                required: true,
+            }, 
+            lat: {
+                required: true,
+                
+
+                            
+            },
+            lng: {
+                required: true,
+                 
+
+                            
+            },
+            diagnostic_phn: {
+                required: true,
+                number: true,
+                minlength:10,
+                maxlength:10
+
+                            
+            },
+            diagnostic_cntPrsn: {
+                required: true,
+                lettersonly: true
+                            
+            },
+            docatId: {
+                required: true,
+                            
+            },
+            diagnostic_dsgn: {
+                required: true,
+                 lettersonly: true                         
+            },
+            diagnostic_mbrTyp: {
+                required: true
+            },
+            aboutUs: {
+                required: true
+                         
+            },
+            users_email: {
+                required: true,
+                email: true,
+                remote: {
+                url:  urls + 'index.php/hospital/isEmailRegister',
+                type: "post",
+                data: {
+                        email: function(){ return $("#users_email").val(); },
+                        id: function(){ return $("#user_tables_id").val(); },
+                        role: function(){ return 1; }
+                    }
+                  }
+
+                            
+            },
+            diagnostic_mblNo: {
+                required: true,
+                         
+            },
+            users_password: {
+                required: true,
+                         
+            },
+            cnfPassword: {
+                required: true,
+                equalTo: "#users_password"
+
+                         
+            }
+      
+
+        },
+        messages: {
+            diagno_id:{
+                required : "Either select a diagnostic or select other!",
+            },
+              diagnostic_name: {
+                required : "Please enter diagnostic's name!",
+            },
+           
+              avatarInput: {
+                required : "Please upload an image!",
+            },
+
+              diagnostic_countryId: {
+                required: "Please select a country!",
+            },
+            diagnostic_stateId: {
+                required: "Please select a state!",
+            },
+                    
+             diagnostic_cityId: {
+                required: "Please select country,state and a city!",
+            },
+            diagnostic_zip: {
+                required: "Please enter a zip code!",
+            },
+            diagnostic_address: {
+                required: "Please enter an address!",
+            },
+            lat: {
+                required: "Please enter latitude!",
+            },
+            lng: {
+                required: "Please enter longitude!",
+            },
+            diagnostic_phn: {
+                required: "Please enter hospital's phone number!",
+            },
+            diagnostic_cntPrsn: {
+                required: "Please enter contact person's name!",
+            },
+            docatId: {
+                required: "Please enter docat Id!",
+            },
+            diagnostic_dsgn: {
+                required: "Please enter designation!",
+            },
+            diagnostic_mmbrTyp: {
+                required: "Please select a member type!",
+            },
+            aboutUs: {
+                required: "Please fill the about us section!",
+            },
+            users_email: {
+                required:"Please enter an email id!",
+                email: "Please enter the correct email format!",
+            },
+            diagnostic_mblNo: {
+                required: "Please enter a mobile no.!",
+            },
+
+            users_password: {
+                required: "Please enter a password!",
+            },
+            cnfPassword:{
+                required: "Please confirm your password!",
+         
+      }
+      
+           
+        }
+
+    });
+ $('.select2').select2().change(function(){
+    $(this).valid()
+});
+ 
+});
 </script>
 
 </body>

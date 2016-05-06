@@ -630,7 +630,6 @@ class Medicart extends MY_Controller {
             'select' => 'medicartOffer_MIId',
             'where' => array('medicartOffer_MIId' => $id , 'status' => 1 , 'medicartOffer_deleted' => 0)
         );
- 
         
         $offerData = $this->common_model->customCount($options);
       

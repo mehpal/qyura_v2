@@ -580,7 +580,6 @@ class Docappointment extends MY_Controller {
             'join' => array(
                 array('qyura_doctors', 'qyura_doctors.doctors_userId = qyura_doctorAppointment.doctorAppointment_doctorUserId', 'left'),
                 array('qyura_patientDetails', 'qyura_patientDetails.patientDetails_usersId = qyura_doctorAppointment.doctorAppointment_pntUserId', 'left'),
-                array('qyura_doctorAvailabilitySession', 'qyura_doctorAvailabilitySession.doctorAvailabilitySession_id = qyura_doctorAppointment.doctorAppointment_slotId', 'left'),
                 array('qyura_specialities', 'qyura_specialities.specialities_id = qyura_doctorAppointment.doctorAppointment_specialitiesId', 'left'),
                 array('qyura_country', 'qyura_country.country_id = qyura_patientDetails.patientDetails_countryId', 'left'),
                 array('qyura_state', 'qyura_state.state_id = qyura_patientDetails.patientDetails_stateId', 'left'),
