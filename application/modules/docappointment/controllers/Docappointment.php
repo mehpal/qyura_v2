@@ -324,7 +324,7 @@ class Docappointment extends MY_Controller {
             $user_city = $this->input->post('input15');
             $user_zip = $this->input->post('input16');
             $user_address = $this->input->post('input17');
-            $user_dob = $this->input->post('input26');
+            $user_dob = strtotime($this->input->post('input26'));
             $user_gender = $this->input->post('input27');
             if (empty($user_id)) {
                 if(empty($email_status)){    
