@@ -299,14 +299,17 @@
                                                                     </article>
 
 
-                                                                    <div class='pro-img'>
+                                                                     <article class="clearfix m-b-10">
+                                                                         <label for="cemail" class="control-label col-md-4 col-sm-4">Image :</label>
                                                                         <!-- image -->
-                                                                        <?php if (!empty($hospitalData[0]->bloodBank_photo)) { ?>
-                                                                            <img src="<?php echo base_url() ?>assets/BloodBank/thumb/thumb_100/<?php echo $hospitalData[0]->bloodBank_photo; ?>" alt="" class="logo-img" />
+                                                                        <aside class="col-md-8 col-sm-8 t-xs-left">
+                                                                            <?php if (!empty($hospitalData[0]->bloodBank_photo)) { ?>
+                                                                            <img src="<?php echo base_url() ?>assets/BloodBank/thumb/thumb_100/<?php echo $hospitalData[0]->bloodBank_photo; ?>" alt=""/>
                                                                         <?php } else { ?>
-                                                                            <img src="<?php echo base_url() ?>assets/default-images/Blood-logo.png" alt="" class="logo-img" />
+                                                                            <img src="<?php echo base_url() ?>assets/default-images/Blood-logo.png" alt="" />
                                                                         <?php } ?>
-                                                                    </div>
+                                                                        </aside>
+                                                                     </article>
 
                                                                     <article class="clearfix m-b-10 ">
                                                                         <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
@@ -366,14 +369,17 @@
                                                                         <p class="col-md-8 col-sm-8 t-xs-left"><?php echo $hospitalData[0]->ambulance_name; ?></p>
                                                                     </article>
 
-                                                                    <div class='pro-img'>
+                                                                    <article class="clearfix m-b-10">
+                                                                        <label for="cemail" class="control-label col-md-4 col-sm-4">Image :</label>
                                                                         <!-- image -->
-                                                                        <?php if (!empty($hospitalData[0]->ambulance_img)) { ?>
-                                                                            <img src="<?php echo base_url() ?>assets/ambulanceImages/thumb/thumb_100/<?php echo $hospitalData[0]->ambulance_img; ?>" alt="" class="logo-img" />
-                                                                        <?php } else { ?>
-                                                                            <img src="<?php echo base_url() ?>assets/default-images/ambulance_logo.png" alt="" class="logo-img" />
-                                                                        <?php } ?>
-                                                                    </div>
+                                                                        <aside class="col-md-8 col-sm-8 t-xs-left">
+                                                                            <?php if (!empty($hospitalData[0]->ambulance_img)) { ?>
+                                                                                <img src="<?php echo base_url() ?>assets/ambulanceImages/thumb/thumb_100/<?php echo $hospitalData[0]->ambulance_img; ?>" alt=""/>
+                                                                            <?php } else { ?>
+                                                                                <img src="<?php echo base_url() ?>assets/default-images/ambulance_logo.png" alt="" />
+                                                                            <?php } ?>
+                                                                        </aside>
+                                                                    </article>
 
                                                                     <article class="clearfix m-b-10 ">
                                                                         <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
@@ -649,15 +655,39 @@
                                                                         <div>
                                                                             </article>
 
+                                                                
+                                                                
+                                                                             <div class="pro-img" id="blood-crop-avatar">
 
-                                                                            <div class='pro-img'>
-                                                                                <!-- image -->
-                                                                                <?php if (!empty($hospitalData[0]->bloodBank_photo)) { ?>
-                                                                                    <img src="<?php echo base_url() ?>assets/BloodBank/thumb/thumb_100/<?php echo $hospitalData[0]->bloodBank_photo; ?>" alt="" class="logo-img" />
-                                                                                <?php } else { ?>
-                                                                                    <img src="<?php echo base_url() ?>assets/default-images/Blood-logo.png" alt="" class="logo-img" />
-                                                                                <?php } ?>
-                                                                            </div>
+                                                                                        <?php echo $this->load->view('edit_bloodbank_upload_crop_modal', array('id' => $hospitalData[0]->bloodBank_id)); ?>
+                                                                                                <!-- image -->
+                                                                                                <?php if (!empty($hospitalData[0]->bloodBank_photo)) { ?>
+                                                                                                    <img src="<?php echo base_url() ?>assets/BloodBank/thumb/thumb_100/<?php echo $hospitalData[0]->bloodBank_photo; ?>" alt="" class="logo-img-bloodbank" />
+                                                                                                <?php } else { ?>
+                                                                                                    <img src="<?php echo base_url() ?>assets/default-images/Blood_Bank.png" alt="" class="logo-img-bloodbank" />
+                                                                                                <?php } ?>
+                                                                                                <article class="logo-up-bloodbank avatar-view" style="display:none">
+                                                                                                    <?php if (!empty($hospitalData[0]->bloodBank_photo)) { ?>
+                                                                                                        <img src="<?php echo base_url() ?>assets/BloodBank/thumb/thumb_100/<?php echo $hospitalData[0]->bloodBank_photo; ?>" alt="" class="logo-img-ambulance" style="display:block" />
+                                                                                                    <?php } else { ?>
+                                                                                                        <img src="<?php echo base_url() ?>assets/default-images/Blood_Bank.png" alt="" class="logo-img-bloodbank" style="display:block" />
+                                                                                                    <?php } ?>
+                                                                                                    <div class="fileUpload btn btn-sm btn-upload logo-Upload">
+                                                                                                        <span><i class="fa fa-cloud-upload fa-3x "></i></span>
+                                                <!--                                                        <input id="uploadBtn" type="file" class="upload" />-->
+                                                                                                        <input type="hidden" style="display:none;" class="no-display file_action_url"  name="file_action_url" value="<?php echo site_url('hospital/editUploadImageBloodbank'); ?>">
+                                                                                                        <input type="hidden" style="display:none;" class="no-display load_url" id="load_url" name="load_url" value="<?php echo site_url('hospital/getUpdateAvtar/' . $hospitalData[0]->bloodBank_id); ?>/bloodbank">
+                                                                                                    </div>
+                                                                                                </article>
+                                                                                                <!-- description div -->
+
+                                                                                                <div class='pic-edit bloodbank_edit'>
+                                                                                                    <h3><a  class="pull-center cl-white picEdit-bloodbank" title="Edit Logo" style="display:block;"><i class="fa fa-pencil"></i></a></h3>
+                                                                                                    <h3><a  class="pull-center cl-white picEditClose-bloodbank" title="Cancel"  style="display:none;"><i class="fa fa-times"></i></a></h3>
+                                                                                                </div>
+                                                                                                <!-- end description div -->
+                                                                                            </div>
+                                                                
 
                                                                             <article class="clearfix m-b-10 ">
                                                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
@@ -722,20 +752,20 @@
                                                                                         <div>
                                                                                             </article>
 
-                                                                                            <div class="pro-img ambulance_edit" id="crop-ambulance">
+                                                                                            <div class="pro-img" id="crop-ambulance">
 
                                                                                                 <?php echo $this->load->view('edit_ambulance_upload_crop_modal', array('id' => $hospitalData[0]->ambulance_id)); ?>
                                                                                                 <!-- image -->
                                                                                                 <?php if (!empty($hospitalData[0]->ambulance_img)) { ?>
-                                                                                                    <img src="<?php echo base_url() ?>assets/ambulanceImages/thumb/thumb_100/<?php echo $hospitalData[0]->ambulance_img; ?>" alt="" class="logo-img" />
+                                                                                                    <img src="<?php echo base_url() ?>assets/ambulanceImages/thumb/thumb_100/<?php echo $hospitalData[0]->ambulance_img; ?>" alt="" class="logo-img-ambulance" />
                                                                                                 <?php } else { ?>
-                                                                                                    <img src="<?php echo base_url() ?>assets/default-images/ambulance_logo.png" alt="" class="logo-img" />
+                                                                                                    <img src="<?php echo base_url() ?>assets/default-images/ambulance_logo.png" alt="" class="logo-img-ambulance" />
                                                                                                 <?php } ?>
-                                                                                                <article class="logo-up avatar-view" style="display:none">
+                                                                                                <article class="logo-up-ambulance avatar-view" style="display:none">
                                                                                                     <?php if (!empty($hospitalData[0]->ambulance_img)) { ?>
-                                                                                                        <img src="<?php echo base_url() ?>assets/ambulanceImages/thumb/thumb_100/<?php echo $hospitalData[0]->ambulance_img; ?>" alt="" class="logo-img" style="display:block" />
+                                                                                                        <img src="<?php echo base_url() ?>assets/ambulanceImages/thumb/thumb_100/<?php echo $hospitalData[0]->ambulance_img; ?>" alt="" class="logo-img-ambulance" style="display:block" />
                                                                                                     <?php } else { ?>
-                                                                                                        <img src="<?php echo base_url() ?>assets/default-images/ambulance_logo.png" alt="" class="logo-img" style="display:block" />
+                                                                                                        <img src="<?php echo base_url() ?>assets/default-images/ambulance_logo.png" alt="" class="logo-img-ambulance" style="display:block" />
                                                                                                     <?php } ?>
                                                                                                     <div class="fileUpload btn btn-sm btn-upload logo-Upload">
                                                                                                         <span><i class="fa fa-cloud-upload fa-3x "></i></span>
@@ -747,8 +777,8 @@
                                                                                                 <!-- description div -->
 
                                                                                                 <div class='pic-edit ambulance_edit'>
-                                                                                                    <h3><a  class="pull-center cl-white picEdit" title="Edit Logo" style="display:block;"><i class="fa fa-pencil"></i></a></h3>
-                                                                                                    <h3><a  class="pull-center cl-white picEditClose" title="Cancel"  style="display:none;"><i class="fa fa-times"></i></a></h3>
+                                                                                                    <h3><a  class="pull-center cl-white picEdit-ambulance" title="Edit Logo" style="display:block;"><i class="fa fa-pencil"></i></a></h3>
+                                                                                                    <h3><a  class="pull-center cl-white picEditClose-ambulance" title="Cancel"  style="display:none;"><i class="fa fa-times"></i></a></h3>
                                                                                                 </div>
                                                                                                 <!-- end description div -->
                                                                                             </div>

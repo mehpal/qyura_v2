@@ -138,6 +138,8 @@ class Hospital extends MY_Controller {
         
         
         $data['hospitalData'] = $hospitalData = $this->Hospital_model->fetchHospitalData($hospitalId);
+        
+       // dump($data['hospitalData']); exit;
         if (count($data['hospitalData']) == 0) {
             redirect('hospital');
         }
@@ -1914,9 +1916,10 @@ class Hospital extends MY_Controller {
 
         if ($_POST['avatar_file']['name']) {
             $path = realpath(FCPATH . 'assets/hospitalsImages/');
-            $upload_data = $this->input->post('avatar_data');
+            $upload_data = $this->input->post('avatar-data');
             $upload_data = json_decode($upload_data);
-            if ($upload_data->width > 120) {
+           // echo $upload_data->width; exit;
+            if ($upload_data->width > 425) {
                 $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/hospitalsImages/', './assets/hospitalsImages/thumb/', 'hospital');
 
                 if (empty($original_imagesname)) {
@@ -1932,7 +1935,7 @@ class Hospital extends MY_Controller {
                     );
                     $response = $this->Hospital_model->UpdateTableData($option, $where, 'qyura_hospital');
                     if ($response) {
-                        $response = array('state' => 200, 'message' => 'Successfully update avtar');
+                         $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/hospitalsImages/thumb/thumb_100/{$original_imagesname}"),'reset'=>"hospital_edit", 'returnClass'  => 'logo-img');
                     } else {
                         $response = array('state' => 400, 'message' => 'Failed to update avtar');
                     }
@@ -1947,8 +1950,21 @@ class Hospital extends MY_Controller {
         }
     }
     
-    function editUploadImageAmbulance() {
+  
 
+
+    function getUpdateAvtar($id) {
+        if (!empty($id)) {
+            $data['hospitalData'] = $this->Hospital_model->fetchHospitalData($id);
+            //  print_r($data); exit;
+            echo "<img src='" . base_url() . "assets/hospitalsImages/thumb/original/" . $data['hospitalData'][0]->hospital_img . "'alt='' class='logo-img' />";
+            exit();
+        }
+    }
+    
+    
+    function editUploadImageAmbulance() {
+        
         if ($_POST['avatar_file']['name']) {
             $path = realpath(FCPATH . 'assets/ambulanceImages/');
             $upload_data = $this->input->post('avatar-data');
@@ -1967,11 +1983,12 @@ class Hospital extends MY_Controller {
                         'modifyTime' => strtotime(date("Y-m-d H:i:s"))
                     );
                     $where = array(
-                        'ambulance_id' => $this->input->post('ambulance_id')
+                        'ambulance_id' => $this->input->post('avatar_id')
                     );
                     $response = $this->Hospital_model->UpdateTableData($option, $where, 'qyura_ambulance');
+                    
                     if ($response) {
-                        $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/ambulanceImages/thumb/thumb_100/{$original_imagesname}"),'reset'=>"ambulance_edit");
+                        $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/ambulanceImages/thumb/thumb_100/{$original_imagesname}"),'reset'=>"ambulance_edit", 'returnClass'  => 'logo-img-ambulance');
                     } else {
                         $response = array('state' => 400, 'message' => 'Failed to update avtar');
                     }
@@ -1985,16 +2002,68 @@ class Hospital extends MY_Controller {
             echo json_encode($response);
         }
     }
-
-
-    function getUpdateAvtar($id) {
+    
+      function getUpdateAvtarAmbulance($id) {
         if (!empty($id)) {
             $data['hospitalData'] = $this->Hospital_model->fetchHospitalData($id);
             //  print_r($data); exit;
-            echo "<img src='" . base_url() . "assets/hospitalsImages/thumb/original/" . $data['hospitalData'][0]->hospital_img . "'alt='' class='logo-img' />";
+            echo "<img src='" . base_url() . "assets/ambulanceImages/thumb/original/" . $data['hospitalData'][0]->ambulance_img . "'alt='' class='logo-img-ambulance' />";
             exit();
         }
     }
+    
+    
+      function editUploadImageBloodbank() {
+        
+        if ($_POST['avatar_file']['name']) {
+            $path = realpath(FCPATH . 'assets/BloodBank/');
+            $upload_data = $this->input->post('avatar-data');
+            
+            $upload_data = json_decode($upload_data);
+           // dump($upload_data); exit;
+            if ($upload_data->width > 425) {
+                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/BloodBank/', './assets/BloodBank/thumb/', 'blood');
+
+                if (empty($original_imagesname)) {
+                    $response = array('state' => 400, 'message' => $this->error_message);
+                } else {
+
+                    $option = array(
+                        'bloodBank_photo' => $original_imagesname,
+                        'modifyTime' => strtotime(date("Y-m-d H:i:s"))
+                    );
+                    $where = array(
+                        'bloodBank_id' => $this->input->post('avatar_id')
+                    );
+                    $response = $this->Hospital_model->UpdateTableData($option, $where, 'qyura_bloodBank');
+                    
+                    if ($response) {
+                        $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/BloodBank/thumb/thumb_100/{$original_imagesname}"),'reset'=>"bloodbank_edit", 'returnClass'  => 'logo-img-bloodbank');
+                    } else {
+                        $response = array('state' => 400, 'message' => 'Failed to update avtar');
+                    }
+                }
+            } else {
+                $response = array('state' => 400, 'message' => 'Height and Width must exceed 150px.');
+            }
+            echo json_encode($response);
+        } else {
+            $response = array('state' => 400, 'message' => 'Please select avtar');
+            echo json_encode($response);
+        }
+    }
+    
+     function getUpdateAvtarBloodbank($id) {
+        if (!empty($id)) {
+            $data['hospitalData'] = $this->Hospital_model->fetchHospitalData($id);
+            //  print_r($data); exit;
+            echo "<img src='" . base_url() . "assets/BloodBank/thumb/original/" . $data['hospitalData'][0]->bloodBank_photo . "'alt='' class='logo-img-bloodbank' />";
+            exit();
+        }
+    }
+    
+    
+     
 
     function createCSV() {
 
