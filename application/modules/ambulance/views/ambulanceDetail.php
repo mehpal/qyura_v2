@@ -31,7 +31,10 @@
                                     <div class="bg-picture text-center" style="background-image:url('<?php if(isset($backgroundImage) && !empty($backgroundImage[0]->ambulance_background_img)): echo base_url().'assets/ambulanceImages/'.$backgroundImage[0]->ambulance_background_img; else: echo base_url().'assets/default-images/ambulance.png'; endif;?>')">
                                         <div class="bg-picture-overlay"></div>
                                         <div class="profile-info-name">
-                                       <div class='pro-img '>
+                                            
+                                            
+                                       <div class='pro-img ' id="crop-avatar">
+                                           <?php echo $this->load->view('edit_upload_crop_modal');?>
                                                 <!-- image -->
                                                 <?php if(!empty($ambulanceData[0]->ambulance_img)){
                                                     ?>
@@ -49,7 +52,7 @@
                                                     <div class="fileUpload btn btn-sm btn-upload logo-Upload">
                                                         <span><i class="fa fa-cloud-upload fa-3x "></i></span>
 <!--                                                        <input id="uploadBtn" type="file" class="upload" />-->
-                                                         <input type="hidden" style="display:none;" class="no-display" id="file_action_url" name="file_action_url" value="<?php echo site_url('ambulance/editUploadImage');?>">
+                                                         <input type="hidden" style="display:none;" class="no-display file_action_url" id="file_action_url" name="file_action_url" value="<?php echo site_url('ambulance/editUploadImage');?>">
                                                          <input type="hidden" style="display:none;" class="no-display" id="load_url" name="load_url" value="<?php echo site_url('ambulance/getUpdateAvtar/'.$this->uri->segment(3));?>">
                                                     </div>
                                                 </article>
@@ -500,6 +503,6 @@
                 </div>
 
                 <!-- container -->
-                <?php echo $this->load->view('edit_upload_crop_modal');?>
+                
 
 
