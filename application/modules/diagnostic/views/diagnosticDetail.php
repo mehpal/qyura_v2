@@ -1114,7 +1114,7 @@
                                         <!-- first Section End -->
                                         <section class="col-md-2 detailbox m-b-20 text-center">
                                             <div class="m-t-150">
-                                                <a onclick="addSpeciality()"><i class="fa fa-arrow-right s-add"></i></a>
+                                                <a onclick="addSpeciality(user_tables_id.value)"><i class="fa fa-arrow-right s-add"></i></a>
                                             </div>
                                             <div class="m-t-50">
                                                 <a onclick="revertSpeciality()"> <i class="fa fa-arrow-left s-add"></i></a>
