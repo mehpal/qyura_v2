@@ -140,9 +140,9 @@ CASE
                 $finalTemp[] = isset($row->specialities) ? $row->specialities : "";
                 $finalTemp[] = isset($row->isEmergency) ? $row->isEmergency : "";
                 
-                $finalTemp[] = isset($row->isAmbulance) && $row->isAmbulance > 0 ? 1 : 0;
-                $finalTemp[] = isset($row->isHealtPkg) && $row->isHealtPkg > 0 ? 1 : 0;
-                $finalTemp[] = isset($row->isInsurance) && $row->isInsurance > 0  ? 1  : 0;
+                $finalTemp[] = isset($row->isAmbulance) && $row->isAmbulance > 0 ? "1" : "0";
+                $finalTemp[] = isset($row->isHealtPkg) && $row->isHealtPkg > 0 ? "1" : "0";
+                $finalTemp[] = isset($row->isInsurance) && $row->isInsurance > 0  ? "1"  : "0";
                 $finalTemp[] = isset($row->userId) ? $row->userId : "";
                 $finalResult[] = $finalTemp;
             }
@@ -273,10 +273,10 @@ CASE
     
     public function getHosDoctors($hospitalId,$hospitalUsersId,$limit=NULL)
     {
-        $this->db->select('doctors_id,doctors_userId,CONCAT("assets/doctorsImages","/",doctors_img) as doctors_img,doctors_fName,doctors_lName,doctor_addr,doctors_phn,doctors_mobile,doctors_27Src,doctors_consultaionFee');
-        $this->db->from('qyura_usersRoles');
-        $this->db->join('qyura_doctors','qyura_doctors.doctors_userId=qyura_usersRoles.usersRoles_userId','left');
-        $this->db->where(array('qyura_usersRoles.usersRoles_parentId'=>$hospitalUsersId,'qyura_usersRoles.usersRoles_roleId'=>ROLE_DOCTORE));
+        $this->db->select('doctors_id, doctors_userId, CONCAT("assets/doctorsImages/thumb/thumb_100","/",doctors_img) as doctors_img, doctors_fName, doctors_lName, doctor_addr, doctors_phn, doctors_mobile, doctors_27Src, doctors_consultaionFee');
+        $this->db->from('qyura_doctors');
+       // $this->db->join('qyura_doctors','qyura_doctors.doctors_userId = qyura_usersRoles.usersRoles_userId','left');
+        $this->db->where(array('qyura_doctors.doctors_parentId'=>$hospitalUsersId,'qyura_doctors.doctors_roll'=>ROLE_DOCTORE_CHILD));
         if($limit!=NULL)
         $this->db->limit($limit);
         $doctors = $this->db->get()->result();
