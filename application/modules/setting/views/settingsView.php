@@ -36,15 +36,18 @@
                                                 </div>
                                             </article>
                                           
-                                            
-                                                      <article class="clearfix m-t-10">
+                             <div id="crop-avatar">        
+                                  <div id="upload_modal_form">
+                                        <?php $this->load->view('upload_crop_modal');?>
+                                    </div>
+                              <article class="clearfix m-t-10">
                                 <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
                                 
                                 <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
                                     <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
 
-                                    <div class="pre col-md-4 col-sm-4 ">
-                                    <div id="preImgLogo" class="avatar-preview preview-md">
+                              <div class="pre col-md-4 col-sm-4 ">
+                                  <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
                                           <?php if(!empty($users[0]->patientDetails_patientImg)){
                                  ?>
                               <img src="<?php echo base_url()?>assets/patientImages/thumb/thumb_100/<?php echo $users[0]->patientDetails_patientImg; ?>" alt="" class="image-preview-show" />
@@ -64,7 +67,7 @@
                                 </div>
                                 
                             </article>
-                                            
+                             </div>                   
                                             
                                             
 <!--                                             <article class="form-group m-lr-0 ">
@@ -221,9 +224,7 @@
 
                         </section>
 
-                        <div id="upload_modal_form">
-                            <?php $this->load->view('upload_crop_modal');?>
-                        </div>
+                       
                     </form>
 
 
