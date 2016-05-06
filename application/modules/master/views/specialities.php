@@ -48,7 +48,7 @@
                                         <span class="col-md-4 text-right">
                                             <h6>
                                                 <a class="btn btn-success waves-effect waves-light m-b-5" href="<?php echo site_url('master/editSpecialitiesView/' . $val->specialities_id); ?>"><i class="fa fa-pencil"></i></a>
-                                                <button onclick="if((<?php echo $val->status; ?>)===2)enableFn('master', 'specialityPublish', '<?php echo $val->specialities_id; ?>','<?php echo $val->status; ?>')" type="button" class="btn btn-<?php if($val->status == 2){ echo "danger"; }else if($val->status == 0){ echo "warning"; }else if($val->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($val->status == 3){ echo "Verified"; }else if($val->status == 2){ echo "Unverified"; }else if($val->status == 1){ echo "Active"; }else if($val->status == 0){ echo "Inactive"; } ?></button>
+                                                <button onclick="if((<?php echo $val->status; ?>)===0)enableFn('master', 'specialityPublish', '<?php echo $val->specialities_id; ?>','<?php echo $val->status; ?>')" type="button" class="btn btn-<?php if($val->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($val->status == 0){ echo "Inactive"; }else if($val->status == 1){ echo "Active"; } ?></button>
                                             </h6>
                                         </span>
                                         <span class="col-md-8">
@@ -82,8 +82,7 @@
                                     <label for="" class="control-label">Scientific Name :</label>
                                     <div class="">
                                         <input class="form-control m-t-5" id="specialityName" type="text" name="specialityName" required="" value="<?php echo set_value('specialityName'); ?>">
-
-                                        <label class="error" id="err_specialityName" > <?php echo form_error("specialityName"); ?></label>
+                                     <?php echo form_error("specialityName"); ?></label>
                                     </div>
                                 </article>
                                 <article class="clearfix m-t-10">
@@ -91,7 +90,7 @@
                                     <div class="">
                                         <input class="form-control m-t-5" id="specialityNamedoctor" type="text" name="specialityNamedoctor" required="" value="<?php echo set_value('specialityNamedoctor'); ?>">
 
-                                        <label class="error" id="err_specialityNamedoctor" > <?php echo form_error("specialityName"); ?></label>
+                                <?php echo form_error("specialityName"); ?></label>
                                     </div>
                                 </article>
 
@@ -107,16 +106,13 @@
                                     <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
                                         
                                         <img src="<?php echo base_url() ?>assets/default-images/Dignostics-logo.png"  class="image-preview-show" />
+                                        <label id="error-label" class="error-label"></label>
                                     </div>
                                     </div>
 
-                                    <label class="error" > <?php echo form_error("avatar_file"); ?></label>
-                                    <label class="error" id="error-avatarInput" style="display: none">Please upload an image</label>
+                                    <?php echo form_error("avatar_file"); ?></label>
                                     <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
-                                    
-                                    
-                                    
-                                </div>
+                                    </div>
                                 
                             </article>
 
@@ -124,7 +120,7 @@
                                     <label for="" class="control-label">Keywords/Tags:</label>
                                     <div class="">
                                         <textarea class="form-control m-t-5" id="keywords" type="text" name="keywords" ><?php echo set_value('keywords'); ?></textarea>
-                                        <label class="error" id="err_keywords" > <?php echo form_error("keywords"); ?></label>
+                                         <?php echo form_error("keywords"); ?></label>
                                     </div>
                                 </article>
                                 <article class="clearfix m-t-10 m-b-20">

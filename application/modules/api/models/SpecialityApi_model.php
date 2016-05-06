@@ -23,10 +23,10 @@ class SpecialityApi_model extends CI_Model {
         $where = array('specialities_deleted' => 0,'type' => 1,'status'=>1);
         $where["hospitalSpecialities_hospitalId"] = $miId; 
           
-        $this->db->select('distinct(doctorSpecialities_specialitiesId) as id, (CASE WHEN (speciality_display_format = "1") THEN specialities_drName ELSE specialities_name END) as name, CONCAT("assets/specialityImages/3x","/",specialities_img) img');
+        $this->db->select('(specialities_id) as id, (CASE WHEN (speciality_display_format = "1") THEN specialities_drName ELSE specialities_name END) as name, CONCAT("assets/specialityImages/3x","/",specialities_img) img, (SELECT count(doctorSpecialities_doctorsId) from qyura_doctorSpecialities JOIN `qyura_doctorSpecialities` ON `qyura_doctorSpecialities`.`medicartOffer_id` = `medicartSpecialities_medicartId` where `qyura_medicartOffer`.`status` = 1 AND medicartSpecialities_deleted = 0 AND `qyura_medicartSpecialities`.`status` = 1 AND `medicartSpecialities_specialitiesId` = `specialities_id`) as specialityCount');
         
         $this->db->from('qyura_doctorSpecialities');
-        $this->db->join("","qyura_specialities.specialities_id = hospitalSpecialities_specialitiesId","inner");
+        $this->db->join("qyura_specialities","qyura_specialities.specialities_id = hospitalSpecialities_specialitiesId","inner");
         $this->db->where($where);
         $this->db->order_by('specialities_id', 'ASC');
         
