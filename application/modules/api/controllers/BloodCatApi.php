@@ -166,7 +166,8 @@ class BloodCatApi extends MyRest {
  
         $this->form_validation->set_rules('lat', 'Lat', 'xss_clean|trim|decimal');
         $this->form_validation->set_rules('long', 'Long', 'xss_clean|trim|decimal');
-        $this->bf_form_validation->set_rules('search', 'Search Keyword', 'xss_clean|trim');                $this->bf_form_validation->set_rules('cityId', 'cityId', 'xss_clean|trim|numeric|is_natural_no_zero');
+        $this->bf_form_validation->set_rules('search', 'Search Keyword', 'xss_clean|trim');               
+        $this->bf_form_validation->set_rules('cityId', 'cityId', 'xss_clean|trim|numeric|is_natural_no_zero');
 
         if ($this->form_validation->run() == FALSE) {
             $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
