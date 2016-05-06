@@ -61,7 +61,7 @@ class Cms extends MY_Controller {
                         $this->session->set_flashdata('message','Data insert successfully !');
                         redirect('cms');
                     }else{
-                       $this->session->set_flashdata('message','Sorry! an error occured.Try again.');
+                       $this->session->set_flashdata('error','Sorry! an error occured.Try again.');
                        redirect('cms');
                     }
 

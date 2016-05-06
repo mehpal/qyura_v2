@@ -422,9 +422,9 @@ class Bloodbank extends MY_Controller {
 
         if ($_POST['avatar_file']['name']) {
             $path = realpath(FCPATH . 'assets/BloodBank/');
-            $upload_data = $this->input->post('avatar_data');
+            $upload_data = $this->input->post('avatar-data');
             $upload_data = json_decode($upload_data);
-            if ($upload_data->width > 120) {
+            if ($upload_data->width > 425) {
                 $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/BloodBank/', './assets/BloodBank/thumb/', 'blood');
 
                 if (empty($original_imagesname)) {
@@ -440,13 +440,13 @@ class Bloodbank extends MY_Controller {
                     );
                     $response = $this->Bloodbank_model->UpdateTableData($option, $where, 'qyura_bloodBank');
                     if ($response) {
-                        $response = array('state' => 200, 'message' => 'Successfully update avtar');
+                         $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/BloodBank/thumb/thumb_100/{$original_imagesname}"),'reset'=>"common-edit", 'returnClass'  => 'logo-img');
                     } else {
                         $response = array('state' => 400, 'message' => 'Failed to update avtar');
                     }
                 }
             } else {
-                $response = array('state' => 400, 'message' => 'Height and Width must exceed 150px.');
+                $response = array('state' => 400, 'message' => 'Height and Width must exceed 425px.');
             }
             echo json_encode($response);
         } else {

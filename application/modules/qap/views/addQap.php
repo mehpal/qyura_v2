@@ -53,7 +53,10 @@ Back
                                             <label class="error" > <?php echo form_error("qap_email"); ?></label>
                                         </div>
                                     </article>
-                                          
+                                           <div id="crop-avatar">        
+                                  <div id="upload_modal_form">
+                                        <?php $this->load->view('upload_crop_modal');?>
+                                    </div>
                                                  <article class="clearfix m-t-10">
                                 <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
                                 
@@ -61,7 +64,7 @@ Back
                                     <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
 
                                     <div class="pre col-md-4 col-sm-4 ">
-                                    <div id="preImgLogo" class="avatar-preview preview-md">
+                                    <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
                                         
                                    <img src="<?php echo base_url() ?>assets/default-images/Blood-logo.png"  class="image-preview-show"/>
                                         
@@ -76,6 +79,7 @@ Back
                                 </div>
                                 
                             </article>
+                                           </div>
                                   
                                             <article class="clearfix m-t-10">
                                                   <label for="cname" class="control-label col-md-4 col-sm-4">City :</label>
@@ -205,9 +209,7 @@ Back
 
 
                           </fieldset>
-                        <div id="upload_modal_form">
-                            <?php $this->load->view('upload_crop_modal');?>
-                        </div>
+                      
                     </form>
 
 

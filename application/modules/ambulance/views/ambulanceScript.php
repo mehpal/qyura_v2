@@ -1004,6 +1004,17 @@ function imageIsLoaded(e) {
         });
 
     });
+       $(function () {
+        //new CropAvatar($('#blood-crop-avatar'));
+        $(".ambulance-edit").click(function () {
+
+            $(".logo-img").toggle();
+            $(".logo-up").toggle();
+            $(".picEdit").toggle();
+            $(".picEditClose").toggle();
+        });
+
+    });
 </script>
 </body>
 
