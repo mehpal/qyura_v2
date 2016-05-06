@@ -2509,6 +2509,31 @@ function imageIsLoaded(e) {
             submitData(url,formData);
         });
     });
+    
+    
+   $(".diagno_edit").click(function () {
+            $(".logo-img").toggle();
+            $(".logo-up").toggle();
+            $(".picEdit").toggle();
+            $(".picEditClose").toggle();
+        });
+    
+    $(".ambulance_edit").click(function () {
+           
+            $(".logo-img-ambulance").toggle();
+            $(".logo-up-ambulance").toggle();
+            $(".picEdit-ambulance").toggle();
+            $(".picEditClose-ambulance").toggle();
+        });
+        
+         $(".bloodbank_edit").click(function () {
+           
+            $(".logo-img-bloodbank").toggle();
+            $(".logo-up-bloodbank").toggle();
+            $(".picEdit-bloodbank").toggle();
+            $(".picEditClose-bloodbank").toggle();
+        });
+        
 </script>
 <script>
     var urls = "<?php echo base_url() ?>";

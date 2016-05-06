@@ -250,6 +250,7 @@ if (isset($mapData) && !empty($mapData)) {
         });
 
     }
+    
     // datatable get records
     $(function () {
         //new CropAvatar($('#blood-crop-avatar'));
@@ -261,14 +262,29 @@ if (isset($mapData) && !empty($mapData)) {
             $(".picEditClose").toggle();
         });
 
-
-        $(".ambulance_edit").click(function () {
-            $(".logo-img").toggle();
-            $(".logo-up").toggle();
-            $(".picEdit").toggle();
-            $(".picEditClose").toggle();
-        });
     });
+    
+    
+       $(".ambulance_edit").click(function () {
+           
+            $(".logo-img-ambulance").toggle();
+            $(".logo-up-ambulance").toggle();
+            $(".picEdit-ambulance").toggle();
+            $(".picEditClose-ambulance").toggle();
+        });
+        
+         $(".bloodbank_edit").click(function () {
+           
+            $(".logo-img-bloodbank").toggle();
+            $(".logo-up-bloodbank").toggle();
+            $(".picEdit-bloodbank").toggle();
+            $(".picEditClose-bloodbank").toggle();
+        });
+    
+    
+
+    
+    
     $(document).ready(function () {
 
         var oTable = $('#hospital_datatable').DataTable({

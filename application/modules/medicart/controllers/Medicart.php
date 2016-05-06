@@ -630,13 +630,19 @@ class Medicart extends MY_Controller {
             'select' => 'medicartOffer_MIId',
             'where' => array('medicartOffer_MIId' => $id , 'status' => 1 , 'medicartOffer_deleted' => 0)
         );
+        
         $offerData = $this->common_model->customCount($options);
+      
         $option = array(
             'table' => 'qyura_miMembership',
             'select' => 'miMembership_id,miMembership_quantity,miMembership_duration',
             'where' => array('miMembership_miId' => $id , 'miMembership_facilitiesId' => 2 , 'status' => 3 , 'miMembership_deleted' => 0, 'miMembership_quantity >' => $offerData),
         );
         $result = $this->common_model->customGet($option);
+ 
+           //echo $this->db->last_query(); die();
+ 
+ 
         if($result && !empty($result)){
             $response = array('status' => 200, 'quantity' => $result[0]->miMembership_duration, 'message' => '');
         }else{

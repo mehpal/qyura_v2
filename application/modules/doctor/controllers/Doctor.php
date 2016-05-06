@@ -32,6 +32,7 @@ class Doctor extends MY_Controller {
         $data = array();
         $data['allStates'] = $this->Doctor_model->fetchStates();
         $data['speciality'] = $this->Doctor_model->fetchSpeciality();
+        //print_r($data['speciality'] );exit;
         $data['degree'] = $this->Doctor_model->fetchDegree();
         $data['hospital'] = $this->Doctor_model->fetchHospital();
         $data['doctorId'] = 0;

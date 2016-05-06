@@ -1005,8 +1005,7 @@ class CI_Form_validation {
 	 * @param	string	the field name
 	 * @return	string
 	 */
-	protected function _translate_fieldname($fieldname)
-	{
+	protected function _translate_fieldname($fieldname) {
 		// Do we need to translate the field name? We look for the prefix 'lang:' to determine this
 		// If we find one, but there's no translation for the string - just return it
 		if (sscanf($fieldname, 'lang:%s', $line) === 1 && FALSE === ($fieldname = $this->CI->lang->line($line, FALSE)))
