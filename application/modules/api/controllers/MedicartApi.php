@@ -34,7 +34,6 @@ class MedicartApi extends MyRest {
             }
 
             $finalArray = NULL;
-dump($specialities);die();
             if (isset($specialities) && $specialities != NULL) {
                 $count = 0;
 

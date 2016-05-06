@@ -46,7 +46,7 @@ class Medicart_model extends Common_model {
                     ->join('qyura_users', 'qyura_users.users_id=qyura_medicartOffer.medicartOffer_MIId', 'left')
                     ->join('qyura_hospital', 'qyura_hospital.hospital_usersId=qyura_users.users_id', 'left')
                     ->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_usersId=qyura_users.users_id', 'left')
-                    ->where(array("qyura_specialities.status" => 1, "specialities_deleted" => 0, "type" => 0))
+                    ->where(array("qyura_specialities.status" => 3, "specialities_deleted" => 0, "type" => 0))
                     ->group_by("specialities_id")
                     ->having(array("distance < " => 60));
 
@@ -73,7 +73,7 @@ class Medicart_model extends Common_model {
 
             $con['qyura_medicartOffer.medicartOffer_cityId'] = $city;
             $con['qyura_medicartOffer.medicartOffer_endDate >'] = $nowDt;
-            $con['qyura_medicartOffer.status'] = 1;
+            $con['qyura_medicartOffer.status'] = 3;
             $con['qyura_medicartSpecialities.medicartSpecialities_specialitiesId'] = $speciality;
             $con['qyura_medicartOffer.medicartOffer_range'] = 0;
 

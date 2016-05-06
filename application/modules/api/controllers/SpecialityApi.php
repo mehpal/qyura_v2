@@ -21,7 +21,7 @@ class SpecialityApi extends MyRest {
             $this->response($response, 400);
         } else {
 
-            $miId = (isset($_POST['miID']) && $_POST['miID'] != "") ? $_POST['miID'] : NULL;
+            $miId = (isset($_POST['miID']) && $_POST['miID'] != "") ? $_POST['miID'] : NULL; // Profile id
             $miType = (isset($_POST['miType']) && $_POST['miType'] != "") ? $_POST['miType'] : NULL;
             $type = (isset($_POST['type']) && $_POST['type'] != "") ? $_POST['type'] : NULL;
 
