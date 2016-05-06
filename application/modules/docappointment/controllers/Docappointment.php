@@ -29,8 +29,6 @@ class Docappointment extends MY_Controller {
     public function index() {
         $data = array();
         $data['title'] = 'Doctor Appointments';
-        //$data['doctorAppointment'] = $this->common_model->customGet($options);
-        //print_r($data['doctorAppointment']);exit;
         $this->load->super_admin_template('doctor_appointment_list', $data, 'miAppScript');
     }
 
@@ -277,7 +275,6 @@ class Docappointment extends MY_Controller {
         $this->bf_form_validation->set_rules("input3","Doctor", 'required|xss_clean');
         $this->bf_form_validation->set_rules("input4","Date", 'required|xss_clean');
         $this->bf_form_validation->set_rules("input5","Time Slot", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input6","Appointment Status", 'required|xss_clean');
         
         $this->bf_form_validation->set_rules("input8","Remark", 'required|xss_clean');
         $this->bf_form_validation->set_rules("input24","Final Time", 'required|xss_clean');
@@ -343,7 +340,6 @@ class Docappointment extends MY_Controller {
                             'creationTime' => strtotime(date('Y-m-d H:i:s'))
                         )
                      );
-
                     $user_id = $this->common_model->customInsert($optionAuotation);
 		    $email_status = 1;
                 }
@@ -398,7 +394,7 @@ class Docappointment extends MY_Controller {
             $time_id = explode(',', $time_id);
             $timeslot_id = $time_id[0];
             if ($time_id[1]){ $time_session = $time_id[1]; }
-            $apoint_status = $this->input->post('input6');
+            $apoint_status = 12;
             $final_time = strtotime($this->input->post('input24'));
             $hms_id = $this->input->post('input7');
             $patient_remarks = $this->input->post('input8');
@@ -484,7 +480,7 @@ class Docappointment extends MY_Controller {
         $option = '';
         $options = array(
             'table' => 'qyura_docTimeTable',
-            'where' => array('docTimeTable_doctorId' => $doc_id,'qyura_docTimeTable.docTimeTable_deleted' => 0,'qyura_docTimeDay.docTimeTable_deleted' => 0,'qyura_docTimeDay.docTimeDay_day' => $day_no),
+            'where' => array('docTimeTable_doctorId' => $doc_id,'qyura_docTimeTable.docTimeTable_deleted' => 0,'qyura_docTimeDay.docTimeDay_deleted' => 0,'qyura_docTimeDay.docTimeDay_day' => $day_no),
             'join' => array(
                 array('qyura_docTimeDay', 'qyura_docTimeDay.docTimeDay_docTimeTableId = qyura_docTimeTable.docTimeTable_id', 'left'),
             ),
@@ -597,5 +593,26 @@ class Docappointment extends MY_Controller {
        // print_r($data['doctorAppointmentDetails']);exit;
         $this->load->super_admin_template('doctor_appointment_detail', $data, 'miAppScript');
     }
-    
+ 
+    function check_timeslot(){
+        $final_timing = strtotime($this->input->post('final_timing'));
+        $timeslot_id = $this->input->post('timeslot_id');
+        $id = explode(',', $timeslot_id);
+        $time_id = $id[0];
+        
+        $option = array(
+            'table' => 'qyura_docTimeDay',
+            'select' => 'docTimeDay_open,docTimeDay_close',
+            'where' => array('qyura_docTimeDay.docTimeDay_deleted' => 0,'qyura_docTimeDay.docTimeDay_id' => $time_id),
+            'single' => TRUE
+        );
+        $time_slot = $this->common_model->customGet($option);
+        $open_time = strtotime($time_slot->docTimeDay_open);
+        $close_time = strtotime($time_slot->docTimeDay_close);
+        if($final_timing >= $open_time && $final_timing <= $close_time){
+            echo "1";
+        }else{
+            echo "0";
+        }
+    }
 }

@@ -31,7 +31,7 @@ class MedicartApi extends MyRest {
             $all["specialitiesImg"] = "assets/specialityImages/3x/allSpeciality.png" ;
             $all["specialityCount"] = $count;
             $finalArray[] = $all;
-            
+//            print_r($specialities);
             foreach($specialities as $sp){
                 $medicartCount =  (isset($sp->specialityCount) && $sp->specialityCount != NULL) ? $sp->specialityCount: "0" ;
                 if($medicartCount != 0){
@@ -94,7 +94,8 @@ class MedicartApi extends MyRest {
                 $finalResult = array();
                 if (!empty($medList)) {
                     foreach ($medList as $row) {
-dump($row);die();
+//dump($row);die();
+                        
                         $finalTemp = array();
                         $finalTemp[] = isset($row->medicartOffer_id) ? $row->medicartOffer_id : "";
                         $finalTemp[] = isset($row->medicartOffer_MIId) ? $row->medicartOffer_MIId : "";
@@ -103,7 +104,7 @@ dump($row);die();
                         $finalTemp[] = isset($row->medicartOffer_image) ? $row->medicartOffer_image : "";
                         $finalTemp[] = isset($row->medicartOffer_description) ? $row->medicartOffer_description : "";
                         $finalTemp[] = isset($row->medicartOffer_endDate) ? $row->medicartOffer_endDate : "";
-                        $finalTemp[] = (isset($row->medicartOffer_actualPrice )&& $row->medicartOffer_discount == 0) ? $row->medicartOffer_actualPrice : 0;
+                        $finalTemp[] = (isset($row->medicartOffer_actualPrice )&& $row->medicartOffer_actualPrice != "") ? $row->medicartOffer_actualPrice : 0;
                         $finalTemp[] = (isset($row->medicartOffer_discount) && $row->medicartOffer_discount == 0) ? 0 : isset($row->medicartOffer_discountPrice) ? $row->medicartOffer_discountPrice : 0; 
                        
                         $diagnostic_name = (isset($row->diagnostic_name) && $row->diagnostic_name != null && $row->diagnostic_name != '') ? $row->diagnostic_name : "" ;
@@ -115,7 +116,6 @@ dump($row);die();
                         $by = "";
                         if($hospital_name != "") $by= $hospital_name; elseif($diagnostic_name != ""){$by = $diagnostic_name;}
                         if($hospital_phn != "") $phnNo= $hospital_phn; elseif($diagnostic_phn != ""){$phnNo = $diagnostic_phn;}
-                        
                         
                         $phnNo = str_replace('0','', $phnNo);
                         $phnNo = str_replace(' ','', $phnNo);
