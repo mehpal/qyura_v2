@@ -180,8 +180,11 @@ class Reviews_model extends CI_Model {
                      
                      FROM_UNIXTIME((CASE WHEN (qyura_ratings.creationTime >= qyura_reviews.creationTime) THEN
                      qyura_ratings.creationTime 
+                     
                      ELSE qyura_reviews.creationTime END) 
-                     ) as time,DATEDIFF("'.$current.'",FROM_UNIXTIME((CASE WHEN (qyura_ratings.creationTime >= 
+                     ) as time,
+                     
+                     DATEDIFF("'.$current.'",FROM_UNIXTIME((CASE WHEN (qyura_ratings.creationTime >= 
                      qyura_reviews.creationTime) THEN
                      qyura_ratings.creationTime 
                      ELSE qyura_reviews.creationTime END) 

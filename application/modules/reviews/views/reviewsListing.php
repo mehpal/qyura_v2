@@ -9,11 +9,8 @@
 
                         </div>
                     </div>
-
                     <!-- Left Section Start -->
                     <section class="col-md-8 detailbox">
-
-
                         <!-- Form Section Start -->
                         <article class="row p-b-10">
                             <form name="csvDownload" id="" action="<?php echo site_url('reviews/createCSV'); ?>" method="post">
