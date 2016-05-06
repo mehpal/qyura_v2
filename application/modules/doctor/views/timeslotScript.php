@@ -1,14 +1,24 @@
+<style>
+    span .error
+    {
+        font: bold;
+    }
+</style>
+<script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.min.js"></script>
 <script>
+
     $(document).ready(function () {
+        $('.timepicker').timepicker({showMeridian:false});
         $("#timeForm").submit(function (event) {
             event.preventDefault();
             var url = '<?php echo site_url(); ?>/doctor/addDocTime/';
             var formData = new FormData(this);
             submitData(url, formData);
+            return false;
         });
 
         hideMI();
-        $("#div_psChamber_name").hide();
+        $("#div_psChamber").hide();
                 $("#div_Mi_name").hide();
         $("#div_address").hide();
 
@@ -73,12 +83,12 @@
     function placeDetail(stayAtVal) {
         if (stayAtVal == "1") {
             $("#div_docTimeTable_MItype").show();
-            $("#div_psChamber_name").hide();
+            $("#div_psChamber").hide();
             $("#div_address").hide();
 
         }
         else if (stayAtVal == "0") {
-            $("#div_psChamber_name").show();
+            $("#div_psChamber").show();
             $('#timeCityId,#stateId,#timeCountryId').selectpicker('refresh');
             $("#addr,#pinn,#mi_lat,#mi_lng").removeAttr("readonly");
             $("#timeCityId,#stateId,#timeCountryId").prop("disabled", false);
