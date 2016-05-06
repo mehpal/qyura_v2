@@ -38,7 +38,7 @@ class Doctor_model extends My_model {
     function fetchSpeciality() {
         $this->db->select('specialities_id,specialities_name');
         $this->db->from('qyura_specialities');
-        $this->db->where(array('specialities_deleted' => 0, 'type' => 1));
+        $this->db->where(array('specialities_deleted' => 0, 'type' => 1,'status' => 1));
         $this->db->order_by("specialities_name", "asc");
         return $this->db->get()->result();
     }
@@ -523,6 +523,18 @@ class Doctor_model extends My_model {
         $where = array_merge($con, $where);
 
         $this->db->select('(CASE 
+ WHEN (hospital_name IS NOT NULL) 
+ THEN
+      hospital_name
+ WHEN (psChamber_name IS NOT NULL) 
+ THEN 
+      psChamber_name
+ WHEN (diagnostic_name IS NOT NULL) 
+ THEN
+      diagnostic_name
+ END)
+
+ AS `psChamberName`,(CASE 
  WHEN (hospital_address IS NOT NULL) 
  THEN
       hospital_address

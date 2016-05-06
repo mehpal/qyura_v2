@@ -17,7 +17,7 @@
                 <input type="radio" <?php echo isset($timeData->stayAt) && $timeData->stayAt == 0 ? 'checked':''; ?> required="" name="docTimeTable_stayAt" value="0" class="docTimeTable_stayAt" onclick="placeDetail(this.value)" >
                 <label for="inlineRadio2"> Personal Chamber</label>
             </aside>
-            <label id="err_docTimeTable_stayAt" class="error"><?php echo form_error("psChamber_name"); ?></label>
+            <span id="err_docTimeTable_stayAt" class="error"><?php echo form_error("psChamber_name"); ?></span>
         </div>
     </article>
     <article class="clearfix m-t-10" id="div_docTimeTable_MItype"  style="display: <?php echo isset($timeData->stayAt) && $timeData->stayAt == 1 ? 'block':'none'; ?> ">
@@ -28,7 +28,7 @@
                 <option <?php echo isset($timeData->MItype) && $timeData->MItype == 1 ? 'selected':''; ?> value="1">Hospital</option>
                 <option <?php echo isset($timeData->MItype) && $timeData->MItype == 2 ? 'selected':''; ?> value="2">Diagnostic</option>
             </select>
-            <label id="err_docTimeTable_MItype" class="error"><?php echo form_error("docTimeTable_MItype"); ?></label>
+            <span id="err_docTimeTable_MItype" class="error"><?php echo form_error("docTimeTable_MItype"); ?></span>
         </div>
 
     </article>
@@ -53,7 +53,7 @@
 
             </select>
 
-            <label id="err_docTimeTable_MIprofileId_h" class="error"><?php echo form_error("docTimeTable_MIprofileId_h"); ?></label>
+            <span id="err_docTimeTable_MIprofileId_h" class="error"><?php echo form_error("docTimeTable_MIprofileId_h"); ?></span>
         </div>
     </article>
     <article class="clearfix m-t-10" style="display: <?php echo togalpsChamber($timeData) ? togalDiagnostic($timeData) ? 'block' : 'none' : 'none'; ?>"" id="div_docTimeTable_DprofileId">
@@ -78,14 +78,14 @@
                 ?>
                 <option value="0">Other</option>
             </select>
-            <label id="err_docTimeTable_MIprofileId_d" class="error"><?php echo form_error("docTimeTable_MIprofileId_d"); ?></label>
+            <span id="err_docTimeTable_MIprofileId_d" class="error"><?php echo form_error("docTimeTable_MIprofileId_d"); ?></span>
         </div>
     </article>
 <!--    <article class="clearfix" style="display: <?php echo $timeData->stayAt == 0 ? 'block' : 'none' ?>" id="div_Mi_name">
         <label class="control-label" for="Mi_name">MI Name:</label>
         <div class="">
             <input type="text" name="Mi_name" id="Mi_name" class="form-control" placeholder="MI Name" value="<?php echo set_value('Mi_name'); ?>">
-            <label id="err_Mi_name" class="error"><?php echo form_error("Mi_name"); ?></label>
+            <span id="err_Mi_name" class="error"><?php echo form_error("Mi_name"); ?></span>
         </div>
     </article>-->
     <article class="clearfix m-t-10" style="display: <?php echo $timeData->stayAt == 0 ? 'block' : 'none' ?>" id="div_psChamber_name">
@@ -94,7 +94,7 @@
         <div class="">
             
             <input type="text" name="psChamber_name" id="psChamber_name" class="form-control"  value="<?php echo $timeData->psChamberName; ?>">
-            <label id="err_psChamber_name" class="error"><?php echo form_error("psChamber_name"); ?></label>
+            <span id="err_psChamber_name" class="error"><?php echo form_error("psChamber_name"); ?></span>
         </div>
     </article>
     <article>
@@ -106,25 +106,28 @@
 
         <div class="">
             <div id="Miname_div" style="display: none" style="display: block">
-                <aside class="row">
+                <aside class="row clearfix  m-t-10">
                     <div class="col-md-12">
 
                         <label for="cname" class="control-label">MI Name:</label>
                         <input  type="text" value="" style="display:none;" placeholder="Mi Name" name="Miname" id="Miname" class="form-control" readonly="readonly">
                         <label class="error" style="display:none;" id="error-Miname"> </label>
-                        <label id="err_Miname" class="error" > <?php echo form_error("Miname"); ?></label>
+                        <span id="err_Miname" class="error" > <?php echo form_error("Miname"); ?></span>
                     </div>
 
                 </aside>
             </div>
-            <aside class="row">
+            
+            <aside class="row clearfix  m-t-10">
+                
                 <div class="col-md-6 col-sm-6">
                     <select  class="selectpicker" onchange="fetchStates()" data-width="100%" name="countryId" id="timeCountryId">
                         <option value="">Select Country</option>
                         <option selected value="1">India</option>
                     </select>
                 </div>
-                <div class="col-md-6 col-sm-6 m-t-xs-10">
+                
+                <div class="col-md-6 col-sm-6">
                     
                     <select  <?php echo $timeData->stayAt == 1 ? 'desabled="" readonly':'';  ?> class="selectpicker" data-width="100%" name="stateId" Id="stateId" data-size="4" onchange ="fetchCity(this.value)">
                         <option value="">Select State</option>
@@ -136,66 +139,65 @@
                         <?php } ?>
                     </select>
                     <label class="error" style="display:none;" id="error-stateId"> please select a state</label>
-                    <label id="err_stateId" class="error"><?php echo form_error("stateId"); ?></label>
+                    <span id="err_stateId" class="error"><?php echo form_error("stateId"); ?></span>
                 </div>
+                
             </aside>
-            <aside class="row">
+            
+            <aside class="row clearfix  m-t-10">
+                
                 <div class="col-md-6 col-sm-6">
                     <select <?php echo $timeData->stayAt == 1 ? 'desabled="" readonly':'';  ?> class="selectpicker" data-width="100%" name="cityId" id="timeCityId" data-size="4" >
                         <option  value="<?php echo isset($cityInfo->city_id)? $cityInfo->city_id : '' ; ?>"><?php echo isset($cityInfo->city_name)? $cityInfo->city_name :'' ; ?></option>
                     </select>
-                    <label class="error" style="display:none;" id="error-cityId"> please select a state</label>
-                    <label id="err_cityId" class="error" > <?php echo form_error("cityId"); ?></label>
+                    <span id="err_cityId" class="error" > <?php echo form_error("cityId"); ?></span>
                 </div>
-                <div class="col-md-6 col-sm-6 m-t-xs-10">
+                
+                <div class="col-md-6 col-sm-6">
                     <input <?php echo $timeData->stayAt == 1 ? 'desabled="" readonly':'';  ?> type="text" class="form-control" id="pinn" name="pinn" placeholder="Pin Code" maxlength="6" onkeypress="return isNumberKey(event)" value="<?php echo isset($_POST['pinn'])?set_value('pinn'):isset($timeData->zip)?$timeData->zip:''; ?>" />
                     <label class="error" style="display:none;" id="error-pinn"> Zip code should be numeric and 6 digit long</label>
-                    <label id="err_pinn" class="error" > <?php echo form_error("pinn"); ?></label>
+                    <span id="err_pinn" class="error" > <?php echo form_error("pinn"); ?></span>
                 </div>
 
             </aside>
-            <aside class="row">
+            
+            <aside class="row  clearfix  m-t-10">
                 
                 <div class="col-md-12">
                     
                     <input <?php echo $timeData->stayAt == 1 ? 'desabled="" readonly':'';  ?> type="text" class="form-control" id="addr" name="addr" placeholder="Address" value="<?php echo isset($_POST['addr'])?set_value('addr'):isset($timeData->address)?$timeData->address:''; ?>" />
-                    <label id="err_addr" class="error" > <?php echo form_error("addr"); ?></label>
+                    <span id="err_addr" class="error" > <?php echo form_error("addr"); ?></span>
                 </div>
             </aside>
 
-
-
-            <aside class="row">
+            <aside class="row clearfix  m-t-10">
+                
                 <div class="col-sm-6">
                     <input <?php echo $timeData->stayAt == 1 ? 'desabled="" readonly':'';  ?> name="lat" class="form-control" required="" type="text" value="<?php echo isset($_POST['lat'])?set_value('lat'):isset($timeData->lat)?$timeData->lat:''; ?>"  id="mi_lat" placeholder="Latitude" onchange="latChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
-                    <label id="err_lat" class="error" > <?php echo form_error("lat"); ?></label>
+                    <span id="err_lat" class="error" > <?php echo form_error("lat"); ?></span>
                     <label class="error" style="display:none;" id="error-mi_lat">Please enter the correct format for latitude</label>
                 </div>
+                
                 <div class="col-sm-6">
                     <input <?php echo $timeData->stayAt == 1 ? 'desabled="" readonly':'';  ?> name="lng" required="" type="text" value="<?php echo isset($_POST['lng'])?set_value('lng'):isset($timeData->lng)?$timeData->lng:''; ?>"  id="mi_lng" class="form-control" placeholder="Longitude" onChange="lngChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
-                    <label id="err_lng" class="error" > <?php echo form_error("lng"); ?></label>
+                    <span id="err_lng" class="error" > <?php echo form_error("lng"); ?></span>
                     <label class="error" style="display:none;" id="error-mi_lng"> Please enter the correct format for longitude</label>
-
                 </div>
+                
             </aside>
 
         </div>
+        
     </article>
-    <article class="clearfix">
+    
+    <article class="clearfix  m-t-10">
         <label class="control-label" for="docTimeDay_day">Weekdays:</label>
         <div class="">
-
-            
-            
-
-
             <select class="m-t-5 select2" data-width="100%" name="docTimeDay_day[]" id="docTimeDay_day" multiple="">
                 <?php
                 $days = getDay();
                 $dbDays = isset($timeData->day)?$timeData->day:array();
                 $dbDays = $dbDays != '' && $dbDays != null ? explode(',', $dbDays) : array();
-                
-                
                 if (isset($days) && $days != NULL) {
                     foreach ($days as $d => $dayName) {
 
@@ -207,40 +209,46 @@
                 ?>
             </select>
         </div>
-        <label id="err_docTimeDay_day" class="error" > <?php echo form_error("docTimeDay_day"); ?></label>
+        <span id="err_docTimeDay_day" class="error" > <?php echo form_error("docTimeDay_day"); ?></span>
+        
         <div class="">
             <aside class="checkbox checkbox-success m-t-5">
                 <input <?php count($dbDays) == 7 ? 'checked' : '' ?> type="checkbox" id="selectAllDay" name="selectAllDay" class="" >
                 <label> Select All Days</label>
             </aside>
-
         </div>
-        <label id="err_day" class="error" > <?php echo form_error("day"); ?></label>
+        <span id="err_day" class="error" > <?php echo form_error("day"); ?></span>
     </article>
+    
     <article class="clearfix  m-t-10">
         <div class="">
             <aside class="row">
                 <div class="col-sm-6">
-                    <input name="openingHour" class="form-control" required="" type="text" value="<?php echo isset($_POST['openingHour'])?set_value('openingHour'):isset($timeData->open)?date('h:i A',strtotime($timeData->open)):''; ?>"  id="lat"   placeholder="opening Hour" />
-                    <label id="err_openingHour" class="error" > <?php echo form_error("openingHour"); ?></label>
+                    <div class="bootstrap-timepicker input-group w-full">
+                    <input name="openingHour" class="form-control timepicker" required="" type="text" value="<?php echo isset($_POST['openingHour'])?set_value('openingHour'):isset($timeData->open)?date('h:i A',strtotime($timeData->open)):''; ?>"  id="lat"   placeholder="opening Hour" />
+                    </div>
+                    <span id="err_openingHour" class="error" > <?php echo form_error("openingHour"); ?></span>
                 </div>
                 <div class="col-sm-6">
-                    <input name="closeingHour" required="" type="text" value="<?php echo isset($_POST['closeingHour'])?set_value('closeingHour'):isset($timeData->close)?date('h:i A',strtotime($timeData->close)):''; ?>"  id="closeingHour"  class="form-control" placeholder="closing Hour"  maxlength="9"/>
-                    <label id="err_closeingHour" class="error" > <?php echo form_error("closeingHour"); ?></label>
-
+                    <div class="bootstrap-timepicker input-group w-full">
+                    <input name="closeingHour" required="" type="text" value="<?php echo isset($_POST['closeingHour'])?set_value('closeingHour'):isset($timeData->close)?date('h:i A',strtotime($timeData->close)):''; ?>"  id="closeingHour"  class="form-control timepicker" placeholder="closing Hour"  maxlength="9"/>
+                    </div>
+                    <span id="err_closeingHour" class="error" > <?php echo form_error("closeingHour"); ?></span>
                 </div>
             </aside>
         </div>
     </article>
-    <article class="clearfix">
+    
+    <article class="clearfix  m-t-10">
         <label class="control-label" for="fees">fees:</label>
         <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i>
             </span>
             <input name="fees" required="" type="text" value="<?php echo isset($_POST['fees'])?set_value('fees'):isset($timeData->price)?$timeData->price:''; ?>"  id="fees"   class="form-control" placeholder="fees"  maxlength="9" onkeypress="return isNumberKey(event)"  />
-            <label id="err_fees" class="error" > <?php echo form_error("fees"); ?></label>
+            <span id="err_fees" class="error" > <?php echo form_error("fees"); ?></span>
         </div>
     </article>
+    
     <article class="clearfix m-t-10 m-b-20">
         <button class="btn btn-success waves-effect waves-light pull-right" type="submit">Submit</button>
     </article>
