@@ -82,7 +82,7 @@ if ($current != 'detailDiagnostic'):
                 },
                 qap_ifscCode: {
                     required: true,
-                    minlength: 11,
+                    minlength: 6,
                     maxlength: 11
                    // number: true
                 },

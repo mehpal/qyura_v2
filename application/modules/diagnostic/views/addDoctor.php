@@ -23,7 +23,6 @@
                                     <h3>General Detail</h3>
                                 </figure>
                                 <!-- Table Section End -->
-                                
                                 <div class="clearfix m-t-20">
                                     
                                     
@@ -196,7 +195,7 @@
                                         <aside class="row">
                                             <label for="cname" class="control-label col-md-4 m-t-10 m-l-10">No of Year</label>
                                             <div class="col-md-7 col-sm-7 m-b-20 m-t-10">
-                                                <input type="number" class="form-control" name="exp_year" required="" id="exp_year" placeholder="Experience" min="1" max="50" value="<?php echo set_value('exp_year') ?>">
+                                                <input type="number" class="form-control" name="exp_year" required="" id="exp_year" placeholder="Experience" min="1" max="50" value="<?php echo set_value('exp_year') ?>" onkeypress="return isNumberKey(event,'error id')">
                                                 <label class="error" style="display:none;" id="error-exp_year"> please fill Experience</label>
                                                 <label class="error"><?php echo form_error('exp_year'); ?></label>
                                             </div>
@@ -205,7 +204,7 @@
                                         <aside class="row">
                                             <label for="cname" class="control-label col-md-4 m-t-10 m-l-10">Fee</label>
                                             <div class="col-md-7 col-sm-7 m-b-20 m-t-10">
-                                                <input type="text" class="form-control" name="fee" required="" id="fee" placeholder="Fee" value="<?php echo set_value('fee'); ?>">
+                                                <input type="text" class="form-control" name="fee" required="" id="fee" placeholder="Fee" value="<?php echo set_value('fee'); ?>" onkeypress="return isNumberKey(event,'error id')">
                                                 <label class="error"><?php echo form_error('fee'); ?></label>
                                                 <label class="error" style="display:none;" id="error-fee"> please fill Fee</label>
                                             </div>
@@ -242,7 +241,7 @@
                             <?php  $this->load->view('doctor_crop_modal');?>
                         </div>
                         
-                        <input type="hidden" name="diagnoUserIdDoctor" value="<?php if(isset($diagnosticData[0]->diagnostic_usersId)){ echo $diagnosticData[0]->diagnostic_usersId; }?>" id="diagnoUserIdDoctor" />
+                        <input type="hidden" name="hospitalUserIdDoctor" value="<?php if(isset($diagnosticData[0]->diagnostic_usersId)){ echo $diagnosticData[0]->diagnostic_usersId; }?>" id="hospitalUserIdDoctor" />
                         
                     </form>
                 </div>

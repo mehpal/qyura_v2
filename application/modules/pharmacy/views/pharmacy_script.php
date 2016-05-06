@@ -1028,6 +1028,19 @@ function imageIsLoaded(e) {
         });
 
     });
+    
+             $(function () {
+        //new CropAvatar($('#blood-crop-avatar'));
+        $(".common-edit").click(function () {
+
+            $(".logo-img").toggle();
+            $(".logo-up").toggle();
+            $(".picEdit").toggle();
+            $(".picEditClose").toggle();
+        });
+ 
+
+    });
 </script>
 </body>
 </html>
