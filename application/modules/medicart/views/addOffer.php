@@ -41,8 +41,9 @@
                                     <div class="col-md-8 col-sm-8">
                                         <select class="selectepicker2" data-width="100%" name="miType" onchange ="getMIList(this.value, medicartOffer_cityId.value)" id="miType" required="">
                                             <option value=""> Select MI Type</option>
-                                            <option <?php echo set_select('miType', 'Hospital'); ?>>Hospital</option>
                                             <option <?php echo set_select('miType', 'Diagnostic'); ?>>Diagnostic</option>
+                                            <option <?php echo set_select('miType', 'Hospital'); ?>>Hospital</option>
+                                            
                                         </select>
                                     <label class="error"><?php echo form_error('miType'); ?></label>
                                     </div>
@@ -210,7 +211,7 @@
                                         <article class="form-group m-lr-0">
                                             <label for="" class="control-label col-md-4 col-sm-4">Maximum Booking Limit :</label>
                                             <div class="col-md-8 col-sm-8">
-                                                <input class="form-control " id="medicartOffer_maximumBooking" type="text" name="medicartOffer_maximumBooking" required="" value="<?=set_value('medicartOffer_maximumBooking');?>" onkeypress="return isNumberKey(event)">
+                                                <input class="form-control " id="medicartOffer_maximumBooking" type="text" name="medicartOffer_maximumBooking" required="" value="<?=set_value('medicartOffer_maximumBooking','1');?>" onkeypress="return isNumberKey(event)">
                                                  <label class="error"><?php echo form_error('medicartOffer_maximumBooking'); ?></label>
                                             </div>
                                         </article>
@@ -239,6 +240,7 @@
                                             <label for="cname" class="control-label col-md-4 col-sm-4">Discount for Age Group :</label>
                                             <div class="col-md-8 col-sm-8">
                                                 <select class="selectpicker" data-width="100%" name="medicartOffer_ageDiscount" id="medicartOffer_ageDiscount" required="">
+                                                    <option value="0-10" <?php echo set_select('medicartOffer_ageDiscount', '0-10'); ?>>0-10</option>
                                                     <option value="10-20" <?php echo set_select('medicartOffer_ageDiscount', '10-20'); ?>>10-20</option>
                                                     <option value="20-30" <?php echo set_select('medicartOffer_ageDiscount', '20-30'); ?>>20-30</option>
                                                     <option value="30-40" <?php echo set_select('medicartOffer_ageDiscount', '30-40'); ?>>30-40</option>

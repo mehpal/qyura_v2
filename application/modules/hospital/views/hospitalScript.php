@@ -479,7 +479,7 @@ if (isset($mapData) && !empty($mapData)) {
         $('#loadTestDetail').html('');
 
     }
-    function sendSpeciality() {
+    function sendSpeciality(hospitalUserId) {
         var specialityId = [];
         var checkValues = [];
 
@@ -494,7 +494,7 @@ if (isset($mapData) && !empty($mapData)) {
                 url: urls + 'index.php/hospital/checkSpeciality',
                 type: 'POST',
                 async: false, //=>>>>>>>>>>> here >>>>>>>>>>>
-                data: {'hospitalId': hospitalId, 'allValuers': checkValues},
+                data: {'hospitalId': hospitalId, 'hospitalUserId' : hospitalUserId, 'allValuers': checkValues},
                 success: function (datas) {
                     if (datas == 0) {
                         reYesNo = false;
@@ -520,7 +520,7 @@ if (isset($mapData) && !empty($mapData)) {
                     url: urls + 'index.php/hospital/addSpeciality',
                     type: 'POST',
                     // async: true, //blocks window close
-                    data: {'hospitalId': hospitalId, 'hospitalSpecialities_specialitiesId': $(this).val()},
+                    data: {'hospitalId': hospitalId, 'hospitalUserId' : hospitalUserId,  'hospitalSpecialities_specialitiesId': $(this).val()},
                     success: function (datas) {
                         if (datas == 0) {
                             bootbox.alert("Sorry, you can't add more than givin specialities!");
