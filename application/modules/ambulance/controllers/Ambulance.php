@@ -358,10 +358,10 @@ class Ambulance extends MY_Controller {
     function editUploadImage() {
         if ($_POST['avatar_file']['name']) {
             $path = realpath(FCPATH . 'assets/ambulanceImages/');
-            $upload_data = $this->input->post('avatar_data');
+            $upload_data = $this->input->post('avatar-data');
             $upload_data = json_decode($upload_data);
 
-            if ($upload_data->width > 120) {
+            if ($upload_data->width > 425) {
                 $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/ambulanceImages/', './assets/ambulanceImages/thumb/', 'ambulance');
 
                 if (empty($original_imagesname)) {
@@ -377,13 +377,14 @@ class Ambulance extends MY_Controller {
                     );
                     $response = $this->Ambulance_model->UpdateTableData($option, $where, 'qyura_ambulance');
                     if ($response) {
-                        $response = array('state' => 200, 'message' => 'Successfully update avtar');
+//                        $response = array('state' => 200, 'message' => 'Successfully update avtar');
+                        $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/ambulanceImages/thumb/thumb_100/{$original_imagesname}"),'reset'=>"ambulance-edit", 'returnClass'  => 'logo-img');
                     } else {
                         $response = array('state' => 400, 'message' => 'Failed to update avtar');
                     }
                 }
             } else {
-                $response = array('state' => 400, 'message' => 'Height and Width must exceed 150px.');
+                $response = array('state' => 400, 'message' => 'Height and Width must exceed 425px.');
             }
             echo json_encode($response);
         } else {
