@@ -91,6 +91,7 @@ defined('ROLE_HOSPITAL')      OR define('ROLE_HOSPITAL', 1); // highest automati
 defined('ROLE_BLOODBANK')      OR define('ROLE_BLOODBANK', 2); // highest automatically-assigned error code
 defined('ROLE_DIAGNOSTICS')      OR define('ROLE_DIAGNOSTICS', 3); // highest automatically-assigned error code
 defined('ROLE_DOCTORE')      OR define('ROLE_DOCTORE', 4); // highest automatically-assigned error code
+defined('ROLE_DOCTORE_CHILD')      OR define('ROLE_DOCTORE_CHILD', 9); // highest automatically-assigned error code
 defined('ROLE_PHARMACY')      OR define('ROLE_PHARMACY', 5); // highest automatically-assigned error code
 
 defined('BS_PRS_IMG_PATH')      OR define('BS_PRS_IMG_PATH', 'assets/prsImg'); // highest automatically-assigned error code

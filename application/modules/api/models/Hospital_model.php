@@ -14,12 +14,14 @@ class Hospital_model extends CI_Model
     }
     
     public function getHospitalList($lat, $long, $notIn, $isemergency, $radius, $isAmbulance, $isInsurance,  $isHealtPkg,  $rating, $userId, $search = null,$cityId=null) {
+        
         $lat = isset($lat) ? $lat : '';
         $long = isset($long) ? $long : '';
 
         $notIn = isset($notIn) ? $notIn : '';
         
-        $where = array('hospital_deleted' => 0);
+        $where = array('hospital_deleted' => 0, 'qyura_hospital.status' => 1);
+        
         if($isemergency != '' && $isemergency != NULL && $isemergency == 1){
             $where['qyura_hospital.isEmergency'] = $isemergency;
         }
@@ -54,7 +56,7 @@ class Hospital_model extends CI_Model
 
         $this->db->select('hospital_usersId as userId,hospital_id as id, (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, hospital_address as adr ,hospital_name name, hospital_phn phn, hospital_lat lat, hospital_long long, qyura_hospital.modifyTime upTm, hospital_img imUrl, (
                 6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( hospital_lat ) ) * cos( radians( hospital_long ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( hospital_lat ) ) )
-                ) AS distance, Group_concat(DISTINCT qyura_specialities.specialities_name order by specialities_name SEPARATOR ", ") as specialities, isEmergency '.$ambulance.'  '.$healtPkg.'
+                ) AS distance, Group_concat(DISTINCT (CASE specialityNameFormate WHEN 1 THEN qyura_specialities.specialities_name WHEN 0 THEN qyura_specialities.specialities_drName END) order by qyura_specialities.specialities_name SEPARATOR ", ") as specialities, isEmergency '.$ambulance.'  '.$healtPkg.'
 ,(
 CASE 
  WHEN (reviews_rating is not null AND qyura_ratings.rating is not null) 
@@ -117,7 +119,7 @@ CASE
         $this->db->group_by('hospital_id');
         
         $response = $this->db->get()->result();
-       //dump($this->db->last_query()); die();
+        // dump($this->db->last_query()); die();
         //$aoClumns = array("id","fav","rat","adr", "name","phn","lat","lng","upTm","imUrl","specialities");
 
         $finalResult = array();
@@ -134,7 +136,7 @@ CASE
                 $finalTemp[] = isset($row->lat) ? $row->lat : "";
                 $finalTemp[] = isset($row->long) ? $row->long : "";
                 $finalTemp[] = isset($row->upTm) ? $row->upTm : "";
-                $finalTemp[] = isset($row->imUrl) && $row->imUrl != '' ? 'assets/hospitalsImages/' . $row->imUrl : "";
+                $finalTemp[] = isset($row->imUrl) && $row->imUrl != '' ? 'assets/hospitalsImages/thumb/thumb_100/' . $row->imUrl : "";
                 $finalTemp[] = isset($row->specialities) ? $row->specialities : "";
                 $finalTemp[] = isset($row->isEmergency) ? $row->isEmergency : "";
                 
@@ -155,7 +157,7 @@ CASE
     {
         $this->db->select('hospital_id, hospital_usersId, hospital_address, hospital_name, hospital_aboutUs, hospital_phn, hospital_lat, hospital_long, modifyTime');
         $this->db->from('qyura_hospital');
-        $this->db->where(array('hospital_id'=>$hospitalId,'hospital_deleted'=>0));
+        $this->db->where(array('hospital_id'=>$hospitalId,'hospital_deleted'=>0, 'status' => 1));
         return $this->db->get()->row();
     }
 
@@ -164,7 +166,7 @@ CASE
     public function isAmbulance($hospitalId){
         $sql = "SELECT COUNT('ambulance_id') as id
                 FROM `qyura_ambulance`
-                WHERE `ambulance_deleted` = '0' and `ambulance_usersId` = $hospitalId "; 
+                WHERE `ambulance_deleted` = 0 and `status` = 1 and `ambulance_usersId` = $hospitalId "; 
         $query = $this->db->query($sql)->row();
         if($query->id){ return 1; }else{ return 0; }
     }
@@ -325,9 +327,9 @@ CASE
     
    public function getHosAwards($hospitalId,$limit=NULL)
     {
-        $this->db->select('hospitalAwards_id as awards_id,hospitalAwards_awardsName name,hospitalAwards_awardYear year,CASE  WHEN (qyura_hospitalAwards.modifyTime is NULL) THEN "" ELSE qyura_hospitalAwards.modifyTime END  as modifyTime ');
+        $this->db->select('hospitalAwards_id as awards_id,hospitalAwards_awardsName name, hospitalAwards_awardYear year, CASE  WHEN (qyura_hospitalAwards.modifyTime is NULL) THEN "" ELSE qyura_hospitalAwards.modifyTime END  as modifyTime, agency_name ');
         $this->db->from('qyura_hospitalAwards');
-//        $this->db->join('qyura_hospitalAwards','qyura_hospitalAwards.hospitalAwards_awardsId = qyura_awards.awards_id ','left');
+        $this->db->join('qyura_awardAgency','qyura_awardAgency.awardAgency_id = qyura_hospitalAwards.hospitalAwards_awardsAgency ','left');
         $this->db->where(array('qyura_hospitalAwards.hospitalAwards_hospitalId'=>$hospitalId,'qyura_hospitalAwards.hospitalAwards_deleted'=>0));
         if($limit!=NULL)
         $this->db->limit($limit);
