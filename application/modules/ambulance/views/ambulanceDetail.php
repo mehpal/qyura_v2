@@ -57,9 +57,9 @@
                                                     </div>
                                                 </article>
                                                 <!-- description div -->
-                                                <div class='pic-edit'>
-                                                    <h3><a id="picEdit" class="pull-center cl-white" title="Edit Logo"><i class="fa fa-pencil"></i></a></h3>
-                                                    <h3><a id="picEditClose" class="pull-center cl-white" title="Cancel"  style="display:none;"><i class="fa fa-times"></i></a></h3>
+                                                <div class='pic-edit ambulance-edit'>
+                                                    <h3><a  class="pull-center cl-white picEdit" title="Edit Logo"><i class="fa fa-pencil"></i></a></h3>
+                                                    <h3><a class="pull-center cl-white picEditClose" title="Cancel"  style="display:none;"><i class="fa fa-times"></i></a></h3>
                                                 </div>
 
                                                 <!-- end description div -->

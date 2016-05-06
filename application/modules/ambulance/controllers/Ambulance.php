@@ -378,7 +378,7 @@ class Ambulance extends MY_Controller {
                     $response = $this->Ambulance_model->UpdateTableData($option, $where, 'qyura_ambulance');
                     if ($response) {
 //                        $response = array('state' => 200, 'message' => 'Successfully update avtar');
-                        $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/ambulanceImages/thumb/thumb_100/{$original_imagesname}"),'reset'=>"pic-edit", 'returnClass'  => 'logo-img');
+                        $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/ambulanceImages/thumb/thumb_100/{$original_imagesname}"),'reset'=>"ambulance-edit", 'returnClass'  => 'logo-img');
                     } else {
                         $response = array('state' => 400, 'message' => 'Failed to update avtar');
                     }
