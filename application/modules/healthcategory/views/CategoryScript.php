@@ -286,7 +286,29 @@ if (isset($healthtipId) && !empty($healthtipId)) {
         }
     });
 </script>
+<script>
+//healthtip starts
+    var urls = "<?php echo base_url() ?>";
+    $(document).ready(function () {
+    $("#submitForm").validate({
+        rules: {
+            health_category: {
+                required: true
+            }
+        },
+        messages: {
+            health_category: {
+                required: "Please enter the name of category!",
+            }
+           
+        }
 
+    });
+
+    
+});
+    //healthtip ends.
+</script>
 </body>
 
 </html> 
