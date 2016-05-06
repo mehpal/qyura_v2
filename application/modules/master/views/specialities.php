@@ -56,7 +56,7 @@
                                             <p><?php echo strip_tags(substr($val->speciality_tag, 0,25)); ?></p>
                                         </span>
                                         <span> 
-                                            <img height="80px;" width="80px;" src="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>" class="img-responsive">
+                                            <img height="80px;" width="80px;" src="<?php echo base_url('assets/specialityImages/thumb/original/' . $val->specialities_img); ?>" class="img-responsive">
                                         </span>
                                     </li>
                             <?php } } ?>
@@ -130,9 +130,7 @@
                                 <article class="clearfix m-t-10 m-b-20">
                                     <button class="btn btn-success waves-effect waves-light pull-right" type="submit">Submit</button>
                                 </article>
-                                <div id="upload_modal_form">
-                                    <?php $this->load->view('upload_crop_modal'); ?>
-                                </div>
+                            
                             </form>
                         </div>
                         <!-- Add Specialities -->
