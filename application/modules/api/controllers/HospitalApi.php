@@ -134,7 +134,7 @@ class HospitalApi extends MyRest {
 
                 $response['hosGallary'] = $gallary =  $this->hospital_model->getHosGallery($hospitalId);
 
-                $response['isAmbulance'] = $isAmbulance =  $this->hospital_model->isAmbulance($hospitalId);
+                $response['isAmbulance'] = $isAmbulance =  $this->hospital_model->isAmbulance($hospitalDetails->hospital_usersId);
 
                 $response['services'] = $services =  $this->hospital_model->getHosServices($hospitalId);
 

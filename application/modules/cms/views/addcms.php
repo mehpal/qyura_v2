@@ -6,12 +6,7 @@
                 <div class="container">
 
                     <div class="clearfix">
-                          <?php if(!empty($this->session->flashdata('message'))){?>
-                            <div class="alert alert-success"><?php echo $this->session->flashdata('message');?></div>
-                                <?php }?>
-                           <?php if(!empty($this->session->flashdata('error'))){?>
-                            <div class="alert alert-danger"><?php echo $this->session->flashdata('error');?></div>
-                                <?php }?>
+                   
                         <div class="col-md-12">
                             <h3 class="pull-left page-title">Add New CMS</h3>
 <a class="btn btn-appointment btn-back waves-effect waves-light pull-right" href="<?php echo site_url('cms');?>">
