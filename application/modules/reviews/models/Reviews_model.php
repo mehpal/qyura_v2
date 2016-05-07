@@ -219,7 +219,7 @@ class Reviews_model extends CI_Model {
          $dates = strtotime(date('Y-m-d', strtotime('-1 months')));
          
          $sql = 'SELECT  qyura_doctors.doctors_id,qyura_doctors.doctors_userId,qyura_doctors.doctors_img, rating_createDates as dates, '
-                 . 'CONCAT(doctors_fName, " ",doctors_lName) as name, qyura_ratings.rating as rat,qyura_city.city_name as cityName FROM '
+                 . 'CONCAT(doctors_fName, " ",doctors_lName) as name, qyura_ratings.rating as rat,qyura_city.city_name as cityName, qyura_ratings.creationTime as time FROM '
                  . 'qyura_doctors LEFT JOIN qyura_ratings ON qyura_ratings.rating_relateId=qyura_doctors.doctors_userId '
                  . 'LEFT JOIN qyura_usersRoles ON qyura_usersRoles.usersRoles_userId=qyura_doctors.doctors_userId '
                  . 'LEFT JOIN qyura_city ON qyura_city.city_id=qyura_doctors.doctors_cityId '
@@ -227,7 +227,7 @@ class Reviews_model extends CI_Model {
                 . ' qyura_ratings.rating_createDates >= '.$dates.' GROUP BY qyura_doctors.doctors_id'
                  . ' union all '
                  . 'SELECT qyura_doctors.doctors_id,qyura_doctors.doctors_userId,qyura_doctors.doctors_img, reviews_createDates as dates, '
-                 . 'CONCAT(doctors_fName, " ",doctors_lName) as name, qyura_reviews.reviews_rating as rat,qyura_city.city_name as cityName FROM '
+                 . 'CONCAT(doctors_fName, " ",doctors_lName) as name, qyura_reviews.reviews_rating as rat,qyura_city.city_name as cityName, qyura_reviews.creationTime as time FROM '
                  . 'qyura_doctors LEFT JOIN qyura_reviews ON qyura_reviews.reviews_relateId=qyura_doctors.doctors_userId '
                  . 'LEFT JOIN qyura_usersRoles ON qyura_usersRoles.usersRoles_userId=qyura_doctors.doctors_userId '
                  . 'LEFT JOIN qyura_city ON qyura_city.city_id=qyura_doctors.doctors_cityId '

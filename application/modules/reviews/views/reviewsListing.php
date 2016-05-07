@@ -151,8 +151,12 @@
                                                          $currentDate = date_create(date('Y-m-d'));
                                                          $ratingDate = date_create(date('Y-m-d',$rated->dates));
                                                          $diff12 = date_diff($ratingDate, $currentDate);
-                                                        echo isConvertDays($diff12->d);
-                                                    
+                                                         if($diff12->d){
+                                                             echo isConvertDays($diff12->d);
+                                                         }else{
+                                                                $times = date('H:i:s',$rated->time);
+                                                                echo isTimeCalculate($times). ' ago';
+                                                         }
                                                 }?></p>
 <!--                                                <p><?php //echo isTimeCalculate(date('H:i:s',strtotime($rated->time)));?></p>-->
                                                 <p><?php echo ucwords($rated->cityName);?></p>

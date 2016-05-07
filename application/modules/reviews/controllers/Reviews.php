@@ -17,10 +17,10 @@ class Reviews extends MY_Controller {
         //echo strtotime(date('12:10:10'));
         //exit();
         $data['topRateds'] = $this->reviews_model->recentReviewRated();
-       // echo"<pre>";
-       // print_r( $data['topRateds']);
-       // echo"<pre>";
-       // exit();
+//        echo"<pre>";
+//        print_r( $data['topRateds']);
+//        echo"<pre>";
+//        exit();
         $data['title'] = 'Rate & Reviews';
         
         $totalRec = count($this->reviews_model->fetchReviews());
