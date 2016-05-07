@@ -87,7 +87,7 @@ class Faq extends MY_Controller {
         
         $this->bf_form_validation->set_rules('faq_question','Question','required');
         $this->bf_form_validation->set_rules('faq_answer', 'Answer','required');
-        $this->bf_form_validation->set_rules('faq_answer1', 'Answer','required');
+        $this->bf_form_validation->set_rules('faq_answer1', 'Answer','xss_clean');
        
         if ($this->bf_form_validation->run() == FALSE) {
             $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
