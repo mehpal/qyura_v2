@@ -22,7 +22,7 @@ class SpecialityApi extends MyRest {
         } else {
 
             $miId = (isset($_POST['miID']) && $_POST['miID'] != "") ? $_POST['miID'] : NULL; // Profile id
-            $miType = (isset($_POST['miType']) && $_POST['miType'] != "") ? $_POST['miType'] : NULL;
+//            $miType = (isset($_POST['miType']) && $_POST['miType'] != "") ? $_POST['miType'] : NULL;
             $type = (isset($_POST['type']) && $_POST['type'] != "") ? $_POST['type'] : NULL;
 
             $specialityList = NULL;
