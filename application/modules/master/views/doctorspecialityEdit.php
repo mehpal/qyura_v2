@@ -33,6 +33,7 @@
                                 <label class="error" id="err_keywords" > <?php echo form_error("keywords"); ?></label>
                             </div>
                         </article>
+
                         <article class="form-group m-lr-0 " id="crop-avatar" >  
                             <div id="upload_modal_form">
                                 <?php echo $this->load->view('upload_crop_modal'); ?>
@@ -47,9 +48,11 @@
                                     </div>
                                 </div>
                             </div>
+                            <div id="error-label" class="error-label"></div>
                             <label class="error" > <?php echo form_error("avatar_file"); ?></label>
                             <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
                         </article>
+
                         <article class="clearfix m-t-10 m-b-20">
                             <button class="btn btn-success waves-effect waves-light pull-right" type="submit">Submit</button>
                         </article>
