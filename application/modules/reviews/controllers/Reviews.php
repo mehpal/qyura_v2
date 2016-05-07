@@ -14,13 +14,13 @@ class Reviews extends MY_Controller {
 
     function index() {
         $data = array();
-        //echo strtotime(date('2016-05-01 09:38:55'));
+        //echo strtotime(date('12:10:10'));
         //exit();
-        $data['topRateds'] = $this->reviews_model->topRatedReviewRated();
-        echo"<pre>";
-        print_r( $data['topRateds']);
-        echo"<pre>";
-        exit();
+        $data['topRateds'] = $this->reviews_model->recentReviewRated();
+       // echo"<pre>";
+       // print_r( $data['topRateds']);
+       // echo"<pre>";
+       // exit();
         $data['title'] = 'Rate & Reviews';
         
         $totalRec = count($this->reviews_model->fetchReviews());
@@ -51,12 +51,11 @@ class Reviews extends MY_Controller {
         $config['cur_tag_open'] = '<li class="active"><a href="#">';
         $config['cur_tag_close'] = '</a></li>';
         
-       // $config['div'] = '#content_area';
         $this->ajax_pagination->initialize($config);
         
         //get the posts data
         $data['reviews'] = $this->reviews_model->fetchReviews(array('limit'=>$this->perPage));
-            // echo $this->db->last_query();
+       // dump($data['reviews']);
         //exit();
         $this->load->super_admin_template('reviewsListing', $data, 'reviewsScript');
     }
@@ -81,7 +80,7 @@ class Reviews extends MY_Controller {
         
      
         //total rows count
-        $totalRec = count($this->reviews_model->fetchReviews(array('sDate' => $sDate, 'eDate' => $eDate)));
+        $totalRec = count($this->reviews_model->fetchReviews(array('filter'=>$filter,'sDate' => $sDate, 'eDate' => $eDate)));
         
         //pagination configuration
         $config['first_link']  = 'First';   
@@ -133,29 +132,31 @@ class Reviews extends MY_Controller {
        
         $sDate ='';
         $eDate ='';
+       // dump($_POST);
+        //exit();
        if(isset($_POST['date-1']) && isset($_POST['date-2']) && !empty($_POST['date-1']) && !empty($_POST['date-2'])){
           $sDate = $this->input->post('date-1');
           $eDate = $this->input->post('date-2');
        }
         $filter = $this->input->post('filter');
         $reviews = $this->reviews_model->fetchReviews(array('filter'=>$filter,'sDate' => $sDate, 'eDate' => $eDate));
-      
+
         $result = array();
         $i = 1;
         $imgUrl = base_url() . 'assets/patientImages/';
         foreach ($reviews as $key => $val) {
             $result[$i]['reviewBy'] = $val['reviewBy'];
-            $result[$i]['patientDetails_patientImg'] = $imgUrl . $val['patientDetails_patientImg'];
+            //$result[$i]['patientDetails_patientImg'] = $imgUrl . $val['patientDetails_patientImg'];
             $result[$i]['reviews_details'] = $val['reviews_details'];
             $result[$i]['reviews_rating'] = $val['reviews_rating'];
             $result[$i]['reviewTo'] = $val['reviewTo'];
             $result[$i]['reviews_post_details'] = $val['reviews_post_details'];
-            $result[$i]['creationTime'] = date('d F Y h:i:s A',$val['creationTime']);
+            $result[$i]['creationTime'] = date('d F Y',strtotime($val['createDates']));
             $i++;
         }
         
 
-        $array[]= array('Patient Name','Patient Image','Patient Review','Rating','MI Name','MI Comment','Review Date');
+        $array[]= array('Patient Name','Patient Review','Rating','MI Name','MI Comment','Review Date');
        
         $arrayFinal = array_merge($array,$result);
        
@@ -192,14 +193,6 @@ class Reviews extends MY_Controller {
            ); 
            $response = $this->reviews_model->customInsert($option); 
 	
-	   /*$options = array(
-               'table' => 'qyura_reviews',
-               'data' => array(
-                   'status' => $st ),
-              'where' => array( 'reviews_id' => $reviewId)
-               
-           ); 
-           $response = $this->reviews_model->customInsert($options); */
 
            if($response){
                $message = "Your post comment has been successfully";

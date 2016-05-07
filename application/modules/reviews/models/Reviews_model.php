@@ -42,12 +42,13 @@ class Reviews_model extends CI_Model {
     
     
     function fetchReviews($params = array()) {
+        $current = date('Y-m-d');
         $this->db->select('qyura_reviews.reviews_id,qyura_reviews.reviews_userId,qyura_reviews.reviews_details,'
                 . 'qyura_reviews.reviews_rating,qyura_reviews.creationTime,(CASE WHEN (hospital_name is not null) THEN hospital_name WHEN (diagnostic_name is not null) THEN diagnostic_name WHEN (doctors_fName is not null) THEN CONCAT(doctors_fName, " ",doctors_lName) END) AS reviewTo,CONCAT(patientDetails_patientName, " ",patientDetails_pLastName) as reviewBy,'
                 . 'qyura_patientDetails.patientDetails_patientImg,'
                 . 'FROM_UNIXTIME(qyura_reviews.creationTime,"%H:%i:%s") AS times,'
                 . '(CASE WHEN (hospital_name is not null) THEN hospital_usersId WHEN (diagnostic_name is not null) THEN diagnostic_usersId WHEN (doctors_fName is not null) THEN doctors_userId END) AS MiUserId,qyura_reviews-post.status as publish,'
-                . 'qyura_reviews-post.reviews_post_details');
+                . 'qyura_reviews-post.reviews_post_details,FROM_UNIXTIME(qyura_reviews.reviews_createDates,"%Y-%m-%d") AS createDates,DATEDIFF("'.$current.'",FROM_UNIXTIME(qyura_reviews.reviews_createDates,"%Y-%m-%d")) AS days');
         
         
         $this->db->from('qyura_reviews');
@@ -76,27 +77,27 @@ class Reviews_model extends CI_Model {
                
             }elseif(!empty($params['filter']) &&  $params['filter'] == 'all'){
  
-                $this->db->order_by('qyura_reviews.creationTime','desc');  
+                $this->db->order_by('qyura_reviews.reviews_createDates','desc');  
             }else{
-                $this->db->order_by('qyura_reviews.creationTime','desc');
+                $this->db->order_by('qyura_reviews.reviews_createDates','desc');
             }
 
         }else{
-            $this->db->order_by('qyura_reviews.creationTime','desc');
+            $this->db->order_by('qyura_reviews.reviews_createDates','desc');
         }
         
         
         if(array_key_exists("sDate",$params) && array_key_exists("eDate",$params)){
               if(!empty($params['sDate']) &&  !empty($params['eDate'])){
                   
-                    $this->db->where('qyura_reviews.creationTime >=', strtotime(date('Y-m-d',strtotime($params['sDate']))));
-                    $this->db->where('qyura_reviews.creationTime <=', strtotime(date('Y-m-d' ,strtotime($params['eDate']))));
+                    $this->db->where('qyura_reviews.reviews_createDates >=', strtotime(date('Y-m-d',strtotime($params['sDate']))));
+                    $this->db->where('qyura_reviews.reviews_createDates <=', strtotime(date('Y-m-d' ,strtotime($params['eDate']))));
               }else{
-                  $this->db->order_by('qyura_reviews.creationTime','desc');
+                  //$this->db->order_by('qyura_reviews.reviews_createDates','desc');
               }
 
         }elseif(!array_key_exists("sDate",$params) && array_key_exists("eDate",$params)){
-             $this->db->order_by('qyura_reviews.creationTime','desc');
+            // $this->db->order_by('qyura_reviews.reviews_createDates','desc');
         }
         
         
@@ -182,13 +183,13 @@ class Reviews_model extends CI_Model {
                      qyura_ratings.creationTime 
                      
                      ELSE qyura_reviews.creationTime END) 
-                     ) as time,
+                     ,"%H:%i:%s") as time,
                      
-                     DATEDIFF("'.$current.'",FROM_UNIXTIME((CASE WHEN (qyura_ratings.creationTime >= 
-                     qyura_reviews.creationTime) THEN
-                     qyura_ratings.creationTime 
-                     ELSE qyura_reviews.creationTime END) 
-                     )) AS days');
+                     DATEDIFF("'.$current.'",FROM_UNIXTIME((CASE WHEN (qyura_ratings.rating_createDates >= 
+                     qyura_reviews.reviews_createDates) THEN
+                     qyura_ratings.rating_createDates 
+                     ELSE qyura_reviews.reviews_createDates END) 
+                     ,"%Y-%m-%d")) AS days');
         
         $this->db->from('qyura_doctors');
         $this->db->join('qyura_ratings', 'qyura_ratings.rating_relateId=qyura_doctors.doctors_userId', 'left');
@@ -198,11 +199,11 @@ class Reviews_model extends CI_Model {
         $this->db->where(
                 array("qyura_doctors.doctors_deleted" => 0,
                       "qyura_doctors.status" => 1,
-                      "qyura_ratings.creationTime >=" => $dates,
+                      "qyura_ratings.rating_createDates >=" => $dates,
                       
                    )
                 );
-        $this->db->or_where(array("qyura_reviews.creationTime >=" => $dates));
+        $this->db->or_where(array("qyura_reviews.reviews_createDates >=" => $dates));
         
         $this->db->group_by("qyura_doctors.doctors_userId");
         $this->db->order_by('rat','desc');
@@ -213,7 +214,33 @@ class Reviews_model extends CI_Model {
         
     }
     
-    
+     function recentReviewRated($condition = NULL) {
+         $current = date('Y-m-d');
+         $dates = strtotime(date('Y-m-d', strtotime('-1 months')));
+         
+         $sql = 'SELECT  qyura_doctors.doctors_id,qyura_doctors.doctors_userId,qyura_doctors.doctors_img, rating_createDates as dates, '
+                 . 'CONCAT(doctors_fName, " ",doctors_lName) as name, qyura_ratings.rating as rat,qyura_city.city_name as cityName FROM '
+                 . 'qyura_doctors LEFT JOIN qyura_ratings ON qyura_ratings.rating_relateId=qyura_doctors.doctors_userId '
+                 . 'LEFT JOIN qyura_usersRoles ON qyura_usersRoles.usersRoles_userId=qyura_doctors.doctors_userId '
+                 . 'LEFT JOIN qyura_city ON qyura_city.city_id=qyura_doctors.doctors_cityId '
+                . ' WHERE qyura_doctors.doctors_deleted = 0 AND qyura_doctors.status = 1 AND'
+                . ' qyura_ratings.rating_createDates >= '.$dates.' GROUP BY qyura_doctors.doctors_id'
+                 . ' union all '
+                 . 'SELECT qyura_doctors.doctors_id,qyura_doctors.doctors_userId,qyura_doctors.doctors_img, reviews_createDates as dates, '
+                 . 'CONCAT(doctors_fName, " ",doctors_lName) as name, qyura_reviews.reviews_rating as rat,qyura_city.city_name as cityName FROM '
+                 . 'qyura_doctors LEFT JOIN qyura_reviews ON qyura_reviews.reviews_relateId=qyura_doctors.doctors_userId '
+                 . 'LEFT JOIN qyura_usersRoles ON qyura_usersRoles.usersRoles_userId=qyura_doctors.doctors_userId '
+                 . 'LEFT JOIN qyura_city ON qyura_city.city_id=qyura_doctors.doctors_cityId '
+                 . 'WHERE qyura_doctors.doctors_deleted = 0 AND qyura_doctors.status = 1 AND '
+                 . ' qyura_reviews.reviews_createDates <= '.$dates.' GROUP BY qyura_doctors.doctors_id '
+                 . 'ORDER BY dates desc ';
+         
+
+              $qry = $this->db->query($sql);
+              // return $this->db->last_query();
+              return $qry->result();
+        
+    }
     
 
     //Function for get
