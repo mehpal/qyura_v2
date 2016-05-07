@@ -40,6 +40,7 @@ class Rate extends MyRest {
                     'rating_userId'=>$rateBy,
                     'rating_relateId'=>$rateTo,
                     'rating'=>$rating,
+                    'rating_createDates' => strtotime(date("Y-m-d")),
                     'creationTime'=>time()
                 );
 
