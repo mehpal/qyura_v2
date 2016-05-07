@@ -84,8 +84,10 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
       
       
         function filterReviews(reviews) { 
-            
-          $.post(urls+'index.php/reviews/ajaxPaginationData', {'page': 0 ,'filter' : reviews}, function(data){ 
+          var filter = $("#searechReviews").val(); 
+          var sDate = $('#date-1').val();
+          var eDate = $('#date-2').val(); 
+          $.post(urls+'index.php/reviews/ajaxPaginationData', {'page': 0 ,'filter' : filter,'sDate' : sDate, 'eDate' : eDate}, function(data){ 
               $('#postList').html(data);
           }); 
           return false;
@@ -105,7 +107,8 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
                         $('#date-1').val("");
                         $('#date-2').val("");
                      }else{
-                           $.post(urls+'index.php/reviews/ajaxPaginationData', {'page': 0 ,'sDate' : sDate, 'eDate' : eDate},                           function(data){ 
+                           var filter = $("#searechReviews").val(); 
+                           $.post(urls+'index.php/reviews/ajaxPaginationData', {'page': 0 ,'sDate' : sDate, 'eDate' : eDate, 'filter': filter},                           function(data){ 
                             $('#postList').html(data);
                          }); 
                             return false;
