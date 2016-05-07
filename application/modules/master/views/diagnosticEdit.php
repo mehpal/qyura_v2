@@ -30,6 +30,7 @@
                                         <img src="<?php echo base_url() ?>assets/default-images/Dignostics-logo.png"  class="image-preview-show"/>
                                     </div>
                                 </div>
+                                
                                 <label class="error" > <?php echo form_error("avatar_file"); ?></label>
                                 <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
                             </div>

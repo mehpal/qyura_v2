@@ -268,7 +268,7 @@ class Docappointment extends MY_Controller {
      * @return insert id
      */
     function addAppointmentSave(){
-        
+ 
         //generol details
         $this->bf_form_validation->set_rules("input1","City", 'required|xss_clean');
         $this->bf_form_validation->set_rules("input2","Specialities", 'required|xss_clean');
@@ -595,9 +595,7 @@ class Docappointment extends MY_Controller {
  
     function check_timeslot(){
         $final_timing = strtotime($this->input->post('final_timing'));
-        $timeslot_id = $this->input->post('timeslot_id');
-        $id = explode(',', $timeslot_id);
-        $time_id = $id[0];
+        $time_id = $this->input->post('timeslot_id');
         
         $option = array(
             'table' => 'qyura_docTimeDay',
@@ -608,10 +606,11 @@ class Docappointment extends MY_Controller {
         $time_slot = $this->common_model->customGet($option);
         $open_time = strtotime($time_slot->docTimeDay_open);
         $close_time = strtotime($time_slot->docTimeDay_close);
+        
         if($final_timing >= $open_time && $final_timing <= $close_time){
-            echo "1";
-        }else{
-            echo "0";
+            echo json_encode(TRUE);
+        } else {
+            echo json_encode(FALSE);
         }
     }
 }

@@ -1,5 +1,5 @@
 <script src="<?php echo base_url(); ?>assets/js/reCopy.js"></script>
-
+<script src="<?php echo base_url(); ?>assets/vendor/select2/select2.min.js" type="text/javascript"></script>
 <script>
     $(function(){
         var removeLink = ' <a class="remove danger" href="#" onclick="$(this).parent().slideUp(function(){ $(this).remove() }); return false">remove</a>';
@@ -23,4 +23,63 @@
             submitData(url,formData);
         });
     });
+</script>
+<script> 
+       $(document).ready(function () {
+        var url = "<?php echo base_url();?>";
+        $("#faqAddForm").validate({
+           
+
+            rules: {
+              
+                "faq_question[]": {
+                    required: true
+                },
+                "faq_answer[]": {
+                    required: true
+                },
+            },
+            messages: {
+                'faq_question[]': {
+                    required: "Please enter Question",
+                },
+                  'faq_answer[]': {
+                    required: "Please enter Answer",
+                },     
+            },
+
+        });
+
+    });
+    
+</script>
+
+<script> 
+       $(document).ready(function () {
+        var url = "<?php echo base_url();?>";
+        $("#faqEditForm").validate({
+           
+
+            rules: {
+              
+                'faq_question[]': {
+                    required: true
+                },
+                'faq_answer[]': {
+                    required: true
+                },
+            },
+            messages: {
+                'faq_question[]': {
+                    required: "Please enter Question",
+                },
+                  'faq_answer[]': {
+                    required: "Please enter Answer",
+                },     
+            },
+
+        });
+
+    });
+    
 </script>
