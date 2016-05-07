@@ -331,6 +331,7 @@ if (isset($healthtipId) && !empty($healthtipId)) {
     });
 </script>
 
+
 </body>
 
 </html> 

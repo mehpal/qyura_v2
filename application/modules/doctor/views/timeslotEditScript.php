@@ -1,8 +1,12 @@
 <script>
     $(document).ready(function () {
-
+        $('.timepicker').timepicker({showMeridian:true});
         $(".select2").select2({
             width: '100%'
+        });
+        
+        $('.selectpicker').selectpicker({
+            width: "100%"
         });
 
         $(".bs-select").select2({
@@ -200,5 +204,7 @@
             }
         });
     }
+    
+    
 
 </script>
