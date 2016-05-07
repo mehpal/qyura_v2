@@ -37,7 +37,7 @@ if ($current == 'detailBloodBank'):
 <?php else: ?>
     <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
 <?php endif; ?>
-<script src="<?php echo base_url(); ?>assets/js/pages/all-appointment.js" type="text/javascript"></script>
+<!--<script src="<?php echo base_url(); ?>assets/js/pages/all-appointment.js" type="text/javascript"></script>-->
 
 <script>
     var urls = "<?php echo base_url() ?>";
