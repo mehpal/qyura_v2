@@ -97,6 +97,10 @@ if (isset($mapData) && !empty($mapData)) {
     </script>
 <?php } ?>
 <script>
+    
+    
+    
+    
 
     function checkValidFileUploads(urls) {
 
@@ -570,6 +574,7 @@ if (isset($mapData) && !empty($mapData)) {
                         obj[el.id] = $(el).index();
                     });
                     var order = $(this).sortable('serialize');
+                    //alert(order);
 
                     var url = "<?php echo site_url('hospital/hospitalSpecialitiesOrder') ?>";
                     $.ajax({type: "POST", async: false, url: url, data: obj, beforeSend: function (xhr) {
@@ -2643,10 +2648,34 @@ if (isset($mapData) && !empty($mapData)) {
         }
 
     });
- $('.select2').select2().change(function(){
+});
+
+
+
+
+
+
+$('.select2').select2().change(function(){
     $(this).valid()
 });
- 
+
+$(document).ready(function () {
+    $("#bloodbankbtn , #bloodbank").click(function () {
+       if($(this).is(':checked')){
+        bootbox.confirm("Do you outsource the blood?", function(result) {
+           if (result) {
+               $('#isBloodBankOutsource').val(1);
+               $("#bloodbankdetail").fadeIn();
+           }else{
+               $("#bloodbankdetail").fadeOut();
+               $('#isBloodBankOutsource').val(0);
+           }
+         });
+       }else{
+           $("#bloodbankdetail").fadeOut();
+           $('#isBloodBankOutsource').val(0);
+       }
+   });
 });
 </script>
 </body>
