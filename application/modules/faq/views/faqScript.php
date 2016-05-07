@@ -24,3 +24,62 @@
         });
     });
 </script>
+<script> 
+       $(document).ready(function () {
+        var url = "<?php echo base_url();?>";
+        $("#faqAddForm").validate({
+           
+
+            rules: {
+              
+                "faq_question[]": {
+                    required: true
+                },
+                "faq_answer[]": {
+                    required: true
+                },
+            },
+            messages: {
+                'faq_question[]': {
+                    required: "Please enter Question",
+                },
+                  'faq_answer[]': {
+                    required: "Please enter Answer",
+                },     
+            },
+
+        });
+
+    });
+    
+</script>
+
+<script> 
+       $(document).ready(function () {
+        var url = "<?php echo base_url();?>";
+        $("#faqEditForm").validate({
+           
+
+            rules: {
+              
+                'faq_question[]': {
+                    required: true
+                },
+                'faq_answer[]': {
+                    required: true
+                },
+            },
+            messages: {
+                'faq_question[]': {
+                    required: "Please enter Question",
+                },
+                  'faq_answer[]': {
+                    required: "Please enter Answer",
+                },     
+            },
+
+        });
+
+    });
+    
+</script>
