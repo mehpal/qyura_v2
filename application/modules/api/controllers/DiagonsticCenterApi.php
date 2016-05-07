@@ -63,7 +63,7 @@ class DiagonsticCenterApi extends MyRest {
             $deleted = $this->singleDelList($option);
             $response['diagon_deleted']= $deleted;
            
-            $response['colName'] =  array("id","fav","rat","adr", "name","phn","lat","lng","upTm","imUrl","diaCat","healpkgCount", "consultinCount","userId");
+            $response['colName'] =  array("id","fav","rat","adr", "name","phn","lat","lng", "imUrl","diaCat","healpkgCount", "consultinCount","userId");
            
               if($response['data']){
                 $response['status'] = TRUE;
@@ -149,9 +149,12 @@ class DiagonsticCenterApi extends MyRest {
 //            echo $this->db->last_query();die();
             $response['diagonHelthPkg'] = $diagonHelthPkg =  $this->diagonsticCenter_models->getDiagonHelthPkg($diagonsticDetails->diagnostic_usersId);
             
-            $response['gallery'] =  $this->diagonsticCenter_models->getDiagonGallery($diagonsticId);
+          //  $response['gallery'] =  $this->diagonsticCenter_models->getDiagonGallery($diagonsticId);
             
            // $response['osInsurance'] = $osInsurance = $this->hospital_model->getHosInsurance($diagonsticId);
+            
+            $response['todayOpenTime'] = $miTimeSlot = $this->diagonsticCenter_models->miTimeSlot($diagonsticDetails->diagnostic_usersId);
+
             
             $response['status'] = TRUE;
             $response['msg'] = 'success';
