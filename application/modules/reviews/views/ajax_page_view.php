@@ -6,10 +6,10 @@
                                 <article class="col-md-12 m-t-20">
                                     <section class="clearfix">
                                           <aside class="col-md-10 col-sm-10 col-xs-12 p-0">
-                                            <img src="<?php if(!empty($review['patientDetails_patientImg'])): echo base_url().'assets/patientImages/'.$review['patientDetails_patientImg'];else: echo base_url().'assets/images/noImage.png'; endif;?>" alt="" class="img-responsive review-pic" />
+                                            <img src="<?php if(!empty($review['patientDetails_patientImg'])): echo base_url().'assets/patientImages/'.$review['patientDetails_patientImg'];else: echo base_url().'assets/images/imgpsh_fullsize.png'; endif;?>" alt="" class="img-responsive review-pic" />
                                             <h3><?php echo ucfirst($review['reviewBy']);?></h3>
 <!--                                            <p>4 Reviews</p>-->
-                                            <p class="cl-dull"><?php echo isTimeCalculate($review['times']);?> Ago</p>
+                                                <p class="cl-dull"><?php  if(!empty($review['days']) && $review['days'] != 0){echo isConvertDays($review['days']);}else{ echo isTimeCalculate($review['times']).' ago';}?> </p>
                                         </aside>
                                         <aside class="col-md-2 col-sm-2 text-right m-t-10">
                                             <span class="label label-success waves-effect waves-light m-b-5 center-block"><?php echo $review['reviews_rating'].".0";?></span>

@@ -37,7 +37,8 @@
                                                         <div class="col-md-8 col-sm-8">
                                                             <aside class="row">
                                                                 <div class="col-md-8 col-sm-8">
-                                                                    <select class="selectpicker" data-width="100%" name="membership_type[]" id="membership_type" multiple="" required="">
+                                                                    <select class="select2" data-width="100%" name="membership_type[]" id="membership_type" multiple="" required="">
+                                                                    <option value="">Select type</option>
                                                                         <option <?php if($selectFor == 1){ echo "selected"; } ?> value="1">Hospital</option>
                                                                         <option <?php if($selectFor == 3){ echo "selected"; } ?> value="3">Diagnostics</option>
                                                                     </select>
@@ -71,12 +72,12 @@
                                                                 <input type="hidden" value="<?php echo $facilities->facilities_id; ?>" id="checkbox_<?php echo $checkBocCount; ?>" name="checkbox_<?php echo $checkBocCount; ?>">
                                                                 
                                                                 <div class="col-md-6 col-sm-6">
-                                                                    <input type="number" id="membership_quantity_<?php echo $checkBocCount; ?>" name="membership_quantity_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" />
+                                                                    <input type="number" id="membership_quantity_<?php echo $checkBocCount; ?>" name="membership_quantity_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" onkeypress="return isNumberKey(event,'error id')"/>
                                                                     <label class="error" id="err_membership_quantity_<?php echo $checkBocCount; ?>" > <?php echo form_error("membership_quantity"); ?></label>
                                                                 </div>
                                                                 <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){ ?>
                                                                 <div class="col-md-6 col-sm-6 m-t-xs-10">
-                                                                    <input type="number" id="membership_duration_<?php echo $checkBocCount; ?>" name="membership_duration_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){  } ?>/>
+                                                                    <input type="number" id="membership_duration_<?php echo $checkBocCount; ?>" name="membership_duration_<?php echo $checkBocCount; ?>" class="form-control" onkeypress="return isNumberKey(event,'error id')" min="1" max="25" <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){  } ?>/>
                                                                     <label class="error" id="err_membership_duration_<?php echo $checkBocCount; ?>" > <?php echo form_error("membership_duration"); ?></label>
                                                                 </div>
                                                                 <?php } ?>
@@ -89,7 +90,7 @@
                                                         <div class="col-md-8 col-sm-8">
                                                             <aside class="row">
                                                                 <div class="col-md-12 col-sm-12 m-t-xs-10">
-                                                                    <input type="text" id="membership_price" name="membership_price" class="form-control" onblur="calculateamount()" />
+                                                                    <input type="text" id="membership_price" name="membership_price" class="form-control" onblur="calculateamount()" onkeypress="return isNumberKey(event,'error id')" />
                                                                     <label class="error" id="err_membership_price" > <?php echo form_error("membership_price"); ?></label>
                                                                 </div>
                                                             </aside>
@@ -98,7 +99,7 @@
                                                     <article class="form-group m-lr-0">
                                                         <label for="cname" class="control-label col-md-4  col-sm-4">Tax %:</label>
                                                         <div class="col-md-8 col-sm-8">
-                                                            <input type="text" id="membership_tax" name="membership_tax" class="form-control" data-width="100%" onblur="calculateamount()">
+                                                            <input type="text" id="membership_tax" name="membership_tax" class="form-control" data-width="100%" onblur="calculateamount()" onkeypress="return isNumberKey(event,'error id')">
                                                             <label class="error" id="err_membership_tax" > <?php echo form_error("membership_tax"); ?></label>
                                                             <input type="hidden" class="form-control" name="membership_totalPrice" id="membership_totalPrice" />
                                                             

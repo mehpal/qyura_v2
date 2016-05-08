@@ -78,9 +78,8 @@ class Membership extends MY_Controller {
     }
     
     function membershipSave() {
-        
         //$this->bf_form_validation->set_rules("membership_type", "Membership Type", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("membership_name", "Tital", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("membership_name", "Title", 'required|xss_clean');
         //$this->bf_form_validation->set_rules("membership_plan", "Plan", 'required|xss_clean');
         $this->bf_form_validation->set_rules("membership_price", "Price", 'required|xss_clean');
         $this->bf_form_validation->set_rules("membership_tax", "Tax", 'required|xss_clean');
