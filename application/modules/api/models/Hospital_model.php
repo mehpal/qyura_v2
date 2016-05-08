@@ -54,9 +54,9 @@ class Hospital_model extends CI_Model
          }
              
 
-        $this->db->select('hospital_usersId as userId,hospital_id as id, (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, hospital_address as adr ,hospital_name name, hospital_phn phn, hospital_lat lat, hospital_long long, qyura_hospital.modifyTime upTm, hospital_img imUrl, (
+        $this->db->select('hospital_usersId as userId,hospital_id as id, (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, hospital_address as adr ,hospital_name name, CONCAT("0","",hospital_phn) as  phn, hospital_lat lat, hospital_long long, qyura_hospital.modifyTime upTm, hospital_img imUrl, (
                 6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( hospital_lat ) ) * cos( radians( hospital_long ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( hospital_lat ) ) )
-                ) AS distance, Group_concat(DISTINCT (CASE specialityNameFormate WHEN 1 THEN qyura_specialities.specialities_name WHEN 0 THEN qyura_specialities.specialities_drName END) order by qyura_specialities.specialities_name SEPARATOR ", ") as specialities, isEmergency '.$ambulance.'  '.$healtPkg.'
+                ) AS distance, Group_concat(DISTINCT (CASE specialityNameFormate WHEN 1 THEN qyura_specialities.specialities_drName WHEN 0 THEN qyura_specialities.specialities_name END) order by qyura_specialities.specialities_name SEPARATOR ", ") as specialities, isEmergency '.$ambulance.'  '.$healtPkg.'
 ,(
 CASE 
  WHEN (reviews_rating is not null AND qyura_ratings.rating is not null) 
@@ -136,7 +136,7 @@ CASE
                 $finalTemp[] = isset($row->lat) ? $row->lat : "";
                 $finalTemp[] = isset($row->long) ? $row->long : "";
                 $finalTemp[] = isset($row->upTm) ? $row->upTm : "";
-                $finalTemp[] = isset($row->imUrl) && $row->imUrl != '' ? 'assets/hospitalsImages/thumb/thumb_100/' . $row->imUrl : "";
+                $finalTemp[] = isset($row->imUrl) && $row->imUrl != '' ? 'assets/hospitalsImages/thumb/original/' . $row->imUrl : "";
                 $finalTemp[] = isset($row->specialities) ? $row->specialities : "";
                 $finalTemp[] = isset($row->isEmergency) ? $row->isEmergency : "";
                 
@@ -155,7 +155,7 @@ CASE
     
     public function getHosDetails($hospitalId)
     {
-        $this->db->select('hospital_id, hospital_usersId, hospital_address, hospital_name, hospital_aboutUs, hospital_phn, hospital_lat, hospital_long, modifyTime');
+        $this->db->select('hospital_id, hospital_usersId, hospital_address, hospital_name, hospital_aboutUs,  CONCAT("0","",hospital_phn) as  hospital_phn, hospital_lat, hospital_long, modifyTime');
         $this->db->from('qyura_hospital');
         $this->db->where(array('hospital_id'=>$hospitalId,'hospital_deleted'=>0, 'status' => 1));
         return $this->db->get()->row();
@@ -335,6 +335,17 @@ CASE
         $this->db->limit($limit);
       return  $this->db->get()->result();
        // echo $this->db->last_query(); exit;
+    }
+    
+    
+    // mi time slot
+    
+    public function miTimeSlot($hospitalUserId)
+    {
+        $this->db->select('openingHours, closingHours');
+        $this->db->from('qyura_miTimeSlot');
+        $this->db->where(array('deleted'=>0, 'status' => 1, 'mi_user_id' => $hospitalUserId, 'hourLabel' => date("l")));
+        return $this->db->get()->row();
     }
     
     

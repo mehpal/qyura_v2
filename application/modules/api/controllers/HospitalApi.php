@@ -132,7 +132,7 @@ class HospitalApi extends MyRest {
             {
                 $response['hosDetails'] = $hospitalDetails;
 
-                $response['hosGallary'] = $gallary =  $this->hospital_model->getHosGallery($hospitalId);
+               // $response['hosGallary'] = $gallary =  $this->hospital_model->getHosGallery($hospitalId);
 
                 $response['isAmbulance'] = $isAmbulance =  $this->hospital_model->isAmbulance($hospitalDetails->hospital_usersId);
 
@@ -154,6 +154,8 @@ class HospitalApi extends MyRest {
                 $response['awards'] = $hosAwards = $this->hospital_model->getHosAwards($hospitalId);
 
                 $response['hosInsurance'] = $osInsurance = $this->hospital_model->getHosInsurance($hospitalId);
+                
+                $response['todayOpenTime'] = $miTimeSlot = $this->hospital_model->miTimeSlot($hospitalDetails->hospital_usersId);
 
                 $response['status'] = TRUE;
                 $response['msg'] = 'success';
