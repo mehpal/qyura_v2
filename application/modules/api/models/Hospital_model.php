@@ -155,7 +155,7 @@ CASE
     
     public function getHosDetails($hospitalId)
     {
-        $this->db->select('hospital_id, hospital_usersId, hospital_address, hospital_name, hospital_aboutUs,  CONCAT("0","",hospital_phn) as  hospital_phn, hospital_lat, hospital_long, modifyTime');
+        $this->db->select('hospital_id, hospital_usersId, hospital_address, hospital_name, hospital_aboutUs,  CONCAT("0","",hospital_phn) as  hospital_phn, hospital_lat, hospital_long, isEmergency');
         $this->db->from('qyura_hospital');
         $this->db->where(array('hospital_id'=>$hospitalId,'hospital_deleted'=>0, 'status' => 1));
         return $this->db->get()->row();
@@ -168,7 +168,7 @@ CASE
                 FROM `qyura_ambulance`
                 WHERE `ambulance_deleted` = 0 and `status` = 1 and `ambulance_usersId` = $hospitalId "; 
         $query = $this->db->query($sql)->row();
-        if($query->id){ return 1; }else{ return 0; }
+        if($query->id){ return "1"; }else{ return "0"; }
     }
     
     public function getHosGallery($hospitalId)
@@ -195,7 +195,7 @@ CASE
     
     public function getHosServices($hospitalId,$limit=NULL)
     {
-        $this->db->select('hospitalServices_serviceName as serviceName,hospitalServices_deleted,modifyTime,hospitalServices_id');
+        $this->db->select('hospitalServices_serviceName as serviceName,hospitalServices_id');
         $this->db->from('qyura_hospitalServices');
         $this->db->where(array('qyura_hospitalServices.hospitalServices_hospitalId'=>$hospitalId,'hospitalServices_deleted'=> 0));
         if($limit!=NULL)
@@ -205,35 +205,25 @@ CASE
     
     public function getHosSpecialities($hospitalId,$limit=NULL)
     {
-        $this->db->select('qyura_specialities.specialities_name,qyura_specialities.specialities_id,qyura_specialities.specialities_specialitiesCatId,qyura_specialities.modifyTime,qyura_specialities.specialities_deleted');
+        $this->db->select('qyura_specialities.specialities_name,qyura_specialities.specialities_id');
         $this->db->from('qyura_specialities');
         $this->db->join('qyura_hospitalSpecialities','qyura_hospitalSpecialities.hospitalSpecialities_specialitiesId=qyura_specialities.specialities_id','left');
         $this->db->where(array('qyura_hospitalSpecialities.hospitalSpecialities_hospitalId'=>$hospitalId,'qyura_hospitalSpecialities.hospitalSpecialities_deleted'=>0,'qyura_specialities.specialities_deleted'=>0));
         if($limit!=NULL)
         $this->db->limit($limit);
-       return $this->db->get()->result();
-       // echo $this->db->last_query(); exit;
-    }
+       return $this->db->get()->result(); 
+    } 
     
-   /* public function getHosHelthPkg($hospitalId)
-    {
-        $this->db->select('healthPackage_id,healthPackage_packageTitle,healthPackage_packageId,healthPackage_packageTitle,healthPackage_expiryDateStatus,healthPackage_date,healthPackage_bestPrice,healthPackage_discountedPrice,healthPackage_description,healthPackage_deleted,modifyTime');
-        $this->db->from('qyura_healthPackage');
-        $this->db->where(array('healthPackage_MIuserId'=>$hospitalId,'healthPackage_deleted'=>0));
-        return $this->db->get()->result();
-    } */
-    
-    public function getHosHelthPkg($hospitalId)
-    {
-        $this->db->select('healthPackage_id,healthPackage_packageTitle,healthPackage_packageId,healthPackage_packageTitle,healthPackage_expiryDateStatus,healthPackage_date,healthPackage_bestPrice,healthPackage_discountedPrice,healthPackage_description,healthPackage_deleted,qyura_healthPackage.modifyTime');
-        $this->db->from('qyura_healthPackage');
-       // $this->db->join('qyura_hospitalPackage','qyura_hospitalPackage.hospitalPackage_healthPackageId = qyura_healthPackage.healthPackage_id');
-         $this->db->join('qyura_hospital', 'qyura_hospital.hospital_usersId = qyura_healthPackage.healthPackage_MIuserId', 'left');
+    public function getHosHelthPkg($hospitalId){
+        
+        $this->db->select('healthPackage_id,healthPackage_packageTitle,healthPackage_packageId,healthPackage_packageTitle,healthPackage_bestPrice,healthPackage_discountedPrice');
+        $this->db->from('qyura_healthPackage'); 
+         $this->db->join('qyura_hospital', 'qyura_hospital.hospital_usersId=qyura_healthPackage.healthPackage_MIuserId', 'left');
         $this->db->where(array('hospital_id'=>$hospitalId, 'healthPackage_deleted'=>0, 'qyura_healthPackage.status' => 1));
         $this->db->group_by('healthPackage_id');
-        $res = $this->db->get();
-//        dump($this->db->last_query());die();
+        $res = $this->db->get(); 
         return $res->result();
+        
     }
     
     public function getHosReviewCount($hosUserId)
@@ -273,7 +263,7 @@ CASE
     
     public function getHosDoctors($hospitalId,$hospitalUsersId,$limit=NULL)
     {
-        $this->db->select('doctors_id, doctors_userId, CONCAT("assets/doctorsImages/thumb/thumb_100","/",doctors_img) as doctors_img, doctors_fName, doctors_lName, doctor_addr, doctors_phn, doctors_mobile, doctors_27Src, doctors_consultaionFee');
+        $this->db->select('doctors_id, CONCAT("assets/doctorsImages/thumb/thumb_100","/",doctors_img) as doctors_img, doctors_fName, doctors_lName');
         $this->db->from('qyura_doctors');
        // $this->db->join('qyura_doctors','qyura_doctors.doctors_userId = qyura_usersRoles.usersRoles_userId','left');
         $this->db->where(array('qyura_doctors.doctors_parentId'=>$hospitalUsersId,'qyura_doctors.doctors_roll'=>ROLE_DOCTORE_CHILD));
@@ -286,17 +276,10 @@ CASE
             foreach($doctors as $doctor)
             {
                 $doctorTemp = array();
-                $doctorTemp['doctors_id'] = $doctor->doctors_id;
-                $doctorTemp['userId'] = $doctor->doctors_userId;
+                $doctorTemp['doctors_id'] = $doctor->doctors_id; 
                 $doctorTemp['img'] = $doctor->doctors_img;
                 $doctorTemp['fName'] = $doctor->doctors_fName;
                 $doctorTemp['lName'] = $doctor->doctors_lName;
-                $doctorTemp['addr'] = $doctor->doctor_addr;
-                $doctorTemp['phn'] = $doctor->doctors_phn;
-                $doctorTemp['mobile'] = $doctor->doctors_mobile;
-                $doctorTemp['Src27'] = $doctor->doctors_27Src;
-                $doctorTemp['consultaionFee'] = $doctor->doctors_consultaionFee;
-                $doctorTemp['parents'] = $this->getDoctorsRole($doctor->doctors_userId);
                 $doctorResult[] = $doctorTemp;
             }
             return $doctorResult;
@@ -316,7 +299,7 @@ CASE
     
     public function getHosInsurance($hospitalId,$limit=NULL)
     {
-        $this->db->select('insurance_Name,insurance_id,CONCAT("assets/insuranceImages","/",insurance_img)insurance_img,qyura_insurance.modifyTime');
+        $this->db->select('insurance_Name,insurance_id,CONCAT("assets/insuranceImages","/",insurance_img)insurance_img ');
         $this->db->from('qyura_hospitalInsurance');
         $this->db->join('qyura_insurance','qyura_insurance.insurance_id=qyura_hospitalInsurance.hospitalInsurance_insuranceId','right');
         $this->db->where(array('qyura_hospitalInsurance.hospitalInsurance_hospitalId'=>$hospitalId,'qyura_hospitalInsurance.hospitalInsurance_deleted'=>0));
@@ -327,7 +310,7 @@ CASE
     
    public function getHosAwards($hospitalId,$limit=NULL)
     {
-        $this->db->select('hospitalAwards_id as awards_id,hospitalAwards_awardsName name, hospitalAwards_awardYear year, CASE  WHEN (qyura_hospitalAwards.modifyTime is NULL) THEN "" ELSE qyura_hospitalAwards.modifyTime END  as modifyTime, agency_name ');
+        $this->db->select('hospitalAwards_id as awards_id,hospitalAwards_awardsName name, hospitalAwards_awardYear year, agency_name ');
         $this->db->from('qyura_hospitalAwards');
         $this->db->join('qyura_awardAgency','qyura_awardAgency.awardAgency_id = qyura_hospitalAwards.hospitalAwards_awardsAgency ','left');
         $this->db->where(array('qyura_hospitalAwards.hospitalAwards_hospitalId'=>$hospitalId,'qyura_hospitalAwards.hospitalAwards_deleted'=>0));
@@ -342,7 +325,7 @@ CASE
     
     public function miTimeSlot($hospitalUserId)
     {
-        $this->db->select('openingHours, closingHours');
+        $this->db->select('(CASE WHEN (openingHours is NULL) THEN 0 ELSE openingHours END) AS openingHours , (CASE WHEN (closingHours is NULL) THEN 0 ELSE closingHours END) AS closingHours');
         $this->db->from('qyura_miTimeSlot');
         $this->db->where(array('deleted'=>0, 'status' => 1, 'mi_user_id' => $hospitalUserId, 'hourLabel' => date("l")));
         return $this->db->get()->row();

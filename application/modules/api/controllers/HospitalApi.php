@@ -13,7 +13,7 @@ class HospitalApi extends MyRest {
     }
 
     function hospitalTimeSlot_post() {
-        $this->bf_form_validation->set_rules('hospitalId','hospitalId','xss_clean|numeric|required|trim');
+        $this->bf_form_validation->set_rules('hospitalId', 'hospitalId', 'xss_clean|numeric|required|trim');
         if ($this->bf_form_validation->run($this) == FALSE) {
             $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
             $this->response($response, 400);
@@ -21,13 +21,13 @@ class HospitalApi extends MyRest {
             $hospitalId = $this->input->post('hospitalId');
             $options = array(
                 'table' => 'qyura_hospitalTimeSlot',
-                'where' => array('qyura_hospitalTimeSlot.hospitalTimeSlot_deleted' => 0,'qyura_hospitalTimeSlot.hospitalTimeSlot_hospitalId' => $hospitalId),
+                'where' => array('qyura_hospitalTimeSlot.hospitalTimeSlot_deleted' => 0, 'qyura_hospitalTimeSlot.hospitalTimeSlot_hospitalId' => $hospitalId),
             );
             $hospitalTimeSlot = $this->common_model->customGet($options);
-             $response = array();
-            if(isset($hospitalTimeSlot) && $hospitalTimeSlot != NULL){
-                foreach ($hospitalTimeSlot as $hospitalTime){
-		    $timeSlot = array();
+            $response = array();
+            if (isset($hospitalTimeSlot) && $hospitalTimeSlot != NULL) {
+                foreach ($hospitalTimeSlot as $hospitalTime) {
+                    $timeSlot = array();
                     $timeSlot[] = $hospitalTime->hospitalTimeSlot_id;
                     $timeSlot[] = $hospitalTime->hospitalTimeSlot_startTime;
                     $timeSlot[] = $hospitalTime->hospitalTimeSlot_endTime;
@@ -35,13 +35,13 @@ class HospitalApi extends MyRest {
                     $response[] = $timeSlot;
                 }
             }
-            
-	    $columns = array('h_timeSlotid','h_startTime','h_endTime','h_sessionType');
-            if (!empty($response) && $response != NULL ) {
-                $response = array('status' => TRUE, 'message' => ' Time Slot!', 'data' => $response,'columns'=>$columns);
+
+            $columns = array('h_timeSlotid', 'h_startTime', 'h_endTime', 'h_sessionType');
+            if (!empty($response) && $response != NULL) {
+                $response = array('status' => TRUE, 'message' => ' Time Slot!', 'data' => $response, 'columns' => $columns);
                 $this->response($response, 200);
             } else {
-                $response = array('status' => FALSE, 'message' => 'There is no time slot yet!' );
+                $response = array('status' => FALSE, 'message' => 'There is no time slot yet!');
                 $this->response($response, 400);
             }
         }
@@ -72,102 +72,93 @@ class HospitalApi extends MyRest {
 
             $lat = isset($_POST['lat']) ? $this->input->post('lat') : '';
             $long = isset($_POST['long']) ? $this->input->post('long') : '';
-            $userId = isset($_POST['userId']) && $_POST['userId'] != null && $_POST['userId'] !=0 ? $this->input->post('userId') : 0;
+            $userId = isset($_POST['userId']) && $_POST['userId'] != null && $_POST['userId'] != 0 ? $this->input->post('userId') : 0;
 
             $notIn = isset($_POST['notin']) && $_POST['notin'] != 0 ? $this->input->post('notin') : '';
             $notIn = explode(',', $notIn);
-            
+
             // search
-            $search = isset($_POST['search']) && $_POST['search'] != ''  ? $this->input->post('search') : NULL; 
+            $search = isset($_POST['search']) && $_POST['search'] != '' ? $this->input->post('search') : NULL;
             //city
             $cityId = isset($_POST['cityId']) ? $this->input->post('cityId') : NULL;
-            
-            
-            $isemergency = isset($_POST['isemergency'])  ? $this->input->post('isemergency') : NULL; 
-            
-            // filtration parameter
-            $radius = isset($_POST['radius']) ? $this->input->post('radius') : 70 ;
-            $rating = isset($_POST['rating']) ? $this->input->post('rating') : NULL;
-            $isAmbulance = isset($_POST['isAmbulance'])  ? $this->input->post('isAmbulance') : NULL; 
-            $isInsurance = isset($_POST['isInsurance'])  ? $this->input->post('isInsurance') : NULL; 
-            $isHealtPkg = isset($_POST['isHealtPkg'])  ? $this->input->post('isHealtPkg') : NULL; 
-            
-            $response['data'] = $this->hospital_model->getHospitalList($lat,$long,$notIn,$isemergency,$radius,$isAmbulance,$isInsurance,  $isHealtPkg, $rating, $userId, $search,$cityId);
-            
-            $option = array('table'=>'hospital','select'=>'hospital_id');
-            $deleted = $this->singleDelList($option);
-            $response['hos_deleted']= $deleted;
-            
 
-           
-            $response['colName'] =  array("id","fav","rat","adr", "name","phn","lat","lng","upTm","imUrl","specialities","isEmergency", "isAmbulance", "healpkgCount", "insuranceCount","userId");
-           
-              if($response['data']){
+
+            $isemergency = isset($_POST['isemergency']) ? $this->input->post('isemergency') : NULL;
+
+            // filtration parameter
+            $radius = isset($_POST['radius']) ? $this->input->post('radius') : 70;
+            $rating = isset($_POST['rating']) ? $this->input->post('rating') : NULL;
+            $isAmbulance = isset($_POST['isAmbulance']) ? $this->input->post('isAmbulance') : NULL;
+            $isInsurance = isset($_POST['isInsurance']) ? $this->input->post('isInsurance') : NULL;
+            $isHealtPkg = isset($_POST['isHealtPkg']) ? $this->input->post('isHealtPkg') : NULL;
+
+            $response['data'] = $this->hospital_model->getHospitalList($lat, $long, $notIn, $isemergency, $radius, $isAmbulance, $isInsurance, $isHealtPkg, $rating, $userId, $search, $cityId);
+
+            $option = array('table' => 'hospital', 'select' => 'hospital_id');
+            $deleted = $this->singleDelList($option);
+            $response['hos_deleted'] = $deleted;
+
+
+
+            $response['colName'] = array("id", "fav", "rat", "adr", "name", "phn", "lat", "lng", "upTm", "imUrl", "specialities", "isEmergency", "isAmbulance", "healpkgCount", "insuranceCount", "userId");
+
+            if ($response['data']) {
                 $response['status'] = TRUE;
                 $response['msg'] = 'success';
                 $this->response($response, 200);
-              }else{
+            } else {
                 $response['status'] = False;
                 $response['msg'] = 'There is no hospital at this range!';
                 $this->response($response, 400);
-           }
-      }
-   }  
-    
-    function hospitaldetail_post() {
-        $this->bf_form_validation->set_rules('hospitalId','Hospital Id','xss_clean|numeric|required|trim');
-     
-        if($this->bf_form_validation->run($this) == FALSE)
-        { 
-          // setup the input
-           $response =  array('status'=>FALSE,'message'=>$this->validation_post_warning());
-           $this->response($response, 400);
+            }
         }
-        else 
-        {  
+    }
+
+    function hospitaldetail_post() {
+        $this->bf_form_validation->set_rules('hospitalId', 'Hospital Id', 'xss_clean|numeric|required|trim');
+
+        if ($this->bf_form_validation->run($this) == FALSE) {
+            // setup the input
+            $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
+            $this->response($response, 400);
+        } else {
             $hospitalId = $this->input->post('hospitalId');
             $hospitalDetails = $this->hospital_model->getHosDetails($hospitalId);
 
-            if($hospitalDetails)
-            {
+            if ($hospitalDetails) {
                 $response['hosDetails'] = $hospitalDetails;
 
-               // $response['hosGallary'] = $gallary =  $this->hospital_model->getHosGallery($hospitalId);
+                $response['isAmbulance'] = $isAmbulance = $this->hospital_model->isAmbulance($hospitalDetails->hospital_usersId);
 
-                $response['isAmbulance'] = $isAmbulance =  $this->hospital_model->isAmbulance($hospitalDetails->hospital_usersId);
+                $response['services'] = $services = $this->hospital_model->getHosServices($hospitalId);
 
-                $response['services'] = $services =  $this->hospital_model->getHosServices($hospitalId);
+                $response['specialities'] = $specialities = $this->hospital_model->getHosSpecialities($hospitalId);
 
-                $response['specialities'] = $specialities =  $this->hospital_model->getHosSpecialities($hospitalId);
-
-                $response['hosHelthPkg'] = $hosHelthPkg =  $this->hospital_model->getHosHelthPkg($hospitalId);
+                $response['hosHelthPkg'] = $hosHelthPkg = $this->hospital_model->getHosHelthPkg($hospitalId);
 
                 $response['reviewCount'] = $reviewCount = $this->hospital_model->getHosReviewCount($hospitalDetails->hospital_usersId);
-
                 $response['rating'] = $this->hospital_model->getHosAvgRating($hospitalDetails->hospital_usersId);
 
-                $response['hosDoctors'] = $hosDoctors = $this->hospital_model->getHosDoctors($hospitalId,$hospitalDetails->hospital_usersId);
+                $response['hosDoctors'] = $hosDoctors = $this->hospital_model->getHosDoctors($hospitalId, $hospitalDetails->hospital_usersId);
 
                 $response['hosDiagnosticsCat'] = $hosDiagnostics = $this->hospital_model->getDiagnosticsCat($hospitalId);
-
 
                 $response['awards'] = $hosAwards = $this->hospital_model->getHosAwards($hospitalId);
 
                 $response['hosInsurance'] = $osInsurance = $this->hospital_model->getHosInsurance($hospitalId);
-                
-                $response['todayOpenTime'] = $miTimeSlot = $this->hospital_model->miTimeSlot($hospitalDetails->hospital_usersId);
+                $miTimeSlot = $this->hospital_model->miTimeSlot($hospitalDetails->hospital_usersId);
+                $response['openingHours'] = (isset($miTimeSlot->openingHours) && $miTimeSlot->openingHours != NULL) ? $miTimeSlot->openingHours : "";
+                $response['closingHours'] = (isset($miTimeSlot->closingHours) && $miTimeSlot->closingHours != NULL) ? $miTimeSlot->closingHours : "";
 
                 $response['status'] = TRUE;
                 $response['msg'] = 'success';
                 $this->response($response, 200); // 200 being the HTTP response code
-            }
-            else
-            {
+            } else {
                 $response['status'] = false;
                 $response['msg'] = 'No Hospital is available at this Id';
                 $this->response($response, 400); // 200 being the HTTP response code
             }
         }
-    } 
-  
+    }
+
 }
