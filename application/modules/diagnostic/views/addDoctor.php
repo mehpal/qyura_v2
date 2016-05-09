@@ -93,7 +93,7 @@
                                             <input type="hidden" name="referralId" id="referralId" value="<?php if($this->uri->segment(4) != NULL){ echo $this->uri->segment(4); } ?>">
                                             <input type="hidden" name="pRoleId" id="pRoleId" value="<?php if($this->uri->segment(3) != NULL){ echo $this->uri->segment(3); } ?>">
                                             
-                                            <input type="email" class="form-control" id="users_email" name="users_email" placeholder="Email" value="<?php  echo set_value('users_email');  ?>" onblur="checkEmailFormat()"/>
+                                            <input type="email" class="form-control" id="users_email" name="users_email" placeholder="Email" value="<?php  echo set_value('users_email');  ?>" onchange="emailIsExist(this.value)"/>
                                             
                                             <label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>
                                             <label class="error" style="display:none;" id="error-users_email_check"> Doctor Email Already Exists!</label>
@@ -241,7 +241,7 @@
                             <?php  $this->load->view('doctor_crop_modal');?>
                         </div>
                         
-                        <input type="hidden" name="hospitalUserIdDoctor" value="<?php if(isset($diagnosticData[0]->diagnostic_usersId)){ echo $diagnosticData[0]->diagnostic_usersId; }?>" id="hospitalUserIdDoctor" />
+                        <input type="hidden" name="diagnoUserIdDoctor" value="<?php if(isset($diagnosticData[0]->diagnostic_usersId)){ echo $diagnosticData[0]->diagnostic_usersId; }?>" id="diagnoUserIdDoctor" />
                         
                     </form>
                 </div>

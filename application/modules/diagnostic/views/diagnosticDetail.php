@@ -1205,8 +1205,7 @@
                                 </section>
                                 <!-- Timeslot Ends -->
 
-                                <label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>
-                                <label class="error" style="display:none;" id="error-users_email_check"> Email Already Exists!</label>
+                                
                                 <!--Staff and Permission Starts -->
                                 <section class="tab-pane fade in <?php if (isset($active) && $active == 'doctor') { echo "active"; } ?>" id="doctor">
                                     <!-- Form Section Start -->

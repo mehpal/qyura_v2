@@ -149,6 +149,7 @@ class HospitalApi extends MyRest {
                 $response['hosInsurance'] = $osInsurance = $this->hospital_model->getHosInsurance($hospitalId);
                 
                 $miTimeSlot = $this->hospital_model->miTimeSlot($hospitalDetails->hospital_usersId);
+                
                 $response['openingHours'] = (isset($miTimeSlot->openingHours) && $miTimeSlot->openingHours != NULL) ? $miTimeSlot->openingHours : "";
                 $response['closingHours'] = (isset($miTimeSlot->closingHours) && $miTimeSlot->closingHours != NULL) ? $miTimeSlot->closingHours : "";
 

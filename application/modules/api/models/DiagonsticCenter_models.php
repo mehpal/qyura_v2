@@ -131,7 +131,7 @@ CASE
 
     function diagonstic_Details($diaUsrId) {
 
-        $this->db->select('diagnostic_id,diagnostic_usersId,diagnostic_address, diagnostic_lat, diagnostic_long, diagnostic_aboutUs, CONCAT("0","",diagnostic_phn) as diagnostic_mblNo, CONCAT("assets/diagnosticsImage/thumb/original","/",diagnostic_img) as img');
+        $this->db->select('diagnostic_id,diagnostic_usersId,diagnostic_address, diagnostic_lat, diagnostic_long, diagnostic_aboutUs, CONCAT("0","",diagnostic_phn) as diagnostic_mblNo, CONCAT("assets/diagnosticsImage/thumb/original","/",diagnostic_img) as img, diagnostic_isEmergency as isEmergency');
         $this->db->from('qyura_diagnostic');
         $this->db->where(array('diagnostic_id' => $diaUsrId, 'diagnostic_deleted' => 0));
         return $this->db->get()->row();
@@ -193,30 +193,23 @@ CASE
     }
 
     public function getDiagnosticsDoctors($diagnosticId, $diagnosticUsersId, $limit = NULL) {
-        $this->db->select('doctors_id,doctors_userId,CONCAT("assets/doctorsImages","/",doctors_img) as img,doctors_fName,doctors_lName,doctor_addr,doctors_phn,doctors_mobile,doctors_27Src,doctors_consultaionFee,doctors_lat,doctors_long');
-        $this->db->from('qyura_usersRoles');
-        $this->db->join('qyura_doctors', 'qyura_doctors.doctors_userId=qyura_usersRoles.usersRoles_userId', 'left');
-        $this->db->where(array('qyura_usersRoles.usersRoles_parentId' => $diagnosticUsersId, 'qyura_usersRoles.usersRoles_roleId' => ROLE_DOCTORE));
+        
+        $this->db->select('doctors_id, CONCAT("assets/doctorsImages/thumb/original","/",doctors_img) as doctors_img, doctors_fName, doctors_lName');
+        $this->db->from('qyura_doctors');
+        // $this->db->join('qyura_doctors','qyura_doctors.doctors_userId = qyura_usersRoles.usersRoles_userId','left');
+        $this->db->where(array('qyura_doctors.doctors_parentId' => $diagnosticUsersId, 'qyura_doctors.doctors_roll' => ROLE_DOCTORE_CHILD));
         if ($limit != NULL)
             $this->db->limit($limit);
         $doctors = $this->db->get()->result();
-        //$this->db->last_query();exit;
 
         $doctorResult = array();
         if (!empty($doctors)) {
             foreach ($doctors as $doctor) {
                 $doctorTemp = array();
                 $doctorTemp['doctors_id'] = $doctor->doctors_id;
-                $doctorTemp['userId'] = $doctor->doctors_userId;
-                $doctorTemp['img'] = $doctor->img;
+                $doctorTemp['img'] = $doctor->doctors_img;
                 $doctorTemp['fName'] = $doctor->doctors_fName;
                 $doctorTemp['lName'] = $doctor->doctors_lName;
-                $doctorTemp['addr'] = $doctor->doctor_addr;
-                $doctorTemp['phn'] = $doctor->doctors_phn;
-                $doctorTemp['mobile'] = $doctor->doctors_mobile;
-                $doctorTemp['Src27'] = $doctor->doctors_27Src;
-                $doctorTemp['consultaionFee'] = $doctor->doctors_consultaionFee;
-                $doctorTemp['parents'] = $this->getDoctorsRole($doctor->doctors_userId);
                 $doctorResult[] = $doctorTemp;
             }
             return $doctorResult;
@@ -306,10 +299,21 @@ CASE
     
     public function miTimeSlot($userId)
     {
-        $this->db->select('openingHours, closingHours');
+         $this->db->select('(CASE WHEN (openingHours is NULL) THEN 0 ELSE openingHours END) AS openingHours , (CASE WHEN (closingHours is NULL) THEN 0 ELSE closingHours END) AS closingHours');
         $this->db->from('qyura_miTimeSlot');
-        $this->db->where(array('deleted'=>0, 'status' => 1, 'mi_user_id' => $userId, 'hourLabel' => date("l")));
+        $this->db->where(array('deleted' => 0, 'status' => 1, 'mi_user_id' => $userId, 'hourLabel' => date("l")));
         return $this->db->get()->row();
+        
+    }
+    
+    public function getCollectionCenter($diagonsticId){
+        
+         $this->db->select('collectionCenter_id as centerId, collectionCenter_name as centerName, collectionCenter_address as centerAddress, collectionCenter_lat as centerLat, collectionCenter_long as centerLong');
+        $this->db->from('qyura_diagnoCollectionCenter');
+//        $this->db->join('qyura_diagonsticPackage', 'qyura_diagonsticPackage.diagonsticPackage_healthPackageId = qyura_healthPackage.healthPackage_id');
+        $this->db->where(array('collectionCenter_diagnoId' => $diagonsticId, 'collectionCenter_deleted' => 0,'qyura_diagnoCollectionCenter.status' => 1));
+        $this->db->group_by('collectionCenter_id');
+        return $this->db->get()->result();
     }
 
 }
