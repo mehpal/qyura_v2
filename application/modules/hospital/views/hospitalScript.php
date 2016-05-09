@@ -386,6 +386,7 @@ if (isset($mapData) && !empty($mapData)) {
             {"data": "exp"},
             {"data": "doctors_phon"},
             {"data": "view"},
+            {"data": "status"},
         ],
         "ajax": {
             "url": urls + 'index.php/hospital/getHospitalDoctorsDl/' + hospitalId,
