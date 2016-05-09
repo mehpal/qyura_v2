@@ -12,14 +12,14 @@
                     <article class="clearfix m-t-10">
                         <label for="" class="control-label">Question :</label>
                         <div class="">
-                            <textarea class="form-control m-t-5" id="faq_question" type="text" name="faq_question[]" required=""><?php echo set_value('faq_question'); ?></textarea>
+                            <textarea class="form-control m-t-5" id="faq_question" type="text" name="faq_question[]"><?php echo set_value('faq_question'); ?></textarea>
                             <label class="error" id="err_faq_question" > <?php echo form_error("faq_question"); ?></label>
                         </div>
                     </article>
                     <article class="clearfix m-t-10">
                         <label for="" class="control-label">Answer :</label>
                         <div class="">
-                            <textarea class="form-control m-t-5" id="faq_answer" type="text" name="faq_answer[]" required=""><?php echo set_value('faq_answer'); ?></textarea>
+                            <textarea class="form-control m-t-5" id="faq_answer" type="text" name="faq_answer[]"><?php echo set_value('faq_answer'); ?></textarea>
                             <label class="error" id="err_faq_answer" > <?php echo form_error("faq_answer"); ?></label>
                         </div>
                     </article>

@@ -88,7 +88,7 @@
                                         <label for="" class="control-label col-md-4 col-sm-4">Final Timing :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <div class="bootstrap-timepicker input-group w-full">
-                                                <input id="timepicker4" type="text" class="form-control timepicker" name="input24" value="<?php echo date("g:i A"); ?>" onblur="check_validaton()"/>
+                                                <input id="timepicker4" type="text" class="form-control timepicker" name="input24" value="<?php echo date("g:i A"); ?>" />
                                                 <div class="has-error " id="err_input24" ><?php echo form_error("input24"); ?></div>
                                                 <div class="has-error " id="err_timepicker4" style="display: none">Please select correct final timing</div>
                                             </div>
@@ -162,7 +162,7 @@
                                             <div class="input-group">
                                                 <input class="form-control pickDate" placeholder="dd/mm/yy" id="date-4" type="text"  name="input26" value="<?php echo date("m/d/Y"); ?>"/>
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                                <div class="has-error " id="err_input4" ><?php echo form_error("input4"); ?></div>
+                                                <div class="has-error " id="err_input26" ><?php echo form_error("input26"); ?></div>
                                             </div>
                                         </div>
                                     </article>
@@ -302,7 +302,7 @@
                         </section>
                         <section class="clearfix ">
                             <div class="col-md-12 m-t-20 m-b-20">
-                                <input class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" value="Submit" onclick="return check_validaton()">
+                                <input class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" value="Submit">
                             </div>
                         </section>
                     </form>

@@ -339,18 +339,20 @@ if (isset($mapData) && !empty($mapData)) {
 
         loadAwards();
         loadServices();
-        var pharmacy_status = '';
-        pharmacy_status = $.trim($('#pharmacy_status').val());
-        var bloodbank_status = '';
-        bloodbank_status = $.trim($('#bloodbank_status').val());
-        if (bloodbank_status != '')
-            $("#bloodbankbtn").trigger("click");
-        if (pharmacy_status != '')
-            $("#pharmacybtn").trigger("click");
-        var ambulance_status = '';
-        ambulance_status = $.trim($('#ambulance_status').val());
-        if (ambulance_status != '')
-            $("#ambulancebtn").trigger("click");
+        
+      //  var pharmacy_status = '';
+     //   pharmacy_status = $.trim($('#pharmacy_status').val());
+     //   var bloodbank_status = '';
+    //    bloodbank_status = $.trim($('#bloodbank_status').val());
+        
+     //   if (bloodbank_status != '')
+      //      $("#bloodbankbtn").trigger("click");
+   //     if (pharmacy_status != '')
+      //      $("#pharmacybtn").trigger("click");
+    //    var ambulance_status = '';
+   //     ambulance_status = $.trim($('#ambulance_status').val());
+     //   if (ambulance_status != '')
+   //         $("#ambulancebtn").trigger("click");
 
         loadSpeciality();
         loadDiagonastic();
@@ -2453,7 +2455,7 @@ if (isset($mapData) && !empty($mapData)) {
 
     $(document).ready(function () {
 
-    $("#updateForm").validate({
+    $("#hospitalDetail").validate({
         rules: {
             hospital_id:{
                 required : true,

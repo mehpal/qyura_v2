@@ -48,14 +48,16 @@ class Faq extends MY_Controller {
             $count = 0;
             $id = FALSE;
             foreach ($questions as $question){
-                $data = array('faq_creationTime'=>date('Y-m-d H:i:s'), 'faq_question'=> $question,'faq_answer'=>$answer[$count],'faq_answer1'=>$answer1[$count]);
-                $options  =   array
-                (
-                    'data'=>$data,
-                    'table' =>  'qyura_faq'    
-                );
-                $id = $this->common_model->customInsert($options); 
-                $count++;
+                if(isset($question) && $question != NULL && isset($answer[$count]) && $answer[$count] != NULL){
+                    $data = array('faq_creationTime'=>date('Y-m-d H:i:s'), 'faq_question'=> $question,'faq_answer'=>$answer[$count],'faq_answer1'=>$answer1[$count]);
+                    $options  =   array
+                    (
+                        'data'=>$data,
+                        'table' =>  'qyura_faq'    
+                    );
+                    $id = $this->common_model->customInsert($options); 
+                    $count++;
+                }
             }
             if ($id || $count) {
                 $responce = array('status' => 1, 'msg' => "FAQ added successfully", 'url' => "faq/index/");
@@ -85,7 +87,7 @@ class Faq extends MY_Controller {
         
         $this->bf_form_validation->set_rules('faq_question','Question','required');
         $this->bf_form_validation->set_rules('faq_answer', 'Answer','required');
-        $this->bf_form_validation->set_rules('faq_answer1', 'Answer','required');
+        $this->bf_form_validation->set_rules('faq_answer1', 'Answer','xss_clean');
        
         if ($this->bf_form_validation->run() == FALSE) {
             $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
@@ -97,7 +99,7 @@ class Faq extends MY_Controller {
             $answer = $this->input->post('faq_answer');
             $answer1 = $this->input->post('faq_answer1');
 
-            $data = array('faq_creationTime'=>date('Y-m-d H:i:s'), 'faq_question'=> $questions,'faq_answer'=>$answer,'faq_answer1'=>$answer1,'status' => 2);
+            $data = array('faq_creationTime'=>date('Y-m-d H:i:s'), 'faq_question'=> $questions,'faq_answer'=>$answer,'faq_answer1'=>$answer1);
             $options  =   array
             (
                 'where' => array('faq_id' => $faq_id),
