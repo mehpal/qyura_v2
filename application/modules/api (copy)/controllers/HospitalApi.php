@@ -51,12 +51,12 @@ class HospitalApi extends MyRest {
 
         $this->bf_form_validation->set_rules('lat', 'Lat', 'xss_clean|trim|required|decimal');
         $this->bf_form_validation->set_rules('long', 'Long', 'xss_clean|trim|required|decimal');
-        $this->bf_form_validation->set_rules('isemergency', 'Is Emergency', 'xss_clean|trim|numeric');
+        $this->bf_form_validation->set_rules('isemergency', 'Is Emergency', 'xss_clean|trim|numeric|required');
 //        $this->bf_form_validation->set_rules('radius', 'Radius', 'xss_clean|trim|numeric|required');
-        $this->bf_form_validation->set_rules('isAmbulance', 'Is Ambulance', 'xss_clean|trim|numeric');
-        $this->bf_form_validation->set_rules('isInsurance', 'Is Insurance', 'xss_clean|trim|numeric');
-        $this->bf_form_validation->set_rules('isHealtPkg', 'Is Health Package', 'xss_clean|trim|numeric');
-        $this->bf_form_validation->set_rules('rating', 'Rating', 'xss_clean|trim|numeric');
+        $this->bf_form_validation->set_rules('isAmbulance', 'Is Ambulance', 'xss_clean|trim|numeric|required');
+        $this->bf_form_validation->set_rules('isInsurance', 'Is Insurance', 'xss_clean|trim|numeric|required');
+        $this->bf_form_validation->set_rules('isHealtPkg', 'Is Health Package', 'xss_clean|trim|numeric|required');
+        $this->bf_form_validation->set_rules('rating', 'Rating', 'xss_clean|trim|numeric|required');
         $this->bf_form_validation->set_rules('notin', 'Not In', 'xss_clean|trim|required');
         $this->bf_form_validation->set_rules('userId', 'User Id', 'xss_clean|trim');
         $this->bf_form_validation->set_rules('search ', 'Search Keyword', 'xss_clean|trim');
@@ -127,9 +127,8 @@ class HospitalApi extends MyRest {
 
             if ($hospitalDetails) {
                 $response['hosDetails'] = $hospitalDetails;
- 
+
                 $response['isAmbulance'] = $isAmbulance = $this->hospital_model->isAmbulance($hospitalDetails->hospital_usersId);
- 
 
                 $response['services'] = $services = $this->hospital_model->getHosServices($hospitalId);
 
@@ -147,7 +146,6 @@ class HospitalApi extends MyRest {
                 $response['awards'] = $hosAwards = $this->hospital_model->getHosAwards($hospitalId);
 
                 $response['hosInsurance'] = $osInsurance = $this->hospital_model->getHosInsurance($hospitalId);
-                
                 $miTimeSlot = $this->hospital_model->miTimeSlot($hospitalDetails->hospital_usersId);
                 $response['openingHours'] = (isset($miTimeSlot->openingHours) && $miTimeSlot->openingHours != NULL) ? $miTimeSlot->openingHours : "";
                 $response['closingHours'] = (isset($miTimeSlot->closingHours) && $miTimeSlot->closingHours != NULL) ? $miTimeSlot->closingHours : "";
