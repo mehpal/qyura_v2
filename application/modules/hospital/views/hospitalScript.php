@@ -2448,7 +2448,7 @@ if (isset($mapData) && !empty($mapData)) {
 
     $(document).ready(function () {
 
-    $("#updateForm").validate({
+    $("#hospitalDetail").validate({
         rules: {
             hospital_id:{
                 required : true,

@@ -6,7 +6,6 @@
                     <div class="clearfix">
                         <div class="col-md-12">
                             <h3 class="pull-left page-title">Rate & Review </h3>
-
                         </div>
                     </div>
                     <!-- Left Section Start -->
@@ -57,7 +56,7 @@
                                             <img src="<?php if(!empty($review['patientDetails_patientImg'])): echo base_url().'assets/patientImages/'.$review['patientDetails_patientImg'];else: echo base_url().'assets/images/imgpsh_fullsize.png'; endif;?>" alt="" class="img-responsive review-pic" />
                                             <h3><?php echo ucfirst($review['reviewBy']);?></h3>
 <!--                                            <p>4 Reviews</p>-->
-                                            <p class="cl-dull"><?php  echo isTimeCalculate($review['times']);?> Ago</p>
+                                            <p class="cl-dull"><?php  if(!empty($review['days']) && $review['days'] != 0){echo isConvertDays($review['days']);}else{ echo isTimeCalculate($review['times']).' ago';}?> </p>
                                         </aside>
                                         <aside class="col-md-2 col-sm-2 text-right m-t-10">
                                             <span class="label label-success waves-effect waves-light m-b-5 center-block"><?php echo $review['reviews_rating'].".0";?></span>
@@ -139,7 +138,7 @@
                                     <table class="table rating-table">
                                         <?php if(!empty($topRateds)):
                                                 foreach($topRateds as $rated):
-                                            if(!empty($rated->rating)):?>
+                                            if(!empty($rated->rat)):?>
                                         
                                           <tr>
                                             <td>
@@ -147,9 +146,20 @@
                                             </td>
                                             <td>
                                                 <h6><?php echo ucwords($rated->name);?></h6>
-                                                <p><?php echo isConvertDays($rated->days);?></p>
+                                                <p><?php //echo isConvertDays($rated->days);?>
+                                                <?php  if(!empty($rated->dates)){
+                                                         $currentDate = date_create(date('Y-m-d'));
+                                                         $ratingDate = date_create(date('Y-m-d',$rated->dates));
+                                                         $diff12 = date_diff($ratingDate, $currentDate);
+                                                         if($diff12->d){
+                                                             echo isConvertDays($diff12->d);
+                                                         }else{
+                                                                $times = date('H:i:s',$rated->time);
+                                                                echo isTimeCalculate($times). ' ago';
+                                                         }
+                                                }?></p>
 <!--                                                <p><?php //echo isTimeCalculate(date('H:i:s',strtotime($rated->time)));?></p>-->
-                                                <p><?php echo ucwords($rated->MIname);?> - <?php echo ucwords($rated->cityName);?></p>
+                                                <p><?php echo ucwords($rated->cityName);?></p>
                                             </td>
                                             <td>
                                                 <h6></h6>

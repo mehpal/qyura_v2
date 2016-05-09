@@ -93,7 +93,7 @@ class Sponserhealthtip extends MY_Controller {
         if ($mi_type == 1) {
             $options = array(
                 'table' => 'qyura_hospital',
-                'where' => array('qyura_hospital.hospital_deleted' => 0),
+                'where' => array('qyura_hospital.hospital_deleted' => 0,"qyura_hospital.status"=>1),
             );
             $hospital = $this->common_model->customGet($options);
 
@@ -108,7 +108,7 @@ class Sponserhealthtip extends MY_Controller {
         } else if ($mi_type == 3) {
             $options = array(
                 'table' => 'qyura_diagnostic',
-                'where' => array('qyura_diagnostic.diagnostic_deleted' => 0),
+                'where' => array('qyura_diagnostic.diagnostic_deleted' => 0,"qyura_diagnostic.status"=>1),
             );
             $diagnostic = $this->common_model->customGet($options);
             if (isset($diagnostic) && $diagnostic != NULL) {
@@ -122,7 +122,7 @@ class Sponserhealthtip extends MY_Controller {
         } else {
             $options = array(
                 'table' => 'qyura_doctors',
-                'where' => array('qyura_doctors.doctors_deleted' => 0),
+                'where' => array('qyura_doctors.doctors_deleted' => 0,"qyura_doctors.status"=>1),
             );
             $doctors = $this->common_model->customGet($options);
             if (isset($doctors) && $doctors != NULL) {
@@ -139,7 +139,6 @@ class Sponserhealthtip extends MY_Controller {
 
    function fetchsponserdates() {
         $city_id = $this->input->post('city_id');
-        // $city_id = 705;
         
         $mi_centre = $this->input->post('mi_centre');
         $sponarr = explode("_",$mi_centre);
@@ -153,34 +152,84 @@ class Sponserhealthtip extends MY_Controller {
         $datestr = "";
 
         //$where = array("sponsor_cityId" => $city_id, "sponsor_tipId" => $htipid);
+        $spondates = array();
         $where = array("sponsor_cityId" => $city_id);
-
         $sponserdate = $this->Sponser_model->fetchsponserdates($where);
-//        $dateArray = NULL;
-//        foreach($sponserdate as $sd){
-//            $dateArray[] = $sd->sponsor_date;
-//        }
-//        $vals = array_count_values($dateArray); 
-//        $i = 0;
-//        foreach ($vals as $key=>$spdate) {
-//            if($spdate >= 20)
-//                $datestr .= date("Y-m-d", $key) . ",";
-//            //$datestr = $spdate->sponsor_date.",";
-//            $i++;
-//        }
-//        echo trim($datestr, ",");
-        
-        $i = 0;
         foreach ($sponserdate as $spdate) {
-
-            $datestr .= date("Y-m-d", $spdate->sponsor_date) . ",";
-
-            //$datestr = $spdate->sponsor_date.",";
-
-            $i++;
+            //$spondates[] = date("Y-m-d", $spdate->sponsor_date); //20 tips in a day on a date drop
         }
-        echo trim($datestr, ",");
+        
+        $sponhtip = array();
+        $where = array("sponsor_tipId" => $htipid,"sponsor_cityId" => $city_id);
+        $sponserhtip = $this->Sponser_model->fetchsponserhealthtip($where);
+        foreach ($sponserhtip as $sphtip) {
+            $sponhtip[] = date("Y-m-d", $sphtip->sponsor_date);
+        }
+        
+        $finalarr = array_unique(array_merge($sponhtip,$spondates));
+        echo $datestr = implode($finalarr,",");
+        
+        exit;
+    }
+    function fetchsponsorlimit() {
+       
+        $mi_centre = $this->input->post('mi_centre');
+        $sponarr = explode("_",$mi_centre);
+        
+        $centerType = $sponarr["1"];
+        $mi_centre = $sponarr["0"];
+        if($centerType=="4")
+        {
+            $memstart = date("Y-m-d");
+            $memend = date("Y-m-d",strtotime('+10 years',strtotime($memstart)));
+            echo "1|".$memstart."|".$memend;
+            exit;
+        }
+        $where = array("miMembership_facilitiesId" => 4,"miMembership_miId"=>$mi_centre,"miMembership_deleted"=>0);
+        $memdata = $this->common_model->fetchSingleData("miMembership_quantity,miMembership_duration","qyura_miMembership",$where);
+        if(!empty($memdata))
+        {
 
+            $memqty = $memdata->miMembership_quantity;
+            $memdur = $memdata->miMembership_duration;
+            $memdur = $memdur*7;
+            
+            if($centerType=="1")
+            {
+               $where = array("hospital_usersId"=>$mi_centre); 
+               $midata = $this->common_model->fetchSingleData("hospital_mmbrStart","qyura_hospital",$where); 
+               $memstart = date("Y-m-d",$midata->hospital_mmbrStart);
+               $memend = date("Y-m-d",strtotime('+1 years',strtotime($memstart)));
+            }
+            else if($centerType=="3")
+            {
+               $where = array("diagnostic_usersId"=>$mi_centre); 
+               $midata = $this->common_model->fetchSingleData("diagnostic_mbrStart","qyura_diagnostic",$where); 
+               $memstart = date("Y-m-d",$midata->diagnostic_mbrStart);
+               $memend = date("Y-m-d",strtotime('+1 years',strtotime($memstart)));
+            }
+            else
+            {
+               $memstart = strtotime(date());
+               $memend = date("Y-m-d",strtotime('+10 years',strtotime($memstart)));
+               echo "1|".$memstart."|".$memend;
+               exit;
+            }
+            
+            $where = array("parentid"=>0,"sponsor_userId"=>$mi_centre,"creationTime >=".strtotime($memstart)=>NULL,"creationTime<=".strtotime($memend)=>NULL); 
+            $memdata = $this->common_model->fetchAllData("sponsor_id","qyura_healthTipSponsor",$where);
+             
+            $psoncount = sizeof($memdata);
+
+            if($psoncount<$memqty)
+              echo $memdur."|".$memstart."|".$memend;
+            else
+              echo 0;  
+            
+        }
+        else
+            echo 1;
+        
         exit;
     }
     
@@ -197,7 +246,7 @@ class Sponserhealthtip extends MY_Controller {
         
         $centerType = $sponarr["1"];
         $mi_centre = $sponarr["0"];
-
+        $parentid = 0;
         for ($i = 0; $i < sizeof($bookdates); $i++) {
 
             $mydate = strtotime($bookdates[$i]);
@@ -209,11 +258,14 @@ class Sponserhealthtip extends MY_Controller {
                 "sponsor_cityId" => $sponser_cityId,
                 "sponsor_date" => $mydate,
                 "sponsor_deleted" => 0,
+                "parentid" => $parentid,
                 "creationTime" => strtotime(date("Y-m-d")),
                 "status" => 0
             );
 
-            $this->Sponser_model->insertTableData("qyura_healthTipSponsor", $insertdata);
+            $bookid = $this->Sponser_model->insertTableData("qyura_healthTipSponsor", $insertdata);
+            if($parentid==0)
+                    $parentid = $bookid;
         }
 
         $this->session->set_flashdata('message', 'Dates Successfully Booked!');

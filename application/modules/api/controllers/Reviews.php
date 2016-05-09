@@ -52,6 +52,7 @@ class Reviews extends MyRest {
                     'reviews_aptmntId' => $aptmntId,
                     'reviews_details' => $review,
                     'reviews_rating' => $rating,
+                    'reviews_createDates' => strtotime(date("Y-m-d")),
                     'creationTime' => time(),
                     'status' => 1
                 );
