@@ -10,19 +10,19 @@ class Doctors_model extends My_model {
         parent::__construct();
     }
 
-    public function getDoctorsList($lat, $long, $notIn, $isemergency, $specialityid, $radius, $rating, $exp, $search, $cityId=NULL) {
+    public function getDoctorsList($lat, $long, $notIn, $isemergency, $specialityid, $radius, $rating, $exp, $search, $cityId = NULL) {
 
         $lat = isset($lat) ? $lat : '';
         $long = isset($long) ? $long : '';
         $notIn = isset($notIn) ? $notIn : '';
-        
-         if($search != null){
-             $this->db->join('qyura_doctorServices', 'qyura_doctorServices.doctorServices_doctorId = qyura_doctors.doctors_id', 'left');
-             $array = array('CONCAT(qyura_doctors.doctors_fName, " ", qyura_doctors.doctors_lName)' => $search, 'degree_FName' => $search, 'doctor_addr' => $search, 'doctorServices_serviceName' => $search, 'specialities_name' => $search, 'degree_SName' => $search);
-             $this->db->group_start();
-             $this->db->or_like($array); 
-             $this->db->group_end();
-         }
+
+        if ($search != null) {
+            $this->db->join('qyura_doctorServices', 'qyura_doctorServices.doctorServices_doctorId = qyura_doctors.doctors_id', 'left');
+            $array = array('CONCAT(qyura_doctors.doctors_fName, " ", qyura_doctors.doctors_lName)' => $search, 'degree_FName' => $search, 'doctor_addr' => $search, 'doctorServices_serviceName' => $search, 'specialities_name' => $search, 'degree_SName' => $search);
+            $this->db->group_start();
+            $this->db->or_like($array);
+            $this->db->group_end();
+        }
 
         // where array
         $where = array('doctors_deleted' => 0, 'usersRoles_roleId' => ROLE_DOCTORE, 'usersRoles_parentId' => 0);
@@ -37,8 +37,8 @@ class Doctors_model extends My_model {
         }
 
         // having array
-        
-        
+
+
         if ($exp != '' && $exp != NULL && $exp != 0) {
             if ($exp == 1) {
                 $having['exp <= '] = 5;
@@ -54,10 +54,10 @@ class Doctors_model extends My_model {
         if ($rating != '' && $rating != NULL && $rating != 0) {
             $having['rating'] = number_format($rating, 1);
         }
-
-        $this->db->select('qyura_doctors.doctors_phn CONCAT("0", " ",  `qyura_doctors`.`doctors_phn`)  ,qyura_doctors.doctors_showExp as showExp,qyura_doctors.doctors_id as id,qyura_doctors.doctors_userId as userId, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, (
+        $date = date("Y-m-d");
+        $this->db->select('CONCAT("0", "",  `qyura_doctors`.`doctors_phn`) phn ,qyura_doctors.doctors_showExp as showExp,qyura_doctors.doctors_id as id,qyura_doctors.doctors_userId as userId, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, (
                 6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( doctors_lat ) ) * cos( radians( doctors_long ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( doctors_lat ) ) )
-                ) AS distance , (select MIN(docTimeTable_price) FROM qyura_docTimeTable WHERE qyura_docTimeTable.docTimeTable_doctorId = qyura_doctors.doctors_id ) as consFee, Group_concat(DISTINCT qyura_specialities.specialities_name) as specialityName, Group_concat(DISTINCT qyura_degree.degree_SName SEPARATOR ", ") as degree, qyura_doctors.doctors_lat as lat, qyura_doctors.doctors_long as long,qyura_doctors.doctors_27Src as isEmergency, (FROM_UNIXTIME(qyura_doctors.doctors_expYear,"%Y")) AS exp ,(
+                ) AS distance , (select MIN(docTimeTable_price) FROM qyura_docTimeTable WHERE qyura_docTimeTable.docTimeTable_doctorId = qyura_doctors.doctors_id ) as consFee, Group_concat(DISTINCT qyura_specialities.specialities_name) as specialityName, Group_concat(DISTINCT qyura_degree.degree_SName SEPARATOR ", ") as degree, qyura_doctors.doctors_lat as lat, qyura_doctors.doctors_long as long,qyura_doctors.doctors_27Src as isEmergency, (YEAR("' . $date . '") - FROM_UNIXTIME(qyura_doctors.doctors_expYear,"%Y")) AS exp ,(
 CASE 
  WHEN (reviews_rating is not null AND qyura_ratings.rating is not null) 
  THEN
@@ -79,17 +79,16 @@ CASE
                 ->join('qyura_reviews', 'qyura_reviews.reviews_relateId=qyura_doctors.doctors_userId', 'left')
                 ->join('qyura_ratings', 'qyura_ratings.rating_relateId=qyura_doctors.doctors_userId', 'left')
                 ->where($where)
-                
                 ->where_not_in('doctors_id', $notIn)
                 ->order_by('distance', 'ASC')
                 ->group_by('doctors_id')
                 ->limit(DATA_LIMIT);
-        
+
         if ($cityId != NULL) {
             $cityCon = array('doctors_cityId' => $cityId);
             $this->db->where($cityCon);
         } else {
-            
+
             $havingRadius = array('distance <=' => $radius);
             $this->db->having($havingRadius);
         }
@@ -107,14 +106,14 @@ CASE
                 $finalTemp[] = isset($row->showExp) ? $row->showExp : "0";
                 $finalTemp[] = isset($row->exp) ? $row->exp : "";
                 $finalTemp[] = isset($row->imUrl) ? 'assets/doctorsImages/' . $row->imUrl : "";
-                $finalTemp[] = isset($row->rating) ? $row->rating : "";
-                $finalTemp[] = isset($row->consFee) ? $row->consFee : "";
+                $finalTemp[] = isset($row->rating) ? $row->rating : "0";
+                $finalTemp[] = isset($row->consFee) ? $row->consFee : "0";
                 $finalTemp[] = isset($row->specialityName) ? $row->specialityName : "";
                 $finalTemp[] = isset($row->degree) ? $row->degree : "";
                 $finalTemp[] = isset($row->lat) ? $row->lat : "";
                 $finalTemp[] = isset($row->long) ? $row->long : "";
                 $finalTemp[] = isset($row->isEmergency) ? $row->isEmergency : "";
-                $finalTemp[] = isset($row->doctors_mobile) ? $row->doctors_mobile : "";
+                $finalTemp[] = isset($row->phn) ? $row->phn : "";
                 $finalTemp[] = isset($row->userId) ? $row->userId : "";
                 $finalResult[] = $finalTemp;
             }
@@ -124,8 +123,11 @@ CASE
         }
     }
 
-    public function getDoctorsDetails($doctorId,$userId) {
-        $this->db->select('doctors_id as id, doctors_userId userId,  CONCAT(qyura_doctors.doctors_fName, "",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl , doctors_deleted as review, (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, qyura_doctors.doctors_consultaionFee as consFee, qyura_specialities.specialities_name as specialityName, Group_concat(distinct qyura_degree.degree_SName) as degree, qyura_doctors.doctors_lat as lat, qyura_doctors.doctors_long as long,doctors_phn, ( FROM_UNIXTIME(qyura_professionalExp.professionalExp_end,"%Y") - FROM_UNIXTIME(qyura_professionalExp.professionalExp_start,"%Y"))  AS exp,(
+    public function getDoctorsDetails($doctorId, $userId) {
+
+        $date = date("Y-m-d");
+
+        $this->db->select('doctors_id as id, qyura_doctors.doctors_showExp as showExp, doctors_userId userId,  CONCAT(qyura_doctors.doctors_fName, "",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, qyura_specialities.specialities_name as specialityName, Group_concat(distinct qyura_degree.degree_SName) as degree, qyura_doctors.doctors_lat as lat, qyura_doctors.doctors_long as long,CONCAT("0","",doctors_phn) as doctors_phn, (YEAR("' . $date . '") - FROM_UNIXTIME(qyura_doctors.doctors_expYear,"%Y"))  AS exp,(select MIN(docTimeTable_price) FROM qyura_docTimeTable WHERE qyura_docTimeTable.docTimeTable_doctorId = qyura_doctors.doctors_id ) as consFee, (
 CASE 
  WHEN (reviews_rating is not null AND qyura_ratings.rating is not null) 
  THEN
@@ -140,13 +142,12 @@ CASE
  AS `rating` ')
                 ->from('qyura_doctors')
                 ->join('qyura_doctorAcademic', 'qyura_doctorAcademic.doctorAcademic_doctorsId=qyura_doctors.doctors_id', 'left')
-                ->join('qyura_professionalExp', 'qyura_professionalExp.professionalExp_usersId=qyura_doctors.doctors_id', 'left')
                 ->join('qyura_degree', 'qyura_doctorAcademic.doctorAcademic_degreeId=qyura_degree.degree_id', 'left')
                 ->join('qyura_doctorSpecialities', 'qyura_doctorSpecialities.doctorSpecialities_doctorsId = qyura_doctors.doctors_id', 'left')
                 ->join('qyura_specialities', 'qyura_specialities.specialities_id = qyura_doctorSpecialities.doctorSpecialities_specialitiesId', 'left')
                 ->join('qyura_reviews', 'qyura_reviews.reviews_relateId=qyura_doctors.doctors_userId', 'left')
                 ->join('qyura_ratings', 'qyura_ratings.rating_relateId=qyura_doctors.doctors_userId', 'left')
-                ->join('qyura_fav', 'qyura_fav.fav_relateId = qyura_doctors.doctors_userId AND fav_userId = '.$userId.'  ', 'left')
+                ->join('qyura_fav', 'qyura_fav.fav_relateId = qyura_doctors.doctors_userId AND fav_userId = ' . $userId . '  ', 'left')
                 ->where(array('doctors_id' => $doctorId, 'doctors_deleted' => 0));
 
         $row = $this->db->get()->row();
@@ -157,11 +158,12 @@ CASE
         $finalTemp['userId'] = isset($row->userId) ? $row->userId : "";
         $finalTemp['name'] = isset($row->name) ? $row->name : "";
         $finalTemp['phn'] = isset($row->doctors_phn) ? $row->doctors_phn : "";
-        $finalTemp['exp'] = isset($row->exp) ? $row->exp : "";
+        $finalTemp['showExp'] = isset($row->showExp) ? $row->showExp : "0";
+        $finalTemp['exp'] = isset($row->exp) ? $row->exp : "0";
         $finalTemp['imUrl'] = isset($row->imUrl) ? 'assets/doctorsImages/' . $row->imUrl : "";
-        $finalTemp['rating'] = isset($row->rating) ? $row->rating : "";
+        $finalTemp['rating'] = isset($row->rating) ? $row->rating : "0";
         $finalTemp['fav'] = isset($row->fav) ? $row->fav : "";
-        $finalTemp['consFee'] = isset($row->consFee) ? $row->consFee : "";
+        $finalTemp['consFee'] = isset($row->consFee) ? $row->consFee : "0";
         $finalTemp['specialityCat'] = isset($row->specialityName) ? $row->specialityName : "";
         $finalTemp['degree'] = isset($row->degree) ? $row->degree : "";
         $finalTemp['lat'] = isset($row->lat) ? $row->lat : "";
@@ -170,7 +172,7 @@ CASE
     }
 
     public function getDoctorServices($doctorId) {
-        $this->db->select('doctorServices_serviceName as services,modifyTime,doctorServices_id id');
+        $this->db->select('doctorServices_serviceName as services,doctorServices_id id');
         $this->db->from('qyura_doctorServices');
         $this->db->where(array('qyura_doctorServices.doctorServices_doctorId' => $doctorId, 'doctorServicess_deleted' => 0));
 
@@ -180,7 +182,6 @@ CASE
             foreach ($response as $row) {
                 $finalTemp = array();
                 $finalTemp['id'] = isset($row->id) ? $row->id : "";
-                $finalTemp['modifyTime'] = isset($row->modifyTime) ? $row->modifyTime : "";
                 $finalTemp['services'] = isset($row->services) ? $row->services : "";
                 $finalResult[] = $finalTemp;
             }
@@ -190,18 +191,61 @@ CASE
         }
     }
 
-    public function getHosDiagonDetail($doctorUserId) {
-        // echo $this->getDoctorSession(1); exit;
+      public function getDoctorTimeSlot($doctorId, $lat, $long) {
+        
         $todayWeek = getDay(date("l"));
+        
+        $this->db->select('docTimeTable_doctorId doctorId, docTimeTable_price as fee, '
+                . 'CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_name ELSE  CASE WHEN (docTimeTable_MItype = 1) THEN hospital_name WHEN (docTimeTable_MItype = 2) THEN diagnostic_name ELSE "" END END AS name, '
+                . 'CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_lat ELSE (CASE WHEN (docTimeTable_MItype = 1) THEN hospital_lat WHEN (docTimeTable_MItype = 2) THEN diagnostic_lat ELSE "" END) END AS lat,'
+                . ' CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_lat ELSE (CASE WHEN (docTimeTable_MItype = 1) THEN hospital_lat WHEN (docTimeTable_MItype = 2) THEN diagnostic_lat ELSE "" END) END  AS lng, '
+                . 'CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_name ELSE ( CASE WHEN (docTimeTable_MItype = 1) THEN hospital_name WHEN (docTimeTable_MItype = 2) THEN diagnostic_name ELSE "" END) END AS name, '
+                . '( 6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_lat ELSE  CASE WHEN (docTimeTable_MItype = 1) THEN hospital_lat WHEN (docTimeTable_MItype = 2) THEN diagnostic_lat ELSE "" END END  ) ) * cos( radians( CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_long ELSE  CASE WHEN (docTimeTable_MItype = 1) THEN hospital_long WHEN (docTimeTable_MItype = 2) THEN diagnostic_long ELSE "" END END  )  ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_lat ELSE  CASE WHEN (docTimeTable_MItype = 1) THEN hospital_lat WHEN (docTimeTable_MItype = 2) THEN diagnostic_lat ELSE "" END END  ))) AS distance, ')
+                
+                ->from('qyura_docTimeTable') 
+                ->join("qyura_hospital", "qyura_hospital.hospital_id = qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_MItype = 1 AND hospital_deleted = 0 ","left") 
+                 
+                ->join("qyura_diagnostic", "qyura_diagnostic.diagnostic_id = qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_MItype = 2 AND diagnostic_deleted = 0 ","left") 
+                
+                ->join("qyura_psChamber", "qyura_psChamber.psChamber_id = qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 0 AND diagnostic_deleted = 0 ","left") 
+                
+                ->where(array('qyura_docTimeTable.docTimeTable_doctorId' => $doctorId, 'qyura_docTimeTable.status' => 0));
+
+        $response = $this->db->get()->result();
+        $finalResult = array();
+<<<<<<< HEAD
+        if (!empty($response)) {
+            foreach ($response as $row) {
+                $finalTemp = array();
+                $day = convertNumberToDay(date($row->day));
+               // $finalResult[$day] = $this->getDoctorSession($row->id);
+=======
+        if (!empty($response)) {                             
+            foreach ($response as $row) {
+                dump($row);
+                $finalTemp = array();
+                $day = convertNumberToDay(date($row->day));
+                $finalResult[$day] = $this->getDoctorSession($row->id);
+>>>>>>> d7e510f778608e479d2978f714d479291edfaf46
+            }
+            return $finalResult;
+        } else {
+            return (object) $finalResult;
+        }
+    }
+
+    
+    
+    public function getHosDiagonDetail($doctorUserId) {
+        
+        $todayWeek = getDay(date("l"));
+        
         $this->db->select('doctorAvailability_id id, doctorAvailability_day day')
-                ->from('qyura_doctorAvailability')
-                // ->where(array('qyura_doctorAvailability.doctorAvailability_docUsersId' => $doctorUserId, 'qyura_doctorAvailability.doctorAvailability_day' => $todayWeek));
+                ->from('qyura_doctorAvailability') 
                 ->where(array('qyura_doctorAvailability.doctorAvailability_docUsersId' => $doctorUserId, 'doctorAvailability_deleted' => 0))
                 ->order_by('day', 'ASC');
 
-        // $row = $this->db->get()->row();
         $response = $this->db->get()->result();
-        // echo $this->db->last_query(); die();
         $finalResult = array();
         if (!empty($response)) {
             foreach ($response as $row) {
@@ -215,6 +259,8 @@ CASE
         }
     }
 
+    
+    
     public function getDoctorNumReviews($docUserId) {
         $sql = "SELECT COUNT('reviews_id') as reviews
                 FROM `qyura_reviews`
@@ -266,13 +312,13 @@ CASE
             foreach ($response as $row) {
                 $finalTemp = array();
                 $finalTemp['sessionid'] = isset($row->doctorAvailabilitySession_id) ? $row->doctorAvailabilitySession_id : "";
-                $finalTemp['id'] = isset($row->id) && $row->id !='' ? $row->id : '';
-                $finalTemp['type'] = isset($row->type) && $row->type ? $row->type  : '';
-                $finalTemp['name'] = isset($row->name) && $row->name !='' ? $row->name : '';
+                $finalTemp['id'] = isset($row->id) && $row->id != '' ? $row->id : '';
+                $finalTemp['type'] = isset($row->type) && $row->type ? $row->type : '';
+                $finalTemp['name'] = isset($row->name) && $row->name != '' ? $row->name : '';
                 $finalTemp['start'] = isset($row->start) ? $row->start : "";
                 $finalTemp['end'] = isset($row->end) ? $row->end : "";
-                $finalTemp['lat'] = isset($row->lat) && $row->lat !='' ? $row->lat : '';
-                $finalTemp['long'] = isset($row->lng) && $row->lng !='' ? $row->lng : '';
+                $finalTemp['lat'] = isset($row->lat) && $row->lat != '' ? $row->lat : '';
+                $finalTemp['long'] = isset($row->lng) && $row->lng != '' ? $row->lng : '';
                 $finalTemp['session'] = isset($row->session) ? getDoctorAvailibilitySession($row->session) : "";
                 $finalResult[] = $finalTemp;
             }
@@ -346,22 +392,22 @@ CASE
     public function getDocTimeSlotForDiagon($diagonsticId, $doctorUserId, $avia = NULL) {
         // echo $this->getDoctorSession(1); exit;
         $where = $this->db->where(array('qyura_doctorAvailability.doctorAvailability_docUsersId' => $doctorUserId, 'doctorAvailability_deleted' => 0));
-        
-       if($avia != NULL){
-            $where = $this->db->where_in('doctorAvailability_id', explode(',',$avia) );
+
+        if ($avia != NULL) {
+            $where = $this->db->where_in('doctorAvailability_id', explode(',', $avia));
         }
-        
+
         $todayWeek = getDay(date("l"));
         $this->db->select('doctorAvailability_id id, doctorAvailability_day day')
                 ->from('qyura_doctorAvailability')
-                ->join('qyura_doctorAvailabilitySession', 'qyura_doctorAvailability.doctorAvailability_id=qyura_doctorAvailabilitySession.doctorAvailability_doctorAvailabilityId AND doctorAvailability_refferalId = '.$diagonsticId.' ', 'left')
+                ->join('qyura_doctorAvailabilitySession', 'qyura_doctorAvailability.doctorAvailability_id=qyura_doctorAvailabilitySession.doctorAvailability_doctorAvailabilityId AND doctorAvailability_refferalId = ' . $diagonsticId . ' ', 'left')
                 ->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_usersId=qyura_doctorAvailabilitySession.doctorAvailability_refferalId', 'left')
                 //->where_in('doctorAvailability_id',explode(',',$avia) )
                 ->order_by('day', 'ASC');
 
         // $row = $this->db->get()->row();
         $response = $this->db->get()->result();
-        
+
         // echo $this->db->last_query(); die();
         $finalResult = array();
         if (!empty($response)) {
@@ -379,21 +425,21 @@ CASE
     public function getDoctorSessionForDiagon($id, $diagonsticId, $slotId = NULL) {
 
         $where = array('diagnostic_usersId' => $diagonsticId, 'doctorAvailability_doctorAvailabilityId' => $id);
-        
-        if($slotId != NULL)
-            $where["doctorAvailabilitySession_id"]  = $slotId;
-        
+
+        if ($slotId != NULL)
+            $where["doctorAvailabilitySession_id"] = $slotId;
+
         $this->db->select('doctorAvailabilitySession_id, diagnostic_name as dName, diagnostic_id dId, doctorAvailabilitySession_start as start, doctorAvailabilitySession_end as end, doctorAvailabilitySession_type as session')
                 ->from('qyura_doctorAvailabilitySession')
                 ->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_usersId=qyura_doctorAvailabilitySession.doctorAvailability_refferalId', 'left')
                 ->where($where);
-               // ->where_in('doctorAvailability_doctorAvailabilityId',explode(',',$avia) );
+        // ->where_in('doctorAvailability_doctorAvailabilityId',explode(',',$avia) );
 
         $response = $this->db->get()->result();
         // echo $this->db->last_query(); die();
-        if($slotId != NULL)
+        if ($slotId != NULL)
             return count($response);
-        
+
         $finalResult = array();
         if (!empty($response)) {
             foreach ($response as $row) {
@@ -413,19 +459,19 @@ CASE
     }
 
     public function getDocTimeSlotForhospital($hospitalId, $doctorUserId, $avia = NULL) {
-        $where = $this->db->where(array('qyura_doctorAvailability.doctorAvailability_docUsersId' => $doctorUserId, 'doctorAvailability_deleted' => 0,'doctorAvailabilitySession_deleted'=>0));
-        if($avia != NULL){
-            $where = $this->db->where_in('doctorAvailability_id',explode(',',$avia) );
+        $where = $this->db->where(array('qyura_doctorAvailability.doctorAvailability_docUsersId' => $doctorUserId, 'doctorAvailability_deleted' => 0, 'doctorAvailabilitySession_deleted' => 0));
+        if ($avia != NULL) {
+            $where = $this->db->where_in('doctorAvailability_id', explode(',', $avia));
         }
-        
+
         $this->db->select('doctorAvailability_id id, doctorAvailability_day day, doctorAvailabilitySession_id')
                 ->from('qyura_doctorAvailability')
-                ->join('qyura_doctorAvailabilitySession', 'qyura_doctorAvailability.doctorAvailability_id = qyura_doctorAvailabilitySession.doctorAvailability_doctorAvailabilityId AND doctorAvailability_refferalId = '.$hospitalId.' ' , 'left')
+                ->join('qyura_doctorAvailabilitySession', 'qyura_doctorAvailability.doctorAvailability_id = qyura_doctorAvailabilitySession.doctorAvailability_doctorAvailabilityId AND doctorAvailability_refferalId = ' . $hospitalId . ' ', 'left')
                 ->order_by('day', 'ASC');
 
-       //  $row = $this->db->get()->row();
+        //  $row = $this->db->get()->row();
         $response = $this->db->get()->result();
-       //  echo $this->db->last_query(); die();
+        //  echo $this->db->last_query(); die();
         $finalResult = array();
         if (!empty($response)) {
             foreach ($response as $row) {
@@ -439,24 +485,24 @@ CASE
         }
     }
 
-    public function getDoctorSessionForHospital($id, $hospitalId,$slotId = NULL) {
-       // echo $avia; exit;
-        $where =array('hospital_usersId' => $hospitalId,'doctorAvailability_doctorAvailabilityId'=>$id,'doctorAvailabilitySession_deleted'=>0);
-        if($slotId != NULL){
+    public function getDoctorSessionForHospital($id, $hospitalId, $slotId = NULL) {
+        // echo $avia; exit;
+        $where = array('hospital_usersId' => $hospitalId, 'doctorAvailability_doctorAvailabilityId' => $id, 'doctorAvailabilitySession_deleted' => 0);
+        if ($slotId != NULL) {
             $where["doctorAvailabilitySession_id"] = $slotId;
         }
-        
+
         $this->db->select('doctorAvailabilitySession_id,hospital_name as hName, hospital_id hId, doctorAvailabilitySession_start as start, doctorAvailabilitySession_end as end, doctorAvailabilitySession_type as session')
                 ->from('qyura_doctorAvailabilitySession')
                 ->join('qyura_hospital', 'qyura_hospital.hospital_usersId = qyura_doctorAvailabilitySession.doctorAvailability_refferalId', 'left')
                 ->where($where);
-               // ->where_in('doctorAvailability_doctorAvailabilityId',explode(',',$avia) );
+        // ->where_in('doctorAvailability_doctorAvailabilityId',explode(',',$avia) );
         // $row = $this->db->get()->row();
         $response = $this->db->get()->result();
-        if($slotId != NULL){
+        if ($slotId != NULL) {
             return count($response);
         }
-       //  echo $this->db->last_query(); die();
+        //  echo $this->db->last_query(); die();
         $finalResult = array();
         if (!empty($response)) {
             foreach ($response as $row) {
@@ -497,11 +543,11 @@ CASE
       return $finalResult;
       }
       } */
-    
+
     public function getDocAllTimeSlot($doctorUserId, $miId = null) {
-        
-        $where = array('doctorAvailability_docUsersId' => $doctorUserId,"doctorAvailabilitySession_deleted"=>0);
-        if($miId != null){
+
+        $where = array('doctorAvailability_docUsersId' => $doctorUserId, "doctorAvailabilitySession_deleted" => 0);
+        if ($miId != null) {
             $where['doctorAvailability_refferalId'] = $miId;
         }
 
@@ -518,30 +564,30 @@ CASE
         $finalResult = array();
         if (!empty($response)) {
             foreach ($response as $row) {
-                if(isset($row->type) && $row->type != ''){
-                $finalTemp = array();
-                $finalTemp['id'] = isset($row->id) ? $row->id : "";
-                $finalTemp['name'] = isset($row->name) ? $row->name : "";
-                $finalTemp['type'] = isset($row->type) ? $row->type : "";
-               // $finalTemp['timeslot'] = isset($row->id) && isset($row->type) && $row->type == 'Hospital' ? $this->getHosTimeSlotForDoc($row->id) : $this->getDiagnoTimeSlotForDoc($row->id);
-                
-               if ($row->type == 'Hospital'){ 
-                    $finalTemp['timeslot'] = $this->getHosTimeSlotForDoc($row->id); 
-                    $finalTemp['docTimeSlot'] = isset($row->MiId) ? $this->getDocTimeSlotForhospital($row->MiId, $doctorUserId,$row->availabilityId) : "";       
+                if (isset($row->type) && $row->type != '') {
+                    $finalTemp = array();
+                    $finalTemp['id'] = isset($row->id) ? $row->id : "";
+                    $finalTemp['name'] = isset($row->name) ? $row->name : "";
+                    $finalTemp['type'] = isset($row->type) ? $row->type : "";
+                    // $finalTemp['timeslot'] = isset($row->id) && isset($row->type) && $row->type == 'Hospital' ? $this->getHosTimeSlotForDoc($row->id) : $this->getDiagnoTimeSlotForDoc($row->id);
+
+                    if ($row->type == 'Hospital') {
+                        $finalTemp['timeslot'] = $this->getHosTimeSlotForDoc($row->id);
+                        $finalTemp['docTimeSlot'] = isset($row->MiId) ? $this->getDocTimeSlotForhospital($row->MiId, $doctorUserId, $row->availabilityId) : "";
 //                  print_r($finalTemp['docTimeSlot']);
 //                    echo $this->db->last_query(); die();
-               }elseif($row->type == 'Diagno'){ 
-                 $finalTemp['timeslot'] = $this->getDiagnoTimeSlotForDoc($row->id);
-                 $finalTemp['docTimeSlot'] = isset($row->MiId) ? $this->getDocTimeSlotForDiagon($row->MiId, $doctorUserId,$row->availabilityId) : "";         
-               }elseif( $row->type == 'Doctor'){
-                  $finalTemp['timeslot'] = defalutTimeSlots();
-                  $finalTemp['docTimeSlot'] = isset($row->MiId) ? $this->getDocTimeSlotForDoc($row->MiId, $doctorUserId,$row->availabilityId) : "";
-                }
-                      
-                  
-               // $finalTemp['docTimeSlot'] = isset($row->MiId) ? $this->getDocTimeSlot($row->MiId, $doctorUserId) : "";
-                $finalTemp['userId'] = isset($row->userId) ? $row->userId : "";
-                $finalResult[] = $finalTemp;
+                    } elseif ($row->type == 'Diagno') {
+                        $finalTemp['timeslot'] = $this->getDiagnoTimeSlotForDoc($row->id);
+                        $finalTemp['docTimeSlot'] = isset($row->MiId) ? $this->getDocTimeSlotForDiagon($row->MiId, $doctorUserId, $row->availabilityId) : "";
+                    } elseif ($row->type == 'Doctor') {
+                        $finalTemp['timeslot'] = defalutTimeSlots();
+                        $finalTemp['docTimeSlot'] = isset($row->MiId) ? $this->getDocTimeSlotForDoc($row->MiId, $doctorUserId, $row->availabilityId) : "";
+                    }
+
+
+                    // $finalTemp['docTimeSlot'] = isset($row->MiId) ? $this->getDocTimeSlot($row->MiId, $doctorUserId) : "";
+                    $finalTemp['userId'] = isset($row->userId) ? $row->userId : "";
+                    $finalResult[] = $finalTemp;
                 }
             }
             return $finalResult;
@@ -551,15 +597,15 @@ CASE
     }
 
     public function getHosTimeSlotForDoc($hospitalId) {
-        
+
         $where = array('hospitalTimeSlot_deleted' => 0, 'hospitalTimeSlot_hospitalId' => $hospitalId);
-        
+
         $this->db->select('hospitalTimeSlot_id id,hospitalTimeSlot_startTime start,hospitalTimeSlot_endTime end, hospitalTimeSlot_sessionType session')
                 ->from('qyura_hospitalTimeSlot')
                 ->where($where);
 
         $response = $this->db->get()->result();
-        
+
         // echo $this->db->last_query(); die();
         $finalResult = array();
         if (!empty($response)) {
@@ -579,13 +625,13 @@ CASE
 
     public function getDiagnoTimeSlotForDoc($diagonsticId) {
         $where = array('diagnosticCenterTimeSlot_deleted' => 0, 'diagnosticCenterTimeSlot_diagnosticId' => $diagonsticId);
-        
+
         $this->db->select('diagnosticCenterTimeSlot_id id, diagnosticCenterTimeSlot_startTime start, diagnosticCenterTimeSlot_endTime end, diagnosticCenterTimeSlot_sessionType session')
                 ->from('qyura_diagnosticCenterTimeSlot')
                 ->where($where);
 
         $response = $this->db->get()->result();
-        
+
         //echo $this->db->last_query(); die();
         $finalResult = array();
         if (!empty($response)) {
@@ -603,14 +649,14 @@ CASE
         }
     }
 
-    public function getDocTimeSlot($miId, $doctorUserId,$slotId = NULL) {
+    public function getDocTimeSlot($miId, $doctorUserId, $slotId = NULL) {
 
-        $where = array('doctorAvailability_deleted' => 0, 'doctorAvailability_docUsersId' => $doctorUserId, 'doctorAvailability_refferalId' => $miId,"doctorAvailabilitySession_deleted"=>0);
-        
-        if($slotId != NULL){
+        $where = array('doctorAvailability_deleted' => 0, 'doctorAvailability_docUsersId' => $doctorUserId, 'doctorAvailability_refferalId' => $miId, "doctorAvailabilitySession_deleted" => 0);
+
+        if ($slotId != NULL) {
             $where["doctorAvailabilitySession_id"] = $slotId;
         }
-        
+
         $this->db->select('doctorAvailabilitySession_id as id, doctorAvailabilitySession_start as start, doctorAvailabilitySession_end as end, doctorAvailabilitySession_type as session ')
                 ->from('qyura_doctorAvailability')
                 ->join('qyura_doctorAvailabilitySession', 'qyura_doctorAvailabilitySession.doctorAvailability_doctorAvailabilityId = qyura_doctorAvailability.doctorAvailability_id')
@@ -618,7 +664,7 @@ CASE
 
         $response = $this->db->get()->result();
         // echo $this->db->last_query(); die();
-        if($slotId != NULL){
+        if ($slotId != NULL) {
             return count($response);
         }
         $finalResult = array();
@@ -636,12 +682,11 @@ CASE
             return $finalResult;
         }
     }
-    
-    
-     public function getDocTimeSlotForDoc($miId, $doctorUserId) {
+
+    public function getDocTimeSlotForDoc($miId, $doctorUserId) {
         // echo $this->getDoctorSession(1); exit;
-        $where = array('qyura_doctorAvailability.doctorAvailability_docUsersId' => $doctorUserId, 'doctorAvailability_deleted' => 0, 'doctorAvailability_refferalId' => $miId,"`qyura_doctorAvailabilitySession`.`doctorAvailabilitySession_deleted`"=>0);
-        
+        $where = array('qyura_doctorAvailability.doctorAvailability_docUsersId' => $doctorUserId, 'doctorAvailability_deleted' => 0, 'doctorAvailability_refferalId' => $miId, "`qyura_doctorAvailabilitySession`.`doctorAvailabilitySession_deleted`" => 0);
+
         $todayWeek = getDay(date("l"));
         $this->db->select('doctorAvailability_id id, doctorAvailability_day day')
                 ->from('qyura_doctorAvailability')
@@ -652,7 +697,7 @@ CASE
 
         // $row = $this->db->get()->row();
         $response = $this->db->get()->result();
-        
+
         // echo $this->db->last_query(); die();
         $finalResult = array();
         if (!empty($response)) {
@@ -666,25 +711,24 @@ CASE
             return (object) $finalResult;
         }
     }
-    
-    
+
     public function getDoctorSessionForDoctor($id, $miId, $slotId = NULL) {
 
-        $where = array('doctorAvailability_doctorAvailabilityId' => $id, 'doctors_userId' => $miId,'doctorAvailabilitySession_deleted'=>0);
-        
-        if($slotId != NULL)
-            $where["doctorAvailabilitySession_id"]  = $slotId;
-        
+        $where = array('doctorAvailability_doctorAvailabilityId' => $id, 'doctors_userId' => $miId, 'doctorAvailabilitySession_deleted' => 0);
+
+        if ($slotId != NULL)
+            $where["doctorAvailabilitySession_id"] = $slotId;
+
         $this->db->select('doctorAvailabilitySession_id, doctors_fName as dName, doctors_id dId, doctorAvailabilitySession_start as start, doctorAvailabilitySession_end as end, doctorAvailabilitySession_type as session')
                 ->from('qyura_doctorAvailabilitySession')
                 ->join('qyura_doctors', 'qyura_doctors.doctors_userId=qyura_doctorAvailabilitySession.doctorAvailability_refferalId', 'left')
                 ->where($where);
 
         $response = $this->db->get()->result();
-       // echo $this->db->last_query(); die();
-        if($slotId != NULL)
+        // echo $this->db->last_query(); die();
+        if ($slotId != NULL)
             return count($response);
-        
+
         $finalResult = array();
         if (!empty($response)) {
             foreach ($response as $row) {

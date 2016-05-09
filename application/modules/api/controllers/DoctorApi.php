@@ -73,7 +73,10 @@ class DoctorApi extends MyRest {
     }
 
     function doctordetail_post() {
+        
         $this->bf_form_validation->set_rules('doctorId', 'DoctorId Id', 'xss_clean|numeric|required|trim');
+        $this->bf_form_validation->set_rules('lat', 'latitude', 'xss_clean|numeric|required|trim');
+        $this->bf_form_validation->set_rules('long', 'laongitude', 'xss_clean|numeric|required|trim');
         $this->bf_form_validation->set_rules('userId', 'User Id', 'xss_clean|trim');
         
         if ($this->bf_form_validation->run($this) == FALSE) {
@@ -81,25 +84,26 @@ class DoctorApi extends MyRest {
             $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
             $this->response($response, 400);
         } else {
+            
             $doctorId = $this->input->post('doctorId');
+            $lat = $this->input->post('lat');
+            $long = $this->input->post('long');
+            
             $userId = isset($_POST['userId']) && $_POST['userId'] != null && $_POST['userId'] !=0 ? $this->input->post('userId') : 0;
             $doctorsDetails = $this->doctors_model->getDoctorsDetails($doctorId,$userId);
-            // echo $doctorsDetails; exit;
-            // print_r($doctorsDetails);
+//            echo $this->db->last_query();
+//         dump($doctorsDetails);die();
             if (!empty($doctorsDetails['id']) && $doctorsDetails['id'] != '') {
+                
                 $response['docDetails'] = $doctorsDetails;
 
                 $response['services'] = $services = $this->doctors_model->getDoctorServices($doctorId);
 
                 $response['reviewCount'] = $reviewCount = $this->doctors_model->getDoctorNumReviews($doctorsDetails['userId']);
 
-                $response['review'] = $this->doctors_model->getDoctorReviews($doctorsDetails['userId']);
+                $response['review'] = $this->doctors_model->getDoctorReviews($doctorsDetails['userId']); 
 
-                //  $response['fav'] = $this->doctors_model->getFavList($doctorsDetails['userId']);
-
-                $response['docGallary'] = $gallary = $this->doctors_model->getDocGallery($doctorId);
-
-                $response['availability'] = $hosDiagonDetail = $this->doctors_model->getHosDiagonDetail($doctorsDetails['userId']);
+                $response['availability'] = $hosDiagonDetail =$this->doctors_model->getDoctorTimeSlot($doctorsDetails['id'],$lat,$long);
 
                 $response['status'] = TRUE;
                 $response['msg'] = 'success';
