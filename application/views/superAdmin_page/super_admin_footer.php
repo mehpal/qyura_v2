@@ -241,9 +241,9 @@ if ($msg != "" || $msg != NULL) {
     function statusFn(controller, table_name, table_field_name, table_field_value, status_value)
     {
         if (status_value == 1)
-            var con_mess = "Inactive";
+            var con_mess = "Deactivate";
         else
-            con_mess = "Active";
+            con_mess = "Activate";
         var url = '<?php echo site_url();?>/'+controller+'/status';
 
         bootbox.confirm('Do you want to ' + con_mess.toLowerCase() + ' it?', function (result) {

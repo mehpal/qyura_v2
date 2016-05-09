@@ -176,6 +176,7 @@
                                                              <label class="error"><?php echo form_error('medicartOffer_startDate'); ?></label>
                                                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                                         </div>
+                                                          <div class="error" id="error_sd"></div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6 m-t-xs-10">
                                                         <div class="input-group">
@@ -184,7 +185,9 @@
                                                              <label class="error"><?php echo form_error('medicartOffer_endDate'); ?></label>
                                                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                                         </div>
+                                                           <div class="error" id="error_ed"></div>
                                                     </div>
+                                                    
                                                 </aside>
                                                 <label id="date_error" class="error"></label>
                                             </div>
