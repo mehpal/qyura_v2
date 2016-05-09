@@ -213,11 +213,20 @@ CASE
 
         $response = $this->db->get()->result();
         $finalResult = array();
+<<<<<<< HEAD
         if (!empty($response)) {
             foreach ($response as $row) {
                 $finalTemp = array();
                 $day = convertNumberToDay(date($row->day));
                // $finalResult[$day] = $this->getDoctorSession($row->id);
+=======
+        if (!empty($response)) {                             
+            foreach ($response as $row) {
+                dump($row);
+                $finalTemp = array();
+                $day = convertNumberToDay(date($row->day));
+                $finalResult[$day] = $this->getDoctorSession($row->id);
+>>>>>>> d7e510f778608e479d2978f714d479291edfaf46
             }
             return $finalResult;
         } else {

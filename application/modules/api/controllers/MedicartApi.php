@@ -47,7 +47,7 @@ class MedicartApi extends MyRest {
 
                     $medicartCount = (isset($sp->specialityCount) && $sp->specialityCount != NULL) ? $sp->specialityCount : "0";
                     
-                    if ($medicartCount != 0) {
+//                    if ($medicartCount != 0) {
 
                         $array["specialities_id"] = (isset($sp->specialities_id) && $sp->specialities_id != NULL) ? $sp->specialities_id : "";
                         $dateArray[] =$sp->medicartOffer_id;
@@ -58,7 +58,7 @@ class MedicartApi extends MyRest {
                         $array["specialityCount"] = (isset($sp->specialityCount) && $sp->specialityCount != NULL) ? $sp->specialityCount : "";
                         $count = $count + $array['specialityCount'];
                         $finalArray[] = $array;
-                    }
+//                    }
                 }
                 
 //                $vals = array_count_values($dateArray); 
