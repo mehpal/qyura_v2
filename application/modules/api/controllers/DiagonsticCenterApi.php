@@ -157,7 +157,8 @@ class DiagonsticCenterApi extends MyRest {
             
              $response['openingHours'] = (isset($miTimeSlot->openingHours) && $miTimeSlot->openingHours != NULL) ? $miTimeSlot->openingHours : "";
              $response['closingHours'] = (isset($miTimeSlot->closingHours) && $miTimeSlot->closingHours != NULL) ? $miTimeSlot->closingHours : "";
-
+             
+           $response['collectionCente'] = $collectionCenter = $this->diagonsticCenter_models->getCollectionCenter($diagonsticId);
             
             $response['status'] = TRUE;
             $response['msg'] = 'success';
