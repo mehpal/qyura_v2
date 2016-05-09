@@ -54,6 +54,7 @@ exit();
                     'reviews_aptmntId' => $reviewCause,
                     'reviews_details' => $review,
                     'reviews_rating' => $rating,
+                    'reviews_createDates' => strtotime(date("Y-m-d")),
                     'creationTime' => time(),
                     'status' => 1
                 );

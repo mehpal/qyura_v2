@@ -14,8 +14,8 @@ class MedicartApi extends MyRest {
 
     function medicartSpeciality_post() {
 
-        $this->bf_form_validation->set_rules('lat', 'Lat', 'required|decimal');
-        $this->bf_form_validation->set_rules('long', 'Long', 'required|decimal');
+        $this->bf_form_validation->set_rules('lat', 'Lat', 'decimal');
+        $this->bf_form_validation->set_rules('long', 'Long', 'decimal');
 
         if ($this->bf_form_validation->run() == FALSE) {
             $message = $this->validation_post_warning();
@@ -42,27 +42,34 @@ class MedicartApi extends MyRest {
                 $all["specialitiesImg"] = "assets/specialityImages/3x/allSpeciality.png";
                 $all["specialityCount"] = $count;
                 $finalArray[] = $all;
+                $dateArray = array();
                 foreach ($specialities as $sp) {
+
                     $medicartCount = (isset($sp->specialityCount) && $sp->specialityCount != NULL) ? $sp->specialityCount : "0";
-                    if ($medicartCount != 0) {
+                    
+//                    if ($medicartCount != 0) {
 
                         $array["specialities_id"] = (isset($sp->specialities_id) && $sp->specialities_id != NULL) ? $sp->specialities_id : "";
+                        $dateArray[] =$sp->medicartOffer_id;
+                        
                         $array["name"] = (isset($sp->name) && $sp->name != NULL) ? $sp->name : "";
                         $array["specialitiesImg"] = (isset($sp->img) && $sp->img != NULL) ? $sp->img : "";
 
                         $array["specialityCount"] = (isset($sp->specialityCount) && $sp->specialityCount != NULL) ? $sp->specialityCount : "";
                         $count = $count + $array['specialityCount'];
                         $finalArray[] = $array;
-                    }
+//                    }
                 }
-                $finalArray[0]["specialityCount"] = "" . $count . "";
+                
+//                $vals = array_count_values($dateArray); 
+                $finalArray[0]["specialityCount"] = "" . count(array_unique($dateArray)) . "";
             }
 
             if ($finalArray != NULL) {
                 $response = array('status' => TRUE, 'message' => 'Here is the list of all specialities.', "result" => $finalArray);
                 $this->response($response, 200);
             } else {
-                $response = array('status' => FALSE, 'message' => 'Network Error .Please retry');
+                $response = array('status' => FALSE, 'message' => 'Oops!! there is no medicart in any of speciality.');
                 $this->response($response, 400);
             }
         }
@@ -70,8 +77,8 @@ class MedicartApi extends MyRest {
 
     function list_post() {
 
-        $this->bf_form_validation->set_rules('lat', 'Lat', 'required|decimal');
-        $this->bf_form_validation->set_rules('long', 'Long', 'required|decimal');
+        $this->bf_form_validation->set_rules('lat', 'Lat', 'decimal');
+        $this->bf_form_validation->set_rules('long', 'Long', 'decimal');
         $this->bf_form_validation->set_rules('q', 'q', 'trim|xss_clean');
         $this->bf_form_validation->set_rules('notin', 'notin', 'trim|xss_clean');
         $this->bf_form_validation->set_rules('speciality', 'speciality', 'trim|xss_clean|required');
@@ -104,7 +111,6 @@ class MedicartApi extends MyRest {
                     foreach ($medList as $row) {
 
                         $finalTemp = array();
-
 
                         $finalTemp[] = $medicartOffer_id = isset($row->medicartOffer_id) ? $row->medicartOffer_id : "";
                         $finalTemp[] = isset($row->medicartOffer_MIId) ? $row->medicartOffer_MIId : "";

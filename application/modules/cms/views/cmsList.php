@@ -13,12 +13,6 @@
                     <!-- Left Section Start -->
                     <section class="col-md-12 detailbox">
 
-  <?php if(!empty($this->session->flashdata('message'))){?>
-                            <div class="alert alert-success"><?php echo $this->session->flashdata('message');?></div>
-                                <?php }?>
-                           <?php if(!empty($this->session->flashdata('error'))){?>
-                            <div class="alert alert-danger"><?php echo $this->session->flashdata('error');?></div>
-                                <?php }?>
                         <!-- Form Section Start -->
                         <article class="row p-b-10">
                                 <form>

@@ -1,5 +1,5 @@
 <script src="<?php echo base_url(); ?>assets/js/reCopy.js"></script>
-
+<script src="<?php echo base_url(); ?>assets/vendor/select2/select2.min.js" type="text/javascript"></script>
 <script>
     $(function(){
         var removeLink = ' <a class="remove danger" href="#" onclick="$(this).parent().slideUp(function(){ $(this).remove() }); return false">remove</a>';
@@ -82,4 +82,8 @@
 
     });
     
+<<<<<<< HEAD
 </script>
+=======
+</script>
+>>>>>>> c54cc89352bc7a6b76cac333753206bad97f2240

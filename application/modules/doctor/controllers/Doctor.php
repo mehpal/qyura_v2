@@ -32,7 +32,6 @@ class Doctor extends MY_Controller {
         $data = array();
         $data['allStates'] = $this->Doctor_model->fetchStates();
         $data['speciality'] = $this->Doctor_model->fetchSpeciality();
-        //print_r($data['speciality'] );exit;
         $data['degree'] = $this->Doctor_model->fetchDegree();
         $data['hospital'] = $this->Doctor_model->fetchHospital();
         $data['doctorId'] = 0;
@@ -497,6 +496,18 @@ class Doctor extends MY_Controller {
         );
         $data['qyura_specialitiesCat'] = $this->common_model->customGet($option);
 
+//        $option = array(
+//            'table' => 'qyura_professionalExp',
+//            'select' => 'professionalExp_id ,professionalExp_designation ,professionalExp_usersId,professionalExp_hospitalId,professionalExp_start,professionalExp_end,hospital_name,hospital_id,hospital_address',
+//            'where' => array('qyura_professionalExp.professionalExp_deleted' => 0, 'qyura_professionalExp.professionalExp_usersId' => $doctorId),
+//            'join' => array(
+//                array('qyura_hospital', 'qyura_hospital.hospital_id = qyura_professionalExp.professionalExp_hospitalId', 'left')
+//            ),
+//            'single' => FALSE
+//        );
+//        $professional_exp = $this->common_model->customGet($option);
+
+
         $option = array(
             'table' => 'qyura_doctorServices',
             'select' => '*',
@@ -506,7 +517,12 @@ class Doctor extends MY_Controller {
         );
         $data['qyura_services'] = $this->common_model->customGet($option);
 
+
+
+        //$where = array("doctorAvailability_docUsersId" => 46);
+        //$data['exprerience'] = $this->Doctor_model->fetchExprience($doctorId);
         $data['doctorAcademic'] = $this->Doctor_model->fetchAcademic($doctorId);
+
 
         $data['hospitals'] = $this->Doctor_model->fetchHosByStatus(null);
         $data['diagnostics'] = $this->Doctor_model->fetchDigByStatus(null);
@@ -520,13 +536,6 @@ class Doctor extends MY_Controller {
                 $timeSloats[$weekDay] = $result;
         }
 
-        $query = "SELECT COUNT(reviews_id) as review_count FROM `qyura_reviews` WHERE `reviews_deleted` =  0 AND `status` =  1 AND `reviews_relateId` =  $doctorId ";
-        $data['review_count'] = $this->common_model->customQuery($query);
-        
-        $query = "SELECT COUNT(rating_id) as rating_count, AVG(rating) as rating_avg FROM `qyura_ratings` WHERE `rating_deleted` =  0 AND `status` =  1 AND `rating_relateId` =  $doctorId ";
-
-        $data['rating_avg'] = $this->common_model->customQuery($query);
-        //print_r($data['rating_avg']);exit;
         $data['timeSloats'] = $timeSloats;
         $data['doctorId'] = $doctorId;
         $data['title'] = 'Doctor Details';
@@ -1187,7 +1196,8 @@ class Doctor extends MY_Controller {
 
         if (isset($_POST['docTimeTable_stayAt']) && $_POST['docTimeTable_stayAt'] != '' && $_POST['docTimeTable_stayAt'] == 0) {
 
-            $this->bf_form_validation->set_rules('psChamber_name', 'Chamber Name', 'required|trim');
+            $this->bf_form_validation->set_rules('psChamber', 'Chamber Name', 'required|trim');
+            $this->bf_form_validation->set_rules('countryId', 'Country Name', 'required|trim');
             $this->bf_form_validation->set_rules('stateId', 'State Name', 'required|trim');
             $this->bf_form_validation->set_rules('cityId', 'City Name', 'required|trim');
             $this->bf_form_validation->set_rules('pinn', 'Pin Code', 'required|trim');
@@ -1195,9 +1205,6 @@ class Doctor extends MY_Controller {
             $this->bf_form_validation->set_rules('lat', 'lat', 'required|trim');
             $this->bf_form_validation->set_rules('lng', 'lng', 'required|trim');
         }
-
-
-
 
 
         if (isset($_POST['docTimeTable_MItype']) && $_POST['docTimeTable_MItype'] == 1 && $_POST['docTimeTable_stayAt'] == 1) {
@@ -1216,6 +1223,7 @@ class Doctor extends MY_Controller {
         if ((isset($_POST['docTimeTable_MIprofileId_d']) && $_POST['docTimeTable_MIprofileId_d'] == 0 && $_POST['docTimeTable_MIprofileId_d'] != '' && $_POST['docTimeTable_stayAt'] == 1 ) || (isset($_POST['docTimeTable_MIprofileId_h']) && $_POST['docTimeTable_MIprofileId_h'] == 0 && $_POST['docTimeTable_MIprofileId_h'] != '' && $_POST['docTimeTable_stayAt'] == 1)) {
 
             $this->bf_form_validation->set_rules('Miname', 'MI Name', 'required|trim');
+            $this->bf_form_validation->set_rules('countryId', 'Country Name', 'required|trim');
             $this->bf_form_validation->set_rules('stateId', 'State Name', 'required|trim');
             $this->bf_form_validation->set_rules('cityId', 'City Name', 'required|trim');
             $this->bf_form_validation->set_rules('pinn', 'Pin Code', 'required|trim');
@@ -1307,7 +1315,7 @@ class Doctor extends MY_Controller {
 
             if ($docTimeDayId) {
                 $this->session->set_flashdata('active_tag', 4);
-                $responce = array('status' => 1, 'msg' => "Time sloat added successfully", 'url' => "doctor");
+                $responce = array('status' => 1, 'msg' => "Time sloat added successfully", 'url' => "doctor/doctorDetails/".$this->input->post('doctorId'));
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
@@ -1384,7 +1392,7 @@ class Doctor extends MY_Controller {
 
     function saveChamber() {
         $doctorId = $this->input->post('doctorId');
-        $psChamber_name = $this->input->post('psChamber_name');
+        $psChamber_name = $this->input->post('psChamber');
         $psChamber_countryId = 1;
         $psChamber_stateId = $this->input->post('stateId');
         $psChamber_cityId = $this->input->post('cityId');
@@ -1427,7 +1435,7 @@ class Doctor extends MY_Controller {
 
         if (isset($_POST['docTimeTable_stayAt']) && $_POST['docTimeTable_stayAt'] != '' && $_POST['docTimeTable_stayAt'] == 0) {
 
-            $this->bf_form_validation->set_rules('psChamber_name', 'Chamber Name', 'required|trim');
+            $this->bf_form_validation->set_rules('psChamber', 'Chamber Name', 'required|trim');
             $this->bf_form_validation->set_rules('stateId', 'State Name', 'required|trim');
             $this->bf_form_validation->set_rules('cityId', 'City Name', 'required|trim');
             $this->bf_form_validation->set_rules('pinn', 'Pin Code', 'required|trim');
@@ -1437,15 +1445,12 @@ class Doctor extends MY_Controller {
         }
 
 
-
-
-
         if (isset($_POST['docTimeTable_MItype']) && $_POST['docTimeTable_MItype'] == 1) {
 
             $this->bf_form_validation->set_rules('docTimeTable_MIprofileId_h', 'Hospital Name', 'required|trim');
         }
 
-        if (isset($_POST['docTimeTable_MItype']) && $_POST['docTimeTable_MItype'] != null && $_POST['docTimeTable_MItype'] == 2) {
+        if (isset($_POST['docTimeTable_MItype']) && $_POST['docTimeTable_MItype'] != null && $_POST['docTimeTable_MItype'] == 2)        {
             $this->bf_form_validation->set_rules('docTimeTable_MIprofileId_d', 'Diagnostic Name', 'required|trim');
         }
 
@@ -1481,8 +1486,7 @@ class Doctor extends MY_Controller {
             $docTimeTable_stayAt = isset($_POST['docTimeTable_stayAt']) ? $this->input->post('docTimeTable_stayAt') : '';
             $docTimeTable_MItype = isset($_POST['docTimeTable_MItype']) ? $this->input->post('docTimeTable_MItype') : '';
             $docTimeTable_MIprofileId = isset($_POST['docTimeTable_MIprofileId']) ? $this->input->post('docTimeTable_MIprofileId') : '';
-            $docTimeTable_price = isset($_POST['docTimeTable_price']) ? $this->input->post('docTimeTable_price') : '';
-
+            $docTimeTable_price = isset($_POST['fees']) ? $this->input->post('fees') : '';
             $docTimeDay_days = isset($_POST['docTimeDay_day']) ? $this->input->post('docTimeDay_day') : '';
             $docTimeDay_open = isset($_POST['openingHour']) ? $this->input->post('openingHour') : '';
             $docTimeDay_close = isset($_POST['closeingHour']) ? $this->input->post('closeingHour') : '';
@@ -1613,7 +1617,7 @@ class Doctor extends MY_Controller {
 
             if ($id) {
                 $this->session->set_flashdata('active_tag', 4);
-                $responce = array('status' => 1, 'msg' => "Time sloat updated successfully", 'url' => "doctor");
+                $responce = array('status' => 1, 'msg' => "Time sloat updated successfully", 'url' => "doctor/doctorDetails/".$_POST['doctorId']);
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
@@ -1624,7 +1628,7 @@ class Doctor extends MY_Controller {
 
     function updateChamber($id) {
         $doctorId = $this->input->post('doctorId');
-        $psChamber_name = $this->input->post('psChamber_name');
+        $psChamber_name = $this->input->post('psChamber');
         $psChamber_countryId = 1;
         $psChamber_stateId = $this->input->post('stateId');
         $psChamber_cityId = $this->input->post('cityId');

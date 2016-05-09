@@ -8,6 +8,7 @@ class Bloodbank extends MY_Controller {
 
     public function __construct() {
         parent:: __construct();
+//        dump(date("h:i:s", strtotime("1462690800")));die();
         // $this->load->library('form_validation');
         $this->load->model('Bloodbank_model');
     }

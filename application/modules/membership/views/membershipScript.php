@@ -1,5 +1,7 @@
 <script src="<?php echo base_url() ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/select2/select2.min.js" type="text/javascript"></script>
 <script>
+
     //Mi Type
     $(document).ready(function (){
         $("#membershipAddForm").submit(function (event) {
@@ -8,6 +10,40 @@
             var formData = new FormData(this);
             submitData(url,formData);
         });
+        var urls = "<?php echo base_url() ?>";
+    
+    $("#membershipAddForm").validate({
+        rules: {
+            'membership_type[]': {
+                required: true
+            },
+            membership_name: {
+                required : true
+            },
+            membership_price: {
+                required : true
+            },
+            membership_tax: {
+                required : true
+            }
+        },
+        messages: {
+            'membership_type[]': {
+                required: "Please select a membership type!",
+            },
+            membership_name: {
+                required : "Please enter the name of membership!"
+            },
+            membership_price: {
+                required : "Please enter a price!"
+            },
+            membership_tax: {
+                required : "Please enter tax percent!"
+            }
+           
+        }
+
+    });
     });
     
     $(document).ready(function (){
@@ -41,6 +77,16 @@
             }
         }
     }
+    function isNumberKey(evt, id) {
+var charCode = (evt.which) ? evt.which : event.keyCode
+if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+$("#" + id).html("Please enter number key");
+return false;
+} else {
+$("#" + id).html('');
+return true;
+}
+}
 </script>
 <script>
     $(".membership-btn").click(function () {
@@ -66,6 +112,9 @@
      $(".membership-btn6").click(function () {
         $(".membership-plan6").toggle();
         $(".newmembership6").toggle();
+    });
+     $('.select2').select2().change(function(){
+    $(this).valid()
     });
     var resizefunc = [];
 </script>

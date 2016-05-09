@@ -63,10 +63,37 @@ if ($current != 'detailDoctor'): ?>
             var url = '<?php echo site_url(); ?>/master/saveDegrees/';
             var formData = new FormData(this);
             submitData(url,formData);
-        });
-         $('.select2').select2().change(function(){
-    $(this).valid()
+            $("#editdegrees").click(function () {
+            $("#detaildegrees").toggle();
+            $("#newdegrees").toggle();
 });
+        });
+        var urls = "<?php echo base_url() ?>";
+        $("#degreeForm").validate({
+        
+        rules: {
+            degree_FName: {
+                required: true
+            },
+            degree_SName: {
+                required : true
+            }
+        },
+        messages: {
+            degree_FName: {
+                required: "Please enter full name of degree!",
+            },
+            degree_SName: {
+                required : "Please enter abreviation for the degree!"
+            }
+           
+        }
+
+    });
+
+    $('.select2').select2().change(function(){
+        $(this).valid()
+    });
     });
 
     
@@ -79,7 +106,7 @@ if ($current != 'detailDoctor'): ?>
         });
     });
     
-    //Specialities
+    //Speciality starts.
     <?php if($this->router->fetch_method() == 'specialities'){ ?>
     $(document).ready(function (){
         $("#submitForm").submit(function (event) {
@@ -94,6 +121,17 @@ if ($current != 'detailDoctor'): ?>
     
     var urls = "<?php echo base_url() ?>";
     $("#submitForm").validate({
+        ignore: "",
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "avatar_file")
+        {
+            error.insertAfter('.error-label');
+        }
+        else{
+            error.insertAfter(element);
+        }
+        },
+
         rules: {
             specialityName: {
                 required: true
@@ -103,11 +141,9 @@ if ($current != 'detailDoctor'): ?>
             },
             avatar_file: {
                 required : true
-            },
-            keywords: {
-                required : true
             }
         },
+       
         messages: {
             specialityName: {
                 required: "Please enter scientific name!",
@@ -117,9 +153,6 @@ if ($current != 'detailDoctor'): ?>
             },
             avatar_file: {
                 required : "Please upload an image!"
-            },
-            keywords: {
-                required : "Please fill up keywords field!"
             }
            
         }
@@ -127,8 +160,9 @@ if ($current != 'detailDoctor'): ?>
     });
     });
     <?php } ?>
+    //Speciality ends.
 
-    //Doctor Specialities
+    //Doctor Speciality starts.
     <?php if($this->router->fetch_method() == 'docspecialities'){ ?>
     $(document).ready(function (){
         $("#submitForm").submit(function (event) {
@@ -139,6 +173,17 @@ if ($current != 'detailDoctor'): ?>
         });
         var urls = "<?php echo base_url() ?>";
     $("#submitForm").validate({
+        ignore: "",
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "avatar_file")
+        {
+            error.insertAfter('.error-label');
+        }
+        else{
+            error.insertAfter(element);
+        }
+        },
+
         rules: {
             specialityName: {
                 required: true
@@ -148,11 +193,9 @@ if ($current != 'detailDoctor'): ?>
             },
             avatar_file: {
                 required : true
-            },
-            keywords: {
-                required : true
             }
         },
+       
         messages: {
             specialityName: {
                 required: "Please enter scientific name!",
@@ -162,9 +205,6 @@ if ($current != 'detailDoctor'): ?>
             },
             avatar_file: {
                 required : "Please upload an image!"
-            },
-            keywords: {
-                required : "Please fill up keywords field!"
             }
            
         }
@@ -172,6 +212,7 @@ if ($current != 'detailDoctor'): ?>
     });
     });
     <?php } ?>
+    //Doctor speciality ends.
     //Diagnostic
     <?php if($this->router->fetch_method() == 'diagnostic'){ ?>
     $(document).ready(function (){
@@ -181,6 +222,70 @@ if ($current != 'detailDoctor'): ?>
             var formData = new FormData(this);
             submitData(url,formData);
         });
+        var urls = "<?php echo base_url() ?>";
+    $("#submitForm").validate({
+        ignore: "",
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "avatar_file")
+        {
+            error.insertAfter('.error-label');
+        }
+        else{
+            error.insertAfter(element);
+        }
+        },
+
+        rules: {
+            diagnosticName: {
+                required: true
+            },
+            avatar_file: {
+                required : true
+            }
+        },
+       
+        messages: {
+            diagnosticName: {
+                required: "Please enter diagnostic's name!",
+            },
+            avatar_file: {
+                required : "Please upload an image!"
+            }
+           
+        }
+
+    });
+    });
+    <?php } ?>
+        <?php if($this->router->fetch_method() == 'editDiagnosticsView'){ ?>
+    $(document).ready(function (){
+        var urls = "<?php echo base_url() ?>";
+    $("#submitForm").validate({
+        ignore: "",
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "avatar_file")
+        {
+            error.insertAfter('.error-label');
+        }
+        else{
+            error.insertAfter(element);
+        }
+        },
+
+        rules: {
+            diagnosticsCat_catName: {
+                required: true
+            }
+        },
+       
+        messages: {
+            diagnosticsCat_catName: {
+                required: "Please enter diagnostic's name!",
+            }
+           
+        }
+
+    });
     });
     <?php } ?>
 
@@ -193,9 +298,84 @@ if ($current != 'detailDoctor'): ?>
             var formData = new FormData(this);
             submitData(url,formData);
         });
+        var urls = "<?php echo base_url() ?>";
+    $("#submitForm").validate({
+        ignore: "",
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "avatar_file")
+        {
+            error.insertAfter('.error-label');
+        }
+        else{
+            error.insertAfter(element);
+        }
+        },
+
+        rules: {
+            insurance_Name: {
+                required: true
+            },
+            insurance_detail: {
+                required: true
+            },
+            avatar_file: {
+                required : true
+            }
+        },
+       
+        messages: {
+            insurance_Name: {
+                required: "Please enter insurance name!",
+            },
+            insurance_detail: {
+                required: "Please enter some details!"
+            },
+            avatar_file: {
+                required : "Please upload an image!"
+            }
+           
+        }
+
+    });
     });
     <?php } ?>
+    <?php if($this->router->fetch_method() == 'editInsuranceView'){ ?>
+    $(document).ready(function (){
+        var urls = "<?php echo base_url() ?>";
+    $("#submitForm").validate({
+        ignore: "",
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "avatar_file")
+        {
+            error.insertAfter('.error-label');
+        }
+        else{
+            error.insertAfter(element);
+        }
+        },
 
+        rules: {
+            insurance_Name: {
+                required: true
+            },
+            insurance_detail: {
+                required: true
+            }
+        },
+       
+        messages: {
+            insurance_Name: {
+                required: "Please enter insurance name!",
+            },
+            insurance_detail: {
+                required: "Please enter some details!"
+            }
+           
+        }
+
+    });
+    });
+    <?php } ?>
     //Mi Type
     $(document).ready(function (){
         $("#miaddHospiForm").submit(function (event) {
@@ -878,7 +1058,9 @@ if ($current != 'detailDoctor'): ?>
     
 });
 </script>
+
 <script>
+//City add starts
     var urls = "<?php echo base_url() ?>";
     $(document).ready(function () {
     $("#cityForm").validate({
@@ -929,8 +1111,11 @@ if ($current != 'detailDoctor'): ?>
     });
     
 });
+    //City add ends.
 </script>
+
 <script>
+//City edit starts
     var urls = "<?php echo base_url() ?>";
     $(document).ready(function () {
     $("#submitFormEditCity").validate({
@@ -982,74 +1167,88 @@ if ($current != 'detailDoctor'): ?>
 
     
 });
+    //city edit ends.
 </script>
 
 <script>
-//editSpecialities
+//editSpecialities starts.
  <?php if($this->router->fetch_method() == 'editSpecialitiesView'){ ?>
-$(document).ready(function (){
+    $(document).ready(function (){
     var urls = "<?php echo base_url() ?>";
     $("#submitForm").validate({
+        ignore: "",
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "avatar_file")
+        {
+            error.insertAfter('.error-label');
+        }
+        else{
+            error.insertAfter(element);
+        }
+        },
+
         rules: {
             specialityName: {
                 required: true
             },
             specialityNamedoctor: {
                 required : true
-            },
-            avatar_file: {
-                required : true
             }
         },
+       
         messages: {
             specialityName: {
                 required: "Please enter scientific name!",
             },
             specialityNamedoctor: {
                 required : "Please enter general name!"
-            },
-            avatar_file: {
-                required : "Please upload an image!"
             }
            
         }
 
     });
-     });
+    });
     <?php } ?>
-//editSpecialities
-//editDoctorSpecialities
+//editSpecialities ends.
+
+//editDoctorSpecialities starts.
 <?php if($this->router->fetch_method() == 'doceditSpecialitiesView'){ ?>
 
 $(document).ready(function (){
-    var urls = "<?php echo base_url() ?>";
+     var urls = "<?php echo base_url() ?>";
     $("#submitForm").validate({
+        ignore: "",
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "avatar_file")
+        {
+            error.insertAfter('.error-label');
+        }
+        else{
+            error.insertAfter(element);
+        }
+        },
+
         rules: {
             specialityName: {
                 required: true
             },
             specialityNamedoctor: {
                 required : true
-            },
-            avatar_file: {
-                required : true
             }
         },
+       
         messages: {
             specialityName: {
                 required: "Please enter scientific name!",
             },
             specialityNamedoctor: {
                 required : "Please enter general name!"
-            },
-            avatar_file: {
-                required : "Please upload an image!"
             }
            
         }
 
     });
-     });
+    });
     <?php } ?>
-//editDoctorSpecialities
+//editDoctorSpecialities ends.
 </script>

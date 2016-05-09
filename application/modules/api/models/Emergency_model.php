@@ -229,6 +229,8 @@ class Emergency_model extends CI_Model {
                     $finalTemp[] = "";
                 }
                 $finalTemp[] = isset($row->isEmergency) ? $row->isEmergency : "0";
+                $finalTemp[] = isset($row->adr) ? $row->adr : "";
+                $finalTemp[] = isset($row->distance) ? $row->distance : "0";
                 $finalResult[] = $finalTemp;
             }
             return $finalResult;

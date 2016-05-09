@@ -22,9 +22,10 @@ if($current == 'detailBloodBank'):?>
 <script src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
 <?php else:?>
 <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
+
 <?php endif;?>
 
-
+<script src="<?php echo base_url();?>assets/vendor/select2/select2.min.js" type="text/javascript"></script>
 <script>
      
       /**

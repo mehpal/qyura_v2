@@ -157,19 +157,19 @@ if ($msg != "" || $msg != NULL) {
                         $('#successTop').html(data.msg);
                         if (data.msg != '' && data.msg != "undefined") {
                             bootbox.alert(data.msg);
-                            window.location.href = '<?php echo site_url() ?>' + '/' + data.url;
+                           
                         } else {
                             bootbox.alert("Success");
                         }
-//                        setTimeout(function () {
-////                            $('#successTop').hide();
-////                            $('#successTop').html('');
-//                            if (data.url) {
-//                                
-//                            } else {
-//                                //location.reload(true);
-//                            }
-//                        }, 1000);
+                       setTimeout(function () {
+                          $('#successTop').hide();
+                           $('#successTop').html('');
+                          if (data.url) {
+                               window.location.href = '<?php echo site_url() ?>' + '/' + data.url;
+                            } else {
+                                location.reload(true);
+                          }
+                       }, 1000);
                     }
                 } catch (e) {
                     $('#er_TopError').show();

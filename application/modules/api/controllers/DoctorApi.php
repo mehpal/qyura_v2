@@ -15,14 +15,12 @@ class DoctorApi extends MyRest {
 
     function doctorlist_post() {
 
-
         $this->bf_form_validation->set_rules('lat', 'Lat', 'xss_clean|trim|required|decimal');
         $this->bf_form_validation->set_rules('long', 'Long', 'xss_clean|trim|required|decimal');
-        $this->bf_form_validation->set_rules('specialityid', 'Speciality Id', 'xss_clean|trim|numeric');
-        $this->bf_form_validation->set_rules('isemergency', 'Is Emergency', 'xss_clean|trim|numeric|required');
-//        $this->bf_form_validation->set_rules('radius', 'Radius', 'xss_clean|trim|numeric|required');
-        $this->bf_form_validation->set_rules('rating', 'Rating', 'xss_clean|trim|numeric|required');
-        $this->bf_form_validation->set_rules('exp', 'Experience', 'xss_clean|trim|required');
+        $this->bf_form_validation->set_rules('specialityid', 'Speciality Id', 'xss_clean|trim|numeric|required');
+        $this->bf_form_validation->set_rules('isemergency', 'Is Emergency', 'xss_clean|trim|numeric');
+        $this->bf_form_validation->set_rules('rating', 'Rating', 'xss_clean|trim|numeric');
+        $this->bf_form_validation->set_rules('exp', 'Experience', 'xss_clean|trim');
         $this->bf_form_validation->set_rules('notin', 'Not in', 'xss_clean|trim|required');
         $this->bf_form_validation->set_rules('search ', 'Search Keyword', 'xss_clean|trim');
         $this->bf_form_validation->set_rules('cityId', 'cityId', 'xss_clean|trim|numeric|is_natural_no_zero');
@@ -34,7 +32,6 @@ class DoctorApi extends MyRest {
             $response = array('status' => FALSE, 'msg' => $message);
             $this->response($response, 400);
         } else {
-
 
             $lat = isset($_POST['lat']) ? $this->input->post('lat') : '';
             $long = isset($_POST['long']) ? $this->input->post('long') : '';
@@ -53,18 +50,16 @@ class DoctorApi extends MyRest {
             $rating = isset($_POST['rating']) ? $this->input->post('rating') : NULL;
             $exp = isset($_POST['exp']) ? $this->input->post('exp') : NULL;
 
-
             $notIn = isset($_POST['notin']) && $_POST['notin'] != 0 ? $this->input->post('notin') : '';
             $notIn = explode(',', $notIn);
 
             $response['data'] = $this->doctors_model->getDoctorsList($lat, $long, $notIn, $isemergency, $specialityid, $radius, $rating, $exp, $search,$cityId);
 
-
             $option = array('table' => 'doctors', 'select' => 'doctors_id');
             $deleted = $this->singleDelList($option);
             $response['doc_deleted'] = $deleted;
 
-            $response['colName'] = array("id", "name", "exp", "imUrl", "rating", "consFee", "speciality", "degree", "lat", "long", "isEmergency","mobile","userId");
+            $response['colName'] = array("id", "name", "showExp","exp", "imUrl", "rating", "consFee", "speciality", "degree", "lat", "long", "isEmergency","mobile","userId");
             if ($response['data']) {
                 $response['status'] = TRUE;
                 $response['msg'] = 'success';
@@ -78,7 +73,10 @@ class DoctorApi extends MyRest {
     }
 
     function doctordetail_post() {
+        
         $this->bf_form_validation->set_rules('doctorId', 'DoctorId Id', 'xss_clean|numeric|required|trim');
+        $this->bf_form_validation->set_rules('lat', 'latitude', 'xss_clean|numeric|required|trim');
+        $this->bf_form_validation->set_rules('long', 'laongitude', 'xss_clean|numeric|required|trim');
         $this->bf_form_validation->set_rules('userId', 'User Id', 'xss_clean|trim');
         
         if ($this->bf_form_validation->run($this) == FALSE) {
@@ -86,25 +84,26 @@ class DoctorApi extends MyRest {
             $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
             $this->response($response, 400);
         } else {
+            
             $doctorId = $this->input->post('doctorId');
+            $lat = $this->input->post('lat');
+            $long = $this->input->post('long');
+            
             $userId = isset($_POST['userId']) && $_POST['userId'] != null && $_POST['userId'] !=0 ? $this->input->post('userId') : 0;
             $doctorsDetails = $this->doctors_model->getDoctorsDetails($doctorId,$userId);
-            // echo $doctorsDetails; exit;
-            // print_r($doctorsDetails);
+//            echo $this->db->last_query();
+//         dump($doctorsDetails);die();
             if (!empty($doctorsDetails['id']) && $doctorsDetails['id'] != '') {
+                
                 $response['docDetails'] = $doctorsDetails;
 
                 $response['services'] = $services = $this->doctors_model->getDoctorServices($doctorId);
 
                 $response['reviewCount'] = $reviewCount = $this->doctors_model->getDoctorNumReviews($doctorsDetails['userId']);
 
-                $response['review'] = $this->doctors_model->getDoctorReviews($doctorsDetails['userId']);
+                $response['review'] = $this->doctors_model->getDoctorReviews($doctorsDetails['userId']); 
 
-                //  $response['fav'] = $this->doctors_model->getFavList($doctorsDetails['userId']);
-
-                $response['docGallary'] = $gallary = $this->doctors_model->getDocGallery($doctorId);
-
-                $response['availability'] = $hosDiagonDetail = $this->doctors_model->getHosDiagonDetail($doctorsDetails['userId']);
+                $response['availability'] = $hosDiagonDetail =$this->doctors_model->getDoctorTimeSlot($doctorsDetails['id'],$lat,$long);
 
                 $response['status'] = TRUE;
                 $response['msg'] = 'success';

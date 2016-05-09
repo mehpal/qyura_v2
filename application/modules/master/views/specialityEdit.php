@@ -33,6 +33,7 @@
                                 <label class="error" id="err_keywords" > <?php echo form_error("keywords"); ?></label>
                             </div>
                         </article>
+
                         <article class="form-group m-lr-0" id="crop-avatar">
                             <div id="upload_modal_form">
                                 <?php $this->load->view('upload_crop_modal');?>
@@ -40,6 +41,7 @@
                             <label class="control-label col-md-4 col-sm-4" for="cemail">
                             <?php if(!empty($val->specialities_img)){  ?><a href="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>" target="_blank"><img height="80px;" width="80px;" src="<?php echo base_url()?>assets/specialityImages/3x/<?php echo $val->specialities_img; ?>" class="img-responsive"><?php } else { ?>
                                 <img src="<?php echo base_url()?>assets/default-images/Dignostics-logo.png" alt="" class="logo-img" />
+
                             <?php } ?></a>
                             </label>
                             <div class="col-md-8 col-sm-8 text-right avatar-view">
@@ -50,9 +52,12 @@
                                     </div>
                                 </div>
                             </div>
+
                             <label class="error" > <?php echo form_error("avatar_file"); ?></label>
                             <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
+                            <div id="error-label" class="error-label"></div>
                         </article>
+
                         <article class="clearfix m-t-10 m-b-20">
                             <button class="btn btn-success waves-effect waves-light pull-right" type="submit">Submit</button>
                         </article>
