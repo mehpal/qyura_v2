@@ -117,6 +117,20 @@
                                 
                             </article>
 
+                                 <article class="clearfix m-t-10">
+                                <label for="cname" class="control-label col-md-4">Display format</label>
+                                <div class="col-md-8">
+                                    <aside class="radio radio-info">
+                                        <input <?php echo set_radio('speciality_display_format', 0); ?> type="radio" id="speciality_display_format_yes" value="0" name="speciality_display_format">
+                                        <label for="inlineRadio1"> Scientific Name</label>
+                                    </aside>
+                                    <aside class="radio radio-info">
+                                        <input <?php echo set_radio('speciality_display_format', 1, TRUE); ?> type="radio" id="speciality_display_format_no" value="1" name="speciality_display_format" checked>
+                                        <label for="inlineRadio2"> General Name</label>
+                                    </aside>
+                                </div>
+                            </article>
+                                
                                 <article class="clearfix m-t-10">
                                     <label for="" class="control-label">Keywords/Tags:</label>
                                     <div class="">
