@@ -1235,6 +1235,7 @@
                                                         <th>Experience</th>
                                                         <th>Phone</th>
                                                         <th>Action</th>
+                                                        <th>Status</th>
                                                     </tr>
                                                 </thead>
                                             </table>

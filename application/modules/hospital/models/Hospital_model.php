@@ -469,7 +469,7 @@ class Hospital_model extends My_model {
         $imgUrl = base_url() . 'assets/doctorsImages/thumb/thumb_100/$1';
         $doctorUrl = site_url() . '/hospital/detailHospital/$2/doctor/$1/editDoctor';
         
-        $this->datatables->select('doctors_userId userId,qyura_doctors.doctors_id as id, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, qyura_doctors.doctors_consultaionFee as consFee, GROUP_CONCAT(qyura_specialities.specialities_name) as specialityName,qyura_doctors.doctors_phon,qyura_doctors.doctors_img,qyura_doctors.doctors_id,qyura_doctors.doctors_mobile,qyura_doctors.doctors_unqId, qyura_hospital.hospital_id, qyura_doctors.doctors_showExp, qyura_doctors.doctors_expYear as exp'); 
+        $this->datatables->select('doctors_userId userId,qyura_doctors.doctors_id as id, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, qyura_doctors.doctors_consultaionFee as consFee, GROUP_CONCAT(qyura_specialities.specialities_name) as specialityName,qyura_doctors.doctors_phon,qyura_doctors.doctors_img,qyura_doctors.doctors_id,qyura_doctors.doctors_mobile,qyura_doctors.doctors_unqId, qyura_hospital.hospital_id, qyura_doctors.doctors_showExp,qyura_doctors.status,qyura_doctors.doctors_expYear as exp'); 
 
         $this->datatables->from('qyura_doctors');
         
@@ -506,6 +506,7 @@ class Hospital_model extends My_model {
         $this->datatables->add_column('doctors_img', '<img class="img-responsive" height="80px;" width="80px;" src=' . $imgUrl . '>', 'doctors_img');
 
         $this->datatables->add_column('view', '<a class="btn btn-info waves-effect waves-light m-b-5 applist-btn" href=' .$doctorUrl. '>Edit Detail</a>', 'doctors_id,hospital_id');
+        $this->datatables->add_column('status', '$1', 'statusCheck(doctor, qyura_doctors, doctors_id, id, status)');
 
         return $this->datatables->generate();
     }
