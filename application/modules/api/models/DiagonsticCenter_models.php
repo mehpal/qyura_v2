@@ -306,10 +306,11 @@ CASE
     
     public function miTimeSlot($userId)
     {
-        $this->db->select('openingHours, closingHours');
+         $this->db->select('(CASE WHEN (openingHours is NULL) THEN 0 ELSE openingHours END) AS openingHours , (CASE WHEN (closingHours is NULL) THEN 0 ELSE closingHours END) AS closingHours');
         $this->db->from('qyura_miTimeSlot');
-        $this->db->where(array('deleted'=>0, 'status' => 1, 'mi_user_id' => $userId, 'hourLabel' => date("l")));
+        $this->db->where(array('deleted' => 0, 'status' => 1, 'mi_user_id' => $userId, 'hourLabel' => date("l")));
         return $this->db->get()->row();
+        
     }
 
 }

@@ -2626,7 +2626,7 @@ class Hospital extends MY_Controller {
         $data = 0;
         $user_table_id = '';
         $users_email = $this->input->post('users_email');
-        $hospitalUserId = $this->input->post('hospitalUserId');
+        $hospitalUserId = $this->input->post('hospitalUserIdDoctor');
         
         $option = array(
               'table' => 'qyura_doctors',

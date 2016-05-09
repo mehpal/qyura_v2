@@ -153,7 +153,10 @@ class DiagonsticCenterApi extends MyRest {
             
            // $response['osInsurance'] = $osInsurance = $this->hospital_model->getHosInsurance($diagonsticId);
             
-            $response['todayOpenTime'] = $miTimeSlot = $this->diagonsticCenter_models->miTimeSlot($diagonsticDetails->diagnostic_usersId);
+            $miTimeSlot = $this->diagonsticCenter_models->miTimeSlot($diagonsticDetails->diagnostic_usersId);
+            
+             $response['openingHours'] = (isset($miTimeSlot->openingHours) && $miTimeSlot->openingHours != NULL) ? $miTimeSlot->openingHours : "";
+             $response['closingHours'] = (isset($miTimeSlot->closingHours) && $miTimeSlot->closingHours != NULL) ? $miTimeSlot->closingHours : "";
 
             
             $response['status'] = TRUE;
