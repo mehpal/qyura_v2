@@ -138,7 +138,7 @@ CASE
     }
 
     public function getDiagAwards($diagnosticId, $limit = NULL) {
-        $this->db->select('diagnosticAwards_id as awards_id,diagnosticAwards_awardsName name,diagnosticAwards_awardYear year, CASE  WHEN (qyura_diagnosticAwards.modifyTime is NULL) THEN qyura_diagnosticAwards.creationTime ELSE qyura_diagnosticAwards.modifyTime END  as modifyTime, agency_name ');
+        $this->db->select('diagnosticAwards_id as awards_id,diagnosticAwards_awardsName name,diagnosticAwards_awardYear year, agency_name ');
         $this->db->from('qyura_diagnosticAwards');
         $this->db->join('qyura_awards', 'qyura_awards.awards_id = qyura_diagnosticAwards.diagnosticAwards_awardsId', 'left');
         $this->db->join('qyura_awardAgency','qyura_awardAgency.awardAgency_id = qyura_diagnosticAwards.diagnosticAwards_awardsAgency ','left');
@@ -197,7 +197,7 @@ CASE
         $this->db->select('doctors_id, CONCAT("assets/doctorsImages/thumb/original","/",doctors_img) as doctors_img, doctors_fName, doctors_lName');
         $this->db->from('qyura_doctors');
         // $this->db->join('qyura_doctors','qyura_doctors.doctors_userId = qyura_usersRoles.usersRoles_userId','left');
-        $this->db->where(array('qyura_doctors.doctors_parentId' => $diagnosticUsersId, 'qyura_doctors.doctors_roll' => ROLE_DOCTORE_CHILD));
+        $this->db->where(array('qyura_doctors.doctors_parentId' => $diagnosticUsersId, 'qyura_doctors.doctors_roll' => ROLE_DOCTORE_CHILD, 'doctors_deleted' => 0, 'qyura_doctors.status' => 1));
         if ($limit != NULL)
             $this->db->limit($limit);
         $doctors = $this->db->get()->result();
@@ -286,7 +286,7 @@ CASE
 
     public function getDiagonHelthPkg($diagonsticId) {
         
-        $this->db->select('healthPackage_id,healthPackage_packageTitle,healthPackage_packageId,healthPackage_packageTitle,healthPackage_expiryDateStatus,healthPackage_date,FORMAT(healthPackage_bestPrice,0) as healthPackage_bestPrice, FORMAT(healthPackage_discountedPrice,0) as healthPackage_discountedPrice ,healthPackage_description,healthPackage_deleted,qyura_healthPackage.modifyTime');
+        $this->db->select('healthPackage_id, healthPackage_packageTitle, healthPackage_packageId, FORMAT(healthPackage_bestPrice,0) as healthPackage_bestPrice, FORMAT(healthPackage_discountedPrice,0) as healthPackage_discountedPrice');
         $this->db->from('qyura_healthPackage');
 //        $this->db->join('qyura_diagonsticPackage', 'qyura_diagonsticPackage.diagonsticPackage_healthPackageId = qyura_healthPackage.healthPackage_id');
         $this->db->where(array('healthPackage_MIuserId' => $diagonsticId, 'healthPackage_deleted' => 0,'qyura_healthPackage.status' => 1));
