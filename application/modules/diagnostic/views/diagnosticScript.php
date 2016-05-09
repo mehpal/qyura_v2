@@ -270,7 +270,7 @@ if($current != 'detailDiagnostic'):?>
            "processing": true,
             "serverSide": true,
             "columnDefs": [{
-                    "targets": [1,2,3,4,5,6],
+                    "targets": [0,1,2,3,4,5,6,7],
                     "orderable": false
                 }],
             "pageLength": 10,
@@ -286,6 +286,7 @@ if($current != 'detailDiagnostic'):?>
                 {"data": "exp"},
                 {"data": "doctors_phon"},
                 {"data": "view"},
+                {"data": "status"},
             ],
             "ajax": {
                 "url": urls + 'index.php/diagnostic/getDiagnosticDoctorsDl/'+diagnosticId,
