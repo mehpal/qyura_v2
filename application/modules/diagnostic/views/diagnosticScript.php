@@ -35,11 +35,13 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
 <?php $current = $this->router->fetch_method();
 if($current != 'detailDiagnostic'):?>
 <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
-<script src="<?php echo base_url(); ?>assets/cropper/bloodbank_cropper.js"></script>
 <?php else:?>
 
 <script src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
-<script src="<?php echo base_url(); ?>assets/cropper/gallery_cropper.js"></script>
+
+    <script src="<?php echo base_url(); ?>assets/cropper/doctor_cropper.js"></script>
+
+    <script src="<?php echo base_url(); ?>assets/cropper/edit_doctor_cropper.js"></script>
 
 <?php endif;?>
 
@@ -61,6 +63,8 @@ if($current != 'detailDiagnostic'):?>
     <script src="<?php echo base_url();?>assets/vendor/select2/select2.min.js" type="text/javascript"></script> 
 <!--     <script src="<?php echo base_url();?>assets/js/fileUpload/fileinput.js" type="text/javascript"></script> -->
     <script src="<?php echo base_url(); ?>assets/js/common_js.js"></script>
+    
+    
  <?php if(isset($mapData) && !empty($mapData)){
         $lat = $mapData[0]->diagnostic_lat;
         $lang = $mapData[0]->diagnostic_long;
@@ -70,6 +74,15 @@ if($current != 'detailDiagnostic'):?>
     ?>
     
   <script>
+      
+       $('.select2').select2().change(function(){
+            $(this).valid()
+       });
+       
+     $(".bs-select").select2({placeholder: "Select a Speciality",
+        allowClear: true
+    });
+    
 
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 18,
@@ -195,7 +208,7 @@ if($current != 'detailDiagnostic'):?>
 //        width: "100%"
 //    });
 
-       $(".select2").select2();
+    //   $(".select2").select2();
     
     function fetchCity(stateId) {
         $.ajax({
@@ -684,7 +697,7 @@ if($current != 'detailDiagnostic'):?>
         $('#list5').load(urls + 'index.php/diagnostic/diagnosticAllocatedSpecialities/'+diagnosticId,function () {
            // alert('callback function implementation');
         });
-    
+        
     } 
     
      function addSpeciality(diagnoUserId){
@@ -2717,9 +2730,7 @@ function imageIsLoaded(e) {
         }
 
     });
- $('.select2').select2().change(function(){
-    $(this).valid()
-});
+
  
 });
 </script>
@@ -2909,9 +2920,7 @@ function imageIsLoaded(e) {
         }
 
     });
- $('.select2').select2().change(function(){
-    $(this).valid()
-});
+
  
 });
 </script>

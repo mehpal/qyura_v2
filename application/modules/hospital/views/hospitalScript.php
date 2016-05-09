@@ -97,6 +97,10 @@ if (isset($mapData) && !empty($mapData)) {
     </script>
 <?php } ?>
 <script>
+    
+    
+    
+    
 
     function checkValidFileUploads(urls) {
 
@@ -335,18 +339,20 @@ if (isset($mapData) && !empty($mapData)) {
 
         loadAwards();
         loadServices();
-        var pharmacy_status = '';
-        pharmacy_status = $.trim($('#pharmacy_status').val());
-        var bloodbank_status = '';
-        bloodbank_status = $.trim($('#bloodbank_status').val());
-        if (bloodbank_status != '')
-            $("#bloodbankbtn").trigger("click");
-        if (pharmacy_status != '')
-            $("#pharmacybtn").trigger("click");
-        var ambulance_status = '';
-        ambulance_status = $.trim($('#ambulance_status').val());
-        if (ambulance_status != '')
-            $("#ambulancebtn").trigger("click");
+        
+      //  var pharmacy_status = '';
+     //   pharmacy_status = $.trim($('#pharmacy_status').val());
+     //   var bloodbank_status = '';
+    //    bloodbank_status = $.trim($('#bloodbank_status').val());
+        
+     //   if (bloodbank_status != '')
+      //      $("#bloodbankbtn").trigger("click");
+   //     if (pharmacy_status != '')
+      //      $("#pharmacybtn").trigger("click");
+    //    var ambulance_status = '';
+   //     ambulance_status = $.trim($('#ambulance_status').val());
+     //   if (ambulance_status != '')
+   //         $("#ambulancebtn").trigger("click");
 
         loadSpeciality();
         loadDiagonastic();
@@ -571,6 +577,7 @@ if (isset($mapData) && !empty($mapData)) {
                         obj[el.id] = $(el).index();
                     });
                     var order = $(this).sortable('serialize');
+                    //alert(order);
 
                     var url = "<?php echo site_url('hospital/hospitalSpecialitiesOrder') ?>";
                     $.ajax({type: "POST", async: false, url: url, data: obj, beforeSend: function (xhr) {
@@ -2644,10 +2651,34 @@ if (isset($mapData) && !empty($mapData)) {
         }
 
     });
- $('.select2').select2().change(function(){
+});
+
+
+
+
+
+
+$('.select2').select2().change(function(){
     $(this).valid()
 });
- 
+
+$(document).ready(function () {
+    $("#bloodbankbtn , #bloodbank").click(function () {
+       if($(this).is(':checked')){
+        bootbox.confirm("Do you outsource the blood?", function(result) {
+           if (result) {
+               $('#isBloodBankOutsource').val(1);
+               $("#bloodbankdetail").fadeIn();
+           }else{
+               $("#bloodbankdetail").fadeOut();
+               $('#isBloodBankOutsource').val(0);
+           }
+         });
+       }else{
+           $("#bloodbankdetail").fadeOut();
+           $('#isBloodBankOutsource').val(0);
+       }
+   });
 });
 </script>
 </body>

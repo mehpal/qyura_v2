@@ -1003,7 +1003,7 @@ class Hospital extends MY_Controller {
                 'hospital_long' => $hospital_long,
                 'modifyTime' => strtotime(date("Y-m-d H:i:s")),
                 'hospital_dsgn' => $this->input->post('hospital_dsgn'),
-                
+                'isBloodBankOutsource' => $isBloodBankOutsource,
                 'availibility_24_7' => $availibility_24_7,
                 'hasBloodbank' => $bloodbank_chk,
                 'hasPharmacy' => $hasPharmacy,
@@ -1461,6 +1461,7 @@ class Hospital extends MY_Controller {
 
     function hospitalSpecialitiesOrder()
     {
+        dump($_POST); exit;
         if(!empty($_POST))
             {
                 $count=0;
@@ -1470,6 +1471,8 @@ class Hospital extends MY_Controller {
                     $hospitalSpecialitiesData = array('hospitalSpecialities_orderForHos'=>$order);
                     $con = array('hospitalSpecialities_id'=>$hospitalSpecialities_id);
                     $return = $this->Hospital_model->UpdateTableData($hospitalSpecialitiesData, $con, 'qyura_hospitalSpecialities');
+                    
+                    echo $this->db->last_query(); exit;
                     
                     if($return)
                         $count++;
