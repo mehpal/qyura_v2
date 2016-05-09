@@ -341,13 +341,11 @@ $("#pharmacybtn").click(function () {
     $("#pharmacydetail").fadeToggle();
 });
 
-$("#bloodbankbtn").click(function () {
-    $("#bloodbankdetail").fadeToggle();
-});
 
 $("#ambulancebtn").click(function () {
     $("#ambulancedetail").fadeToggle();
 });
+
 
 /* -- Upload Button -- 
 

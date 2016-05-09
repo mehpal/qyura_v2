@@ -189,13 +189,6 @@
         });
     });
 
-    $(".select2").select2({
-        width: '100%'
-    });
-
-    $(".bs-select").select2({placeholder: "Select a Speciality",
-        allowClear: true
-    });
 
 </script>
 <script>
