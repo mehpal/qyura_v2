@@ -30,7 +30,7 @@ class EmergencyServicesApi extends MyRest {
             
             $lat = isset($_POST['lat']) ? $_POST['lat'] : '';
             $long = isset($_POST['long']) ? $_POST['long'] : '';      
-            $search = isset($_POST['q']) ? $_POST['q'] : '';
+            $search = isset($_POST['search']) ? $_POST['search'] : '';
             $notIn = isset($_POST['notin']) ? $_POST['notin'] : '';
             
             //city
@@ -39,7 +39,7 @@ class EmergencyServicesApi extends MyRest {
             if($emergencyType == 1){
     
               $response['ambulance'] =  $this->emergency_model->getAmbulanceList($lat,$long,$notIn,$cityId);
-              $response['aoClumns'] =  array("id","name","phn","docOnBoard","openingHours","closingHours","allTime");
+              $response['aoClumns'] =  array("id","name","phn","docOnBoard","openingHours","closingHours","allTime","address","distance");
               
               if($response['ambulance']){
                 $response['status'] = TRUE;
