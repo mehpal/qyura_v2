@@ -191,42 +191,31 @@ CASE
         }
     }
 
-      public function getDoctorTimeSlot($doctorId, $lat, $long) {
-        
+    public function getDoctorTimeSlot($doctorId, $lat, $long) {
+
         $todayWeek = getDay(date("l"));
-        
-        $this->db->select('docTimeTable_doctorId doctorId, docTimeTable_price as fee, '
-                . 'CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_name ELSE  CASE WHEN (docTimeTable_MItype = 1) THEN hospital_name WHEN (docTimeTable_MItype = 2) THEN diagnostic_name ELSE "" END END AS name, '
-                . 'CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_lat ELSE (CASE WHEN (docTimeTable_MItype = 1) THEN hospital_lat WHEN (docTimeTable_MItype = 2) THEN diagnostic_lat ELSE "" END) END AS lat,'
-                . ' CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_lat ELSE (CASE WHEN (docTimeTable_MItype = 1) THEN hospital_lat WHEN (docTimeTable_MItype = 2) THEN diagnostic_lat ELSE "" END) END  AS lng, '
-                . 'CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_name ELSE ( CASE WHEN (docTimeTable_MItype = 1) THEN hospital_name WHEN (docTimeTable_MItype = 2) THEN diagnostic_name ELSE "" END) END AS name, '
-                . '( 6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_lat ELSE  CASE WHEN (docTimeTable_MItype = 1) THEN hospital_lat WHEN (docTimeTable_MItype = 2) THEN diagnostic_lat ELSE "" END END  ) ) * cos( radians( CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_long ELSE  CASE WHEN (docTimeTable_MItype = 1) THEN hospital_long WHEN (docTimeTable_MItype = 2) THEN diagnostic_long ELSE "" END END  )  ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_lat ELSE  CASE WHEN (docTimeTable_MItype = 1) THEN hospital_lat WHEN (docTimeTable_MItype = 2) THEN diagnostic_lat ELSE "" END END  ))) AS distance, ')
-                
-                ->from('qyura_docTimeTable') 
-                ->join("qyura_hospital", "qyura_hospital.hospital_id = qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_MItype = 1 AND hospital_deleted = 0 ","left") 
-                 
-                ->join("qyura_diagnostic", "qyura_diagnostic.diagnostic_id = qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_MItype = 2 AND diagnostic_deleted = 0 ","left") 
-                
-                ->join("qyura_psChamber", "qyura_psChamber.psChamber_id = qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 0 AND diagnostic_deleted = 0 ","left") 
-                
+
+        $this->db->select('docTimeTable_id as id, docTimeTable_doctorId doctorId, docTimeTable_price as fee, '
+                        . 'CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_name ELSE  CASE WHEN (docTimeTable_MItype = 1) THEN hospital_name WHEN (docTimeTable_MItype = 2) THEN diagnostic_name ELSE "" END END AS name, '
+                        . 'CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_lat ELSE (CASE WHEN (docTimeTable_MItype = 1) THEN hospital_lat WHEN (docTimeTable_MItype = 2) THEN diagnostic_lat ELSE "" END) END AS lat,'
+                        . ' CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_long ELSE (CASE WHEN (docTimeTable_MItype = 1) THEN hospital_long WHEN (docTimeTable_MItype = 2) THEN diagnostic_long ELSE "" END) END  AS lng, '
+                        . 'CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_name ELSE ( CASE WHEN (docTimeTable_MItype = 1) THEN hospital_name WHEN (docTimeTable_MItype = 2) THEN diagnostic_name ELSE "" END) END AS name, '
+                        . '( 6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_lat ELSE  CASE WHEN (docTimeTable_MItype = 1) THEN hospital_lat WHEN (docTimeTable_MItype = 2) THEN diagnostic_lat ELSE "" END END  ) ) * cos( radians( CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_long ELSE  CASE WHEN (docTimeTable_MItype = 1) THEN hospital_long WHEN (docTimeTable_MItype = 2) THEN diagnostic_long ELSE "" END END )) - radians(' . $long . ')) + sin( radians( ' . $lat . ' ) ) * sin( radians( CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_lat ELSE  CASE WHEN (docTimeTable_MItype = 1) THEN hospital_lat WHEN (docTimeTable_MItype = 2) THEN diagnostic_lat ELSE "" END END ))) AS distance, ')
+                ->from('qyura_docTimeTable')
+                ->join("qyura_hospital", "qyura_hospital.hospital_id = qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_MItype = 1 AND hospital_deleted = 0 ", "left")
+                ->join("qyura_diagnostic", "qyura_diagnostic.diagnostic_id = qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_MItype = 2 AND diagnostic_deleted = 0 ", "left")
+                ->join("qyura_psChamber", "qyura_psChamber.psChamber_id = qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 0 AND diagnostic_deleted = 0 ", "left")
                 ->where(array('qyura_docTimeTable.docTimeTable_doctorId' => $doctorId, 'qyura_docTimeTable.status' => 0));
 
         $response = $this->db->get()->result();
         $finalResult = array();
-<<<<<<< HEAD
         if (!empty($response)) {
             foreach ($response as $row) {
+//                dump($row);
                 $finalTemp = array();
-                $day = convertNumberToDay(date($row->day));
-               // $finalResult[$day] = $this->getDoctorSession($row->id);
-=======
-        if (!empty($response)) {                             
-            foreach ($response as $row) {
-                dump($row);
-                $finalTemp = array();
-                $day = convertNumberToDay(date($row->day));
-                $finalResult[$day] = $this->getDoctorSession($row->id);
->>>>>>> d7e510f778608e479d2978f714d479291edfaf46
+                $finalTemp['name'] = $row->name;
+                $finalTemp['slot'] = $this->getDoctorSession($row->id);
+                $finalResult[] = $finalTemp;
             }
             return $finalResult;
         } else {
@@ -234,14 +223,42 @@ CASE
         }
     }
 
-    
-    
+    public function getDoctorSession($id) {
+
+        $this->db->select('docTimeDay_id, docTimeDay_day day, docTimeDay_open as open, docTimeDay_close,  ')
+                ->from('qyura_docTimeDay')
+                ->join('qyura_docTimeTable', 'qyura_docTimeTable.docTimeTable_id=qyura_docTimeDay.docTimeDay_docTimeTableId', 'left')
+                ->where(array('docTimeDay_docTimeTableId' => $id, "docTimeDay_deleted" => 0))
+                ->order_by("docTimeDay_day","DESC");
+
+        return $response = $this->db->get()->result();
+        $finalResult = array();
+        if (!empty($response)) {
+            foreach ($response as $row) {
+                $finalTemp = array();
+                $finalTemp['sessionid'] = isset($row->doctorAvailabilitySession_id) ? $row->doctorAvailabilitySession_id : "";
+                $finalTemp['id'] = isset($row->id) && $row->id != '' ? $row->id : '';
+                $finalTemp['type'] = isset($row->type) && $row->type ? $row->type : '';
+                $finalTemp['name'] = isset($row->name) && $row->name != '' ? $row->name : '';
+                $finalTemp['start'] = isset($row->start) ? $row->start : "";
+                $finalTemp['end'] = isset($row->end) ? $row->end : "";
+                $finalTemp['lat'] = isset($row->lat) && $row->lat != '' ? $row->lat : '';
+                $finalTemp['long'] = isset($row->lng) && $row->lng != '' ? $row->lng : '';
+                $finalTemp['session'] = isset($row->session) ? getDoctorAvailibilitySession($row->session) : "";
+                $finalResult[] = $finalTemp;
+            }
+            return $finalResult;
+        } else {
+            return $finalResult;
+        }
+    }
+
     public function getHosDiagonDetail($doctorUserId) {
-        
+
         $todayWeek = getDay(date("l"));
-        
+
         $this->db->select('doctorAvailability_id id, doctorAvailability_day day')
-                ->from('qyura_doctorAvailability') 
+                ->from('qyura_doctorAvailability')
                 ->where(array('qyura_doctorAvailability.doctorAvailability_docUsersId' => $doctorUserId, 'doctorAvailability_deleted' => 0))
                 ->order_by('day', 'ASC');
 
@@ -259,8 +276,6 @@ CASE
         }
     }
 
-    
-    
     public function getDoctorNumReviews($docUserId) {
         $sql = "SELECT COUNT('reviews_id') as reviews
                 FROM `qyura_reviews`
@@ -287,39 +302,6 @@ CASE
                 $finalTemp['name'] = isset($row->name) && $row->name != '' ? $row->name : '';
                 $finalTemp['img'] = isset($row->img) ? 'assets/patientImages/' . $row->img : '';
                 $finalTemp['detail'] = isset($row->reviews) && $row->reviews != '' ? substr($row->reviews, 0, 200) : '';
-                $finalResult[] = $finalTemp;
-            }
-            return $finalResult;
-        } else {
-            return $finalResult;
-        }
-    }
-
-    public function getDoctorSession($id) {
-
-        $this->db->select('doctorAvailabilitySession_id, IFNULL(hospital_name, diagnostic_name) as name, IFNULL(hospital_id, diagnostic_id) id,  doctorAvailabilitySession_start as start, doctorAvailabilitySession_end as end, doctorAvailabilitySession_type as session, IFNULL(hospital_lat, diagnostic_lat) lat, IFNULL(hospital_long, diagnostic_long) lng, (CASE hospital_id WHEN hospital_id <> 0 then "Hospital" ELSE "Diagno" end) as type ')
-                ->from('qyura_doctorAvailabilitySession')
-                ->join('qyura_hospital', 'qyura_hospital.hospital_usersId=qyura_doctorAvailabilitySession.doctorAvailability_refferalId', 'left')
-                ->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_usersId=qyura_doctorAvailabilitySession.doctorAvailability_refferalId', 'left')
-                // ->where(array('qyura_doctorAvailability.doctorAvailability_docUsersId' => $doctorUserId, 'qyura_doctorAvailability.doctorAvailability_day' => $todayWeek));
-                ->where(array('doctorAvailability_doctorAvailabilityId' => $id));
-
-        // $row = $this->db->get()->row();
-        $response = $this->db->get()->result();
-        // echo $this->db->last_query(); die();
-        $finalResult = array();
-        if (!empty($response)) {
-            foreach ($response as $row) {
-                $finalTemp = array();
-                $finalTemp['sessionid'] = isset($row->doctorAvailabilitySession_id) ? $row->doctorAvailabilitySession_id : "";
-                $finalTemp['id'] = isset($row->id) && $row->id != '' ? $row->id : '';
-                $finalTemp['type'] = isset($row->type) && $row->type ? $row->type : '';
-                $finalTemp['name'] = isset($row->name) && $row->name != '' ? $row->name : '';
-                $finalTemp['start'] = isset($row->start) ? $row->start : "";
-                $finalTemp['end'] = isset($row->end) ? $row->end : "";
-                $finalTemp['lat'] = isset($row->lat) && $row->lat != '' ? $row->lat : '';
-                $finalTemp['long'] = isset($row->lng) && $row->lng != '' ? $row->lng : '';
-                $finalTemp['session'] = isset($row->session) ? getDoctorAvailibilitySession($row->session) : "";
                 $finalResult[] = $finalTemp;
             }
             return $finalResult;

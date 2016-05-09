@@ -235,8 +235,7 @@ CASE
     }
 
     public function getHosDoctors($hospitalId, $hospitalUsersId, $limit = NULL) {
-        
-        $this->db->select('doctors_id, CONCAT("assets/doctorsImages/thumb/original","/",doctors_img) as doctors_img, doctors_fName, doctors_lName');
+        $this->db->select('doctors_id, CONCAT("assets/doctorsImages/thumb/thumb_100","/",doctors_img) as doctors_img, doctors_fName, doctors_lName');
         $this->db->from('qyura_doctors');
         // $this->db->join('qyura_doctors','qyura_doctors.doctors_userId = qyura_usersRoles.usersRoles_userId','left');
         $this->db->where(array('qyura_doctors.doctors_parentId' => $hospitalUsersId, 'qyura_doctors.doctors_roll' => ROLE_DOCTORE_CHILD));
@@ -292,7 +291,6 @@ CASE
     // mi time slot
 
     public function miTimeSlot($hospitalUserId) {
-        
         $this->db->select('(CASE WHEN (openingHours is NULL) THEN 0 ELSE openingHours END) AS openingHours , (CASE WHEN (closingHours is NULL) THEN 0 ELSE closingHours END) AS closingHours');
         $this->db->from('qyura_miTimeSlot');
         $this->db->where(array('deleted' => 0, 'status' => 1, 'mi_user_id' => $hospitalUserId, 'hourLabel' => date("l")));
