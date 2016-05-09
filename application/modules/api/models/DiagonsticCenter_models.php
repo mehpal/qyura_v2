@@ -10,7 +10,7 @@
         $long = isset($long) ? $long : '';
         $notIn = isset($notIn) ? $notIn : '';
 
-        $where = array('diagnostic_deleted' => 0, 'usersRoles_roleId' => ROLE_DIAGNOSTICS);
+        $where = array('diagnostic_deleted' => 0, 'usersRoles_roleId' => ROLE_DIAGNOSTICS, 'qyura_diagnostic.status' => 1);
 
         
         if ($rating != '' && $rating != NULL && $rating != 0) {
@@ -29,7 +29,7 @@
             $having['isConsulting !='] = 0;
         }
 
-        $this->db->select('diagnostic_usersId userId,qyura_diagnostic.diagnostic_id as id, (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, diagnostic_deleted as rat, diagnostic_address adr,diagnostic_name name,diagnostic_phn phn, diagnostic_lat lat, diagnostic_long long, qyura_diagnostic.modifyTime upTm, diagnostic_img imUrl, (
+        $this->db->select('diagnostic_usersId userId,qyura_diagnostic.diagnostic_id as id, (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, diagnostic_deleted as rat, diagnostic_address adr,diagnostic_name name, CONCAT("0","",diagnostic_phn) as  phn, diagnostic_lat lat, diagnostic_long long, qyura_diagnostic.modifyTime upTm, diagnostic_img imUrl, (
      6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( diagnostic_lat ) ) * cos( radians( diagnostic_long ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( diagnostic_lat ) ) )
      ) AS distance, ' . $healtPkg . ', ' . $isConsun . ',   Group_concat(DISTINCT qyura_diagnosticsCat.diagnosticsCat_catName order by diagnosticsCat_catName ) as diaCat
      ,(
@@ -115,11 +115,11 @@ CASE
                 $finalTemp[] = isset($row->phn) ? $row->phn : "";
                 $finalTemp[] = isset($row->lat) ? $row->lat : "";
                 $finalTemp[] = isset($row->long) ? $row->long : "";
-                $finalTemp[] = isset($row->upTm) ? $row->upTm : "";
-                $finalTemp[] = isset($row->imUrl) && $row->imUrl != '' ? 'assets/diagnosticsImage/' . $row->imUrl : "";
+              //  $finalTemp[] = isset($row->upTm) ? $row->upTm : "";
+                $finalTemp[] = isset($row->imUrl) && $row->imUrl != '' ? 'assets/diagnosticsImage/thumb/original/' . $row->imUrl : "";
                 $finalTemp[] = isset($row->diaCat) ? $row->diaCat : "";
-                $finalTemp[] = isset($row->isHealtPkg) && $row->isHealtPkg > 0 ? 1 : 0;
-                $finalTemp[] = isset($row->isConsulting) && $row->isConsulting > 0 ? 1 : 0;
+                $finalTemp[] = isset($row->isHealtPkg) && $row->isHealtPkg > 0 ? "1" : "0";
+                $finalTemp[] = isset($row->isConsulting) && $row->isConsulting > 0 ? "1" : "0";
                 $finalTemp[] = isset($row->userId) ? $row->userId : "";
                 $finalResult[] = $finalTemp;
             }
@@ -131,16 +131,17 @@ CASE
 
     function diagonstic_Details($diaUsrId) {
 
-        $this->db->select('diagnostic_id,diagnostic_usersId,diagnostic_address, diagnostic_lat, diagnostic_long, diagnostic_aboutUs, diagnostic_phn as diagnostic_mblNo, CONCAT("assets/diagnosticsImage","/",diagnostic_img) as img');
+        $this->db->select('diagnostic_id,diagnostic_usersId,diagnostic_address, diagnostic_lat, diagnostic_long, diagnostic_aboutUs, CONCAT("0","",diagnostic_phn) as diagnostic_mblNo, CONCAT("assets/diagnosticsImage/thumb/original","/",diagnostic_img) as img');
         $this->db->from('qyura_diagnostic');
         $this->db->where(array('diagnostic_id' => $diaUsrId, 'diagnostic_deleted' => 0));
         return $this->db->get()->row();
     }
 
     public function getDiagAwards($diagnosticId, $limit = NULL) {
-        $this->db->select('diagnosticAwards_id as awards_id,diagnosticAwards_awardsName name,diagnosticAwards_awardYear year, CASE  WHEN (qyura_diagnosticAwards.modifyTime is NULL) THEN qyura_diagnosticAwards.creationTime ELSE qyura_diagnosticAwards.modifyTime END  as modifyTime ');
+        $this->db->select('diagnosticAwards_id as awards_id,diagnosticAwards_awardsName name,diagnosticAwards_awardYear year, CASE  WHEN (qyura_diagnosticAwards.modifyTime is NULL) THEN qyura_diagnosticAwards.creationTime ELSE qyura_diagnosticAwards.modifyTime END  as modifyTime, agency_name ');
         $this->db->from('qyura_diagnosticAwards');
         $this->db->join('qyura_awards', 'qyura_awards.awards_id = qyura_diagnosticAwards.diagnosticAwards_awardsId', 'left');
+        $this->db->join('qyura_awardAgency','qyura_awardAgency.awardAgency_id = qyura_diagnosticAwards.diagnosticAwards_awardsAgency ','left');
         $this->db->where(array('diagnosticAwards_diagnosticId' => $diagnosticId, 'diagnosticAwards_deleted' => 0));
         $this->db->group_by('diagnosticAwards_id');
         $this->db->order_by('diagnosticAwards_awardYear',"DESC");
@@ -179,8 +180,9 @@ CASE
 
     function diagnosticSpecialities_Details($diagnosticId, $limit = NULL) {
 
-        $this->db->select('qyura_specialities.specialities_name AS specialitiesName,qyura_diagnosticSpecialities.diagnosticSpecialities_id');
+        $this->db->select('Group_concat(DISTINCT (CASE diagnostic_specialityNameFormate WHEN 1 THEN qyura_specialities.specialities_drName WHEN 0 THEN qyura_specialities.specialities_name END) order by qyura_specialities.specialities_name SEPARATOR ", ") as specialitiesName, qyura_diagnosticSpecialities.diagnosticSpecialities_id');
         $this->db->from('qyura_diagnosticSpecialities');
+        $this->db->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_id = qyura_diagnosticSpecialities.diagnosticSpecialities_diagnosticId', 'left');
         $this->db->join('qyura_specialities', 'qyura_specialities.specialities_id = qyura_diagnosticSpecialities.diagnosticSpecialities_specialitiesId', 'left');
         $this->db->where(array('qyura_diagnosticSpecialities.diagnosticSpecialities_diagnosticId' => $diagnosticId, 'qyura_diagnosticSpecialities.diagnosticSpecialities_deleted' => 0,
             'qyura_specialities.specialities_deleted' => 0));
@@ -298,6 +300,16 @@ CASE
         $this->db->group_by('healthPackage_id');
         return $this->db->get()->result();
         
+    }
+    
+        // mi time slot
+    
+    public function miTimeSlot($userId)
+    {
+        $this->db->select('openingHours, closingHours');
+        $this->db->from('qyura_miTimeSlot');
+        $this->db->where(array('deleted'=>0, 'status' => 1, 'mi_user_id' => $userId, 'hourLabel' => date("l")));
+        return $this->db->get()->row();
     }
 
 }
