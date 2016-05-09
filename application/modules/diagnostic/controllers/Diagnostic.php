@@ -2190,12 +2190,14 @@ class Diagnostic extends MY_Controller {
         } else {
            
             $imagesname = '';
-            if ($_FILES['avatar_file']['name']) {
+            if ($_FILES['doctor_photo']['name']) {
                 $path = realpath(FCPATH . 'assets/doctorsImages/');
-                $upload_data = $this->input->post('avatar_data');
+                $upload_data = $this->input->post('avatar_data_doctor');
                 $upload_data = json_decode($upload_data);
                 
-                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/doctorsImages/', './assets/doctorsImages/thumb/', 'doctor');
+                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'doctor_photo', $path, 'assets/doctorsImages/', './assets/doctorsImages/thumb/', 'doctor');
+                
+             //   dump($original_imagesname); exit;
 
                 if (empty($original_imagesname)) {
                         $data = array();
@@ -2266,7 +2268,7 @@ class Diagnostic extends MY_Controller {
             
             $doctorsProfileId = $this->Doctor_model->insertDoctorData($doctorsinserData, 'qyura_doctors');
             
-            //dump($this->db->last_query());
+          //  dump($this->db->last_query()); exit;
             $specialitiesIds = $this->input->post('doctorSpecialities_specialitiesId');
 
             foreach ($specialitiesIds as $key => $val) {
@@ -2856,6 +2858,56 @@ class Diagnostic extends MY_Controller {
             $data['hospitalData'] = $this->Hospital_model->fetchHospitalData($id);
             //  print_r($data); exit;
             echo "<img src='" . base_url() . "assets/BloodBank/thumb/original/" . $data['hospitalData'][0]->bloodBank_photo . "'alt='' class='logo-img-bloodbank' />";
+            exit();
+        }
+    }
+    
+    
+     function editUploadImageDoctor() {
+        
+        if ($_POST['avatar_file']['name']) {
+            $path = realpath(FCPATH . 'assets/doctorsImages/');
+            $upload_data = $this->input->post('avatar-data');
+            
+            $upload_data = json_decode($upload_data);
+           // dump($upload_data); exit;
+            if ($upload_data->width > 425) {
+                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/doctorsImages/', './assets/doctorsImages/thumb/', 'doctor');
+
+                if (empty($original_imagesname)) {
+                    $response = array('state' => 400, 'message' => $this->error_message);
+                } else {
+
+                    $option = array(
+                        'doctors_img' => $original_imagesname,
+                        'modifyTime' => strtotime(date("Y-m-d H:i:s"))
+                    );
+                    $where = array(
+                        'doctors_id' => $this->input->post('avatar_id')
+                    );
+                    $response = $this->Hospital_model->UpdateTableData($option, $where, 'qyura_doctors');
+                    
+                    if ($response) {
+                        $response = array('state' => 200, 'message' => 'Successfully update avtar','image'=>base_url("assets/doctorsImages/thumb/thumb_100/{$original_imagesname}"),'reset'=>"doctor_edit", 'returnClass'  => 'logo-img-doctor');
+                    } else {
+                        $response = array('state' => 400, 'message' => 'Failed to update avtar');
+                    }
+                }
+            } else {
+                $response = array('state' => 400, 'message' => 'Height and Width must exceed 150px.');
+            }
+            echo json_encode($response);
+        } else {
+            $response = array('state' => 400, 'message' => 'Please select avtar');
+            echo json_encode($response);
+        }
+    }
+    
+     function getUpdateAvtarDoctor($id) {
+        if (!empty($id)) {
+            $data['doctorData'] = $this->Hospital_model->getDoctorDeatil($id);
+            //  print_r($data); exit;
+            echo "<img src='" . base_url() . "assets/doctorsImages/thumb/original/" . $data['doctorData'][0]->doctors_img . "'alt='' class='logo-img-doctor' />";
             exit();
         }
     }

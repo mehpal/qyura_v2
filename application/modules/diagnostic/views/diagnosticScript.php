@@ -32,18 +32,14 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
 <script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
 
-<?php $current = $this->router->fetch_method();
-if($current != 'detailDiagnostic'):?>
+<?php // //$current = $this->router->fetch_method();
+//if($current != 'detailDiagnostic'):?>
 <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
-<?php else:?>
+<?php //else:?>
 
 <script src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
 
-    <script src="<?php echo base_url(); ?>assets/cropper/doctor_cropper.js"></script>
-
-    <script src="<?php echo base_url(); ?>assets/cropper/edit_doctor_cropper.js"></script>
-
-<?php endif;?>
+<?php// endif;?>
 
 <script src="<?php echo base_url();?>assets/vendor/timepicker/bootstrap-timepicker.min.js"></script>
 <!--<script src="<?php echo base_url();?>assets/js/angular.min.js"></script>-->
@@ -2541,6 +2537,15 @@ function imageIsLoaded(e) {
             $(".logo-up-bloodbank").toggle();
             $(".picEdit-bloodbank").toggle();
             $(".picEditClose-bloodbank").toggle();
+        });
+        
+        
+          $(".doctor_edit").click(function () {
+           
+            $(".logo-img-doctor").toggle();
+            $(".logo-up-doctor").toggle();
+            $(".picEdit-doctor").toggle();
+            $(".picEditClose-doctor").toggle();
         });
         
 </script>

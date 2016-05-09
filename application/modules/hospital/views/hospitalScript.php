@@ -27,18 +27,16 @@ if (isset($hospitalId) && !empty($hospitalId)) {
 
 
 <?php
-$current = $this->router->fetch_method();
-if ($current != 'detailHospital'):
+//$current = $this->router->fetch_method();
+//if ($current != 'detailHospital'):
     ?>
     <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
-<?php else: ?>
+<?php //else: ?>
     <!--    <script src="<?php echo base_url(); ?>assets/cropper/main2.js"></script>-->
     <script src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
 
-    <script src="<?php echo base_url(); ?>assets/cropper/doctor_cropper.js"></script>
 
-    <script src="<?php echo base_url(); ?>assets/cropper/edit_doctor_cropper.js"></script>
-<?php endif; ?>
+<?php //endif; ?>
 
 
 <script src="<?php echo base_url(); ?>assets/js/reCopy.js"></script>
@@ -285,6 +283,14 @@ if (isset($mapData) && !empty($mapData)) {
             $(".picEditClose-bloodbank").toggle();
         });
     
+    
+    $(".doctor_edit").click(function () {
+           
+            $(".logo-img-doctor").toggle();
+            $(".logo-up-doctor").toggle();
+            $(".picEdit-doctor").toggle();
+            $(".picEditClose-doctor").toggle();
+        });
     
 
     
