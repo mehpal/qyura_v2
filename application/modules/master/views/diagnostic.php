@@ -45,8 +45,8 @@
                                         <span class="col-md-4">
                                             <h6 class="pull-right">
                                                 <a class="btn btn-success waves-effect waves-light m-b-5 m-r-10" href="<?php echo site_url('master/editDiagnosticsView/' . $val->diagnosticsCat_catId); ?>"><i class="fa fa-pencil"></i></a>
+                                                <button onclick="if((<?php echo $val->status; ?>)===0)enableFn('master', 'diagSpecPublish', '<?php echo $val->diagnosticsCat_catId; ?>','<?php echo $val->status; ?>')" type="button" class="btn btn-<?php if($val->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($val->status == 0){ echo "Inactive"; }else if($val->status == 1){ echo "Active"; } ?></button>
                                                 
-                                                <button onclick="if((<?php echo $val->status; ?>)===2)enableFn('master', 'diagSpecPublish', '<?php echo $val->diagnosticsCat_catId; ?>','<?php echo $val->status; ?>')" type="button" class="btn btn-<?php if($val->status == 2){ echo "danger"; }else if($val->status == 0){ echo "warning"; }else if($val->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($val->status == 3){ echo "Verified"; }else if($val->status == 2){ echo "Unverified"; }else if($val->status == 1){ echo "Active"; }else if($val->status == 0){ echo "Inactive"; } ?></button>
                                             </h6>
                                         </span>
                                     </li>
@@ -71,7 +71,7 @@
                                 <article class="clearfix m-t-10">
                                     <label for="" class="control-label">Diagnostic :</label>
                                     <div class="">
-                                        <input class="form-control m-t-5" id="diagnosticName" type="text" name="diagnosticName" required="" value="<?php echo set_value('diagnosticName'); ?>">
+                                        <input class="form-control m-t-5" id="diagnosticName" type="text" name="diagnosticName" required="" value="<?php echo set_value('diagnosticName'); ?>" onkeypress="return isAlpha(event,this.value)">
                                         <label class="error" id="err_diagnosticName" > <?php echo form_error("diagnosticName"); ?></label>
                                     </div>
                                 </article>
