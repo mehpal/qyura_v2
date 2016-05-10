@@ -71,8 +71,8 @@
                                 <article class="clearfix m-t-10">
                                     
                                     <div id="upload_modal_form">
-<?php $this->load->view('upload_crop_modal'); ?>
-                        </div>
+                                        <?php $this->load->view('upload_crop_modal'); ?>
+                                    </div>
                                     <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
 
                                     <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
@@ -85,7 +85,7 @@
 
                                             </div>
                                         </div>
-
+                                        <div id="error-label" class="error-label"></div>
                                         <label class="error" > <?php echo form_error("avatar_file"); ?></label>
                                         <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>                     
 
@@ -96,7 +96,7 @@
                                 <article class="clearfix m-t-10">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Address:</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <select class="selectpicker form-control" data-width="100%" name="diagnostic_countryId" id="diagnostic_countryId" <?php if (isset($diagno_id) && $diagno_id != 0) {
+                                        <select class="form-control selectpicker" data-width="100%" name="diagnostic_countryId" id="diagnostic_countryId" <?php if (isset($diagno_id) && $diagno_id != 0) {
     echo 'disabled';
 } ?>>
                                             <option value=''>Select Country</option>
@@ -110,13 +110,13 @@
 
                                 <article class="clearfix">
                                     <div class="col-md-8  col-sm-8 col-sm-offset-4">
-                                        <select class="selectpicker form-control" data-width="100%" name="diagnostic_stateId" id="diagnostic_stateId" data-size="4" onchange ="fetchCity(this.value)" <?php if (isset($diagno_id) && $diagno_id != 0) {
+                                        <select class="form-control selectpicker" data-width="100%" name="diagnostic_stateId" id="diagnostic_stateId" data-size="4" onchange ="fetchCity(this.value)" <?php if (isset($diagno_id) && $diagno_id != 0) {
                                                 echo 'disabled';
                                             } ?>>
 
                                             <option value="">Select State</option>
                                             <?php foreach ($allStates as $key => $val) { ?>
-                                                <option selected="selected" value="<?php echo $val->state_id; ?>" ><?php echo $val->state_statename; ?></option>
+                                                <option  value="<?php echo $val->state_id; ?>" ><?php echo $val->state_statename; ?></option>
                                             <?php } ?>
                                         </select>
                                         <label class="error" style="display:none;" id="error-diagnostic_stateId"> please select a state</label>
@@ -126,7 +126,7 @@
 
                                 <article class="clearfix">
                                     <div class="col-md-8  col-sm-8 col-sm-offset-4">
-                                        <select class="selectpicker form-control" data-width="100%" name="diagnostic_cityId" id="diagnostic_cityId" data-size="4" <?php if (isset($diagno_id) && $diagno_id != 0) {
+                                        <select class="form-control selectpicker" data-width="100%" name="diagnostic_cityId" id="diagnostic_cityId" data-size="4" <?php if (isset($diagno_id) && $diagno_id != 0) {
                                                 echo 'disabled';
                                             } ?>>
                                             <option value="">Select City</option>
@@ -301,6 +301,7 @@
                                                             </div>
                                                         </div>
 
+
                                                         <label class="error" > <?php echo form_error("avatar_file"); ?></label>
                                                         <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
 
@@ -390,7 +391,7 @@
 
                                                             </div>
                                                         </div>
-
+                                                         
                                                         <label class="error" > <?php echo form_error("avatar_file"); ?></label>
                                                         <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
 
@@ -591,13 +592,13 @@
 
                             <!-- Account Detail Section End -->
 
-                        </div>
+                        
                         
                     </section>
                     <section class="clearfix ">
                         <div class="col-md-12 m-t-20 m-b-20">
                             <button type="reset" class="btn btn-danger waves-effect pull-right" type="button">Reset</button>
-                            <input class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return validationDiagnostic()" value="Submit" />
+                            <input class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" value="Submit" />
                         </div>
 
                     </section>

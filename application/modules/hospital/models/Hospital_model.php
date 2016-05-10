@@ -505,7 +505,7 @@ class Hospital_model extends My_model {
 
         $this->datatables->add_column('doctors_img', '<img class="img-responsive" height="80px;" width="80px;" src=' . $imgUrl . '>', 'doctors_img');
 
-        $this->datatables->add_column('view', '<a class="btn btn-info waves-effect waves-light m-b-5 applist-btn" href=' .$doctorUrl. '>Edit Detail</a>', 'doctors_id,hospital_id');
+        $this->datatables->add_column('view', '<a class="btn btn-info waves-effect waves-light m-b-5 applist-btn" href=' .$doctorUrl. '>Edit Detail</a>', 'id,hospital_id');
         $this->datatables->add_column('status', '$1', 'statusCheck(doctor, qyura_doctors, doctors_id, id, status)');
 
         return $this->datatables->generate();

@@ -296,7 +296,6 @@ if (isset($mapData) && !empty($mapData)) {
     
     
     $(document).ready(function () {
-
         var oTable = $('#hospital_datatable').DataTable({
             "processing": true,
             "bServerSide": true,
@@ -2257,6 +2256,16 @@ if (isset($mapData) && !empty($mapData)) {
     $(document).ready(function () {
 
     $("#submitForm").validate({
+        ignore: "",
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "avatar_file")
+        {
+            error.insertAfter('.error-label');
+        }
+        else{
+            error.insertAfter(element);
+        }
+        },
         rules: {
             hospital_id:{
                 required : true,

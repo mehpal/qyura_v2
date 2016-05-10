@@ -63,7 +63,7 @@
 
                                                             </div>
                                                         </div>
-
+                                                        <div id="error-label" class="error-label"></div>
                                                         <label class="error" > <?php echo form_error("avatar_file"); ?></label>
                                                         <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
 
