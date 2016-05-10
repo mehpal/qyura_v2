@@ -56,6 +56,8 @@ class CI_Model {
      */
     public function __construct() {
         log_message('info', 'Model Class Initialized');
+   
+          
     }
 
     // --------------------------------------------------------------------
