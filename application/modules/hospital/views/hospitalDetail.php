@@ -1,4 +1,4 @@
-<style>
+  <style>
     .tab-content {
         box-shadow: none !important;
         color: #777;

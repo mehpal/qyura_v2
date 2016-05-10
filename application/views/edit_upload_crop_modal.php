@@ -1,3 +1,5 @@
+
+
 <!-- Cropping modal -->
 <div class="modal fade" id="avatar-modal-edit" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">

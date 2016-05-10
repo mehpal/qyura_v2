@@ -416,6 +416,8 @@ console.log(files);
     }
   };
 
+
+
   $(function () {
     return new CropAvatar($('#crop-avatar'),'avatar-modal');
   });

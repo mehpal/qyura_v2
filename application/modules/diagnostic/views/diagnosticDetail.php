@@ -1,4 +1,3 @@
-
 <!-- Start right Content here -->
 <div class="content-page">
 

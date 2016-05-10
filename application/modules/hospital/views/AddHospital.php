@@ -1,4 +1,3 @@
-
 <!-- Left Sidebar End -->
 <!-- Start right Content here -->
 <div class="content-page">
