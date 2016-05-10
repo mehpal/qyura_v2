@@ -27,18 +27,16 @@ if (isset($hospitalId) && !empty($hospitalId)) {
 
 
 <?php
-$current = $this->router->fetch_method();
-if ($current != 'detailHospital'):
+//$current = $this->router->fetch_method();
+//if ($current != 'detailHospital'):
     ?>
     <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
-<?php else: ?>
+<?php //else: ?>
     <!--    <script src="<?php echo base_url(); ?>assets/cropper/main2.js"></script>-->
     <script src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
 
-    <script src="<?php echo base_url(); ?>assets/cropper/doctor_cropper.js"></script>
 
-    <script src="<?php echo base_url(); ?>assets/cropper/edit_doctor_cropper.js"></script>
-<?php endif; ?>
+<?php //endif; ?>
 
 
 <script src="<?php echo base_url(); ?>assets/js/reCopy.js"></script>
@@ -285,6 +283,14 @@ if (isset($mapData) && !empty($mapData)) {
             $(".picEditClose-bloodbank").toggle();
         });
     
+    
+    $(".doctor_edit").click(function () {
+           
+            $(".logo-img-doctor").toggle();
+            $(".logo-up-doctor").toggle();
+            $(".picEdit-doctor").toggle();
+            $(".picEditClose-doctor").toggle();
+        });
     
 
     
@@ -2664,22 +2670,38 @@ $('.select2').select2().change(function(){
 
 $(document).ready(function () {
     $("#bloodbankbtn , #bloodbank").click(function () {
-       if($(this).is(':checked')){
-        bootbox.confirm("Do you outsource the blood?", function(result) {
-           if (result) {
-               $('#isBloodBankOutsource').val(1);
-               $("#bloodbankdetail").fadeIn();
-           }else{
-               $("#bloodbankdetail").fadeOut();
-               $('#isBloodBankOutsource').val(0);
-           }
+     if($(this).is(':checked')){
+         bootbox.confirm({
+                    message: 'Do you outsource the blood?',
+                    buttons: {
+                        'cancel': {
+                            label: 'No',
+                            className: 'btn-default pull-left'
+                        },
+                        'confirm': {
+                            label: 'Yes',
+                            className: 'btn-primary pull-right'
+                        }
+                    },
+                    callback: function(result) {
+                        if (result) {
+                            $('#isBloodBankOutsource').val(1);
+                            $("#bloodbankdetail,#bloodbankOption").fadeIn();
+                        }else{
+                            $("#bloodbankdetail,#bloodbankOption").fadeOut();
+                            $('#isBloodBankOutsource').val(0);
+                    }
+               
+              }
          });
-       }else{
-           $("#bloodbankdetail").fadeOut();
-           $('#isBloodBankOutsource').val(0);
-       }
-   });
-});
+            
+        }else{
+            $("#bloodbankdetail,#bloodbankOption").fadeOut();
+            $('#isBloodBankOutsource').val(0);
+        }
+    });
+ });
+   
 </script>
 </body>
 </html>

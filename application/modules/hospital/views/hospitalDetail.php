@@ -1,4 +1,4 @@
-<style>
+  <style>
     .tab-content {
         box-shadow: none !important;
         color: #777;
@@ -43,7 +43,7 @@
                                     <div class="bg-picture-overlay"></div>
                                     <div class="profile-info-name">
                                         
-                                        <div class='pro-img' id="crop-avatar">
+                                        <div class='pro-img' id="crop-avatar-upload">
 
                                             <?php echo $this->load->view('edit_upload_crop_modal'); ?>
                                             <!-- image -->
@@ -657,7 +657,7 @@
 
                                                                 
                                                                 
-                                                                             <div class="pro-img" id="blood-crop-avatar">
+                                                                             <div class="pro-img" id="crop-blood">
 
                                                                                         <?php echo $this->load->view('edit_bloodbank_upload_crop_modal', array('id' => $hospitalData[0]->bloodBank_id)); ?>
                                                                                                 <!-- image -->

@@ -1,5 +1,5 @@
 <!-- Cropping modal -->
-<div class="modal fade" id="blood-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+<div class="modal fade" id="doctor-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 <!--            <form class="avatar-form" action="crop11.php" enctype="multipart/form-data" method="post">-->
@@ -13,10 +13,10 @@
                         <!-- Upload image and data -->
                         <div class="avatar-upload">
                             <input type="hidden" class="avatar-src" name="avatar_src">
-                            <input type="hidden" class="avatar-data" name="bloodBank_data">
-                            <input type="hidden" class="avatar_id" name="bloodBank_id" value="<?php echo $id; ?>">
+                            <input type="hidden" class="avatar-data" name="doctor_data">
+                            <input type="hidden" class="avatar_id" name="doctor_id" value="<?php echo $id; ?>">
                             <label for="avatarInput">Avatar upload</label>
-                            <input type="file" class="avatar-input" id="avatarInput" name="avatar_file_bloodbank">
+                            <input type="file" class="avatar-input" id="avatarInput" name="avatar_file">
                         </div>
 <!--                        <div id="message_upload"></div>-->
                         <!-- Crop and preview -->

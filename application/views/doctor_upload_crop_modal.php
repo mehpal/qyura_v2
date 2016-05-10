@@ -1,6 +1,5 @@
-
 <!-- Cropping modal -->
-<div class="modal fade pre avatar-modal" id="blood-avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+<div class="modal fade pre avatar-modal" id="doctor-avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg" >
         <div class="modal-content">
             <!--                              <form class="avatar-form" action="#" enctype="multipart/form-data" method="post">-->
@@ -9,10 +8,10 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <!-- Upload image and data -->
                     <div class="avatar-upload">
-                        <input type="hidden" class="avatar-src" name="avatar_src_bloodbank">
-                        <input type="hidden" class="avatar-data" name="avatar_data_bloodbank">
+                        <input type="hidden" class="avatar-src" name="avatar_src_doctor">
+                        <input type="hidden" class="avatar-data" name="avatar_data_doctor">
                         <label for="avatarInput">File upload</label>
-                        <input type="file" class="avatar-input" id="avatarInput" name="bloodBank_photo">
+                        <input type="file" class="avatar-input" id="avatarInput" name="doctor_photo">
                     </div>
                 
                     <!-- Crop and preview -->
