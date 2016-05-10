@@ -921,14 +921,14 @@ if (isset($mapData) && !empty($mapData)) {
         }
     }
 
-    function validationHospital() {
+    function changeStatus() {
         //$("form[name='hospitalForm']").submit();
-
-        var isAddressDisabled = $('#isAddressDisabled').val();
-        if (isAddressDisabled == 1) {
-            $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", false);
-        }
-
+            var isAddressDisabled = $('#isAddressDisabled').val();
+            if (isAddressDisabled == 1) {
+                $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", false);
+            }
+    }
+ function validationHospital() {
         var check = /^[a-zA-Z\s]+$/;
         var numcheck = /^[0-9]+$/;
         var emails = $.trim($('#users_email').val());
