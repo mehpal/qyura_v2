@@ -41,7 +41,7 @@ class Master extends MY_Controller {
             $records_array = array(
                 'degree_SName' => $degree_SName,
                 'degree_FName' => $degree_FName,
-		'status'       => 2,
+		'status'       => 0,
                 'creationTime' => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
@@ -650,7 +650,7 @@ class Master extends MY_Controller {
             $records_array = array(
                 'diagnosticsCat_catName' => $diagnosticName,
                 'diagnosticsCat_catImage' => $imagesname,
-		'status' => 2,
+		'status' => 0,
                 'creationTime' => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
@@ -749,10 +749,10 @@ class Master extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 2) {
-                $update_data['status'] = 3;
+            if ($status == 0) {
+                $update_data['status'] = 1;
             } else {
-                $update_data['status'] = 2;
+                $update_data['status'] = 0;
             }
             $where = array('diagnosticsCat_catId' => $ena_id);
             $updateOptions = array
@@ -826,7 +826,7 @@ class Master extends MY_Controller {
                 'specialities_drName' => $specialityNamedoctor,
                 'specialities_img' => $imagesname,
                 'type' => $type,
-		'status' => 2,
+		'status' => 0,
                 'creationTime' => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
@@ -1011,7 +1011,7 @@ class Master extends MY_Controller {
          
             $records_array = array(
                 'agency_name' => $agency_name,
-		'status' => 2, 
+		'status' => 0, 
                 'creationTime' => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
@@ -1124,7 +1124,8 @@ class Master extends MY_Controller {
             $department_name = $this->input->post('department_name');
             $records_array = array(
                 'department_name' => $department_name,
-                'creationTime' => strtotime(date("d-m-Y H:i:s"))
+                'creationTime' => strtotime(date("d-m-Y H:i:s")),
+                'status' => 0
             );
             $options = array
                 (
@@ -1135,10 +1136,10 @@ class Master extends MY_Controller {
             $res = $this->common_model->customInsert($options);
             //echo $this->db->last_query();
             if ($res) {
-                $response = array('status' => 2, 'msg' => "Record Added successfully", 'url' => "master/department");
+                $response = array('status' => 0, 'msg' => "Record Added successfully", 'url' => "master/department");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while adding your data... sorry.</strong>");
-                $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
+                $response = array('status' => 1, 'isAlive' => TRUE, 'errors' => $error);
             }
             echo json_encode($response);
         }
@@ -1171,7 +1172,7 @@ class Master extends MY_Controller {
                 $response = $this->common_model->customUpdate($options);
             }
             if ($response) {
-                $response = array('status' => 2, 'msg' => "Record Update successfully", 'url' => "master/department");
+                $response = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "master/department");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
@@ -1243,7 +1244,8 @@ class Master extends MY_Controller {
             $records_array = array(
                 'designation_departmentId' => $department_id,
                 'designation_name' => $designation_name,
-                'creationTime' => strtotime(date("d-m-Y H:i:s"))
+                'creationTime' => strtotime(date("d-m-Y H:i:s")),
+                'status' => 0
             );
             $options = array
                 (
@@ -1252,7 +1254,7 @@ class Master extends MY_Controller {
             );
             $response = $this->common_model->customInsert($options);
             if ($response) {
-                $response = array('status' => 2, 'msg' => "Record Added successfully", 'url' => "master/designation");
+                $response = array('status' => 1, 'msg' => "Record Added successfully", 'url' => "master/designation");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
@@ -1292,7 +1294,7 @@ class Master extends MY_Controller {
                 $response = $this->common_model->customUpdate($options);
             }
             if ($response) {
-                $response = array('status' => 2, 'msg' => "Record Update successfully", 'url' => "master/designation");
+                $response = array('status' => 1, 'msg' => "Record Update successfully", 'url' => "master/designation");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
@@ -1306,10 +1308,10 @@ class Master extends MY_Controller {
         $status = $this->input->post('status');
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 2) {
-                $update_data['status'] = 3;
+            if ($status == 0) {
+                $update_data['status'] = 1;
             } else {
-                $update_data['status'] = 2;
+                $update_data['status'] = 0;
             }
             $where = array('designation_id' => $ena_id);
             $updateOptions = array
