@@ -70,7 +70,7 @@ Back
                                  ?>
                               <img src="<?php echo base_url()?>assets/Qap/thumb/thumb_100/<?php echo $qapData[0]->qap_image; ?>" alt="" class="image-preview-show" />
                               <?php } else { ?>
-                              <img src="<?php echo base_url()?>assets/default-images/Blood-logo.png" alt="" class="image-preview-show" />
+                              <img src="<?php echo base_url()?>assets/default-images/Doctor-logo.png" alt="" class="image-preview-show" />
                               <?php } ?>
                                    
                                     <input type="hidden"  name="qap_image" value="<?php if(isset($qapData) && !empty($qapData)){echo $qapData[0]->qap_image; }?>" />
@@ -94,7 +94,7 @@ Back
                                                   <label for="cname" class="control-label col-md-4 col-sm-4">City :</label>
                                                 <div class="col-sm-8 col-sm-8">
                                           
-                                                      <select class="form-control selectpicker" data-width="100%" name="qap_city" id="qap_city" required="">
+                                                      <select class="form-control select2" data-width="100%" name="qap_city" id="qap_city" required="">
                                                   <option value="">Select Bank City</option>
                                                     <?php foreach ($allCity as $key => $val) { ?>
                                                         <option value="<?php echo $val->city_name; ?>" <?php if($val->city_name == $qapData[0]->qap_city): echo"selected";endif;?>><?php echo $val->city_name; ?></option>
@@ -183,7 +183,7 @@ Back
                                                   <label for="cname" class="control-label col-md-4 col-sm-4">Bank City :</label>
                                                 <div class="col-sm-8 col-sm-8">
                                           
-                                                      <select class="form-control selectpicker" data-width="100%" name="qap_bankCity" id="qap_bankCity" required="">
+                                                      <select class="form-control select2" data-width="100%" name="qap_bankCity" id="qap_bankCity" required="">
                                                   <option value="">Select Bank City</option>
                                                     <?php foreach ($allCity as $key => $val) { ?>
                                                         <option value="<?php echo $val->city_name; ?>" <?php if($val->city_name == $qapData[0]->qap_bankCity): echo"selected";endif;?>><?php echo $val->city_name; ?></option>
