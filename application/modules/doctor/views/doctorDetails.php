@@ -28,6 +28,7 @@
         border-top-color:  #3FCEB2;
     }
 </style>
+
 <!-- Start right Content here -->
 <div class="content-page">
     <!-- Start content -->

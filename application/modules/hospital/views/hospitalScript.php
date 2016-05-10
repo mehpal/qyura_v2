@@ -24,8 +24,6 @@ if (isset($hospitalId) && !empty($hospitalId)) {
 <script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
 
-
-
 <?php
 $current = $this->router->fetch_method();
 if ($current != 'detailHospital'):
@@ -60,7 +58,6 @@ if ($current != 'detailHospital'):
 <script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.js"></script>
 
 <script src="<?php echo base_url(); ?>assets/js/pages/add-doctor.js" type="text/javascript"></script>
-
 
 
 <?php
@@ -98,6 +95,34 @@ if (isset($mapData) && !empty($mapData)) {
 <?php } ?>
 <script>
 
+    if (Modernizr.touch) {
+            // show the close overlay button
+            $(".close-overlay").removeClass("hidden");
+            // handle the adding of hover class when clicked
+            $(".img").click(function(e){
+                if (!$(this).hasClass("hover")) {
+                    $(this).addClass("hover");
+                }
+            });
+            // handle the closing of the overlay
+            $(".close-overlay").click(function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                if ($(this).closest(".img").hasClass("hover")) {
+                    $(this).closest(".img").removeClass("hover");
+                }
+            });
+        } else {
+            // handle the mouseenter functionality
+            $(".img").mouseenter(function(){
+                $(this).addClass("hover");
+            })
+            // handle the mouseleave functionality
+            .mouseleave(function(){
+                $(this).removeClass("hover");
+            });
+        };
+        
     function checkValidFileUploads(urls) {
 
         var avatar_file = $(".avatar-data").val();

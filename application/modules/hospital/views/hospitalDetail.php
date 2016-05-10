@@ -4,6 +4,140 @@
    color: #777;
    }
 </style>
+<style>
+    .m-t-4{margin-top:4px;}
+    .blue-ttl{width:120px; height:85px; border:1px solid #ddd; 
+              padding:0px 2px 10px 0px; margin: 15px 10px; float: left }
+    .blue-ttl aside h5
+    {
+        text-align: right;
+        display:none;
+        margin-top: 3px;
+    }
+    .blue-ttl aside h5 
+    {
+        display: none;
+    }
+    .blue-ttl:hover aside h5 
+    {
+        display:block;
+    }
+    .blue-ttl + .tooltip > .tooltip-inner {
+        background-color: #f8f8f8;
+        border: 1px solid #3FCEB2;
+        padding: 0px;
+        color:#333;
+        text-align: left;
+        padding: 0px 10px 10px;
+    }
+    .orange-ttl + .tooltip.left .tooltip-arrow {
+        border-top-color:  #3FCEB2;
+    }
+    /* ============================================================
+GLOBAL
+============================================================ */
+    .effects {
+        padding-left: 15px;
+    }
+    .effects .img {
+        position: relative;
+        float: left;
+        margin-bottom: 5px;
+        /*  width: 25%;*/
+        overflow: hidden;
+    }
+    .effects .img:nth-child(n) {
+        margin-right: 5px;
+    }
+    .effects .img:first-child {
+        margin-left: -15px;
+    }
+    .effects .img:last-child {
+        margin-right: 0;
+    }
+    .effects .img img {
+        display: block;
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .overlay1 {
+        display: block;
+        position: absolute;
+        z-index: 20;
+        background: rgba(0, 0, 0, 0.8);
+        overflow: hidden;
+        -webkit-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        -o-transition: all 0.5s;
+        transition: all 0.5s;
+    }
+
+    a.close-overlay {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 100;
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #fff;
+        line-height: 45px;
+        text-align: center;
+        background-color: #000;
+        cursor: pointer;
+    }
+    a.close-overlay.hidden {
+        display: none;
+    }
+
+    a.expand {
+        display: block;
+        position: absolute;
+        z-index: 100;
+        width: 50px;
+        height: 50px;
+        border: solid 5px #fff;
+        text-align: center;
+        color: #fff;
+        line-height: 35px;
+        font-weight: 700;
+        font-size: 20px;
+        -webkit-border-radius: 25px;
+        -moz-border-radius: 25px;
+        -ms-border-radius: 25px;
+        -o-border-radius: 25px;
+        border-radius: 25px;
+    }
+    .overlay1 a i
+    {
+        margin-top: 9px;
+    }
+    /* ============================================================
+      EFFECT 1 - SLIDE IN BOTTOM
+    ============================================================ */
+    .effect-1 .overlay1 {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 0;
+    }
+    .effect-1 .overlay1 a.expand {
+        left: 0;
+        right: 0;
+        bottom: 52%;
+        margin: 0 auto -30px auto;
+    }
+    .effect-1 .img.hover .overlay1 {
+        height: 100%;
+    }
+</style>
+
 <body class="fixed-left">
    <!-- Start right Content here -->
    <div class="content-page" ng-app="myApp">
@@ -1222,7 +1356,11 @@
                }
                ?>" id="doctor">
             <!-- Form Section Start -->
-            <article class="row p-b-10" style="margin-left: 0">
+            <article class="row p-b-10" style="margin-left: 0; <?php
+               if (isset($showDiv) && ($showDiv == 'adddoctor' OR $showDiv == 'editDoctor' OR $showDiv == 'timeSlot' )) {
+                   echo "display:none";
+               }
+               ?>">
             <aside class="col-md-2 col-sm-2" id="AddNewDoc">
             <button class="btn btn-success waves-effect waves-light m-l-10 pull-right addDoctorButton" onclick="addNewDoctor();" >Add New Doctor</button>
             </aside>
@@ -1232,7 +1370,7 @@
             </article>
             <!-- Form Section End -->
             <article class="clearfix m-top-40 p-b-20" id="doctorList" style="<?php
-               if (isset($showDiv) && ($showDiv == 'adddoctor' OR $showDiv == 'editDoctor' )) {
+               if (isset($showDiv) && ($showDiv == 'adddoctor' OR $showDiv == 'editDoctor' OR $showDiv == 'timeSlot' )) {
                    echo "display:none";
                }
                ?>" >
@@ -1263,14 +1401,25 @@
             <?php echo $this->load->view('doctorScript.php'); ?>
             </div>
             <div id="editDoctorForm" style="<?php
-               if (isset($showDiv) && $showDiv == 'editDoctor') {
+               if (isset($showDiv) && $showDiv === 'editDoctor') {
                    echo "display:block";
                } else {
                    echo "display:none";
                }
                ?>" >
-            <?php echo $this->load->view('editDoctor'); ?>
+            <?php  echo $showDiv == 'editDoctor' ? $this->load->view('editDoctor') : '' ; ?>
             </div>
+            
+            <div id="editDoctorTimeSlot" style="<?php
+               if (isset($showDiv) && $showDiv === 'timeSlot') {
+                   echo "display:block";
+               } else {
+                   echo "display:none";
+               }
+               ?>" >
+            <?php  echo $showDiv == 'timeSlot' ? $this->load->view('timeSlot') : '' ; ?>
+            </div>
+            
             </section>
             <!-- All Doctors Ends -->
             <!--Membership Starts -->
