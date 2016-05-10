@@ -42,24 +42,38 @@
                            <label class="error" > <?php echo form_error("doctors_lName"); ?></label>
                         </div>
                      </article>
-                     <article class="form-group m-lr-0 ">
-                        <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>  
-                        <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
-                           <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view-doctor-edit"></i></label>
-                           <div class="pre-doctor-edit col-md-4 col-sm-4 ">
-                              <div id="preImgLogoDoctorEdit" class="avatar-preview preview-md m-t-0">
-                                 <?php if(!empty($doctorDetail[0]->doctors_img)){
-                                    ?>
-                                 <img src="<?php echo base_url()?>assets/doctorsImages/thumb/original/<?php echo $doctorDetail[0]->doctors_img; ?>"  class="image-preview-show"/>
-                                 <?php } else { ?>
-                                 <img src="<?php echo base_url()?>assets/default-images/Doctor-logo.png" alt="" class="logo-img" />
-                                 <?php } ?>
-                              </div>
-                           </div>
-                           <label class="error" > <?php echo form_error("avatar_file"); ?></label>
-                           <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
-                        </div>
-                     </article>
+                     
+                     <div class="pro-img" id="crop-doctor">
+
+                        <?php echo $this->load->view('edit_doctor_upload_crop_modal', array('id' => $doctorDetail[0]->doctors_id)); ?>
+                                <!-- image -->
+                                <?php if (!empty($doctorDetail[0]->doctors_img)) { ?>
+                                    <img src="<?php echo base_url() ?>assets/doctorsImages/thumb/thumb_100/<?php echo $doctorDetail[0]->doctors_img; ?>" alt="" class="logo-img-doctor" />
+                                <?php } else { ?>
+                                    <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png" alt="" class="logo-img-doctor" />
+                                <?php } ?>
+                                <article class="logo-up-doctor avatar-view" style="display:none">
+                                    <?php if (!empty($doctorDetail[0]->doctors_img)) { ?>
+                                        <img src="<?php echo base_url() ?>assets/doctorsImages/thumb/thumb_100/<?php echo $doctorDetail[0]->doctors_img; ?>" alt="" class="logo-img-doctor" style="display:block" />
+                                    <?php } else { ?>
+                                        <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png" alt="" class="logo-img-doctor" style="display:block" />
+                                    <?php } ?>
+                                    <div class="fileUpload btn btn-sm btn-upload logo-Upload">
+                                        <span><i class="fa fa-cloud-upload fa-3x "></i></span>
+<!--                                                        <input id="uploadBtn" type="file" class="upload" />-->
+                                        <input type="hidden" style="display:none;" class="no-display file_action_url"  name="file_action_url" value="<?php echo site_url('hospital/editUploadImageDoctor'); ?>">
+                                        <input type="hidden" style="display:none;" class="no-display load_url" id="load_url" name="load_url" value="<?php echo site_url('hospital/getUpdateAvtarDoctor/' . $doctorDetail[0]->doctors_id); ?>/doctor">
+                                    </div>
+                                </article>
+                                <!-- description div -->
+
+                                <div class='pic-edit doctor_edit'>
+                                    <h3><a  class="pull-center cl-white picEdit-doctor" title="Edit Logo" style="display:block;"><i class="fa fa-pencil"></i></a></h3>
+                                    <h3><a  class="pull-center cl-white picEditClose-doctor" title="Cancel"  style="display:none;"><i class="fa fa-times"></i></a></h3>
+                                </div>
+                                <!-- end description div -->
+                            </div>
+                     
                      <article class="form-group m-lr-0">
                         <label for="" class="control-label col-md-4 col-sm-4">Speciality:</label>
                         <div class="col-md-8 col-sm-8">

@@ -1,4 +1,3 @@
-
 <!-- Start right Content here -->
 <div class="content-page">
 
@@ -31,7 +30,7 @@
                                 <div class="bg-picture-overlay"></div>
                                 <div class="profile-info-name">
                                     
-                                    <div class='pro-img' id="crop-avatar">
+                                    <div class='pro-img' id="crop-avatar-upload">
 
                                             <?php echo $this->load->view('edit_upload_crop_modal'); ?>
                                             <!-- image -->
@@ -523,7 +522,7 @@
                                                                            <div>
                                                                    </article>
                                                                         
-                                                                        <div class="pro-img" id="blood-crop-avatar">
+                                                                        <div class="pro-img" id="crop-blood">
 
                                                                                         <?php echo $this->load->view('edit_bloodbank_upload_crop_modal', array('id' => $diagnosticData[0]->bloodBank_id)); ?>
                                                                                                 <!-- image -->
