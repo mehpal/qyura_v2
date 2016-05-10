@@ -547,6 +547,105 @@ if ($current == 'doctorDetails'){ ?>
     var urls = "<?php echo base_url() ?>";
     $(document).ready(function () {
     $("#submitForm").validate({
+        
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "avatar_file")
+        {
+            error.insertAfter('.error-label');
+        }
+        else{
+            error.insertAfter(element);
+        }
+        },
+        rules: {
+            doctors_fName: {
+                required: true
+            },
+            doctors_lName: {
+                required : true
+            },
+             avatar_file: {
+                required : true
+            },
+            'doctorSpecialities_specialitiesId[]': {
+                required: true
+            },
+            users_email: {
+                email: true,
+                            
+            },
+       'doctorAcademic_degreeId[]':{
+         
+           required: true
+      },
+      'doctorSpecialities_specialitiesCatId[]':{
+         
+           required: true
+      },
+      'acdemic_addaddress[]':{
+         
+           required: true
+      },
+      'acdemic_addyear[]':{
+         
+           required: true
+      },
+      exp_year: {
+        required: true,
+      }, 
+      fee: {
+        required: true,
+                            
+      }    
+        },
+        messages: {
+            doctors_fName: {
+                required: "Please enter doctor's first name!",
+            },
+              doctors_lName: {
+                required : "Please enter doctor's last name!"
+            },
+              avatar_file: {
+                required : "Please upload an image!"
+            },
+
+              'doctorSpecialities_specialitiesId[]': {
+                required: "Please select one or more specialities!"
+            },
+            users_email: {
+                email: "Please enter the correct email format!"
+            },
+          
+             'doctorAcademic_degreeId[]': {
+                required: "Please select a degree!"
+            },
+            'doctorSpecialities_specialitiesCatId[]': {
+                required: "Please select a speciality!"
+            },
+            'acdemic_addaddress[]': {
+                required: "Please enter an address!"
+            },
+            'acdemic_addyear[]': {
+                required: "Please enter a year!"
+            },
+            exp_year: {
+                required: "Please enter year(s) of experience!"
+            },
+            fee:{
+         
+           required: "Please enter the consultation fees!"
+         
+      }
+      
+           
+        }
+
+    });
+    
+});
+    var urls = "<?php echo base_url() ?>";
+    $(document).ready(function () {
+    $("#updateForm").validate({
         rules: {
             doctors_fName: {
                 required: true

@@ -11,9 +11,9 @@
                     <article class="clearfix  r-box">
                         <h4 class="">Total Registered <br>Medical Institutions</h4>
 
-                        <p>454</p>
+                        <p><?php if(isset($MiList) && !empty($MiList)): echo count($MiList);else: echo '0';endif;?></p>
                     </article>
-                    <article class="r-box-bottom"><a href="#">view all</a></article>
+                    <article class="r-box-bottom"><a href="<?php echo site_url('hospital');?>">view all</a></article>
                 </aside>
                 <!--end MI-->
                 <!--start total DOC-->
@@ -22,9 +22,9 @@
                         <h4 class="">Total Registered <br>
                             Doctors</h4>
 
-                        <p>10,345</p>
+                        <p><?php if(isset($doctorList) && !empty($doctorList)): echo count($doctorList);else: echo '0';endif;?></p>
                     </article>
-                    <article class="y-box-bottom"><a href="#">view all</a></article>
+                    <article class="y-box-bottom"><a href="<?php echo site_url('doctor');?>">view all</a></article>
                 </aside>
                 <!--end total Doc-->
                 <!--start Revenue-->
@@ -33,7 +33,7 @@
                         <h4 class="">Total Revenue <br>
                             Generated</h4>
 
-                        <p><i class="fa fa-inr"></i> 12,50,60,234</p>
+                        <p><i class="fa fa-inr"></i> 0</p>
                     </article>
                     <article class="b-box-bottom"><a href="#">view all</a></article>
                 </aside>
@@ -44,9 +44,9 @@
                         <h4 class="">Total Registered <br>
                             Users</h4>
 
-                        <p>10,34,356</p>
+                        <p><?php if(isset($User) && !empty($User)): echo $User[0]->totalUser;else: echo '0';endif;?></p>
                     </article>
-                    <article class="g-box-bottom"><a href="#">view all</a></article>
+                    <article class="g-box-bottom"><a href="<?php echo site_url('users');?>">view all</a></article>
                 </aside>
                 <!--end profile visits-->
             </section>
@@ -492,119 +492,24 @@
                         <div class="mCustomScrollbar mxh-450" style="overflow: hidden;" tabindex="5000">
                             <aside class="table-responsive">
                                 <table class="table">
-                                    <tbody>
-                                        <tr>
+                                    <tbody id="loadNotice">
+                                        <?php if(isset($notification) && !empty($notification)):
+                                                foreach($notification as $notice): ?>
+                                            
+                                            <tr>
                                             <td width="80%">
-                                                <p>You have received a quotation request for diagnostic booking. View details.</p>
+                                                <p><?php echo ucfirst(substr($notice->qyura_cronMsg, 0,50)).'...';?></p>
 
                                             </td>
                                             <td width="20%">
-                                                <img src="<?php echo base_url(); ?>assets/images/delete.png">
+                                                <a onclick="deleteNotice('<?php echo $notice->qyura_cronMsgId;?>')"> <img src="<?php echo base_url(); ?>assets/images/delete.png"></a>
 
                                             </td>
 
                                         </tr>
-
-                                        <tr>
-                                            <td width="80%">
-                                                <p>You have received a quotation request for diagnostic booking. View details.</p>
-
-                                            </td>
-                                            <td width="20%">
-                                                <img src="<?php echo base_url(); ?>assets/images/delete.png">
-
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td width="80%">
-                                                <p>You have received a quotation request for diagnostic booking. View details.</p>
-
-                                            </td>
-                                            <td width="20%">
-                                                <img src="<?php echo base_url(); ?>assets/images/delete.png">
-
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td width="80%">
-                                                <p>You have received a quotation request for diagnostic booking. View details.</p>
-
-                                            </td>
-                                            <td width="20%">
-                                                <img src="<?php echo base_url(); ?>assets/images/delete.png">
-
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td width="80%">
-                                                <p>You have received a quotation request for diagnostic booking. View details.</p>
-
-                                            </td>
-                                            <td width="20%">
-                                                <img src="<?php echo base_url(); ?>assets/images/delete.png">
-
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td width="80%">
-                                                <p>You have received a quotation request for diagnostic booking. View details.</p>
-
-                                            </td>
-                                            <td width="20%">
-                                                <img src="<?php echo base_url(); ?>assets/images/delete.png">
-
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td width="80%">
-                                                <p>You have received a quotation request for diagnostic booking. View details.</p>
-
-                                            </td>
-                                            <td width="20%">
-                                                <img src="<?php echo base_url(); ?>assets/images/delete.png">
-
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td width="80%">
-                                                <p>You have received a quotation request for diagnostic booking. View details.</p>
-
-                                            </td>
-                                            <td width="20%">
-                                                <img src="<?php echo base_url(); ?>assets/images/delete.png">
-
-                                            </td>
-
-                                        </tr>
-
-                                        <tr>
-                                            <td width="80%">
-                                                <p>You have received a quotation request for diagnostic booking. View details.</p>
-
-                                            </td>
-                                            <td width="20%">
-                                                <img src="<?php echo base_url(); ?>assets/images/delete.png">
-
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td width="80%">
-                                                <p>You have received a quotation request for diagnostic booking. View details.</p>
-
-                                            </td>
-                                            <td width="20%">
-                                                <img src="<?php echo base_url(); ?>assets/images/delete.png">
-
-                                            </td>
-
-                                        </tr>
+                                        <?php   endforeach;
+                                        endif;
+?>
                                     </tbody>
                                 </table>
                             </aside>
@@ -630,7 +535,7 @@
                     <div class="bg-white">
                         <figure class="clearfix">
 
-                            <h3 class="hf-14">Pending Quot. Requests (40)</h3>
+                            <h3 class="hf-14">Pending Quot. Requests (<?php if(isset($quotationList) && !empty($quotationList)):echo count($quotationList);else:echo"0";endif;?>)</h3>
                             <form class="search-form">
                                 <input type="" class="search pull-right" />
                             </form>
@@ -639,7 +544,7 @@
                         <table class="table table-hover table-striped m-0">
                             <thead>
                                 <tr class="border-a-dull">
-                                    <th width="40%">QR Detal</th>
+                                    <th width="40%">QR Details</th>
                                     <th width="60%">Diagnosis</th>
                                 </tr>
                             </thead>
@@ -649,94 +554,27 @@
                             <aside class="table-responsive">
                                 <table class="table">
                                     <tbody>
-                                        <tr>
+                                       <?php if(isset($quotationList) && !empty($quotationList)):
+                                                foreach($quotationList as $quot): ?>
+                                            
+                                          <tr>
                                             <td width="40%">
-                                                <h6>AHQT089</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
+                                                <h6><?php echo $quot->uniqueId;?></h6>
+                                                <p><?php echo ucwords($quot->userName);?></p>
+                                                <p><?php echo $quot->dateTime;?></p>
                                             </td>
                                             <td>
-                                                <h6>Blood Test-1</h6>
-                                                <p>Vipul Jain</p>
+                                                <h6><?php echo ucwords($quot->diagnosticsCat_catName);?></h6>
+                                                <p><?php echo ucwords($quot->docName);?></p>
                                             </td>
                                             <td>
-                                                <button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button>
+                                                <a href="<?php echo site_url('quotation/viewPrescription/'.$quot->quotation_idf);?>" class="btn btn-success waves-effect waves-light m-b-5" >Detail</a>
                                             </td>
                                         </tr>
-
-                                        <tr>
-                                            <td width="40%">
-                                                <h6>AHQT089</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td>
-                                                <h6>Blood Test-1</h6>
-                                                <p>Vipul Jain</p>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="40%">
-                                                <h6>AHQT089</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td>
-                                                <h6>Blood Test-1</h6>
-                                                <p>Vipul Jain</p>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="40%">
-                                                <h6>AHQT089</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td>
-                                                <h6>Blood Test-1</h6>
-                                                <p>Vipul Jain</p>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="40%">
-                                                <h6>AHQT089</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td>
-                                                <h6>Blood Test-1</h6>
-                                                <p>Vipul Jain</p>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button>
-                                            </td>
-                                        </tr>
-
-
-
-                                        <tr>
-                                            <td scope="row">
-                                                <h6>AHQT089</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td>
-                                                <h6>Blood Test-1</h6>
-                                                <p>Vipul Jain</p>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button>
-                                            </td>
-                                        </tr>
+                                        
+                                        <?php   endforeach;
+                                        endif;
+?>
 
                                     </tbody>
                                 </table>
@@ -946,113 +784,12 @@
                         </article>
                         <!-- Line Chart End -->
                     </div>
-                    <!--Bar Chart Start -->
-                    <div class="clearfix bg-white m-t-30">
-                        <article class="chartbox">
-                            <figure class="clearfix">
-                                <div class="col-md-9 col-sm-9 p-0">
-                                    <h3>Revenue Trend</h3>
-                                </div>
-                                <div class="col-md-3 col-sm-3 text-right">
-                                    <select class="form-control selectpicker m-tb-5 pull-right" data-width="100%" >
-                                        <option>2015</option>
-                                        <option>2014</option>
-                                    </select>
-                                </div>
-                            </figure>
-
-                            <figcaption>
-                                <canvas id="bar-chart" class="h-300" data-type="Bar"></canvas>
-                            </figcaption>
-                        </article>
-                    </div>
-                    <!--Bar Chart End -->
+                    
                 </aside>
 
                 <aside class="col-md-4">
-                    <!-- Contact Start -->
 
                     <div class="clearfix bg-white">
-
-                        <figure class="clearfix border-full ">
-
-                            <div class="col-md-6 col-xs-6">
-                                <h3>Contact Us</h3>
-                            </div>
-                            <div class="col-md-6 col-xs-6 text-right">
-                                <h4><a href="">View All</a></h4>
-                            </div>
-                        </figure>
-
-                        <div class="inbox-widget mCustomScrollbar mx-box mx-395">
-                            <aside class="table-responsive">
-                                <table class="table">
-                                    <colgroup>
-                                        <col style="width:25%">
-                                        <col style="width:55%">
-                                        <col style="width:20%">
-                                    </colgroup>
-                                    <tr>
-                                        <td> <img src="<?php echo base_url(); ?>assets/images/users/avatar-1.jpg" width="80" class="img-circle" alt=""></td>
-                                        <td>
-                                            <h6 class="inbox-item-author h-adjust">Amit Saxena</h6>
-                                            <span>amit@gmail.com</span>
-                                            <p class="inbox-item-text">Hey! there I'm available...Loren Ipsum dollar sit amet</p>
-                                            <button class="btn btn-success btn-sm waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                            <button class="btn btn-success btn-sm waves-effect waves-light m-b-5 center-block" type="button">Respond</button>
-                                        </td>
-                                        <td>
-                                            <p>Today</p>
-                                            <p>13:40 PM</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td> <img src="<?php echo base_url(); ?>assets/images/users/avatar-1.jpg" width="80" class="img-circle" alt=""></td>
-                                        <td>
-                                            <h6 class="inbox-item-author h-adjust">Amit Saxena</h6>
-                                            <span>amit@gmail.com</span>
-                                            <p class="inbox-item-text">Hey! there I'm available...Loren Ipsum dollar sit amet</p>
-                                            <button class="btn btn-success btn-sm waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                            <button class="btn btn-success btn-sm waves-effect waves-light m-b-5 center-block" type="button">Respond</button>
-                                        </td>
-                                        <td>
-                                            <p>Today</p>
-                                            <p>13:40 PM</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td> <img src="<?php echo base_url(); ?>assets/images/users/avatar-1.jpg" width="80" class="img-circle" alt=""></td>
-                                        <td>
-                                            <h6 class="inbox-item-author h-adjust">Amit Saxena</h6>
-                                            <span>amit@gmail.com</span>
-                                            <p class="inbox-item-text">Hey! there I'm available...Loren Ipsum dollar sit amet</p>
-                                            <button class="btn btn-success btn-sm waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                            <button class="btn btn-success btn-sm waves-effect waves-light m-b-5 center-block" type="button">Respond</button>
-                                        </td>
-                                        <td>
-                                            <p>Today</p>
-                                            <p>13:40 PM</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td> <img src="<?php echo base_url(); ?>assets/images/users/avatar-1.jpg" width="80" class="img-circle" alt=""></td>
-                                        <td>
-                                            <h6 class="inbox-item-author h-adjust">Amit Saxena</h6>
-                                            <span>amit@gmail.com</span>
-                                            <p class="inbox-item-text">Hey! there I'm available...Loren Ipsum dollar sit amet</p>
-                                            <button class="btn btn-success btn-sm waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                            <button class="btn btn-success btn-sm waves-effect waves-light m-b-5 center-block" type="button">Respond</button>
-                                        </td>
-                                        <td>
-                                            <p>Today</p>
-                                            <p>13:40 PM</p>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </aside>
-                        </div>
-                    </div>
-                    <div class="clearfix bg-white m-t-30">
                         <figure class="clearfix border-full ">
 
                             <div class="col-md-6 col-xs-8">
@@ -1073,8 +810,6 @@
                             </ul>
                         </article>
 
-
-
                         <article class="tab-content h380">
 
                             <!-- MII Section -->
@@ -1083,142 +818,35 @@
                                 <div tabindex="5000" style="overflow: hidden;" class="inbox-widget mCustomScrollbar mx-box">
                                     <aside class="table-responsive">
                                         <table class="table">
+                                            <?php if(isset($MiList) && !empty($MiList)):
+                                                    foreach($MiList as $mi): ?>
+                                                
                                             <tr>
                                                 <td>
-                                                    <h6><i class="fa fa-image fa-2x"></i></h6>
+                                                    <h6><img src="<?php echo base_url().$mi->imUrl;?>"></h6>
                                                 </td>
                                                 <td>
-                                                    <h6>Appolo Hospital</h6>
-                                                    <p>Kolkata</p>
+                                                    <h6><?php echo ucwords($mi->name);?></h6>
+                                                    <p><?php echo ucwords($mi->city);?></p>
                                                 </td>
                                                 <td>
-                                                    <h6>Membership</h6>
-                                                    <p>type-1</p>
+                                                    <h6><?php echo ucwords($mi->memberName);?></h6>
                                                 </td>
-                                                <td>
-                                                    <h6></h6>
-                                                    <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6><i class="fa fa-image fa-2x"></i></h6>
-                                                </td>
-                                                <td>
-                                                    <h6>Appolo Hospital</h6>
-                                                    <p>Kolkata</p>
-                                                </td>
-                                                <td>
-                                                    <h6>Membership</h6>
-                                                    <p>type-1</p>
-                                                </td>
+                                                
                                                 <td>
                                                     <h6></h6>
-                                                    <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">View</button>
+                                                    <?php if($mi->type == 'hospital'):?>
+                                                    <a href="<?php echo site_url('hospital/detailHospital/'.$mi->id);?>" class="btn btn-success waves-effect waves-light m-b-5 center-block" >View</a>
+                                                    <?php elseif($mi->type == 'diagnostic'):?>
+                                                    <a href="<?php echo site_url('diagnostic/detailDiagnostic/'.$mi->id);?>" class="btn btn-success waves-effect waves-light m-b-5 center-block" >View</a>
+                                                    <?php endif;?>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6><i class="fa fa-image fa-2x"></i></h6>
-                                                </td>
-                                                <td>
-                                                    <h6>Appolo Hospital</h6>
-                                                    <p>Kolkata</p>
-                                                </td>
-                                                <td>
-                                                    <h6>Membership</h6>
-                                                    <p>type-1</p>
-                                                </td>
-                                                <td>
-                                                    <h6></h6>
-                                                    <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6><i class="fa fa-image fa-2x"></i></h6>
-                                                </td>
-                                                <td>
-                                                    <h6>Appolo Hospital</h6>
-                                                    <p>Kolkata</p>
-                                                </td>
-                                                <td>
-                                                    <h6>Membership</h6>
-                                                    <p>type-1</p>
-                                                </td>
-                                                <td>
-                                                    <h6></h6>
-                                                    <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6><i class="fa fa-image fa-2x"></i></h6>
-                                                </td>
-                                                <td>
-                                                    <h6>Appolo Hospital</h6>
-                                                    <p>Kolkata</p>
-                                                </td>
-                                                <td>
-                                                    <h6>Membership</h6>
-                                                    <p>type-1</p>
-                                                </td>
-                                                <td>
-                                                    <h6></h6>
-                                                    <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6><i class="fa fa-image fa-2x"></i></h6>
-                                                </td>
-                                                <td>
-                                                    <h6>Appolo Hospital</h6>
-                                                    <p>Kolkata</p>
-                                                </td>
-                                                <td>
-                                                    <h6>Membership</h6>
-                                                    <p>type-1</p>
-                                                </td>
-                                                <td>
-                                                    <h6></h6>
-                                                    <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6><i class="fa fa-image fa-2x"></i></h6>
-                                                </td>
-                                                <td>
-                                                    <h6>Appolo Hospital</h6>
-                                                    <p>Kolkata</p>
-                                                </td>
-                                                <td>
-                                                    <h6>Membership</h6>
-                                                    <p>type-1</p>
-                                                </td>
-                                                <td>
-                                                    <h6></h6>
-                                                    <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6><i class="fa fa-image fa-2x"></i></h6>
-                                                </td>
-                                                <td>
-                                                    <h6>Appolo Hospital</h6>
-                                                    <p>Kolkata</p>
-                                                </td>
-                                                <td>
-                                                    <h6>Membership</h6>
-                                                    <p>type-1</p>
-                                                </td>
-                                                <td>
-                                                    <h6></h6>
-                                                    <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                                </td>
-                                            </tr>
+                                                
+                                            <?php endforeach;
+                                                  endif;
+?>
+
                                         </table>
                                     </aside>
                                 </div>
@@ -1229,142 +857,31 @@
                                 <div tabindex="5000" style="overflow: hidden;" class="inbox-widget mCustomScrollbar mx-box">
                                     <aside class="table-responsive">
                                         <table class="table">
-                                            <tr>
+                                            
+                                            <?php if(isset($doctorList) && !empty($doctorList)):
+                                                    foreach($doctorList as $doctor): ?>
+                                                
+                                           <tr>
                                                 <td>
-                                                    <h6><i class="fa fa-image fa-2x"></i></h6>
+                                                    <h6><img src="<?php echo base_url().$doctor->imUrl;?>"></h6>
                                                 </td>
                                                 <td>
-                                                    <h6>Appolo Hospital</h6>
-                                                    <p>Kolkata</p>
+                                                    <h6><?php echo ucwords($doctor->doctoesName);?></h6>
+                                                    <p><?php echo ucwords($doctor->city);?></p>
                                                 </td>
                                                 <td>
-                                                    <h6>Membership</h6>
-                                                    <p>type-1</p>
-                                                </td>
-                                                <td>
-                                                    <h6></h6>
-                                                    <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6><i class="fa fa-image fa-2x"></i></h6>
-                                                </td>
-                                                <td>
-                                                    <h6>Appolo Hospital</h6>
-                                                    <p>Kolkata</p>
-                                                </td>
-                                                <td>
-                                                    <h6>Membership</h6>
-                                                    <p>type-1</p>
+                                                   
                                                 </td>
                                                 <td>
                                                     <h6></h6>
-                                                    <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">View</button>
+                                                    <a href="<?php echo site_url('doctor/doctorDetails/'.$doctor->id);?>" class="btn btn-success waves-effect waves-light m-b-5 center-block">View</a>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6><i class="fa fa-image fa-2x"></i></h6>
-                                                </td>
-                                                <td>
-                                                    <h6>Appolo Hospital</h6>
-                                                    <p>Kolkata</p>
-                                                </td>
-                                                <td>
-                                                    <h6>Membership</h6>
-                                                    <p>type-1</p>
-                                                </td>
-                                                <td>
-                                                    <h6></h6>
-                                                    <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6><i class="fa fa-image fa-2x"></i></h6>
-                                                </td>
-                                                <td>
-                                                    <h6>Appolo Hospital</h6>
-                                                    <p>Kolkata</p>
-                                                </td>
-                                                <td>
-                                                    <h6>Membership</h6>
-                                                    <p>type-1</p>
-                                                </td>
-                                                <td>
-                                                    <h6></h6>
-                                                    <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6><i class="fa fa-image fa-2x"></i></h6>
-                                                </td>
-                                                <td>
-                                                    <h6>Appolo Hospital</h6>
-                                                    <p>Kolkata</p>
-                                                </td>
-                                                <td>
-                                                    <h6>Membership</h6>
-                                                    <p>type-1</p>
-                                                </td>
-                                                <td>
-                                                    <h6></h6>
-                                                    <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6><i class="fa fa-image fa-2x"></i></h6>
-                                                </td>
-                                                <td>
-                                                    <h6>Appolo Hospital</h6>
-                                                    <p>Kolkata</p>
-                                                </td>
-                                                <td>
-                                                    <h6>Membership</h6>
-                                                    <p>type-1</p>
-                                                </td>
-                                                <td>
-                                                    <h6></h6>
-                                                    <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6><i class="fa fa-image fa-2x"></i></h6>
-                                                </td>
-                                                <td>
-                                                    <h6>Appolo Hospital</h6>
-                                                    <p>Kolkata</p>
-                                                </td>
-                                                <td>
-                                                    <h6>Membership</h6>
-                                                    <p>type-1</p>
-                                                </td>
-                                                <td>
-                                                    <h6></h6>
-                                                    <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6><i class="fa fa-image fa-2x"></i></h6>
-                                                </td>
-                                                <td>
-                                                    <h6>Appolo Hospital</h6>
-                                                    <p>Kolkata</p>
-                                                </td>
-                                                <td>
-                                                    <h6>Membership</h6>
-                                                    <p>type-1</p>
-                                                </td>
-                                                <td>
-                                                    <h6></h6>
-                                                    <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">View</button>
-                                                </td>
-                                            </tr>
+                                                
+                                            <?php endforeach;
+                                                  endif;
+?>
+                                  
                                         </table>
                                     </aside>
                                 </div>
@@ -1376,6 +893,30 @@
                 </aside>
             </section>
             <!--Section End-->
+            <section class="clerafix m-t-30">
+                <!--Bar Chart Start -->
+                    <div class="clearfix bg-white m-t-30">
+                        <article class="chartbox">
+                            <figure class="clearfix">
+                                <div class="col-md-12 p-0">
+                                    <h3>Revenue Trend</h3>
+                                </div>
+                                <div class="col-md-3 col-sm-3 text-right">
+                                    <select class="form-control selectpicker m-tb-5 pull-right" data-width="100%" >
+                                        <option>2015</option>
+                                        <option>2014</option>
+                                    </select>
+                                </div>
+                            </figure>
+
+                            <figcaption>
+                                <canvas id="bar-chart" class="h-300" data-type="Bar"></canvas>
+                            </figcaption>
+                        </article>
+                    </div>
+                    <!--Bar Chart End -->
+                
+            </section>
 
 
             <!-- start -->

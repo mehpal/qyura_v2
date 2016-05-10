@@ -66,7 +66,7 @@ Back
                                     <div class="pre col-md-4 col-sm-4 ">
                                     <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
                                         
-                                   <img src="<?php echo base_url() ?>assets/default-images/Blood-logo.png"  class="image-preview-show"/>
+                                   <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png"  class="image-preview-show"/>
                                         
                                     </div>
                                     </div>
@@ -85,7 +85,7 @@ Back
                                                   <label for="cname" class="control-label col-md-4 col-sm-4">City :</label>
                                                 <div class="col-sm-8 col-sm-8">
                                           
-                                                      <select class="form-control selectpicker" data-width="100%" name="qap_city" id="qap_city" required="">
+                                                      <select class="form-control select2" data-width="100%" name="qap_city" id="qap_city" required="">
                                                   <option value="">Select City</option>
                                                     <?php foreach ($allCity as $key => $val) { ?>
                                                         <option value="<?php echo $val->city_name; ?>" <?php echo set_select('qap_city', $val->city_name); ?>><?php echo $val->city_name; ?></option>
@@ -170,7 +170,7 @@ Back
                                                   <label for="cname" class="control-label col-md-4 col-sm-4">Bank City :</label>
                                                 <div class="col-sm-8 col-sm-8">
                                                     
-                                                     <select class="form-control selectpicker" data-width="100%" name="qap_bankCity" id="qap_bankCity" required="">
+                                                     <select class="form-control select2" data-width="100%" name="qap_bankCity" id="qap_bankCity" required="">
                                                   <option value="">Select Bank City</option>
                                                     <?php foreach ($allCity as $key => $val) { ?>
                                                         <option value="<?php echo $val->city_name; ?>" <?php echo set_select('qap_bankCity', $val->city_name); ?>><?php echo $val->city_name; ?></option>

@@ -278,6 +278,7 @@
                                                     <option <?php if(isset($offerData) && !empty($offerData)){ if($offerData->medicartOffer_ageDiscount == "70-80"){ echo "selected"; }}?> value="70-80">70-80</option>
                                                     <option <?php if(isset($offerData) && !empty($offerData)){ if($offerData->medicartOffer_ageDiscount == "80-90"){ echo "selected"; }}?> value="80-90">80-90</option>
                                                     <option <?php if(isset($offerData) && !empty($offerData)){ if($offerData->medicartOffer_ageDiscount == "90-100"){ echo "selected"; }}?> value="90-100">90-100</option>
+                                                    <option <?php if(isset($offerData) && !empty($offerData)){ if($offerData->medicartOffer_ageDiscount == "0-100"){ echo "selected"; }}?> value="0-100">0-100</option>
                                                 </select>
                                                  <label class="error"><?php echo form_error('medicartOffer_ageDiscount'); ?></label>
                                             </div>

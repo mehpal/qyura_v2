@@ -64,6 +64,8 @@
                                         <input type="hidden" style="display:none;" class="no-display file_action_url"  name="file_action_url" value="<?php echo site_url('hospital/editUploadImageDoctor'); ?>">
                                         <input type="hidden" style="display:none;" class="no-display load_url" id="load_url" name="load_url" value="<?php echo site_url('hospital/getUpdateAvtarDoctor/' . $doctorDetail[0]->doctors_id); ?>/doctor">
                                     </div>
+                                    <div id="error-label" class="error-label"></div>
+
                                 </article>
                                 <!-- description div -->
 

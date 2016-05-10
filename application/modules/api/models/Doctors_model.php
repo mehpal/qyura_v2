@@ -196,16 +196,17 @@ CASE
         $available = array();
         $finalResult = array();
         
-        $select = 'docTimeTable_id, docTimeTable_MItype as type, docTimeTable_MIprofileId as userId, docTimeDay_day, docTimeDay_id, docTimeTable_doctorId doctorId, docTimeTable_price as fee, CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_name ELSE  CASE WHEN (docTimeTable_MItype = 1) THEN hospital_name WHEN (docTimeTable_MItype = 2) THEN diagnostic_name ELSE "" END END AS name ';
+        $select = 'docTimeTable_id, docTimeTable_MItype as type, docTimeTable_MIprofileId as userId, docTimeDay_day, docTimeDay_id, docTimeTable_doctorId doctorId, docTimeTable_price as fee, CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_name ELSE  CASE WHEN (docTimeTable_MItype = 1) THEN hospital_name WHEN (docTimeTable_MItype = 2) THEN diagnostic_name ELSE "" END END AS name,'
+                . '  CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_lat ELSE (CASE WHEN (docTimeTable_MItype = 1) THEN hospital_lat WHEN (docTimeTable_MItype = 2) THEN diagnostic_lat ELSE "" END) END AS lat,'
+                . ' CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_long ELSE (CASE WHEN (docTimeTable_MItype = 1) THEN hospital_long WHEN (docTimeTable_MItype = 2) THEN diagnostic_long ELSE "" END) END  AS lng  ';
         
         if($lat != NULL){
             
-            $select .= ',  CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_lat ELSE (CASE WHEN (docTimeTable_MItype = 1) THEN hospital_lat WHEN (docTimeTable_MItype = 2) THEN diagnostic_lat ELSE "" END) END AS lat,'
-                . ' CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_long ELSE (CASE WHEN (docTimeTable_MItype = 1) THEN hospital_long WHEN (docTimeTable_MItype = 2) THEN diagnostic_long ELSE "" END) END  AS lng , (6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_lat ELSE (CASE WHEN (docTimeTable_MItype = 1) THEN hospital_lat WHEN (docTimeTable_MItype = 2) THEN diagnostic_lat ELSE "" END) END ) ) * cos( radians( CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_long ELSE (CASE WHEN (docTimeTable_MItype = 1) THEN hospital_long WHEN (docTimeTable_MItype = 2) THEN diagnostic_long ELSE "" END) END ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_lat ELSE (CASE WHEN (docTimeTable_MItype = 1) THEN hospital_lat WHEN (docTimeTable_MItype = 2) THEN diagnostic_lat ELSE "" END) END ) ) )
+            $select .= ', (6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_lat ELSE (CASE WHEN (docTimeTable_MItype = 1) THEN hospital_lat WHEN (docTimeTable_MItype = 2) THEN diagnostic_lat ELSE "" END) END ) ) * cos( radians( CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_long ELSE (CASE WHEN (docTimeTable_MItype = 1) THEN hospital_long WHEN (docTimeTable_MItype = 2) THEN diagnostic_long ELSE "" END) END ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_lat ELSE (CASE WHEN (docTimeTable_MItype = 1) THEN hospital_lat WHEN (docTimeTable_MItype = 2) THEN diagnostic_lat ELSE "" END) END ) ) )
                 ) AS distance';
         }
         
-        for($i=0; $i < 7; $i++){
+        for($i=0; $i < 7; $i++) {
             
             $this->db->select($select)
             ->from('qyura_docTimeDay') 
@@ -226,6 +227,8 @@ CASE
                     if($pre != $tag){
                         $finalTemp = array();
                         $finalTemp['docTimeTable_id'] = $row->docTimeTable_id;
+                        $finalTemp['lat'] = (isset($row->lat) && $row->lat != NULL) ? $row->lat : "";
+                        $finalTemp['lng'] = (isset($row->lng) && $row->lng != NULL) ? $row->lng : "";
                         $finalTemp['name'] = (isset($row->name) && $row->name != NULL) ? $row->name : ""; 
                         if($lat != NULL){
                             $finalTemp['fee'] = (isset($row->fee) && $row->fee != NULL)? $row->fee :"0";
@@ -244,7 +247,7 @@ CASE
 
     public function getDoctorSession($id,$day) {
 
-        $this->db->select('docTimeDay_id, docTimeDay_day day, docTimeDay_open as open, docTimeDay_close')
+        $this->db->select('docTimeDay_id, docTimeDay_open as open, docTimeDay_close')
             ->from('qyura_docTimeDay')
             ->join('qyura_docTimeTable', 'qyura_docTimeTable.docTimeTable_id=qyura_docTimeDay.docTimeDay_docTimeTableId', 'left')
             ->where(array('docTimeDay_docTimeTableId' => $id, "docTimeDay_deleted" => 0,"docTimeDay_day"=>$day))
