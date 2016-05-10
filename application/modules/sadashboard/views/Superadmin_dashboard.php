@@ -568,7 +568,7 @@
                                                 <p><?php echo ucwords($quot->docName);?></p>
                                             </td>
                                             <td>
-                                                <button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button>
+                                                <a href="<?php echo site_url('quotation/viewPrescription/'.$quot->quotation_id);?>" class="btn btn-success waves-effect waves-light m-b-5" >Detail</a>
                                             </td>
                                         </tr>
                                         
