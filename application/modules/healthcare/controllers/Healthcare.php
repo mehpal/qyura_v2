@@ -54,10 +54,10 @@ class Healthcare extends MY_Controller {
         $this->load->super_admin_template('detailHealthpkg', $data,'scriptHealthpkg');
    }
    function editHealthpkg($healthPackage_id=''){
-     
+   
     $data = array();
     $data['editHealthcareData'] = $this->Healthcare_model->fetchHealthcareData($healthPackage_id);
-  
+  //print_r($data['editHealthcareData']); exit;
     $data['healthPackage_id'] = $healthPackage_id;
     if($data['editHealthcareData'][0]->miType == "Hospital"){
       $data['miData'] = $this->Healthcare_model->fetchHospital($data['editHealthcareData'][0]->cityId);
@@ -162,9 +162,10 @@ class Healthcare extends MY_Controller {
                      'healthPackage_cityId'=>$city,
                      'healthPackage_MIuserId'=>$miName,
                      'healthPackage_includesTest'=>$testIncluded,
-                     'status'=>1,
+                     'status'=>0,
                      'creationTime' => strtotime(date("Y-m-d H:i:s"))
                     );
+                   
                
                      $insertId = $this->Healthcare_model->insertHealthpkg($insertData,$miType);
                      if($insertId){
@@ -215,7 +216,7 @@ class Healthcare extends MY_Controller {
               'healthPackage_cityId'=>$city,
               'healthPackage_MIuserId'=>$miName,
               'healthPackage_includesTest'=>rtrim($testIncluded,"|"),
-              'status'=>1,
+             // 'status'=>1,
               'creationTime' => strtotime(date("Y-m-d H:i:s"))
               );
                       //print_r($insertData);
@@ -316,41 +317,6 @@ class Healthcare extends MY_Controller {
     }
     
     
-            /**
-     * @method status
-     * @description   update  status enable or disable
-     * @access public
-     * @param int
-     * @return boolean
-     */
-    function status() {
-        $enable_id = $this->input->post('enable_id'); //status id
-        $status_value = $this->input->post('status'); // status value
-        $table_name = $this->input->post('table'); //table name
-        $id_name = $this->input->post('id_name'); //field name
 
-        if (!empty($enable_id) && !empty($table_name) && !empty($id_name)) {
-            //where
-            $where = array($id_name => $enable_id);
-            if ($status_value == 0) {
-                $update_data['status'] = 1;
-            } else {
-                $update_data['status'] = 0;
-            }
-
-            $options = array(
-                'table' => $table_name,
-                'where' => $where,
-                'data' => $update_data
-            );
-            $update = $this->Healthcare_model->customUpdate($options);
-            if ($update) {
-                echo $update;
-            } else
-                echo 0;
-        }else {
-            echo 0;
-        }
-    }
 
 }  

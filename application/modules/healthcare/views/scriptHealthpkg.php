@@ -398,7 +398,7 @@
             return false;
         m = parseInt(m) + parseInt(1);
         $('#serviceName').val(m);
-        $('#multiserviceName').append('<div><a class="remove" href="#" onclick="$(this).parent().slideUp(function(){ $(this).remove() }); return false"> <i class="fa fa-minus-circle fa-2x m-t-5 label-plus"></i></a><input type=text class=form-control name=testIncluded[] placeholder="Give Test Name" maxlength="30" id=hospitalServices_serviceName' + m + ' /> <br /></div>');
+        $('#multiserviceName').append('<div class="row m-t-10"><aside class="col-sm-2 pull-right text-right"><a class="remove pull-right" href="#" onclick="$(this).parent().parent().slideUp(function(){ $(this).remove() }); return false"> <i class="fa fa-minus-circle pull-right fa-2x m-t-5 label-plus"></i></a></aside><aside class="col-sm-10"><input type=text class=form-control name=testIncluded[] placeholder="Give Test Name" maxlength="30" id=hospitalServices_serviceName' + m + ' /> </aside><br /></div>');
     }
     
       function createCSV(){
