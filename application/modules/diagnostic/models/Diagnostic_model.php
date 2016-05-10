@@ -294,6 +294,8 @@ class Diagnostic_model extends CI_Model {
             $this->datatables->where(array('diag.diagnostic_id' => $condition));
         $this->datatables->where(array('diag.diagnostic_deleted' => 0));
         
+        $this->datatables->where_in('diag.status', array(0,1));
+        
 
         $this->datatables->add_column('diagnostic_img', '<img class="img-responsive" height="80px;" width="80px;" src=' . $imgUrl . '>', 'diagnostic_img');
 

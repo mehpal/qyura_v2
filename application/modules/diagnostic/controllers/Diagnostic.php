@@ -307,6 +307,23 @@ class Diagnostic extends MY_Controller {
         if ($this->bf_form_validation->run() === FALSE) {
             $data = array();
             //exit;
+            
+            $option = array(
+                'table' => 'qyura_membership',
+                'select' => 'membership_id,membership_name',
+                'where' => array('membership_deleted' => 0,'status' => 3,'membership_type' => 3)
+            );
+            $data['membership_plan'] = $this->common_model->customGet($option);
+
+            $option = array(
+                'table' => 'qyura_facilities',
+                'select' => '*',
+                'where' => array('qyura_facilities.facilities_deleted' => 0),
+                'order' => array('facilities_name' => 'asc'),
+                'single' => FALSE
+            );
+            $data['facilities_list'] = $this->common_model->customGet($option);
+
             $countryId = $this->input->post('diagnostic_countryId');
             $data['allStates'] = $this->diagnostic_model->fetchStates($countryId);
             $stateId = $this->input->post('diagnostic_stateId');
@@ -424,17 +441,18 @@ class Diagnostic extends MY_Controller {
                 
                 
                  if($diagno_id == 0){
-                      $inserData['status'] = 0;
+                      $insertData['status'] = 0;
                       $diagnosticId = $this->diagnostic_model->insertDiagnostic($insertData);
                 }elseif($diagno_id != 0 && $diagno_id != '' && $diagno_id != NULL){
                      $diagnosticId = $diagno_id;
-                     unset($inserData['creationTime']);
-                     $inserData['modifyTime'] = strtotime(date("Y-m-d H:i:s"));
-                     $inserData['status'] = 0;
+                     unset($insertData['creationTime']);
+                     $insertData['modifyTime'] = strtotime(date("Y-m-d H:i:s"));
+                     $insertData['status'] = 0;
                      $where = array(
                         'diagnostic_id' => $diagno_id
                     );
-                    $response = $this->diagnostic_model->UpdateTableData($inserData, $where, 'qyura_diagnostic');
+                    $response = $this->diagnostic_model->UpdateTableData($insertData, $where, 'qyura_diagnostic');
+                   // echo $this->db->last_query(); exit;
                 }
                 
                 
