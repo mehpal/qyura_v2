@@ -11,7 +11,7 @@ class Medicart_model extends Common_model {
     }
 
     function specialityList($lat, $long, $city = NULL) {
-//echo "---".$city;die();
+        
         if (isset($city) && $city != NULL) {
 
             $this->db->select("(CASE WHEN(speciality_display_format = '0') THEN specialities_name ELSE specialities_drName END) as name, specialities_id, CONCAT('assets/specialityImages/3x','/',specialities_img) img, (SELECT count(medicartSpecialities_medicartId) from qyura_medicartSpecialities JOIN `qyura_medicartOffer` ON `qyura_medicartOffer`.`medicartOffer_id` = `medicartSpecialities_medicartId` where `qyura_medicartOffer`.`status` = 1 AND medicartSpecialities_deleted = 0 AND `qyura_medicartSpecialities`.`status` = 1 AND `medicartSpecialities_specialitiesId` = `specialities_id`) as specialityCount, qyura_medicartOffer.modifyTime, CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN qyura_hospital.hospital_name ELSE qyura_diagnostic.diagnostic_name END AS `MIName`,medicartOffer_id")
@@ -25,11 +25,8 @@ class Medicart_model extends Common_model {
                     ->group_by("specialities_id");
 
             return $this->db->get()->result();
-            
-//            $this->db->get()->result();
-//            echo $this->db->last_query();die();
+             
         } else {
-//            echo "Hi";
             $this->db->select("(CASE WHEN(speciality_display_format = '0') THEN specialities_name ELSE specialities_drName END) as name, specialities_id, CONCAT('assets/specialityImages/3x','/',specialities_img) img,  (SELECT count(medicartSpecialities_medicartId) from qyura_medicartSpecialities JOIN `qyura_medicartOffer` ON `qyura_medicartOffer`.`medicartOffer_id` = `medicartSpecialities_medicartId` where `qyura_medicartOffer`.`status` = 1 AND medicartSpecialities_deleted = 0 AND `qyura_medicartSpecialities`.`status` = 1 AND `medicartSpecialities_specialitiesId` = `specialities_id`) as specialityCount, qyura_medicartOffer.modifyTime, medicartOffer_id,"
                             . "CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN qyura_hospital.hospital_name ELSE qyura_diagnostic.diagnostic_name END AS `MIName`,"
                             . "CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN qyura_hospital.hospital_lat ELSE qyura_diagnostic.diagnostic_lat END AS `lat`,"

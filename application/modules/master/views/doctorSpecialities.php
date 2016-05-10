@@ -45,7 +45,8 @@
                                         <article class="col-md-4 text-right">
                                             <h6>
                                                 <a class="btn btn-success waves-effect waves-light m-b-5" href="<?php echo site_url('master/doceditSpecialitiesView/' . $val->specialities_id); ?>"><i class="fa fa-pencil"></i></a>
-						<button onclick="if((<?php echo $val->status; ?>)===2)enableFn('master', 'specialityPublish', '<?php echo $val->specialities_id; ?>','<?php echo $val->status; ?>')" type="button" class="btn btn-<?php if($val->status == 2){ echo "danger"; }else if($val->status == 0){ echo "warning"; }else if($val->status == 1){ echo "success"; }else { echo "primary"; } ?> waves-effect waves-light m-b-5"><?php if($val->status == 3){ echo "Verified"; }else if($val->status == 2){ echo "Unverified"; }else if($val->status == 1){ echo "Active"; }else if($val->status == 0){ echo "Inactive"; } ?></button>
+                                                <button onclick="if((<?php echo $val->status; ?>)===0)enableFn('master', 'specialityPublish', '<?php echo $val->specialities_id; ?>','<?php echo $val->status; ?>')" type="button" class="btn btn-<?php if($val->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($val->status == 0){ echo "Inactive"; }else if($val->status == 1){ echo "Active"; } ?></button>
+						
                                             </h6>
                                         </article>
                                         <article class="col-md-8">
@@ -108,19 +109,7 @@
                                         <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
                                     </div>
                                 </article>
-                                  <article class="clearfix m-t-10">
-                                <label for="cname" class="control-label col-md-4">Display format</label>
-                                <div class="col-md-8">
-                                    <aside class="radio radio-info">
-                                        <input <?php echo set_radio('speciality_display_format', 0); ?> type="radio" id="speciality_display_format_yes" value="0" name="speciality_display_format">
-                                        <label for="inlineRadio1"> Scientific Name</label>
-                                    </aside>
-                                    <aside class="radio radio-info">
-                                        <input <?php echo set_radio('speciality_display_format', 1, TRUE); ?> type="radio" id="speciality_display_format_no" value="1" name="speciality_display_format" checked>
-                                        <label for="inlineRadio2"> General Name</label>
-                                    </aside>
-                                </div>
-                            </article>
+
                                 <article class="clearfix m-t-10">
                                     <label for="" class="control-label">Keywords/Tags:</label>
                                     <div class="">

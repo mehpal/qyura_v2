@@ -60,23 +60,28 @@ class Medicart_model extends CI_Model {
     
   function fetchHospital ($cityId=NULL){
 
-        $this->db->select('hospital_id,hospital_usersId,hospital_name');
+        $this->db->select('qyura_hospital.hospital_id,qyura_hospital.hospital_usersId,qyura_hospital.hospital_name');
         $this->db->from('qyura_hospital');
-        $this->db->where('hospital_cityId',$cityId);
-        $this->db->where('hospital_deleted',0);
-        $this->db->where('status',1);
-        $this->db->order_by("hospital_name","asc");
-        return $this->db->get()->result();
+        $this->db->join('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId = qyura_hospital.hospital_usersId','inner');
+        $this->db->where('qyura_hospital.hospital_cityId',$cityId);
+        $this->db->where('qyura_hospital.hospital_deleted',0);
+        $this->db->where('qyura_hospital.status',1);
+        $this->db->where('qyura_usersRoles.usersRoles_roleId',1);
+        $this->db->order_by("qyura_hospital.hospital_name","asc");
+        
+         return $this->db->get()->result();
     }
     
   function fetchDiagnostic ($cityId=NULL){
 
-        $this->db->select('diagnostic_id, diagnostic_usersId, diagnostic_name');
+        $this->db->select('qyura_diagnostic.diagnostic_id, qyura_diagnostic.diagnostic_usersId, qyura_diagnostic.diagnostic_name');
         $this->db->from('qyura_diagnostic');
-        $this->db->where('diagnostic_cityId',$cityId);
-        $this->db->where('diagnostic_deleted',0);
-         $this->db->where('status',1);
-        $this->db->order_by("diagnostic_name","asc");
+        $this->db->join('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId = qyura_diagnostic.diagnostic_usersId','inner');
+        $this->db->where('qyura_diagnostic.diagnostic_cityId',$cityId);
+        $this->db->where('qyura_diagnostic.diagnostic_deleted',0);
+        $this->db->where('qyura_diagnostic.status',1);
+        $this->db->where('qyura_usersRoles.usersRoles_roleId',3);
+        $this->db->order_by("qyura_diagnostic.diagnostic_name","asc");
         return $this->db->get()->result();
     }
 

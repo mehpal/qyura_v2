@@ -714,6 +714,16 @@ if ($current == 'doctorDetails'){ ?>
     var urls = "<?php echo base_url() ?>";
     $(document).ready(function () {
     $("#submitForm").validate({
+        ignore: "",
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "avatar_file")
+        {
+            error.insertAfter('.error-label');
+        }
+        else{
+            error.insertAfter(element);
+        }
+        },
         rules: {
             doctors_fName: {
                 required: true
@@ -721,7 +731,7 @@ if ($current == 'doctorDetails'){ ?>
             doctors_lName: {
                 required : true
             },
-             avatarInput: {
+             avatar_file: {
                 required : true
             },
             'doctorSpecialities_specialitiesId[]': {
@@ -762,7 +772,7 @@ if ($current == 'doctorDetails'){ ?>
               doctors_lName: {
                 required : "Please enter doctor's last name!"
             },
-              avatarInput: {
+              avatar_file: {
                 required : "Please upload an image!"
             },
 

@@ -1,5 +1,11 @@
 <script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.min.js"></script>
-
+<style>
+    .bootbox{
+        display: block;
+    padding-right: 13px;
+    top: 25% !important;
+    }
+</style>
 <script>
     
     function timeSplit(time) {
@@ -43,7 +49,6 @@
             return false;
         }
     }
-    
     //   Fill Monday Value to all days
     function allDaysHour(checkId, valId1, valId2) {
 
@@ -52,7 +57,7 @@
             var closeHour = $("#" + valId2).val();
             
             if (openHour == '' && closeHour == '') {
-                alert("Monday Time is Required");
+                bootbox.alert("Monday Time is Required");
                 $("#" + checkId).prop('checked', false);
             } else {
                 var i;
