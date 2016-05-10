@@ -16,7 +16,6 @@ class SaDashboard extends MY_Controller {
         $data['Doctor'] = $this->dashboard_model->getDoctorCount();
         $data['User'] = $this->dashboard_model->getUserCount();
         $data['MiList'] = $this->dashboard_model->getMiList();
-        dump($data['MiList']);
         $data['doctorList'] = $this->dashboard_model->getDoctorList();
         $data['quotationList'] = $this->dashboard_model->getPendingQuotationList();
         $data['notification'] = $this->dashboard_model->getNotification();
