@@ -88,6 +88,8 @@ class DoctorApi extends MyRest {
             $doctorId = $this->input->post('doctorId');
             $lat = $this->input->post('lat');
             $long = $this->input->post('long');
+            $cityId = $this->input->post('cityId');
+            $cityId = (isset($cityId) && $cityId != NULL) ? $cityId : NULL ;
 
             $userId = isset($_POST['userId']) && $_POST['userId'] != null && $_POST['userId'] != 0 ? $this->input->post('userId') : 0;
             $doctorsDetails = $this->doctors_model->getDoctorsDetails($doctorId, $userId);
@@ -103,7 +105,7 @@ class DoctorApi extends MyRest {
 
                 $response['review'] = $this->doctors_model->getDoctorReviews($doctorsDetails['userId']);
 
-                $response['availability'] = $this->doctors_model->getDoctorTimeSlot($doctorsDetails['id'], $lat, $long);
+                $response['availability'] = $this->doctors_model->getDoctorTimeSlot($doctorsDetails['id'], $lat, $long, $cityId);
 
                 $response['status'] = TRUE;
                 $response['msg'] = 'success';
