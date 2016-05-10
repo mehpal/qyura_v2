@@ -139,12 +139,14 @@ if ($msg != "" || $msg != NULL) {
                                 }
 
                             });
-                            $('#er_TopError').show();
-                            $('#er_TopError').html(data.errors.TopError);
-                            setTimeout(function () {
-                                $('#er_TopError').hide(5000);
-                                $('#er_TopError').html('');
-                            }, 5000);
+		            if(data.errors.TopError){
+		                $('#er_TopError').show();
+		                $('#er_TopError').html(data.errors.TopError);
+		                setTimeout(function () {
+		                    $('#er_TopError').hide(5000);
+		                    $('#er_TopError').html('');
+		                }, 5000);
+			    }
                         }
                         else
                         {
@@ -172,12 +174,14 @@ if ($msg != "" || $msg != NULL) {
                        }, 1000);
                     }
                 } catch (e) {
-                    $('#er_TopError').show();
-                    $('#er_TopError').html(e);
-                    setTimeout(function () {
-                        $('#er_TopError').hide(5000);
-                        $('#er_TopError').html('');
-                    }, 5000);
+		    if(e){
+		        $('#er_TopError').show();
+		        $('#er_TopError').html(e);
+		        setTimeout(function () {
+		            $('#er_TopError').hide(5000);
+		            $('#er_TopError').html('');
+		        }, 5000);
+		    }
                 }
             }
         });
