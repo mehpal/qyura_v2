@@ -1,4 +1,3 @@
-
 <!-- Left Sidebar End -->
 <!-- Start right Content here -->
 <div class="content-page">
@@ -372,22 +371,7 @@ if (isset($hospital_id) && $hospital_id != 0) {
                                 </div>
                             </article>
                             
-                            
-                            <article class="clearfix m-t-10">
-                                    <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type :</label>
-                                    <div class="col-md-8  col-sm-8">
-                                        <select class="select2" data-width="100%" name="hospital_mmbrTyp" id="hospital_mmbrTyp" onchange="find_membershipdata(this.value)">
-                                            <option value="">Select Membership</option>
-                                            <?php if(isset($membership_plan) && $membership_plan){ 
-                                                foreach($membership_plan as $membership){ ?>
-                                                    <option value="<?php echo $membership->membership_id; ?>" <?php echo set_select('hospital_mmbrTyp', $membership->membership_id); ?> ><?php echo $membership->membership_name; ?></option>
-                                            <?php } } ?>
-                                        </select>
-                                        <label class="error" style="display:none;" id="error-hospital_mmbrTyp"> please select a member type</label>
-                                        <label class="error" > <?php echo form_error("hospital_mmbrTyp"); ?></label>
-                                    </div>
-                                </article>
-                            
+                        
                             
                             <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4 col-sm-4">About Us :</label>
@@ -652,6 +636,24 @@ if (isset($amobulancestatus) && $amobulancestatus == 1) {
                                 <h3>Membership Detail</h3>
                             </figure>
                             <aside class="clearfix m-t-20 p-b-20">
+                                
+                                    
+                            <article class="clearfix m-t-10">
+                                    <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type :</label>
+                                    <div class="col-md-8  col-sm-8">
+                                        <select class="select2" data-width="100%" name="hospital_mmbrTyp" id="hospital_mmbrTyp" onchange="find_membershipdata(this.value)">
+                                            <option value="">Select Membership</option>
+                                            <?php if(isset($membership_plan) && $membership_plan){ 
+                                                foreach($membership_plan as $membership){ ?>
+                                                    <option value="<?php echo $membership->membership_id; ?>" <?php echo set_select('hospital_mmbrTyp', $membership->membership_id); ?> ><?php echo $membership->membership_name; ?></option>
+                                            <?php } } ?>
+                                        </select>
+                                        <label class="error" style="display:none;" id="error-hospital_mmbrTyp"> please select a member type</label>
+                                        <label class="error" > <?php echo form_error("hospital_mmbrTyp"); ?></label>
+                                    </div>
+                                </article>
+                            
+                                
                                 <article class="clearfix m-t-10">
                                     <?php $checkBocCount = 1; 
                                     if(isset($facilities_list) && $facilities_list != NULL){ ?>

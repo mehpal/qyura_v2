@@ -50,6 +50,7 @@
                                        <th>Experience</th>
                                        <th>DOJ</th>
                                        <th>Phone</th>
+                                       <th>Status</th>
                                        <th>Action</th>
                                     </tr>
                                     </thead>
