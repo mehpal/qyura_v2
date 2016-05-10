@@ -1207,14 +1207,15 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
         }
    
    
-   function validationDiagnostic(){
-       // $("form[name='diagnosticForm']").submit();
-       
-        var isAddressDisabled = $('#isAddressDisabled').val();
-        if(isAddressDisabled == 1){
-            $("#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId").prop("disabled", false);
-        }
-        
+   function changeStatus(){
+        // $("form[name='diagnosticForm']").submit();
+
+         var isAddressDisabled = $('#isAddressDisabled').val();
+         if(isAddressDisabled == 1){
+             $("#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId").prop("disabled", false);
+         }
+    }
+   function validationDiagnostic(){      
         var check= /^[a-zA-Z\s]+$/;
         var numcheck=/^[0-9]+$/;
         var RegExpression = /^[a-zA-Z\s]+$/;

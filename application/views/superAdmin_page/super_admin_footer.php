@@ -4,6 +4,13 @@
 </div>
 <!-- End Right content here -->
 </div>
+<style>
+.bootbox{
+    display: block !important;
+    padding-right: 13px !important;
+    top: 25% !important;
+}
+</style>
 <!-- END wrapper -->
 <script>
     var resizefunc = [];
