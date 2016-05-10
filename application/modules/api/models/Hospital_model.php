@@ -291,7 +291,6 @@ CASE
     // mi time slot
 
     public function miTimeSlot($hospitalUserId) {
-        
         $this->db->select('(CASE WHEN (openingHours is NULL) THEN 0 ELSE openingHours END) AS openingHours , (CASE WHEN (closingHours is NULL) THEN 0 ELSE closingHours END) AS closingHours');
         $this->db->from('qyura_miTimeSlot');
         $this->db->where(array('deleted' => 0, 'status' => 1, 'mi_user_id' => $hospitalUserId, 'hourLabel' => date("l")));

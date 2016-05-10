@@ -802,6 +802,7 @@ if ($current != 'detailDoctor'):
                 {"data": "exp"},
                 {"data": "joinDate"},
                 {"data": "doctors_phn"},
+                 {"data": "status"},
                 {"data": "view", "searchable": false, "order": false, orderable: false, width: "8%"},
             ],
             "ajax": {
