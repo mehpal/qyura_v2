@@ -30,18 +30,18 @@
                            <ul id="list" class="list-unstyled ul-bigspace">
                               <?php $countDepartment = 1; if(isset($departmentList) && $departmentList != NULL){
                                  foreach ($departmentList as $list){ ?>
-                              <li class="clearfix  border-t membership-plan m-t-10">
+                              <li class="clearfix  border-t membership-plan m-t-10" id="department<?php echo $countDepartment;?>">
                                  <span class="col-md-8">
                                     <h6><?php echo $list->department_name; ?></h6>
                                  </span>
                                  <span class="col-md-4 text-right">
                                     <h6>
-                                        <a href="#"><i class="md md-edit membership-btn" style="line-height: 3"></i></a>
+                                        <a onclick="showDepartment('<?php echo $countDepartment;?>')" href="#"><i class="md md-edit membership-btn" style="line-height: 3"></i></a>
                                       <button onclick="if((<?php echo $list->status; ?>)===0)enableFn('master', 'departmentPublish', '<?php echo $list->department_id; ?>','<?php echo $list->status; ?>')" type="button" class="btn btn-<?php if($list->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($list->status == 0){ echo "Inactive"; }else if($list->status == 1){ echo "Active"; } ?></button>
                                     </h6>
                                  </span>
                               </li>
-                           <li class="newmembership" style="display:none">
+                           <li class="newmembership" style="display:none" id="editDept<?php echo $countDepartment;?>">
                                 <input type="hidden" id="department_id_<?php echo $countDepartment; ?>" name="department_id_<?php echo $countDepartment; ?>" value="<?php echo $list->department_id; ?>" >
                                 <span class="col-md-10">
                                 <input type="text" required="" name="department_name_<?php echo $countDepartment; ?>" id="department_name_<?php echo $countDepartment; ?>" class="form-control" value="<?php echo $list->department_name; ?>">
@@ -49,7 +49,7 @@
                                 </span>
                                 <span class="col-md-2">
                                    <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                                   <a href="#" style="line-height: 1.6"><i class="md md-cancel membership-btn"></i></a>
+                                   <a onclick="hideDepartment('<?php echo $countDepartment;?>')" href="#" style="line-height: 1.6"><i class="md md-cancel membership-btn"></i></a>
                                 </span>
                              </li>
                              <?php $countDepartment++;} } ?>

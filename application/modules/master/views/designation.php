@@ -30,7 +30,7 @@
                                  <?php $countDesignation = 1; if(isset($Departments) && $Departments != NULL){
                                     foreach ($Departments as $list){
                                     ?>
-                                 <li class="clearfix  border-t membership-plan m-t-10">
+                                 <li class="clearfix  border-t membership-plan m-t-10" id="designation<?php echo $countDesignation;?>">
                                     <span class="col-md-4">
                                        <h6><?php echo $list->department_name;?> </h6>
                                     </span>
@@ -39,13 +39,13 @@
                                     </span>
                                     <span class="col-md-4 text-right">
                                        <h6>
-                                           <a href="javascript:void(0)"><i class="md md-edit membership-btn" style="line-height: 3"></i></a>
+                                           <a onclick="showDesignation('<?php echo $countDesignation;?>')" href="javascript:void(0)"><i class="md md-edit membership-btn" style="line-height: 3"></i></a>
                                            <button onclick="if((<?php echo $dsgnStatus->status; ?>)===0)enableFn('master', 'designationPublish', '<?php echo $dsgnStatus->designation_id; ?>','<?php echo $dsgnStatus->status; ?>')" type="button" class="btn btn-<?php if($dsgnStatus->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($dsgnStatus->status == 0){ echo "Inactive"; }else if($dsgnStatus->status == 1){ echo "Active"; } ?></button>                                         
                                        </h6>
                                     </span>
                                  </li>
                                 
-                                 <li class="newmembership m-t-10" style="display:none">
+                                 <li class="newmembership m-t-10" style="display:none" id="editDes<?php echo $countDesignation;?>">
                                     <span class="col-md-5 ">
                                        <input type="hidden" id="designation_id_<?php echo $countDesignation; ?>" name="designation_id_<?php echo $countDesignation; ?>" value="<?php echo $list->designation_id; ?>" >
 
@@ -67,7 +67,7 @@
                                     </span>
                                     <span class="col-md-2">
                                        <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                                       <a href="javascript:void(0)" style="line-height: 1.6"><i class="md md-cancel membership-btn"></i></a>
+                                       <a onclick="hideDesignation('<?php echo $countDesignation;?>')" href="javascript:void(0)" style="line-height: 1.6"><i class="md md-cancel membership-btn"></i></a>
                                     </span>
                                  </li>
                                  <?php $countDesignation++;} } ?>

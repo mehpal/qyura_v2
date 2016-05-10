@@ -29,18 +29,18 @@
                             <ul id="list" class="list-unstyled ul-bigspace">
                             <?php $countAgency = 1; if(isset($awardAgency_list) && $awardAgency_list != NULL){ 
                                 foreach ($awardAgency_list as $awardAgency){ ?>
-                                <li class="clearfix degrees membership-plan">
+                                <li class="clearfix degrees membership-plan" id="awardAgency<?php echo $countAgency;?>">
                                     <span class="col-md-8 col-sm-9 col-xs-10">
                                         <?php echo $awardAgency->agency_name; ?>
                                     </span>
                                    
                                     <span class="col-lg-4 col-sm-3 col-xs-2">
-                                        <a href="#"><i class="md md-edit membership-btn" style="line-height: 3"></i></a>
+                                        <a onclick="showAwardAgency('<?php echo $countAgency;?>')" href="#"><i class="md md-edit membership-btn" style="line-height: 3"></i></a>
                                         <button onclick="if((<?php echo $awardAgency->status; ?>)===0)enableFn('master', 'awardAgencyPublish', '<?php echo $awardAgency->awardAgency_id; ?>','<?php echo $awardAgency->status; ?>')" type="button" class="btn btn-<?php if($awardAgency->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($awardAgency->status == 0){ echo "Inactive"; }else if($awardAgency->status == 1){ echo "Active"; } ?></button>
                                        
                                     </span>
                                 </li>
-                                <li class="newmembership" style="display:none">
+                                <li class="newmembership" style="display:none" id="editAward<?php echo $countAgency;?>">
                                     <span class="col-md-10">
                                         <input type="hidden" id="awardAgency_id_<?php echo $countAgency; ?>" name="awardAgency_id_<?php echo $countAgency; ?>" value="<?php echo $awardAgency->awardAgency_id	; ?>" >
                                         <input type="text" required="" name="agency_name_<?php echo $countAgency; ?>" id="agency_name_<?php echo $countAgency; ?>" class="form-control" value="<?php if($awardAgency->agency_name){ echo $awardAgency->agency_name; }else{echo ''; } ?>">
@@ -49,7 +49,7 @@
                                    
                                     <span class="col-md-2">
                                         <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                                        <a href="#" style="line-height: 2"><i class="md md-cancel membership-btn"></i></a>
+                                        <a onclick="hideAwardAgency('<?php echo $countAgency;?>')" href="#" style="line-height: 2"><i class="md md-cancel membership-btn"></i></a>
                                     </span>
                                 </li>
                             <?php $countAgency++;} } ?>

@@ -39,7 +39,7 @@
                                 <?php $this->load->view('upload_crop_modal');?>
                             </div>
                             <label class="control-label col-md-4 col-sm-4" for="cemail">
-                            <?php if(!empty($val->specialities_img)){  ?><a href="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>" target="_blank"><img height="80px;" width="80px;" src="<?php echo base_url()?>assets/specialityImages/3x/<?php echo $val->specialities_img; ?>" class="img-responsive"><?php } else { ?>
+                            <?php if(!empty($val->specialities_img)){  ?><a href="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>"><img height="80px;" width="80px;" src="<?php echo base_url()?>assets/specialityImages/3x/<?php echo $val->specialities_img; ?>" class="img-responsive"><?php } else { ?>
                                 <img src="<?php echo base_url()?>assets/default-images/Dignostics-logo.png" alt="" class="logo-img" />
 
                             <?php } ?></a>
