@@ -2670,22 +2670,38 @@ $('.select2').select2().change(function(){
 
 $(document).ready(function () {
     $("#bloodbankbtn , #bloodbank").click(function () {
-       if($(this).is(':checked')){
-        bootbox.confirm("Do you outsource the blood?", function(result) {
-           if (result) {
-               $('#isBloodBankOutsource').val(1);
-               $("#bloodbankdetail").fadeIn();
-           }else{
-               $("#bloodbankdetail").fadeOut();
-               $('#isBloodBankOutsource').val(0);
-           }
+     if($(this).is(':checked')){
+         bootbox.confirm({
+                    message: 'Do you outsource the blood?',
+                    buttons: {
+                        'cancel': {
+                            label: 'No',
+                            className: 'btn-default pull-left'
+                        },
+                        'confirm': {
+                            label: 'Yes',
+                            className: 'btn-primary pull-right'
+                        }
+                    },
+                    callback: function(result) {
+                        if (result) {
+                            $('#isBloodBankOutsource').val(1);
+                            $("#bloodbankdetail,#bloodbankOption").fadeIn();
+                        }else{
+                            $("#bloodbankdetail,#bloodbankOption").fadeOut();
+                            $('#isBloodBankOutsource').val(0);
+                    }
+               
+              }
          });
-       }else{
-           $("#bloodbankdetail").fadeOut();
-           $('#isBloodBankOutsource').val(0);
-       }
-   });
-});
+            
+        }else{
+            $("#bloodbankdetail,#bloodbankOption").fadeOut();
+            $('#isBloodBankOutsource').val(0);
+        }
+    });
+ });
+ 
 </script>
 </body>
 </html>

@@ -2183,6 +2183,8 @@ function imageIsLoaded(e) {
   
   
   $("#bloodbank,#bloodbankbtn").click(function () {
+      
+      
         if($(this).is(':checked')){
          bootbox.confirm({
                     message: 'Do you outsource the blood?',

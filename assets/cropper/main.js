@@ -421,6 +421,10 @@ console.log(files);
   });
   
   $(function () {
+    return new CropAvatar($('#doctor-crop-avatar'),'doctor-avatar-modal');
+  });
+  
+  $(function () {
     return new CropAvatar($('#blood-crop-avatar'),'blood-avatar-modal');
   });
   
