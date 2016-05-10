@@ -75,8 +75,8 @@ class DoctorApi extends MyRest {
     function doctordetail_post() {
 
         $this->bf_form_validation->set_rules('doctorId', 'DoctorId Id', 'xss_clean|numeric|required|trim');
-        $this->bf_form_validation->set_rules('lat', 'latitude', 'xss_clean|numeric|required|trim');
-        $this->bf_form_validation->set_rules('long', 'laongitude', 'xss_clean|numeric|required|trim');
+        $this->bf_form_validation->set_rules('lat', 'latitude', 'xss_clean|required|trim|decimal');
+        $this->bf_form_validation->set_rules('long', 'laongitude', 'xss_clean|required|trim|decimal');
         $this->bf_form_validation->set_rules('userId', 'User Id', 'xss_clean|trim');
 
         if ($this->bf_form_validation->run($this) == FALSE) {
