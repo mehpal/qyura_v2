@@ -139,12 +139,14 @@ if ($msg != "" || $msg != NULL) {
                                 }
 
                             });
-                            $('#er_TopError').show();
-                            $('#er_TopError').html(data.errors.TopError);
-                            setTimeout(function () {
-                                $('#er_TopError').hide(5000);
-                                $('#er_TopError').html('');
-                            }, 5000);
+		            if(data.errors.TopError){
+		                $('#er_TopError').show();
+		                $('#er_TopError').html(data.errors.TopError);
+		                setTimeout(function () {
+		                    $('#er_TopError').hide(5000);
+		                    $('#er_TopError').html('');
+		                }, 5000);
+			    }
                         }
                         else
                         {
@@ -156,28 +158,35 @@ if ($msg != "" || $msg != NULL) {
                         $('#successTop').show();
                         $('#successTop').html(data.msg);
                         if (data.msg != '' && data.msg != "undefined") {
-                            bootbox.alert(data.msg);
-                           
+                            
+                            bootbox.alert({closeButton: false, message: data.msg, callback: function () {
+                                if (data.url) {
+              			    window.location.href = '<?php echo site_url() ?>' + '/' + data.url;
+		                } else {
+		                    location.reload(true);
+		                }
+                            }});
                         } else {
-                            bootbox.alert("Success");
+                            
+				bootbox.alert({closeButton: false, message: "Success", callback: function () {
+                                if (data.url) {
+              			    window.location.href = '<?php echo site_url() ?>' + '/' + data.url;
+		                } else {
+		                    location.reload(true);
+		                }
+                            }});
                         }
-                       setTimeout(function () {
-                          $('#successTop').hide();
-                           $('#successTop').html('');
-                          if (data.url) {
-                               window.location.href = '<?php echo site_url() ?>' + '/' + data.url;
-                            } else {
-                                location.reload(true);
-                          }
-                       }, 1000);
+                       
                     }
                 } catch (e) {
-                    $('#er_TopError').show();
-                    $('#er_TopError').html(e);
-                    setTimeout(function () {
-                        $('#er_TopError').hide(5000);
-                        $('#er_TopError').html('');
-                    }, 5000);
+		    if(e){
+		        $('#er_TopError').show();
+		        $('#er_TopError').html(e);
+		        setTimeout(function () {
+		            $('#er_TopError').hide(5000);
+		            $('#er_TopError').html('');
+		        }, 5000);
+		    }
                 }
             }
         });
