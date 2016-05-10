@@ -33,7 +33,7 @@
                                         <div class="profile-info-name">
                                             
                                             
-                                       <div class='pro-img ' id="crop-avatar">
+                                       <div class='pro-img ' id="crop-avatar-upload">
                                            <?php echo $this->load->view('edit_upload_crop_modal');?>
                                                 <!-- image -->
                                                 <?php if(!empty($ambulanceData[0]->ambulance_img)){
