@@ -95,14 +95,14 @@
                                 <article class="clearfix">
                                     <label for="cname" class="control-label col-md-4 col-sm-4 m-t-10">Latitude:</label>
                                     <div class="col-md-8  col-sm-8">
-                                        <input name="lat" onkeypress="return isNumberKey(event,'err_lat')" class="form-control" type="text" value="<?php echo set_value('lat'); ?>"  id="lat" placeholder="Latitude"/>
+                                        <input name="lat" onkeypress="return isNumberKey(event,'err_lat')" class="form-control" type="text" value="<?php echo set_value('lat'); ?>"  id="lat" placeholder="Latitude" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onchange="latChack(this.value)"/>
                                         <label class="error" id="err_lat" > <?php echo form_error("lat"); ?></label>
                                     </div>
                                 </article>
                                 <article class="clearfix">
                                     <label for="cname" class="control-label col-md-4 col-sm-4 m-t-10">Longitude:</label>
                                     <div class="col-md-8  col-sm-8 ">
-                                        <input name="lng" onkeypress="return isNumberKey(event,'err_lng')" type="text" value="<?php echo set_value('lng'); ?>"  id="lng" class="form-control" placeholder="Longitude"/>
+                                        <input name="lng" onkeypress="return isNumberKey(event,'err_lng')" type="text" value="<?php echo set_value('lng'); ?>"  id="lng" class="form-control" placeholder="Longitude" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onChange="lngChack(this.value)"/>
                                         <label class="error" id="err_lng" > <?php echo form_error("lng"); ?></label>
                                     </div>
                                 </article>

@@ -568,7 +568,7 @@
                                                 <p><?php echo ucwords($quot->docName);?></p>
                                             </td>
                                             <td>
-                                                <a href="<?php echo site_url('quotation/viewPrescription/'.$quot->quotation_id);?>" class="btn btn-success waves-effect waves-light m-b-5" >Detail</a>
+                                                <a href="<?php echo site_url('quotation/viewPrescription/'.$quot->quotation_idf);?>" class="btn btn-success waves-effect waves-light m-b-5" >Detail</a>
                                             </td>
                                         </tr>
                                         
@@ -784,32 +784,12 @@
                         </article>
                         <!-- Line Chart End -->
                     </div>
-                    <!--Bar Chart Start -->
-                    <div class="clearfix bg-white m-t-30">
-                        <article class="chartbox">
-                            <figure class="clearfix">
-                                <div class="col-md-9 col-sm-9 p-0">
-                                    <h3>Revenue Trend</h3>
-                                </div>
-                                <div class="col-md-3 col-sm-3 text-right">
-                                    <select class="form-control selectpicker m-tb-5 pull-right" data-width="100%" >
-                                        <option>2015</option>
-                                        <option>2014</option>
-                                    </select>
-                                </div>
-                            </figure>
-
-                            <figcaption>
-                                <canvas id="bar-chart" class="h-300" data-type="Bar"></canvas>
-                            </figcaption>
-                        </article>
-                    </div>
-                    <!--Bar Chart End -->
+                    
                 </aside>
 
                 <aside class="col-md-4">
 
-                    <div class="clearfix bg-white m-t-30">
+                    <div class="clearfix bg-white">
                         <figure class="clearfix border-full ">
 
                             <div class="col-md-6 col-xs-8">
@@ -913,6 +893,30 @@
                 </aside>
             </section>
             <!--Section End-->
+            <section class="clerafix m-t-30">
+                <!--Bar Chart Start -->
+                    <div class="clearfix bg-white m-t-30">
+                        <article class="chartbox">
+                            <figure class="clearfix">
+                                <div class="col-md-12 p-0">
+                                    <h3>Revenue Trend</h3>
+                                </div>
+                                <div class="col-md-3 col-sm-3 text-right">
+                                    <select class="form-control selectpicker m-tb-5 pull-right" data-width="100%" >
+                                        <option>2015</option>
+                                        <option>2014</option>
+                                    </select>
+                                </div>
+                            </figure>
+
+                            <figcaption>
+                                <canvas id="bar-chart" class="h-300" data-type="Bar"></canvas>
+                            </figcaption>
+                        </article>
+                    </div>
+                    <!--Bar Chart End -->
+                
+            </section>
 
 
             <!-- start -->

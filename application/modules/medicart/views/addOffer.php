@@ -254,6 +254,7 @@
                                                     <option value="70-80" <?php echo set_select('medicartOffer_ageDiscount', '70-80'); ?>>70-80</option>
                                                     <option value="80-90" <?php echo set_select('medicartOffer_ageDiscount', '80-90'); ?>>80-90</option>
                                                     <option value="90-100" <?php echo set_select('medicartOffer_ageDiscount', '90-100'); ?>>90-100</option>
+                                                      <option value="0-100" <?php echo set_select('medicartOffer_ageDiscount', '0-100'); ?>>0-100</option>
                                                 </select>
                                                  <label class="error"><?php echo form_error('medicartOffer_ageDiscount'); ?></label>
                                             </div>

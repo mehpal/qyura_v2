@@ -2573,8 +2573,20 @@ function imageIsLoaded(e) {
     var urls = "<?php echo base_url() ?>";
 
     $(document).ready(function () {
-
+      $('.select2').select2().change(function(){
+$(this).valid()
+});
     $("#submitForm").validate({
+      ignore: "",
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "avatar_file")
+        {
+            error.insertAfter('.error-label');
+        }
+        else{
+            error.insertAfter(element);
+        }
+        },
         rules: {
             diagno_id:{
                 required : true,
@@ -2584,7 +2596,7 @@ function imageIsLoaded(e) {
                 lettersonly: true
 
             },
-             avatarInput: {
+             avatar_file: {
                 required : true
             },
             
@@ -2691,7 +2703,7 @@ function imageIsLoaded(e) {
                 required : "Please enter diagnostic's name!",
             },
            
-              avatarInput: {
+              avatar_file: {
                 required : "Please upload an image!",
             },
 

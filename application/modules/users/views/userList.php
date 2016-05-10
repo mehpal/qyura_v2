@@ -60,7 +60,7 @@
                                         <tr class="border-a-dull">
                                             <th>Logo</th>
                                             <th>Name</th>
-                                             <th>Date of birth</th>
+                                            <th>Date of birth</th>
                                             <th>Phone</th>
                                             <th>Address</th>
                                             <th>Status</th>

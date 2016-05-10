@@ -9,7 +9,7 @@
             </div>
          </div>
          <div class="map_canvas"></div>
-         <form class="cmxform form-horizontal tasi-form avatar-form-doctor-edit" id="submitForm" method="post" action="<?php echo site_url(); ?>/hospital/editDoctor" name="doctorForm" enctype="multipart/form-data">
+         <form class="cmxform form-horizontal tasi-form avatar-form-doctor-edit" id="updateForm" method="post" action="<?php echo site_url(); ?>/hospital/editDoctor" name="doctorForm" enctype="multipart/form-data">
             <input type="hidden" name="ProfessionalExpCount" id="ProfessionalExpCount" value="1" />
             <?php
                 $date2 = date('Y-m-d');
@@ -47,10 +47,11 @@
                            <label class="error" > <?php echo form_error("doctors_lName"); ?></label>
                         </div>
                      </article>
-                      
+                      <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
                       <div class="pro-img" id="crop-doctor">
-
+                        
                         <?php echo $this->load->view('edit_doctor_upload_crop_modal', array('id' => $doctorDetail[0]->doctors_id)); ?>
+                        
                                 <!-- image -->
                                 <?php if (!empty($doctorDetail[0]->doctors_img)) { ?>
                                     <img src="<?php echo base_url() ?>assets/doctorsImages/thumb/thumb_100/<?php echo $doctorDetail[0]->doctors_img; ?>" alt="" class="logo-img-doctor" />

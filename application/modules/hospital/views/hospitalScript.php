@@ -321,7 +321,6 @@ if (isset($mapData) && !empty($mapData)) {
     
     
     $(document).ready(function () {
-
         var oTable = $('#hospital_datatable').DataTable({
             "processing": true,
             "bServerSide": true,
@@ -946,14 +945,14 @@ if (isset($mapData) && !empty($mapData)) {
         }
     }
 
-    function validationHospital() {
+    function changeStatus() {
         //$("form[name='hospitalForm']").submit();
-
-        var isAddressDisabled = $('#isAddressDisabled').val();
-        if (isAddressDisabled == 1) {
-            $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", false);
-        }
-
+            var isAddressDisabled = $('#isAddressDisabled').val();
+            if (isAddressDisabled == 1) {
+                $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", false);
+            }
+    }
+ function validationHospital() {
         var check = /^[a-zA-Z\s]+$/;
         var numcheck = /^[0-9]+$/;
         var emails = $.trim($('#users_email').val());
@@ -2282,6 +2281,16 @@ if (isset($mapData) && !empty($mapData)) {
     $(document).ready(function () {
 
     $("#submitForm").validate({
+        ignore: "",
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "avatar_file")
+        {
+            error.insertAfter('.error-label');
+        }
+        else{
+            error.insertAfter(element);
+        }
+        },
         rules: {
             hospital_id:{
                 required : true,
