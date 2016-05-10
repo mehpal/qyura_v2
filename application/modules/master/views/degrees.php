@@ -45,8 +45,8 @@
                                 <li class="newmembership" style="display:none" id="edit<?php echo $countDegree;?>">
                                     <span class="col-md-5">
                                         <input type="hidden" id="degree_id_<?php echo $countDegree; ?>" name="degree_id_<?php echo $countDegree; ?>" value="<?php echo $degrees->degree_id; ?>" >
-                                        <input type="text" required="" name="degree_SName_<?php echo $countDegree; ?>" id="degree_SName_<?php echo $countDegree; ?>" class="form-control" value="<?php if($degrees->degree_SName){ echo $degrees->degree_SName; }else{echo ''; } ?>">
-                                        <label class="error" id="degree_SName_<?php echo $countDegree; ?>" > <?php echo form_error("degree_SName_$countDegree"); ?></label>
+                                        <input type="text" required="" name="degree_SName_<?php echo $countDegree; ?>" id="degree_SName_<?php echo $countDegree; ?>" class="form-control" value="<?php if($degrees->degree_SName){ echo $degrees->degree_SName; }else{echo ''; } ?>" onkeypress="return isAlpha(event,this.value)">
+                                        <label class="error" id="degree_SName_<?php echo $countDegree; ?>" onkeypress="return isAlpha(event,this.value)" > <?php echo form_error("degree_SName_$countDegree"); ?></label>
                                     </span>
                                     <span class="col-md-5">
                                         <input type="text" required="" name="degree_FName_<?php echo $countDegree; ?>" id="degree_FName_<?php echo $countDegree; ?>" class="form-control" value="<?php if($degrees->degree_FName){ echo $degrees->degree_FName; }else{echo ''; } ?>">

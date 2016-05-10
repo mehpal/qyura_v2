@@ -84,10 +84,10 @@
                                         <div class="col-md-8 col-sm-8">
                                             <select class="select2" name="input8" id="input8" data-width="100%" >
                                                 <!--option value="" >Select Status</option-->
-                                                <option value="1" >Pending</option>
-                                                <option value="2" selected>Confirm</option>
-                                                <option value="3" >Cancel</option>
-                                                <option value="4" >Completed</option>
+                                                <option value="11" >Pending</option>
+                                                <option value="12" selected>Confirm</option>
+                                                <option value="13" >Cancel</option>
+                                                <option value="14" >Completed</option>
                                             </select>
                                             <div class="has-error " id="err_input8" ><?php echo form_error("input8"); ?></div>
                                         </div>
