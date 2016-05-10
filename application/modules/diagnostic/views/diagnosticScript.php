@@ -2181,7 +2181,7 @@ function imageIsLoaded(e) {
     }
   }  
   
-  
+  // blood bank
   $("#bloodbank,#bloodbankbtn").click(function () {
       
       
