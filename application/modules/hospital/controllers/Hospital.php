@@ -51,7 +51,7 @@ class Hospital extends MY_Controller {
     }
 
     function addHospital() {
-        $data = array();
+       $data = array();
         
        $option = array(
             'table' => 'qyura_membership',
@@ -512,6 +512,23 @@ class Hospital extends MY_Controller {
         if ($this->bf_form_validation->run() === FALSE) {
           //  echo validation_errors(); exit;
             $data = array();
+            
+            $option = array(
+                  'table' => 'qyura_membership',
+                  'select' => 'membership_id,membership_name',
+                  'where' => array('membership_deleted' => 0, 'status' => 3, 'membership_type' => 1)
+              );
+              $data['membership_plan'] = $this->common_model->customGet($option);
+
+              $option = array(
+                  'table' => 'qyura_facilities',
+                  'select' => '*',
+                  'where' => array('qyura_facilities.facilities_deleted' => 0),
+                  'order' => array('facilities_name' => 'asc'),
+                  'single' => FALSE
+              );
+              $data['facilities_list'] = $this->common_model->customGet($option);
+        
             $data['allCountry'] = $this->Hospital_model->fetchCountry();
             
             $hospital_countryId = $this->input->post('hospital_countryId');
@@ -546,6 +563,23 @@ class Hospital extends MY_Controller {
 
                 if (empty($original_imagesname)) {
                     $data['hospitalType'] = $this->Hospital_model->getHospitalType();
+                    
+                    $option = array(
+                        'table' => 'qyura_membership',
+                        'select' => 'membership_id,membership_name',
+                        'where' => array('membership_deleted' => 0, 'status' => 3, 'membership_type' => 1)
+                    );
+                    $data['membership_plan'] = $this->common_model->customGet($option);
+
+                    $option = array(
+                        'table' => 'qyura_facilities',
+                        'select' => '*',
+                        'where' => array('qyura_facilities.facilities_deleted' => 0),
+                        'order' => array('facilities_name' => 'asc'),
+                        'single' => FALSE
+                    );
+                    $data['facilities_list'] = $this->common_model->customGet($option);
+        
                     $data['allCountry'] = $this->Hospital_model->fetchCountry();
                     $data['allStates'] = $this->Bloodbank_model->fetchStates();
                     $this->session->set_flashdata('valid_upload', $this->error_message);
