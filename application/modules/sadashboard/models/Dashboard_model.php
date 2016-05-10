@@ -16,12 +16,11 @@ class Dashboard_model extends CI_Model {
     
     /**
      * @project Qyura
-     * @method editUploadImage
-     * @description update details page image profile
+     * @method getMiCount
+     * @description mi count
      * @access public
      * @return boolean
      */
-
     function getMiCount() {
 
         $sql = "SELECT (SELECT COUNT(*) FROM qyura_hospital  WHERE status = 1 AND hospital_deleted = 0) +"
@@ -108,27 +107,12 @@ class Dashboard_model extends CI_Model {
         $data = $this->db->get();
         return $data->result();
     }
-
     
-    
-    
-    function fetchDoctorData($condition = NULL) {
-
-        $this->db->select('doc.doctors_id,doc.isManual,doc.doctors_pin,doc.doctors_userId,doc.doctors_fName,doc.doctors_lName,CONCAT(doc.doctors_fName," ",doc.doctors_lName)AS doctoesName,doc.doctors_phn,doc.doctor_addr,City.city_name,doc.doctors_img,usr.users_email,doc.doctors_lat,doc.doctors_long,usr.users_id,doc.doctors_registeredMblNo,
-        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_dob,doc.doctors_cityId,doc.creationTime,doc.doctors_mobile,doc.doctors_unqId,GROUP_CONCAT(DISTINCT(qyura_professionalExp.professionalExp_end)) As endTime,GROUP_CONCAT(DISTINCT(qyura_professionalExp.professionalExp_start)) AS startTime,GROUP_CONCAT(qyura_specialities.specialities_name) AS speciality,usr.users_email,GROUP_CONCAT(qyura_hospital.hospital_name) AS hospitalName');
-        $this->db->from('qyura_doctors AS doc');
-        $this->db->join('qyura_city AS City', 'City.city_id = doc.doctors_cityId', 'left');
-        $this->db->join('qyura_users AS usr', 'usr.users_id = doc.doctors_userId', 'left');
-        $this->db->join('qyura_professionalExp', 'qyura_professionalExp.professionalExp_usersId = doc.doctors_id', 'left');
-        $this->db->join('qyura_specialities', 'qyura_specialities.specialities_id=qyura_professionalExp.professionalExp_specialitiesCatId', 'left');
-        $this->db->join('qyura_hospital', 'qyura_hospital.hospital_id = qyura_professionalExp.professionalExp_hospitalId', 'left');
-        if ($condition)
-            $this->db->where(array('doc.doctors_id' => $condition));
-        $this->db->where(array('doc.doctors_deleted' => 0));
-
-        $data = $this->db->get();
-        //echo $this->db->last_query(); exit;
-        return $data->result();
+    function getNotification(){
+        
+        $sql = "SELECT qyura_cronMsg,qyura_cronMsgId,qyura_fkUserId FROM qyura_cronMsgs";
+        $qry = $this->db->query($sql);
+        return $qry->result();
     }
 
 }

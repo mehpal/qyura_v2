@@ -584,7 +584,7 @@ if (isset($mapData) && !empty($mapData)) {
                     });
                     var order = $(this).sortable('serialize');
                     //alert(order);
-
+                    //console.log(obj);
                     var url = "<?php echo site_url('hospital/hospitalSpecialitiesOrder') ?>";
                     $.ajax({type: "POST", async: false, url: url, data: obj, beforeSend: function (xhr) {
                             qyuraLoader.startLoader();

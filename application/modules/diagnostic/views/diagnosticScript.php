@@ -26,6 +26,7 @@
 if(isset($diagnosticId) && !empty($diagnosticId)){
     $check = $diagnosticId; 
 }?>
+<script src="<?php echo base_url(); ?>assets/ui_1.11.4_jquery-ui.js"></script>
 <link href="<?php echo base_url();?>assets/cropper/cropper.min.css" rel="stylesheet">
 <link href="<?php echo base_url();?>assets/cropper/main.css" rel="stylesheet">
 <link href="<?php echo base_url();?>assets/vendor/timepicker/bootstrap-timepicker.min.css" rel="stylesheet" />
@@ -691,7 +692,24 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
            // alert('callback function implementation');
         });
         $('#list5').load(urls + 'index.php/diagnostic/diagnosticAllocatedSpecialities/'+diagnosticId,function () {
-           // alert('callback function implementation');
+            
+            $("#list5").sortable({
+                stop: function (e, ui) {
+                    var obj = {};
+                    $.map($(this).find('li'), function (el) {
+                        obj[el.id] = $(el).index();
+                    });
+                    var order = $(this).sortable('serialize');
+                    //alert(order);
+                    console.log(obj);
+                    var url = "<?php echo site_url('diagnostic/diagnoSpecialitiesOrder') ?>";
+                    $.ajax({type: "POST", async: false, url: url, data: obj, beforeSend: function (xhr) {
+                            qyuraLoader.startLoader();
+                        }, success: function (data) {
+                            qyuraLoader.stopLoader();
+                        }});
+                }
+            });
         });
         
     } 

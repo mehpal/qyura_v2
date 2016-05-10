@@ -1447,10 +1447,38 @@ class Diagnostic extends MY_Controller {
         $data = $this->diagnostic_model->fetchdiagnosticsSpecialityData($diagnosticId);
         $allocatedSpecialist = '';
         foreach ($data as $key => $val) {
-            $allocatedSpecialist .='<li >' . $val->specialities_name . '<input type=checkbox class=diagonasticAllocSpecialCheck name=allocSpeciality value=' . $val->diagnosticSpecialities_id . ' /></li>';
+            $allocatedSpecialist .='<li id="'.$val->diagnosticSpecialities_id.'">' . $val->specialities_name . '<input type=checkbox class=diagonasticAllocSpecialCheck name=allocSpeciality value=' . $val->diagnosticSpecialities_id . ' /></li>';
         }
         echo $allocatedSpecialist;
         exit;
+    }
+    
+    
+    function diagnoSpecialitiesOrder()
+    {
+    //  print_r($_POST);   
+        if(!empty($_POST))
+            {
+                $count=0;
+                foreach($_POST as $diagnoSpecialities_id => $order)
+                {
+                    
+                    $diagnoSpecialitiesData = array('diagnosticSpecialities_orderForHos'=>$order);
+                    $con = array('diagnosticSpecialities_id'=>$diagnoSpecialities_id);
+                    $return = $this->Hospital_model->UpdateTableData($diagnoSpecialitiesData, $con, 'qyura_diagnosticSpecialities');
+                    //echo $this->db->last_query();
+                    
+                    if($return)
+                        $count++;
+                }
+                if($count==  count($_POST))
+                    echo 1;
+                
+            }
+            else
+            {
+                echo 0;
+            }
     }
 
     function addSpeciality() {
@@ -2555,28 +2583,7 @@ class Diagnostic extends MY_Controller {
             return false;
         } else {
            
-            $imagesname = '';
-            if ($_FILES['avatar_file']['name']) {
-                $path = realpath(FCPATH . 'assets/doctorsImages/');
-                $upload_data = $this->input->post('avatar_data');
-                $upload_data = json_decode($upload_data);
-                
-                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/doctorsImages/', './assets/doctorsImages/thumb/', 'doctor');
-
-                if (empty($original_imagesname)) {
-                    $data['speciality'] = $this->Doctor_model->fetchSpeciality();
-                    $data['degree'] = $this->Doctor_model->fetchDegree();
-                    
-                    $data['doctorId'] = $doctor_hidden_id;
-                    $data['title'] = 'Diagnostic Detail';
-                    $data['active'] = 'doctor';
-                    $this->session->set_flashdata('valid_upload', $this->error_message);
-                    $this->load->super_admin_template('diagnosticDetail', $data, 'diagnosticScript');
-                    return false;
-                } else {
-                    $imagesname = $original_imagesname;
-                }
-            }
+           
             
            
             
@@ -2599,7 +2606,6 @@ class Diagnostic extends MY_Controller {
                 'doctors_phon' => $doctors_phn,
                 'doctors_email' => $users_email,
                 'doctors_unqId' => 'DOC' . round(microtime(true)),
-                'doctors_img' => $imagesname,
                 'creationTime' => strtotime(date('Y-m-d')),               
                 'doctors_showExp' => $show_exp,
                 'doctors_expYear' => $exp_year,

@@ -472,7 +472,7 @@ class Diagnostic_model extends CI_Model {
         $this->db->join('qyura_specialities AS Spl','Spl.specialities_id = Dspl.diagnosticSpecialities_specialitiesId','left');
         
         $this->db->where(array('Dspl.diagnosticSpecialities_diagnosticId' => $diagnosticId,'Dspl.diagnosticSpecialities_deleted' => 0));
-        $this->db->order_by("Dspl.creationTime", "desc"); 
+        $this->db->order_by("Dspl.diagnosticSpecialities_orderForHos", "asc"); 
         $data= $this->db->get();
         return $data->result();
       }

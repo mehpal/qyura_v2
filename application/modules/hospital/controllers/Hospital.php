@@ -1453,7 +1453,7 @@ class Hospital extends MY_Controller {
         $data = $this->Hospital_model->fetchhospitalSpecialityData($hospitalId);
         $allocatedSpecialist = '';
         foreach ($data as $key => $val) {
-            $allocatedSpecialist .='<li >' . $val->specialities_name . '<input type=checkbox class=specialityAllocCheck name=allocSpeciality value=' . $val->hospitalSpecialities_id . ' /></li>';
+            $allocatedSpecialist .='<li id="'.$val->hospitalSpecialities_id.'">' . $val->specialities_name . '<input type=checkbox class=specialityAllocCheck name=allocSpeciality value=' . $val->hospitalSpecialities_id . ' /></li>';
         }
         echo $allocatedSpecialist;
         exit;
@@ -1461,7 +1461,7 @@ class Hospital extends MY_Controller {
 
     function hospitalSpecialitiesOrder()
     {
-        dump($_POST); exit;
+        
         if(!empty($_POST))
             {
                 $count=0;
@@ -1471,8 +1471,6 @@ class Hospital extends MY_Controller {
                     $hospitalSpecialitiesData = array('hospitalSpecialities_orderForHos'=>$order);
                     $con = array('hospitalSpecialities_id'=>$hospitalSpecialities_id);
                     $return = $this->Hospital_model->UpdateTableData($hospitalSpecialitiesData, $con, 'qyura_hospitalSpecialities');
-                    
-                    echo $this->db->last_query(); exit;
                     
                     if($return)
                         $count++;
@@ -2554,30 +2552,6 @@ class Hospital extends MY_Controller {
             return false;
         } else {
            
-            $imagesname = '';
-            if ($_FILES['avatar_file']['name']) {
-                $path = realpath(FCPATH . 'assets/doctorsImages/');
-                $upload_data = $this->input->post('avatar_data');
-                $upload_data = json_decode($upload_data);
-                
-                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/doctorsImages/', './assets/doctorsImages/thumb/', 'doctor');
-
-                if (empty($original_imagesname)) {
-                    $data['speciality'] = $this->Doctor_model->fetchSpeciality();
-                    $data['degree'] = $this->Doctor_model->fetchDegree();
-                    $data['hospital'] = $this->Doctor_model->fetchHospital();
-                    $data['doctorId'] = $doctor_hidden_id;
-                    $data['title'] = 'Hospital Detail';
-                    $data['active'] = 'doctor';
-                    $this->session->set_flashdata('valid_upload', $this->error_message);
-                    $this->load->super_admin_template('hospitalDetail', $data, 'hospitalScript');
-                    return false;
-                } else {
-                    $imagesname = $original_imagesname;
-                }
-            }
-            
-           
             
             $doctors_fName = $this->input->post('doctors_fName');
             $doctors_lName = $this->input->post('doctors_lName');
@@ -2598,7 +2572,6 @@ class Hospital extends MY_Controller {
                 'doctors_phon' => $doctors_phn,
                 'doctors_email' => $users_email,
                 'doctors_unqId' => 'DOC' . round(microtime(true)),
-                'doctors_img' => $imagesname,
                 'creationTime' => strtotime(date('Y-m-d')),               
                 'doctors_showExp' => $show_exp,
                 'doctors_expYear' => $exp_year,
