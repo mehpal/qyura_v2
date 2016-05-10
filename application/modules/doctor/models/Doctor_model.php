@@ -241,8 +241,8 @@ class Doctor_model extends My_model {
 
     function fetchDoctorDataTables() {
         $imgUrl = base_url() . 'assets/doctorsImages/thumb/thumb_100/$1';
-        $this->datatables->select('doc.doctors_id,doc.doctors_pin,doc.doctors_userId,doc.doctors_fname,doc.doctors_lname,doc.doctors_phn,doc.doctor_addr,City.city_name,doc.doctors_img,usr.users_email,doc.doctors_lat,doc.doctors_long,usr.users_id,
-        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_cityId,DATE_FORMAT(FROM_UNIXTIME(doc.creationTime),"%d-%m-%Y")As joinDate,doc.doctors_mobile,doc.doctors_unqId,doc.doctors_expYear,GROUP_CONCAT(DISTINCT(qyura_specialities.specialities_name) SEPARATOR ",") AS specname');
+        $this->datatables->select('doc.doctors_id as id,doc.doctors_pin,doc.doctors_userId,doc.doctors_fname,doc.doctors_lname,doc.doctors_phn,doc.doctor_addr,City.city_name,doc.doctors_img,usr.users_email,doc.doctors_lat,doc.doctors_long,usr.users_id,
+        doc.doctors_countryId,doc.doctors_stateId,doc.doctors_cityId,DATE_FORMAT(FROM_UNIXTIME(doc.creationTime),"%d-%m-%Y")As joinDate,doc.doctors_mobile,doc.doctors_unqId,doc.status as sts,doc.doctors_expYear,GROUP_CONCAT(DISTINCT(qyura_specialities.specialities_name) SEPARATOR ",") AS specname');
 
         $this->datatables->from('qyura_doctors AS doc');
         $this->db->join('qyura_city AS City', 'City.city_id = doc.doctors_cityId', 'left');
@@ -273,7 +273,8 @@ class Doctor_model extends My_model {
         $this->datatables->add_column('specialityName', '$1', 'specname');
         $this->datatables->add_column('consFee', "<i class='fa fa-inr'></i> $1", 'consFee');
         $this->datatables->add_column('doctors_img', '<img class="img-responsive" height="80px;" width="80px;" src=' . $imgUrl . '>', 'doctors_img');
-        $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="doctor/doctorDetails/$1">View Detail</a>', 'doctors_id');
+        $this->datatables->add_column('status', '$1', 'statusCheck(doctor, qyura_doctors, doctors_id, id, sts)');
+        $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="doctor/doctorDetails/$1">View Detail</a>', 'id');
 
         return $this->datatables->generate();
     }

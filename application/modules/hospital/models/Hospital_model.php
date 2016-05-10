@@ -161,7 +161,7 @@ class Hospital_model extends My_model {
 
     function fetchHospitalData($conditionId = NULL) {
         $this->db->select('Hos.hospital_id,Hos.hospital_zip,Hos.hospital_usersId,Hos.hospital_name,Hos.hospital_phn,Hos.hospital_address,City.city_name,Hos.hospital_img,Hos.hospital_cntPrsn,usr.users_email,Hos.hospital_lat,Hos.hospital_long,usr.users_id,
-        Hos.hospital_countryId,Hos.hospital_stateId,Hos.hospital_cityId,Hos.isEmergency,Blood.bloodBank_name,Blood.bloodBank_phn,Blood.bloodBank_photo, Pharmacy.pharmacy_name,Pharmacy.pharmacy_phn, Hos.hospital_type,Hos.hospital_dsgn,usr.users_mobile,Hos.hospital_mmbrTyp,Hos.hospital_background_img,Ambu.ambulance_name,Ambu.ambulance_phn,Ambu.ambulance_img, Hos.hospital_type as hosTypeId, hosType.hospitalType_name as hosType, Hos.isManual as isManual, Hos.hospital_mbl, Hos.hospital_aboutUs, Hos.availibility_24_7, Hos.hasPharmacy, Ambu.docOnBoard , Hos.docatId, Hos.specialityNameFormate, Ambu.ambulance_id, Blood.bloodBank_id');
+        Hos.hospital_countryId,Hos.hospital_stateId,Hos.hospital_cityId,Hos.isEmergency,Blood.bloodBank_name,Blood.bloodBank_phn,Blood.bloodBank_photo, Pharmacy.pharmacy_name,Pharmacy.pharmacy_phn, Hos.hospital_type,Hos.hospital_dsgn,usr.users_mobile,Hos.hospital_mmbrTyp,Hos.hospital_background_img,Ambu.ambulance_name,Ambu.ambulance_phn,Ambu.ambulance_img, Hos.hospital_type as hosTypeId, hosType.hospitalType_name as hosType, Hos.isManual as isManual, Hos.hospital_mbl, Hos.hospital_aboutUs, Hos.availibility_24_7, Hos.hasPharmacy, Ambu.docOnBoard , Hos.docatId, Hos.specialityNameFormate, Ambu.ambulance_id, Blood.bloodBank_id, Hos.isBloodBankOutsource, Hos.hasBloodbank');
         
         $this->db->from('qyura_hospital AS Hos');
         $this->db->join('qyura_city AS City', 'City.city_id = Hos.hospital_cityId', 'left');
@@ -314,7 +314,7 @@ class Hospital_model extends My_model {
         $this->db->from('qyura_hospitalSpecialities AS Hspl');
         $this->db->join('qyura_specialities AS Spl', 'Spl.specialities_id = Hspl.hospitalSpecialities_specialitiesId', 'left');
         $this->db->where(array('Hspl.hospitalSpecialities_hospitalId' => $hospitalId, 'Hspl.hospitalSpecialities_deleted' => 0, 'Spl.specialities_deleted' => 0));
-        $this->db->order_by("Hspl.creationTime", "desc");
+        $this->db->order_by("Hspl.hospitalSpecialities_orderForHos", "asc");
         $data = $this->db->get();
         //echo $this->db->last_query(); exit;
         return $data->result();
@@ -468,9 +468,8 @@ class Hospital_model extends My_model {
 
         $imgUrl = base_url() . 'assets/doctorsImages/thumb/thumb_100/$1';
         $doctorUrl = site_url() . '/hospital/detailHospital/$2/doctor/$1/editDoctor';
-        $timeUrl = site_url() . '/hospital/detailHospital/$2/doctor/$1/timeSlot';
         
-        $this->datatables->select('doctors_userId userId,qyura_doctors.doctors_id as id, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, qyura_doctors.doctors_consultaionFee as consFee, GROUP_CONCAT(qyura_specialities.specialities_name) as specialityName,qyura_doctors.doctors_phon,qyura_doctors.doctors_img,qyura_doctors.doctors_id,qyura_doctors.doctors_mobile,qyura_doctors.doctors_unqId, qyura_hospital.hospital_id, qyura_doctors.doctors_showExp, qyura_doctors.doctors_expYear as exp'); 
+        $this->datatables->select('doctors_userId userId,qyura_doctors.doctors_id as id, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, qyura_doctors.doctors_consultaionFee as consFee, GROUP_CONCAT(qyura_specialities.specialities_name) as specialityName,qyura_doctors.doctors_phon,qyura_doctors.doctors_img ,qyura_doctors.doctors_mobile,qyura_doctors.doctors_unqId, qyura_hospital.hospital_id, qyura_doctors.doctors_showExp,qyura_doctors.status,qyura_doctors.doctors_expYear as exp'); 
 
         $this->datatables->from('qyura_doctors');
         
@@ -506,9 +505,8 @@ class Hospital_model extends My_model {
 
         $this->datatables->add_column('doctors_img', '<img class="img-responsive" height="80px;" width="80px;" src=' . $imgUrl . '>', 'doctors_img');
 
-        $this->datatables->add_column('view', '<a class="btn btn-info waves-effect waves-light m-b-5 applist-btn" href=' .$doctorUrl. '>Edit Detail</a><a class="btn btn-info waves-effect waves-light m-b-5 applist-btn" href=' .$timeUrl. '>time Slot</a>', 'doctors_id,hospital_id');
-        
-        $this->datatables->add_column('timeiew', '<a class="btn btn-info waves-effect waves-light m-b-5 applist-btn" href=' .$doctorUrl. '>Edit Detail</a>', 'doctors_id,hospital_id');
+        $this->datatables->add_column('view', '<a class="btn btn-info waves-effect waves-light m-b-5 applist-btn" href=' .$doctorUrl. '>Edit Detail</a>', 'id,hospital_id');
+        $this->datatables->add_column('status', '$1', 'statusCheck(doctor, qyura_doctors, doctors_id, id, status)');
 
         return $this->datatables->generate();
     }
@@ -598,149 +596,4 @@ class Hospital_model extends My_model {
 
  
    }
-   
-   function getDocTimeOnDay($where) {
-        $con = array('qyura_docTimeTable.docTimeTable_deleted' => 0, 'qyura_docTimeDay.docTimeDay_deleted' => 0);
-        $where = array_merge($con, $where);
-
-        $this->db->select('(CASE 
- WHEN (hospital_name IS NOT NULL) 
- THEN
-      hospital_name
- WHEN (psChamber_name IS NOT NULL) 
- THEN 
-      psChamber_name
- WHEN (diagnostic_name IS NOT NULL) 
- THEN
-      diagnostic_name
- END)
-
- AS `psChamberName`,(CASE 
- WHEN (hospital_address IS NOT NULL) 
- THEN
-      hospital_address
- WHEN (psChamber_address IS NOT NULL) 
- THEN 
-      psChamber_address
- WHEN (diagnostic_address IS NOT NULL) 
- THEN
-      diagnostic_address
- END)
- AS address,docTimeDay_open as open,docTimeDay_close as close,docTimeDay_day as day,docTimeDay_docTimeTableId as docTimeTableId,docTimeDay_id as docTimeDayId,docTimeTable_price as price,docTimeTable_MIprofileId as MIprofileId,docTimeTable_MItype as MItype,docTimeTable_stayAt as stayAt,docTimeTable_doctorId as doctorId,doctors_fName,doctors_lName')
-                ->from('qyura_docTimeTable')
-                ->join('qyura_hospital', 'qyura_hospital.hospital_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 1 AND docTimeTable_MItype = 1', 'LEFT')
-                ->join('qyura_doctors', 'qyura_doctors.doctors_id=qyura_docTimeTable.docTimeTable_doctorId', 'LEFT')
-                ->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 1 AND docTimeTable_MItype = 2', 'LEFT')
-                ->join('qyura_psChamber', 'qyura_psChamber.psChamber_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 2', 'LEFT')
-                ->join('qyura_docTimeDay', 'qyura_docTimeDay.docTimeDay_docTimeTableId = qyura_docTimeTable.docTimeTable_id', 'RIGHT')
-                ->where($where)
-                ->group_by('docTimeDay_id');
-        $doctorAvailability = $this->db->get()->result();
-        return $doctorAvailability;
-    }
-
-    function geTimeTable($where = array()) {
-
-        $con = array('docTimeTable_deleted' => 0, 'docTimeDay_deleted' => 0);
-        $where = array_merge($con, $where);
-
-        $this->db->select('(CASE 
- WHEN (hospital_address IS NOT NULL) 
- THEN
-      hospital_address
- WHEN (psChamber_address IS NOT NULL) 
- THEN 
-      psChamber_address
- WHEN (diagnostic_address IS NOT NULL) 
- THEN
-      diagnostic_address
- END)
- AS address,
- (CASE 
- WHEN (hospital_stateId IS NOT NULL) 
- THEN
-      hospital_stateId
- WHEN (psChamber_stateId IS NOT NULL) 
- THEN 
-      psChamber_stateId
- WHEN (diagnostic_stateId IS NOT NULL) 
- THEN
-      diagnostic_stateId
- END)
- AS stateId,
-  (CASE 
- WHEN (hospital_cityId IS NOT NULL) 
- THEN
-      hospital_cityId
- WHEN (psChamber_cityId IS NOT NULL) 
- THEN 
-      psChamber_cityId
- WHEN (diagnostic_cityId IS NOT NULL) 
- THEN
-      diagnostic_cityId
- END)
- AS cityId,
-   (CASE 
- WHEN (hospital_zip IS NOT NULL) 
- THEN
-      hospital_zip
- WHEN (psChamber_zip IS NOT NULL) 
- THEN 
-      psChamber_zip
- WHEN (diagnostic_zip IS NOT NULL) 
- THEN
-      diagnostic_zip
- END)
- AS zip,
-    (CASE 
- WHEN (hospital_lat IS NOT NULL) 
- THEN
-      hospital_lat
- WHEN (psChamber_lat IS NOT NULL) 
- THEN 
-      psChamber_lat
- WHEN (diagnostic_lat IS NOT NULL) 
- THEN
-      diagnostic_lat
- END)
- AS lat,
-    (CASE 
- WHEN (hospital_long IS NOT NULL) 
- THEN
-      hospital_long
- WHEN (psChamber_long IS NOT NULL) 
- THEN 
-      psChamber_long
- WHEN (diagnostic_long IS NOT NULL) 
- THEN
-      diagnostic_long
- END)
- AS `lng`,
-(CASE 
- WHEN (hospital_name IS NOT NULL) 
- THEN
-      hospital_name
- WHEN (psChamber_name IS NOT NULL) 
- THEN 
-      psChamber_name
- WHEN (diagnostic_name IS NOT NULL) 
- THEN
-      diagnostic_name
- END)
-
- AS `psChamberName`,GROUP_CONCAT(docTimeDay_day) as `day`,GROUP_CONCAT(docTimeDay_id) as `docTimeDayId`,
- docTimeDay_open as open,docTimeDay_close as close,docTimeDay_docTimeTableId as docTimeTableId,docTimeTable_price as price,docTimeTable_MIprofileId as MIprofileId,docTimeTable_MItype as MItype,docTimeTable_stayAt as stayAt,docTimeTable_doctorId as doctorId,doctors_fName,doctors_lName')
-
-                ->from('qyura_docTimeTable')
-                ->join('qyura_hospital', 'qyura_hospital.hospital_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 1 AND docTimeTable_MItype = 1', 'LEFT')
-                ->join('qyura_doctors', 'qyura_doctors.doctors_id=qyura_docTimeTable.docTimeTable_doctorId', 'LEFT')
-                ->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 1 AND docTimeTable_MItype = 2', 'LEFT')
-                ->join('qyura_psChamber', 'qyura_psChamber.psChamber_id=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 0', 'LEFT')
-                ->join('qyura_docTimeDay', 'qyura_docTimeDay.docTimeDay_docTimeTableId = qyura_docTimeTable.docTimeTable_id', 'RIGHT')
-                ->where($where)
-                ->group_by('docTimeDay_docTimeTableId');
-        $doctorAvailability = $this->db->get()->row();
-        //dump($this->db->last_query());
-        return $doctorAvailability;
-    }
 }

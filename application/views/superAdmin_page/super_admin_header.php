@@ -170,7 +170,7 @@
                 <div id="sidebar-menu">
                     <ul>
                         <li>
-                            <a href="javascript:void(0)" class="waves-effect"><i class="ion-ios7-keypad-outline"></i><span>Dashboard</span></a>
+                            <a href="<?php echo site_url('sadashboard');?>" class="waves-effect <?php if($this->router->fetch_class() == 'sadashboard'):echo"boldTitle  active";endif;?>"><i class="ion-ios7-keypad-outline"></i><span>Dashboard</span></a>
                         </li>
                         <li class="has_sub">
                             <a class="waves-effect <?php if($this->router->fetch_class() == 'hospital'):echo"boldTitle  active";endif;?>" href="#"><i class="fa fa-hospital-o"></i> 

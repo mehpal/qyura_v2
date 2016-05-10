@@ -4,9 +4,9 @@
             <div class="content">
                 <div class="container row">
                     <div class="clearfix">
-                        <div class="col-md-12 text-success">
+<!--                        <div class="col-md-12 text-success">
                             <?php echo $this->session->flashdata('message'); ?>
-                         </div>
+                         </div>-->
                         <div class="col-md-12">
                             <h3 class="pull-left page-title">Health Package</h3>
 
@@ -45,9 +45,9 @@
                                         <input type="text" name="search" id="search" class="form-control" placeholder="Search" />
                                     </div>
                                 </aside>-->
-                                <aside class="col-md-2 col-sm-2 pull-right">
+<!--                                <aside class="col-md-2 col-sm-2 pull-right">
                                     <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" onclick="createCSV()" type="submit">Export</button>
-                                </aside>
+                                </aside>-->
 
                             </form>
                         </article>
@@ -68,6 +68,7 @@
                                                 <th>Pricing</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
+                                                
                                             </tr>
 
                                        </thead>

@@ -1,4 +1,3 @@
-
 <!-- Start right Content here -->
 <div class="content-page">
 
@@ -32,8 +31,13 @@
                             ?>')">                                      
                                 <div class="bg-picture-overlay"></div>
                                 <div class="profile-info-name">
+<<<<<<< HEAD
 
                                     <div class='pro-img' id="crop-avatar">
+=======
+                                    
+                                    <div class='pro-img' id="crop-avatar-upload">
+>>>>>>> e3a3a790219d4ef500a153b393d2761eee86f0d6
 
                                         <?php echo $this->load->view('edit_upload_crop_modal'); ?>
                                         <!-- image -->
@@ -379,6 +383,7 @@
                                                             <input type="hidden" id="countryId" name="countryId" value="<?php echo $diagnosticData[0]->diagnostic_countryId; ?>" />
                                                             <input type="hidden" id="cityId" name="cityId" value="<?php echo $diagnosticData[0]->diagnostic_cityId; ?>" />
                                                             <input type="hidden" id="diagnostic_id" name="diagnostic_id" value="<?php echo $diagnosticData[0]->diagnostic_id; ?>" />
+                                                            
 
                                                             <article class="clearfix m-t-10">
                                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Diagnostic Centre Name:</label>
@@ -389,6 +394,7 @@
                                                                     <label class="error" style="display:none;" id="error-diagnostic_name"> please enter diagnostic name only alphabet character's!</label>      
                                                                 </div>
                                                             </article>
+                                                            
                                                             <article class="clearfix m-t-10">
                                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Address :</label>
                                                                 <div class="col-md-8 col-sm-8">
@@ -440,6 +446,7 @@
                                                                     <label class="error" > <?php echo form_error("diagnostic_cityId"); ?></label>
                                                                 </div>
                                                             </article>
+                                                            
                                                             <article class="clearfix">
                                                                 <div class="col-sm-8 col-sm-offset-4">
                                                                     <input type="text" class="form-control" id="diagnostic_zip" name="diagnostic_zip" placeholder="" value="<?php if (!empty($diagnosticData) && isset($diagnosticData)): echo $diagnosticData[0]->diagnostic_zip;
@@ -451,6 +458,7 @@
                                                                 </div>
                                                             </article>
 
+<<<<<<< HEAD
                                                             <!--                                                            <article class="clearfix m-t-10">
                                                                                                                             <label class="control-label col-md-4" for="cname">Manual</label>
                                                                                                                             <div class="col-md-8">
@@ -473,6 +481,8 @@
                                                                                                                             </div>
                                                                                                                         </article>-->
 
+=======
+>>>>>>> e3a3a790219d4ef500a153b393d2761eee86f0d6
                                                             <article class="clearfix m-t-10">
                                                                 <div class="col-sm-8 col-sm-offset-4">
                                                                     <aside class="clearfix">
@@ -529,6 +539,7 @@
                                                                 </div>
                                                             </article>
 
+<<<<<<< HEAD
                                                             <!--                                                            <article class="clearfix">
                                                                                                                             <label for="cemail" class="control-label col-md-4  col-sm-4">Mobile :</label>
                                                                                                                             <div class="col-md-8  col-sm-8">
@@ -536,6 +547,9 @@
                                                             
                                                                                                                             </div>
                                                                                                                         </article>-->
+=======
+
+>>>>>>> e3a3a790219d4ef500a153b393d2761eee86f0d6
 
 
                                                             <article class="clearfix m-t-10">
@@ -588,6 +602,7 @@
                                                                                 } ?> >
                                                                         <label>
 
+<<<<<<< HEAD
                                                                         </label>
                                                                     </aside>
                                                                 </div>
@@ -713,6 +728,106 @@
                                                                                             <div class="pro-img" id="crop-ambulance">
 
     <?php echo $this->load->view('edit_ambulance_upload_crop_modal', array('id' => $diagnosticData[0]->ambulance_id)); ?>
+=======
+                                                              <section id="bloodbankdetail" style="<?php if(isset($diagnosticData[0]->diagnostic_hasBloodbank) && $diagnosticData[0]->diagnostic_hasBloodbank == 1){ echo 'display:block'; }else{ echo 'display:none'; } ?>">
+                                                                        <input type="hidden" name="isBloodBankOutsource"          value="<?php if(isset($diagnosticData[0]->diagnostic_isBloodBankOutsource) && $diagnosticData[0]->diagnostic_isBloodBankOutsource != ''){ echo $diagnosticData[0]->diagnostic_isBloodBankOutsource; } ?>" id="isBloodBankOutsource" >
+                                                                
+                                                                        <article class="clearfix m-b-10">
+                                                                       <label for="cemail" class="control-label col-md-4 col-sm-4">Name :</label>
+                                                                       <div class="col-md-8 col-sm-8">
+                                                                           <input class="form-control" name="bloodBank_name" id="bloodBank_name" type="text" value="<?php if(isset($diagnosticData[0]->bloodBank_name)){ echo $diagnosticData[0]->bloodBank_name; } ?>">
+                                                                            <label class="error" style="display:none;" id="error-bloodBank_name"> please Check your Blood Bank name</label>
+                                                                           <div>
+                                                                   </article>
+                                                                        
+                                                                        <div class="pro-img" id="crop-blood">
+
+                                                                                        <?php echo $this->load->view('edit_bloodbank_upload_crop_modal', array('id' => $diagnosticData[0]->bloodBank_id)); ?>
+                                                                                                <!-- image -->
+                                                                                                <?php if (!empty($diagnosticData[0]->bloodBank_photo)) { ?>
+                                                                                                    <img src="<?php echo base_url() ?>assets/BloodBank/thumb/thumb_100/<?php echo $diagnosticData[0]->bloodBank_photo; ?>" alt="" class="logo-img-bloodbank" />
+                                                                                                <?php } else { ?>
+                                                                                                    <img src="<?php echo base_url() ?>assets/default-images/Blood-logo.png" alt="" class="logo-img-bloodbank" />
+                                                                                                <?php } ?>
+                                                                                                <article class="logo-up-bloodbank avatar-view" style="display:none">
+                                                                                                    <?php if (!empty($diagnosticData[0]->bloodBank_photo)) { ?>
+                                                                                                        <img src="<?php echo base_url() ?>assets/BloodBank/thumb/thumb_100/<?php echo $diagnosticData[0]->bloodBank_photo; ?>" alt="" class="logo-img-ambulance" style="display:block" />
+                                                                                                    <?php } else { ?>
+                                                                                                        <img src="<?php echo base_url() ?>assets/default-images/Blood-logo.png" alt="" class="logo-img-bloodbank" style="display:block" />
+                                                                                                    <?php } ?>
+                                                                                                    <div class="fileUpload btn btn-sm btn-upload logo-Upload">
+                                                                                                        <span><i class="fa fa-cloud-upload fa-3x "></i></span>
+                                                <!--                                                        <input id="uploadBtn" type="file" class="upload" />-->
+                                                                                                        <input type="hidden" style="display:none;" class="no-display file_action_url"  name="file_action_url" value="<?php echo site_url('diagnostic/editUploadImageBloodbank'); ?>">
+                                                                                                        <input type="hidden" style="display:none;" class="no-display load_url" id="load_url" name="load_url" value="<?php echo site_url('diagnostic/getUpdateAvtar/' . $diagnosticData[0]->bloodBank_id); ?>/bloodbank">
+                                                                                                    </div>
+                                                                                                </article>
+                                                                                                <!-- description div -->
+
+                                                                                                <div class='pic-edit bloodbank_edit'>
+                                                                                                    <h3><a  class="pull-center cl-white picEdit-bloodbank" title="Edit Logo" style="display:block;"><i class="fa fa-pencil"></i></a></h3>
+                                                                                                    <h3><a  class="pull-center cl-white picEditClose-bloodbank" title="Cancel"  style="display:none;"><i class="fa fa-times"></i></a></h3>
+                                                                                                </div>
+                                                                                                <!-- end description div -->
+                                                                     </div>
+                                                                        
+                                                                        
+                                                                   <article class="clearfix m-b-10 ">
+                                                                       <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
+                                                                       <div class="col-md-8 col-sm-8">
+                                                                           <aside class="row">
+                                                                               
+                                                                               <div class="col-xs-10 m-t-xs-10">
+                                                                                   <input type="teL" class="form-control" name="bloodBank_phn" id="bloodBank_phn" value ="<?php if(isset($diagnosticData[0]->bloodBank_phn) && $diagnosticData[0]->bloodBank_phn != ''){ echo $diagnosticData[0]->bloodBank_phn; } ?>" onkeypress="return isNumberKey(event)" maxlength="10" minlength="10" pattern=".{10,10}" />
+                                                                               </div>
+
+                                                                           </aside>
+                                                                            
+                                                                           <label class="error" style="display:none;" id="error-bloodBank_phone"> please Check your Blood Bank Phone</label>
+                                                                       </div>
+                                                                   </article>
+                                                                  </section>
+                                                         
+                                                            <article class="clearfix">
+                                                                         <label class="control-label col-md-4 col-sm-4 col-xs-9" for="cname">Pharmacy</label>
+                                                                         <div class="col-md-8 col-xs-3">
+                                                                             <aside class="checkbox checkbox-success m-t-5">
+                                                                                 <input type="checkbox" id="pharmacybtn" name="pharmacy_chk" value="1" <?php if(isset($diagnosticData[0]->diagnostic_hasPharmacy) && $diagnosticData[0]->diagnostic_hasPharmacy == 1){ echo 'checked="checked" '; } ?>  >
+                                                                                 <label>
+
+                                                                                 </label>
+                                                                             </aside>
+                                                                         </div>
+                                                           </article>
+                                                       
+                                    
+                                                                    <article class="clearfix">
+                                                                        <label class="control-label col-md-4 col-sm-4 col-xs-9" for="cname">Ambulance</label>
+                                                                        <div class="col-md-8 col-xs-3">
+                                                                            <aside class="checkbox checkbox-success m-t-5">
+                                                                                <input type="checkbox" id="ambulancebtn" name="ambulance_chk" value="1" <?php if(isset($diagnosticData[0]->ambulance_phn) && $diagnosticData[0]->ambulance_phn != ''){ echo 'checked="checked" '; } ?> >
+                                                                                <label>
+
+                                                                                </label>
+                                                                            </aside>
+                                                                        </div>
+                                                                    </article>
+                                                                    
+                                                                    <section id="ambulancedetail" style="<?php if(isset($diagnosticData[0]->ambulance_phn) && $diagnosticData[0]->ambulance_phn != ''){ echo 'display:block'; }else{ echo 'display:none';  } ?>">
+                                                                
+                                                                        <article class="clearfix m-b-10">
+                                                                       <label for="cemail" class="control-label col-md-4 col-sm-4">Name :</label>
+                                                                       <div class="col-md-8 col-sm-8">
+                                                                           <input class="form-control" name="ambulance_name" id="ambulance_name" type="text" value="<?php if(isset($diagnosticData[0]->ambulance_name)){ echo $diagnosticData[0]->ambulance_name; } ?>">
+                                                                          <label class="error" style="display:none;" id="error-ambulance_name"> please Check your Ambulance Name</label>
+                                                                           <div>
+                                                                       </article>
+                                                                        
+                                                                        
+                                                                        <div class="pro-img" id="crop-ambulance">
+
+                                                                                                <?php echo $this->load->view('edit_ambulance_upload_crop_modal', array('id' => $diagnosticData[0]->ambulance_id)); ?>
+>>>>>>> e3a3a790219d4ef500a153b393d2761eee86f0d6
                                                                                                 <!-- image -->
     <?php if (!empty($diagnosticData[0]->ambulance_img)) { ?>
                                                                                                     <img src="<?php echo base_url() ?>assets/ambulanceImages/thumb/thumb_100/<?php echo $diagnosticData[0]->ambulance_img; ?>" alt="" class="logo-img-ambulance" />
@@ -742,10 +857,126 @@
                                                                                             </div>
 
 
+<<<<<<< HEAD
                                                                                             <article class="clearfix m-b-10 ">
                                                                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
                                                                                                 <div class="col-md-8 col-sm-8">
                                                                                                     <aside class="row">
+=======
+                                                                                        </label>
+                                                                                    </aside>
+                                                                          </div>
+                                                            </article>
+                                                            
+                                                            
+                                                            <input name="user_tables_id" id="user_tables_id" type="hidden" value="<?php if (isset($diagnosticData[0]->diagnostic_usersId)) { echo $diagnosticData[0]->diagnostic_usersId; } ?>">
+                                                            <input  type="hidden" name="isManual" value="1" id="isManual">
+
+                                                            <article class="clearfix ">
+                                                                <div class="col-md-12 m-t-20 m-b-20">
+                                                                    <button type="submit" class="btn btn-success waves-effect waves-light pull-right" onclick="return validationDiagnosticEdit()">Update</button>
+                                                                </div>
+                                                            </article>
+                                                        </form>
+                                                    </section>
+                                                    
+                                                     <div class="gap"></div>
+                                                        <article class="clearfix company-logo">
+                                                            <aside class="clearfix">
+                                                                <h4>Insurance Company Tied
+                                                                     <a id="editcompany" class="pull-right cl-pencil"><i class="fa fa-pencil"></i></a>
+                                                                </h4>
+                                                                <hr/>
+                                                            </aside>
+                                                            <section id="detailcompany">
+                                                                <?php if(!empty($insurance)){
+                                                                    foreach($insurance as $key => $val){    
+                                                                 ?>
+                                                                <div class="col-md-3 col-sm-6 part-ins">
+                                                                    <a class="delete-ins" href="javascript:void(0)" onclick="deletInsurance(<?php echo $val->diagnoInsurance_id;?>)"><i class="fa fa-close"></i></a>
+                                                                    <img src="<?php echo base_url()?>assets/insurance/<?php echo $val->insurance_img;?>" class="img-responsive center-block img-ins">
+                                                                    <h5><?php echo $val->insurance_Name;?></h5>
+                                                                </div>
+                                                                <?php }} else{?>
+                                                                <div class="col-md-6 col-sm-6">
+                                                                 
+                                                                    <h5>Please select Insurance company</h5>
+                                                                </div>
+                                                                <?php }?>
+                                                               
+                                                            </section>
+                                                            <section id="newcompany" style="display:none;">
+                                                                <form name="insuranceForm" id="insuranceForm" action="<?php echo site_url("diagnostic/addInsurance/$diagnosticId"); ?>" method="post">
+                                                                    
+                                                                    <input type="hidden" name="hospitalInsuranceId" id="hospitalInsuranceId" value="<?php echo $diagnosticId;?>" />
+                                                                    <article class="clearfix m-b-10">
+                                                                        <label for="cemail" class="control-label col-md-4 col-sm-4">Company Name :</label>
+                                                                        <div class="col-md-8 col-sm-8">
+                                                                            <!--<input class="form-control" id="diagnosticCenter" name="name" type="text" required=""> -->
+                                                                            <select  multiple="" class="select2" data-width="100%" name="insurances[]" Id="insurances" data-size="4" >
+
+                                                                                    <?php foreach($allInsurance as $key=>$val) {?>
+                                                                                     <option value="<?php echo $val->insurance_id;?>"><?php echo $val->insurance_Name;?></option>
+                                                                                      <?php }?>
+                                                                                 </select>
+                                                                        </div>
+                                                                    </article>
+                                                                  
+                                                                    <article class="clearfix ">
+                                                                        <div class="col-md-12 m-t-20 m-b-20">
+                                                                            <button type="submit" class="btn btn-success waves-effect waves-light pull-right">Add More</button>
+                                                                        </div>
+                                                                    </article>
+                                                                </form>    
+                                                            </section>
+                                                        </article> 
+                                                     
+                                                    <div class="gap"></div>
+                                                </div>                                                             
+                                                <div class="col-md-6 p-b-20">
+                                                    <article class="clearfix">                                                   
+                                                        <!-- Awards Recognition  -->  
+                                                        <article class="clearfix">
+                                                            <h4>Awards Recognition
+                                                                <a id="editawards" class="pull-right cl-pencil"><i class="fa fa-pencil"></i></a>
+                                                            </h4>
+                                                            <hr/>
+                                                            <aside class="clearfix" id="detailawards">
+                                                                <ul class="ul-tick" id="loadAwards">
+                                                                </ul>
+                                                            </aside>                                        
+                                                            <form id="newawards" style="display:none">
+                                                                <aside class="form-group m-lr-0 p-b-20 m-b-30">
+                                                                    <label for="cname" class="control-label col-lg-3 col-sm-4">Awards:</label>
+                                                                    <div class="col-lg-9 col-sm-8">
+                                                                        <aside class="row">
+                                                                            <div class="col-md-12 ">
+                                                                                <input type="text" class="form-control" placeholder="Awards name" id="diagnostic_awardsName" name="diagnostic_awardsName"/>
+                                                                                <label style="display: none;"class="error" id="error-awards"> Please enter award name </label>  
+                                                                                
+
+                                                                                
+                                                                                
+                                                                                <div class="clearfix m-t-10">
+                                                                                          <select class="selectpicker" data-width="100%" id="diagnosticAwards_agencyName" name="diagnosticAwards_agencyName">
+                                                                                              <option value="">Select Agency</option>
+                                                                                               <?php if(!empty($awardAgency)){
+                                                                                                    foreach($awardAgency as $key => $val){    
+                                                                                                 ?>
+                                                                                              <option value="<?php echo $val->awardAgency_id;  ?>"><?php echo $val->agency_name;  ?></option>
+                                                                                               <?php }  } ?>
+                                                                                            </select>
+                                                                                           <label style="display: none;"class="error" id="error-diagnosticAwards_agencyName"> Please enter agency name </label>
+                                                                                     
+                                                                                   </div>
+                                                                                
+                                                                                <div class="clearfix m-t-10">
+                                                                                <input type="text" class="form-control" placeholder="Year" id="diagnostic_awardsyear" name="diagnostic_awardsyear" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  />
+                                                                                <label style="display: none;"class="error" id="error-years"> Please enter year only number formate minium and maximum length 4 </label> 
+                                                                                <label style="display: none;"class="error" id="error-years-valid">Invalid Year! Please enter year between 1920 to <?php echo date('Y') ?>  </label> 
+                                                                                </div>
+                                                                            </div>
+>>>>>>> e3a3a790219d4ef500a153b393d2761eee86f0d6
 
                                                                                                         <div class="col-xs-10 m-t-xs-10">
                                                                                                             <input type="text" class="form-control" name="ambulance_phn" id="ambulance_phn" value ="<?php if (isset($diagnosticData[0]->ambulance_phn) && $diagnosticData[0]->ambulance_phn != '') {
@@ -1344,8 +1575,56 @@
                                                                                     </form>
 
     <?php endif; ?>
+<<<<<<< HEAD
                                                                             </section>
                                                                             <!-- Timeslot Ends -->
+=======
+                                </section>
+                                <!-- Timeslot Ends -->
+
+                                
+                                <!--Staff and Permission Starts -->
+                                <section class="tab-pane fade in <?php if (isset($active) && $active == 'doctor') { echo "active"; } ?>" id="doctor">
+                                    <!-- Form Section Start -->
+                                    <article class="row p-b-10" style="margin-left: 0">
+                                        
+                                        <aside class="col-md-2 col-sm-2" id="AddNewDoc">
+                                            <button class="btn btn-success waves-effect waves-light m-l-10 pull-right addDoctorButton" onclick="addNewDoctor();" >Add New Doctor</button>
+                                        </aside>
+
+
+                                        <aside class="col-md-3 col-sm-3 m-tb-xs-3 pull-right">
+                                            <input type="text" name="search" id="search" class="form-control" placeholder="Search" />
+                                        </aside>
+                                    </article>
+                                    
+                                    <!-- Form Section End -->
+                                    <article class="clearfix m-top-40 p-b-20" id="doctorList" style="<?php if (isset($showDiv) && $showDiv == 'adddoctor' OR $showDiv == 'editDoctor') {  echo "display:none"; } ?>">
+                                        
+                                        <aside class="table-responsive">
+                                            <table class="table all-doctor" id="diagnostic_doctors" style="width:100%">
+                                                <thead>
+                                                    <tr class="border-a-dull">
+                                                        <th>Photo</th>
+                                                        <th>Name and Id</th>
+                                                        <th>Speciality</th>
+                                                        <th>Consulting fee</th>
+                                                        <th>Experience</th>
+                                                        <th>Phone</th>
+                                                        <th>Action</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </aside>
+                                    </article>
+
+    
+                                   <div id="doctorForm" style="<?php if (isset($showDiv) && $showDiv == 'adddoctor') { echo "display:block"; } else { echo "display:none"; } ?>" >
+                                            <?php echo $this->load->view('addDoctor'); ?>
+                                            <?php echo $this->load->view('doctorScript.php'); ?>
+                                </div>
+>>>>>>> e3a3a790219d4ef500a153b393d2761eee86f0d6
 
                                                                             <label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>
                                                                             <label class="error" style="display:none;" id="error-users_email_check"> Email Already Exists!</label>

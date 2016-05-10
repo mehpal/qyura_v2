@@ -1,3 +1,4 @@
+
 <!-- Cropping modal -->
 <div class="modal fade pre avatar-modal" id="blood-avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg" >

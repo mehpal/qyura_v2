@@ -21,7 +21,7 @@
                   <div class="bg-picture text-center" style="background-image:url('<?php if(isset($bloodBankData[0]->bloodBank_background_img) && !empty($bloodBankData[0]->bloodBank_background_img)): echo base_url().'assets/BloodBank/'.$bloodBankData[0]->bloodBank_background_img; else : echo base_url().'assets/default-images/Blood_Bank.png'; endif;?>')">
                      <div class="bg-picture-overlay"></div>
                      <div class="profile-info-name">
-                        <div class='pro-img' id="crop-avatar">
+                        <div class='pro-img' id="crop-avatar-upload">
                               <?php echo $this->load->view('edit_upload_crop_modal');?>
                            <!-- image -->
                            <?php if(!empty($bloodBankData[0]->bloodBank_photo)){

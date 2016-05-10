@@ -35,13 +35,13 @@ class DoctorApi extends MyRest {
 
             $lat = isset($_POST['lat']) ? $this->input->post('lat') : '';
             $long = isset($_POST['long']) ? $this->input->post('long') : '';
-             
+
             $specialityid = isset($_POST['specialityid']) && $_POST['specialityid'] != 0 ? $this->input->post('specialityid') : NULL;
             $isemergency = isset($_POST['isemergency']) ? $this->input->post('isemergency') : NULL;
-            
+
             // search
-            $search = isset($_POST['search']) && $_POST['search'] != ''  ? $this->input->post('search') : NULL; 
-            
+            $search = isset($_POST['search']) && $_POST['search'] != '' ? $this->input->post('search') : NULL;
+
             //city
             $cityId = isset($_POST['cityId']) ? $this->input->post('cityId') : NULL;
 
@@ -53,13 +53,13 @@ class DoctorApi extends MyRest {
             $notIn = isset($_POST['notin']) && $_POST['notin'] != 0 ? $this->input->post('notin') : '';
             $notIn = explode(',', $notIn);
 
-            $response['data'] = $this->doctors_model->getDoctorsList($lat, $long, $notIn, $isemergency, $specialityid, $radius, $rating, $exp, $search,$cityId);
+            $response['data'] = $this->doctors_model->getDoctorsList($lat, $long, $notIn, $isemergency, $specialityid, $radius, $rating, $exp, $search, $cityId);
 
             $option = array('table' => 'doctors', 'select' => 'doctors_id');
             $deleted = $this->singleDelList($option);
             $response['doc_deleted'] = $deleted;
 
-            $response['colName'] = array("id", "name", "showExp","exp", "imUrl", "rating", "consFee", "speciality", "degree", "lat", "long", "isEmergency","mobile","userId");
+            $response['colName'] = array("id", "name", "showExp", "exp", "imUrl", "rating", "consFee", "speciality", "degree", "lat", "long", "isEmergency", "mobile", "userId");
             if ($response['data']) {
                 $response['status'] = TRUE;
                 $response['msg'] = 'success';
@@ -73,37 +73,39 @@ class DoctorApi extends MyRest {
     }
 
     function doctordetail_post() {
-        
+
         $this->bf_form_validation->set_rules('doctorId', 'DoctorId Id', 'xss_clean|numeric|required|trim');
-        $this->bf_form_validation->set_rules('lat', 'latitude', 'xss_clean|numeric|required|trim');
-        $this->bf_form_validation->set_rules('long', 'laongitude', 'xss_clean|numeric|required|trim');
+        $this->bf_form_validation->set_rules('lat', 'latitude', 'xss_clean|required|trim|decimal');
+        $this->bf_form_validation->set_rules('long', 'laongitude', 'xss_clean|required|trim|decimal');
         $this->bf_form_validation->set_rules('userId', 'User Id', 'xss_clean|trim');
-        
+
         if ($this->bf_form_validation->run($this) == FALSE) {
             // setup the input
             $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
             $this->response($response, 400);
         } else {
-            
+
             $doctorId = $this->input->post('doctorId');
             $lat = $this->input->post('lat');
             $long = $this->input->post('long');
-            
-            $userId = isset($_POST['userId']) && $_POST['userId'] != null && $_POST['userId'] !=0 ? $this->input->post('userId') : 0;
-            $doctorsDetails = $this->doctors_model->getDoctorsDetails($doctorId,$userId);
+            $cityId = $this->input->post('cityId');
+            $cityId = (isset($cityId) && $cityId != NULL) ? $cityId : NULL ;
+
+            $userId = isset($_POST['userId']) && $_POST['userId'] != null && $_POST['userId'] != 0 ? $this->input->post('userId') : 0;
+            $doctorsDetails = $this->doctors_model->getDoctorsDetails($doctorId, $userId);
 //            echo $this->db->last_query();
 //         dump($doctorsDetails);die();
             if (!empty($doctorsDetails['id']) && $doctorsDetails['id'] != '') {
-                
+
                 $response['docDetails'] = $doctorsDetails;
 
                 $response['services'] = $services = $this->doctors_model->getDoctorServices($doctorId);
 
                 $response['reviewCount'] = $reviewCount = $this->doctors_model->getDoctorNumReviews($doctorsDetails['userId']);
 
-                $response['review'] = $this->doctors_model->getDoctorReviews($doctorsDetails['userId']); 
+                $response['review'] = $this->doctors_model->getDoctorReviews($doctorsDetails['userId']);
 
-                $response['availability'] = $hosDiagonDetail =$this->doctors_model->getDoctorTimeSlot($doctorsDetails['id'],$lat,$long);
+                $response['availability'] = $this->doctors_model->getDoctorTimeSlot($doctorsDetails['id'], $lat, $long, $cityId);
 
                 $response['status'] = TRUE;
                 $response['msg'] = 'success';
@@ -115,35 +117,19 @@ class DoctorApi extends MyRest {
             }
         }
     }
-    
-   public function timeslot_post(){
-            $this->bf_form_validation->set_rules('type', 'Type', 'xss_clean|trim|required');
-            $this->bf_form_validation->set_rules('doctorUserId', 'Doctor UserId', 'xss_clean|numeric|required|trim');
-            $this->bf_form_validation->set_rules('id','Hospital Or Diagnostic Id','xss_clean|numeric|trim');
-              if ($this->bf_form_validation->run() == FALSE) {
+
+    public function timeslot_post() {
+        $this->bf_form_validation->set_rules('doctorId', 'Doctor UserId', 'xss_clean|numeric|required|trim');
+        if ($this->bf_form_validation->run() == FALSE) {
             // setup the input
             $message = $this->validation_post_warning();
             $response = array('status' => FALSE, 'msg' => $message);
             $this->response($response, 400);
-        }else{
-             $id = $this->input->post('id');
-             $doctorUserId = $this->input->post('doctorUserId');
-             $type = $this->input->post('type');
-             if($type == 'Hospital'){
-                 $arrayKey = 'hospitalTimeSlot';
-                 $msg = 'Time slote not assign for this  hospital';
-                 $timeSlot = $this->doctors_model->getHosTimeSlot($id, $doctorUserId);
-                 $docTimeslot = $this->doctors_model->getDocTimeSlotForhospital($id, $doctorUserId);
-             }else{
-                 $arrayKey = 'diagnosticTimeSlot';
-                 $msg = 'Time slote not assign for this dignostic center';
-                 $timeSlot = $this->doctors_model->getDiagnoTimeSlot($id, $doctorUserId);
-                 $docTimeslot = $this->doctors_model->getDocTimeSlotForDiagon($id, $doctorUserId);
-             }
-            
-             if (!empty($timeSlot) && $timeSlot != NULL) {
-                $response[$arrayKey] = $timeSlot;
-                $response['doctorTimeSlot'] = $docTimeslot;
+        } else {
+            $id = $this->input->post('doctorId');
+            $timeSlot = $this->doctors_model->getDoctorTimeSlot($id);
+            if (!empty($timeSlot) && $timeSlot != NULL) {
+                $response['doctorTimeSlot'] = $timeSlot;
                 $response['status'] = TRUE;
                 $response['msg'] = 'success';
                 $this->response($response, 200);
@@ -152,35 +138,6 @@ class DoctorApi extends MyRest {
                 $response['msg'] = $msg;
                 $this->response($response, 400);
             }
-            
-        }
-    }
-    
-    
-     public function bookNow_post(){
-            $this->bf_form_validation->set_rules('miId','Hospital Or Diagnostic Id','xss_clean|numeric|trim');
-            $this->bf_form_validation->set_rules('doctorUserId', 'Doctor UserId', 'xss_clean|numeric|required|trim');
-              if ($this->bf_form_validation->run() == FALSE) {
-            // setup the input
-            $message = $this->validation_post_warning();
-            $response = array('status' => FALSE, 'msg' => $message);
-            $this->response($response, 400);
-        }else{
-             $doctorUserId = $this->input->post('doctorUserId');
-             $miId = isset($_POST['miId']) && $_POST['miId'] != null && $_POST['miId'] !=0 ? $this->input->post('miId') : null;
-             $timeSlot = $this->doctors_model->getDocAllTimeSlot($doctorUserId,$miId);
-             
-             if (!empty($timeSlot) && $timeSlot != NULL) {
-                $response['booknow'] = $timeSlot;
-                $response['status'] = TRUE;
-                $response['msg'] = 'success';
-                $this->response($response, 200);
-            } else {
-                $response['status'] = FALSE;
-                $response['msg'] = 'No time slot for this doctor!';
-                $this->response($response, 400);
-            }
-            
         }
     }
 

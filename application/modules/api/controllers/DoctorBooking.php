@@ -44,12 +44,6 @@ class DoctorBooking extends MyRest {
             $correctSlot = 1;
             $day = (date("w",strtotime($preferedDate))); 
             
-          //  if($doctorType == 3){
-              //  $correctSlot = $this->doctorBooking_model->checkDocTimeSlot($doctorUserId,$doctorUserId,$preferedTimeId,$day);
-          //  }else{
-             //   $correctSlot = $this->doctorBooking_model->checkDocTimeSlot($parentId,$doctorUserId,$preferedTimeId,$day);
-           // }
-//            echo $this->db->last_query();die();
             if($correctSlot){
                 $unique_id = 'doc'. $userId . time();
                 $data = array(
@@ -72,7 +66,6 @@ class DoctorBooking extends MyRest {
                         $currentDate = strtotime(date("Y-m-d"));
                 if ($response) {
                     $crnMsg     =  $this->lang->line("docappointmentReceived");
-                        //replaceStr($this->lang->line("appointmentCancelledTag"), array("{amenityName}"), array($amenityName));  docappointmentTag
                     $cronArray = array("qyura_fkModuleId" => 3, "qyura_fkUserId" => $userId, "qyura_cronMsg" => $crnMsg, "qyura_cronTitle" => $this->lang->line("docappointmentTag"), "qyura_fkItemId" => $unique_id,"qyura_cronDate"=>$currentDate,"qyura_cronMsgsCreation"=>$currentDate);
 
                     $options = array(
