@@ -1,4 +1,3 @@
-
 <!-- Start right Content here -->
 <div class="content-page">
 
@@ -31,7 +30,7 @@
                                 <div class="bg-picture-overlay"></div>
                                 <div class="profile-info-name">
                                     
-                                    <div class='pro-img' id="crop-avatar">
+                                    <div class='pro-img' id="crop-avatar-upload">
 
                                             <?php echo $this->load->view('edit_upload_crop_modal'); ?>
                                             <!-- image -->
@@ -340,6 +339,7 @@
                                                             <input type="hidden" id="countryId" name="countryId" value="<?php echo $diagnosticData[0]->diagnostic_countryId; ?>" />
                                                             <input type="hidden" id="cityId" name="cityId" value="<?php echo $diagnosticData[0]->diagnostic_cityId; ?>" />
                                                             <input type="hidden" id="diagnostic_id" name="diagnostic_id" value="<?php echo $diagnosticData[0]->diagnostic_id; ?>" />
+                                                            
 
                                                             <article class="clearfix m-t-10">
                                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Diagnostic Centre Name:</label>
@@ -349,6 +349,7 @@
                                                                     <label class="error" style="display:none;" id="error-diagnostic_name"> please enter diagnostic name only alphabet character's!</label>      
                                                                 </div>
                                                             </article>
+                                                            
                                                             <article class="clearfix m-t-10">
                                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Address :</label>
                                                                 <div class="col-md-8 col-sm-8">
@@ -395,6 +396,7 @@
                                                                     <label class="error" > <?php echo form_error("diagnostic_cityId"); ?></label>
                                                                 </div>
                                                             </article>
+                                                            
                                                             <article class="clearfix">
                                                                 <div class="col-sm-8 col-sm-offset-4">
                                                                     <input type="text" class="form-control" id="diagnostic_zip" name="diagnostic_zip" placeholder="" value="<?php if (!empty($diagnosticData) && isset($diagnosticData)): echo $diagnosticData[0]->diagnostic_zip;
@@ -404,24 +406,6 @@
 
                                                                 </div>
                                                             </article>
-
-<!--                                                            <article class="clearfix m-t-10">
-                                                                <label class="control-label col-md-4" for="cname">Manual</label>
-                                                                <div class="col-md-8">
-                                                                    <aside class="radio radio-info radio-inline">
-                                                                        <input type="radio" <?php if (!empty($diagnosticData) && isset($diagnosticData) && $diagnosticData[0]->isManual == 1) {
-        echo 'checked="checked" ';
-    } ?>  name="isManual" value="1" id="isManual" onclick="IsAdrManual(this.value)">
-                                                                        <label for="inlineRadio1"> Yes</label>
-                                                                    </aside>
-                                                                    <aside class="radio radio-info radio-inline">
-                                                                        <input type="radio" <?php if (!empty($diagnosticData) && isset($diagnosticData) && $diagnosticData[0]->isManual == 0) {
-                                                                    echo 'checked="checked" ';
-                                                                } ?> name="isManual" value="0" id="isManual" onclick="IsAdrManual(this.value)">
-                                                                        <label for="inlineRadio2"> No</label>
-                                                                    </aside>
-                                                                </div>
-                                                            </article>-->
 
                                                             <article class="clearfix m-t-10">
                                                                 <div class="col-sm-8 col-sm-offset-4">
@@ -474,13 +458,7 @@
                                                                 </div>
                                                             </article>
 
-<!--                                                            <article class="clearfix">
-                                                                <label for="cemail" class="control-label col-md-4  col-sm-4">Mobile :</label>
-                                                                <div class="col-md-8  col-sm-8">
-                                                                    <input type="text" class="form-control" id="diagnostic_mobileNo" name="diagnostic_mobileNo" placeholder="" value="<?php // echo $diagnosticData[0]->mobile; ?>" maxlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"/>
 
-                                                                </div>
-                                                            </article>-->
 
 
                                                             <article class="clearfix m-t-10">
@@ -533,9 +511,7 @@
                                                                         </div>
                                                                     </article>
 
-                                                                    <?php // dump($diagnosticData); ?>
-                                                                    
-                                                                    <section id="bloodbankdetail" style="<?php if(isset($diagnosticData[0]->diagnostic_hasBloodbank) && $diagnosticData[0]->diagnostic_hasBloodbank == 1){ echo 'display:block'; }else{ echo 'display:none'; } ?>">
+                                                              <section id="bloodbankdetail" style="<?php if(isset($diagnosticData[0]->diagnostic_hasBloodbank) && $diagnosticData[0]->diagnostic_hasBloodbank == 1){ echo 'display:block'; }else{ echo 'display:none'; } ?>">
                                                                         <input type="hidden" name="isBloodBankOutsource"          value="<?php if(isset($diagnosticData[0]->diagnostic_isBloodBankOutsource) && $diagnosticData[0]->diagnostic_isBloodBankOutsource != ''){ echo $diagnosticData[0]->diagnostic_isBloodBankOutsource; } ?>" id="isBloodBankOutsource" >
                                                                 
                                                                         <article class="clearfix m-b-10">
@@ -546,20 +522,20 @@
                                                                            <div>
                                                                    </article>
                                                                         
-                                                                        <div class="pro-img" id="blood-crop-avatar">
+                                                                        <div class="pro-img" id="crop-blood">
 
                                                                                         <?php echo $this->load->view('edit_bloodbank_upload_crop_modal', array('id' => $diagnosticData[0]->bloodBank_id)); ?>
                                                                                                 <!-- image -->
                                                                                                 <?php if (!empty($diagnosticData[0]->bloodBank_photo)) { ?>
                                                                                                     <img src="<?php echo base_url() ?>assets/BloodBank/thumb/thumb_100/<?php echo $diagnosticData[0]->bloodBank_photo; ?>" alt="" class="logo-img-bloodbank" />
                                                                                                 <?php } else { ?>
-                                                                                                    <img src="<?php echo base_url() ?>assets/default-images/Blood_Bank.png" alt="" class="logo-img-bloodbank" />
+                                                                                                    <img src="<?php echo base_url() ?>assets/default-images/Blood-logo.png" alt="" class="logo-img-bloodbank" />
                                                                                                 <?php } ?>
                                                                                                 <article class="logo-up-bloodbank avatar-view" style="display:none">
                                                                                                     <?php if (!empty($diagnosticData[0]->bloodBank_photo)) { ?>
                                                                                                         <img src="<?php echo base_url() ?>assets/BloodBank/thumb/thumb_100/<?php echo $diagnosticData[0]->bloodBank_photo; ?>" alt="" class="logo-img-ambulance" style="display:block" />
                                                                                                     <?php } else { ?>
-                                                                                                        <img src="<?php echo base_url() ?>assets/default-images/Blood_Bank.png" alt="" class="logo-img-bloodbank" style="display:block" />
+                                                                                                        <img src="<?php echo base_url() ?>assets/default-images/Blood-logo.png" alt="" class="logo-img-bloodbank" style="display:block" />
                                                                                                     <?php } ?>
                                                                                                     <div class="fileUpload btn btn-sm btn-upload logo-Upload">
                                                                                                         <span><i class="fa fa-cloud-upload fa-3x "></i></span>
@@ -594,17 +570,17 @@
                                                                    </article>
                                                                   </section>
                                                          
-                                                                    <article class="clearfix">
-                                                                                 <label class="control-label col-md-4 col-sm-4 col-xs-9" for="cname">Pharmacy</label>
-                                                                                 <div class="col-md-8 col-xs-3">
-                                                                                     <aside class="checkbox checkbox-success m-t-5">
-                                                                                         <input type="checkbox" id="pharmacybtn" name="pharmacy_chk" value="1" <?php if(isset($diagnosticData[0]->diagnostic_hasPharmacy) && $diagnosticData[0]->diagnostic_hasPharmacy == 1){ echo 'checked="checked" '; } ?>  >
-                                                                                         <label>
+                                                            <article class="clearfix">
+                                                                         <label class="control-label col-md-4 col-sm-4 col-xs-9" for="cname">Pharmacy</label>
+                                                                         <div class="col-md-8 col-xs-3">
+                                                                             <aside class="checkbox checkbox-success m-t-5">
+                                                                                 <input type="checkbox" id="pharmacybtn" name="pharmacy_chk" value="1" <?php if(isset($diagnosticData[0]->diagnostic_hasPharmacy) && $diagnosticData[0]->diagnostic_hasPharmacy == 1){ echo 'checked="checked" '; } ?>  >
+                                                                                 <label>
 
-                                                                                         </label>
-                                                                                     </aside>
-                                                                                 </div>
-                                                                   </article>
+                                                                                 </label>
+                                                                             </aside>
+                                                                         </div>
+                                                           </article>
                                                        
                                     
                                                                     <article class="clearfix">
@@ -715,9 +691,8 @@
                                                                           </div>
                                                             </article>
                                                             
-                                                            <input name="user_tables_id" id="user_tables_id" type="hidden" value="<?php if (isset($diagnosticData[0]->diagnostic_usersId)) {
-            echo $diagnosticData[0]->diagnostic_usersId;
-        } ?>">
+                                                            
+                                                            <input name="user_tables_id" id="user_tables_id" type="hidden" value="<?php if (isset($diagnosticData[0]->diagnostic_usersId)) { echo $diagnosticData[0]->diagnostic_usersId; } ?>">
                                                             <input  type="hidden" name="isManual" value="1" id="isManual">
 
                                                             <article class="clearfix ">
@@ -1229,8 +1204,7 @@
                                 </section>
                                 <!-- Timeslot Ends -->
 
-                                <label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>
-                                <label class="error" style="display:none;" id="error-users_email_check"> Email Already Exists!</label>
+                                
                                 <!--Staff and Permission Starts -->
                                 <section class="tab-pane fade in <?php if (isset($active) && $active == 'doctor') { echo "active"; } ?>" id="doctor">
                                     <!-- Form Section Start -->
@@ -1260,6 +1234,7 @@
                                                         <th>Experience</th>
                                                         <th>Phone</th>
                                                         <th>Action</th>
+                                                        <th>Status</th>
                                                     </tr>
                                                 </thead>
                                             </table>

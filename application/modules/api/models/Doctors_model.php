@@ -294,6 +294,7 @@ CASE
         $this->db->where(array('doctorImages_doctorId' => $id, 'doctorImages_deleted' => 0));
         return $this->db->get()->result();
     }
+
 }
 
 ?>

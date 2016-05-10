@@ -249,6 +249,7 @@ class Doctor extends MY_Controller {
                 'doctors_expYear' => $exp_year,
                 'doctors_docatId' => $docatId,
                 'doctors_qapId' => $qapId,
+                'status' => 0,
                 'doctors_joiningDate' => strtotime(date('Y-m-d')),
             );
             $doctorsProfileId = $this->Doctor_model->insertDoctorData($doctorsinserData, 'qyura_doctors');

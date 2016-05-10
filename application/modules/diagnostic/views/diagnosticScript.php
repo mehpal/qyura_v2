@@ -32,16 +32,14 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
 <script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
 
-<?php $current = $this->router->fetch_method();
-if($current != 'detailDiagnostic'):?>
+<?php // //$current = $this->router->fetch_method();
+//if($current != 'detailDiagnostic'):?>
 <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
-<script src="<?php echo base_url(); ?>assets/cropper/bloodbank_cropper.js"></script>
-<?php else:?>
+<?php //else:?>
 
 <script src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
-<script src="<?php echo base_url(); ?>assets/cropper/gallery_cropper.js"></script>
 
-<?php endif;?>
+<?php// endif;?>
 
 <script src="<?php echo base_url();?>assets/vendor/timepicker/bootstrap-timepicker.min.js"></script>
 <!--<script src="<?php echo base_url();?>assets/js/angular.min.js"></script>-->
@@ -61,6 +59,8 @@ if($current != 'detailDiagnostic'):?>
     <script src="<?php echo base_url();?>assets/vendor/select2/select2.min.js" type="text/javascript"></script> 
 <!--     <script src="<?php echo base_url();?>assets/js/fileUpload/fileinput.js" type="text/javascript"></script> -->
     <script src="<?php echo base_url(); ?>assets/js/common_js.js"></script>
+    
+    
  <?php if(isset($mapData) && !empty($mapData)){
         $lat = $mapData[0]->diagnostic_lat;
         $lang = $mapData[0]->diagnostic_long;
@@ -70,6 +70,15 @@ if($current != 'detailDiagnostic'):?>
     ?>
     
   <script>
+      
+       $('.select2').select2().change(function(){
+            $(this).valid()
+       });
+       
+     $(".bs-select").select2({placeholder: "Select a Speciality",
+        allowClear: true
+    });
+    
 
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 18,
@@ -195,7 +204,7 @@ if($current != 'detailDiagnostic'):?>
 //        width: "100%"
 //    });
 
-       $(".select2").select2();
+    //   $(".select2").select2();
     
     function fetchCity(stateId) {
         $.ajax({
@@ -270,7 +279,7 @@ if($current != 'detailDiagnostic'):?>
            "processing": true,
             "serverSide": true,
             "columnDefs": [{
-                    "targets": [1,2,3,4,5,6],
+                    "targets": [0,1,2,3,4,5,6,7],
                     "orderable": false
                 }],
             "pageLength": 10,
@@ -286,6 +295,7 @@ if($current != 'detailDiagnostic'):?>
                 {"data": "exp"},
                 {"data": "doctors_phon"},
                 {"data": "view"},
+                {"data": "status"},
             ],
             "ajax": {
                 "url": urls + 'index.php/diagnostic/getDiagnosticDoctorsDl/'+diagnosticId,
@@ -683,7 +693,7 @@ if($current != 'detailDiagnostic'):?>
         $('#list5').load(urls + 'index.php/diagnostic/diagnosticAllocatedSpecialities/'+diagnosticId,function () {
            // alert('callback function implementation');
         });
-    
+        
     } 
     
      function addSpeciality(diagnoUserId){
@@ -2171,8 +2181,10 @@ function imageIsLoaded(e) {
     }
   }  
   
-  
+  // blood bank
   $("#bloodbank,#bloodbankbtn").click(function () {
+      
+      
         if($(this).is(':checked')){
          bootbox.confirm({
                     message: 'Do you outsource the blood?',
@@ -2529,6 +2541,15 @@ function imageIsLoaded(e) {
             $(".picEditClose-bloodbank").toggle();
         });
         
+        
+          $(".doctor_edit").click(function () {
+           
+            $(".logo-img-doctor").toggle();
+            $(".logo-up-doctor").toggle();
+            $(".picEdit-doctor").toggle();
+            $(".picEditClose-doctor").toggle();
+        });
+        
 </script>
 <script>
     var urls = "<?php echo base_url() ?>";
@@ -2716,9 +2737,7 @@ function imageIsLoaded(e) {
         }
 
     });
- $('.select2').select2().change(function(){
-    $(this).valid()
-});
+
  
 });
 </script>
@@ -2908,9 +2927,7 @@ function imageIsLoaded(e) {
         }
 
     });
- $('.select2').select2().change(function(){
-    $(this).valid()
-});
+
  
 });
 </script>

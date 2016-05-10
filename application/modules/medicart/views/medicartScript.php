@@ -308,6 +308,17 @@ var urls = "<?php echo base_url() ?>";
     
 
         $("#submitForm").validate({
+            errorPlacement: function(error, element) {
+            if (element.attr("name") == "medicartOffer_startDate")
+            {
+            error.insertAfter('#error_sd');
+            }else if(element.attr("name") == "medicartOffer_endDate"){
+                 error.insertAfter('#error_ed');
+            }
+            else{
+             error.insertAfter(element);
+            }
+            },
             rules: {
                 medicartOffer_title: {
                     required: true
@@ -360,7 +371,7 @@ var urls = "<?php echo base_url() ?>";
                 medicartOffer_totalPrice: {
                     required: true,
                     number: true,
-                }
+                },
             },
             messages: {
                 medicartOffer_title: "Please enter offer title",
@@ -531,15 +542,6 @@ var urls = "<?php echo base_url() ?>";
                    $("#miName").attr("selected","");
                    $("#date-2").val("");
                    $("#date-1").val("");
-////                   var $example = $("#miName").select2();
-//                    $("#miName").select2({
-//                    placeholder: "Select a customer",
-//                    initSelection: function(element, callback) {                   
-//                    }
-//                });
-//                   
-////            $example.val(null);
-////                   $("#miName").select2();
                 }
             }
               

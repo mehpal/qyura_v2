@@ -416,15 +416,20 @@
   };
 
   $(function () {
-    return new CropAvatar($('#crop-avatar'), 'avatar-modal');
+    return new CropAvatar($('#crop-avatar-upload'), 'avatar-modal-edit');
   });
   
  $(function () {
-    return new CropAvatar($('#blood-crop-avatar'), 'blood-avatar-modal');
+    return new CropAvatar($('#crop-blood'), 'blood-modal');
   });
   
   $(function () {
     return new CropAvatar($('#crop-ambulance'), 'ambulance-modal');
+  });
+  
+  
+   $(function () {
+    return new CropAvatar($('#crop-doctor'), 'doctor-modal');
   });
 
 });

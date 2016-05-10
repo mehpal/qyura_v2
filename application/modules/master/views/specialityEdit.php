@@ -26,6 +26,24 @@
                                 <label class="error" id="err_specialityNamedoctor" > <?php echo form_error("specialityNamedoctor"); ?></label>
                             </div>
                         </article>
+                        
+                        
+                         <article class="clearfix m-t-10">
+                                <label for="cname" class="control-label col-md-4">24/7 Services ? </label>
+                                <div class="col-md-8">
+                                    <aside class="radio radio-info radio-inline">
+                                        <input type="radio" id="speciality_display_format_yes" value="0" name="speciality_display_format" <?php if(isset($val->speciality_display_format) && $val->speciality_display_format == 0){ echo "checked"; }?>>
+                                        <label for="inlineRadio1"> Scientific Name</label>
+                                    </aside>
+                                    <aside class="radio radio-info radio-inline">
+                                        <input type="radio" id="speciality_display_format_no" value="1" name="speciality_display_format" <?php if(isset($val->speciality_display_format) && $val->speciality_display_format == 1){ echo "checked"; }?>>
+                                        <label for="inlineRadio2"> General Name</label>
+                                    </aside>
+                                </div>
+                            </article>
+                        
+                        
+                        
                         <article class="clearfix m-t-10">
                             <label for="" class="control-label">Keywords/Tags:</label>
                             <div class="">
@@ -39,7 +57,7 @@
                                 <?php $this->load->view('upload_crop_modal');?>
                             </div>
                             <label class="control-label col-md-4 col-sm-4" for="cemail">
-                            <?php if(!empty($val->specialities_img)){  ?><a href="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>" target="_blank"><img height="80px;" width="80px;" src="<?php echo base_url()?>assets/specialityImages/3x/<?php echo $val->specialities_img; ?>" class="img-responsive"><?php } else { ?>
+                            <?php if(!empty($val->specialities_img)){  ?><a href="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>"><img height="80px;" width="80px;" src="<?php echo base_url()?>assets/specialityImages/3x/<?php echo $val->specialities_img; ?>" class="img-responsive"><?php } else { ?>
                                 <img src="<?php echo base_url()?>assets/default-images/Dignostics-logo.png" alt="" class="logo-img" />
 
                             <?php } ?></a>
