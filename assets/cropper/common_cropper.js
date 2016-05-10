@@ -415,8 +415,6 @@
     }
   };
 
-
-
   $(function () {
     return new CropAvatar($('#crop-avatar-upload'), 'avatar-modal-edit');
   });

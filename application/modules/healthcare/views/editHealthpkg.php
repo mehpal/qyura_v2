@@ -189,13 +189,18 @@
                                                 if($i == 1){
                                                 ?>
                                                 <input type="text" class="form-control" name="testIncluded[]" id="hospitalServices_serviceName1" maxlength="200" value="<?php echo $value; ?>" />
+                                                </div>
+                                            </aside>
+                                        
                                                 <?php }else{ ?>
-                                               
-                                                   <aside class="col-sm-2 pull-right"><a class="remove" href="#" onclick="$(this).parent().slideUp(function(){ $(this).remove() }); return false"> <i class="fa fa-minus-circle fa-2x m-t-5 label-plus"></i></a>
+                                        <aside class="row m-t-10">
+                                                   <aside class="col-sm-2 pull-right text-right"><a class="remove" href="#" onclick="$(this).parent().parent().slideUp(function(){ $(this).remove() }); return false"> <i class="fa fa-minus-circle pull-right fa-2x m-t-5 label-plus"></i></a>
                                                    </aside>
+                                                
                                                    <aside class="col-sm-10">
-                                                    <input type="text" class="form-control" name="testIncluded[]" id="hospitalServices_serviceName1"maxlength="200" value="<?php echo $value; ?>" />
-                                               </aside>
+                                                        <input type="text" class="form-control" name="testIncluded[]" id="hospitalServices_serviceName1"maxlength="200" value="<?php echo $value; ?>" />
+                                                   </aside>
+                                        </aside>   
                                              <?php   }
                                             $i++;       }
                                                    
@@ -207,13 +212,14 @@
                                                 <?php }
                                                 ?>
 
+                                               
+
+                                            </div>
                                                 <input type="hidden" id="serviceName" name="serviceName" value="1" />
                                                 <label class="error" style="display:none;" id="error-hospitalServices_serviceName"> 
                                                     please enter the Tests properly! </label>
 
                                                 <label class="error" > <?php echo form_error("testIncluded"); ?></label>
-
-                                            </div>
 
 
                                         </aside>
