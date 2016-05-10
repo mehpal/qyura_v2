@@ -32,7 +32,7 @@
                ?>')">
                <div class="bg-picture-overlay"></div>
                <div class="profile-info-name">
-                  <div class='pro-img' id="crop-avatar">
+                  <div class='pro-img' id="crop-avatar-upload">
                      <?php echo $this->load->view('edit_upload_crop_modal'); ?>
                      <!-- image -->
                      <?php if (!empty($hospitalData[0]->hospital_img)) {
@@ -353,6 +353,7 @@
                               <input type="hidden" id="StateId" name="StateId" value="<?php echo $hospitalData[0]->hospital_stateId; ?>" />
                               <input type="hidden" id="countryId" name="countryId" value="<?php echo $hospitalData[0]->hospital_countryId; ?>" />
                               <input type="hidden" id="cityId" name="cityId" value="<?php echo $hospitalData[0]->hospital_cityId; ?>" />
+                              <input type="hidden" name="isBloodBankOutsource" value="<?php if(isset($hospitalData[0]->isBloodBankOutsource) && $hospitalData[0]->isBloodBankOutsource != ''){ echo $hospitalData[0]->isBloodBankOutsource; } ?>" id="isBloodBankOutsource" >
                               <aside id="newDetail" style="display:<?php echo $showStatus; ?>;">
                                  <article class="clearfix m-t-10">
                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Hospital Name :</label>
@@ -529,16 +530,15 @@
                                     </div>
                                  </article>
                                  <article class="clearfix">
-                                    <label class="control-label col-md-4 col-sm-4 col-xs-9" for="cname">Blood bank  </label>
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-9" for="cname">Blood Bank  </label>
                                     <div class="col-md-8 col-xs-3">
                                        <aside class="checkbox checkbox-success m-t-5">
-                                          <input type="checkbox" id="bloodbankbtn" name="bloodbank_chk" value="1">
-                                          <label>
-                                          </label>
+                                          <input type="checkbox" id="bloodbankbtn" name="bloodbank_chk" value="1" <?php if(isset($hospitalData[0]->hasBloodbank) && $hospitalData[0]->hasBloodbank == 1){ echo 'checked="checked" '; } ?> checked="checked">
+                                          <label> </label>
                                        </aside>
                                     </div>
                                  </article>
-                                 <section id="bloodbankdetail" style="display:none">
+                                 <section id="bloodbankdetail" style="<?php if(isset($hospitalData[0]->hasBloodbank) && $hospitalData[0]->hasBloodbank == 1){ echo 'display:block'; }else{ echo 'display:none'; } ?>">
                                     <article class="clearfix m-b-10">
                                        <label for="cemail" class="control-label col-md-4 col-sm-4">Name :</label>
                                        <div class="col-md-8 col-sm-8">
@@ -550,19 +550,19 @@
                                           <label class="error" style="display:none;" id="error-bloodBank_name"> please Check your Blood Bank name</label>
                                           <div>
                                     </article>
-                                    <div class="pro-img" id="blood-crop-avatar">
+                                    <div class="pro-img" id="crop-blood">
                                     <?php echo $this->load->view('edit_bloodbank_upload_crop_modal', array('id' => $hospitalData[0]->bloodBank_id)); ?>
                                     <!-- image -->
                                     <?php if (!empty($hospitalData[0]->bloodBank_photo)) { ?>
                                     <img src="<?php echo base_url() ?>assets/BloodBank/thumb/thumb_100/<?php echo $hospitalData[0]->bloodBank_photo; ?>" alt="" class="logo-img-bloodbank" />
                                     <?php } else { ?>
-                                    <img src="<?php echo base_url() ?>assets/default-images/Blood_Bank.png" alt="" class="logo-img-bloodbank" />
+                                    <img src="<?php echo base_url() ?>assets/default-images/Blood-logo.png" alt="" class="logo-img-bloodbank" />
                                     <?php } ?>
                                     <article class="logo-up-bloodbank avatar-view" style="display:none">
                                     <?php if (!empty($hospitalData[0]->bloodBank_photo)) { ?>
                                     <img src="<?php echo base_url() ?>assets/BloodBank/thumb/thumb_100/<?php echo $hospitalData[0]->bloodBank_photo; ?>" alt="" class="logo-img-ambulance" style="display:block" />
                                     <?php } else { ?>
-                                    <img src="<?php echo base_url() ?>assets/default-images/Blood_Bank.png" alt="" class="logo-img-bloodbank" style="display:block" />
+                                    <img src="<?php echo base_url() ?>assets/default-images/Blood-logo.png" alt="" class="logo-img-bloodbank" style="display:block" />
                                     <?php } ?>
                                     <div class="fileUpload btn btn-sm btn-upload logo-Upload">
                                     <span><i class="fa fa-cloud-upload fa-3x "></i></span>
@@ -598,11 +598,7 @@
                                  <label class="control-label col-md-4 col-sm-4 col-xs-9" for="cname">Pharmacy</label>
                                  <div class="col-md-8 col-xs-3">
                                  <aside class="checkbox checkbox-success m-t-5">
-                                 <input type="checkbox" id="pharmacybtn" name="pharmacy_chk" value="1" <?php
-                                    if ($hospitalData[0]->hasPharmacy == 1) {
-                                        echo "checked";
-                                    }
-                                    ?>>
+                                 <input type="checkbox" id="pharmacybtn" name="pharmacy_chk" value="1" <?php if ($hospitalData[0]->hasPharmacy == 1) {  echo "checked"; } ?> >
                                  <label>
                                  </label>
                                  </aside>
@@ -612,13 +608,13 @@
                                  <label class="control-label col-md-4 col-sm-4 col-xs-9" for="cname">Ambulance</label>
                                  <div class="col-md-8 col-xs-3">
                                  <aside class="checkbox checkbox-success m-t-5">
-                                 <input type="checkbox" id="ambulancebtn" name="ambulance_chk" value="1">
+                                 <input type="checkbox" id="ambulancebtn" name="ambulance_chk" value="1" <?php if(isset($hospitalData[0]->ambulance_phn) && $hospitalData[0]->ambulance_phn != ''){ echo 'checked="checked" '; } ?>>
                                  <label>
                                  </label>
                                  </aside>
                                  </div>
                                  </article>
-                                 <section id="ambulancedetail" style="display:none">
+                                 <section id="ambulancedetail" style="<?php if(isset($hospitalData[0]->ambulance_phn) && $hospitalData[0]->ambulance_phn != ''){ echo 'display:block'; }else{ echo 'display:none';  } ?>">
                                  <article class="clearfix m-b-10">
                                  <label for="cemail" class="control-label col-md-4 col-sm-4">Name :</label>
                                  <div class="col-md-8 col-sm-8">
@@ -765,7 +761,7 @@
                                  </fieldset>  
                                  <article class="clearfix m-b-10">
                                  <div class="col-md-12">
-                                 <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right">Update</button>
+                                 <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" >Update</button>
                                  </div>
                                  </article>
                               </aside>
@@ -896,6 +892,16 @@
                            </aside>
                            <section id="detailservices">
                            <ul class="ul-tick" id="loadServices">
+                           <!-- <li>Hemetology</li>
+                              <li>Microbiology Blood Bank</li>
+                              <li>Radiology</li>
+                              <li>Loren</li>
+                              <li>Loren Ipsum</li>
+                              <li>Hemetology</li>
+                              <li>Microbiology Blood Bank</li>
+                              <li>Radiology</li>
+                              <li>Loren</li>
+                              <li>Loren Ipsum</li> -->
                            </ul>
                            </section>
                            <form>
@@ -1247,6 +1253,7 @@
             <th>Experience</th>
             <th>Phone</th>
             <th>Action</th>
+            <th>Status</th>
             </tr>
             </thead>
             </table>

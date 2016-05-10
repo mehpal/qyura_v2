@@ -547,6 +547,16 @@ if ($current == 'doctorDetails'){ ?>
     var urls = "<?php echo base_url() ?>";
     $(document).ready(function () {
     $("#submitForm").validate({
+        
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "avatar_file")
+        {
+            error.insertAfter('.error-label');
+        }
+        else{
+            error.insertAfter(element);
+        }
+        },
         rules: {
             doctors_fName: {
                 required: true
@@ -633,6 +643,129 @@ if ($current == 'doctorDetails'){ ?>
     });
     
 });
+    var urls = "<?php echo base_url() ?>";
+    $(document).ready(function () {
+    $("#updateForm").validate({
+        rules: {
+            doctors_fName: {
+                required: true
+            },
+            doctors_lName: {
+                required : true
+            },
+             avatar_file: {
+                required : true
+            },
+            'doctorSpecialities_specialitiesId[]': {
+                required: true
+            },
+            users_email: {
+                email: true,
+                            
+            },
+       'doctorAcademic_degreeId[]':{
+         
+           required: true
+      },
+      'doctorSpecialities_specialitiesCatId[]':{
+         
+           required: true
+      },
+      'acdemic_addaddress[]':{
+         
+           required: true
+      },
+      'acdemic_addyear[]':{
+         
+           required: true
+      },
+      exp_year: {
+        required: true,
+      }, 
+      fee: {
+        required: true,
+                            
+      }    
+        },
+        messages: {
+            doctors_fName: {
+                required: "Please enter doctor's first name!",
+            },
+              doctors_lName: {
+                required : "Please enter doctor's last name!"
+            },
+              avatar_file: {
+                required : "Please upload an image!"
+            },
+
+              'doctorSpecialities_specialitiesId[]': {
+                required: "Please select one or more specialities!"
+            },
+            users_email: {
+                email: "Please enter the correct email format!"
+            },
+          
+             'doctorAcademic_degreeId[]': {
+                required: "Please select a degree!"
+            },
+            'doctorSpecialities_specialitiesCatId[]': {
+                required: "Please select a speciality!"
+            },
+            'acdemic_addaddress[]': {
+                required: "Please enter an address!"
+            },
+            'acdemic_addyear[]': {
+                required: "Please enter a year!"
+            },
+            exp_year: {
+                required: "Please enter year(s) of experience!"
+            },
+            fee:{
+         
+           required: "Please enter the consultation fees!"
+         
+      }
+      
+           
+        }
+
+    });
+    
+});
+
+
+
+function emailIsExist() {
+       // alert('helloo');
+        var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        var email = $('#users_email').val();
+        var hospitalUserIdDoctor = $('#hospitalUserIdDoctor').val();
+        if (email !== '') {
+            if (!filter.test(email)) {
+                $('#users_email').addClass('bdr-error');
+                $('#error-users_email').fadeIn().delay(3000).fadeOut('slow');
+            }
+            
+            $.ajax({
+                url: urls + 'index.php/hospital/check_email_doctor',
+                type: 'POST',
+                data: {'users_email': email, 'hospitalUserIdDoctor' : hospitalUserIdDoctor},
+                success: function (datas) {
+                    if (datas == 0) {
+                        $('#users_email').addClass('bdr-error');
+                        $('#error-users_email_check').fadeIn().delay(5000).fadeOut('slow');
+                        ;
+                        $('#users_email_status').val(datas);
+                        return false;
+                    }else {
+                        $('#users_email_status').val(datas);
+                        $("form[name='hospitalForm']").submit();
+                        return true;
+                    }
+                }
+            });
+        }
+    }
 </script>
 </body>
 

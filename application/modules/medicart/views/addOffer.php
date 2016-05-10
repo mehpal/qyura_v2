@@ -103,8 +103,8 @@
                                         
                                     </div>
                                     </div>
-
-                                    <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                    <div class="error" id="file_error"></div>
+                                    <label class="error"> <?php echo form_error("avatar_file"); ?></label>
                                     <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
                                     
                                     
@@ -149,7 +149,9 @@
                                                             <input class="form-control pickDate" id="date-1" type="text" name="medicartOffer_startDate" placeholder="Date From" onkeydown="return false;" value="<?=set_value('medicartOffer_startDate');?>" autocomplete="off">
                                                              <label class="error"><?php echo form_error('medicartOffer_startDate'); ?></label>
                                                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                           
                                                         </div>
+                                                         <div class="error" id="error_sd"></div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6 m-t-xs-10">
                                                         <div class="input-group">
@@ -157,7 +159,9 @@
                                                             <input class="form-control pickDates" id="date-2" type="text" name="medicartOffer_endDate" placeholder="Date To" readonly="" onkeydown="return false;" value="<?=set_value('medicartOffer_endDate');?>" autocomplete="off">
                                                              <label class="error"><?php echo form_error('medicartOffer_endDate'); ?></label>
                                                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                            
                                                         </div>
+                                                        <div class="error" id="error_ed"></div>
                                                     </div>
                                                 </aside>
                                                 <label id="date_error" class="error"></label>

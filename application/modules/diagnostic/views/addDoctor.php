@@ -45,26 +45,35 @@
                                     </article>
                                     
                                     
-                                    <article class="form-group m-lr-0 ">
-                                        <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>  
-                                         <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
-                                                <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view-doctor"></i></label>
+                                    <article class="clearfix m-t-10">
+                                                <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
+                                            <div id="doctor-crop-avatar">
+                                                <?php $this->load->view('doctor_upload_crop_modal'); ?>
+                                                <article class="col-md-8 col-sm-8 text-right"  class="avatar-form">
+                                                    
 
-                                                <div class="pre-doctor col-md-4 col-sm-4 ">
-                                                <div id="preImgLogoDoctor" class="avatar-preview preview-md">
+                                                   
+                                                    <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
+                                                        <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
 
-                                               <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png"  class="image-preview-show"/>
+                                                        <div class="pre col-md-4 col-sm-4 ">
+                                                            <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
 
-                                                </div>
-                                                </div>
+                                                                <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png"  class="image-preview-show"/>
 
-                                                <label class="error" > <?php echo form_error("avatar_file"); ?></label>
-                                                <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
+                                                            </div>
+                                                        </div>
+                                                        <div id="error-label" class="error-label"></div>
+                                                        <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                                        <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
 
 
 
+                                                    </div>
+                                                </article>
                                             </div>
-                                    </article>
+
+                                        </article>
                                     
                                    
                                     
@@ -93,7 +102,7 @@
                                             <input type="hidden" name="referralId" id="referralId" value="<?php if($this->uri->segment(4) != NULL){ echo $this->uri->segment(4); } ?>">
                                             <input type="hidden" name="pRoleId" id="pRoleId" value="<?php if($this->uri->segment(3) != NULL){ echo $this->uri->segment(3); } ?>">
                                             
-                                            <input type="email" class="form-control" id="users_email" name="users_email" placeholder="Email" value="<?php  echo set_value('users_email');  ?>" onblur="checkEmailFormat()"/>
+                                            <input type="email" class="form-control" id="users_email" name="users_email" placeholder="Email" value="<?php  echo set_value('users_email');  ?>" onchange="emailIsExist(this.value)"/>
                                             
                                             <label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>
                                             <label class="error" style="display:none;" id="error-users_email_check"> Doctor Email Already Exists!</label>
@@ -241,7 +250,7 @@
                             <?php  $this->load->view('doctor_crop_modal');?>
                         </div>
                         
-                        <input type="hidden" name="hospitalUserIdDoctor" value="<?php if(isset($diagnosticData[0]->diagnostic_usersId)){ echo $diagnosticData[0]->diagnostic_usersId; }?>" id="hospitalUserIdDoctor" />
+                        <input type="hidden" name="diagnoUserIdDoctor" value="<?php if(isset($diagnosticData[0]->diagnostic_usersId)){ echo $diagnosticData[0]->diagnostic_usersId; }?>" id="diagnoUserIdDoctor" />
                         
                     </form>
                 </div>

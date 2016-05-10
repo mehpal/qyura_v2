@@ -104,7 +104,9 @@ if ($current != 'detailDoctor'): ?>
             var formData = new FormData(this);
             submitData(url,formData);
         });
+        
     });
+
     
     //Speciality starts.
     <?php if($this->router->fetch_method() == 'specialities'){ ?>
@@ -483,10 +485,88 @@ if ($current != 'detailDoctor'): ?>
 
 </script>
 <script>
-    $(".membership-btn").click(function () {
-        $(".membership-plan").toggle();
-        $(".newmembership").toggle();
-    });
+
+    function showDegree(id){
+        $("#edit"+id).show();
+        $("#degree"+id).hide();
+    }
+
+   function hideDegree(id){
+        $("#edit"+id).hide();
+        $("#degree"+id).show();
+    }
+    function showHospitalType(id){
+        $("#edit"+id).show();
+        $("#hospitalType"+id).hide();
+    }
+
+   function hideHospitalType(id){
+        $("#edit"+id).hide();
+        $("#hospitalType"+id).show();
+    }
+function showDiagnosticType(id){
+        $("#editDiag"+id).show();
+        $("#diagnosticType"+id).hide();
+    }
+
+   function hideDiagnosticType(id){
+        $("#editDiag"+id).hide();
+        $("#diagnosticType"+id).show();
+    }
+    function showBloodBank(id){
+        $("#editBlood"+id).show();
+        $("#bloodBank"+id).hide();
+    }
+
+   function hideBloodBank(id){
+        $("#editBlood"+id).hide();
+        $("#bloodBank"+id).show();
+    }
+    function showPharmacy(id){
+        $("#editPh"+id).show();
+        $("#pharmacy"+id).hide();
+    }
+
+   function hidePharmacy(id){
+        $("#editPh"+id).hide();
+        $("#pharmacy"+id).show();
+    }
+    function showAmbulance(id){
+        $("#editAmb"+id).show();
+        $("#ambulance"+id).hide();
+    }
+
+   function hideAmbulance(id){
+        $("#editAmb"+id).hide();
+        $("#awardAgency"+id).show();
+    }
+    function showAwardAgency(id){
+        $("#editAward"+id).show();
+        $("#awardAgency"+id).hide();
+    }
+
+   function hideAwardAgency(id){
+        $("#editAward"+id).hide();
+        $("#awardAgency"+id).show();
+    }
+    function showDepartment(id){
+        $("#editDept"+id).show();
+        $("#department"+id).hide();
+    }
+
+   function hideDepartment(id){
+        $("#editDept"+id).hide();
+        $("#department"+id).show();
+    }
+    function showDesignation(id){
+        $("#editDes"+id).show();
+        $("#designation"+id).hide();
+    }
+
+   function hideDesignation(id){
+        $("#editDes"+id).hide();
+        $("#designation"+id).show();
+    }
      $(".membership-btn2").click(function () {
         $(".membership-plan2").toggle();
         $(".newmembership2").toggle();
@@ -1250,5 +1330,24 @@ $(document).ready(function (){
     });
     });
     <?php } ?>
+    function lngChack(str){
+          
+            
+               var filter = /^-?([1]?[1-7][1-9]|[1]?[1-8][0]|[1-9]?[0-9])\.{1}\d{2,20}$/;
+                if(str!==''){
+                    if (!filter.test(str)){
+                        
+                         //$('#lat').addClass('bdr-error');
+                         $('#error-lng').fadeIn().delay(3000).fadeOut('slow');
+                        return false;
+
+                    }else{
+                            //$('#lng').removeClass('bdr-error');
+                        return true;
+                    }
+            }
+            
+        }
 //editDoctorSpecialities ends.
 </script>
+

@@ -189,13 +189,6 @@
         });
     });
 
-    $(".select2").select2({
-        width: '100%'
-    });
-
-    $(".bs-select").select2({placeholder: "Select a Speciality",
-        allowClear: true
-    });
 
 </script>
 <script>
@@ -411,9 +404,11 @@
     }
 
 
-    function checkEmailFormat() {
+    function emailIsExist() {
+       // alert('helloo');
         var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
         var email = $('#users_email').val();
+        var diagnoUserIdDoctor = $('#diagnoUserIdDoctor').val();
         if (email !== '') {
             if (!filter.test(email)) {
                 $('#users_email').addClass('bdr-error');
@@ -421,11 +416,11 @@
             }
             
             $.ajax({
-                url: urls + 'index.php/doctor/check_email',
+                url: urls + 'index.php/diagnostic/check_email_doctor',
                 type: 'POST',
-                data: {'users_email': email},
+                data: {'users_email': email, 'diagnoUserIdDoctor' : diagnoUserIdDoctor},
                 success: function (datas) {
-                    if (datas == 1) {
+                    if (datas == 0) {
                         $('#users_email').addClass('bdr-error');
                         $('#error-users_email_check').fadeIn().delay(5000).fadeOut('slow');
                         ;
@@ -719,6 +714,16 @@ if ($current == 'doctorDetails'){ ?>
     var urls = "<?php echo base_url() ?>";
     $(document).ready(function () {
     $("#submitForm").validate({
+        ignore: "",
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "avatar_file")
+        {
+            error.insertAfter('.error-label');
+        }
+        else{
+            error.insertAfter(element);
+        }
+        },
         rules: {
             doctors_fName: {
                 required: true
@@ -726,7 +731,7 @@ if ($current == 'doctorDetails'){ ?>
             doctors_lName: {
                 required : true
             },
-             avatarInput: {
+             avatar_file: {
                 required : true
             },
             'doctorSpecialities_specialitiesId[]': {
@@ -767,7 +772,7 @@ if ($current == 'doctorDetails'){ ?>
               doctors_lName: {
                 required : "Please enter doctor's last name!"
             },
-              avatarInput: {
+              avatar_file: {
                 required : "Please upload an image!"
             },
 

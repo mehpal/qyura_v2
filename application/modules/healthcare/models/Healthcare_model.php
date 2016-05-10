@@ -112,7 +112,7 @@ class Healthcare_model extends CI_Model {
             
        //  $imgUrl = base_url().'assets/pharmacyImages/$1';    
          
-         $this->datatables->select('healthpkg.healthPackage_id, healthpkg.healthPackage_packageId healthpkgId, healthpkg.healthPackage_packageTitle title,healthpkg.healthPackage_discountedPrice price, healthpkg.status as status, healthpkg.creationTime createdAt, IFNULL(hos.hospital_name,diag.diagnostic_name) as miName, (SELECT city_name from qyura_city where city_id=IFNULL(hos.hospital_cityId,diag.diagnostic_cityId)) as city_name, healthpkg.status, healthpkg.healthPackage_MIuserId as miId');
+         $this->datatables->select('healthpkg.healthPackage_id as id, healthpkg.healthPackage_packageId healthpkgId, healthpkg.healthPackage_packageTitle title,healthpkg.healthPackage_discountedPrice price, healthpkg.status as status, healthpkg.creationTime createdAt, IFNULL(hos.hospital_name,diag.diagnostic_name) as miName, (SELECT city_name from qyura_city where city_id=IFNULL(hos.hospital_cityId,diag.diagnostic_cityId)) as city_name, healthpkg.status as sts, healthpkg.healthPackage_MIuserId as miId');
         $this->datatables->from('qyura_healthPackage AS healthpkg');
         $this->db->join('qyura_hospital AS hos','hos.hospital_usersId = healthpkg.healthPackage_MIuserId','left');
         $this->db->join('qyura_diagnostic AS diag','diag.diagnostic_usersId = healthpkg.healthPackage_MIuserId','left');
@@ -152,10 +152,10 @@ class Healthcare_model extends CI_Model {
         
          $this->datatables->add_column('miName', '<h6>$1</h6><p>$2</p>', 'miName,city_name');
          
-         $this->datatables->edit_column('status', '$1', 'getStatus(status)');
-       
-         $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light btn-health m-b-5" href="healthcare/detailHealthpkg/$1">View Deatil</a><button class="btn btn-success waves-effect waves-light btn-health m-b-5" type="button" onclick="enableFn($1,$3)">$2</button> <a href="healthcare/editHealthpkg/$1"  class="btn btn-success waves-effect waves-light btn-health">Edit Detail</a>', 'healthPackage_id,getOppStatus(status),status');
-
+        // $this->datatables->edit_column('status', '$1', 'getStatus(status)');
+       $this->datatables->add_column('status', '$1', 'statusCheck(healthcare, qyura_healthPackage, healthPackage_id, id, sts)');
+         $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light btn-health m-b-5" href="healthcare/detailHealthpkg/$1">View Deatil</a> <a href="healthcare/editHealthpkg/$1"  class="btn btn-success waves-effect waves-light btn-health">Edit Detail</a>', 'id,getOppStatus(status),status');
+         
        return  $this->datatables->generate(); 
       //  echo $this->datatables->last_query(); exit;
 
