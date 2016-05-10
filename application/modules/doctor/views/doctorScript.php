@@ -1000,6 +1000,10 @@ if ($current == 'doctorDetails'){ ?>
             return true;
         }
     }
+    function imageChange(){
+        $("#image_div").toggle();
+        $("#image_btn").toggle();
+    }
     </script>
 <?php } ?>
 </body>
