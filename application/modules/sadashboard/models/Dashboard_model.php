@@ -48,7 +48,7 @@ class Dashboard_model extends CI_Model {
 
     function getMiList() {
 
-        $sql = "SELECT 'hospital' AS `type`,`hospital_id` as `id`, `hospital_usersId` as `userId`,CONCAT('assets/hospitalsImages/thumb/thumb_100','/',hospital_img) as imUrl, qyura_hospital.hospital_name as `name`,qyura_membership.membership_name as memberName,qyura_city.city_name as city
+        $sql = "SELECT 'hospital' AS `type`,`hospital_id` as `id`, `hospital_usersId` as `userId`,CONCAT('assets/hospitalsImages/thumb/thumb_50','/',hospital_img) as imUrl, qyura_hospital.hospital_name as `name`,qyura_membership.membership_name as memberName,qyura_city.city_name as city
                 FROM `qyura_hospital`
                 LEFT JOIN `qyura_usersRoles` ON `qyura_usersRoles`.`usersRoles_userId` = `qyura_hospital`.`hospital_usersId`
                 LEFT JOIN `qyura_membership` ON `qyura_membership`.`membership_id` = `qyura_hospital`.`hospital_mmbrTyp`
@@ -59,7 +59,7 @@ class Dashboard_model extends CI_Model {
 
                 union all
 
-                SELECT 'diagnostic' AS `type`,`diagnostic_id` as `id`, `diagnostic_usersId` as `userId`, CONCAT('assets/diagnosticsImage/thumb/thumb_100','/',diagnostic_img) as imUrl, qyura_diagnostic.diagnostic_name as `name`,qyura_membership.membership_name as memberName,qyura_city.city_name as city
+                SELECT 'diagnostic' AS `type`,`diagnostic_id` as `id`, `diagnostic_usersId` as `userId`, CONCAT('assets/diagnosticsImage/thumb/thumb_50','/',diagnostic_img) as imUrl, qyura_diagnostic.diagnostic_name as `name`,qyura_membership.membership_name as memberName,qyura_city.city_name as city
                 FROM `qyura_diagnostic`
                 LEFT JOIN `qyura_usersRoles` ON `qyura_usersRoles`.`usersRoles_userId`=`qyura_diagnostic`.`diagnostic_usersId`
                 LEFT JOIN `qyura_membership` ON `qyura_membership`.`membership_id` = `qyura_diagnostic`.`diagnostic_mbrTyp`
@@ -74,7 +74,7 @@ class Dashboard_model extends CI_Model {
 
     function getDoctorList() {
 
-        $sql = "SELECT `doctors_id` as `id`, `doctors_userId` as `userId`,CONCAT('assets/doctorsImages/thumb/thumb_100','/',doctors_img) as imUrl, CONCAT(doctors_fName,' ',doctors_lName) AS doctoesName,qyura_city.city_name as city
+        $sql = "SELECT `doctors_id` as `id`, `doctors_userId` as `userId`,CONCAT('assets/doctorsImages/thumb/thumb_50','/',doctors_img) as imUrl, CONCAT(doctors_fName,' ',doctors_lName) AS doctoesName,qyura_city.city_name as city
                 FROM `qyura_doctors`
                 LEFT JOIN `qyura_usersRoles` ON `qyura_usersRoles`.`usersRoles_userId` = `qyura_doctors`.`doctors_userId`
                 LEFT JOIN `qyura_city` ON `qyura_city`.`city_id` = `qyura_doctors`.`doctors_cityId`

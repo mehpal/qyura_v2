@@ -19,7 +19,6 @@ class SaDashboard extends MY_Controller {
         $data['doctorList'] = $this->dashboard_model->getDoctorList();
         $data['quotationList'] = $this->dashboard_model->getPendingQuotationList();
         $data['notification'] = $this->dashboard_model->getNotification();
-
         $data['title'] = 'SuperAdmin Dashboard';
         $this->load->super_admin_template('Superadmin_dashboard', $data, 'dashboardScript');
     }
