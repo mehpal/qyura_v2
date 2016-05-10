@@ -158,7 +158,6 @@
                         </ul>
                     </article>
                     <article class="tab-content p-b-20 m-t-50">
-                        <div id="load_consulting" class="text-center text-success " style="display: none"><image alt="Please wait data is loading" src="<?php echo base_url('assets/images/loader/Heart_beat.gif'); ?>" /></div>
                         <div class="alert alert-success" id="successTop" style="display: none"></div>
                         <div class="alert alert-danger" id="er_TopError" style="display: none"></div>
                         <!-- General Detail Starts -->
