@@ -23,3 +23,36 @@
 <!--  js-scroll -->
 <script src="<?php echo base_url(); ?>assets/vendor/js-scroll/script/scroll-2.js"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/select2/select2.min.js" type="text/javascript"></script> 
+<script>
+    var urls = "<?php echo base_url();?>";
+    function deleteNotice(id) {
+
+        bootbox.confirm("Do you want to delete it?", function (result) {
+            if (result)
+            {
+                $.ajax({
+                    url: urls + 'index.php/sadashboard/deleteNotification',
+                    type: 'POST',
+                    data: {'id': id},
+                    success: function (response) {
+                        if (response) {
+                            bootbox.alert('Successfully delete notification.');
+                            loadNotification();
+                        } else {
+                            bootbox.alert('Failed to delete notification');
+                        }
+
+                    }
+
+                });
+            }
+
+        });
+    }
+    
+    function loadNotification(){
+         
+         $('#loadNotice').load(urls + 'index.php/sadashboard/getNotificatoin/',function () {
+        });
+    }
+</script>
