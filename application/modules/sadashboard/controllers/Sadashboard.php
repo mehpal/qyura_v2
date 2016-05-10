@@ -16,9 +16,10 @@ class SaDashboard extends MY_Controller {
         $data['Doctor'] = $this->dashboard_model->getDoctorCount();
         $data['User'] = $this->dashboard_model->getUserCount();
         $data['MiList'] = $this->dashboard_model->getMiList();
+        $data['doctorList'] = $this->dashboard_model->getDoctorList();
+        $data['quotationList'] = $this->dashboard_model->getPendingQuotationList();
         
-        
-        dump($data['MiList']);
+        dump($data['quotationList']);
         exit();
         $data['title'] = 'SuperAdmin Dashboard';
         $this->load->super_admin_template('Superadmin_dashboard', $data, 'dashboardScript');
