@@ -352,7 +352,7 @@ class Master extends MY_Controller {
             $specialityNamedoctor = $this->input->post('specialityNamedoctor');
             $keywords = $this->input->post('keywords');
 	    $type = $this->input->post('specialityType');
-             $displayFormat = $this->input->post('speciality_display_format');
+
             $records_array = array(
                 'specialities_name' => $specialityName,
                 'speciality_tag' => $keywords,
@@ -360,7 +360,6 @@ class Master extends MY_Controller {
                 'specialities_img' => $imagesname,
 		'type' => $type,
 		'status' => 0,
-                'speciality_display_format' => $displayFormat,
                 'creationTime' => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
@@ -433,13 +432,11 @@ class Master extends MY_Controller {
             $specialityName = $this->input->post('specialityName');
             $specialityNamedoctor = $this->input->post('specialityNamedoctor');
             $keywords = $this->input->post('keywords');
-             $displayFormat = $this->input->post('speciality_display_format');
             $records_array = array(
                 'specialities_name' => $specialityName,
                 'speciality_tag' => $keywords,
                 'specialities_drName' => $specialityNamedoctor,
                 'specialities_img' => $imagesname,
-                 'speciality_display_format' => $displayFormat,
                 'modifyTime' => strtotime(date("d-m-Y H:i:s"))
             );
             if(empty($imagesname) || $imagesname == '' || $imagesname === NULL){
@@ -822,7 +819,6 @@ class Master extends MY_Controller {
             $specialityName = $this->input->post('specialityName');
             $specialityNamedoctor = $this->input->post('specialityNamedoctor');
             $keywords = $this->input->post('keywords');
-             $displayFormat = $this->input->post('speciality_display_format');
             $type = $this->input->post('specialityType'); 
             $records_array = array(
                 'specialities_name' => $specialityName,
@@ -830,7 +826,6 @@ class Master extends MY_Controller {
                 'specialities_drName' => $specialityNamedoctor,
                 'specialities_img' => $imagesname,
                 'type' => $type,
-                 'speciality_display_format' => $displayFormat,
 		'status' => 2,
                 'creationTime' => strtotime(date("d-m-Y H:i:s"))
             );
@@ -904,14 +899,12 @@ class Master extends MY_Controller {
             $specialityName = $this->input->post('specialityName');
             $specialityNamedoctor = $this->input->post('specialityNamedoctor');
             $keywords = $this->input->post('keywords');
-             $displayFormat = $this->input->post('speciality_display_format');
             $type = $this->input->post('specialityType'); 
             $records_array = array(
                 'specialities_name' => $specialityName,
                 'speciality_tag' => $keywords,
                 'specialities_drName' => $specialityNamedoctor,
                 'type' => $type,
-                 'speciality_display_format' => $displayFormat,
                 'modifyTime' => strtotime(date("d-m-Y H:i:s"))
             );
             if(isset($imagesname) && $imagesname != ''){
