@@ -416,8 +416,14 @@ console.log(files);
     }
   };
 
+
+
   $(function () {
     return new CropAvatar($('#crop-avatar'),'avatar-modal');
+  });
+  
+  $(function () {
+    return new CropAvatar($('#doctor-crop-avatar'),'doctor-avatar-modal');
   });
   
   $(function () {

@@ -65,8 +65,11 @@
                                         <label class="error" > <?php echo form_error("diagnostic_name"); ?></label>
                                     </div>
                                 </article>
+                                
                                 <div id="crop-avatar">
+                                    
                                 <article class="clearfix m-t-10">
+                                    
                                     <div id="upload_modal_form">
 <?php $this->load->view('upload_crop_modal'); ?>
                         </div>

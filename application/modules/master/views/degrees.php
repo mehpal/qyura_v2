@@ -25,11 +25,12 @@
             </figure>
                     <div class="nicescroll mxh-400" style="overflow: hidden;" tabindex="5000">
                         <div class="col-sm-12 p-t-20 p-b-20">
+                        
                             <form name="degreeEditForm" action="#" id="degreeEditForm" method="post">
                             <ul id="list" class="list-unstyled ul-bigspace">
                             <?php $countDegree = 1; if(isset($degrees_list) && $degrees_list != NULL){ 
                                 foreach ($degrees_list as $degrees){ ?>
-                                <li class="clearfix degrees membership-plan">
+                                <li class="clearfix degrees membership-plan" id="degree<?php echo $countDegree;?>">
                                     <span class="col-md-3 col-sm-3 col-xs-12">
                                         <?php echo $degrees->degree_SName; ?>
                                     </span>
@@ -37,11 +38,11 @@
                                         <?php echo $degrees->degree_FName; ?>
                                     </span>
                                     <span class="col-lg-3 col-sm-3 col-xs-2">
-                                        <a href="#" style="line-height: 3"><i class="md md-edit membership-btn"></i></a> 
+                                        <a onclick="showDegree('<?php echo $countDegree;?>')" href="#" style="line-height: 3"><i class="md md-edit membership-btn"></i></a> 
                                         <button onclick="if((<?php echo $degrees->status; ?>)===0)enableFn('master', 'degreePublish', '<?php echo $degrees->degree_id; ?>','<?php echo $degrees->status; ?>')" type="button" class="btn btn-<?php if($degrees->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($degrees->status == 1){ echo "Active"; }else if($degrees->status == 0){ echo "Inactive"; } ?></button>
                                     </span>
                                 </li>
-                                <li class="newmembership" style="display:none">
+                                <li class="newmembership" style="display:none" id="edit<?php echo $countDegree;?>">
                                     <span class="col-md-5">
                                         <input type="hidden" id="degree_id_<?php echo $countDegree; ?>" name="degree_id_<?php echo $countDegree; ?>" value="<?php echo $degrees->degree_id; ?>" >
                                         <input type="text" required="" name="degree_SName_<?php echo $countDegree; ?>" id="degree_SName_<?php echo $countDegree; ?>" class="form-control" value="<?php if($degrees->degree_SName){ echo $degrees->degree_SName; }else{echo ''; } ?>">
@@ -53,13 +54,14 @@
                                     </span>
                                     <span class="col-md-2">
                                         <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                                        <a href="#"><i class="md md-cancel membership-btn"></i></a>
+                                        <a onclick="hideDegree('<?php echo $countDegree; ?>')" href="#"><i class="md md-cancel membership-btn"></i></a>
                                     </span>
                                 </li>
                             <?php $countDegree++;} } ?>
                                 <input type="hidden" id="total_count" name="total_count" value="<?php echo $countDegree; ?>" >
                                 </ul>
                             </form>
+                            
                         </div>
                     </div>
                 </aside>

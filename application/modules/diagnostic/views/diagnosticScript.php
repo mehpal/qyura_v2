@@ -26,24 +26,21 @@
 if(isset($diagnosticId) && !empty($diagnosticId)){
     $check = $diagnosticId; 
 }?>
+<script src="<?php echo base_url(); ?>assets/ui_1.11.4_jquery-ui.js"></script>
 <link href="<?php echo base_url();?>assets/cropper/cropper.min.css" rel="stylesheet">
 <link href="<?php echo base_url();?>assets/cropper/main.css" rel="stylesheet">
 <link href="<?php echo base_url();?>assets/vendor/timepicker/bootstrap-timepicker.min.css" rel="stylesheet" />
 <script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
 
-<?php $current = $this->router->fetch_method();
-if($current != 'detailDiagnostic'):?>
+<?php // //$current = $this->router->fetch_method();
+//if($current != 'detailDiagnostic'):?>
 <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
-<?php else:?>
+<?php //else:?>
 
 <script src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
 
-    <script src="<?php echo base_url(); ?>assets/cropper/doctor_cropper.js"></script>
-
-    <script src="<?php echo base_url(); ?>assets/cropper/edit_doctor_cropper.js"></script>
-
-<?php endif;?>
+<?php// endif;?>
 
 <script src="<?php echo base_url();?>assets/vendor/timepicker/bootstrap-timepicker.min.js"></script>
 <!--<script src="<?php echo base_url();?>assets/js/angular.min.js"></script>-->
@@ -695,7 +692,24 @@ if($current != 'detailDiagnostic'):?>
            // alert('callback function implementation');
         });
         $('#list5').load(urls + 'index.php/diagnostic/diagnosticAllocatedSpecialities/'+diagnosticId,function () {
-           // alert('callback function implementation');
+            
+            $("#list5").sortable({
+                stop: function (e, ui) {
+                    var obj = {};
+                    $.map($(this).find('li'), function (el) {
+                        obj[el.id] = $(el).index();
+                    });
+                    var order = $(this).sortable('serialize');
+                    //alert(order);
+                    console.log(obj);
+                    var url = "<?php echo site_url('diagnostic/diagnoSpecialitiesOrder') ?>";
+                    $.ajax({type: "POST", async: false, url: url, data: obj, beforeSend: function (xhr) {
+                            qyuraLoader.startLoader();
+                        }, success: function (data) {
+                            qyuraLoader.stopLoader();
+                        }});
+                }
+            });
         });
         
     } 
@@ -2185,8 +2199,10 @@ function imageIsLoaded(e) {
     }
   }  
   
-  
+  // blood bank
   $("#bloodbank,#bloodbankbtn").click(function () {
+      
+      
         if($(this).is(':checked')){
          bootbox.confirm({
                     message: 'Do you outsource the blood?',
@@ -2541,6 +2557,15 @@ function imageIsLoaded(e) {
             $(".logo-up-bloodbank").toggle();
             $(".picEdit-bloodbank").toggle();
             $(".picEditClose-bloodbank").toggle();
+        });
+        
+        
+          $(".doctor_edit").click(function () {
+           
+            $(".logo-img-doctor").toggle();
+            $(".logo-up-doctor").toggle();
+            $(".picEdit-doctor").toggle();
+            $(".picEditClose-doctor").toggle();
         });
         
 </script>
