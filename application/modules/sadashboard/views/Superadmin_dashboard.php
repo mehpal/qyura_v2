@@ -930,8 +930,8 @@
                             </div>
                             <div class="col-md-4 text-right">
                                 <select class="form-control selectpicker m-tb-5 pull-right" data-width="100%">
+                                    <option>2016</option>
                                     <option>2015</option>
-                                    <option>2014</option>
                                 </select>
                             </div>
                         </figure>

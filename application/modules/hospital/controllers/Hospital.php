@@ -2818,8 +2818,8 @@ class Hospital extends MY_Controller {
             echo json_encode($responce);
         } elseif ($this->checkEditSloat()) {
 
-            $docTimeTable_stayAt = isset($_POST['docTimeTable_stayAt']) ? $this->input->post('docTimeTable_stayAt') : '';
-            $docTimeTable_MItype = isset($_POST['docTimeTable_MItype']) ? $this->input->post('docTimeTable_MItype') : '';
+            $docTimeTable_stayAt = isset($_POST['docTimeTable_stayAt']) ? $this->input->post('docTimeTable_stayAt') : '1';
+            $docTimeTable_MItype = isset($_POST['docTimeTable_MItype']) ? $this->input->post('docTimeTable_MItype') : '1';
             $docTimeTable_MIprofileId = isset($_POST['docTimeTable_MIprofileId']) ? $this->input->post('docTimeTable_MIprofileId') : '';
             $docTimeTable_price = isset($_POST['fees']) ? $this->input->post('fees') : '';
             $docTimeDay_days = isset($_POST['docTimeDay_day']) ? $this->input->post('docTimeDay_day') : '';
