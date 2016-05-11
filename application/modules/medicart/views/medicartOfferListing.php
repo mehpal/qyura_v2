@@ -64,7 +64,7 @@
                                                 <th style="width:5%">Enquiries</th>
                                                 <th>From</th>
                                                 <th>To</th>
-                                                <th>Range</th>
+<!--                                                <th>Range</th>-->
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
