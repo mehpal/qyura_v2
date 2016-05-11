@@ -519,12 +519,9 @@ class Diagnostic extends MY_Controller {
                             $original_imagesname_bloodbank = $this->uploadImageWithThumb($upload_data, 'bloodBank_photo', $path, 'assets/BloodBank/', './assets/BloodBank/thumb/', 'blood');
                            
                             if (empty($original_imagesname_bloodbank)) {
-                                $data['hospitalType'] = $this->Hospital_model->getHospitalType();
-                                $data['allCountry'] = $this->Hospital_model->fetchCountry();
-                                $data['allStates'] = $this->Bloodbank_model->fetchStates();
+                                $data['allStates'] = $this->diagnostic_model->fetchStates();
                                 $this->session->set_flashdata('valid_upload', $this->error_message);
-                                $data['title'] = 'Add Hospital';
-                                $this->load->super_admin_template('AddHospital', $data, 'hospitalScript');
+                                $this->load->super_admin_template('addDiagcenter', $data, 'diagnosticScript');
                                 return false;
                             } else {
                                 $bloodBankImagesname = $original_imagesname_bloodbank;
@@ -552,7 +549,6 @@ class Diagnostic extends MY_Controller {
                         'cityId' => $diagnostic_cityId,
                         'bloodBank_add' => $diagnostic_address,
                         'inherit_status' => 1,
-                        'isEmergency' => $this->input->post('isEmergency'),
                         'bloodBank_zip' => $diagnostic_zip
                     );
                     $bloodBankId = $this->Hospital_model->insertBloodbank($bloodBankDetail);
@@ -602,12 +598,9 @@ class Diagnostic extends MY_Controller {
                             $original_imagesname_ambulance = $this->uploadImageWithThumb($upload_data, 'ambulance_photo', $path, 'assets/ambulanceImages/', './assets/ambulanceImages/thumb/', 'ambulance');
 
                             if (empty($original_imagesname_ambulance)) {
-                                   $data['hospitalType'] = $this->Hospital_model->getHospitalType();
-                                    $data['allCountry'] = $this->Hospital_model->fetchCountry();
-                                    $data['allStates'] = $this->Bloodbank_model->fetchStates();
+                                    $data['allStates'] = $this->diagnostic_model->fetchStates();
                                     $this->session->set_flashdata('valid_upload', $this->error_message);
-                                    $data['title'] = 'Add Hospital';
-                                    $this->load->super_admin_template('AddHospital', $data, 'hospitalScript');
+                                    $this->load->super_admin_template('addDiagcenter', $data, 'diagnosticScript');
                                     return false;
                             } else {
                                 $ambulanceImagesname = $original_imagesname_ambulance;
@@ -635,7 +628,6 @@ class Diagnostic extends MY_Controller {
                         'ambulance_cntPrsn' => $diagnostic_cntPrsn,
                         'inherit_status' => 1,
                         'ambulance_zip' => $diagnostic_zip,
-                        'ambulance_27Src' => $this->input->post('availibility_24_7'),
                         'docOnBoard' => $docOnBoard,
                     );
                     $ambulanceId = $this->Hospital_model->insertAmbulance($ambulanceDetail);

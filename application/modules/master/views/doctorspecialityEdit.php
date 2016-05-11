@@ -38,7 +38,7 @@
                             <div id="upload_modal_form">
                                 <?php echo $this->load->view('upload_crop_modal'); ?>
                             </div>
-                            <label class="control-label col-md-4 col-sm-4" for="cemail"><a href="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>" target="_blank"><img height="80px;" width="80px;" src="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>" class="img-responsive"></a>
+                            <label class="control-label col-md-4 col-sm-4" for="cemail"><img height="80px;" width="80px;" src="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>" class="img-responsive"></a>
                             </label>
                             <div class="col-md-8 col-sm-8 text-right avatar-view">
                                 <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>

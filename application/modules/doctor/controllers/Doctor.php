@@ -919,11 +919,17 @@ class Doctor extends MY_Controller {
         $this->bf_form_validation->set_rules("doctors_dob", "DOB", 'required|xss_clean');
         $this->bf_form_validation->set_rules("creationTime", "DOJ", 'required|xss_clean');
         $this->bf_form_validation->set_rules("users_email", "Email", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("doctors_stateId", "State", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("doctors_cityId", "City", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("doctors_countryId", "Country", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("docatId", "Doctor Id", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("qapId", "QAP Id", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("exp_year", "exp_year", 'required|xss_clean');
         $this->bf_form_validation->set_rules("doctor_addr", "Address", 'required|xss_clean');
         $this->bf_form_validation->set_rules("lat", "Lat", 'required|xss_clean');
         $this->bf_form_validation->set_rules("lng", "Long", 'required|xss_clean');
 
-        $this->bf_form_validation->set_rules("doctorSpecialities_specialitiesId[]", "Specility", 'required|xss_clean');
+        //$this->bf_form_validation->set_rules("doctorSpecialities_specialitiesId[]", "Specility", 'required|xss_clean');
         $this->bf_form_validation->set_rules("doctors_phn", "Phone", 'required|xss_clean');
 
 
@@ -1681,7 +1687,5 @@ class Doctor extends MY_Controller {
         $responce = array('status' => 1, 'isAlive' => TRUE, 'data' => $form);
         echo json_encode($responce);
     }
-
-    
 
 }

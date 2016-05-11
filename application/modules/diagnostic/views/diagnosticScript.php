@@ -1247,6 +1247,7 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
          if ($('#bloodbank').is(":checked")) {
             if ($('#bloodBank_name').val() === '') {
                 $('#bloodBank_name').addClass('bdr-error');
+                $('#error-bloodBank_name').text('please Check your BloodBank name');
                 $('#error-bloodBank_name').fadeIn().delay(3000).fadeOut('slow');
                 setTimeout(function(){
                 $("#bloodBank_name").removeClass('bdr-error');
@@ -1256,6 +1257,7 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
             
             if ($('#bloodBank_phn1').val() === '') {
                 $('#bloodBank_phone').addClass('bdr-error');
+                $('#error-bloodBank_phone').text('please Check your BloodBank Phon No.');
                 $('#error-bloodBank_phone').fadeIn().delay(3000).fadeOut('slow');
                 setTimeout(function(){
                 $("#bloodBank_phone").removeClass('bdr-error');
@@ -1264,6 +1266,7 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
             }
             
             if ($('#avatar_data_bloodbank').val() === '') {
+                $('#error-avatar_data_bloodbank').text('Blood bank Image required');
                 $('#error-avatar_data_bloodbank').fadeIn().delay(3000).fadeOut('slow');
                 setTimeout(function(){
                 $("#error-avatar_data_bloodbank").removeClass('bdr-error');
@@ -1275,6 +1278,7 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
          if ($('#ambulance').is(":checked")) {
             if ($('#ambulance_name').val() === '') {
                 $('#ambulance_name').addClass('bdr-error');
+                $('#error-ambulance_name').text('please Check your Ambulance name');
                 $('#error-ambulance_name').fadeIn().delay(3000).fadeOut('slow');
                 setTimeout(function(){
                 $("#ambulance_name").removeClass('bdr-error');
@@ -1283,6 +1287,7 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
             }
             if ($('#ambulance_phn1').val() === '') {
                 $('#ambulance_phn1').addClass('bdr-error');
+                $('#error-ambulance_phn1').text('please Check your Ambulance number');
                 $('#error-ambulance_phn1').fadeIn().delay(3000).fadeOut('slow');
                 setTimeout(function(){
                 $("#ambulance_phn1").removeClass('bdr-error');
@@ -1291,6 +1296,7 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
             }
             
             if ($('#avatar_data_ambulance').val() === '') {
+                $('#error-avatar_data_ambulance').text('Ambulance image required');
                 $('#error-avatar_data_ambulance').fadeIn().delay(3000).fadeOut('slow');
                 setTimeout(function(){
                 $("#error-avatar_data_ambulance").removeClass('bdr-error');
@@ -2726,11 +2732,14 @@ $(this).valid()
         if (element.attr("name") == "avatar_file")
         {
             error.insertAfter('.error-label');
+        }else if(element.attr("name") == "doctor_photo"){
+            error.insertAfter('.error-label');
         }
         else{
             error.insertAfter(element);
         }
         },
+        
         rules: {
             diagno_id:{
                 required : true,
@@ -2741,6 +2750,10 @@ $(this).valid()
 
             },
              avatar_file: {
+                required : true
+            },
+            
+            doctor_photo: {
                 required : true
             },
             
@@ -2848,6 +2861,10 @@ $(this).valid()
             },
            
               avatar_file: {
+                required : "Please upload an image!",
+            },
+            
+             doctor_photo: {
                 required : "Please upload an image!",
             },
 
@@ -3104,6 +3121,10 @@ $(this).valid()
 
  
 });
+
+  function fadeInOption(){
+          $('#bloodbankOption,#ambulanceOption').css("display", "none");
+       }
 </script>
 
 </body>
