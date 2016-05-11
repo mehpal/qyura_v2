@@ -105,6 +105,7 @@ class Quotation extends MY_Controller {
         $data = array();
         $data['title'] = 'Quotation request';
         $data['quotationDetail'] = $this->Quotation_model->fetchQuotationData($conditionId);
+        
         $data['quotationPrescription'] = $this->Quotation_model->fetchQuotationPrescription($conditionId);
         $data['quotationTest'] = $this->Quotation_model->getQuotationTests($conditionId);
         $data['dignoCat'] = $this->Quotation_model->getDiagnoCat();
@@ -132,7 +133,7 @@ class Quotation extends MY_Controller {
         $data['quotationDetail'] = $this->Quotation_model->fetchQuotationData($conditionId);
 
         $type = $data['quotationDetail'][0]->miType != 'diagnostic' ? 0 : 1;
-        $data['mITimeSloat'] = $this->Quotation_model->getTimeSloat($type, $data['quotationDetail'][0]->miPfId);
+        //$data['mITimeSloat'] = $this->Quotation_model->getTimeSloat($type, $data['quotationDetail'][0]->miPfId);
 
         $data['mIDrs'] = $this->Quotation_model->getMiDoc($data['quotationDetail'][0]->MI);
 
@@ -236,19 +237,10 @@ class Quotation extends MY_Controller {
     }
 
     function saveEditQuotationDetail($qId) {
-        //echo($healthPackage_id);exit;
+        
         $this->load->library('form_validation');
         $this->bf_form_validation->set_rules('preferedDate', 'Prefered date', 'xss_clean|required|trim');
-        $this->bf_form_validation->set_rules('existsDr', 'Ref. Doctor Option ', 'xss_clean|required|trim');
         $this->bf_form_validation->set_rules('quotationTime', 'Time', 'xss_clean|required|trim');
-        $this->bf_form_validation->set_rules('timeslot', 'timeslot', 'xss_clean|required|trim');
-        
-        if (isset($_POST['existsDr']) == 1)
-            $this->bf_form_validation->set_rules('refDoctor', 'Ref. Doctor', 'xss_clean|required|trim');
-        if (isset($_POST['existsDr']) == 2)
-            $this->bf_form_validation->set_rules('drName', 'Doctor Name', 'xss_clean|required|trim');
-
-        //$this->bf_form_validation->set_rules('testIncluded','Test Includes','required|xss_clean|trim');
         if ($this->bf_form_validation->run() === FALSE) {
             // echo validation_errors(); exit;
             $data = array();
@@ -269,7 +261,6 @@ class Quotation extends MY_Controller {
                 $upload_data = $this->input->post('avatar_data');
                 $upload_data = json_decode($upload_data);
                 $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/proImg/', './assets/proImg/thumb/', 'pre');
-
                 if ($original_imagesname != '') {
                     $imagesname = $original_imagesname;
                 }
@@ -280,26 +271,15 @@ class Quotation extends MY_Controller {
                 $this->Quotation_model->insertPrescription($insertData);
             }
 
-            $quotation_dateTime = isset($_POST['preferedDate']) ? $this->input->post('preferedDate') : '';
-            $timeslot = isset($_POST['timeslot']) ? $this->input->post('timeslot') : '00:00 AM';
-
-            $refDoctor = 0 ;
-            $drName = '';
-            if (isset($_POST['existsDr']) == 1)
-                $refDoctor = $this->input->post('refDoctor');
-            if (isset($_POST['existsDr']) == 2)
-                $drName = $this->input->post('drName');
-
+            $quotation_date = isset($_POST['preferedDate']) ? $this->input->post('preferedDate') : '';
+            $timeslot = isset($_POST['quotationTime']) ? $this->input->post('quotationTime') : '00:00 AM';
+            
             $updateData = array(
-            'quotation_dateTime' => strtotime($quotation_dateTime),
-            'quotation_docRefeId' =>$refDoctor,
-            'quotation_docName'=>$drName,
+            'quotation_dateTime' => strtotime($quotation_date),
+            'quotations_finalTime' => strtotime($timeslot),
             'status' => 1,
             'modifyTime' => strtotime(date("Y-m-d H:i:s"))
             );
-            // print_r($insertData);
-            //  print_r($updateData);
-            //  exit;
             $where = array(
                 'quotation_id' => $qId
             );
@@ -326,12 +306,12 @@ class Quotation extends MY_Controller {
 
 
         $data = array();
-        $options = array('table' => 'qyura_city', 'order' => array('city_name' => 'asc'));
+        $options = array('table' => 'qyura_city', 'where' => array('status' => 1),'order' => array('city_name' => 'asc'));
         $data['qyura_city'] = $this->common_model->customGet($options);
         $catOptions = array('table' => 'qyura_diagnosticsCat', 'order' => array('diagnosticsCat_catName' => 'asc'), 'select' => 'diagnosticsCat_catName as catName,diagnosticsCat_catId as catId', 'where' => array('diagnosticsCat_deleted' => 0));
         $data['catOptions'] = $this->common_model->customGet($catOptions);
 
-        $spOptions = array('table' => 'qyura_specialities', 'order' => array('specialities_name' => 'asc'), 'select' => 'specialities_name as speName,specialities_specialitiesCatId as speCatId', 'where' => array('specialities_deleted' => 0));
+        $spOptions = array('table' => 'qyura_specialities', 'order' => array('specialities_name' => 'asc'), 'select' => 'specialities_name as speName,specialities_specialitiesCatId as speCatId', 'where' => array('specialities_deleted' => 0,'status' => 1));
         $data['spOptions'] = $this->common_model->customGet($spOptions);
 
         $data['allStates'] = $this->Quotation_model->fetchStates();
@@ -349,7 +329,7 @@ class Quotation extends MY_Controller {
         if ($appointment_type == 0) {
             $options = array(
                 'table' => 'qyura_hospital',
-                'where' => array('qyura_hospital.hospital_deleted' => 0, 'qyura_hospital.hospital_cityId' => $city_id),
+                'where' => array('qyura_hospital.hospital_deleted' => 0,'qyura_hospital.status' => 1, 'qyura_hospital.hospital_cityId' => $city_id),
             );
             $hospital = $this->common_model->customGet($options);
 
@@ -364,7 +344,7 @@ class Quotation extends MY_Controller {
         } else {
             $options = array(
                 'table' => 'qyura_diagnostic',
-                'where' => array('qyura_diagnostic.diagnostic_deleted' => 0, 'qyura_diagnostic.diagnostic_cityId' => $city_id),
+                'where' => array('qyura_diagnostic.diagnostic_deleted' => 0,'qyura_diagnostic.status' => 1, 'qyura_diagnostic.diagnostic_cityId' => $city_id),
             );
             $diagnostic = $this->common_model->customGet($options);
             if (isset($diagnostic) && $diagnostic != NULL) {
@@ -463,7 +443,7 @@ class Quotation extends MY_Controller {
         if ($type == 0) {
             $options = array(
                 'table' => 'qyura_hospitalSpecialities',
-                'where' => array('qyura_hospitalSpecialities.hospitalSpecialities_deleted' => 0, 'qyura_hospitalSpecialities.hospitalSpecialities_hospitalId' => $h_d_id),
+                'where' => array('qyura_hospitalSpecialities.hospitalSpecialities_deleted' => 0, 'qyura_hospitalSpecialities.hospitalSpecialities_hospitalId' => $h_d_id,'qyura_specialities.status' => 1),
                 'join' => array(
                     array('qyura_specialities', 'qyura_specialities.specialities_id = qyura_hospitalSpecialities.hospitalSpecialities_specialitiesId', 'left'),
                 ),
@@ -483,7 +463,7 @@ class Quotation extends MY_Controller {
         } else {
             $options = array(
                 'table' => 'qyura_diagnosticSpecialities',
-                'where' => array('qyura_diagnosticSpecialities.diagnosticSpecialities_deleted' => 0, 'qyura_diagnosticSpecialities.diagnosticSpecialities_diagnosticId' => $h_d_id),
+                'where' => array('qyura_diagnosticSpecialities.diagnosticSpecialities_deleted' => 0, 'qyura_diagnosticSpecialities.diagnosticSpecialities_diagnosticId' => $h_d_id,'qyura_specialities.status' => 1),
                 'join' => array(
                     array('qyura_specialities', 'qyura_specialities.specialities_id = qyura_diagnosticSpecialities.diagnosticSpecialities_specialitiesId', 'left'),
                 ),
@@ -601,20 +581,17 @@ class Quotation extends MY_Controller {
      * @return insert id
      */
     function sendQuotationSave() {
-
-
-        $this->bf_form_validation->set_rules("quotationId", "Quotation Id", 'required|trim');
+        
+        $this->bf_form_validation->set_rules("quotationId", "Quotation Id", 'trim');
         $this->bf_form_validation->set_rules("city_id", "City", 'required');
-        $this->bf_form_validation->set_rules("miId", "MI Name", 'required');
         $this->bf_form_validation->set_rules("miType", "Hospital/Diagnostic", 'required');
-        $this->bf_form_validation->set_rules("existsDr", "Ref. Doctor", 'required');
-//        $this->bf_form_validation->set_rules("bookStatus", "Book Status", 'required');
+        $this->bf_form_validation->set_rules("miId", "MI Name", 'required');
         $this->bf_form_validation->set_rules("quotationDate", "Date", 'required');
         $this->bf_form_validation->set_rules("quotationTime", "Time", 'required');
-        $this->bf_form_validation->set_rules("timeSlot", "timeSlot", 'required');
         $this->bf_form_validation->set_rules("patient_email", "Patient Email", 'required|valid_email');
         $this->bf_form_validation->set_rules("users_mobile", "Mobile Number ", 'required');
         $this->bf_form_validation->set_rules("user_id", "user", 'trim');
+        $this->bf_form_validation->set_rules("email_status", "email_status", 'trim');
         $this->bf_form_validation->set_rules("users_username", "Name", 'required');
         $this->bf_form_validation->set_rules("countryId", "Country ", 'required');
         $this->bf_form_validation->set_rules("userStateId", "State ", 'required');
@@ -622,11 +599,9 @@ class Quotation extends MY_Controller {
         $this->bf_form_validation->set_rules("zip", "Zip", 'required|callback_numeric_wcomma');
         $this->bf_form_validation->set_rules("address", "Address", 'required');
         $this->bf_form_validation->set_rules("consulationFee", "Consulation Fee", 'required');
-        //$this->bf_form_validation->set_rules("tax", "Tax", 'required');
-        // $this->form_validation->set_rules("paidamt", "Total Amount ", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("family_member", "Family Member ", 'required');
-
-        $apoint_type = $this->input->post('input5');
+        $this->bf_form_validation->set_rules("tax", "Tax", 'required');
+        $this->bf_form_validation->set_rules("paidamt", "Total Amount ", 'xss_clean');
+        $this->bf_form_validation->set_rules("family_member", "Family Member ", 'xss_clean');
 
         $total_test = $this->input->post('total_test');
 
@@ -637,7 +612,6 @@ class Quotation extends MY_Controller {
             $this->bf_form_validation->set_rules("input31_$j", "Instruction $j", 'required');
         }
 
-
         if ($this->bf_form_validation->run() == FALSE) {
 
             $userStateId = isset($_POST['userStateId']) ? $_POST['userStateId'] : NULL;
@@ -647,16 +621,11 @@ class Quotation extends MY_Controller {
             $errors = validation_errors();
             $this->sendQuotation($rowData);
         } else {
-
+            //print_r($_POST);exit;
             $user_id = $this->input->post('user_id');
             $quoDatetime = $this->input->post('quotationDate') . " " . $this->input->post('hour') . ":" . $this->input->post('minute');
-
-//        $slotId = $this->input->post('timeslot');
-//        $slotId = explode(',', $slotId);
-
             $MIprofileId = $this->input->post('miId');
             $MIprofileId = explode(',', $MIprofileId);
-
 
             $consultFee = $this->input->post('consulationFee');
             $tax = $this->input->post('tax');
@@ -664,76 +633,81 @@ class Quotation extends MY_Controller {
             $totalFee = $this->input->post('paidamt');
 
             $quotationType = $this->input->post('quotationType');  //0 for cunslting 1 for diagnostic
+            $email_status = $this->input->post('email_status');
+            
+            $email = $this->email = strtolower($this->input->post('patient_email'));
+            $username = explode('@', $email);
+            $username = $this->username = $username[0];
+            $length = 10;
+            $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $password = '';
+            for ($i = 0; $i < $length; $i++) {
+                $password .= $characters[rand(0, strlen($characters) - 1)];
+            }
+            $user_mobile = $this->input->post('users_mobile');
+            $patient_id = $this->input->post('input16');
+            $user_name = $this->input->post('users_username');
+            $user_country = $this->input->post('countryId');
+            $user_state = $this->input->post('userStateId');
+            $user_city = $this->input->post('userCityId');
+            $user_zip = $this->input->post('zip');
+            $user_address = $this->input->post('address');
+            $user_dob = strtotime($this->input->post('input26'));
+            $user_gender = $this->input->post('input27');
 
             if (empty($user_id)) {
-
-                $email = $this->email = strtolower($this->input->post('patient_email'));
-                $username = explode('@', $email);
-                $username = $this->username = $username[0];
-                $length = 10;
-                $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                $password = '';
-                for ($i = 0; $i < $length; $i++) {
-                    $password .= $characters[rand(0, strlen($characters) - 1)];
+                if(empty($email_status)){    
+                    $optionAuotation = array(
+                        'table' => 'qyura_users',
+                        'data' => array(
+                            'users_username' => $username,
+                            'users_password' => $this->common_model->encryptPassword($password),
+                            'users_email' => $email,
+                            'users_mobile' => $user_mobile,
+                            'users_active' => 0,
+                            'users_deleted' => 0,
+                            'creationTime' => strtotime(date('Y-m-d H:i:s'))
+                        )
+                    );
+                    $user_id = $this->common_model->customInsert($optionAuotation);
+                    $email_status = 1;
                 }
-                $user_mobile = $this->input->post('users_mobile');
-                $patient_id = $this->input->post('input16');
-                $user_name = $this->input->post('users_username');
-                $user_country = $this->input->post('countryId');
-                $user_state = $this->input->post('userStateId');
-                $user_city = $this->input->post('userCityId');
-                $user_zip = $this->input->post('zip');
-                $user_address = $this->input->post('address');
+            }
+            if (!empty($user_id)) {
+                if(!empty($email_status)){
+                    $optionAuotation = array(
+                        'table' => 'qyura_patientDetails',
+                        'data' => array(
+                            'patientDetails_usersId' => $user_id,
+                            'patientDetails_countryId' => $user_country,
+                            'patientDetails_stateId' => $user_state,
+                            'patientDetails_cityId' => $user_city,
+                            'patientDetails_mobileNo' => $user_mobile,
+                            'patientDetails_unqId' => 'PNT' . random_string('alnumnew', 6),
+                            'patientDetails_patientName' => $user_name,
+                            'patientDetails_address' => $user_address,
+                            'patientDetails_pin' => $user_zip,
+                            'patientDetails_dob' => $user_dob,
+                            'patientDetails_gender' => $user_gender,
+                            'patientDetails_deleted' => 0,
+                            'creationTime' => strtotime(date('Y-m-d H:i:s'))
+                        )
+                    );
+                    $patitentId = $this->common_model->customInsert($optionAuotation);
 
-                // $additional_data = array('users_logintype' => '1', 'users_mobile' => $user_mobile);
-                //$users = $this->ion_auth_api->register($username, $password, $email, $additional_data);
+                    $optionAuotation = array(
+                        'table' => 'qyura_usersRoles',
+                        'data' => array(
+                            'usersRoles_userId' => $user_id,
+                            'usersRoles_roleId' => 6,
+                            'creationTime' => strtotime(date('Y-m-d H:i:s'))
+                        )
+                    );
 
-                $optionAuotation = array(
-                    'table' => 'qyura_users',
-                    'data' => array(
-                        'users_username' => $username,
-                        'users_password' => $this->common_model->encryptPassword($password),
-                        'users_email' => $email,
-                        'users_mobile' => $user_mobile,
-                        'users_active' => 0,
-                        'users_deleted' => 0,
-                        'creationTime' => strtotime(date('Y-m-d H:i:s'))
-                    )
-                );
+                    $rolesId = $this->common_model->customInsert($optionAuotation);
 
-                $user_id = $this->common_model->customInsert($optionAuotation);
-
-                $optionAuotation = array(
-                    'table' => 'qyura_patientDetails',
-                    'data' => array(
-                        'patientDetails_usersId' => $user_id,
-                        'patientDetails_countryId' => $user_country,
-                        'patientDetails_stateId' => $user_state,
-                        'patientDetails_cityId' => $user_city,
-                        'patientDetails_mobileNo' => $user_mobile,
-                        'patientDetails_unqId' => 'PNT' . random_string('alnumnew', 6),
-                        'patientDetails_patientName' => $user_name,
-                        'patientDetails_address' => $user_address,
-                        'patientDetails_pin' => $user_zip,
-                        'patientDetails_deleted' => 0,
-                        'creationTime' => strtotime(date('Y-m-d H:i:s'))
-                    )
-                );
-
-                $patitentId = $this->common_model->customInsert($optionAuotation);
-
-                $optionAuotation = array(
-                    'table' => 'qyura_usersRoles',
-                    'data' => array(
-                        'usersRoles_userId' => $user_id,
-                        'usersRoles_roleId' => 6,
-                        'creationTime' => strtotime(date('Y-m-d H:i:s'))
-                    )
-                );
-
-                $rolesId = $this->common_model->customInsert($optionAuotation);
-
-                $user_id = $user_id;
+                    $user_id = $user_id;
+                }
             }
             /* quotation insert */
             $familyID = $this->input->post('familyId');
@@ -741,25 +715,18 @@ class Quotation extends MY_Controller {
                 $familyID = 0;
             }
 
-            $existsDr = $this->input->post('existsDr');
             $dr_user_id = 0;
             $dr_Name = "";
-            if ($existsDr == 1) {
-                $dr_user_id = $this->input->post('refDoctor');
-            } elseif ($existsDr == 2) {
-                $dr_Name = $this->input->post('drName');
-            }
-
+            
+            $quotationTime = $this->input->post('quotationTime');
             $quotation = array(
                 'quotation_MiId' => $MIprofileId[1],
                 'quotation_userId' => $user_id,
                 'quotation_familyId' => $familyID,
                 'quotation_otherFee' => $this->input->post('otherFee'),
-                'quotation_docRefeId' => $dr_user_id,
-                'quotation_docName' => $dr_Name,
                 'quotation_qtStatus' => 1,
                 'quotation_dateTime' => strtotime($quoDatetime),
-                'quotation_timeSlotId' => $this->input->post('timeSlot'),
+                'quotations_finalTime' => $quotationTime,
                 'quotation_tex' => $this->input->post('tax'),
                 'quotation_cityId' => $this->input->post('city_id'),
                 'quotation_docRefeId' => 0,
@@ -832,7 +799,7 @@ class Quotation extends MY_Controller {
                 'quotationBooking_userId' => $user_id,
                 'quotationBooking_orderId' => $quoUnqId,
                 'quotationBooking_amount' => $totalFee,
-                'quotationBooking_bookStatus' => "",
+                'quotationBooking_bookStatus' => 12,
                 'quotation_familyId' => $familyID
             );
 
@@ -884,7 +851,7 @@ class Quotation extends MY_Controller {
         $catOptions = array('table' => 'qyura_diagnosticsCat', 'order' => array('diagnosticsCat_catName' => 'asc'), 'select' => 'diagnosticsCat_catName as catName,diagnosticsCat_catId as catId', 'where' => array('diagnosticsCat_deleted' => 0));
         $data['catOptions'] = $this->common_model->customGet($catOptions);
 
-        $spOptions = array('table' => 'qyura_specialities', 'order' => array('specialities_name' => 'asc'), 'select' => 'specialities_name as speName,specialities_specialitiesCatId as speCatId', 'where' => array('specialities_deleted' => 0));
+        $spOptions = array('table' => 'qyura_specialities', 'order' => array('specialities_name' => 'asc'), 'select' => 'specialities_name as speName,specialities_specialitiesCatId as speCatId', 'where' => array('specialities_deleted' => 0,'status' => 1));
         $data['spOptions'] = $this->common_model->customGet($spOptions);
 
         $data['allStates'] = $this->Quotation_model->fetchStates();
@@ -1183,27 +1150,44 @@ class Quotation extends MY_Controller {
     }
 
     function getpatient() {
+        
         $patient_email = $this->input->post("patient_email");
         $patient_mobile = $this->input->post("patient_mobile");
-
-        $options = array(
-            'select' => 'qyura_users.users_id as user_id,qyura_users.users_mobile as mobile,qyura_patientDetails.patientDetails_cityId as cityId,qyura_patientDetails.patientDetails_stateId as stateId,qyura_patientDetails.patientDetails_countryId as countryId,qyura_patientDetails.patientDetails_patientName as patientName,qyura_patientDetails.patientDetails_address as address,qyura_patientDetails.patientDetails_unqId as unqId,qyura_patientDetails.patientDetails_pin as pin',
+        
+                
+        $option = array(
             'table' => 'qyura_users',
-            'where' => array('qyura_users.users_deleted' => 0, 'qyura_users.users_email' => $patient_email, 'qyura_usersRoles.usersRoles_roleId' => 6),
-            'or_where' => array('qyura_users.users_mobile' => $patient_mobile),
-            'join' => array(
-                array('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId = qyura_users.users_id', 'left'),
-                array('qyura_patientDetails', 'qyura_patientDetails.patientDetails_usersId = qyura_users.users_id', 'left'),
-                array('qyura_country', 'qyura_country.country_id = qyura_patientDetails.patientDetails_countryId', 'left')
-            ),
-            'single' => true
+            'select' => '*',
+            'where' => array('qyura_users.users_deleted' => 0,'qyura_users.users_email' => $patient_email),
+            'single' => TRUE
         );
-        $data = $this->common_model->customGet($options);
+        $email = $this->common_model->customGet($option);
+        
+        if(!empty($email)){
+            $options = array(
+                'select'=>'qyura_users.users_id as user_id,qyura_users.users_mobile as mobile,qyura_patientDetails.patientDetails_cityId as cityId,qyura_patientDetails.patientDetails_stateId as stateId,qyura_patientDetails.patientDetails_countryId as countryId,qyura_patientDetails.patientDetails_patientName as patientName,qyura_patientDetails.patientDetails_address as address,qyura_patientDetails.patientDetails_unqId as unqId,qyura_patientDetails.patientDetails_pin as pin,qyura_patientDetails.patientDetails_gender as gender,FROM_UNIXTIME(qyura_patientDetails.patientDetails_dob,"%d/%m/%Y") as dob',
+                'table' => 'qyura_users',
+                'where' => array('qyura_users.users_deleted' => 0, 'qyura_users.users_email' => $patient_email,'qyura_usersRoles.usersRoles_roleId' => 6),
+                'or_where'=>array('qyura_users.users_mobile' => $patient_mobile),
+                'join' => array(
+                    array('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId = qyura_users.users_id', 'left'),
+                    array('qyura_patientDetails', 'qyura_patientDetails.patientDetails_usersId = qyura_users.users_id', 'left'),
+                    array('qyura_country', 'qyura_country.country_id = qyura_patientDetails.patientDetails_countryId', 'left')
+                ),
+                'single'=>true
+            );
+            $data = $this->common_model->customGet($options);
 
-        if (isset($data) && $data != null)
-            echo json_encode($data);
-        else
+            if(isset($data) && $data != null){
+                echo json_encode($data);
+            }else{
+                $data['id'] = $email->users_id;
+                $data['email_status'] = 1;
+                echo json_encode($data);
+            }
+        }else{
             echo 0;
+        }
     }
 
     /**

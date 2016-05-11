@@ -17,7 +17,7 @@
                     <?php
                     $isActive = 0;
                    
-                    if (!empty($quotationDetail) && $quotationDetail[0]->bookStatus == 1) {
+                    if (!empty($quotationDetail) && $quotationDetail[0]->bookStatus == 12) {
                         $isActive = 1;
                     }
                     ?>
@@ -32,30 +32,24 @@
                                     }
                                     ?></p>
                             </div>
-
-                            <div class="clearfix m-t-10">
+<!--                            <div class="clearfix m-t-10">
                                 <label class="col-md-4">Referred by :</label>
                                 <p class="col-md-8"><?php
-                                    if (!empty($quotationDetail) && $quotationDetail[0]->docName != '') {
-                                        echo $quotationDetail[0]->docName;
-                                    } else {
-                                        echo 'NA';
-                                    }
+                                    //if (!empty($quotationDetail) && $quotationDetail[0]->docName != '') {
+                                      //  echo $quotationDetail[0]->docName;
+                                   // } else {
+                                     //   echo 'NA';
+                                   // }
                                     ?></p>
-                            </div>
-
-
-                            <div class="clearfix m-t-10">
+                            </div>-->
+<!--                            <div class="clearfix m-t-10">
                                 <label class="col-md-4">HMS Id :</label>
                                 <p class="col-md-8">NA</p>
-                            </div>
-
+                            </div>-->
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4">Appointment Type :</label>
                                 <p class="col-md-8">Consutation</p>
                             </div>
-
-
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4">Pref. Appt. Date :</label>
                                 <p class="col-md-8"><?php
@@ -66,52 +60,33 @@
                                     }
                                     ?></p>
                             </div>
-
-                            <div class="clearfix m-t-10">
+<!--                            <div class="clearfix m-t-10">
                                 <label class="col-md-4">Pref. Session :</label>
                                 <p class="col-md-8"><?php
-                                    if (!empty($quotationDetail) && $quotationDetail[0]->timeslot != '') {
-                                        echo $quotationDetail[0]->timeslot;
-                                    } else {
-                                        echo 'NA';
-                                    }
+                                    //if (!empty($quotationDetail) && $quotationDetail[0]->timeslot != '') {
+                                      //  echo $quotationDetail[0]->timeslot;
+                                   // } else {
+                                     //   echo 'NA';
+                                   // }
                                     ?></p>
-                            </div>
-
+                            </div>-->
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4">Prescription :</label>
                             </div>
-
                             <section id="effect-3" class="effects clearfix">
                                 <aside class="col-md-12">
-                                    <?php
-                                    if (isset($quotationPrescription) && !empty($quotationPrescription)) {
-                                        foreach ($quotationPrescription as $key => $val) {
-                                            ?>
-
+                                    <?php if (isset($quotationPrescription) && !empty($quotationPrescription)) {
+                                        foreach ($quotationPrescription as $key => $val) { ?>
                                             <article class="img m-t-10">
-                                                <img src="<?php
-                                                $prsImg = '';
-                                                $Img = '';
-                                                if ($val->pricription != '') {
-                                                    echo base_url($val->pricription);
-                                                    $prsImg = urlencode($val->pricription);
-                                                    $Img = $val->pricription;
-                                                }
-                                                ?>" alt="">
+                                                <img src="<?php $prsImg = ''; $Img = ''; if ($val->pricription != '') { echo base_url($val->pricription); $prsImg = urlencode($val->pricription); $Img = $val->pricription; } ?>" alt="">
                                                 <div class="overlay">
                                                     <a target="_blank" href="<?php echo base_url($Img) ?>"><i class="fa fa-search"></i></a>&nbsp;
                                                     <a  href="<?php echo site_url("quotation/fileDownload?path={$prsImg}") ?>"><i class="fa fa-download"></i></a>
                                                     <a class="close-overlay hidden">x</a>
                                                 </div>
                                             </article>
-
-                                        <?php
-                                        }
-                                    }
-                                    ?>
+                                        <?php } } ?>
                                 </aside>
-
                             </section>
                         </aside>
                         <aside class="col-md-6 col-sm-6">
@@ -133,7 +108,6 @@
                                             echo 'NA';
                                         }
                                         ?></h3>
-
                                     <p><?php
                                         if (!empty($quotationDetail) && $quotationDetail[0]->gender != '') {
                                             echo getGender($quotationDetail[0]->gender);
@@ -147,7 +121,6 @@
                                             echo 'NA';
                                         }
                                         ?> </p>
-
                                     <p><?php
                                         if (!empty($quotationDetail) && $quotationDetail[0]->contact != '') {
                                             echo $quotationDetail[0]->contact;
@@ -157,7 +130,6 @@
                                         ?></p>
                                 </article>
                             </div>
-
                             <div class="clearfix m-t-20">
                                 <article class="col-md-2 p-0 pull-right m-r-20">
                                     <img src="<?php
@@ -168,7 +140,6 @@
                                     }
                                     ?>" alt="" class="img-responsive patient-pic">
                                 </article>
-
                                 <article class="col-md-5 text-right pull-right">
                                     <h3><?php
                                         if (!empty($quotationDetail) && $quotationDetail[0]->miName != '') {
@@ -185,55 +156,37 @@
                                         }
                                         ?></p>
                                 </article>
-
                             </div>
                             <div class="clearfix m-t-20 text-right">
-
                                 <?php //if($isActive == 1){    ?>
 <!--                                        <button type="button" class="btn btn-danger waves-effect m-r-10"  onclick="rejectQuotation(//<?php //echo $quotationDetail[0]->bookId;   ?>)" >Reject</button>-->
                                 <?php //}else{    ?>
                                 <!--                                         <button type="button" class="btn btn-danger waves-effect m-r-10" >Rejected</button>-->
 <?php // }    ?>
-
-
                                 <?php if ($isActive == 1) { ?> <a class="btn btn-success waves-effect waves-light m-r-10" href="<?php echo site_url('quotation/editQuotation') . '/' . $quotationDetail[0]->qId; ?>">Modify Quotation</a>
                                 <?php } else { ?>
                                     <a class="btn btn-success waves-effect waves-light m-r-10" href="javascript:void(0)">Modify Quotation</a>
                                 <?php } ?>
-
                                 <?php if ($isActive == 1) { ?>
                                     <a class="btn btn-appointment waves-effect waves-light m-t-sm-10" href="<?php echo site_url('quotation/sendQuotationToUser') . '/' . $quotationDetail[0]->qId; ?>">Send Quotation</a>
                                 <?php } else { ?>
                                     <a class="btn btn-appointment waves-effect waves-light m-t-sm-10" href="javascript:void(0)">Send Quotation</a>
-<?php } ?>
+                                <?php } ?>
                             </div>
                         </aside>
                     </article>
-
-
                     <!-- Top Secton Ends-->
                     <hr class="hr-appt-detail" />
-
                     <!-- Bottom Section Start -->
                     <article class="clearfix m-r-20 m-r-0 p-b-20">
                         <aside class="col-md-12 col-xs-12">
                             <section class="table-responsive">
-                                
-                                
-                                
                                 <table class="table table-borderd quotation-table">
-                                    
-                                
                                     <colgroup width="20%"></colgroup>
-                                    
-                                     <colgroup width="25%"></colgroup>
-                                     
-                                      <colgroup width="25%"></colgroup>
-                                      
-                                       <colgroup width="15%"></colgroup>
-                                       
-                                        <colgroup width="15%"></colgroup>
-                                       
+                                    <colgroup width="25%"></colgroup>
+                                    <colgroup width="25%"></colgroup>
+                                    <colgroup width="15%"></colgroup>
+                                    <colgroup width="15%"></colgroup>
                                     <tr>
                                         <th>Category</th>
                                         <th>Test Name</th>
@@ -243,40 +196,22 @@
                                         <th>Action</th>
                                         <?php } ?>
                                     </tr>
-
-                                    <?php
-                                    $total = '';
-                                    
-                                    
+                                    <?php $total = '';
                                     if (isset($quotationTest) && !empty($quotationTest)) {
                                         foreach ($quotationTest as $key => $val) {
-                                            $total = $total + $val->price;
-                                            ?>
-
-                                            <tr   id="<?php echo $val->testId; ?>" class="edit_tr">
+                                            $total = $total + $val->price; ?>
+                                            <tr id="<?php echo $val->testId; ?>" class="edit_tr">
                                                 <td class="edit_td">
                                                     <h6 class="text" id="catName<?php echo $val->testId; ?>"><?php echo $val->catName; ?></h6>
-                                                    <article id="catName_input_l<?php echo $val->testId; ?>" class="editbox" style="display:none">
-                                                        <select id="catName_input_<?php echo $val->testId; ?>" class="selectpicker" data-width="100%" name="diagnosticType">
-                                                            <?php
-                                                            if (isset($dignoCat) && !empty($dignoCat)) {
-                                                                foreach ($dignoCat as $key1 => $val1) {
-                                                                    ?>
-
-                                                                    <option <?php
-                                                                    if ($val->diagnoCatId != '' && $val->diagnoCatId == $val1->catId) {
-                                                                        echo 'selected';
-                                                                    }
-                                                                    ?> value="<?php echo $val1->catId; ?>" ><?php echo $val1->catName; ?></option>
-
-                                                                <?php
-                                                                }
-                                                            }
-                                                            ?>
+                                                    <article id="catName_input_l<?php echo $val->testId; ?>" class="editbox" style="display: none; position: absolute; width: 18%">
+                                                        <select id="catName_input_<?php echo $val->testId; ?>" class="selectpicker" data-width="100%" name="diagnosticType" data-size="4">
+                                                            <?php if (isset($dignoCat) && !empty($dignoCat)) {
+                                                                foreach ($dignoCat as $key1 => $val1) { ?>
+                                                                    <option <?php if ($val->diagnoCatId != '' && $val->diagnoCatId == $val1->catId) { echo 'selected'; } ?> value="<?php echo $val1->catId; ?>" ><?php echo $val1->catName; ?></option>
+                                                                <?php } } ?>
                                                         </select>
                                                     </article>
                                                 </td>
-
                                                 <td class="edit_td">
                                                     <h6 class="text" id="testName<?php echo $val->testId; ?>"><?php echo $val->testName; ?></h6>
                                                     <article class="editbox" id="testName_input_l<?php echo $val->testId; ?>" style="display:none">
@@ -284,7 +219,6 @@
                                                         <label class="error" style="display:none;" id="error-testName<?php echo $val->testId; ?>">Test should be alphanumeric</label>
                                                     </article>
                                                 </td>
-
         <!--                                                <td class="edit_td">
                                                     <h6 class="date<?php echo $val->testId; ?>"><?php echo date("m/d/Y", $val->date); ?></h6>
                                                     <article class="editbox" id="date_input_<?php echo $val->testId; ?>" style="display:none">
@@ -300,57 +234,34 @@
                                                         <div class="bootstrap-timepicker input-group qEdit<?php echo $val->testId; ?>" style="display:none">
                                                             <input id="timepicker4" type="text" class="form-control timepicker time<?php echo $val->testId; ?>" value="<?php echo date("h:i a", $val->date); ?>" />
                                                         </div>
-
                                                     </article>
                                                 </td>-->
-
                                                 <td class="edit_td">
                                                     <h6  class="text" id="instruction<?php echo $val->testId; ?>"><?php echo $val->instruction; ?></h6>
                                                     <article class="editbox" id="instruction_input_l<?php echo $val->testId; ?>" style="display:none">
-                                                        <textarea id="instruction_input_<?php echo $val->testId; ?>" class="" ><?php echo $val->instruction; ?></textarea>
-
+                                                        <textarea id="instruction_input_<?php echo $val->testId; ?>" class="form-control" ><?php echo $val->instruction; ?></textarea>
                                                     </article>
                                                 </td>
-
                                                 <td class="edit_td">
-
                                                     <h6  class="text" id="price<?php echo $val->testId; ?>"><?php echo $val->price; ?></h6>
-
                                                     <article class="editbox" id="price_input_l<?php echo $val->testId; ?>" style="display:none">
                                                         <input type="number" id="price_input_<?php echo $val->testId; ?>" class="form-control" value="<?php echo $val->price; ?>"  />
-
                                                         <label class="error" style="display:none;" id="error-price<?php echo $val->testId; ?>">Price should be a number</label>
                                                     </article>
                                                 </td>
-
                                                 <?php if ($isActive == 1) { ?>
                                                 <td class="edit_td"> 
-                                                   <a  onclick="deleteFn(<?php echo $val->testId; ?>)"  class="btn btn-danger btn-sm waves-effect waves-light m-tb-sm-3" href="javascript:void(0)">Delete</a>
-                                                    
-                                                    
-
-                                                    
+                                                    <a  onclick="deleteFn(<?php echo $val->testId; ?>)"  class="btn btn-danger btn-sm waves-effect waves-light m-tb-sm-3" href="javascript:void(0)">Delete</a>
                                                     <a  id="edit<?php echo $val->testId; ?>" class="btn btn-success btn-sm waves-effect waves-light m-tb-sm-3 text" href="javascript:void(0)" >Edit</a>
-                                                    
                                                     <article class="editbox" id="save_input_l<?php echo $val->testId; ?>" style="display:none">
-                                                         <a class="btn btn-success btn-sm waves-effect waves-light m-tb-sm-3 qUpdateBtn<?php echo $val->testId; ?>"  onclick="return updateFn(<?php echo $val->testId; ?>);"  href="javascript:void(0)" >Update</a>
-                                                         
+                                                    <a class="btn btn-success btn-sm waves-effect waves-light m-tb-sm-3 qUpdateBtn<?php echo $val->testId; ?>"  onclick="return updateFn(<?php echo $val->testId; ?>);"  href="javascript:void(0)" >Update</a>
                                                     </article>
-                                                   
-                                                   
                                                 </td>
-                                                 <?php } ?>
+                                                <?php } ?>
                                             </tr>
-                                        <?php
-                                        }
-                                    }
-                                    ?>
-
+                                        <?php } } ?>
                                     <tr>
-
                                     </tr>
-
-
                                 </table>
                             </section>
                             <h5 class="h5-title text-right">Tax : <?php  echo $tex = $quotationDetail[0]->tex; ?> %</h5>
@@ -359,8 +270,6 @@
                             <h5 class="h5-title text-right">Total Quotation Amount : <?php  echo getIntrast($price,$tex); ?></h5>
                         </aside>
                     </article>
-
-
                     <!-- Bottom Secton Ends-->
                 </div>
             </section>
