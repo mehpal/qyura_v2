@@ -2699,11 +2699,14 @@ $(this).valid()
         if (element.attr("name") == "avatar_file")
         {
             error.insertAfter('.error-label');
+        }else if(element.attr("name") == "doctor_photo"){
+            error.insertAfter('.error-label');
         }
         else{
             error.insertAfter(element);
         }
         },
+        
         rules: {
             diagno_id:{
                 required : true,
@@ -2714,6 +2717,10 @@ $(this).valid()
 
             },
              avatar_file: {
+                required : true
+            },
+            
+            doctor_photo: {
                 required : true
             },
             
@@ -2821,6 +2828,10 @@ $(this).valid()
             },
            
               avatar_file: {
+                required : "Please upload an image!",
+            },
+            
+             doctor_photo: {
                 required : "Please upload an image!",
             },
 

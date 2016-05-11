@@ -52,163 +52,163 @@
 <script>
 
     var urls = "<?php echo base_url() ?>";
-//    $(document).ready(function () {
-//        $("#submitForm").validate({
-//            rules: {
-//                patientDetails_patientName: {
-//                    required: true
-//                },
-//                avatarInput: {
-//                    required: true
-//                },
-//                patientDetails_gender: {
-//                    required: true
-//                },
-//                patientDetails_dob: {
-//                    required: true
-//                },
-//                users_email: {
-//                    required: true,
-//                    email: true,
-//                    remote: {
-//                        url: urls + 'index.php/users/checkUserExistence',
-//                        type: "post",
-//                        data: {
-//                            email: function () {
-//                                return $("#users_email").val();
-//                            },
-//                            id: function () {
-//                                return $("#users_id").val();
-//                            }
-//                        },
-//                    }
-//                },
-//                patientDetails_mobileNo: {
-//                    required: true,
-//                    number: true,
-//                    minlength: 10,
-//                    maxlength: 10
-//                },
-//                patientDetails_stateId: {
-//                    required: true
-//                },
-//                patientDetails_cityId: {
-//                    required: true
-//                },
-//                patientDetails_pin: {
-//                    required: true,
-//                    number: true,
-//                    minlength: 6,
-//                    maxlength: 6
-//                },
-//                patientDetails_address: {
-//                    required: true
-//                },
-//                users_password: {
-//                    required: true,
-//                    minlength: 4,
-//                    maxlength: 24,
-//                },
-//                cnfPassword: {
-//                    required: true,
-//                    minlength: 4,
-//                    maxlength: 24,
-//                    equalTo: '#users_password',
-//                },
-//                userInsurance_insuranceId: {
-//                    required: true
-//                },
-//                userInsurance_insuranceNo: {
-//                    required: true
-//                },
-//                userInsurance_expDate: {
-//                    required: true
-//                },
-//                usersfamily_name: {
-//                    required: true
-//                },
-//                usersfamily_gender: {
-//                    required: true
-//                },
-//                usersfamily_age: {
-//                    required: true,
-//                    number: true
-//                },
-//                usersfamily_relationId: {
-//                    required: true
-//                }
-//
-//            },
-//            messages: {
-//                patientDetails_patientName: {
-//                    required: "Please enter name",
-//                },
-//                avatarInput: {
-//                    required: "Please select Image"
-//                },
-//                patientDetails_gender: {
-//                    required: "Please select gender."
-//                },
-//                patientDetails_dob: {
-//                    required: "Please enter date of birth."
-//                },
-//                users_email: {
-//                    required: "Please enter email Id",
-//                    email: "Please enter valid email Id.",
-//                    remote: 'Email already used.'
-//                },
-//                patientDetails_mobileNo: {
-//                    required: "Please enter mobile number.",
-//                    number: "Please enter only number format."
-//                },
-//                patientDetails_stateId: {
-//                    required: "Please select state."
-//                },
-//                patientDetails_cityId: {
-//                    required: "Please select city."
-//                },
-//                patientDetails_pin: {
-//                    required: "Please enter pincode.",
-//                    number: "Please enter only number.",
-//                },
-//                patientDetails_address: {
-//                    required: "Please enter address.",
-//                },
-//                users_password: {
-//                    required: "Please enter New Password.",
-//                },
-//                cnfPassword: {
-//                    required: "Please enter Repeat Password.",
-//                },
-//                userInsurance_insuranceId: {
-//                    required: "Please select insurance company."
-//                },
-//                userInsurance_insuranceNo: {
-//                    required: "Please enter insurance card number."
-//                },
-//                userInsurance_expDate: {
-//                    required: "Please enter expiry date."
-//
-//                },
-//                usersfamily_name: {
-//                    required: "Please enter name."
-//
-//                },
-//                usersfamily_gender: {
-//                    required: "Please select gender."
-//
-//                },
-//                usersfamily_age: {
-//                    required: "Please enter age."
-//
-//                },
-//                usersfamily_relationId: {
-//                    required: "Please select relation."
-//
-//                }
-//            }
-//        });
-//    });
+    $(document).ready(function () {
+        $("#submitForm").validate({
+            rules: {
+                patientDetails_patientName: {
+                    required: true
+                },
+                avatarInput: {
+                    required: true
+                },
+                patientDetails_gender: {
+                    required: true
+                },
+                patientDetails_dob: {
+                    required: true
+                },
+                users_email: {
+                    required: true,
+                    email: true,
+                    remote: {
+                        url: urls + 'index.php/users/checkUserExistence',
+                        type: "post",
+                        data: {
+                            email: function () {
+                                return $("#users_email").val();
+                            },
+                            id: function () {
+                                return $("#users_id").val();
+                            }
+                        },
+                    }
+                },
+                patientDetails_mobileNo: {
+                    required: true,
+                    number: true,
+                    minlength: 10,
+                    maxlength: 10
+                },
+                patientDetails_stateId: {
+                    required: true
+                },
+                patientDetails_cityId: {
+                    required: true
+                },
+                patientDetails_pin: {
+                    required: true,
+                    number: true,
+                    minlength: 6,
+                    maxlength: 6
+                },
+                patientDetails_address: {
+                    required: true
+                },
+                users_password: {
+                    required: true,
+                    minlength: 4,
+                    maxlength: 24,
+                },
+                cnfPassword: {
+                    required: true,
+                    minlength: 4,
+                    maxlength: 24,
+                    equalTo: '#users_password',
+                },
+                userInsurance_insuranceId: {
+                    required: true
+                },
+                userInsurance_insuranceNo: {
+                    required: true
+                },
+                userInsurance_expDate: {
+                    required: true
+                },
+                usersfamily_name: {
+                    required: true
+                },
+                usersfamily_gender: {
+                    required: true
+                },
+                usersfamily_age: {
+                    required: true,
+                    number: true
+                },
+                usersfamily_relationId: {
+                    required: true
+                }
+
+            },
+            messages: {
+                patientDetails_patientName: {
+                    required: "Please enter name",
+                },
+                avatarInput: {
+                    required: "Please select Image"
+                },
+                patientDetails_gender: {
+                    required: "Please select gender."
+                },
+                patientDetails_dob: {
+                    required: "Please enter date of birth."
+                },
+                users_email: {
+                    required: "Please enter email Id",
+                    email: "Please enter valid email Id.",
+                    remote: 'Email already used.'
+                },
+                patientDetails_mobileNo: {
+                    required: "Please enter mobile number.",
+                    number: "Please enter only number format."
+                },
+                patientDetails_stateId: {
+                    required: "Please select state."
+                },
+                patientDetails_cityId: {
+                    required: "Please select city."
+                },
+                patientDetails_pin: {
+                    required: "Please enter pincode.",
+                    number: "Please enter only number.",
+                },
+                patientDetails_address: {
+                    required: "Please enter address.",
+                },
+                users_password: {
+                    required: "Please enter New Password.",
+                },
+                cnfPassword: {
+                    required: "Please enter Repeat Password.",
+                },
+                userInsurance_insuranceId: {
+                    required: "Please select insurance company."
+                },
+                userInsurance_insuranceNo: {
+                    required: "Please enter insurance card number."
+                },
+                userInsurance_expDate: {
+                    required: "Please enter expiry date."
+
+                },
+                usersfamily_name: {
+                    required: "Please enter name."
+
+                },
+                usersfamily_gender: {
+                    required: "Please select gender."
+
+                },
+                usersfamily_age: {
+                    required: "Please enter age."
+
+                },
+                usersfamily_relationId: {
+                    required: "Please select relation."
+
+                }
+            }
+        });
+    });
     function image_check() {
         var image = $("#avatarInput").val();
         if (image == '') {

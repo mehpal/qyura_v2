@@ -284,7 +284,7 @@
                                                     </div>
                                                 </article>
                                                 <div style="display:<?php if(isset($val->userInsurance_id) && $val->userInsurance_id != '') {echo "block";}else{echo 'none';} ?>" id="insuranceDivfamily_<?php echo $count_family; ?>">
-                                                    <input type="hidden"  name="userFInsurance_id" value="<?php if (isset($val->userInsurance_id) && !empty($val->userInsurance_id)) { echo $val->userInsurance_id; } ?>" id="userFInsurance_id"/>
+                                                    <input type="hidden"  name="userFInsurance_id_<?php echo $count_family; ?>" value="<?php if (isset($val->userInsurance_id) && !empty($val->userInsurance_id)) { echo $val->userInsurance_id; } ?>" id="userFInsurance_id_<?php echo $count_family; ?>"/>
                                                     <article class="form-group m-lr-0">
                                                         <label for="cname" class="control-label col-md-4 col-sm-4">Health Insu. Provider:</label>
                                                         <div class="col-md-8 col-sm-8">

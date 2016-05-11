@@ -349,6 +349,7 @@ class Users extends MY_Controller {
     }
 
     function editUserView($userId = '') {
+       
         
         $data['title'] = 'Edit User';
         $data['allStates'] = $this->Users_model->fetchStates();
@@ -393,15 +394,16 @@ class Users extends MY_Controller {
             'where' => array('qyura_usersFamily.usersfamily_usersId' => $userId, 'qyura_usersFamily.usersfamily_deleted' => 0,)
         );
         $data['usersfamily_detail'] = $this->common_model->customGet($option);
-        //print_r($data['usersfamily_detail']);exit;
+//        print_r($data['usersfamily_detail']);exit;
         $this->load->super_admin_template('edit_user', $data, 'usersScript');
     }
 
     function editUserSave() {
+//       print_r($_POST); exit;
         $userid = $this->input->post('users_id');
         $patientid = $this->input->post('patientDetails_id');
-        $userfamilyid = $this->input->post('usersfamily_id');
-        // print_r(array($userid, $patientid, $insuranceid, $userfamilyid )); exit;
+       // $userfamilyid = $this->input->post('usersfamily_id');
+       
         $this->bf_form_validation->set_rules('patientDetails_patientName', 'Name', 'required|trim');
         $this->bf_form_validation->set_rules('patientDetails_gender', 'Gender', 'required|trim');
         $this->bf_form_validation->set_rules('patientDetails_dob', 'Date of Birth', 'required|trim');
@@ -435,9 +437,7 @@ class Users extends MY_Controller {
 //        }
 
         if ($this->bf_form_validation->run() === FALSE) {
-            print_r(validation_errors());
-            exit;
-
+        
             $data['title'] = 'Edit Users';
             $data['allStates'] = $this->Users_model->fetchStates();
             $this->load->super_admin_template('add_user', $data, 'usersScript');
@@ -498,7 +498,7 @@ class Users extends MY_Controller {
 
             $option = array
                 (
-                'where' => array('users_id' => 2),
+                'where' => array('users_id' => $userid),
                 'data' => $usersInsertData,
                 'table' => ' qyura_users',
             );
@@ -570,6 +570,100 @@ class Users extends MY_Controller {
                 $query = "DELETE FROM `qyura_userInsurance` WHERE `userInsurance_id` = '$insuranceid'";
                 $users_insert = $this->common_model->customQuery($query,FALSE,TRUE);
             }
+            
+            
+//            hemu start
+            
+            //            $addFamilyMember = $this->input->post('addFamilyMember');
+//            
+//            if($addFamilyMember == 1){
+            
+            
+            
+                $total_test_edit = $this->input->post('total_test_edit');
+             
+                for ($i = 1; $i < $total_test_edit; $i++) {
+                    
+                    $userFamilyId = $this->input->post('usersfamily_id_' . $i);
+                    
+                    $familyMemberName = $this->input->post('usersfamily_name_' . $i);
+                    $gender = $this->input->post('usersfamily_gender_' . $i);
+                    $age = $this->input->post('usersfamily_age_' . $i);
+                    $relation = $this->input->post('usersfamily_relationId_' . $i);
+                    $user_familymemberData = array(
+                        'usersfamily_name' => $familyMemberName,
+                        'usersfamily_gender' => $gender,
+                        'usersfamily_age' => $age,
+                        'usersfamily_relationId' => $relation,
+                        'usersfamily_usersId' => $userid,
+                        'creationTime' => strtotime(date('Y-m-d H:i:s'))
+                    );
+                  
+                    
+                    $option = array
+                        ('where' => array('usersfamily_id' => $userFamilyId),
+                        'data' => $user_familymemberData,
+                        'table' => ' qyura_usersFamily'
+                    );
+                    $users_familyinsertId = $this->common_model->customUpdate($option);
+                    
+                    $userFamInsurance=$this->input->post('userFInsurance_id_'. $i);   
+                    
+                        $healthInsurance = $this->input->post('healthInsurance_' . $i);
+                        $family_insurance = $this->input->post('userInsurance_insuranceId_' . $i);
+                        $family_insuranceNo = $this->input->post('userInsurance_insuranceNo_' . $i);
+                       // $family_insuranceDate = $this->input->post('userInsurance_expDate_' . $i);
+                        $family_insuranceData1 = array(
+                            'userInsurance_insuranceId' => $family_insurance,
+                            'userInsurance_insuranceNo' => $family_insuranceNo,
+                            'userInsurance_usersId' => $userid,
+                            'userInsurance_familyId' => $userFamilyId,
+                           // 'userInsurance_expDate' => $family_insuranceDate,
+                            'status' => 1,
+                            'creationTime' => strtotime(date('Y-m-d H:i:s'))
+                        );
+                        
+                    if ($healthInsurance == 1){
+                         if (isset($family_insuranceId) && $family_insuranceId != NULL) {
+                    $family_insuranceData['modifyTime'] = strtotime(date('Y-m-d H:i:s'));
+                    $optionfghf = array
+                    (
+                        'where' => array('userInsurance_id' => $userFamInsurance),
+                        'data' => $family_insuranceData1,
+                        'table' => ' qyura_userInsurance'
+                    );
+                    print_r($optionfghf); exit;
+                    $users_insert = $this->common_model->customUpdate($option);
+                }else{
+                    $family_insuranceData['creationTime'] = strtotime(date('Y-m-d H:i:s'));
+                    $family_insuranceData['status'] = 1;
+                    $option = array
+                    (
+                        'data' => $user_insuranceData,
+                        'table' => ' qyura_userInsurance'
+                    );
+                    $users_insert = $this->common_model->customInsert($option);
+                }
+                      
+                    }else{
+                $query = "DELETE FROM `qyura_userInsurance` WHERE `userInsurance_id` = '$family_insuranceId'";
+                $users_insert = $this->common_model->customQuery($query,FALSE,TRUE);
+            }
+                    
+                   
+                    
+                }
+                
+                
+//            }
+            
+            
+            
+//  hemu end          
+            
+            
+            
+            
         }
     }
 
