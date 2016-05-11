@@ -50,9 +50,9 @@
                         <aside class="col-lg-2 col-md-2 col-sm-3 m-tb-sm-10">
                             <input type="text" name="search" class="form-control" placeholder="Search" id="search" />
                         </aside>
-                        <aside class="col-md-2 col-sm-2 pull-right m-tb-md-10">
+<!--                        <aside class="col-md-2 col-sm-2 pull-right m-tb-md-10">
                             <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit">Export</button>
-                        </aside>
+                        </aside>-->
 
                     </form>
                 </article>
@@ -68,8 +68,8 @@
                                         <th>Quote Request For</th>
                                         <th>QuoteId</th>
                                         <th>Patient</th>
-                                        <th>Pref Date & Time</th>
-                                        <th>Ref. Doctor</th>
+                                        
+                                        
                                         <th>Contact</th>
                                         <th>Status</th>
                                         <th>Action</th>
