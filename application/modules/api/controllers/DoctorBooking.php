@@ -49,7 +49,7 @@ class DoctorBooking extends MyRest {
             $day = getDay(date("l",strtotime($preferedDate))); 
             
             if($correctSlot){
-                $unique_id = 'doc'. $userId . rand(0, 999);
+                $unique_id = 'APDOC'. $userId . rand(0, 999);
                 $data = array(
                     'doctorAppointment_unqId' => $unique_id,
                     'doctorAppointment_specialitiesId' => $specialitiesId,
@@ -74,7 +74,6 @@ class DoctorBooking extends MyRest {
                 if ($response)  {
                     
                     $crnMsg     =  $this->lang->line("docappointmentReceived");
-                    
                     $cronArray = array("qyura_fkModuleId" => 3, "qyura_fkUserId" => $userId, "qyura_cronMsg" => $crnMsg, "qyura_cronTitle" => $this->lang->line("docappointmentTag"), "qyura_fkItemId" => $unique_id,"qyura_cronDate"=>$currentDate,"qyura_cronMsgsCreation"=>$currentDate);
 
                     $options = array(
@@ -96,77 +95,6 @@ class DoctorBooking extends MyRest {
             }
         }
     }
-    
-    function doctorAppointmentList_post() {
-
-        $this->bf_form_validation->set_rules('userId', 'User Id', 'xss_clean|numeric|required|trim');
-        
-        if ($this->bf_form_validation->run($this) == FALSE) {
-            // setup the input
-            $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
-            $this->response($response, 400);
-
-        } else {
-            $userId = isset($_POST['userId']) ? $this->input->post('userId')          : '';
-            $correctSlot = 0;
-           
-            if($correctSlot){
-                $unique_id = 'doc'. $userId . time();
-                $data = array(
-                    'doctorAppointment_unqId' => $unique_id,
-                    'doctorAppointment_specialitiesId' => $specialitiesId,
-                    'doctorAppointment_date' => $preferedDate,
-                    'doctorAppointment_session' => $session,
-                    'doctorAppointment_pntUserId' => $userId,
-                    'doctorAppointment_memberId' => $memberId,
-                    'doctorAppointment_doctorUserId' => $doctorUserId,
-                    'doctorAppointment_doctorParentId' => $parentId,
-                    'doctorAppointment_ptRmk' => $remark,
-                    'doctorAppointment_finalTiming' => $preferedTimeId,
-                    'creationTime' => time(),
-                    'status' => 1
-                );
-                $response = $this->doctorBooking_model->bookAppointment('qyura_doctorAppointment',$data);
-                
-                if ($response) {
-                    $response = array('status' => TRUE, 'message' => 'Your Doctor Appointment request has been received. You will receive a confirmation email or SMS shortly. You can also call the Medical Institution directly to know its status.');
-                    $this->response($response, 200);
-                } else {
-                    $response = array('status' => FALSE,'message'=>'Something went wrong, please re-try for your appointment!');
-                    $this->response($response, 400);
-                }
-                
-            } else {
-                $response = array('status' => FALSE,'message'=>'Please provide the correct time slot!');
-                $this->response($response, 400);
-            }
-        }
-    }
-    
-    function doctorAppointmentDetails_post() {
-        
-
-        $this->bf_form_validation->set_rules('orderId', 'Appointment Id', 'xss_clean|numeric|required|trim');
-        
-        if ($this->bf_form_validation->run($this) == FALSE) {
-            // setup the input
-            $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
-            $this->response($response, 400);
-
-        } else {
-            $orderId = isset($_POST['orderId']) ? $this->input->post('orderId')   : '';
-            $response = $this->doctorBooking_model->getBookedAppointment($orderId);
-                
-            if (isset($response) && $response !=NULL) {
-                $response = array('status' => TRUE, 'message' => 'Here is the appointment Detail.',"result"=>$response);
-                $this->response($response, 200);
-            } else {
-                $response = array('status' => FALSE,'message'=>'Something went wrong, please re-try for your appointment details!');
-                $this->response($response, 400);
-            }
-        }
-    }
-     
     
     function cancleAppointment_post(){
         
