@@ -24,7 +24,7 @@
                </article>
             </figure>
                     <div class="nicescroll mxh-400" style="overflow: hidden;" tabindex="5000">
-                        <div class="col-sm-12 p-t-20 p-b-20">
+                         <div class="clearfix">
                         
                             <form name="degreeEditForm" action="#" id="degreeEditForm" method="post">
                             <ul id="list" class="list-unstyled ul-bigspace">
@@ -42,7 +42,7 @@
                                         <button onclick="if((<?php echo $degrees->status; ?>)===0)enableFn('master', 'degreePublish', '<?php echo $degrees->degree_id; ?>','<?php echo $degrees->status; ?>')" type="button" class="btn btn-<?php if($degrees->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($degrees->status == 1){ echo "Active"; }else if($degrees->status == 0){ echo "Inactive"; } ?></button>
                                     </span>
                                 </li>
-                                <li class="newmembership" style="display:none" id="edit<?php echo $countDegree;?>">
+                                <li class="newmembership" style="display:none" id="editDeg<?php echo $countDegree;?>">
                                     <span class="col-md-5">
                                         <input type="hidden" id="degree_id_<?php echo $countDegree; ?>" name="degree_id_<?php echo $countDegree; ?>" value="<?php echo $degrees->degree_id; ?>" >
                                         <input type="text" required="" name="degree_SName_<?php echo $countDegree; ?>" id="degree_SName_<?php echo $countDegree; ?>" class="form-control" value="<?php if($degrees->degree_SName){ echo $degrees->degree_SName; }else{echo ''; } ?>" onkeypress="return isAlpha(event,this.value)">
@@ -61,7 +61,6 @@
                                 <input type="hidden" id="total_count" name="total_count" value="<?php echo $countDegree; ?>" >
                                 </ul>
                             </form>
-                            
                         </div>
                     </div>
                 </aside>
