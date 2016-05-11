@@ -69,12 +69,13 @@
                                         <article class="form-group m-lr-0">
                                             <label for="cname" class="control-label col-md-4 col-sm-4">Offer Specialities:</label>
                                             <div class="col-md-8 col-sm-8">
-                                                <select class="selectpicker" data-width="100%" name="medicartOffer_offerCategory[]"id="medicartOffer_offerCategory" required="" multiple="">
+                                                <select class="select2" data-width="100%" name="medicartOffer_offerCategory[]"id="medicartOffer_offerCategory" required="" multiple="">
                                                         <?php foreach ($allOffetCategory as $keys => $values) { ?>
                                                         <option value="<?php echo $values->specialities_id; ?>" <?php echo set_select('medicartOffer_offerCategory[]', $values->specialities_id); ?>><?php echo ucwords($values->specialities_name); ?></option>
                                                     <?php } ?>
                                                 </select>
                                                  <label class="error"><?php echo form_error('medicartOffer_offerCategory[]'); ?></label>
+                                                 <div class="error" id="medicart_speciality_error"></div>
                                             </div>
                                         </article>
 
