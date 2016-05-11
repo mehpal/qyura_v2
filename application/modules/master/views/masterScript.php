@@ -652,6 +652,23 @@ function showDiagnosticType(id){
             var formData = new FormData(this);
             submitData(url,formData);
         });
+        $("#awardAgencyform").validate({
+        
+        rules: {
+            agency_name: {
+                required: true
+            }
+        },
+       
+        messages: {
+            agency_name: {
+                required: "Please enter the name of an agency!",
+            }
+           
+        }
+
+    });
+
     });
     
     $(document).ready(function (){
@@ -671,6 +688,22 @@ function showDiagnosticType(id){
             var formData = new FormData(this);
             submitData(url,formData);
         });
+        $("#departmentaddForm").validate({
+        
+        rules: {
+            department_name: {
+                required: true
+            }
+        },
+       
+        messages: {
+            department_name: {
+                required: "Please enter the name of department!",
+            }
+           
+        }
+
+    });
     });
     $(document).ready(function (){
         $("#departmentEditForm").submit(function (event) {
@@ -688,6 +721,28 @@ function showDiagnosticType(id){
             var formData = new FormData(this);
             submitData(url,formData);
         });
+        $("#designationaddForm").validate({
+        
+        rules: {
+            designation_departmentId:{
+                required: true
+            },
+            designation_name: {
+                required: true
+            }
+        },
+       
+        messages: {
+            designation_departmentId:{
+                required: "Please select a department!"
+            },
+            designation_name: {
+                required: "Please enter the name of department!",
+            }
+           
+        }
+
+    });
     });
     $(document).ready(function (){
         $("#designationEditForm").submit(function (event) {
