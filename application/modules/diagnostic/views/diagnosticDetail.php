@@ -654,7 +654,10 @@
                            <input  type="hidden" name="isManual" value="1" id="isManual">
                            <article class="clearfix ">
                            <div class="col-md-12 m-t-20 m-b-20">
-                           <button type="submit" class="btn btn-success waves-effect waves-light pull-right" onclick="return validationDiagnosticEdit()">Update</button>
+
+
+                           <button type="submit" class="btn btn-success waves-effect waves-light pull-right" onclick="return changeStatusUpdate()">Update</button>
+
                            </div>
                            </article>
                         </form>
