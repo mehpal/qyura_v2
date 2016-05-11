@@ -434,7 +434,7 @@ if (!function_exists('statusCheck')) {
             $template = '<a class="btn btn-success waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)" onclick="statusFn(\'' . $controller . '\',\'' . $table_name . '\',\'' . $table_field_name . '\',\'' . $table_field_value . '\',\'' . $status_value . '\')">Active</a>';
         } else {
 
-            $template = '<a class="btn btn-danger waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)" onclick="statusFn(\'' . $controller . '\',\'' . $table_name . '\',\'' . $table_field_name . '\',\'' . $table_field_value . '\',\'' . $status_value . '\')">Inactive</a>';
+            $template = '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)" onclick="statusFn(\'' . $controller . '\',\'' . $table_name . '\',\'' . $table_field_name . '\',\'' . $table_field_value . '\',\'' . $status_value . '\')">Inactive</a>';
         }
 
         return $template;

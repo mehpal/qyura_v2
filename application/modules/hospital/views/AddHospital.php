@@ -442,7 +442,7 @@ if (isset($hospital_id) && $hospital_id != 0) {
 
                                                             </div>
                                                         </div>
-
+                                                        <label class="error" style="display:none;" id="error-avatar_data_bloodbank">Blood bank image required</label>
                                                         <label class="error" > <?php echo form_error("avatar_file"); ?></label>
                                                         <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
 
@@ -547,6 +547,7 @@ if (isset($amobulancestatus) && $amobulancestatus == 1) {
                                                             </div>
                                                         </div>
 
+                                                        <label class="error" style="display:none;" id="error-avatar_data_ambulance">Ambulance image required</label>
                                                         <label class="error" > <?php echo form_error("avatar_file"); ?></label>
                                                         <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
 
@@ -743,7 +744,7 @@ if (isset($amobulancestatus) && $amobulancestatus == 1) {
                     <div class="col-md-12 m-t-20 m-b-20">
                         <button class="btn btn-danger waves-effect pull-right" type="reset">Reset</button>
                         <div>
-                            <input onclick="changeStatus()" class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" value="Submit"  />
+                            <input onclick="return changeStatus()" class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" value="Submit"  />
                         </div>
                     </div>
 

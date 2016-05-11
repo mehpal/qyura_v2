@@ -246,10 +246,10 @@ class Membership extends MY_Controller {
         
         if ($ena_id != '' && $status != '') {
             //Group
-            if ($status == 3) {
-                $update_data['status'] = 2;
+            if ($status == 0) {
+                $update_data['status'] = 1;
             } else {
-                $update_data['status'] = 3;
+                $update_data['status'] = 0;
             }
             $where = array('membership_id' => $ena_id);
             $updateOptions = array
