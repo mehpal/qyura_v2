@@ -114,5 +114,22 @@ class Dashboard_model extends CI_Model {
         $qry = $this->db->query($sql);
         return $qry->result();
     }
+    
+    function getSignupChart(){
+        $year = strtotime(date('2016'));
+        
+//        $sql = "SELECT COUNT(*) FROM qyura_ambulance WHERE status=1 AND ambulance_deleted=0";
+//        $qry = $this->db->query($sql);
+//        return $qry->result();
+        
+        $sql1 = "SELECT COUNT(*) FROM qyura_ambulance WHERE status=1 AND ambulance_deleted=0 AND YEAR(creationTime) = ".$year."";
+        $qry = $this->db->query($sql1);
+        return $qry->result();
+        
+        $sql = "SELECT ambulance_id, ((SELECT COUNT(*) FROM qyura_ambulance WHERE status=1 AND ambulance_deleted=0 ) / (SELECT COUNT(*) FROM qyura_ambulance WHERE status=1 AND ambulance_deleted=0 AND YEAR(creationTime) = ".$year.") * 100 ) as pre FROM qyura_ambulance";
+        $qry = $this->db->query($sql);
+        return $qry->result();
+        
+    }
 
 }
