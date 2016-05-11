@@ -413,6 +413,9 @@
             if (!filter.test(email)) {
                 $('#users_email').addClass('bdr-error');
                 $('#error-users_email').fadeIn().delay(3000).fadeOut('slow');
+                    setTimeout(function(){
+                   $("#users_email").removeClass('bdr-error');
+                   }, 3000);
             }
             
             $.ajax({
@@ -423,7 +426,9 @@
                     if (datas == 0) {
                         $('#users_email').addClass('bdr-error');
                         $('#error-users_email_check').fadeIn().delay(5000).fadeOut('slow');
-                        ;
+                         setTimeout(function(){
+                            $("#users_email").removeClass('bdr-error');
+                            }, 3000);
                         $('#users_email_status').val(datas);
                         return false;
                     }else {
@@ -726,6 +731,9 @@ if ($current == 'doctorDetails'){ ?>
         }
         },
         rules: {
+            doctors_phn: {
+                minlength: 10
+            },
             doctors_fName: {
                 required: true
             },
@@ -733,6 +741,95 @@ if ($current == 'doctorDetails'){ ?>
                 required : true
             },
              doctor_photo: {
+                required : true
+            },
+            'doctorSpecialities_specialitiesId[]': {
+                required: true
+            },
+       'doctorAcademic_degreeId[]':{
+         
+           required: true
+      },
+      'doctorSpecialities_specialitiesCatId[]':{
+         
+           required: true
+      },
+      'acdemic_addaddress[]':{
+         
+           required: true
+      },
+      'acdemic_addyear[]':{
+         
+           required: true
+      },
+      exp_year: {
+        required: true,
+      }, 
+      fee: {
+        required: true,
+                            
+      }    
+        },
+        messages: {
+            doctors_fName: {
+                required: "Please enter doctor's first name!",
+            },
+              doctors_lName: {
+                required : "Please enter doctor's last name!"
+            },
+              doctor_photo: {
+                required : "Please upload an image!"
+            },
+
+              'doctorSpecialities_specialitiesId[]': {
+                required: "Please select one or more specialities!"
+            },
+           
+          
+             'doctorAcademic_degreeId[]': {
+                required: "Please select a degree!"
+            },
+            'doctorSpecialities_specialitiesCatId[]': {
+                required: "Please select a speciality!"
+            },
+            'acdemic_addaddress[]': {
+                required: "Please enter an address!"
+            },
+            'acdemic_addyear[]': {
+                required: "Please enter a year!"
+            },
+            exp_year: {
+                required: "Please enter year(s) of experience!"
+            },
+            fee:{
+         
+           required: "Please enter the consultation fees!"
+         
+      }
+      
+           
+        }
+
+    });
+    
+});
+
+  var urls = "<?php echo base_url() ?>";
+   var d = new Date();
+   var year = d.getFullYear();
+    $(document).ready(function () {
+    $("#updateForm").validate({
+        rules: {
+            doctors_phn: {
+                minlength: 10
+            },
+            doctors_fName: {
+                required: true
+            },
+            doctors_lName: {
+                required : true
+            },
+             avatar_file: {
                 required : true
             },
             'doctorSpecialities_specialitiesId[]': {
@@ -773,7 +870,7 @@ if ($current == 'doctorDetails'){ ?>
               doctors_lName: {
                 required : "Please enter doctor's last name!"
             },
-              doctor_photo: {
+              avatar_file: {
                 required : "Please upload an image!"
             },
 

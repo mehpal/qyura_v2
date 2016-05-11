@@ -425,7 +425,7 @@ class Bloodbank extends MY_Controller {
             $path = realpath(FCPATH . 'assets/BloodBank/');
             $upload_data = $this->input->post('avatar-data');
             $upload_data = json_decode($upload_data);
-            if ($upload_data->width > 425) {
+           // if ($upload_data->width > 425) {
                 $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/BloodBank/', './assets/BloodBank/thumb/', 'blood');
 
                 if (empty($original_imagesname)) {
@@ -446,9 +446,9 @@ class Bloodbank extends MY_Controller {
                         $response = array('state' => 400, 'message' => 'Failed to update avtar');
                     }
                 }
-            } else {
-                $response = array('state' => 400, 'message' => 'Height and Width must exceed 425px.');
-            }
+//            } else {
+//                $response = array('state' => 400, 'message' => 'Height and Width must exceed 425px.');
+//            }
             echo json_encode($response);
         } else {
             $response = array('state' => 400, 'message' => 'Please select avtar');

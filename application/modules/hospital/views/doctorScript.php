@@ -546,10 +546,10 @@ if ($current == 'doctorDetails'){ ?>
  <script>
     var urls = "<?php echo base_url() ?>";
     $(document).ready(function () {
-    $("#submitForm").validate({
+    $("#submitFormDoctor").validate({
         
       errorPlacement: function(error, element) {
-        if (element.attr("name") == "avatar_file")
+        if (element.attr("name") == "doctor_photo")
         {
             error.insertAfter('.error-label');
         }
@@ -558,22 +558,22 @@ if ($current == 'doctorDetails'){ ?>
         }
         },
         rules: {
+            doctors_phn: {
+                minlength: 10
+            },
             doctors_fName: {
                 required: true
             },
             doctors_lName: {
                 required : true
             },
-             avatar_file: {
+             doctor_photo: {
                 required : true
             },
             'doctorSpecialities_specialitiesId[]': {
                 required: true
             },
-            users_email: {
-                email: true,
-                            
-            },
+            
        'doctorAcademic_degreeId[]':{
          
            required: true
@@ -599,22 +599,21 @@ if ($current == 'doctorDetails'){ ?>
       }    
         },
         messages: {
+            
             doctors_fName: {
                 required: "Please enter doctor's first name!",
             },
               doctors_lName: {
                 required : "Please enter doctor's last name!"
             },
-              avatar_file: {
+              doctor_photo: {
                 required : "Please upload an image!"
             },
 
               'doctorSpecialities_specialitiesId[]': {
                 required: "Please select one or more specialities!"
             },
-            users_email: {
-                email: "Please enter the correct email format!"
-            },
+            
           
              'doctorAcademic_degreeId[]': {
                 required: "Please select a degree!"
@@ -647,6 +646,9 @@ if ($current == 'doctorDetails'){ ?>
     $(document).ready(function () {
     $("#updateForm").validate({
         rules: {
+            doctors_phn: {
+                minlength: 10
+            },
             doctors_fName: {
                 required: true
             },
@@ -744,6 +746,9 @@ function emailIsExist() {
             if (!filter.test(email)) {
                 $('#users_email').addClass('bdr-error');
                 $('#error-users_email').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){
+                $("#users_email").removeClass('bdr-error');
+                }, 3000);
             }
             
             $.ajax({
@@ -754,7 +759,9 @@ function emailIsExist() {
                     if (datas == 0) {
                         $('#users_email').addClass('bdr-error');
                         $('#error-users_email_check').fadeIn().delay(5000).fadeOut('slow');
-                        ;
+                        setTimeout(function(){
+                            $("#users_email").removeClass('bdr-error');
+                        }, 3000);
                         $('#users_email_status').val(datas);
                         return false;
                     }else {
