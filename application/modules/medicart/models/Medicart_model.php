@@ -307,7 +307,7 @@ class Medicart_model extends CI_Model {
         $this->datatables->add_column('medicartOffer_startDate','$1', 'dateFormateConvert(medicartOffer_startDate)');
         $this->datatables->add_column('medicartOffer_endDate','$1', 'dateFormateConvert(medicartOffer_endDate)');
         $this->datatables->add_column('medicartOffer_title','$1', 'medicartOffer_title');
-        $this->datatables->add_column('medicartOffer_range','$1', 'medicartOffer_range');
+//        $this->datatables->add_column('medicartOffer_range','$1', 'medicartOffer_range');
         $this->datatables->add_column('medicartOffer_OfferId','$1', 'medicartOffer_OfferId');
         $this->datatables->add_column('MIname','$1<p>$2</p>', 'MIname,city_name');
         $this->datatables->add_column('totalBooking','$1','totalBooking');

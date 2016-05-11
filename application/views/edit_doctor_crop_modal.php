@@ -5,7 +5,7 @@
             <!--                              <form class="avatar-form" action="#" enctype="multipart/form-data" method="post">-->
             <div class="modal-body">
                 <div class="avatar-body">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close cancelCrop" data-dismiss="modal">&times;</button>
                     <!-- Upload image and data -->
                     <div class="avatar-upload">
                         <input type="hidden" class="avatar-src" name="avatar_src">

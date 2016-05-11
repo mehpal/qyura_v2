@@ -6,6 +6,7 @@
     label.error p{
         color: #ef5350 !important;
     }
+    .select2-container{ margin-top:8px }
 </style>
 <?php
 $check = 0;
@@ -124,7 +125,7 @@ var urls = "<?php echo base_url() ?>";
             "processing": true,
             "serverSide": true,
             "columnDefs": [{
-                    "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                    "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8],
                     "orderable": false
                 }],
             "pageLength": 10,
@@ -140,7 +141,7 @@ var urls = "<?php echo base_url() ?>";
                 {"data": "totalInquiries"},
                 {"data": "medicartOffer_startDate"},
                 {"data": "medicartOffer_endDate"},
-                {"data": "medicartOffer_range"},
+//                {"data": "medicartOffer_range"},
                 {"data": "status"},
                 {"data": "action", "searchable": false, "order": false}
             ],
@@ -251,7 +252,7 @@ var urls = "<?php echo base_url() ?>";
         });
         $("#medicartOffer_offerCategory").select2({
             allowClear: true,
-            placeholder: "Select Catrgory"
+            placeholder: "Select Category"
         });
         $("#statusId").select2({
             allowClear: true,

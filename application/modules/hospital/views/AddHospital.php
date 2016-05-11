@@ -696,7 +696,7 @@ if (isset($amobulancestatus) && $amobulancestatus == 1) {
                             <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4 col-sm-4">Registered Email Id:</label>
                                 <div class="col-md-8 col-sm-8">
-                                    <input type="email" class="form-control" id="users_email" name="users_email" placeholder="" onblur="return checkUserExistence(this.value), checkEmailFormat()" value="<?php echo set_value('users_email'); ?>" />
+                                    <input type="email" class="form-control" id="users_email" name="users_email" placeholder="" value="<?php echo set_value('users_email'); ?>" />
                                     <label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>
                                     <label class="error" style="display:none;" id="error-users_email_check"> Email Already Exits!</label>
                                     <label class="error" > <?php echo form_error("users_email"); ?></label>
