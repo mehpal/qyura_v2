@@ -6,6 +6,7 @@ class Miappointment extends MY_Controller {
 
     public $error_message = '';
     public $perPage = 5;
+
     public function __construct() {
         parent:: __construct();
         $this->load->model('miappointment_model', 'miappointment', 'common_model');
@@ -48,7 +49,7 @@ class Miappointment extends MY_Controller {
     public function getConsultingList() {
         echo $this->miappointment->getConsultingList();
     }
-    
+
     /**
      * @project Qyura
      * @method getHealthpkgList
@@ -56,7 +57,7 @@ class Miappointment extends MY_Controller {
      * @access public
      * @return json data for datatable
      */
-    public function getHealthpkgList(){
+    public function getHealthpkgList() {
         echo $this->miappointment->getHealthpkgList();
     }
 
@@ -103,7 +104,7 @@ class Miappointment extends MY_Controller {
         $data['reports'] = $this->miappointment->getConsultingReport($appointmentId);
         $this->load->super_admin_template('miConAppDetail', $data, 'miAppScript');
     }
-    
+
     /**
      * @project Qyura
      * @method detail
@@ -131,10 +132,11 @@ class Miappointment extends MY_Controller {
         $data = array();
         $options = array('table' => 'qyura_city', 'order' => array('city_name' => 'asc'));
         $data['qyura_city'] = $this->common_model->customGet($options);
-        $catOptions = array('table' => 'qyura_diagnosticsCat', 'order' => array('diagnosticsCat_catName' => 'asc'),'select'=>'diagnosticsCat_catName as catName,diagnosticsCat_catId as catId','where'=>array('diagnosticsCat_deleted'=>0));
+        $catOptions = array('table' => 'qyura_diagnosticsCat', 'order' => array('diagnosticsCat_catName' => 'asc'), 'select' => 'diagnosticsCat_catName as catName,diagnosticsCat_catId as catId', 'where' => array('diagnosticsCat_deleted' => 0, "status" => 1));
         $data['catOptions'] = $this->common_model->customGet($catOptions);
-        
-        $spOptions = array('table' => 'qyura_specialities', 'order' => array('specialities_name' => 'asc'),'select'=>'specialities_name as speName,specialities_specialitiesCatId as speCatId','where'=>array('specialities_deleted'=>0));
+
+        $spOptions = array('table' => 'qyura_specialities', 'order' => array('specialities_name' => 'asc'), 'select' => 'specialities_name as speName,specialities_specialitiesCatId as speCatId', 'where' => array('specialities_deleted' => 0, 'status' => 1));
+
         $data['spOptions'] = $this->common_model->customGet($spOptions);
         $data['title'] = "Add Miappointment";
         $data['allStates'] = $this->miappointment->fetchStates();
@@ -142,42 +144,42 @@ class Miappointment extends MY_Controller {
     }
 
     function getpatient() {
-        
+
         $patient_email = $this->input->post("patient_email");
-        $patient_mobile = $this->input->post("patient_mobile");
-        
-                
+        // $patient_mobile = $this->input->post("patient_mobile");
+
+
         $option = array(
             'table' => 'qyura_users',
             'select' => '*',
-            'where' => array('qyura_users.users_deleted' => 0,'qyura_users.users_email' => $patient_email),
+            'where' => array('qyura_users.users_deleted' => 0, 'qyura_users.users_email' => $patient_email),
             'single' => TRUE
         );
         $email = $this->common_model->customGet($option);
-        
-        if(!empty($email)){
+
+        if (!empty($email)) {
             $options = array(
-                'select'=>'qyura_users.users_id as user_id,qyura_users.users_mobile as mobile,qyura_patientDetails.patientDetails_cityId as cityId,qyura_patientDetails.patientDetails_stateId as stateId,qyura_patientDetails.patientDetails_countryId as countryId,qyura_patientDetails.patientDetails_patientName as patientName,qyura_patientDetails.patientDetails_address as address,qyura_patientDetails.patientDetails_unqId as unqId,qyura_patientDetails.patientDetails_pin as pin,qyura_patientDetails.patientDetails_dob as dob,qyura_patientDetails.patientDetails_gender as gender',
+                'select' => 'qyura_users.users_id as user_id,qyura_users.users_mobile as mobile,qyura_patientDetails.patientDetails_cityId as cityId,qyura_patientDetails.patientDetails_stateId as stateId,qyura_patientDetails.patientDetails_countryId as countryId,qyura_patientDetails.patientDetails_patientName as patientName,qyura_patientDetails.patientDetails_address as address,qyura_patientDetails.patientDetails_unqId as unqId,qyura_patientDetails.patientDetails_pin as pin,qyura_patientDetails.patientDetails_dob as dob,qyura_patientDetails.patientDetails_gender as gender',
                 'table' => 'qyura_users',
-                'where' => array('qyura_users.users_deleted' => 0, 'qyura_users.users_email' => $patient_email,'qyura_usersRoles.usersRoles_roleId' => 6),
-                'or_where'=>array('qyura_users.users_mobile' => $patient_mobile),
+                'where' => array('qyura_users.users_deleted' => 0, 'qyura_users.users_email' => $patient_email, 'qyura_usersRoles.usersRoles_roleId' => 6),
+                'or_where' => array('qyura_users.users_mobile' => $patient_mobile),
                 'join' => array(
                     array('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId = qyura_users.users_id', 'left'),
                     array('qyura_patientDetails', 'qyura_patientDetails.patientDetails_usersId = qyura_users.users_id', 'left'),
                     array('qyura_country', 'qyura_country.country_id = qyura_patientDetails.patientDetails_countryId', 'left')
                 ),
-                'single'=>true
+                'single' => true
             );
             $data = $this->common_model->customGet($options);
 
-            if(isset($data) && $data != null){
+            if (isset($data) && $data != null) {
                 echo json_encode($data);
-            }else{
+            } else {
                 $data['id'] = $email->users_id;
                 $data['email_status'] = 1;
                 echo json_encode($data);
             }
-        }else{
+        } else {
             echo 0;
         }
     }
@@ -189,14 +191,14 @@ class Miappointment extends MY_Controller {
         if ($appointment_type == 0) {
             $options = array(
                 'table' => 'qyura_hospital',
-                'where' => array('qyura_hospital.hospital_deleted' => 0, 'qyura_hospital.hospital_cityId' => $city_id),
+                'where' => array('qyura_hospital.hospital_deleted' => 0, 'qyura_hospital.hospital_cityId' => $city_id, "qyura_hospital.status" => 1),
             );
             $hospital = $this->common_model->customGet($options);
 
             if (isset($hospital) && $hospital != NULL) {
                 $option .= '<option value="">Select Hospital</option>';
                 foreach ($hospital as $hospi) {
-                    $option .= '<option value="' . $hospi->hospital_id .','. $hospi->hospital_usersId. '">' . $hospi->hospital_name . '</option>';
+                    $option .= '<option value="' . $hospi->hospital_id . ',' . $hospi->hospital_usersId . '">' . $hospi->hospital_name . '</option>';
                 }
             } else {
                 $option .= '<option value=""> Hospital not available. </option>';
@@ -204,13 +206,13 @@ class Miappointment extends MY_Controller {
         } else {
             $options = array(
                 'table' => 'qyura_diagnostic',
-                'where' => array('qyura_diagnostic.diagnostic_deleted' => 0, 'qyura_diagnostic.diagnostic_cityId' => $city_id),
+                'where' => array('qyura_diagnostic.diagnostic_deleted' => 0, 'qyura_diagnostic.diagnostic_cityId' => $city_id, "qyura_diagnostic.status" => 1),
             );
             $diagnostic = $this->common_model->customGet($options);
             if (isset($diagnostic) && $diagnostic != NULL) {
                 $option .= '<option value="">Select Diagnostic</option>';
                 foreach ($diagnostic as $diagno) {
-                    $option .= '<option value="' . $diagno->diagnostic_id .','. $diagno->diagnostic_usersId. '">' . $diagno->diagnostic_name . '</option>';
+                    $option .= '<option value="' . $diagno->diagnostic_id . ',' . $diagno->diagnostic_usersId . '">' . $diagno->diagnostic_name . '</option>';
                 }
             } else {
                 $option .= '<option value=""> Diagnostic not available. </option>';
@@ -222,42 +224,40 @@ class Miappointment extends MY_Controller {
     public function get_timeSlot() {
         $mId = $this->input->post('miId');
         $quotation_id = $this->input->post('quotation_id');
-        
+
         $timeSlotId = $this->input->post('timeSlotId');
-        $data['timeSlots'] = $this->miappointment->getTimeSlot($mId,$quotation_id);
-        
-        $data['timeSlotId']=$timeSlotId;
-        
-        if($data['timeSlots'])
-        $dateTime = $data['timeSlots'][0]->quotation_dateTime;
-        
-        $data['mId']=  $mId;
-        $data['quotation_id']= $quotation_id;
+        $data['timeSlots'] = $this->miappointment->getTimeSlot($mId, $quotation_id);
+
+        $data['timeSlotId'] = $timeSlotId;
+
+        if ($data['timeSlots'])
+            $dateTime = $data['timeSlots'][0]->quotation_dateTime;
+
+        $data['mId'] = $mId;
+        $data['quotation_id'] = $quotation_id;
         $data['date'] = date('Y-m-d', $dateTime);
         $data['time'] = date('h:i A', $dateTime);
         $this->load->view('changetimeSlot', $data);
     }
-    
-    public function getDrTimeSlot()
-    {
+
+    public function getDrTimeSlot() {
         $mId = $this->input->post('doctorParentId');
         $doctorUserId = $this->input->post('doctorUserId');
         $appointmentId = $this->input->post('id');
         $slotId = $this->input->post('slotId');
-        $data['timeSlots'] = $this->miappointment->getDrTimeSlot($mId,$doctorUserId);
-        
-        $data['appData']=$this->miappointment->drAppointmentDetail($appointmentId);
-        
-        $data['populate'] = $slotId.','.$data['appData']->session;
-        
-        $data['mId']=  $mId;
-        $data['slotId']=  $slotId;
-        $data['appointmentId']= $appointmentId;
+        $data['timeSlots'] = $this->miappointment->getDrTimeSlot($mId, $doctorUserId);
+
+        $data['appData'] = $this->miappointment->drAppointmentDetail($appointmentId);
+
+        $data['populate'] = $slotId . ',' . $data['appData']->session;
+
+        $data['mId'] = $mId;
+        $data['slotId'] = $slotId;
+        $data['appointmentId'] = $appointmentId;
         $data['date'] = date('m-d-Y', $data['appData']->date);
         $data['time'] = date('h:i A', $data['appData']->finalTiming);
-        
+
         $this->load->view('changetimeDrSlot', $data);
-        
     }
 
     public function Save_timeSlot() {
@@ -267,16 +267,16 @@ class Miappointment extends MY_Controller {
         $appointmentDate = $this->input->post('appointmentDate');
         $session = $this->input->post('session');
         $finalTime = $this->input->post('finalTime');
-        
-        
+
+
         $timeSlotArray = array(
             'quotation_timeSlotId' => $session,
             'quotation_dateTime' => strtotime("$appointmentDate $finalTime")
         );
-        $this->db->where(array('quotation_MiId'=>$mId,'quotation_id'=>$quotation_id));
+        $this->db->where(array('quotation_MiId' => $mId, 'quotation_id' => $quotation_id));
         $this->db->update('qyura_quotations', $timeSlotArray);
     }
-    
+
     public function Save_DrtimeSlot() {
 
         $appointmentDate = $this->input->post('appointmentDate');
@@ -284,26 +284,26 @@ class Miappointment extends MY_Controller {
         $finalTime = $this->input->post('finalTime');
         $miId = $this->input->post('miId');
         $appointmentId = $this->input->post('appointmentId');
-        
+
         $appointmentDate = strtotime($appointmentDate);
         $finalTime = strtotime($finalTime);
-        $session = explode(',',$session);
-        
-        
+        $session = explode(',', $session);
+
+
         $timeSlotArray = array(
             'doctorAppointment_session' => $session[1],
             'doctorAppointment_slotId' => $session[0],
-            'doctorAppointment_date'=>$appointmentDate,
-            'doctorAppointment_finalTiming'=>$finalTime
+            'doctorAppointment_date' => $appointmentDate,
+            'doctorAppointment_finalTiming' => $finalTime
         );
-        $this->db->where(array('doctorAppointment_id'=>$appointmentId));
+        $this->db->where(array('doctorAppointment_id' => $appointmentId));
         $is_update = $this->db->update('qyura_doctorAppointment', $timeSlotArray);
-        if($is_update)
+        if ($is_update)
             echo 1;
         else
             echo 0;
     }
-    
+
     /**
      * @project Qyura
      * @method fetchCity
@@ -315,9 +315,9 @@ class Miappointment extends MY_Controller {
     function fetchCity() {
         //echo "fdadas";exit;
         $stateId = $this->input->post('stateId');
-        
+
         $cityData = $this->miappointment->fetchCity($stateId);
-        
+
         $cityOption = '';
         $cityOption .='<option value=>Select Your City</option>';
         foreach ($cityData as $key => $val) {
@@ -325,8 +325,8 @@ class Miappointment extends MY_Controller {
         }
         echo $cityOption;
         exit;
-    }   
-    
+    }
+
     /**
      * @project Qyura
      * @method addAppointmentSave
@@ -335,54 +335,62 @@ class Miappointment extends MY_Controller {
      * @param 
      * @return insert id
      */
-    function addAppointmentSave(){
-        //print_r($_POST);exit;
+    function addAppointmentSave() {
+
         //generol details
-        $this->bf_form_validation->set_rules("input1","City", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input2","Centre Type", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input3","Hospital/Diagnostic", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input4","Time Slot", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input5","Appointment Type", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input6","Date", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input34","Time", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input8","Appointment Status", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input1", "City", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input2", "Centre Type", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input3", "Hospital/Diagnostic", 'required|xss_clean');
+        
+        $this->bf_form_validation->set_rules("input5", "Appointment Type", 'required|xss_clean');
+       
+        
+        $this->bf_form_validation->set_rules("input8", "Appointment Status", 'required|xss_clean');
         //test or specialities
         $apoint_type = $this->input->post('input5');
-        if($apoint_type == 0){
-            $this->bf_form_validation->set_rules("input10","Specialities", 'required|xss_clean');
-            $this->bf_form_validation->set_rules("input12","Doctor", 'required|xss_clean');
-            $this->bf_form_validation->set_rules("input13","Remarks", 'required|xss_clean');
-        }else{
+        if ($apoint_type == 0) {
+             $this->bf_form_validation->set_rules("input6", "Date", 'required|xss_clean');
+            $this->bf_form_validation->set_rules("input4", "Time Slot", 'required|xss_clean');
+            $this->bf_form_validation->set_rules("input34", "Time", 'required|xss_clean');
+            $this->bf_form_validation->set_rules("input10", "Specialities", 'required|xss_clean');
+            $this->bf_form_validation->set_rules("input12", "Doctor", 'required|xss_clean');
+            $this->bf_form_validation->set_rules("input13", "Remarks", 'required|xss_clean');
+        } else {
+            $this->bf_form_validation->set_rules("input37", "Time", 'required|xss_clean');
+             $this->bf_form_validation->set_rules("input7", "Date", 'required|xss_clean');
             $total_test = $this->input->post('total_test');
-            for($j=1;$j<=$total_test;$j++){
-                $this->bf_form_validation->set_rules("input28_$j","Diagnostic Type $j ", 'required|xss_clean');
-                $this->bf_form_validation->set_rules("input29_$j","Test Name $j ", 'required|xss_clean');
-                $this->bf_form_validation->set_rules("input30_$j","Price $j", 'required|xss_clean');
-                $this->bf_form_validation->set_rules("input31_$j","Instruction $j", 'required|xss_clean');
+            for ($j = 1; $j <= $total_test; $j++) {
+                $this->bf_form_validation->set_rules("input28_$j", "Diagnostic Type $j ", 'required|xss_clean');
+                $this->bf_form_validation->set_rules("input29_$j", "Test Name $j ", 'required|xss_clean');
+                $this->bf_form_validation->set_rules("input30_$j", "Price $j", 'required|xss_clean');
+                $this->bf_form_validation->set_rules("input31_$j", "Instruction $j", 'required|xss_clean');
             }
         }
         //user
-        $this->bf_form_validation->set_rules("input14","Patient Email", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input15","Mobile Number ", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input17","Name", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input18","Country ", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input19","State ", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input32","City", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input20","Zip", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input21","Address", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input35","DOB", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input36","Gender", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input14", "Patient Email", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input15", "Mobile Number ", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input17", "Name", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input18", "Country ", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input19", "State ", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input32", "City", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input20", "Zip", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input21", "Address", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input35", "DOB", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input36", "Gender", 'required|xss_clean');
         //payment 
-        $this->bf_form_validation->set_rules("input22","Consulation Fee", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input23","Other Fee", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input24","Tax", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input25","Total Amount ", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input26","Payment Status", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("input27","Payment Mode", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input22", "Consulation Fee", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input23", "Other Fee", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input24", "Tax", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input25", "Total Amount ", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input26", "Payment Status", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("input27", "Payment Mode", 'required|xss_clean');
         if ($this->bf_form_validation->run() == FALSE) {
             $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
+//            print_r($responce);
+//            exit;
             echo json_encode($responce);
         } else {
+
             $qyura_doctorAppointment = $quotations = '';
             //User Deitails
             $user_id = $this->input->post('user_id');
@@ -408,8 +416,9 @@ class Miappointment extends MY_Controller {
             $user_address = $this->input->post('input21');
             $user_dob = $this->input->post('input35');
             $user_gender = $this->input->post('input36');
+
             if (empty($user_id)) {
-                if(empty($email_status)){    
+                if (empty($email_status)) {
                     $optionAuotation = array(
                         'table' => 'qyura_users',
                         'data' => array(
@@ -421,14 +430,14 @@ class Miappointment extends MY_Controller {
                             'users_deleted' => 0,
                             'creationTime' => strtotime(date('Y-m-d H:i:s'))
                         )
-                     );
-
+                    );
                     $user_id = $this->common_model->customInsert($optionAuotation);
-		    $email_status = 1;
+                    $email_status = 1;
                 }
             }
             if (!empty($user_id)) {
-                if(!empty($email_status)){
+
+                if (!empty($email_status)) {
                     $optionAuotation = array(
                         'table' => 'qyura_patientDetails',
                         'data' => array(
@@ -443,10 +452,10 @@ class Miappointment extends MY_Controller {
                             'patientDetails_pin' => $user_zip,
                             'patientDetails_dob' => $user_dob,
                             'patientDetails_gender' => $user_gender,
-                            'patientDetails_deleted'=> 0,
+                            'patientDetails_deleted' => 0,
                             'creationTime' => strtotime(date('Y-m-d H:i:s'))
                         )
-                     );
+                    );
 
                     $patitentId = $this->common_model->customInsert($optionAuotation);
 
@@ -457,29 +466,38 @@ class Miappointment extends MY_Controller {
                             'usersRoles_roleId' => 6,
                             'creationTime' => strtotime(date('Y-m-d H:i:s'))
                         )
-                     );
+                    );
 
                     $rolesId = $this->common_model->customInsert($optionAuotation);
                     $user_id = $user_id;
                 }
             }
-            
-            
+               $familyID = $this->input->post('familyId');
+            if (empty($familyID)) {
+                $familyID = 0;
+            }
             //Appointment Deitails
             $city = $this->input->post('input1');
             $centre_type = $this->input->post('input2');
             $id = $this->input->post('input3');
             $id = explode(',', $id);
             $h_d_id = $id[0];
-            if ($id[1]){ $h_d_userid = $id[1]; }
+            if ($id[1]) {
+                $h_d_userid = $id[1];
+            }
+
             $time_id = $this->input->post('input4');
+
             $time_id = explode(',', $time_id);
             $timeslot_id = $time_id[0];
-            if ($time_id[1]){ $time_session = $time_id[1]; }
-	    if($time_id[1] == 0){ $time_session = '0';}
+            if ($time_id[1]) {
+                $time_session = $time_id[1];
+            }
+            if ($time_id[1] == 0) {
+                $time_session = '0';
+            }
 
             $apoint_type = $this->input->post('input5');
-            $apoint_date = strtotime($this->input->post('input6'));
             //$apoint_unid = $this->input->post('input7');
             $apoint_status = $this->input->post('input8');
             $hms_id = $this->input->post('input9');
@@ -491,22 +509,51 @@ class Miappointment extends MY_Controller {
             $total_fee = $this->input->post('input25');
             $pay_status = $this->input->post('input26');
             $pay_mode = $this->input->post('input27');
-            
+
             $family_member = $this->input->post('family_member');
-            if($family_member == 1){
+            if ($family_member == 1) {
                 $family_member_id = $this->input->post('input33');
-            }else{
+            } else {
                 $family_member_id = '';
             }
             //insert doctor appointment
-            if($apoint_type == 0){
-               
+            if ($apoint_type == 0) {
+                $apoint_date = strtotime($this->input->post('input6'));
                 $speciallity = $this->input->post('input10');
-                $doc_id = $this->input->post('input12');
+                $doc = $this->input->post('input12');
+                $doc = explode(",", $doc);
+                $doc_id = $doc[0];
+                $doc_userid = $doc[1];
+
                 $patient_remarks = $this->input->post('input13');
-                if($centre_type == 0){$newType = 1;}else{$newType = 2;}
-                
-                $records_array1 = array('creationTime' => strtotime(date('Y-m-d H:i:s')),'doctorAppointment_payMode'=>$pay_mode,'doctorAppointment_payStatus'=>$pay_status,'doctorAppointment_totPayAmount'=>$total_fee,'doctorAppointment_tax'=>$tax,'doctorAppointment_otherFee'=>$othr_fee,'doctorAppointment_consulationFee'=>$cons_fee,'doctorAppointment_HMSId'=>$hms_id,'doctorAppointment_status'=>$apoint_status,'doctorAppointment_ptRmk'=>$patient_remarks,'doctorAppointment_doctorParentId'=>$h_d_id,'doctorAppointment_pntUserId'=>$user_id,'doctorAppointment_memberId'=>$family_member_id,'doctorAppointment_docType'=>$newType,'doctorAppointment_doctorUserId'=>$doc_id,'doctorAppointment_finalTiming'=>$final_time,'doctorAppointment_slotId'=>$timeslot_id,'doctorAppointment_session'=>$time_session,'doctorAppointment_date'=>$apoint_date,'doctorAppointment_specialitiesId'=>$speciallity);                
+                if ($centre_type == 0) {
+                    $newType = 1;
+                } else {
+                    $newType = 2;
+                }
+
+                $records_array1 = array('creationTime' => strtotime(date('Y-m-d H:i:s')),
+                    'doctorAppointment_payMode' => $pay_mode,
+                    'doctorAppointment_payStatus' => $pay_status,
+                    'doctorAppointment_totPayAmount' => $total_fee,
+                    'doctorAppointment_tax' => $tax,
+                    'doctorAppointment_otherFee' => $othr_fee,
+                    'doctorAppointment_consulationFee' => $cons_fee,
+                    //'doctorAppointment_HMSId' => $hms_id,
+                    'doctorAppointment_status' => $apoint_status,
+                    'doctorAppointment_ptRmk' => $patient_remarks,
+                    'doctorAppointment_doctorParentId' => $h_d_userid,
+                    'doctorAppointment_memberId' => $family_member_id,
+                    'doctorAppointment_docType' => $newType,
+                    'doctorAppointment_doctorUserId' => $doc_userid,
+                    'doctorAppointment_pntUserId' => $user_id,
+                    'doctorAppointment_finalTiming' => $final_time,
+                    'doctorAppointment_slotId' => $timeslot_id,
+                    'doctorAppointment_session' => $time_session,
+                    'doctorAppointment_date' => $apoint_date,
+                    'doctorAppointment_specialitiesId' => $speciallity
+                );
+
                 $options = array(
                     'data' => $records_array1,
                     'table' => 'qyura_doctorAppointment'
@@ -515,70 +562,111 @@ class Miappointment extends MY_Controller {
                 $cronItemId = $qyura_doctorAppointment;
                 //create/insert unique id
                 $where = array('doctorAppointment_id' => $qyura_doctorAppointment);
-                $update_data['doctorAppointment_unqId'] =$docUnId= 'DOC'. $user_id . time();
+                $update_data['doctorAppointment_unqId'] = $docUnId = 'DOC' . $user_id . time();
                 $options = array(
                     'table' => 'qyura_doctorAppointment',
                     'where' => $where,
                     'data' => $update_data
                 );
                 $update = $this->common_model->customUpdate($options);
-                
+
                 //insert data in transaction table
-                $transaction_array1 = array('creationTime' => strtotime(date('Y-m-d H:i:s')),'user_id'=>$user_id,'order_no'=>$docUnId);
+                $transaction_array1 = array(
+                    'creationTime' => strtotime(date('Y-m-d H:i:s')),
+                    'user_id' => $user_id,
+                    'order_no' => $docUnId
+                        );
                 $options = array(
                     'data' => $transaction_array1,
                     'table' => 'transactionInfo'
                 );
                 $doc_trasaction = $this->common_model->customInsert($options);
-                
-            }else{
-                
+            } else {
+
                 //insert diagnostics appointment
-                $records_array2 = array('creationTime' => strtotime(date('Y-m-d H:i:s')),'quotation_MiId'=>$h_d_id,'quotation_userId'=>$user_id,'quotation_familyId'=>$family_member_id,'quotation_timeSlotId'=>$timeslot_id,'quotation_qtStatus'=>1,'quotation_dateTime'=>$apoint_date,'quotation_tex'=>$tax,'quotation_otherFee'=>$othr_fee,);
-            
+                $apoint_date = strtotime($this->input->post('input7'));
+                $quotationTime = strtotime($this->input->post('input37'));
+                $records_array2 = array('creationTime' => strtotime(date('Y-m-d H:i:s')),
+                    'quotation_MiId' => $h_d_userid,
+                    'quotation_userId' => $user_id,
+                    'quotation_familyId' => $family_member_id,
+                    'quotation_timeSlotId' => $timeslot_id,
+                    'quotation_qtStatus' => 12,
+                    'quotation_dateTime' => $apoint_date,
+                    'quotation_tex' => $tax,
+                    'quotation_otherFee' => $othr_fee,
+                    'quotations_finalTime' => $quotationTime,
+                    'quotation_cityId' => $city,
+                    'quotation_docRefeId' => 0,
+                    'quotation_deleted' => 0,
+                    'creationTime' => strtotime(date('Y-m-d H:i:s')),
+                );
+
                 $options = array(
                     'data' => $records_array2,
                     'table' => 'qyura_quotations'
                 );
-                $quotations = $this->common_model->customInsert($options);
-                $cronItemId = $quotations;
-                //create/insert unique id
-                $where = array('quotation_id' => $quotations);
-                $update_data['quotation_unqId'] =$quUnId= 'QU_' . $quotations . '_' . time();
+
+
+                $cronItemId = $quotation_id = $this->common_model->customInsert($options);
+
+                $quoUnqId = 'QU' . "_" . $quotation_id . "_" . time();
+
                 $options = array(
                     'table' => 'qyura_quotations',
-                    'where' => $where,
-                    'data' => $update_data
+                    'where' => array('quotation_id' => $quotation_id),
+                    'data' => array('quotation_unqId' => $quoUnqId)
                 );
                 $update = $this->common_model->customUpdate($options);
-                
+
+
+
                 //insert data in transaction table
-                $transaction_array2 = array('creationTime' => strtotime(date('Y-m-d H:i:s')),'user_id'=>$user_id,'order_no'=>$quUnId);
+                $transaction_array2 = array(
+                    'creationTime' => strtotime(date('Y-m-d H:i:s')),
+                    'user_id' => $user_id,
+                    'order_no' => $quoUnqId
+                );
                 $options = array(
                     'data' => $transaction_array2,
                     'table' => 'transactionInfo'
                 );
                 $digo_trasaction = $this->common_model->customInsert($options);
-                
+
                 $total_test = $this->input->post('total_test');
-                for($i=1;$i<=$total_test;$i++){
-                    
+                for ($i = 1; $i <= $total_test; $i++) {
+
                     //insert multiple test 
-                    $test_type = $this->input->post("input28_".$i);
-                    $test_name = $this->input->post("input29_".$i);
-                    $test_price = $this->input->post("input30_".$i);
-                    $test_instruction = $this->input->post("input31_".$i);
-                    
-                    $records_array3 = array('creationTime' => strtotime(date('Y-m-d H:i:s')),'quotationDetailTests_quotationId'=>$quotations,'quotationDetailTests_diagnosticCatId'=>$test_type,'quotationDetailTests_MIprofileId'=>$h_d_id,'quotationDetailTests_testName'=>$test_name,'quotationDetailTests_date'=>$apoint_date,'quotationDetailTests_price'=>$test_price,'quotationDetailTests_instruction'=>$test_instruction);
+                    $test_type = $this->input->post("input28_" . $i);
+                    $test_name = $this->input->post("input29_" . $i);
+                    $test_price = $this->input->post("input30_" . $i);
+                    $test_instruction = $this->input->post("input31_" . $i);
+
+                    $records_array3 = array('creationTime' => strtotime(date('Y-m-d H:i:s')),
+                        'quotationDetailTests_quotationId' => $quotation_id,
+                        'quotationDetailTests_diagnosticCatId' => $test_type,
+                        'quotationDetailTests_MIprofileId' => $h_d_id,
+                        'quotationDetailTests_testName' => $test_name,
+                        'quotationDetailTests_date' => $apoint_date,
+                        'quotationDetailTests_price' => $test_price,
+                        'quotationDetailTests_instruction' => $test_instruction
+                    );
                     $options = array(
                         'data' => $records_array3,
                         'table' => 'qyura_quotationDetailTests'
                     );
                     $quotationDetail = $this->common_model->customInsert($options);
-                    echo "Details: ";print_r($quotationDetail);
                 }
                 //insert quotations booking 
-                $records_array4 = array('creationTime' => strtotime(date('Y-m-d H:i:s')),'quotationBooking_quotationId'=>$quotations,'quotation_familyId'=>$family_member_id,'quotationBooking_userId'=>$user_id,'quotationBooking_orderId'=>$quUnId,'quotationBooking_amount'=>$total_fee,'	quotationBooking_qtTestId'=>$quotationDetail,'quotationBooking_bookStatus'=>$apoint_status);
+                $records_array4 = array(
+                    'creationTime' => strtotime(date('Y-m-d H:i:s')),
+                    'quotationBooking_quotationId' => $quotation_id,
+                    'quotationBooking_userId' => $user_id,
+                    'quotationBooking_orderId' => $quUnId,
+                    'quotationBooking_amount' => $total_fee,
+                    'quotationBooking_bookStatus' => 12,
+                    'quotation_familyId' => $familyID
+                );
 
                 $options = array(
                     'data' => $records_array4,
@@ -594,18 +682,13 @@ class Miappointment extends MY_Controller {
                     'where' => array('quotationBooking_id' => $quotationBooking)
                 );
                 $isUpdate = $this->common_model->customUpdate($updateOption);
-                
-                //insert data in transaction table
-                $transaction_array2 = array('creationTime' => strtotime(date('Y-m-d H:i:s')),'user_id'=>$user_id,'order_no'=>$bookId);
-                $options = array(
-                    'data' => $transaction_array2,
-                    'table' => 'transactionInfo'
-                );
-                $digo_trasaction = $this->common_model->customInsert($options);
+
             }
-            $crnMsg     =  $this->lang->line("miappointmentReceived");
+
+
+            $crnMsg = $this->lang->line("miappointmentReceived");
             $currentDate = date("d-m-Y");
-            $cronArray = array("qyura_fkModuleId" => 1, "qyura_fkUserId" => $user_id, "qyura_cronMsg" => $crnMsg, "qyura_cronTitle" => $this->lang->line("miappointmentTag"), "qyura_fkItemId" => $cronItemId,"qyura_cronDate"=>$currentDate,"qyura_cronMsgsCreation"=>$currentDate);
+            $cronArray = array("qyura_fkModuleId" => 1, "qyura_fkUserId" => $user_id, "qyura_cronMsg" => $crnMsg, "qyura_cronTitle" => $this->lang->line("miappointmentTag"), "qyura_fkItemId" => $cronItemId, "qyura_cronDate" => $currentDate, "qyura_cronMsgsCreation" => $currentDate);
 
             $options = array(
                 'data' => $cronArray,
@@ -613,18 +696,17 @@ class Miappointment extends MY_Controller {
             );
 
             $cronId = $this->common_model->customInsert($options);
-            if ($qyura_doctorAppointment || $quotations) {
-                
-                $responce =  array('status'=>1,'msg'=>"Appointment created successfully",'url' =>"miappointment");
-            }else
-            {
-                $error = array("TopError"=>"<strong>Something went wrong while updating your data... sorry.</strong>");
-                $responce =  array('status'=>0,'isAlive'=>TRUE,'errors'=>$error);
+            if ($cronItemId) {
+
+                $responce = array('status' => 1, 'msg' => "Appointment created successfully", 'url' => "miappointment");
+            } else {
+                $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
+                $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
             echo json_encode($responce);
         }
     }
-    
+
     /**
      * @project Qyura
      * @method appoint_timeSlot
@@ -633,47 +715,95 @@ class Miappointment extends MY_Controller {
      * @param h_d_id,type
      * @return option
      */
-    function appoint_timeSlot(){
-        $h_d_id = $this->input->post('h_d_id');
-        $type = $this->input->post('type');
+    function appoint_timeSlot() {
+        $id = $this->input->post('docid');
+        $id = explode(',', $id);
+        $doc_id = $id[0];
+        $doc_userid = $id[1];
+
+        $date = $this->input->post('appdate');
+
+        $day = date('l', strtotime($date));
+        $day_no = getDay($day);
         $option = '';
-        if ($type == 0) {
-            $options = array(
-                'table' => 'qyura_hospitalTimeSlot',
-                'where' => array('qyura_hospitalTimeSlot.hospitalTimeSlot_deleted' => 0,'qyura_hospitalTimeSlot.hospitalTimeSlot_hospitalId' => $h_d_id),
-            );
-            $hospitalTimeSlot = $this->common_model->customGet($options);
-            
-            if (isset($hospitalTimeSlot) && $hospitalTimeSlot != NULL) {
-                $option .= '<option value="">Select Time Slot</option>';
-                foreach ($hospitalTimeSlot as $hospi) {
-                    $session = getSession($hospi->hospitalTimeSlot_sessionType);
-                    $option .= '<option value="' . $hospi->hospitalTimeSlot_id .','. $hospi->hospitalTimeSlot_sessionType. '">' . $hospi->hospitalTimeSlot_startTime ." to ".$hospi->hospitalTimeSlot_endTime ." | ". $session. '</option>';
+        $options = array(
+            'table' => 'qyura_docTimeTable',
+            'where' => array('docTimeTable_doctorId' => $doc_id, 'qyura_docTimeTable.docTimeTable_deleted' => 0, 'qyura_docTimeDay.docTimeDay_deleted' => 0, 'qyura_docTimeDay.docTimeDay_day' => $day_no),
+            'join' => array(
+                array('qyura_docTimeDay', 'qyura_docTimeDay.docTimeDay_docTimeTableId = qyura_docTimeTable.docTimeTable_id', 'left'),
+            ),
+        );
+        $timeSlot = $this->common_model->customGet($options);
+
+        if (isset($timeSlot) && $timeSlot != NULL) {
+            $option .= '<option value="">Select Time Slot</option>';
+            foreach ($timeSlot as $time) {
+                $stay = $time->docTimeTable_stayAt;
+                if ($stay == 1) {
+                    $mitype = $time->docTimeTable_MItype;
+                    if ($mitype == 1) {
+                        $options = array(
+                            'table' => 'qyura_hospital',
+                            'select' => 'hospital_name,hospital_id',
+                            'where' => array('hospital_id' => $time->docTimeTable_MIprofileId, 'hospital_deleted' => 0),
+                            'single' => TRUE,
+                        );
+                        $mi = $this->common_model->customGet($options);
+                        $miName = $mi->hospital_name;
+                    } else {
+                        $options = array(
+                            'table' => 'qyura_diagnostic',
+                            'select' => 'diagnostic_name,diagnostic_id',
+                            'where' => array('diagnostic_id' => $time->docTimeTable_MIprofileId, 'diagnostic_deleted' => 0),
+                            'single' => TRUE,
+                        );
+                        $mi = $this->common_model->customGet($options);
+                        $miName = $mi->diagnostic_name;
+                    }
+                } else {
+                    $miName = 'Personal Chamber';
                 }
-            } else {
-                $option .= '<option value=""> Hospital time slot not available. </option>';
+                $option .= '<option value="' . $time->docTimeDay_id . ',' . $time->docTimeTable_id . '">' . date("H:i", strtotime($time->docTimeDay_open)) . " to " . date("H:i", strtotime($time->docTimeDay_close)) . " | " . $miName . '</option>';
             }
         } else {
-            
-            $options = array(
-                'table' => 'qyura_diagnosticCenterTimeSlot',
-                'where' => array('qyura_diagnosticCenterTimeSlot.diagnosticCenterTimeSlot_deleted' => 0,'qyura_diagnosticCenterTimeSlot.diagnosticCenterTimeSlot_diagnosticId' => $h_d_id),
-            );
-            $diagnostic = $this->common_model->customGet($options);
-            
-            if (isset($diagnostic) && $diagnostic != NULL) {
-                $option .= '<option value="">Select Time Slot</option>';
-                foreach ($diagnostic as $diagno) {
-                    $session = getSession($diagno->diagnosticCenterTimeSlot_sessionType);
-                    $option .= '<option value="' . $diagno->diagnosticCenterTimeSlot_id .','. $diagno->diagnosticCenterTimeSlot_sessionType.  '">' . $diagno->diagnosticCenterTimeSlot_startTime ." to ".$diagno->diagnosticCenterTimeSlot_endTime ." | ". $session. '</option>';
-                }
-            } else {
-                $option .= '<option value=""> Diagnostic time slot not available. </option>';
-            }
+            $option .= '<option value="">Time slot not available. </option>';
         }
         echo $option;
     }
-    
+
+    /**
+     * @project Qyura
+     * @method check_timeslot
+     * @description check final time within selected time slot
+     * @access public
+     * @param timeslot_id,timepicker4
+     * @return boolen
+     */
+    function check_timeslot() {
+
+        $final_timing = strtotime($this->input->post('final_timing'));
+
+        $timeslot_id = $this->input->post('timeslot_id');
+        $id = explode(',', $timeslot_id);
+        $time_id = $id[0];
+        $option = array(
+            'table' => 'qyura_docTimeDay',
+            'select' => 'docTimeDay_open,docTimeDay_close',
+            'where' => array('qyura_docTimeDay.docTimeDay_deleted' => 0, 'qyura_docTimeDay.docTimeDay_id' => $time_id),
+            'single' => TRUE
+        );
+        $time_slot = $this->common_model->customGet($option);
+
+        $open_time = strtotime($time_slot->docTimeDay_open);
+        $close_time = strtotime($time_slot->docTimeDay_close);
+
+        if ($final_timing >= $open_time && $final_timing <= $close_time) {
+            echo "1";
+        } else {
+            echo "0";
+        }
+    }
+
     /**
      * @project Qyura
      * @method find_specialities
@@ -682,54 +812,69 @@ class Miappointment extends MY_Controller {
      * @param h_d_id,type
      * @return option
      */
-    function find_specialities(){
+    function find_specialities() {
         $h_d_id = $this->input->post('h_d_id');
         $type = $this->input->post('type');
         $option = '';
-        if ($type == 0) {
-            $options = array(
-                'table' => 'qyura_hospitalSpecialities',
-                'where' => array('qyura_hospitalSpecialities.hospitalSpecialities_deleted' => 0,'qyura_hospitalSpecialities.hospitalSpecialities_hospitalId' => $h_d_id),
-                'join' => array(
-                    array('qyura_specialities', 'qyura_specialities.specialities_id = qyura_hospitalSpecialities.hospitalSpecialities_specialitiesId', 'left'),
-                ),
-                'group_by'=> 'qyura_specialities.specialities_id',
-            );
-            $hospitalSpecialities = $this->common_model->customGet($options);
-            
-            if (isset($hospitalSpecialities) && $hospitalSpecialities != NULL) {
-                $option .= '<option value="">Select Specialities</option>';
-                foreach ($hospitalSpecialities as $specialities) {
-                    
-                    $option .= '<option value="' . $specialities->specialities_id . '">' . $specialities->specialities_name .'</option>';
-                }
-            } else {
-                $option .= '<option value=""> Currently there is no data found. </option>';
+        $options = array(
+            'table' => 'qyura_specialities',
+            'where' => array('qyura_specialities.specialities_deleted' => 0, "status" => 1)
+        );
+        $Specialitieslist = $this->common_model->customGet($options);
+        // echo $this->db->last_query();exit;
+        if (isset($Specialitieslist) && $Specialitieslist != NULL) {
+            $option .= '<option value="">Select Specialities</option>';
+            foreach ($Specialitieslist as $specialities) {
+
+                $option .= '<option value="' . $specialities->specialities_id . '">' . $specialities->specialities_name . '</option>';
             }
         } else {
-            $options = array(
-                'table' => 'qyura_diagnosticSpecialities',
-                'where' => array('qyura_diagnosticSpecialities.diagnosticSpecialities_deleted' => 0,'qyura_diagnosticSpecialities.diagnosticSpecialities_diagnosticId' => $h_d_id),
-                'join' => array(
-                    array('qyura_specialities', 'qyura_specialities.specialities_id = qyura_diagnosticSpecialities.diagnosticSpecialities_specialitiesId', 'left'),
-                ),
-                'group_by'=> 'qyura_specialities.specialities_id',
-            );
-            $diagnosticSpecialities = $this->common_model->customGet($options);
-           // echo $this->db->last_query();exit;
-            if (isset($diagnosticSpecialities) && $diagnosticSpecialities != NULL) {
-                $option .= '<option value="">Select Specialities</option>';
-                foreach ($diagnosticSpecialities as $specialities) {
-                    
-                    $option .= '<option value="' . $specialities->specialities_id . '">' . $specialities->specialities_name. '</option>';
-                }
-            } else {
-                $option .= '<option value=""> Currently there is no data found. </option>';
-            }
+            $option .= '<option value=""> Currently there is no data found. </option>';
         }
+        /* if ($type == 0) {
+          $options = array(
+          'table' => 'qyura_hospitalSpecialities',
+          'where' => array('qyura_hospitalSpecialities.hospitalSpecialities_deleted' => 0,'qyura_hospitalSpecialities.hospitalSpecialities_hospitalId' => $h_d_id),
+          'join' => array(
+          array('qyura_specialities', 'qyura_specialities.specialities_id = qyura_hospitalSpecialities.hospitalSpecialities_specialitiesId', 'left'),
+          ),
+          'group_by'=> 'qyura_specialities.specialities_id',
+          );
+          $hospitalSpecialities = $this->common_model->customGet($options);
+
+          if (isset($hospitalSpecialities) && $hospitalSpecialities != NULL) {
+          $option .= '<option value="">Select Specialities</option>';
+          foreach ($hospitalSpecialities as $specialities) {
+
+          $option .= '<option value="' . $specialities->specialities_id . '">' . $specialities->specialities_name .'</option>';
+          }
+          } else {
+          $option .= '<option value=""> Currently there is no data found. </option>';
+          }
+          } else {
+          $options = array(
+          'table' => 'qyura_diagnosticSpecialities',
+          'where' => array('qyura_diagnosticSpecialities.diagnosticSpecialities_deleted' => 0,'qyura_diagnosticSpecialities.diagnosticSpecialities_diagnosticId' => $h_d_id),
+          'join' => array(
+          array('qyura_specialities', 'qyura_specialities.specialities_id = qyura_diagnosticSpecialities.diagnosticSpecialities_specialitiesId', 'left'),
+          ),
+          'group_by'=> 'qyura_specialities.specialities_id',
+          );
+          $diagnosticSpecialities = $this->common_model->customGet($options);
+          // echo $this->db->last_query();exit;
+          if (isset($diagnosticSpecialities) && $diagnosticSpecialities != NULL) {
+          $option .= '<option value="">Select Specialities</option>';
+          foreach ($diagnosticSpecialities as $specialities) {
+
+          $option .= '<option value="' . $specialities->specialities_id . '">' . $specialities->specialities_name. '</option>';
+          }
+          } else {
+          $option .= '<option value=""> Currently there is no data found. </option>';
+          }
+          } */
         echo $option;
     }
-    
+
     /**
      * @project Qyura
      * @method find_diago_test
@@ -738,25 +883,25 @@ class Miappointment extends MY_Controller {
      * @param h_d_id,type
      * @return option
      */
-    function find_diago_test(){
+    function find_diago_test() {
         $h_d_id = $this->input->post('h_d_id');
         $type = $this->input->post('type');
         $option = '';
         if ($type == 0) {
             $options = array(
                 'table' => 'qyura_hospitalDiagnosticsCat',
-                'where' => array('qyura_hospitalDiagnosticsCat.hospitalDiagnosticsCat_deleted' => 0,'qyura_hospitalDiagnosticsCat.hospitalDiagnosticsCat_hospitalId' => $h_d_id),
+                'where' => array('qyura_hospitalDiagnosticsCat.hospitalDiagnosticsCat_deleted' => 0, 'qyura_hospitalDiagnosticsCat.hospitalDiagnosticsCat_hospitalId' => $h_d_id),
                 'join' => array(
                     array('qyura_diagnosticsCat', 'qyura_diagnosticsCat.diagnosticsCat_catId = qyura_hospitalDiagnosticsCat.hospitalDiagnosticsCat_diagnosticsCatId', 'left'),
                 ),
-                'group_by'=> 'qyura_diagnosticsCat.diagnosticsCat_catId',
+                'group_by' => 'qyura_diagnosticsCat.diagnosticsCat_catId',
             );
             $hospitalTest = $this->common_model->customGet($options);
-           
+
             if (isset($hospitalTest) && $hospitalTest != NULL) {
                 $option .= '<option value="">Select Category</option>';
                 foreach ($hospitalTest as $hospital) {
-                    $option .= '<option value="' . $hospital->hospitalDiagnosticsCat_diagnosticsCatId . '">' . $hospital->	diagnosticsCat_catName .'</option>';
+                    $option .= '<option value="' . $hospital->hospitalDiagnosticsCat_diagnosticsCatId . '">' . $hospital->diagnosticsCat_catName . '</option>';
                 }
             } else {
                 $option .= '<option value=""> Currently there is no data found. </option>';
@@ -764,19 +909,19 @@ class Miappointment extends MY_Controller {
         } else {
             $options = array(
                 'table' => 'qyura_diagnosticsHasCat',
-                'where' => array('qyura_diagnosticsHasCat.diagnosticsHasCat_deleted' => 0,'qyura_diagnosticsHasCat.diagnosticsHasCat_diagnosticId' => $h_d_id),
+                'where' => array('qyura_diagnosticsHasCat.diagnosticsHasCat_deleted' => 0, 'qyura_diagnosticsHasCat.diagnosticsHasCat_diagnosticId' => $h_d_id),
                 'join' => array(
                     array('qyura_diagnosticsCat', 'qyura_diagnosticsCat.diagnosticsCat_catId = qyura_diagnosticsHasCat.diagnosticsHasCat_diagnosticsCatId', 'left'),
                 ),
-                'group_by'=> 'qyura_diagnosticsCat.diagnosticsCat_catId',
+                'group_by' => 'qyura_diagnosticsCat.diagnosticsCat_catId',
             );
             $diagnosticTest = $this->common_model->customGet($options);
-            
+
             if (isset($diagnosticTest) && $diagnosticTest != NULL) {
                 $option .= '<option value="">Select Category</option>';
                 foreach ($diagnosticTest as $diagnostic) {
-                    
-                    $option .= '<option value="' . $diagnostic->diagnosticsHasCat_diagnosticsCatId . '">' . $diagnostic->diagnosticsCat_catName. '</option>';
+
+                    $option .= '<option value="' . $diagnostic->diagnosticsHasCat_diagnosticsCatId . '">' . $diagnostic->diagnosticsCat_catName . '</option>';
                 }
             } else {
                 $option .= '<option value=""> Currently there is no data found. </option>';
@@ -784,7 +929,7 @@ class Miappointment extends MY_Controller {
         }
         echo $option;
     }
-    
+
     /**
      * @project Qyura
      * @method find_doctor
@@ -793,19 +938,19 @@ class Miappointment extends MY_Controller {
      * @param h_d_id,type,special_id
      * @return option
      */
-    function find_doctor(){
+    function find_doctor() {
         $h_d_id = $this->input->post('h_d_id');
         $type = $this->input->post('type');
         $special_id = $this->input->post('special_id');
         $option = '';
 //      type = 0 = Hospitals
         if (isset($h_d_id) && isset($special_id)) {
-            $doctors = $this->miappointment->getConsultantList($h_d_id,$special_id);
+            $doctors = $this->miappointment->getConsultantList($h_d_id, $special_id);
             //echo $this->db->last_query();exit;
             if (isset($doctors) && $doctors != NULL) {
                 $option .= '<option value="">Select Doctor</option>';
                 foreach ($doctors as $doctor) {
-                    $option .= '<option value="' . $doctor['userId'] . '">' . $doctor['name']. '</option>';
+                    $option .= '<option value="' . $doctor['id'] . ',' . $doctor['userId'] . '">' . $doctor['name'] . '</option>';
                 }
             } else {
                 $option .= '<option value=""> Currently no doctor available in this speciality. </option>';
@@ -813,8 +958,8 @@ class Miappointment extends MY_Controller {
         }
         echo $option;
     }
-    
-    function getMember(){
+
+    function getMember() {
         $user_id = $this->input->post('user_id');
         $option = '';
         if (isset($user_id)) {
@@ -823,11 +968,11 @@ class Miappointment extends MY_Controller {
                 'where' => array('qyura_usersFamily.usersfamily_deleted' => 0, 'qyura_usersFamily.usersfamily_usersId' => $user_id),
             );
             $familyList = $this->common_model->customGet($options);
-            
+
             if (isset($familyList) && $familyList != NULL) {
                 $option .= '<option value="">Select Member</option>';
                 foreach ($familyList as $family) {
-                    $option .= '<option value="' . $family->usersfamily_id . '">' . $family->usersfamily_name. '</option>';
+                    $option .= '<option value="' . $family->usersfamily_id . '">' . $family->usersfamily_name . '</option>';
                 }
             } else {
                 $option .= '<option value=""> Currently no member registered with us. </option>';
@@ -835,7 +980,7 @@ class Miappointment extends MY_Controller {
         }
         echo $option;
     }
-    
+
     /**
      * @project Qyura
      * @method uploadReportsList
@@ -886,6 +1031,7 @@ class Miappointment extends MY_Controller {
         $data['reports'] = $reports = $this->miappointment->getUploadReportsList(array('limit' => $this->perPage));
         $this->load->super_admin_template('completedAppList', $data, 'completedAppScript');
     }
+
     /**
      * @project Qyura
      * @method ajaxUploadReportsList
@@ -948,6 +1094,7 @@ class Miappointment extends MY_Controller {
 
         $this->load->view('ajaxCompletedAppList', $data);
     }
+
     public function export() {
         $search = $this->input->post('search');
         $resultAr = $this->miappointment->getUploadReportsList(array(), $search);
@@ -969,9 +1116,9 @@ class Miappointment extends MY_Controller {
             $i++;
         }
         $colAr[] = array('id', 'orderId', 'miName', 'city_name', 'userName', 'userGender', 'userAge', 'usersMobile', 'email', 'type');
-        $arrayFinal = array_merge($colAr,$result);
+        $arrayFinal = array_merge($colAr, $result);
         array_to_csv($arrayFinal, 'Mireport.csv');
         exit();
     }
-    
+
 }

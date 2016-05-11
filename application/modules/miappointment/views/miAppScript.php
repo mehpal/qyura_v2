@@ -9,6 +9,7 @@
         background-image: none !important;
     }
 </style>
+
 <!--<link href="<?php echo base_url(); ?>assets/cropper/cropper.min.css" rel="stylesheet">
 <link href="<?php echo base_url(); ?>assets/vendor/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
 <link href="<?php echo base_url(); ?>assets/cropper/main.css" rel="stylesheet">-->
@@ -19,6 +20,7 @@
 
 <script src="<?php echo base_url(); ?>assets/vendor/chart.js/chart.min.js">
 </script>
+<script src="<?php echo base_url(); ?>assets/vendor/select2/select2.min.js" type="text/javascript"></script>
 <!-- EASY PIE CHART JS -->
 <script src="<?php echo base_url(); ?>assets/vendor/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js">
 </script>

@@ -89,34 +89,43 @@
                                 }
                                 ?></p>
                         </aside>
-                        <form class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" method="post" action="#" novalidate="novalidate" name="doctorForm" enctype="multipart/form-data">
-                            <aside class="col-md-5 col-sm-5 col-xs-12" >
-                                <div class="col-md-8 col-sm-8 pull-right" data-target="#modal" data-toggle="modal" id="crop-avatar">
-                                    <div id="upload_modal_form">
-                                        <?php $this->load->view('upload_crop_modal'); ?>
-                                    </div>
-                                    <label class="col-md-5 col-sm-5 pull-right m-l-20" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
-                                    <div class="pre col-md-4 col-sm-4 pull-right" style="margin-top: -10%">
-                                        <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
-                                            <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png"  class="image-preview-show" width="80px" height="80px" style="margin-top: 0"/>
+                        <aside class="col-md-5 col-sm-5 col-xs-12 text-right t-xs-left">
+                            <h6><?php echo $rating_avg[0]->rating_count ?> Ratings &nbsp; <span class="label label-success waves-effect waves-light m-b-5 center-block"><?php echo round($rating_avg[0]->rating_avg); ?>.0</span></h6>
+                            <h6><?php echo $review_count[0]->review_count ?> Reviews &nbsp; <i class="fa fa-commenting clg"></i></h6>
+                            <h6>Doctor on Call &nbsp; <i class="fa fa-<?php if (isset($doctorDetail[0]->doctors_27Src) && $doctorDetail[0]->doctors_27Src != NULL) { if ($doctorDetail[0]->doctors_27Src == 1) { echo "phone clg"; } else { echo "times danger"; } } ?> "></i></h6>
+                        </aside>
+                        <div id="image_div" style="display: none">
+                            <form class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" method="post" action="#" novalidate="novalidate" name="doctorForm" enctype="multipart/form-data">
+                                <aside class="col-md-5 col-sm-5 col-xs-12" >
+                                    <div class="col-md-8 col-sm-8 pull-right m-t-10" data-target="#modal" data-toggle="modal" id="crop-avatar">
+                                        <div id="upload_modal_form">
+                                            <?php $this->load->view('upload_crop_modal');?>
+                                        </div>
+                                        <label class="col-md-5 col-sm-5 pull-right m-l-20" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
+                                        <div class="pre col-md-4 col-sm-4 pull-right" style="margin-top: -10%">
+                                            <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
+                                                <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png"  class="image-preview-show" width="80px" height="80px" style="margin-top: 0"/>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <label class="error pull-right" id="error-avatarInput" style="display: none">Please Select Image</label>
-                                <label class="error" > <?php echo form_error("avatar_file"); ?></label>
-                                <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
-                                <input type="hidden" id="doctorAjaxId" name="doctorAjaxId" value="<?php
-                                if (isset($doctorDetail[0]->doctors_id) && $doctorDetail[0]->doctors_id != NULL) {
-                                    echo $doctorDetail[0]->doctors_id;
-                                }
-                                ?>" />
-                                <label class="error" id="err_avatarInput" > <?php echo form_error("avatarInput"); ?></label>
-                                <label class="error" id="err_doctorAjaxId" > <?php echo form_error("doctorAjaxId"); ?></label>
-                                <div class="col-md-12 m-t-20 m-b-20">
-                                    <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return validationImageDoctor()" >Change Image</button>
-                                </div>
-                            </aside>
-                        </form>
+                                    <label class="error pull-right" id="error-avatarInput" style="display: none">Please Select Image</label>
+                                    <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                    <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
+                                    <input type="hidden" id="doctorAjaxId" name="doctorAjaxId" value="<?php
+                                    if (isset($doctorDetail[0]->doctors_id) && $doctorDetail[0]->doctors_id != NULL) {
+                                        echo $doctorDetail[0]->doctors_id;
+                                    }
+                                    ?>" />
+                                    <label class="error" id="err_avatarInput" > <?php echo form_error("avatarInput"); ?></label>
+                                    <label class="error" id="err_doctorAjaxId" > <?php echo form_error("doctorAjaxId"); ?></label>
+                                    <div class="col-md-12 m-t-20 m-b-20">
+                                        <a class="btn btn-danger waves-effect waves-light pull-right m-r-20" onclick="imageChange()" >Cancle</a>
+                                        <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return validationImageDoctor()" >Change</button>
+                                    </div>
+                                </aside>
+                            </form>
+                        </div>
+                        <button id="image_btn" class="btn btn-success waves-effect waves-light pull-right m-r-20" onclick="imageChange()" >Change Image</button>
                     </article>
                     <article class="text-center clearfix m-t-50">
                         <ul class="nav nav-tab nav-doctor">
@@ -159,7 +168,6 @@
                         </ul>
                     </article>
                     <article class="tab-content p-b-20 m-t-50">
-                        <div id="load_consulting" class="text-center text-success " style="display: none"><image alt="Please wait data is loading" src="<?php echo base_url('assets/images/loader/Heart_beat.gif'); ?>" /></div>
                         <div class="alert alert-success" id="successTop" style="display: none"></div>
                         <div class="alert alert-danger" id="er_TopError" style="display: none"></div>
                         <!-- General Detail Starts -->

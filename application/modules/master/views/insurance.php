@@ -64,7 +64,7 @@
                                 <article class="clearfix m-t-10">
                                     <label for="" class="control-label">Company Name :</label>
                                     <div class="">
-                                        <input class="form-control m-t-5" id="insurance_Name" type="text" name="insurance_Name" required="">
+                                        <input class="form-control m-t-5" id="insurance_Name" type="text" name="insurance_Name" required="" onkeypress="return isAlpha(event,this.value)">
                                         <label class="error" id="err_insurance_Name" > <?php echo form_error("specialityName"); ?></label>
                                     </div>
                                 </article>

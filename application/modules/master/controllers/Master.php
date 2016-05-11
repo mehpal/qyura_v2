@@ -1136,10 +1136,10 @@ class Master extends MY_Controller {
             $res = $this->common_model->customInsert($options);
             //echo $this->db->last_query();
             if ($res) {
-                $response = array('status' => 0, 'msg' => "Record Added successfully", 'url' => "master/department");
+                $response = array('status' => 1, 'msg' => "Department Added successfully.", 'url' => "master/department");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while adding your data... sorry.</strong>");
-                $response = array('status' => 1, 'isAlive' => TRUE, 'errors' => $error);
+                $response = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
             echo json_encode($response);
         }

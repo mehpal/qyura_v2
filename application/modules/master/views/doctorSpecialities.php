@@ -77,7 +77,7 @@
                                 <article class="clearfix m-t-10">
                                     <label for="" class="control-label">Scientific Name :</label>
                                     <div class="">
-                                        <input class="form-control m-t-5" id="specialityName" type="text" name="specialityName" required="" value="<?php echo set_value('specialityName'); ?>">
+                                        <input class="form-control m-t-5" id="specialityName" type="text" name="specialityName" required="" value="<?php echo set_value('specialityName'); ?>" onkeypress="return isAlpha(event,this.value)">
 
                                         <label class="error" id="err_specialityName" > <?php echo form_error("specialityName"); ?></label>
                                     </div>
@@ -85,7 +85,7 @@
                                 <article class="clearfix m-t-10">
                                     <label for="" class="control-label">General Name :</label>
                                     <div class="">
-                                        <input class="form-control m-t-5" id="specialityNamedoctor" type="text" name="specialityNamedoctor" required="" value="<?php echo set_value('specialityNamedoctor'); ?>">
+                                        <input class="form-control m-t-5" id="specialityNamedoctor" type="text" name="specialityNamedoctor" required="" value="<?php echo set_value('specialityNamedoctor'); ?>" onkeypress="return isAlpha(event,this.value)">
 
                                         <label class="error" id="err_specialityNamedoctor" > <?php echo form_error("specialityNamedoctor"); ?></label>
                                     </div>

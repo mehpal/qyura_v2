@@ -520,15 +520,18 @@
                                     <label class="control-label col-md-4 col-xs-9" for="cname"><?php echo $facilities->facilities_name; ?></label>
                                     <div class="col-md-8 col-sm-8">
                                         <aside class="row">
+                                            
                                             <input type="hidden" value="<?php echo $facilities->facilities_id; ?>" id="checkbox_<?php echo $checkBocCount; ?>" name="checkbox_<?php echo $checkBocCount; ?>">
+                                            
                                             <div class="col-md-6 col-sm-6">
-                                                <input type="number" id="membership_quantity_<?php echo $checkBocCount; ?>" name="membership_quantity_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" />
+                                                <input type="number" id="membership_quantity_<?php echo $checkBocCount; ?>" name="membership_quantity_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" value="<?php echo set_value('membership_quantity_'.$checkBocCount); ?>" />
+                                                
                                                 <label class="error" style="display:none;" id="error-membership_quantity_<?php echo $checkBocCount; ?>"> please enter the Quantity!</label>
                                                 <label class="error" > <?php echo form_error("membership_quantity_$checkBocCount"); ?></label>
                                             </div>
                                             <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){ ?>
                                             <div class="col-md-6 col-sm-6 m-t-xs-10">
-                                                <input type="number" id="membership_duration_<?php echo $checkBocCount; ?>" name="membership_duration_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){  } ?>/>
+                                                <input type="number" id="membership_duration_<?php echo $checkBocCount; ?>" name="membership_duration_<?php echo $checkBocCount; ?>" class="form-control" min="1" max="25" <?php if($facilities->facilities_id == 2 || $facilities->facilities_id == 4){  } ?> value="<?php echo set_value('membership_duration_'.$checkBocCount); ?>"/>
                                                 <label class="error" style="display:none;" id="error-membership_duration_<?php echo $checkBocCount; ?>"> please enter the Duration !</label>
                                                 <label class="error" > <?php echo form_error("membership_duration_$checkBocCount"); ?></label>
                                             </div>
@@ -598,7 +601,7 @@
                     <section class="clearfix ">
                         <div class="col-md-12 m-t-20 m-b-20">
                             <button type="reset" class="btn btn-danger waves-effect pull-right" type="button">Reset</button>
-                            <input class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" value="Submit" />
+                            <input onclick="changeStatus()" class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" value="Submit" />
                         </div>
 
                     </section>

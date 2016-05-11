@@ -66,7 +66,7 @@
                 <div class="bg-white">
                     <aside class="clearfix">
                         <!-- Appointment Chart -->
-                        <figure class="text-center">
+                        <figure>
                             <h3>Add Award Agency</h3>
                         </figure>
                         <!-- Add Category -->

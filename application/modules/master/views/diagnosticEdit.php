@@ -13,7 +13,7 @@
                         <article class="clearfix m-t-10">
                             <label for="" class="control-label">Speciality :</label>
                             <div class="">
-                                <input class="form-control m-t-5" id="diagnosticsCat_catName" type="text" name="diagnosticsCat_catName" required="" value="<?php echo $diagnosticEdit->diagnosticsCat_catName; ?>">
+                                <input class="form-control m-t-5" id="diagnosticsCat_catName" type="text" name="diagnosticsCat_catName" required="" value="<?php echo $diagnosticEdit->diagnosticsCat_catName; ?>" onkeypress="return isAlpha(event,this.value)">
                                 <label class="error" id="err_diagnosticsCat_catName" > <?php echo form_error("diagnosticsCat_catName"); ?></label>
                             </div>
                         </article>

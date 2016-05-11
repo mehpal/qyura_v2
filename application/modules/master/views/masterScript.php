@@ -104,6 +104,28 @@ if ($current != 'detailDoctor'): ?>
             var formData = new FormData(this);
             submitData(url,formData);
         });
+        var urls = "<?php echo base_url() ?>";
+        $("#degreeEditForm").validate({
+        
+        rules: {
+            degree_FName: {
+                required: true
+            },
+            degree_SName: {
+                required : true
+            }
+        },
+        messages: {
+            degree_FName: {
+                required: "Please enter full name of degree!",
+            },
+            degree_SName: {
+                required : "Please enter abreviation for the degree!"
+            }
+           
+        }
+
+    });
         
     });
 

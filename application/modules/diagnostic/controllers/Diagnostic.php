@@ -278,8 +278,8 @@ class Diagnostic extends MY_Controller {
         $this->bf_form_validation->set_rules('cnfPassword', 'Password Confirmation', 'trim|required');
         $this->bf_form_validation->set_rules('aboutUs', 'About Us', 'trim|required');
         
-        $this->bf_form_validation->set_rules('lat', 'Latitude', 'required|callback_isValidLatitude[lat]');
-        $this->bf_form_validation->set_rules('lng', 'Longitude', 'required|callback_isValidLongitude[lng]');
+        $this->bf_form_validation->set_rules('lat', 'Latitude', 'required|trim');
+        $this->bf_form_validation->set_rules('lng', 'Longitude', 'required|trim');
         
         
         $this->bf_form_validation->set_rules('bloodbank_chk', 'blood bank checkbox', 'trim');
@@ -299,6 +299,17 @@ class Diagnostic extends MY_Controller {
         
         $this->bf_form_validation->set_rules('diagno_id', 'Diagnostic id', 'required|trim');
         
+        $this->bf_form_validation->set_rules('membership_quantity_1', 'Membership Quantity', 'required|trim');
+        $this->bf_form_validation->set_rules('membership_duration_1', 'Membership Duration', 'required|trim');
+        
+        $this->bf_form_validation->set_rules('membership_quantity_2', 'Membership Quantity', 'required|trim');
+        $this->bf_form_validation->set_rules('membership_duration_2', 'Membership Duration', 'required|trim');
+        
+        $this->bf_form_validation->set_rules('membership_quantity_3', 'Membership Quantity', 'required|trim');
+        $this->bf_form_validation->set_rules('membership_quantity_4', 'Membership Quantity', 'required|trim');
+        
+        
+        
 
         if (empty($_FILES['avatar_file']['name'])) {
             $this->bf_form_validation->set_rules('avatar_file', 'File', 'required');
@@ -307,6 +318,23 @@ class Diagnostic extends MY_Controller {
         if ($this->bf_form_validation->run() === FALSE) {
             $data = array();
             //exit;
+            
+            $option = array(
+                'table' => 'qyura_membership',
+                'select' => 'membership_id,membership_name',
+                'where' => array('membership_deleted' => 0,'status' => 3,'membership_type' => 3)
+            );
+            $data['membership_plan'] = $this->common_model->customGet($option);
+
+            $option = array(
+                'table' => 'qyura_facilities',
+                'select' => '*',
+                'where' => array('qyura_facilities.facilities_deleted' => 0),
+                'order' => array('facilities_name' => 'asc'),
+                'single' => FALSE
+            );
+            $data['facilities_list'] = $this->common_model->customGet($option);
+
             $countryId = $this->input->post('diagnostic_countryId');
             $data['allStates'] = $this->diagnostic_model->fetchStates($countryId);
             $stateId = $this->input->post('diagnostic_stateId');
@@ -424,17 +452,18 @@ class Diagnostic extends MY_Controller {
                 
                 
                  if($diagno_id == 0){
-                      $inserData['status'] = 0;
+                      $insertData['status'] = 0;
                       $diagnosticId = $this->diagnostic_model->insertDiagnostic($insertData);
                 }elseif($diagno_id != 0 && $diagno_id != '' && $diagno_id != NULL){
                      $diagnosticId = $diagno_id;
-                     unset($inserData['creationTime']);
-                     $inserData['modifyTime'] = strtotime(date("Y-m-d H:i:s"));
-                     $inserData['status'] = 0;
+                     unset($insertData['creationTime']);
+                     $insertData['modifyTime'] = strtotime(date("Y-m-d H:i:s"));
+                     $insertData['status'] = 0;
                      $where = array(
                         'diagnostic_id' => $diagno_id
                     );
-                    $response = $this->diagnostic_model->UpdateTableData($inserData, $where, 'qyura_diagnostic');
+                    $response = $this->diagnostic_model->UpdateTableData($insertData, $where, 'qyura_diagnostic');
+                   // echo $this->db->last_query(); exit;
                 }
                 
                 
@@ -671,8 +700,8 @@ class Diagnostic extends MY_Controller {
         $this->bf_form_validation->set_rules('diagnostic_dsgn', 'Diagnostic Designation', 'required|trim');
         $this->bf_form_validation->set_rules('isManual', 'Manual', 'trim|required');
         $this->bf_form_validation->set_rules('diagnostic_aboutUs', 'About Us', 'trim|required');
-        $this->bf_form_validation->set_rules('lat', 'Latitude', 'required|callback_isValidLatitude[lat]');
-        $this->bf_form_validation->set_rules('lng', 'Longitude', 'required|callback_isValidLongitude[lng]');
+        $this->bf_form_validation->set_rules('lat', 'Latitude', 'required|trim');
+        $this->bf_form_validation->set_rules('lng', 'Longitude', 'required|trim');
         $this->bf_form_validation->set_rules('diagnostic_phn', 'diagnostic phon no.', 'required|numeric');
         
         // other
@@ -775,10 +804,32 @@ class Diagnostic extends MY_Controller {
                         //$bloodBankId = $this->Hospital_model->insertBloodbank($bloodBankDetail);
                         $this->Hospital_model->UpdateTableData($bloodBankDetail, $bloodWhereUser, 'qyura_bloodBank');
                     } else {
+                        
+                        $bloodBankImagesname = "";
+                        if ($_FILES['bloodBank_photo']['name']) {
+                            $path = realpath(FCPATH . 'assets/BloodBank/');
+                            $upload_data = $this->input->post('avatar_data_bloodbank');
+                            $upload_data = json_decode($upload_data);
+
+                            $original_imagesname_bloodbank = $this->uploadImageWithThumb($upload_data, 'bloodBank_photo', $path, 'assets/BloodBank/', './assets/BloodBank/thumb/', 'blood');
+                           
+                            if (empty($original_imagesname_bloodbank)) {
+                                $data['hospitalType'] = $this->Hospital_model->getHospitalType();
+                                $data['allCountry'] = $this->Hospital_model->fetchCountry();
+                                $data['allStates'] = $this->Bloodbank_model->fetchStates();
+                                $this->session->set_flashdata('valid_upload', $this->error_message);
+                                $data['title'] = 'Add Hospital';
+                                $this->load->super_admin_template('AddHospital', $data, 'hospitalScript');
+                                return false;
+                            } else {
+                                $bloodBankImagesname = $original_imagesname_bloodbank;
+                            }
+                        }
                          
                         unset($bloodBankDetail['modifyTime']);
                         $bloodBankDetail['users_id'] = $this->input->post('user_tables_id');
                         $bloodBankDetail['creationTime'] =  strtotime(date("Y-m-d H:i:s"));
+                        $bloodBankDetail['bloodBank_photo'] = $bloodBankImagesname;
                         
                         $optionInsert = array(
                             
@@ -862,6 +913,27 @@ class Diagnostic extends MY_Controller {
                         $this->Hospital_model->UpdateTableData($ambulanceDetail, $ambulanceWhereUser, 'qyura_ambulance');
                         
                     } else {
+                        
+                        $ambulanceImagesname = "";
+                        if ($_FILES['ambulance_photo']['name']) {
+                            $path = realpath(FCPATH . 'assets/ambulanceImages/');
+                            $upload_data = $this->input->post('avatar_data_ambulance');
+                            $upload_data = json_decode($upload_data);
+                            $original_imagesname_ambulance = $this->uploadImageWithThumb($upload_data, 'ambulance_photo', $path, 'assets/ambulanceImages/', './assets/ambulanceImages/thumb/', 'ambulance');
+
+                            if (empty($original_imagesname_ambulance)) {
+                                   $data['hospitalType'] = $this->Hospital_model->getHospitalType();
+                                    $data['allCountry'] = $this->Hospital_model->fetchCountry();
+                                    $data['allStates'] = $this->Bloodbank_model->fetchStates();
+                                    $this->session->set_flashdata('valid_upload', $this->error_message);
+                                    $data['title'] = 'Add Hospital';
+                                    $this->load->super_admin_template('AddHospital', $data, 'hospitalScript');
+                                    return false;
+                            } else {
+                                $ambulanceImagesname = $original_imagesname_ambulance;
+                            }
+                        }
+                        $ambulanceDetail['ambulance_img'] = $ambulanceImagesname;
                         $ambulanceData = array('table' => 'qyura_ambulance', 'data' => $ambulanceDetail);
                         $ambulanceId = $this->common_model->customInsert($ambulanceData);
                     }
