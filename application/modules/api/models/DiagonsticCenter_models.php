@@ -96,8 +96,8 @@ CASE
          $this->db->group_by('diagnostic_id');
         
         $response = $this->db->get()->result();
-        echo $this->db->last_query();
-          print_r($response); die();
+//        echo $this->db->last_query();
+//          print_r($response); die();
         $finalResult = array();
         if (!empty($response)) {
             foreach ($response as $row) {
