@@ -111,6 +111,33 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
 </script>
 <script>
     
+    if (Modernizr.touch) {
+            // show the close overlay button
+            $(".close-overlay").removeClass("hidden");
+            // handle the adding of hover class when clicked
+            $(".img").click(function(e){
+                if (!$(this).hasClass("hover")) {
+                    $(this).addClass("hover");
+                }
+            });
+            // handle the closing of the overlay
+            $(".close-overlay").click(function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                if ($(this).closest(".img").hasClass("hover")) {
+                    $(this).closest(".img").removeClass("hover");
+                }
+            });
+        } else {
+            // handle the mouseenter functionality
+            $(".img").mouseenter(function(){
+                $(this).addClass("hover");
+            })
+            // handle the mouseleave functionality
+            .mouseleave(function(){
+                $(this).removeClass("hover");
+            });
+        };
     
    function IsAdrManual(val){
         if(val == 1){
@@ -2385,6 +2412,10 @@ function imageIsLoaded(e) {
             $('#bloodBank_name').addClass('bdr-error');
             $('#error-bloodBank_name').fadeIn().delay(3000).fadeOut('slow');
             $('#bloodBank_name').val('');
+            
+            setTimeout(function(){
+                $("#bloodBank_name").removeClass('bdr-error');
+                }, 3000);
         }
     }
     function bbphone() {
@@ -2395,6 +2426,10 @@ function imageIsLoaded(e) {
             $('#bloodBank_phn1').addClass('bdr-error');
             $('#error-bloodBank_phone').fadeIn().delay(3000).fadeOut('slow');
             // $('bloodBank_name').focus();
+            
+            setTimeout(function(){
+                $("#bloodBank_phn1").removeClass('bdr-error');
+                }, 3000);
         }
     }
     function phname() {
@@ -2404,6 +2439,9 @@ function imageIsLoaded(e) {
             $('#pharmacy_name').addClass('bdr-error');
             $('#error-pharmacy_name').fadeIn().delay(3000).fadeOut('slow');
             $('#pharmacy_name').val('');
+            setTimeout(function(){
+                $("#pharmacy_name").removeClass('bdr-error');
+                }, 3000);
         }
     }
     function phphone() {
@@ -2423,6 +2461,9 @@ function imageIsLoaded(e) {
             $('#ambulance_name').addClass('bdr-error');
             $('#error-ambulance_name').fadeIn().delay(3000).fadeOut('slow');
             $('#pharmacy_name').val('');
+             setTimeout(function(){
+                $("#ambulance_name").removeClass('bdr-error');
+                }, 3000);
         }
     }
     function amphone() {
@@ -2431,6 +2472,9 @@ function imageIsLoaded(e) {
         if (!$.isNumeric(amname)) {
             $('#ambulance_phn1').addClass('bdr-error');
             $('#error-ambulance_phn1').fadeIn().delay(3000).fadeOut('slow');
+             setTimeout(function(){
+                $("#ambulance_phn1").removeClass('bdr-error');
+                }, 3000);
         }
     }
     
@@ -2802,7 +2846,7 @@ $(this).valid()
                 data: {
                         email: function(){ return $("#users_email").val(); },
                         id: function(){ return $("#user_tables_id").val(); },
-                        role: function(){ return 1; }
+                        role: function(){ return 3; }
                     }
                   }
 
@@ -2884,6 +2928,7 @@ $(this).valid()
             users_email: {
                 required:"Please enter an email id!",
                 email: "Please enter the correct email format!",
+                remote: jQuery.validator.format("{0} already exists.")
             },
             diagnostic_mblNo: {
                 required: "Please enter a mobile no.!",

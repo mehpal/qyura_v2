@@ -32,7 +32,7 @@
             $having['isConsulting !='] = 0;
         }
 
-        $this->db->select('qyura_diagnostic.isEmergency,diagnostic_usersId userId,qyura_diagnostic.diagnostic_id as id, (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, diagnostic_deleted as rat, diagnostic_address adr,diagnostic_name name, CONCAT("0","",diagnostic_phn) as  phn, diagnostic_lat AS lat, diagnostic_long AS long, diagnostic_img imUrl, ( 6371 * acos( cos( radians(' . $lat . ')) * cos( radians(diagnostic_lat)) * cos( radians( diagnostic_long ) - radians( ' . $long . ' )) + sin( radians(' . $lat . ')) * sin( radians(diagnostic_lat)))) AS distance, ' . $healtPkg . ', ' . $isConsun . ',   Group_concat(DISTINCT qyura_diagnosticsCat.diagnosticsCat_catName order by diagnosticsCat_catName ) as diaCat
+        $this->db->select('diagnostic_isEmergency as isEmergency,diagnostic_usersId userId,qyura_diagnostic.diagnostic_id as id, (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, diagnostic_deleted as rat, diagnostic_address adr,diagnostic_name name, CONCAT("0","",diagnostic_phn) as  phn, diagnostic_lat AS lat, diagnostic_long AS long, diagnostic_img imUrl, ( 6371 * acos( cos( radians(' . $lat . ')) * cos( radians(diagnostic_lat)) * cos( radians( diagnostic_long ) - radians( ' . $long . ' )) + sin( radians(' . $lat . ')) * sin( radians(diagnostic_lat)))) AS distance, ' . $healtPkg . ', ' . $isConsun . ',   Group_concat(DISTINCT qyura_diagnosticsCat.diagnosticsCat_catName order by diagnosticsCat_catName ) as diaCat
      ,(
 CASE 
  WHEN (reviews_rating is not null AND qyura_ratings.rating is not null) 

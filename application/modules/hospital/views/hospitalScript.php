@@ -895,7 +895,12 @@ if (isset($mapData) && !empty($mapData)) {
         if (!check.test(bbankname)) {
             $('#bloodBank_name').addClass('bdr-error');
             $('#error-bloodBank_name').fadeIn().delay(3000).fadeOut('slow');
+            
             $('#bloodBank_name').val('');
+            
+             setTimeout(function(){
+                $("#bloodBank_name").removeClass('bdr-error');
+                }, 3000);
         }
     }
     function bbphone() {
@@ -905,6 +910,10 @@ if (isset($mapData) && !empty($mapData)) {
 
             $('#bloodBank_phn1').addClass('bdr-error');
             $('#error-bloodBank_phone').fadeIn().delay(3000).fadeOut('slow');
+            
+            setTimeout(function(){
+                $("#bloodBank_phn1").removeClass('bdr-error');
+                }, 3000);
             // $('bloodBank_name').focus();
         }
     }
@@ -915,6 +924,7 @@ if (isset($mapData) && !empty($mapData)) {
             $('#pharmacy_name').addClass('bdr-error');
             $('#error-pharmacy_name').fadeIn().delay(3000).fadeOut('slow');
             $('#pharmacy_name').val('');
+            
         }
     }
     function phphone() {
@@ -934,6 +944,9 @@ if (isset($mapData) && !empty($mapData)) {
             $('#ambulance_name').addClass('bdr-error');
             $('#error-ambulance_name').fadeIn().delay(3000).fadeOut('slow');
             $('#pharmacy_name').val('');
+             setTimeout(function(){
+                $("#ambulance_name").removeClass('bdr-error');
+                }, 3000);
         }
     }
     function amphone() {
@@ -942,6 +955,9 @@ if (isset($mapData) && !empty($mapData)) {
         if (!$.isNumeric(amname)) {
             $('#ambulance_phn1').addClass('bdr-error');
             $('#error-ambulance_phn1').fadeIn().delay(3000).fadeOut('slow');
+             setTimeout(function(){
+                $("#ambulance_phn1").removeClass('bdr-error');
+                }, 3000);
         }
     }
     
@@ -2607,6 +2623,7 @@ if (isset($mapData) && !empty($mapData)) {
             users_email: {
                 required:"Please enter an email id!",
                 email: "Please enter the correct email format!",
+                remote: jQuery.validator.format("{0} already exists.")
             },
             hospital_mblNo: {
                 required: "Please enter a mobile no.!",
