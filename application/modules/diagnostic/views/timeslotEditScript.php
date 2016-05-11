@@ -7,7 +7,7 @@
 
         $("#timeEditForm").submit(function (event) {
             event.preventDefault();
-            var url = '<?php echo site_url(); ?>/hospital/editDocTime/';
+            var url = '<?php echo site_url(); ?>/diagnostic/editDocTime/';
             var formData = new FormData(this);
             submitData(url, formData);
         });

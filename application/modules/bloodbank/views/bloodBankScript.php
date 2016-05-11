@@ -3,12 +3,9 @@
     {
         display:none;
     }
-/*    .form-control.valid {
-       border-color: #F05350;
-     }
-     label.error{
-         color: #F05350;
-     }*/
+ .select2-container {
+        margin-top:5px !important;
+      }
 </style> 
 
 <?php $check= 0; 

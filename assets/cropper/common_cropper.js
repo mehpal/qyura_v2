@@ -27,6 +27,7 @@
     this.$avatarForm = this.$avatarModal.find('.avatar-form');
     console.log(this.$avatarForm);
     this.$avatarUpload = this.$avatarModal.find('.avatar-upload');
+    this.$avatarMessage = this.$avatarModal.find('#message_upload_error');
     this.$avatarSrc = this.$avatarModal.find('.avatar-src');
     this.$avatarData = this.$avatarModal.find('.avatar-data');
     this.$avatarInput = this.$avatarModal.find('.avatar-input');
@@ -327,6 +328,7 @@
           this.$avatarInput.val('');
           this.$avatarModal.modal('hide');
           //window.location.href = loadUrl;
+          this.alerttime(this);
 
       } else {
         this.alert(data.message);
@@ -402,6 +404,11 @@
             reader.readAsDataURL(file);
         },
 
+    alerttime: function (obj) {
+      
+         setTimeout(function(){ obj.$avatarMessage.html(""); }, 3000);
+        
+    }, 
 
     alert: function (msg) {
       var $alert = [
@@ -411,7 +418,9 @@
             '</div>'
           ].join('');
 
-      this.$avatarUpload.after($alert);
+      this.$avatarMessage.html($alert);
+      this.alerttime(this);
+     
     }
   };
 

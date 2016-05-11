@@ -20,7 +20,7 @@
                             <label for="avatarInput">Avatar upload</label>
                             <input type="file" class="avatar-input" id="avatarInput" name="avatar_file">
                         </div>
-<!--                        <div id="message_upload"></div>-->
+                        <div id="message_upload_error"></div>
                         <!-- Crop and preview -->
                         <div class="row">
                             <div class="col-md-9">
