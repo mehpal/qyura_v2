@@ -329,7 +329,7 @@ var urls = "<?php echo base_url() ?>";
                 medicartOffer_MIId: {
                     required: true
                 },
-                medicartOffer_offerCategory: {
+                'medicartOffer_offerCategory[]': {
                     required: true
                 },
                 medicartOffer_description: {
@@ -405,7 +405,7 @@ var urls = "<?php echo base_url() ?>";
                 medicartOffer_description: {
                     required: "Please enter description",
                 },
-                medicartOffer_offerCategory: {
+                'medicartOffer_offerCategory[]': {
                     required: "Please select offer category",
                 },
                 medicartOffer_MIId: {

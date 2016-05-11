@@ -274,17 +274,17 @@
                                 <li class="<?php if($this->router->fetch_class() == 'healthcare' && ($this->router->fetch_method() == 'bookingHealthpkgList' OR $this->router->fetch_method() == 'bookingDetailHealthpkg')):echo"boldTitle  active";endif;?>"><a href="<?php echo base_url();?>index.php/healthcare/bookingHealthpkgList">Package Booking</a></li>
                             </ul>
                         </li>
-
-<!--                        <li>
+<!--
+                       <li>
                             <a href="call-tracking.html" class="waves-effect"><i class="ion-ios7-telephone-outline"></i><span>Call Tracking</span></a>
                         </li> -->
-<!--                        <li class="has_sub">
-                            <a class="waves-effect" href="#"><i class="md md-account-circle"></i><span>User Management</span><span class="pull-right"><i class="md md-add"></i></span></a>
+                       <li class="has_sub">
+                            <a class="waves-effect <?php if($this->router->fetch_class() == 'users'):echo"boldTitle  active";endif;?>" href="#"><i class="md md-account-circle"></i><span>User Management</span><span class="pull-right"><i class="md md-add"></i></span></a>
                             <ul class="list-unstyled">
-                                <li><a href="all-user.html">User List</a></li>
-                                <li><a href="add-user.html">Add New User</a></li>
+                                <li><a href="<?php echo site_url('users');?>">User List</a></li>
+                                <li><a href="<?php echo site_url('users/addUsers');?>">Add New User</a></li>
                             </ul>
-                        </li>-->
+                        </li>
                          <li class="has_sub ">
                             <a class="waves-effect <?php if($this->router->fetch_class() == 'reviews'):echo"boldTitle  active";endif;?>" href="#"><i class="fa fa-star-o"></i><span>Rate & Reviews</span><span class="pull-right"><i class="md md-add"></i></span></a>
                             <ul class="list-unstyled">

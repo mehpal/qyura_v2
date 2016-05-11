@@ -75,7 +75,7 @@
                                             <label for="cname" class="control-label col-md-4 col-sm-4">Offer Specialities:</label>
                                             <div class="col-md-8 col-sm-8">
                                                 <?php $cat =0;if(isset($offerData) && !empty($offerData)){$cat = $offerData->medicartOffer_offerCategory;}?>
-                                                <select class="selectpicker" data-width="100%" name="medicartOffer_offerCategory[]"id="medicartOffer_offerCategory" required="" multiple="">
+                                                <select class="select2" data-width="100%" name="medicartOffer_offerCategory[]"id="medicartOffer_offerCategory" required="" multiple="">
                                                     <?php foreach ($allOffetCategory as $keys => $values) { ?>
                                                         <option value="<?php echo $values->specialities_id; ?>" <?php if(isset($qyura_medicartSpecialities) && $qyura_medicartSpecialities != NULL){ if(in_array($values->specialities_id, $qyura_medicartSpecialities)){ echo "selected";} } ?>><?php echo ucwords($values->specialities_name); ?></option>
                                                     <?php } ?>
