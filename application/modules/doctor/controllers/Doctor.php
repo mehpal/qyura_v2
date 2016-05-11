@@ -497,18 +497,6 @@ class Doctor extends MY_Controller {
         );
         $data['qyura_specialitiesCat'] = $this->common_model->customGet($option);
 
-//        $option = array(
-//            'table' => 'qyura_professionalExp',
-//            'select' => 'professionalExp_id ,professionalExp_designation ,professionalExp_usersId,professionalExp_hospitalId,professionalExp_start,professionalExp_end,hospital_name,hospital_id,hospital_address',
-//            'where' => array('qyura_professionalExp.professionalExp_deleted' => 0, 'qyura_professionalExp.professionalExp_usersId' => $doctorId),
-//            'join' => array(
-//                array('qyura_hospital', 'qyura_hospital.hospital_id = qyura_professionalExp.professionalExp_hospitalId', 'left')
-//            ),
-//            'single' => FALSE
-//        );
-//        $professional_exp = $this->common_model->customGet($option);
-
-
         $option = array(
             'table' => 'qyura_doctorServices',
             'select' => '*',
@@ -931,11 +919,17 @@ class Doctor extends MY_Controller {
         $this->bf_form_validation->set_rules("doctors_dob", "DOB", 'required|xss_clean');
         $this->bf_form_validation->set_rules("creationTime", "DOJ", 'required|xss_clean');
         $this->bf_form_validation->set_rules("users_email", "Email", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("doctors_stateId", "State", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("doctors_cityId", "City", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("doctors_countryId", "Country", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("docatId", "Doctor Id", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("qapId", "QAP Id", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("exp_year", "exp_year", 'required|xss_clean');
         $this->bf_form_validation->set_rules("doctor_addr", "Address", 'required|xss_clean');
         $this->bf_form_validation->set_rules("lat", "Lat", 'required|xss_clean');
         $this->bf_form_validation->set_rules("lng", "Long", 'required|xss_clean');
 
-        $this->bf_form_validation->set_rules("doctorSpecialities_specialitiesId[]", "Specility", 'required|xss_clean');
+        //$this->bf_form_validation->set_rules("doctorSpecialities_specialitiesId[]", "Specility", 'required|xss_clean');
         $this->bf_form_validation->set_rules("doctors_phn", "Phone", 'required|xss_clean');
 
 
@@ -1692,100 +1686,6 @@ class Doctor extends MY_Controller {
         $form = $this->load->view('editTimeSloat', $data, true);
         $responce = array('status' => 1, 'isAlive' => TRUE, 'data' => $form);
         echo json_encode($responce);
-    }
-
-    function checkSloat() {
-        $docTimeDay_days = isset($_POST['docTimeDay_day']) ? $this->input->post('docTimeDay_day') : '';
-        $docTimeDay_open = isset($_POST['openingHour']) ? $this->input->post('openingHour') : '';
-        $docTimeDay_close = isset($_POST['closeingHour']) ? $this->input->post('closeingHour') : '';
-
-        $docTimeDay_open = date('H:i:s', strtotime($docTimeDay_open));
-        $docTimeDay_close = date('H:i:s', strtotime($docTimeDay_close));
-        $this->error = array();
-        foreach ($docTimeDay_days as $key => $docTimeDay_day) {
-            $data = array(
-                'day' => $docTimeDay_day,
-                'openTime' => $docTimeDay_open,
-                'closeTime' => $docTimeDay_close,
-                'doctorId' => $this->input->post('doctorId')
-            );
-
-            $row = $this->Doctor_model->checkSloat($data);
-            if ($row)
-                $this->error[] =  'This time '. date('h:i A', strtotime($docTimeDay_open)) .' to '. date('h:i A', strtotime($docTimeDay_close)).' match with '.convertNumberToDay($docTimeDay_day.' please select diffrent sloat');
-        }
-
-        if (count($this->error))
-            return false;
-        else {
-            return true;
-        }
-    }
-
-    function checkEditSloat() {
-        $docTimeDay_days = isset($_POST['docTimeDay_day']) ? $this->input->post('docTimeDay_day') : '';
-        $docTimeDay_open = isset($_POST['openingHour']) ? $this->input->post('openingHour') : '';
-        $docTimeDay_close = isset($_POST['closeingHour']) ? $this->input->post('closeingHour') : '';
-        $docTimeDayId = isset($_POST['docTimeDayId']) ? $this->input->post('docTimeDayId') : '';
-
-
-        $docTimeDay_open = date('H:i:s', strtotime($docTimeDay_open));
-        $docTimeDay_close = date('H:i:s', strtotime($docTimeDay_close));
-        $this->error = array();
-        foreach ($docTimeDay_days as $key => $docTimeDay_day) {
-            $data = array(
-                'day' => $docTimeDay_day,
-                'openTime' => $docTimeDay_open,
-                'closeTime' => $docTimeDay_close,
-                'doctorId' => $this->input->post('doctorId'),
-                'docTimeDayId' => $docTimeDayId
-            );
-
-            $row = $this->Doctor_model->checkSloat($data);
-            if ($row)
-                $this->error[] =  'This time '. date('h:i A', strtotime($docTimeDay_open)) .' to '. date('h:i A', strtotime($docTimeDay_close)).' match with '.convertNumberToDay($docTimeDay_day.' please select diffrent sloat');
-        }
-
-        if (count($this->error))
-            return false;
-        else {
-            return true;
-        }
-    }
-
-    function checkOpenTime() {
-        $openingHour = $this->input->post('openingHour');
-        $closeingHour = $this->input->post('closeingHour');
-        $openingHour = strtotime($openingHour);
-        $closeingHour = strtotime($closeingHour);
-
-        if ($closeingHour < $openingHour) {
-            $this->bf_form_validation->set_message('checkOpenTime', 'Opening time should be less than closing time');
-            return FALSE;
-        } else {
-            return TRUE;
-        }
-    }
-
-    function checkCloseTime() {
-        $openingHour = $this->input->post('openingHour');
-        $closeingHour = $this->input->post('closeingHour');
-        $openingHour = strtotime($openingHour);
-        $closeingHour = strtotime($closeingHour);
-
-        if ($closeingHour < $openingHour) {
-            $this->bf_form_validation->set_message('checkCloseTime', 'Closing time should be greater than opening time');
-            return FALSE;
-        } else {
-            $timeDiff = $closeingHour - $openingHour;
-            $diff = 30 * 60;
-            if ($timeDiff < $diff) {
-                $this->bf_form_validation->set_message('checkCloseTime', 'Time diffrence sould be 30 min');
-                return FALSE;
-            }
-
-            return TRUE;
-        }
     }
 
 }

@@ -512,6 +512,7 @@
                                         <label class="error" > <?php echo form_error("diagnostic_mbrTyp"); ?></label>
                                     </div>
                                 </article>
+                                
                                 <article class="clearfix m-t-10">
                                     <?php $checkBocCount = 1; 
                                     if(isset($facilities_list) && $facilities_list != NULL){ ?>
@@ -601,7 +602,7 @@
                     <section class="clearfix ">
                         <div class="col-md-12 m-t-20 m-b-20">
                             <button type="reset" class="btn btn-danger waves-effect pull-right" type="button">Reset</button>
-                            <input onclick="changeStatus()" class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" value="Submit" />
+                            <input onclick="return changeStatus()" class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" value="Submit" />
                         </div>
 
                     </section>

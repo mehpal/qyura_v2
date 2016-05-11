@@ -440,11 +440,11 @@ class Diagnostic extends MY_Controller {
                     'diagnostic_aboutUs' => $this->input->post('aboutUs'),
                     'inherit_status' => 1,
                     
-                    'diagnostic_availibility_24_7' => $this->input->post('availibility_24_7'),
-                    'diagnostic_isEmergency' => $this->input->post('isEmergency'),
-                    'diagnostic_hasBloodbank' => $this->input->post('bloodbank_chk'),
+                    'diagnostic_availibility_24_7' => isset($_POST['availibility_24_7'])? $this->input->post('availibility_24_7') : 0,
+                    'diagnostic_isEmergency' => isset($_POST['isEmergency'])? $this->input->post('isEmergency') : 0,
+                    'diagnostic_hasBloodbank' => isset($_POST['bloodbank_chk'])? $this->input->post('bloodbank_chk') : 0,
                     'diagnostic_isBloodBankOutsource' => $this->input->post('isBloodBankOutsource'),
-                    'diagnostic_hasPharmacy' => $this->input->post('pharmacy_chk'),
+                    'diagnostic_hasPharmacy' => isset($_POST['pharmacy_chk'])? $this->input->post('pharmacy_chk') : 0,
                     'diagnostic_docatId' => $this->input->post('docatId'),
                 );
                 // dump($insertData);exit;
@@ -737,6 +737,7 @@ class Diagnostic extends MY_Controller {
             // $this->load->view('diagnosticDetail', $data);
             $data['title'] = (!empty($data['diagnosticData'])) ? $data['diagnosticData'][0]->diagnostic_name : "Diagnostic Details";
             $this->load->super_admin_template('diagnosticDetail', $data, 'diagnosticScript');
+            return false;
         } else {
             $diagnostic_phn = $this->input->post('diagnostic_phn');
             
@@ -756,11 +757,11 @@ class Diagnostic extends MY_Controller {
                 'diagnostic_aboutUs' => $this->input->post('diagnostic_aboutUs'),
                 'diagnostic_mblNo' => $this->input->post('diagnostic_mobileNo'),
                 
-                'diagnostic_availibility_24_7' => $this->input->post('availibility_24_7'),
-                'diagnostic_isEmergency' => $this->input->post('isEmergency'),
-                'diagnostic_hasBloodbank' => $this->input->post('bloodbank_chk'),
+                'diagnostic_availibility_24_7' => isset($_POST['availibility_24_7'])? $this->input->post('availibility_24_7') : 0,
+                'diagnostic_isEmergency' => isset($_POST['isEmergency'])? $this->input->post('isEmergency') : 0,
+                'diagnostic_hasBloodbank' => isset($_POST['bloodbank_chk'])? $this->input->post('bloodbank_chk') : 0,
                 'diagnostic_isBloodBankOutsource' => $this->input->post('isBloodBankOutsource'),
-                'diagnostic_hasPharmacy' => $this->input->post('pharmacy_chk'),
+                'diagnostic_hasPharmacy' => isset($_POST['pharmacy_chk'])? $this->input->post('pharmacy_chk') : 0,
                 'diagnostic_docatId' => $this->input->post('docatId'),
                 
                 'modifyTime' => strtotime(date("Y-m-d H:i:s"))
@@ -814,12 +815,18 @@ class Diagnostic extends MY_Controller {
                             $original_imagesname_bloodbank = $this->uploadImageWithThumb($upload_data, 'bloodBank_photo', $path, 'assets/BloodBank/', './assets/BloodBank/thumb/', 'blood');
                            
                             if (empty($original_imagesname_bloodbank)) {
-                                $data['hospitalType'] = $this->Hospital_model->getHospitalType();
-                                $data['allCountry'] = $this->Hospital_model->fetchCountry();
-                                $data['allStates'] = $this->Bloodbank_model->fetchStates();
-                                $this->session->set_flashdata('valid_upload', $this->error_message);
-                                $data['title'] = 'Add Hospital';
-                                $this->load->super_admin_template('AddHospital', $data, 'hospitalScript');
+                                $data = array();
+                                $data['allCountry'] = $this->diagnostic_model->fetchCountry();
+                                $data['diagnosticData'] = $this->diagnostic_model->fetchdiagnosticData($diagnosticId);
+                                $data['allCountry'] = $this->diagnostic_model->fetchCountry();
+                                $data['allCities'] = $this->Hospital_model->fetchCity($data['diagnosticData'][0]->diagnostic_stateId);
+                                $data['allStates'] = $this->diagnostic_model->fetchStates($data['diagnosticData'][0]->diagnostic_countryId);
+                                $data['diagnosticId'] = $diagnosticId;
+                                $data['showStatus'] = 'block';
+                                $data['active'] = 'general';
+                                // $this->load->view('diagnosticDetail', $data);
+                                $data['title'] = (!empty($data['diagnosticData'])) ? $data['diagnosticData'][0]->diagnostic_name : "Diagnostic Details";
+                                $this->load->super_admin_template('diagnosticDetail', $data, 'diagnosticScript');
                                 return false;
                             } else {
                                 $bloodBankImagesname = $original_imagesname_bloodbank;
@@ -922,12 +929,18 @@ class Diagnostic extends MY_Controller {
                             $original_imagesname_ambulance = $this->uploadImageWithThumb($upload_data, 'ambulance_photo', $path, 'assets/ambulanceImages/', './assets/ambulanceImages/thumb/', 'ambulance');
 
                             if (empty($original_imagesname_ambulance)) {
-                                   $data['hospitalType'] = $this->Hospital_model->getHospitalType();
-                                    $data['allCountry'] = $this->Hospital_model->fetchCountry();
-                                    $data['allStates'] = $this->Bloodbank_model->fetchStates();
-                                    $this->session->set_flashdata('valid_upload', $this->error_message);
-                                    $data['title'] = 'Add Hospital';
-                                    $this->load->super_admin_template('AddHospital', $data, 'hospitalScript');
+                                    $data = array();
+                                    $data['allCountry'] = $this->diagnostic_model->fetchCountry();
+                                    $data['diagnosticData'] = $this->diagnostic_model->fetchdiagnosticData($diagnosticId);
+                                    $data['allCountry'] = $this->diagnostic_model->fetchCountry();
+                                    $data['allCities'] = $this->Hospital_model->fetchCity($data['diagnosticData'][0]->diagnostic_stateId);
+                                    $data['allStates'] = $this->diagnostic_model->fetchStates($data['diagnosticData'][0]->diagnostic_countryId);
+                                    $data['diagnosticId'] = $diagnosticId;
+                                    $data['showStatus'] = 'block';
+                                    $data['active'] = 'general';
+                                    // $this->load->view('diagnosticDetail', $data);
+                                    $data['title'] = (!empty($data['diagnosticData'])) ? $data['diagnosticData'][0]->diagnostic_name : "Diagnostic Details";
+                                    $this->load->super_admin_template('diagnosticDetail', $data, 'diagnosticScript');
                                     return false;
                             } else {
                                 $ambulanceImagesname = $original_imagesname_ambulance;
@@ -2685,7 +2698,6 @@ class Diagnostic extends MY_Controller {
                 'doctors_roll' => 9,
                 'doctors_parentId' => $miUserId,
                 'doctors_consultaionFee' => $fee,
-                'status' => 0,
                 
             );
             if(empty($imagesname) || $imagesname === '' || $imagesname === NULL){

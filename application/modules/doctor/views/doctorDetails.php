@@ -28,6 +28,7 @@
         border-top-color:  #3FCEB2;
     }
 </style>
+
 <!-- Start right Content here -->
 <div class="content-page">
     <!-- Start content -->
@@ -387,7 +388,7 @@
                                                                 <?php } ?>
                                                         </select>
                                                         <div class='setValues'></div>
-                                                        <label class="error" style="display:none;" id="error-doctorSpecialities_specialitiesId"> Please select speciality(s)</label>
+                                                        <label class="error" id="err_doctorSpecialities_specialitiesId"></label>
                                                         <label class="error" > <?php echo form_error("doctorSpecialities_specialitiesId"); ?></label>
                                                     </div>
                                                 </article>
@@ -429,6 +430,7 @@
                                                                         }
                                                                         ?>
                                                                 </select>
+                                                                <label class="error" id="err_doctors_countryId" > <?php echo form_error("doctors_countryId"); ?></label>
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 m-t-xs-10">
                                                                 <select class="selectpicker" data-width="100%" name="doctors_stateId" Id="doctors_stateId" data-size="4" onchange ="fetchCity(this.value)">
@@ -447,8 +449,7 @@
                                                                         }
                                                                         ?>
                                                                 </select>
-                                                                <label class="error" style="display:none;" id="error-doctors_stateId"> please select a state</label>
-                                                                <label class="error" > <?php echo form_error("doctors_stateId"); ?></label>
+                                                                <label class="error" id="err_doctors_stateId" > <?php echo form_error("doctors_stateId"); ?></label>
                                                             </div>
                                                         </aside>
                                                     </div>
@@ -473,8 +474,7 @@
                                                                         }
                                                                         ?>
                                                                 </select>
-                                                                <label class="error" style="display:none;" id="error-doctors_cityId"> please select a state</label>
-                                                                <label class="error" > <?php echo form_error("doctors_cityId"); ?></label>
+                                                                <label class="error" id="err_doctors_cityId" > <?php echo form_error("doctors_cityId"); ?></label>
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 m-t-xs-10">
                                                                 <input type="text" class="form-control" id="doctors_pinn" name="doctors_pinn" placeholder="Pin Code" maxlength="6" onkeypress="return isNumberKey(event)" value="<?php
@@ -482,8 +482,7 @@
                                                                     echo $doctorDetail[0]->doctors_pin;
                                                                 }
                                                                 ?>" />
-                                                                <label class="error" style="display:none;" id="error-doctors_pinn"> Zip code should be numeric and 6 digit long</label>
-                                                                <label class="error" > <?php echo form_error("doctors_pinn"); ?></label>
+                                                                <label class="error" id="err_doctors_pinn" > <?php echo form_error("doctors_pinn"); ?></label>
                                                             </div>
                                                         </aside>
                                                     </div>
@@ -495,8 +494,7 @@
                                                             echo $doctorDetail[0]->doctor_addr;
                                                         }
                                                         ?>" />
-                                                        <label class="error" style="display:none;" id="error-doctor_addr"> please select a pin number</label>
-                                                        <label class="error" > <?php echo form_error("doctor_addr"); ?></label>
+                                                        <label class="error" id="err_doctor_addr" > <?php echo form_error("doctor_addr"); ?></label>
                                                     </div>
                                                 </article>
                                                 <article class="clearfix">
@@ -508,8 +506,7 @@
                                                                     echo $doctorDetail[0]->doctors_lat;
                                                                 }
                                                                 ?>"  id="lat" placeholder="Latitude" onchange="latChack(this.value)" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="9"/>
-                                                                <label class="error" > <?php echo form_error("lat"); ?></label>
-                                                                <label class="error" style="display:none;" id="error-lat">Please enter the correct format for latitude</label>
+                                                                <label class="error" id="err_lat" > <?php echo form_error("lat"); ?></label>
                                                             </div>
                                                             <div class="col-sm-3">
                                                                 <input name="lng" required="" type="text" value="<?php
@@ -552,7 +549,7 @@
                                                         ?>"/>
                                                         <label class="error" style="display:none;" id="error-qapId"> please enter QAP Id</label>
                                                         <label class="error" style="display:none;" id="error-qapIdTb"> please enter Correct QAP Id</label>
-                                                        <label class="error" > <?php echo form_error("qapId"); ?></label>
+                                                        <label class="error" id="err_qapId" > <?php echo form_error("qapId"); ?></label>
                                                     </div>
                                                 </article>
                                                 <article class="clearfix m-t-10">
@@ -636,7 +633,7 @@
                                                     <label for="cname" class="control-label col-md-3 m-t-10">Years of Experience</label>
                                                     <div class="col-md-4 col-sm-4 m-b-20 m-t-10">
                                                         <input type="number" class="form-control" name="exp_year" required="" id="exp_year" placeholder="Experience" min="1" max="50" value="<?php echo $years; ?>">
-                                                        <label class="error" style="display:none;" id="error-exp_year"> please fill Experience</label>
+                                                        <label class="error" id="err_exp_year"></label>
                                                     </div>
                                                 </article>
                                                 <section class="clearfix ">

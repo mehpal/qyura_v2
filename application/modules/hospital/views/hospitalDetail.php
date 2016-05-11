@@ -4,6 +4,139 @@
    color: #777;
    }
 </style>
+<style>
+    .m-t-4{margin-top:4px;}
+    .blue-ttl{width:120px; height:85px; border:1px solid #ddd; 
+              padding:0px 2px 10px 0px; margin: 15px 10px; float: left }
+    .blue-ttl aside h5
+    {
+        text-align: right;
+        display:none;
+        margin-top: 3px;
+    }
+    .blue-ttl aside h5 
+    {
+        display: none;
+    }
+    .blue-ttl:hover aside h5 
+    {
+        display:block;
+    }
+    .blue-ttl + .tooltip > .tooltip-inner {
+        background-color: #f8f8f8;
+        border: 1px solid #3FCEB2;
+        padding: 0px;
+        color:#333;
+        text-align: left;
+        padding: 0px 10px 10px;
+    }
+    .orange-ttl + .tooltip.left .tooltip-arrow {
+        border-top-color:  #3FCEB2;
+    }
+    /* ============================================================
+GLOBAL
+============================================================ */
+    .effects {
+        padding-left: 15px;
+    }
+    .effects .img {
+        position: relative;
+        float: left;
+        margin-bottom: 5px;
+        /*  width: 25%;*/
+        overflow: hidden;
+    }
+    .effects .img:nth-child(n) {
+        margin-right: 5px;
+    }
+    .effects .img:first-child {
+        margin-left: -15px;
+    }
+    .effects .img:last-child {
+        margin-right: 0;
+    }
+    .effects .img img {
+        display: block;
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .overlay1 {
+        display: block;
+        position: absolute;
+        z-index: 20;
+        background: rgba(0, 0, 0, 0.8);
+        overflow: hidden;
+        -webkit-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        -o-transition: all 0.5s;
+        transition: all 0.5s;
+    }
+
+    a.close-overlay {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 100;
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #fff;
+        line-height: 45px;
+        text-align: center;
+        background-color: #000;
+        cursor: pointer;
+    }
+    a.close-overlay.hidden {
+        display: none;
+    }
+
+    a.expand {
+        display: block;
+        position: absolute;
+        z-index: 100;
+        width: 50px;
+        height: 50px;
+        border: solid 5px #fff;
+        text-align: center;
+        color: #fff;
+        line-height: 35px;
+        font-weight: 700;
+        font-size: 20px;
+        -webkit-border-radius: 25px;
+        -moz-border-radius: 25px;
+        -ms-border-radius: 25px;
+        -o-border-radius: 25px;
+        border-radius: 25px;
+    }
+    .overlay1 a i
+    {
+        margin-top: 9px;
+    }
+    /* ============================================================
+      EFFECT 1 - SLIDE IN BOTTOM
+    ============================================================ */
+    .effect-1 .overlay1 {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 0;
+    }
+    .effect-1 .overlay1 a.expand {
+        left: 0;
+        right: 0;
+        bottom: 52%;
+        margin: 0 auto -30px auto;
+    }
+    .effect-1 .img.hover .overlay1 {
+        height: 100%;
+    }
+</style>
 <body class="fixed-left">
    <!-- Start right Content here -->
    <div class="content-page" ng-app="myApp">
@@ -349,7 +482,7 @@
                               <?php } ?>   
                            </aside>
                            <!--edit-->
-                           <form name="hospitalDetail" action="<?php echo site_url("hospital/saveDetailHospital/$hospitalId"); ?>" id="hospitalDetail" method="post">
+                           <form name="hospitalDetail" action="<?php echo site_url("hospital/saveDetailHospital/$hospitalId"); ?>" id="hospitalDetail" method="post" enctype="multipart/form-data">
                               <input type="hidden" id="StateId" name="StateId" value="<?php echo $hospitalData[0]->hospital_stateId; ?>" />
                               <input type="hidden" id="countryId" name="countryId" value="<?php echo $hospitalData[0]->hospital_countryId; ?>" />
                               <input type="hidden" id="cityId" name="cityId" value="<?php echo $hospitalData[0]->hospital_cityId; ?>" />
@@ -529,15 +662,17 @@
                                        <label id="error-hospital_aboutUs" style="display:none;" class="error"> Please write about the hospital!</label>
                                     </div>
                                  </article>
+                                 
                                  <article class="clearfix">
                                     <label class="control-label col-md-4 col-sm-4 col-xs-9" for="cname">Blood Bank  </label>
                                     <div class="col-md-8 col-xs-3">
                                        <aside class="checkbox checkbox-success m-t-5">
-                                          <input type="checkbox" id="bloodbankbtn" name="bloodbank_chk" value="1" <?php if(isset($hospitalData[0]->hasBloodbank) && $hospitalData[0]->hasBloodbank == 1){ echo 'checked="checked" '; } ?> checked="checked">
+                                          <input type="checkbox" id="bloodbankbtn" name="bloodbank_chk" value="1" <?php if(isset($hospitalData[0]->hasBloodbank) && $hospitalData[0]->hasBloodbank == 1){ echo 'checked="checked" '; } ?>>
                                           <label> </label>
                                        </aside>
                                     </div>
                                  </article>
+                                 
                                  <section id="bloodbankdetail" style="<?php if(isset($hospitalData[0]->hasBloodbank) && $hospitalData[0]->hasBloodbank == 1){ echo 'display:block'; }else{ echo 'display:none'; } ?>">
                                     <article class="clearfix m-b-10">
                                        <label for="cemail" class="control-label col-md-4 col-sm-4">Name :</label>
@@ -550,6 +685,8 @@
                                           <label class="error" style="display:none;" id="error-bloodBank_name"> please Check your Blood Bank name</label>
                                           <div>
                                     </article>
+                                     
+                                    <?php if(isset($hospitalData[0]->hasBloodbank) && $hospitalData[0]->hasBloodbank == 1){ ?>
                                     <div class="pro-img" id="crop-blood">
                                     <?php echo $this->load->view('edit_bloodbank_upload_crop_modal', array('id' => $hospitalData[0]->bloodBank_id)); ?>
                                     <!-- image -->
@@ -578,6 +715,40 @@
                                     </div>
                                     <!-- end description div -->
                                     </div>
+                                    <?php }else{ ?>
+                                     
+                                     <article class="clearfix m-t-10">
+                                                <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
+                                                    <div id="blood-crop-avatar">
+                                                          <?php $this->load->view('blood_upload_crop_modal'); ?>
+                                                          <article class="clearfix m-b-10"  class="avatar-form">
+
+
+
+                                                              <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
+                                                                  <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
+
+                                                                  <div class="pre col-md-4 col-sm-4 ">
+                                                                      <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
+
+                                                                          <img src="<?php echo base_url() ?>assets/default-images/Blood-logo.png"  class="image-preview-show"/>
+
+                                                                      </div>
+                                                                  </div>
+
+
+                                                                  <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                                                  <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
+
+
+
+                                                              </div>
+                                                          </article>
+                                                      </div>
+                                                    </article>
+                                     
+                                    <?php } ?>
+                                     
                                     <article class="clearfix m-b-10 ">
                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
                                     <div class="col-md-8 col-sm-8">
@@ -594,6 +765,7 @@
                                     </div>
                                     </article>
                                  </section>
+                                 
                                  <article class="clearfix">
                                  <label class="control-label col-md-4 col-sm-4 col-xs-9" for="cname">Pharmacy</label>
                                  <div class="col-md-8 col-xs-3">
@@ -604,6 +776,7 @@
                                  </aside>
                                  </div>
                                  </article>
+                                 
                                  <article class="clearfix">
                                  <label class="control-label col-md-4 col-sm-4 col-xs-9" for="cname">Ambulance</label>
                                  <div class="col-md-8 col-xs-3">
@@ -626,6 +799,8 @@
                                  <label class="error" style="display:none;" id="error-ambulance_name"> please Check your Ambulance Name</label>
                                  <div>
                                  </article>
+                                     
+                              <?php if(isset($hospitalData[0]->ambulance_phn) && $hospitalData[0]->ambulance_phn != ''){ ?> 
                                  <div class="pro-img" id="crop-ambulance">
                                  <?php echo $this->load->view('edit_ambulance_upload_crop_modal', array('id' => $hospitalData[0]->ambulance_id)); ?>
                                  <!-- image -->
@@ -654,6 +829,33 @@
                                  </div>
                                  <!-- end description div -->
                                  </div>
+                              <?php }else{ ?>
+                                   <div id="ambulance-crop-avatar">
+                                    <?php $this->load->view('ambulance_upload_crop_modal'); ?>
+                                    <article class="clearfix m-b-10"  class="avatar-form">
+                                        <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
+                                        <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
+                                            <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
+
+                                            <div class="pre col-md-4 col-sm-4 ">
+                                                <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
+
+                                                    <img src="<?php echo base_url() ?>assets/default-images/ambulance_logo.png"  class="image-preview-show"/>
+
+                                                </div>
+                                            </div>
+
+                                            <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                            <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
+
+
+
+                                        </div>
+                                    </article>
+                                </div>
+                                     
+                              <?php } ?>
+                                     
                                  <article class="clearfix m-b-10 ">
                                  <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
                                  <div class="col-md-8 col-sm-8">
@@ -761,11 +963,12 @@
                                  </fieldset>  
                                  <article class="clearfix m-b-10">
                                  <div class="col-md-12">
-                                 <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" >Update</button>
+                                 <button type="submit" onclick="return changeStatusUpdate()" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" >Update</button>
                                  </div>
                                  </article>
                               </aside>
                            </form>
+                           
                            <div class="gap"></div>
                            <article class="clearfix company-logo">
                            <aside class="clearfix">
@@ -1228,7 +1431,11 @@
                }
                ?>" id="doctor">
             <!-- Form Section Start -->
-            <article class="row p-b-10" style="margin-left: 0">
+            <article class="row p-b-10" style="margin-left: 0; <?php
+               if (isset($showDiv) && ($showDiv == 'adddoctor' OR $showDiv == 'editDoctor' OR $showDiv == 'timeSlot' )) {
+                   echo "display:none";
+               }
+               ?>">
             <aside class="col-md-2 col-sm-2" id="AddNewDoc">
             <button class="btn btn-success waves-effect waves-light m-l-10 pull-right addDoctorButton" onclick="addNewDoctor();" >Add New Doctor</button>
             </aside>
@@ -1238,7 +1445,7 @@
             </article>
             <!-- Form Section End -->
             <article class="clearfix m-top-40 p-b-20" id="doctorList" style="<?php
-               if (isset($showDiv) && ($showDiv == 'adddoctor' OR $showDiv == 'editDoctor' )) {
+               if (isset($showDiv) && ($showDiv == 'adddoctor' OR $showDiv == 'editDoctor' OR $showDiv == 'timeSlot' )) {
                    echo "display:none";
                }
                ?>" >
@@ -1277,6 +1484,16 @@
                }
                ?>" >
             <?php echo $this->load->view('editDoctor'); ?>
+            </div>
+            
+            <div id="editDoctorTimeSlot" style="<?php
+               if (isset($showDiv) && $showDiv === 'timeSlot') {
+                   echo "display:block";
+               } else {
+                   echo "display:none";
+               }
+               ?>" >
+            <?php  echo $showDiv == 'timeSlot' ? $this->load->view('timeSlot') : '' ; ?>
             </div>
             </section>
             <!-- All Doctors Ends -->
@@ -1464,7 +1681,8 @@
                }
                ?></p>
             </article>
-            <article class="clearfix m-b-10">
+                
+<!--            <article class="clearfix m-b-10">
             <label for="cemail" class="control-label col-md-4 col-sm-5">Membership Type:</label>
             <p class="col-md-6 col-sm-5">
             <?php
@@ -1475,10 +1693,11 @@
                }
                ?>
             </p>
-            <!-- <aside class="col-sm-2">
+             <aside class="col-sm-2">
                <button class="btn btn-appointment waves-effect waves-light pull-right" type="button">Upgrade</button>
-               </aside> -->
-            </article>
+               </aside> 
+            </article>-->
+                
             <article class="clearfix m-b-10">
             <label for="cemail" class="control-label col-md-4 col-sm-5">Change Password:</label>
             <aside class="col-md-5 col-sm-6">
@@ -1531,23 +1750,25 @@
             </aside>
             </div>
             </article>
-            <article class="clearfix m-b-10">
+            
+<!--            <article class="clearfix m-b-10">
             <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type:</label>
             <div class="col-md-8 col-sm-8">
-            <select class="select2" data-width="100%" name="hospital_mmbrTyp" id="hospital_mmbrTyp">
-            <option value="1" <?php
-               if ($hospitalData[0]->hospital_mmbrTyp == 1) {
-                   echo "selected";
-               }
-               ?>>Life Time</option>
-            <option value="2" <?php
-               if ($hospitalData[0]->hospital_mmbrTyp == 2) {
-                   echo "selected";
-               }
-               ?>>Health Club</option>
-            </select>
+                <select class="select2" data-width="100%" name="hospital_mmbrTyp" id="hospital_mmbrTyp">
+                <option value="1" <?php
+                   if ($hospitalData[0]->hospital_mmbrTyp == 1) {
+                       echo "selected";
+                   }
+                   ?>>Life Time</option>
+                <option value="2" <?php
+                   if ($hospitalData[0]->hospital_mmbrTyp == 2) {
+                       echo "selected";
+                   }
+                   ?>>Health Club</option>
+                </select>
             </div>
-            </article>
+            </article>-->
+            
             <article class="clearfix m-b-10">
             <label for="cemail" class="control-label col-md-4 col-sm-4">Change Password:</label>
             <aside class="col-md-8 col-sm-8">

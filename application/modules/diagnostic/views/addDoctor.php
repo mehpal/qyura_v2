@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <div class="map_canvas"></div>
-                    <form class="cmxform form-horizontal tasi-form avatar-form-doctor" id="submitForm" method="post" action="<?php echo site_url('diagnostic/saveDoctor'); ?>" name="doctorForm" enctype="multipart/form-data">
+                    <form class="cmxform form-horizontal tasi-form avatar-form-doctor" id="submitFormDoc" method="post" action="<?php echo site_url('diagnostic/saveDoctor'); ?>" name="doctorForm" enctype="multipart/form-data">
                         <input type="hidden" name="ProfessionalExpCount" id="ProfessionalExpCount" value="1" />
                         <!-- Left Section Start -->
                         <section class="col-md-6 detailbox">

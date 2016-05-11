@@ -176,7 +176,7 @@ if ($current != 'detailDoctor'): ?>
                 required : "Please enter general name!"
             },
             avatar_file: {
-                required : "Please upload an image!"
+                required : "Please upload!"
             }
            
         }
@@ -509,12 +509,12 @@ if ($current != 'detailDoctor'): ?>
 <script>
 
     function showDegree(id){
-        $("#edit"+id).show();
+        $("#editDeg"+id).show();
         $("#degree"+id).hide();
     }
 
    function hideDegree(id){
-        $("#edit"+id).hide();
+        $("#editDeg"+id).hide();
         $("#degree"+id).show();
     }
     function showHospitalType(id){
@@ -589,6 +589,7 @@ function showDiagnosticType(id){
         $("#editDes"+id).hide();
         $("#designation"+id).show();
     }
+
      $(".membership-btn2").click(function () {
         $(".membership-plan2").toggle();
         $(".newmembership2").toggle();
@@ -1278,17 +1279,7 @@ function showDiagnosticType(id){
     $(document).ready(function (){
     var urls = "<?php echo base_url() ?>";
     $("#submitForm").validate({
-        ignore: "",
-      errorPlacement: function(error, element) {
-        if (element.attr("name") == "avatar_file")
-        {
-            error.insertAfter('.error-label');
-        }
-        else{
-            error.insertAfter(element);
-        }
-        },
-
+        
         rules: {
             specialityName: {
                 required: true

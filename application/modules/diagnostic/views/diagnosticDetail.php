@@ -654,7 +654,10 @@
                            <input  type="hidden" name="isManual" value="1" id="isManual">
                            <article class="clearfix ">
                            <div class="col-md-12 m-t-20 m-b-20">
-                           <button type="submit" class="btn btn-success waves-effect waves-light pull-right" onclick="return validationDiagnosticEdit()">Update</button>
+
+
+                           <button type="submit" class="btn btn-success waves-effect waves-light pull-right" onclick="return changeStatusUpdate()">Update</button>
+
                            </div>
                            </article>
                         </form>
@@ -1283,7 +1286,8 @@
             endif; ?>
          </p>
          </article>
-         <article class="clearfix m-b-10">
+             
+<!--         <article class="clearfix m-b-10">
          <label for="cemail" class="control-label col-md-4 col-sm-5">Membership Type:</label>
          <p class="col-md-6 col-sm-5"><?php
             if (!empty($diagnosticData)) {
@@ -1293,7 +1297,7 @@
                     echo "Health Club";
                 }
             };
-            ?></p>
+            ?></p>-->
          <!--                                                     <aside class="col-sm-2"> -->
          <!--                                                         <button class="btn btn-appointment waves-effect waves-light pull-right" type="button">Upgrade</button> -->
          <!--                                                     </aside> -->
@@ -1329,7 +1333,8 @@
          <label class="error" id="error-users_mobile" style="display:none;"> Enter Mobile Number</label>                                         
          </div>
          </article>
-         <article class="clearfix m-b-10">
+         
+<!--         <article class="clearfix m-b-10">
          <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type:</label>
          <div class="col-md-8 col-sm-8">
          <select class="selectpicker" data-width="100%" name="diagnostic_mbrTyp">
@@ -1349,7 +1354,8 @@
             ?>>Health Club</option>
          </select>
          </div>
-         </article>
+         </article>-->
+         
          <article class="clearfix m-b-10">
          <label for="cemail" class="control-label col-md-4 col-sm-4">Change Password:</label>
          <aside class="col-md-8 col-sm-8">

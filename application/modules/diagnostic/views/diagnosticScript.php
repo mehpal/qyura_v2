@@ -1214,7 +1214,123 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
          if(isAddressDisabled == 1){
              $("#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId").prop("disabled", false);
          }
+         
+        var status = 1;
+         
+         if ($('#bloodbank').is(":checked")) {
+            if ($('#bloodBank_name').val() === '') {
+                $('#bloodBank_name').addClass('bdr-error');
+                $('#error-bloodBank_name').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){
+                $("#bloodBank_name").removeClass('bdr-error');
+                }, 3000);
+                status = 0;
+            }
+            
+            if ($('#bloodBank_phn1').val() === '') {
+                $('#bloodBank_phone').addClass('bdr-error');
+                $('#error-bloodBank_phone').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){
+                $("#bloodBank_phone").removeClass('bdr-error');
+                }, 3000);
+                status = 0;
+            }
+            
+            if ($('#avatar_data_bloodbank').val() === '') {
+                $('#error-avatar_data_bloodbank').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){
+                $("#error-avatar_data_bloodbank").removeClass('bdr-error');
+                }, 3000);
+                status = 0;
+            }
+        }
+        
+         if ($('#ambulance').is(":checked")) {
+            if ($('#ambulance_name').val() === '') {
+                $('#ambulance_name').addClass('bdr-error');
+                $('#error-ambulance_name').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){
+                $("#ambulance_name").removeClass('bdr-error');
+                }, 3000);
+                status = 0;
+            }
+            if ($('#ambulance_phn1').val() === '') {
+                $('#ambulance_phn1').addClass('bdr-error');
+                $('#error-ambulance_phn1').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){
+                $("#ambulance_phn1").removeClass('bdr-error');
+                }, 3000);
+                status = 0;
+            }
+            
+            if ($('#avatar_data_ambulance').val() === '') {
+                $('#error-avatar_data_ambulance').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){
+                $("#error-avatar_data_ambulance").removeClass('bdr-error');
+                }, 3000);
+                status = 0;
+            }
+        }
+        
+        if (status == 0) {
+            return false;
+        }else{
+            return true;
+        }
     }
+    
+    
+    function changeStatusUpdate() {
+
+         var status = 1;
+         
+         if ($('#bloodbankbtn').is(":checked")) {
+            if ($('#bloodBank_name').val() === '') {
+                $('#bloodBank_name').addClass('bdr-error');
+                $('#error-bloodBank_name').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){
+                $("#bloodBank_name").removeClass('bdr-error');
+                }, 3000);
+                status = 0;
+            }
+            
+            if ($('#bloodBank_phn').val() === '') {
+                $('#bloodBank_phone').addClass('bdr-error');
+                $('#error-bloodBank_phone').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){
+                $("#bloodBank_phone").removeClass('bdr-error');
+                }, 3000);
+                status = 0;
+            }
+          
+        }
+        
+         if ($('#ambulancebtn').is(":checked")) {
+            if ($('#ambulance_name').val() === '') {
+                $('#ambulance_name').addClass('bdr-error');
+                $('#error-ambulance_name').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){
+                $("#ambulance_name").removeClass('bdr-error');
+                }, 3000);
+                status = 0;
+            }
+            if ($('#ambulance_phn').val() === '') {
+                $('#ambulance_phn').addClass('bdr-error');
+                $('#error-ambulance_phn1').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){
+                $("#error-ambulance_phn1").removeClass('bdr-error');
+                }, 3000);
+                status = 0;
+            }
+        }
+        
+        if (status == 0) {
+            return false;
+        }else{
+            return true;
+        }
+    }
+    
    function validationDiagnostic(){      
         var check= /^[a-zA-Z\s]+$/;
         var numcheck=/^[0-9]+$/;

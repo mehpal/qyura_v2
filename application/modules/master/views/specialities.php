@@ -76,7 +76,7 @@
                         </figure>
                         <!-- Add Specialities -->
                         <div class="col-sm-12">
-                            <form  class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" name="addSpecialityForm" method="post" action="#" novalidate="novalidate" enctype="multipart/form-data" onsubmit="return imageValidate()">
+                            <form  class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" name="addSpecialityForm" method="post" action="#" novalidate="novalidate" enctype="multipart/form-data">
 				<input type="hidden" name="specialityType" value="0" />
                                 <article class="clearfix m-t-10">
                                     <label for="" class="control-label">Scientific Name :</label>
