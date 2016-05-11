@@ -11,7 +11,7 @@
                         <input type="hidden" class="avatar-src" name="avatar_src_doctor">
                         <input type="hidden" class="avatar-data" name="avatar_data_doctor">
                         <label for="avatarInput">File upload</label>
-                        <input type="file" class="avatar-input" id="avatarInput" name="doctor_photo">
+                        <input type="file" class="avatar-input" id="avatarInputDoc" name="doctor_photo">
                     </div>
                 
                     <!-- Crop and preview -->

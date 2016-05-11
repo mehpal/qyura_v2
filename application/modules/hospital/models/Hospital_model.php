@@ -178,6 +178,7 @@ class Hospital_model extends My_model {
             $this->db->where(array('Hos.hospital_id' => $conditionId));
         }
         $this->db->where(array('Hos.hospital_deleted' => 0));
+        $this->datatables->where_in('Hos.status', array(0,1));
         //$this->db->where(array('Roles.usersRoles_parentId'=> 0)); // changed
         $this->db->order_by("Hos.creationTime", "desc");
         $data = $this->db->get();

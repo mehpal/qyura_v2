@@ -963,11 +963,12 @@ GLOBAL
                                  </fieldset>  
                                  <article class="clearfix m-b-10">
                                  <div class="col-md-12">
-                                 <button type="submit" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" >Update</button>
+                                 <button type="submit" onclick="return changeStatusUpdate()" class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" >Update</button>
                                  </div>
                                  </article>
                               </aside>
                            </form>
+                           
                            <div class="gap"></div>
                            <article class="clearfix company-logo">
                            <aside class="clearfix">

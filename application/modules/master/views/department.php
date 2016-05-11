@@ -44,7 +44,7 @@
                            <li class="newmembership" style="display:none" id="editDept<?php echo $countDepartment;?>">
                                 <input type="hidden" id="department_id_<?php echo $countDepartment; ?>" name="department_id_<?php echo $countDepartment; ?>" value="<?php echo $list->department_id; ?>" >
                                 <span class="col-md-10">
-                                <input type="text" required="" name="department_name_<?php echo $countDepartment; ?>" id="department_name_<?php echo $countDepartment; ?>" class="form-control" value="<?php echo $list->department_name; ?>">
+                                <input type="text" required="" name="department_name_<?php echo $countDepartment; ?>" id="department_name_<?php echo $countDepartment; ?>" class="form-control" value="<?php echo $list->department_name; ?>" onkeypress="return isAlpha(event,this.value)">
                                    <label class="error" id="err_department_name_<?php echo $countDepartment; ?>" > <?php echo form_error("department_name"); ?></label>
                                 </span>
                                 <span class="col-md-2">
