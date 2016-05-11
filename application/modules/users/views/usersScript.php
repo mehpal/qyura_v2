@@ -50,13 +50,21 @@
     <?php } ?>
 </script>
 <script>
-
-    var urls = "<?php echo base_url() ?>";
+      
+       var urls = "<?php echo base_url() ?>";
+    
+    
+    jQuery.validator.addMethod("lettersonlyqyura", function(value, element) {
+      return this.optional(element) || /^[a-zA-Z ]*$/.test(value);
+    }, "Please enter letters only"); 
+    
     $(document).ready(function () {
         $("#submitForm").validate({
             rules: {
                 patientDetails_patientName: {
-                    required: true
+                    required: true,
+                    lettersonlyqyura: true
+                     
                 },
                 avatarInput: {
                     required: true
@@ -125,7 +133,9 @@
                     required: true
                 },
                 usersfamily_name: {
-                    required: true
+                    required: true,
+                    lettersonlyqyura: true
+                     
                 },
                 usersfamily_gender: {
                     required: true
@@ -141,7 +151,7 @@
             },
             messages: {
                 patientDetails_patientName: {
-                    required: "Please enter name",
+                    required: "Please enter names",
                 },
                 avatarInput: {
                     required: "Please select Image"
@@ -180,6 +190,153 @@
                 cnfPassword: {
                     required: "Please enter Repeat Password.",
                 },
+                userInsurance_insuranceId: {
+                    required: "Please select insurance company."
+                },
+                userInsurance_insuranceNo: {
+                    required: "Please enter insurance card number."
+                },
+                userInsurance_expDate: {
+                    required: "Please enter expiry date."
+
+                },
+                usersfamily_name: {
+                    required: "Please enter name."
+
+                },
+                usersfamily_gender: {
+                    required: "Please select gender."
+
+                },
+                usersfamily_age: {
+                    required: "Please enter age."
+
+                },
+                usersfamily_relationId: {
+                    required: "Please select relation."
+
+                }
+            }
+        });
+    });
+    
+        $(document).ready(function () {
+        $("#editsubmitForm").validate({
+            rules: {
+                patientDetails_patientName: {
+                    required: true,
+                    lettersonlyqyura: true
+                     
+                },
+                avatarInput: {
+                    required: true
+                },
+                patientDetails_gender: {
+                    required: true
+                },
+                patientDetails_dob: {
+                    required: true
+                },
+                users_email: {
+                    required: true,
+                    email: true,
+                    remote: {
+                        url: urls + 'index.php/users/checkUserExistence',
+                        type: "post",
+                        data: {
+                            email: function () {
+                                return $("#users_email").val();
+                            },
+                            id: function () {
+                                return $("#users_id").val();
+                            }
+                        },
+                    }
+                },
+                patientDetails_mobileNo: {
+                    required: true,
+                    number: true,
+                    minlength: 10,
+                    maxlength: 10
+                },
+                patientDetails_stateId: {
+                    required: true
+                },
+                patientDetails_cityId: {
+                    required: true
+                },
+                patientDetails_pin: {
+                    required: true,
+                    number: true,
+                    minlength: 6,
+                    maxlength: 6
+                },
+                patientDetails_address: {
+                    required: true
+                },
+               
+                userInsurance_insuranceId: {
+                    required: true
+                },
+                userInsurance_insuranceNo: {
+                    required: true
+                },
+                userInsurance_expDate: {
+                    required: true
+                },
+                usersfamily_name: {
+                    required: true,
+                    lettersonlyqyura: true
+                     
+                },
+                usersfamily_gender: {
+                    required: true
+                },
+                usersfamily_age: {
+                    required: true,
+                    number: true
+                },
+                usersfamily_relationId: {
+                    required: true
+                }
+
+            },
+            messages: {
+                patientDetails_patientName: {
+                    required: "Please enter names",
+                },
+                avatarInput: {
+                    required: "Please select Image"
+                },
+                patientDetails_gender: {
+                    required: "Please select gender."
+                },
+                patientDetails_dob: {
+                    required: "Please enter date of birth."
+                },
+                users_email: {
+                    required: "Please enter email Id",
+                    email: "Please enter valid email Id.",
+                    remote: 'Email already used.'
+                },
+                patientDetails_mobileNo: {
+                    required: "Please enter mobile number.",
+                    number: "Please enter only number format."
+                },
+                patientDetails_stateId: {
+                    required: "Please select state."
+                },
+                patientDetails_cityId: {
+                    required: "Please select city."
+                },
+                patientDetails_pin: {
+                    required: "Please enter pincode.",
+                    number: "Please enter only number.",
+                },
+                patientDetails_address: {
+                    required: "Please enter address.",
+                },
+               
                 userInsurance_insuranceId: {
                     required: "Please select insurance company."
                 },
@@ -252,8 +409,16 @@
         }
         $('.selectpicker').selectpicker();
         $('.pickDate').datepicker({autoclose: true});
+        
+        
     }
+    
+    $('.pickDatePolicy').datepicker({
+        autoclose: true,
+        startDate: new Date()
+    });
 
+ 
     function removeTest(div_no) {
         $("#familyInsuranceClon_" + div_no).slideUp(function () {});
         var typeVal = parseInt(div_no) - parseInt(1);
@@ -263,15 +428,16 @@
     }
 
     function addMoreFamilyMemberEdit() {
-        var total_test = parseInt($("#total_test_edit").val());
-        var newTestValue = total_test;
+        var newTestValue = parseInt($("#total_test_edit").val());
+        var total_family = parseInt($("#total_family").val());
 
         $("#total_test_edit").val(newTestValue);
 
-        var htmlData = '<div id="familyInsuranceClon_' + newTestValue + '"><hr><article class="form-group m-lr-0"><label for="" class="control-label col-md-4 col-sm-4">Name :</label><div class="col-md-8 col-sm-8"><input class="form-control" id="usersfamily_name_' + newTestValue + '" type="text" name="usersfamily_name_' + newTestValue + '"/><label class="error" id="err_usersfamily_name_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Gender & Age:</label><div class="col-md-8 col-sm-8"><aside class="row"><div class="col-md-6 col-sm-6"><select class="selectpicker" data-width="100%" name="usersfamily_gender_' + newTestValue + '" id="usersfamily_gender_' + newTestValue + '"><option value=""> Select Gender</option><option value="1">Male</option><option value="2">Female</option><option value="3">Other</option></select><label class="error" id="err_usersfamily_gender_' + newTestValue + '" ></label></div><div class="col-md-6 col-sm-6 m-t-xs-10"><input class="form-control" id="usersfamily_age_' + newTestValue + '" type="text" name="usersfamily_age_' + newTestValue + '" required="" placeholder=""><label class="error" id="err_usersfamily_age_' + newTestValue + '" ></label></div></aside></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Relationship :</label><div class="col-md-8 col-sm-8"><select class="selectpicker" data-width="100%" name="usersfamily_relationId_' + newTestValue + '" id="usersfamily_relationId_' + newTestValue + '"><option value=""> Select Relation</option><?php foreach ($familyMember as $key => $val) { ?><option value="<?php echo $val->relation_id; ?>"><?php echo $val->relation_type; ?></option><?php } ?></select><label class="error" id="err_usersfamily_relationId_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Have Health Insurance ?</label><div class="col-md-8 col-sm-8"><div class="radio radio-success radio-inline"><input type="radio" name="healthInsurance_' + newTestValue + '" value="1" id="inlineRadio3_' + newTestValue + '" onclick="insuranceShowHide(\'1\',\'insuranceDivfamily_' + newTestValue + '\')"><label for="inlineRadio3_' + newTestValue + '">Yes</label></div><div class="radio radio-success radio-inline"><input type="radio" name="healthInsurance_' + newTestValue + '" value="0" id="inlineRadio4_' + newTestValue + '" checked onclick="insuranceShowHide(\'0\',\'insuranceDivfamily_' + newTestValue + '\')"><label for="inlineRadio4_' + newTestValue + '">No</label></div></div></article><div style="display:none" id="insuranceDivfamily_' + newTestValue + '"><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Health Insu. Provider:</label><div class="col-md-8 col-sm-8"><select class="selectpicker" data-width="100%" name="userInsurance_insuranceId_' + newTestValue + '" id="userInsurance_insuranceId_' + newTestValue + '"><option value=""> Select Insurance</option><?php foreach ($insurance_cmpny as $key => $val) { ?><option value="<?php echo $val->insurance_id; ?>"><?php echo $val->insurance_Name; ?></option><?php } ?></select><label class="error" id="err_userInsurance_insuranceId_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label  class="control-label col-md-4 col-sm-4">Health Card no. :</label><div class="col-md-8 col-sm-8"><input class="form-control" id="userInsurance_insuranceNo_' + newTestValue + '" type="text" name="userInsurance_insuranceNo_' + newTestValue + '" required /><label class="error" id="err_userInsurance_insuranceNo_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Policy Expiry Date :</label><div class="col-md-8 col-sm-8"><div class="input-group"><input class="form-control pickDate" id="userInsurance_expDate_' + newTestValue + '" placeholder="dd/mm/yyyy" type="text" name="userInsurance_expDate_' + newTestValue + '" onkeydown="return false;"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div><label class="error" id="err_userInsurance_expDate_' + newTestValue + '" ></label></div></article></div><article class="form-group m-lr-0"><div class="col-md-3 col-sm-3 col-md-offset-0 col-sm-offset-0"><button id="remove_' + newTestValue + '" class="btn btn-danger btn-block waves-effect waves-light" type="button" href="javascript:void(0);" onclick="removeTestEdit(\'' + newTestValue + '\');" > Remove </button></div></article></div>'
+        var htmlData = '<div id="familyInsuranceClon_' + newTestValue + '"><article class="form-group m-lr-0"><label for="" class="control-label col-md-4 col-sm-4">Name :</label><div class="col-md-8 col-sm-8"><input class="form-control" id="usersfamily_name_' + newTestValue + '" type="text" name="usersfamily_name_' + newTestValue + '"/><label class="error" id="err_usersfamily_name_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Gender & Age:</label><div class="col-md-8 col-sm-8"><aside class="row"><div class="col-md-6 col-sm-6"><select class="selectpicker" data-width="100%" name="usersfamily_gender_' + newTestValue + '" id="usersfamily_gender_' + newTestValue + '"><option value=""> Select Gender</option><option value="1">Male</option><option value="2">Female</option><option value="3">Other</option></select><label class="error" id="err_usersfamily_gender_' + newTestValue + '" ></label></div><div class="col-md-6 col-sm-6 m-t-xs-10"><input class="form-control" id="usersfamily_age_' + newTestValue + '" type="text" name="usersfamily_age_' + newTestValue + '" required="" placeholder=""><label class="error" id="err_usersfamily_age_' + newTestValue + '" ></label></div></aside></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Relationship :</label><div class="col-md-8 col-sm-8"><select class="selectpicker" data-width="100%" name="usersfamily_relationId_' + newTestValue + '" id="usersfamily_relationId_' + newTestValue + '"><option value=""> Select Relation</option><?php foreach ($familyMember as $key => $val) { ?><option value="<?php echo $val->relation_id; ?>"><?php echo $val->relation_type; ?></option><?php } ?></select><label class="error" id="err_usersfamily_relationId_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Have Health Insurance ?</label><div class="col-md-8 col-sm-8"><div class="radio radio-success radio-inline"><input type="radio" name="healthInsurance_' + newTestValue + '" value="1" id="inlineRadio3_' + newTestValue + '" onclick="insuranceShowHide(\'1\',\'insuranceDivfamily_' + newTestValue + '\')"><label for="inlineRadio3_' + newTestValue + '">Yes</label></div><div class="radio radio-success radio-inline"><input type="radio" name="healthInsurance_' + newTestValue + '" value="0" id="inlineRadio4_' + newTestValue + '" checked onclick="insuranceShowHide(\'0\',\'insuranceDivfamily_' + newTestValue + '\')"><label for="inlineRadio4_' + newTestValue + '">No</label></div></div></article><div style="display:none" id="insuranceDivfamily_' + newTestValue + '"><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Health Insu. Provider:</label><div class="col-md-8 col-sm-8"><select class="selectpicker" data-width="100%" name="userInsurance_insuranceId_' + newTestValue + '" id="userInsurance_insuranceId_' + newTestValue + '"><option value=""> Select Insurance</option><?php foreach ($insurance_cmpny as $key => $val) { ?><option value="<?php echo $val->insurance_id; ?>"><?php echo $val->insurance_Name; ?></option><?php } ?></select><label class="error" id="err_userInsurance_insuranceId_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label  class="control-label col-md-4 col-sm-4">Health Card no. :</label><div class="col-md-8 col-sm-8"><input class="form-control" id="userInsurance_insuranceNo_' + newTestValue + '" type="text" name="userInsurance_insuranceNo_' + newTestValue + '" required /><label class="error" id="err_userInsurance_insuranceNo_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Policy Expiry Date :</label><div class="col-md-8 col-sm-8"><div class="input-group"><input class="form-control pickDate" id="userInsurance_expDate_' + newTestValue + '" placeholder="dd/mm/yyyy" type="text" name="userInsurance_expDate_' + newTestValue + '" onkeydown="return false;"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div><label class="error" id="err_userInsurance_expDate_' + newTestValue + '" ></label></div></article></div><article class="form-group m-lr-0"><div class="col-md-3 col-sm-3 col-md-offset-0 col-sm-offset-0"><button id="remove_' + newTestValue + '" class="btn btn-danger btn-block waves-effect waves-light" type="button" href="javascript:void(0);" onclick="removeTestEdit(\'' + newTestValue + '\');" > Remove </button></div></article><hr></div>'
         $("#familyInsuranceSection").append(htmlData);
-        if(total_test !== 1){
-            $("#remove_"+total_test).hide();
+        var remove_no = newTestValue - parseInt(1);
+        if(total_family != remove_no){
+            $("#remove_"+remove_no).hide();
         }
         $('.selectpicker').selectpicker();
         $('.pickDate').datepicker({autoclose: true});
