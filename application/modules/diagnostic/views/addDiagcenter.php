@@ -601,7 +601,7 @@
                     </section>
                     <section class="clearfix ">
                         <div class="col-md-12 m-t-20 m-b-20">
-                            <button type="reset" class="btn btn-danger waves-effect pull-right" type="button">Reset</button>
+                            <button type="reset" class="btn btn-danger waves-effect pull-right" type="reset" onclick="fadeInOption();">Reset</button>
                             <input onclick="return changeStatus()" class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" value="Submit" />
                         </div>
 
