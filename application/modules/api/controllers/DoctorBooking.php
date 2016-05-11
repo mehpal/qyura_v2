@@ -7,22 +7,22 @@ class DoctorBooking extends MyRest {
         // Construct our parent class
         parent::__construct();
         $this->load->model(array('doctorBooking_model'));
-//        $this->load->model(array('doctors_model'));/
     }
     
     function doctorAppointment_post() {
 
-        $this->bf_form_validation->set_rules('specialitiesId','Specialities Id','xss_clean|numeric|required|trim');
-        $this->bf_form_validation->set_rules('doctorType','Doctor Type','xss_clean|numeric|required|trim');//1 Hos /2 Dig /3 ind
-        $this->bf_form_validation->set_rules('session','Session','xss_clean|numeric|required|trim');
-        $this->bf_form_validation->set_rules('memberId','Member Id','xss_clean|numeric|required|trim'); // 0 =Self as patient
-        $this->bf_form_validation->set_rules('doctorUserId','Doctor Id','xss_clean|numeric|required|trim');
-        $this->bf_form_validation->set_rules('parentId','Mi Id','xss_clean|numeric|required|trim'); // 0=indi Doctor
-        $this->bf_form_validation->set_rules('remark','Remark','xss_clean|required|trim|max_length[100]');
-        $this->bf_form_validation->set_rules('userId', 'User Id', 'xss_clean|numeric|required|trim');
+        $this->bf_form_validation->set_rules('specialitiesId','Specialities Id','xss_clean|numeric|required|trim'); 
         $this->bf_form_validation->set_rules('preferedDate', 'Prefered Date', 'xss_clean|required|trim|max_length[11]|valid_date[y-m-d,-]|callback__check_date');
-        $this->bf_form_validation->set_rules('preferedTimeId', 'Prefered time', 'xss_clean|required|trim|numeric');
-
+        $this->bf_form_validation->set_rules('preferedTimeId', 'Prefered time', 'xss_clean|required|trim|numeric');//docTimeDayId
+        $this->bf_form_validation->set_rules('userId', 'User Id', 'xss_clean|numeric|required|trim'); // Loged In user Id
+        $this->bf_form_validation->set_rules('memberId','Member Id','xss_clean|numeric|required|trim'); // 0 =Self as patient
+        $this->bf_form_validation->set_rules('doctorType','Doctor Type','xss_clean|numeric|required|trim');//1 Hos /2 Dig /3 ind
+        $this->bf_form_validation->set_rules('doctorId','Doctor Id','xss_clean|numeric|required|trim'); // Doctor Profile Id
+        $this->bf_form_validation->set_rules('parentId','Mi Id','xss_clean|numeric|required|trim'); // 0=indi Doctor
+        $this->bf_form_validation->set_rules('consulationFee','consulationFee','xss_clean|required|trim|numeric');
+        $this->bf_form_validation->set_rules('tax','tax','xss_clean|trim|numeric');
+        $this->bf_form_validation->set_rules('remark','Remark','xss_clean|required|trim|max_length[100]'); // Remark
+       
         if ($this->bf_form_validation->run($this) == FALSE) {
             // setup the input
             $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
@@ -31,41 +31,50 @@ class DoctorBooking extends MyRest {
         } else {
 
             $specialitiesId = isset($_POST['specialitiesId'])   ? $this->input->post('specialitiesId')  : '';
-            $doctorUserId   = isset($_POST['doctorUserId'])     ? $this->input->post('doctorUserId')    : '';
-            $doctorType     = isset($_POST['doctorType'])       ? $this->input->post('doctorType')      : '';
-            $parentId       = isset($_POST['parentId'])         ? $this->input->post('parentId')        : 0; 
-            $userId         = isset($_POST['userId'])           ? $this->input->post('userId')          : '';
-            $memberId       = isset($_POST['memberId'])         ? $this->input->post('memberId')        : 0;
-            $session        = isset($_POST['session'])          ? $this->input->post('session')         : '';
             $preferedDate   = isset($_POST['preferedDate'])     ? $this->input->post('preferedDate')    : '';
             $preferedTimeId = isset($_POST['preferedTimeId'])   ? $this->input->post('preferedTimeId')  : '';//SessionId of slots
+            $userId         = isset($_POST['userId'])           ? $this->input->post('userId')          : '';
+            $memberId       = isset($_POST['memberId'])         ? $this->input->post('memberId')        : 0 ;
+            $doctorType     = isset($_POST['doctorType'])       ? $this->input->post('doctorType')      : '';
+            $doctorUserId   = isset($_POST['doctorId'])         ? $this->input->post('doctorId')        : '';
+            $parentId       = isset($_POST['parentId'])         ? $this->input->post('parentId')        : 0 ; 
+            $consulationFee = isset($_POST['consulationFee'])   ? $this->input->post('consulationFee')  : 0 ; 
+            $tax            = isset($_POST['tax'])              ? $this->input->post('tax')             : 0 ;
             $remark         = isset($_POST['remark'])           ? $this->input->post('remark')          : '';
             
+            $tax_amount = ($consulationFee /100) * $tax;
+            $total_amount = ($consulationFee + $tax_amount);
+            
             $correctSlot = 1;
-            $day = (date("w",strtotime($preferedDate))); 
+            $day = getDay(date("l",strtotime($preferedDate))); 
             
             if($correctSlot){
-                $unique_id = 'doc'. $userId . time();
+                $unique_id = 'doc'. $userId . rand(0, 999);
                 $data = array(
                     'doctorAppointment_unqId' => $unique_id,
                     'doctorAppointment_specialitiesId' => $specialitiesId,
-                    'doctorAppointment_date' => strtotime($preferedDate),
-                    'doctorAppointment_session' => $session,
+                    'doctorAppointment_date' => strtotime($preferedDate), 
                     'doctorAppointment_pntUserId' => $userId,
                     'doctorAppointment_memberId' => $memberId,
                     'doctorAppointment_doctorUserId' => $doctorUserId,
                     "doctorAppointment_docType"=>$doctorType,
                     'doctorAppointment_doctorParentId' => $parentId,
                     'doctorAppointment_ptRmk' => $remark,
-                    'doctorAppointment_finalTiming' => $preferedTimeId,
+                    'doctorAppointment_slotId' => $preferedTimeId,
+                    'doctorAppointment_totPayAmount' => $total_amount,
+                    'doctorAppointment_payMode' => 17,
+                    'doctorAppointment_payStatus' => 15,
                     'creationTime' => time(),
-                    'status' => 1
+                    'status' => 11
                 );
                 
                 $response = $this->doctorBooking_model->bookAppointment('qyura_doctorAppointment',$data);
-                        $currentDate = strtotime(date("Y-m-d"));
-                if ($response) {
+                $currentDate = strtotime(date("Y-m-d"));
+                
+                if ($response)  {
+                    
                     $crnMsg     =  $this->lang->line("docappointmentReceived");
+                    
                     $cronArray = array("qyura_fkModuleId" => 3, "qyura_fkUserId" => $userId, "qyura_cronMsg" => $crnMsg, "qyura_cronTitle" => $this->lang->line("docappointmentTag"), "qyura_fkItemId" => $unique_id,"qyura_cronDate"=>$currentDate,"qyura_cronMsgsCreation"=>$currentDate);
 
                     $options = array(
@@ -74,6 +83,7 @@ class DoctorBooking extends MyRest {
                     );
 
                     $cronId = $this->common_model->customInsert($options);
+                    
                     $response = array('status' => TRUE, 'message' => 'Your Doctor Appointment request has been received. You will receive a confirmation email or SMS shortly. You can also call the Medical Institution directly to know its status.');
                     $this->response($response, 200);
                 } else {
@@ -134,6 +144,7 @@ class DoctorBooking extends MyRest {
     }
     
     function doctorAppointmentDetails_post() {
+        
 
         $this->bf_form_validation->set_rules('orderId', 'Appointment Id', 'xss_clean|numeric|required|trim');
         
@@ -199,8 +210,7 @@ class DoctorBooking extends MyRest {
 
                 if ($response ) {
                     
-                    $crnMsg     =  $this->lang->line("appointmentCancelledTag");
-                        //replaceStr($this->lang->line("appointmentCancelledTag"), array("{amenityName}"), array($amenityName));
+                    $crnMsg    =  $this->lang->line("appointmentCancelledTag");
                     $cronArray = array("qyura_fkModuleId" => $moduleId, "qyura_fkUserId" => $userId, "qyura_cronMsg" => $crnMsg, "qyura_cronTitle" => $this->lang->line("appointmentCancelledTag"), "qyura_fkItemId" => $appointmentId,"qyura_cronDate"=>$currentDate,"qyura_cronMsgsCreation"=>$currentDate);
 
                     $options = array(
@@ -228,8 +238,7 @@ class DoctorBooking extends MyRest {
         if ($prfDate >= $currentDate) {
             return true;
         } else {
-//            dump($prfDate >= $currentDate);
-            $this->bf_form_validation->set_message('_check_date', 'date should be equal or greater then today');
+            $this->bf_form_validation->set_message('_check_date', 'Please select post date for booking!!');
             return false;
         }
     }
