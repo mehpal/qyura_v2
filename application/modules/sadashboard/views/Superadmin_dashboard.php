@@ -537,7 +537,7 @@
 
                             <h3 class="hf-14">Pending Quot. Requests (<?php if(isset($quotationList) && !empty($quotationList)):echo count($quotationList);else:echo"0";endif;?>)</h3>
                             <form class="search-form">
-                                <input type="" class="search pull-right" />
+                                <input type="" class="search pull-right" id="search-text"/>
                             </form>
                         </figure>
 
@@ -552,7 +552,7 @@
 
                         <div class="mCustomScrollbar mxh-450" style="overflow: hidden;" tabindex="5000">
                             <aside class="table-responsive">
-                                <table class="table">
+                                <table class="table" id="list">
                                     <tbody>
                                        <?php if(isset($quotationList) && !empty($quotationList)):
                                                 foreach($quotationList as $quot): ?>

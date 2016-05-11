@@ -186,7 +186,6 @@ class Mi_master extends MY_Controller {
                 'hospital_address'   => $hospital_address,
                 'hospital_lat'       => $hospital_lat,
                 'hospital_long'      => $hospital_long,
-                'status'             => 2,
                 'modifyTime'       => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
@@ -381,7 +380,6 @@ class Mi_master extends MY_Controller {
                 'diagnostic_address'   => $diagnostic_address,
                 'diagnostic_lat'       => $diagnostic_lat,
                 'diagnostic_long'      => $diagnostic_long,
-                'status'               => 2,
                 'modifyTime'           => strtotime(date("d-m-Y H:i:s"))
             );
             $options = array
