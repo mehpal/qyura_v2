@@ -24,8 +24,6 @@ if (isset($hospitalId) && !empty($hospitalId)) {
 <script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
 
-
-
 <?php
 //$current = $this->router->fetch_method();
 //if ($current != 'detailHospital'):
@@ -58,7 +56,6 @@ if (isset($hospitalId) && !empty($hospitalId)) {
 <script src="<?php echo base_url(); ?>assets/vendor/timepicker/bootstrap-timepicker.js"></script>
 
 <script src="<?php echo base_url(); ?>assets/js/pages/add-doctor.js" type="text/javascript"></script>
-
 
 
 <?php
@@ -100,6 +97,34 @@ if (isset($mapData) && !empty($mapData)) {
     
     
 
+    if (Modernizr.touch) {
+            // show the close overlay button
+            $(".close-overlay").removeClass("hidden");
+            // handle the adding of hover class when clicked
+            $(".img").click(function(e){
+                if (!$(this).hasClass("hover")) {
+                    $(this).addClass("hover");
+                }
+            });
+            // handle the closing of the overlay
+            $(".close-overlay").click(function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                if ($(this).closest(".img").hasClass("hover")) {
+                    $(this).closest(".img").removeClass("hover");
+                }
+            });
+        } else {
+            // handle the mouseenter functionality
+            $(".img").mouseenter(function(){
+                $(this).addClass("hover");
+            })
+            // handle the mouseleave functionality
+            .mouseleave(function(){
+                $(this).removeClass("hover");
+            });
+        };
+        
     function checkValidFileUploads(urls) {
 
         var avatar_file = $(".avatar-data").val();
@@ -2072,14 +2097,18 @@ if (isset($mapData) && !empty($mapData)) {
             $('#doctorForm').css("display", 'none');
             $('#doctorList').css("display", 'block');
             $('#editDoctorForm').css("display", 'none');
+            $('#search').css("display", 'block');
             $(".addDoctorButton").html('Add New Doctor');
+            $('#editDoctorTimeSlot').hide();
         } else {
             $('#doctorForm').addClass('myForm');
             $('#doctorForm').css("display", 'block');
             $('#doctorList').css("display", 'none');
+             $('#search').css("display", 'none');
             $('#editDoctorForm').css("display", 'none');
             // $('#doctorList').css("display",'none');
             $(".addDoctorButton").html('Cancel Add Doctor');
+            $('#editDoctorTimeSlot').hide();
         }
 
     }
@@ -2093,12 +2122,14 @@ if (isset($mapData) && !empty($mapData)) {
             $('#editDoctorForm').removeClass('myForm1');
             $('#editDoctorForm').css("display", 'none');
             $('#doctorList').css("display", 'block');
+            $('#search').css("display", 'block');
             $(".addDoctorButton").css("display", 'block');
         } else {
 
             $('#editDoctorForm').addClass('myForm1');
             $('#editDoctorForm').css("display", 'block');
             $('#doctorList').css("display", 'none');
+            $('#search').css("display", 'none');
             // $('#doctorList').css("display",'none');
             $(".addDoctorButton").css("display", 'none');
             getDcotorDeatil(doctorId);
@@ -2678,7 +2709,7 @@ $('.select2').select2().change(function(){
 });
 
 $(document).ready(function () {
-    $("#bloodbankbtn , #bloodbank").click(function () {
+    $("#bloodbankbtn, #bloodbank").click(function () {
      if($(this).is(':checked')){
          bootbox.confirm({
                     message: 'Do you outsource the blood?',

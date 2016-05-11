@@ -20,9 +20,9 @@ class DiagonsticCenterApi extends MyRest {
         $this->form_validation->set_rules('long', 'Long', 'xss_clean|trim|required|decimal');
        // $this->form_validation->set_rules('isemergency', 'Is Emergency', 'xss_clean|trim|numeric|required');
 //        $this->form_validation->set_rules('radius', 'Radius', 'xss_clean|trim|numeric|required');
-        $this->form_validation->set_rules('rating', 'Rating', 'xss_clean|trim|numeric|required');
-        $this->form_validation->set_rules('isHealtPkg', 'Is Health Package', 'xss_clean|trim|numeric|required');
-        $this->form_validation->set_rules('isConsulting', 'Is Consultaion', 'xss_clean|trim|numeric|required');
+        $this->form_validation->set_rules('rating', 'Rating', 'xss_clean|trim|numeric');
+        $this->form_validation->set_rules('isHealtPkg', 'Is Health Package', 'xss_clean|trim|numeric');
+        $this->form_validation->set_rules('isConsulting', 'Is Consultaion', 'xss_clean|trim|numeric');
         $this->form_validation->set_rules('notin', 'Not in', 'xss_clean|trim|required');
         $this->bf_form_validation->set_rules('userId', 'User Id', 'xss_clean|trim');
         $this->bf_form_validation->set_rules('search', 'Search Keyword', 'xss_clean|trim');
