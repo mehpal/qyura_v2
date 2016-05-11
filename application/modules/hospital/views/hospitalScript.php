@@ -2866,7 +2866,7 @@ $(document).ready(function () {
                     buttons: {
                         'cancel': {
                             label: 'No',
-                            className: 'btn-default pull-left'
+                            className: 'btn-default pull-right'
                         },
                         'confirm': {
                             label: 'Yes',
