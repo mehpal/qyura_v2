@@ -512,6 +512,7 @@
                                         <label class="error" > <?php echo form_error("diagnostic_mbrTyp"); ?></label>
                                     </div>
                                 </article>
+                                
                                 <article class="clearfix m-t-10">
                                     <?php $checkBocCount = 1; 
                                     if(isset($facilities_list) && $facilities_list != NULL){ ?>

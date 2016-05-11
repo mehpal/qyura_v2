@@ -22,6 +22,7 @@ class Hospital_model extends My_model {
         $this->db->select('city_id,city_name');
         $this->db->from('qyura_city');
         $this->db->join('qyura_hospital', 'qyura_hospital.hospital_cityId=qyura_city.city_id', 'right');
+        $this->datatables->where_in('qyura_hospital.status', array(0,1));
         $this->db->order_by("city_name", "asc");
         $this->db->group_by("city_id");
         return $this->db->get()->result();

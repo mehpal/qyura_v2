@@ -2072,11 +2072,13 @@ if (isset($mapData) && !empty($mapData)) {
             $('#doctorForm').css("display", 'none');
             $('#doctorList').css("display", 'block');
             $('#editDoctorForm').css("display", 'none');
+            $('#search').css("display", 'block');
             $(".addDoctorButton").html('Add New Doctor');
         } else {
             $('#doctorForm').addClass('myForm');
             $('#doctorForm').css("display", 'block');
             $('#doctorList').css("display", 'none');
+             $('#search').css("display", 'none');
             $('#editDoctorForm').css("display", 'none');
             // $('#doctorList').css("display",'none');
             $(".addDoctorButton").html('Cancel Add Doctor');
@@ -2093,12 +2095,14 @@ if (isset($mapData) && !empty($mapData)) {
             $('#editDoctorForm').removeClass('myForm1');
             $('#editDoctorForm').css("display", 'none');
             $('#doctorList').css("display", 'block');
+            $('#search').css("display", 'block');
             $(".addDoctorButton").css("display", 'block');
         } else {
 
             $('#editDoctorForm').addClass('myForm1');
             $('#editDoctorForm').css("display", 'block');
             $('#doctorList').css("display", 'none');
+            $('#search').css("display", 'none');
             // $('#doctorList').css("display",'none');
             $(".addDoctorButton").css("display", 'none');
             getDcotorDeatil(doctorId);
@@ -2678,7 +2682,7 @@ $('.select2').select2().change(function(){
 });
 
 $(document).ready(function () {
-    $("#bloodbankbtn , #bloodbank").click(function () {
+    $("#bloodbankbtn, #bloodbank").click(function () {
      if($(this).is(':checked')){
          bootbox.confirm({
                     message: 'Do you outsource the blood?',
