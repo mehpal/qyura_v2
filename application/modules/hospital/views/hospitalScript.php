@@ -2098,6 +2098,7 @@ if (isset($mapData) && !empty($mapData)) {
             $('#doctorList').css("display", 'block');
             $('#editDoctorForm').css("display", 'none');
             $(".addDoctorButton").html('Add New Doctor');
+            $('#editDoctorTimeSlot').hide();
         } else {
             $('#doctorForm').addClass('myForm');
             $('#doctorForm').css("display", 'block');
@@ -2105,6 +2106,7 @@ if (isset($mapData) && !empty($mapData)) {
             $('#editDoctorForm').css("display", 'none');
             // $('#doctorList').css("display",'none');
             $(".addDoctorButton").html('Cancel Add Doctor');
+            $('#editDoctorTimeSlot').hide();
         }
 
     }
