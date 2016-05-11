@@ -167,6 +167,9 @@
                 window.alert('Please choose an image file.');
             }
           }
+          else{
+              bootbox.alert('Please choose an image file.');
+          }
         }
       } else {
         file = this.$avatarInput.val();
