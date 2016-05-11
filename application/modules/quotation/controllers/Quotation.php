@@ -311,7 +311,7 @@ class Quotation extends MY_Controller {
         $catOptions = array('table' => 'qyura_diagnosticsCat', 'order' => array('diagnosticsCat_catName' => 'asc'), 'select' => 'diagnosticsCat_catName as catName,diagnosticsCat_catId as catId', 'where' => array('diagnosticsCat_deleted' => 0));
         $data['catOptions'] = $this->common_model->customGet($catOptions);
 
-        $spOptions = array('table' => 'qyura_specialities', 'order' => array('specialities_name' => 'asc'), 'select' => 'specialities_name as speName,specialities_specialitiesCatId as speCatId', 'where' => array('specialities_deleted' => 0));
+        $spOptions = array('table' => 'qyura_specialities', 'order' => array('specialities_name' => 'asc'), 'select' => 'specialities_name as speName,specialities_specialitiesCatId as speCatId', 'where' => array('specialities_deleted' => 0,'status' => 1));
         $data['spOptions'] = $this->common_model->customGet($spOptions);
 
         $data['allStates'] = $this->Quotation_model->fetchStates();
@@ -443,7 +443,7 @@ class Quotation extends MY_Controller {
         if ($type == 0) {
             $options = array(
                 'table' => 'qyura_hospitalSpecialities',
-                'where' => array('qyura_hospitalSpecialities.hospitalSpecialities_deleted' => 0, 'qyura_hospitalSpecialities.hospitalSpecialities_hospitalId' => $h_d_id),
+                'where' => array('qyura_hospitalSpecialities.hospitalSpecialities_deleted' => 0, 'qyura_hospitalSpecialities.hospitalSpecialities_hospitalId' => $h_d_id,'qyura_specialities.status' => 1),
                 'join' => array(
                     array('qyura_specialities', 'qyura_specialities.specialities_id = qyura_hospitalSpecialities.hospitalSpecialities_specialitiesId', 'left'),
                 ),
@@ -463,7 +463,7 @@ class Quotation extends MY_Controller {
         } else {
             $options = array(
                 'table' => 'qyura_diagnosticSpecialities',
-                'where' => array('qyura_diagnosticSpecialities.diagnosticSpecialities_deleted' => 0, 'qyura_diagnosticSpecialities.diagnosticSpecialities_diagnosticId' => $h_d_id),
+                'where' => array('qyura_diagnosticSpecialities.diagnosticSpecialities_deleted' => 0, 'qyura_diagnosticSpecialities.diagnosticSpecialities_diagnosticId' => $h_d_id,'qyura_specialities.status' => 1),
                 'join' => array(
                     array('qyura_specialities', 'qyura_specialities.specialities_id = qyura_diagnosticSpecialities.diagnosticSpecialities_specialitiesId', 'left'),
                 ),
@@ -851,7 +851,7 @@ class Quotation extends MY_Controller {
         $catOptions = array('table' => 'qyura_diagnosticsCat', 'order' => array('diagnosticsCat_catName' => 'asc'), 'select' => 'diagnosticsCat_catName as catName,diagnosticsCat_catId as catId', 'where' => array('diagnosticsCat_deleted' => 0));
         $data['catOptions'] = $this->common_model->customGet($catOptions);
 
-        $spOptions = array('table' => 'qyura_specialities', 'order' => array('specialities_name' => 'asc'), 'select' => 'specialities_name as speName,specialities_specialitiesCatId as speCatId', 'where' => array('specialities_deleted' => 0));
+        $spOptions = array('table' => 'qyura_specialities', 'order' => array('specialities_name' => 'asc'), 'select' => 'specialities_name as speName,specialities_specialitiesCatId as speCatId', 'where' => array('specialities_deleted' => 0,'status' => 1));
         $data['spOptions'] = $this->common_model->customGet($spOptions);
 
         $data['allStates'] = $this->Quotation_model->fetchStates();
