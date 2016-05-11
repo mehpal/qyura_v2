@@ -36,7 +36,8 @@
         var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 
         $('#preferedDate').datepicker({
-            startDate: '+0d'
+            autoclose: true,
+            startDate: '+0d',
         });
         
         if (Modernizr.touch) {
@@ -163,21 +164,6 @@
     var urls = "<?php echo base_url() ?>";
     var j = 1;
 
-    function fetchCity(stateId) {
-
-        $.ajax({
-            url: urls + 'index.php/pharmacy/fetchCity',
-            type: 'POST',
-            data: {'stateId': stateId},
-            success: function (datas) {
-                // console.log(datas);
-                $('#pharmacy_cityId').html(datas);
-                $('#pharmacy_cityId').selectpicker('refresh');
-                $('#StateId').val(stateId);
-            }
-        });
-
-    }
 
     function fetchHos(type, cityId) {
 
@@ -203,10 +189,10 @@
         allowClear: true,
         placeholder: "Select Ref. Doctor"
     });
-    $("#cityId").select2({
-        allowClear: true,
-        placeholder: "Select City Name"
-    });
+//    $("#cityId").select2({
+//        allowClear: true,
+//        placeholder: "Select City Name"
+//    });
     $("#miType").select2({
         allowClear: true,
         placeholder: "Select MI Name"
@@ -218,7 +204,7 @@
             "processing": true,
             "serverSide": true,
             "columnDefs": [{
-                    "targets": 7,
+                    "targets": 5,
                     "searchable": false,
                     "orderable": false
                 }],
@@ -231,8 +217,8 @@
                 {"data": "miName"},
                 {"data": "uniqueId"},
                 {"data": "pName"},
-                {"data": "dt"},
-                {"data": "docName"},
+   
+                
                 {"data": "contact"},
                 {"data": "qStatus"},
                 {"data": "action", "searchable": false, "order": false},
@@ -492,7 +478,7 @@
                 type: 'POST',
                 data: {'city_id': city_id, 'appointment_type': appointment_type},
                 beforeSend: function (xhr) {
-                    $("#mi_centre").addClass('loadinggif');
+                    
                 },
                 success: function (data) {
                     console.log(data);
@@ -504,7 +490,7 @@
                     $('#input5').selectpicker('refresh');
                     $('#speciallity').prop('selectedIndex', '');
                     $('#speciallity').selectpicker('refresh');
-                    $("#mi_centre").removeClass('loadinggif');
+                    
                     $('#doctorSection').hide();
                     $('#diagnosticSection').hide();
                 }
@@ -574,7 +560,7 @@
 
         $("#total_test").val(newTestValue);
 
-        var htmlData = '<div id="diagnosticClon_' + newTestValue + '"><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4 cl-black">Test-' + newTestValue + ' :</label></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Diagnostic Type :</label><div class="col-md-8 col-sm-8"><select class="selectpicker" data-width="100%" name="input28_' + newTestValue + '" id="input28_' + newTestValue + '" required="" ><option value="">Select Diagnostic</option></option></select><div class="has-error " id="err_input28_' + newTestValue + '" ></div></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Test Name :</label><div class="col-md-8 col-sm-8"><input type="text" required="" class="form-control" name="input29_' + newTestValue + '" id="input29_' + newTestValue + '" ><div class="has-error " id="err_input29_' + newTestValue + '" ></div></div></article><article class="form-group m-lr-0"><label for="" class="control-label col-md-4 col-sm-4">Price :</label><div class="col-md-8 col-sm-8"><input class="form-control testPrice" required="" type="text" id="input30_' + newTestValue + '" name="input30_' + newTestValue + '" placeholder="770" onkeypress="return isNumberKey(event)"><div class="has-error " id="err_input30_' + newTestValue + '" ></div></div></article><article class="form-group m-lr-0"><label for="" class="control-label col-md-4 col-sm-4">Instruction :</label><div class="col-md-8 col-sm-8"><textarea class="form-control" id="input31_' + newTestValue + '" name="input31_' + newTestValue + '" placeholder="" required="" ></textarea><div class="has-error " id="err_input31_' + newTestValue + '" ></div></div></article><article class="form-group m-lr-0"><div class="col-md-12 text-right"><button id="remove_' + newTestValue + '" class="btn btn-danger  waves-effect waves-light" type="button" href="javascript:void(0);" onclick="removeTest(\'' + newTestValue + '\');" > Remove </button></div></article></div>';
+        var htmlData = '<div id="diagnosticClon_' + newTestValue + '"><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4 cl-black">Test-' + newTestValue + ' :</label></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Diagnostic Type :</label><div class="col-md-8 col-sm-8"><select class="selectpicker" data-width="100%" name="input28_' + newTestValue + '" id="input28_' + newTestValue + '" required="" ><option value="">Select Diagnostic</option></option></select><div class="has-error " id="err_input28_' + newTestValue + '" ></div></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Test Name :</label><div class="col-md-8 col-sm-8"><input type="text" required="" class="form-control" name="input29_' + newTestValue + '" id="input29_' + newTestValue + '" ><div class="has-error " id="err_input29_' + newTestValue + '" ></div></div></article><article class="form-group m-lr-0"><label for="" class="control-label col-md-4 col-sm-4">Price :</label><div class="col-md-8 col-sm-8"><input class="form-control testPrice" required="" type="text" id="input30_' + newTestValue + '" name="input30_' + newTestValue + '" onblur="totaAmountAddQuo();" onkeypress="return isNumberKey(event)"><div class="has-error " id="err_input30_' + newTestValue + '" ></div></div></article><article class="form-group m-lr-0"><label for="" class="control-label col-md-4 col-sm-4">Instruction :</label><div class="col-md-8 col-sm-8"><textarea class="form-control" id="input31_' + newTestValue + '" name="input31_' + newTestValue + '" placeholder="" required="" ></textarea><div class="has-error " id="err_input31_' + newTestValue + '" ></div></div></article></div><article class="form-group m-lr-0"><div class="col-md-12 text-right"><button id="remove_' + newTestValue + '" class="btn btn-danger  waves-effect waves-light" type="button" href="javascript:void(0);" onclick="removeTest(\'' + newTestValue + '\');" > Remove </button></div></article>';
 
         $("#diagnosticSectionTest").append(htmlData);
         if (total_test !== 1) {
@@ -746,20 +732,29 @@
             success: function (data) {
                 if (data && data != 0) {
                     var data = JSON.parse(data);
-                    console.log(data.mobile);
-                    $("#patient_email").removeClass('loadinggif');
-                    $('#users_mobile').val(data.mobile);
-                    $('#stateId').val(data.stateId);
-                    $('#stateId').selectpicker('refresh');
-                    fetchCity(data.stateId, data.cityId, 'cityId');
-                    $('#cityId').val(data.cityId);
-                    $('#users_username').val(data.patientName);
-                    $('#address').val(data.address);
-                    $('#unqId').val(data.unqId);
-                    $("#p_unqId").show();
-                    $("#familyDiv").show();
-                    $('#zip').val(data.pin);
-                    $('#user_id').val(data.user_id);
+                    if(data.email_status != 1){
+                        console.log(data.mobile);
+                        $("#patient_email").removeClass('loadinggif');
+                        $('#users_mobile').val(data.mobile);
+                        $('#stateId').val(data.stateId);
+                        $('#stateId').selectpicker('refresh');
+                        fetchCity(data.stateId, data.cityId, 'cityId');
+                        $('#cityId').val(data.cityId);
+                        $('#cityId').selectpicker('refresh');
+                        $('#users_username').val(data.patientName);
+                        $('#address').val(data.address);
+                        $('#unqId').val(data.unqId);
+                        $("#p_unqId").show();
+                        $("#familyDiv").show();
+                        $('#zip').val(data.pin);
+                        $('#date-4').val(data.dob);
+                        $('#input27').val(data.gender);
+                        $('#input27').selectpicker('refresh');
+                        $('#user_id').val(data.user_id);
+                    }else{
+                        $('#user_id').val(data.id);
+                        $('#email_status').val(data.email_status);
+                    }
                 } else {
                     $('#users_mobile').val('');
                     $('#cityId').html('');
@@ -771,7 +766,6 @@
                     $('#unqId').val('');
                     $('#zip').val('');
                     $('#user_id').val('');
-
                     $('#input33').html('');
                     $('#input33').selectpicker('refresh');
                     $('#familyDiv').hide();
@@ -836,6 +830,37 @@
         }
     }
 
+    function totaAmountAddQuo(){
+        var price = 0,i,newPrice = parseInt(0),tax_amount = parseInt(0);
+        
+        var oth_fee = parseInt($('#input23').val());
+        var tax = parseInt($('#input24').val());
+        
+        var total_test = $("#total_test").val();
+        for(i=1;i<=total_test;i++){
+            price = parseInt($("#input30_"+i).val());
+            if(price && price != ''){
+                newPrice = price + newPrice;
+            }
+        }
+        $("#input22").val(newPrice);
+        if(oth_fee && oth_fee != ''){
+            newPrice = newPrice+oth_fee;
+        }
+        if(tax && tax != ''){
+            tax_amount = (newPrice / 100) * tax;
+        }
+        
+        var total_amount = newPrice + tax_amount;
+
+        if (total_amount) {
+            $("#paidAmount").html(total_amount);
+            $("#paidamt").val(total_amount);
+        } else {
+            $("#paidAmount").html('00');
+        }
+    }
+
     function calculateamount() {
         //var type = $('#input5').val();
         var amount = 0;
@@ -857,7 +882,18 @@
             $("#paidAmount").html('00');
         }
     }
-
+    
+    function calculateTestPrice()
+    {
+        var price = 0;
+        $('#diagnosticSectionTest').find('.testPrice').each(function () {
+            var testPrice  = parseInt($(this).val());
+            
+            if(typeof testPrice == 'number')
+            price += parseInt($(this).val());
+        });
+        $('#input22').val(price);
+    }
 //     $(document).ready(function () {
 //         
 //        $("#QuotationForm").on('submit',function(){
@@ -1132,18 +1168,6 @@
 
     }
 
-    function calculateTestPrice()
-    {
-        var price = 0;
-        $('#diagnosticSectionTest').find('.testPrice').each(function () {
-            var testPrice  = parseInt($(this).val());
-            
-            if(typeof testPrice == 'number')
-            price += parseInt($(this).val());
-        });
-        $('#input22').val(price);
-    }
-    
     // datatable by anish for quotation history
 
     $(document).ready(function () {
@@ -1242,12 +1266,10 @@
     var nowDate = new Date();
     var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
 
-
     $('.timepicker').timepicker();
 
     var date = new Date();
     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
 
     function checkValidFileUploads(urls) {
 
@@ -1258,7 +1280,6 @@
             data: {'avatar_file': avatar_file},
             success: function (data) {
                 var obj = $.parseJSON(data);
-
                 if (obj.state == 400) {
                     $("#message_upload").html("<div class='alert alert-danger'>" + obj.message + "</div>");
                     $(".close").hide();
@@ -1293,10 +1314,10 @@
             $(".img").mouseenter(function () {
                 $(this).addClass("hover");
             })
-                    // handle the mouseleave functionality
-                    .mouseleave(function () {
-                        $(this).removeClass("hover");
-                    });
+            // handle the mouseleave functionality
+            .mouseleave(function () {
+                $(this).removeClass("hover");
+            });
         }
     });
 </script>   

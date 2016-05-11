@@ -115,7 +115,7 @@ class Docappointment extends MY_Controller {
         $options = array('table' => 'qyura_city', 'order' => array('city_name' => 'asc'));
         $data['qyura_city'] = $this->common_model->customGet($options);
         
-        $spOptions = array('table' => 'qyura_specialities', 'order' => array('specialities_name' => 'asc'),'select'=>'specialities_name as speName,specialities_id as speId','where'=>array('specialities_deleted'=>0,'type' => 1));
+        $spOptions = array('table' => 'qyura_specialities', 'order' => array('specialities_name' => 'asc'),'select'=>'specialities_name as speName,specialities_id as speId','where'=>array('specialities_deleted'=>0,'type' => 1,'status' => 1));
         $data['spOptions'] = $this->common_model->customGet($spOptions);
         $data['title'] = 'Add Appointments';
         $data['allStates'] = $this->docappointment->fetchStates();

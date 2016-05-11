@@ -168,6 +168,7 @@ class Diagnostic_model extends CI_Model {
         if ($condition)
             $this->db->where(array('diag.diagnostic_id' => $condition));
         $this->db->where(array('diag.diagnostic_deleted' => 0));
+        $this->datatables->where_in('diag.status', array(0,1));
         //$this->db->where(array('Roles.usersRoles_parentId'=> 0)); // changed
         $this->db->order_by("diag.creationTime", "desc");
         $data = $this->db->get();
@@ -187,6 +188,7 @@ class Diagnostic_model extends CI_Model {
         
         $this->db->where(array('diag.diagnostic_id' => $condition));
         $this->db->where(array('diag.diagnostic_deleted' => 0));
+        $this->datatables->where_in('diag.status', array(0,1));
         //$this->db->where(array('Roles.usersRoles_parentId'=> 0)); // changed
         $this->db->order_by("diag.creationTime", "desc");
         $data = $this->db->get();
@@ -294,7 +296,6 @@ class Diagnostic_model extends CI_Model {
         if ($condition)
             $this->datatables->where(array('diag.diagnostic_id' => $condition));
         $this->datatables->where(array('diag.diagnostic_deleted' => 0));
-        
         $this->datatables->where_in('diag.status', array(0,1));
         
 
