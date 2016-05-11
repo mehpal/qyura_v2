@@ -104,28 +104,6 @@ if ($current != 'detailDoctor'): ?>
             var formData = new FormData(this);
             submitData(url,formData);
         });
-        var urls = "<?php echo base_url() ?>";
-        $("#degreeEditForm").validate({
-        
-        rules: {
-            degree_FName: {
-                required: true
-            },
-            degree_SName: {
-                required : true
-            }
-        },
-        messages: {
-            degree_FName: {
-                required: "Please enter full name of degree!",
-            },
-            degree_SName: {
-                required : "Please enter abreviation for the degree!"
-            }
-           
-        }
-
-    });
         
     });
 
@@ -408,6 +386,22 @@ if ($current != 'detailDoctor'): ?>
             var formData = new FormData(this);
             submitData(url,formData);
         });
+        $("#miaddHospiForm").validate({
+        rules: {
+            hospitalType_name: {
+                required: true
+            }
+        },
+       
+        messages: {
+            hospitalType_name: {
+                required: "Please enter hospital type!",
+            }
+           
+        }
+
+    });
+
     });
     $(document).ready(function (){
         $("#miaddDigoForm").submit(function (event) {
@@ -416,6 +410,21 @@ if ($current != 'detailDoctor'): ?>
             var formData = new FormData(this);
             submitData(url,formData);
         });
+        $("#miaddDigoForm").validate({
+        rules: {
+            hospitalType_name: {
+                required: true
+            }
+        },
+       
+        messages: {
+            hospitalType_name: {
+                required: "Please enter diagnostic type!",
+            }
+           
+        }
+
+    });
     });
     $(document).ready(function (){
         $("#miaddBankForm").submit(function (event) {
@@ -424,6 +433,21 @@ if ($current != 'detailDoctor'): ?>
             var formData = new FormData(this);
             submitData(url,formData);
         });
+        $("#miaddBankForm").validate({
+        rules: {
+            hospitalType_name: {
+                required: true
+            }
+        },
+       
+        messages: {
+            hospitalType_name: {
+                required: "Please enter blood bank type!",
+            }
+           
+        }
+
+    });
     });
     $(document).ready(function (){
         $("#miaddPharmacyForm").submit(function (event) {
@@ -432,6 +456,21 @@ if ($current != 'detailDoctor'): ?>
             var formData = new FormData(this);
             submitData(url,formData);
         });
+        $("#miaddPharmacyForm").validate({
+        rules: {
+            hospitalType_name: {
+                required: true
+            }
+        },
+       
+        messages: {
+            hospitalType_name: {
+                required: "Please enter pharmacy type!",
+            }
+           
+        }
+
+    });
     });
     $(document).ready(function (){
         $("#miaddAmbulanceForm").submit(function (event) {
@@ -440,6 +479,21 @@ if ($current != 'detailDoctor'): ?>
             var formData = new FormData(this);
             submitData(url,formData);
         });
+        $("#miaddAmbulanceForm").validate({
+        rules: {
+            hospitalType_name: {
+                required: true
+            }
+        },
+       
+        messages: {
+            hospitalType_name: {
+                required: "Please enter ambulance type!",
+            }
+           
+        }
+
+    });
     });
     
     $(document).ready(function (){
@@ -652,6 +706,23 @@ function showDiagnosticType(id){
             var formData = new FormData(this);
             submitData(url,formData);
         });
+        $("#awardAgencyform").validate({
+        
+        rules: {
+            agency_name: {
+                required: true
+            }
+        },
+       
+        messages: {
+            agency_name: {
+                required: "Please enter the name of an agency!",
+            }
+           
+        }
+
+    });
+
     });
     
     $(document).ready(function (){
@@ -671,6 +742,22 @@ function showDiagnosticType(id){
             var formData = new FormData(this);
             submitData(url,formData);
         });
+        $("#departmentaddForm").validate({
+        
+        rules: {
+            department_name: {
+                required: true
+            }
+        },
+       
+        messages: {
+            department_name: {
+                required: "Please enter the name of department!",
+            }
+           
+        }
+
+    });
     });
     $(document).ready(function (){
         $("#departmentEditForm").submit(function (event) {
@@ -688,6 +775,28 @@ function showDiagnosticType(id){
             var formData = new FormData(this);
             submitData(url,formData);
         });
+        $("#designationaddForm").validate({
+        
+        rules: {
+            designation_departmentId:{
+                required: true
+            },
+            designation_name: {
+                required: true
+            }
+        },
+       
+        messages: {
+            designation_departmentId:{
+                required: "Please select a department!"
+            },
+            designation_name: {
+                required: "Please enter the name of department!",
+            }
+           
+        }
+
+    });
     });
     $(document).ready(function (){
         $("#designationEditForm").submit(function (event) {

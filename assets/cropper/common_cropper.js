@@ -27,12 +27,14 @@
     this.$avatarForm = this.$avatarModal.find('.avatar-form');
     console.log(this.$avatarForm);
     this.$avatarUpload = this.$avatarModal.find('.avatar-upload');
+    this.$avatarMessage = this.$avatarModal.find('#message_upload_error');
     this.$avatarSrc = this.$avatarModal.find('.avatar-src');
     this.$avatarData = this.$avatarModal.find('.avatar-data');
     this.$avatarInput = this.$avatarModal.find('.avatar-input');
     this.$avatarSave = this.$avatarModal.find('.avatar-save');
     this.$avatarBtns = this.$avatarModal.find('.avatar-btns');
     this.$imgUploadBtn = this.$avatarModal.find('.imgUploadBtn');
+    this.$avatarCancelCropBtns = this.$avatarForm.find('.cancelCrop');
 
     this.$avatarWrapper = this.$avatarModal.find('.avatar-wrapper');
     this.$avatarPreview = this.$avatarModal.find('.avatar-preview');
@@ -66,6 +68,7 @@
       this.$avatarInput.on('change', $.proxy(this.change, this));
       this.$imgUploadBtn.on('click', $.proxy(this.submit, this));
       this.$avatarBtns.on('click', $.proxy(this.rotate, this));
+      this.$avatarCancelCropBtns.on('click', $.proxy(this.cancelCrop, this));
     },
 
     initTooltip: function () {
@@ -164,6 +167,9 @@
                 window.alert('Please choose an image file.');
             }
           }
+          else{
+              bootbox.alert('Please choose an image file.');
+          }
         }
       } else {
         file = this.$avatarInput.val();
@@ -241,6 +247,13 @@
         _this.stopCropper();
       });
     },
+    
+    cancelCrop: function () {
+            this.stopCropper();
+            this.$avatarInput.val("");
+            this.$avatarData.val('');
+            //this.$avatarPreview.html('<img src="' + this.preUrl + '">');
+        },
 
     stopCropper: function () {
       if (this.active) {
@@ -259,13 +272,13 @@
     //form_data.append("file", data);    
     form_data.append("avatar_file", this.$avatarInput.prop("files")[0]);
     console.log(this.$avatarModal.prop("name"));
-    
+    console.log(this.$container.find('.avatar-data').val(),'avatar-data');
     form_data.append('avatar-src',this.$container.find('.avatar-src').val());
     form_data.append('avatar-data',this.$container.find('.avatar-data').val());
     form_data.append('avatar_id',this.$container.find('.avatar_id').val());
     
       var _this = this;
-      console.log(form_data);
+        console.log(form_data);
       $.ajax(url, {
         type: 'post',
         url:url,
@@ -327,6 +340,7 @@
           this.$avatarInput.val('');
           this.$avatarModal.modal('hide');
           //window.location.href = loadUrl;
+          this.alerttime(this);
 
       } else {
         this.alert(data.message);
@@ -402,6 +416,11 @@
             reader.readAsDataURL(file);
         },
 
+    alerttime: function (obj) {
+      
+         setTimeout(function(){ obj.$avatarMessage.html(""); }, 3000);
+        
+    }, 
 
     alert: function (msg) {
       var $alert = [
@@ -411,7 +430,9 @@
             '</div>'
           ].join('');
 
-      this.$avatarUpload.after($alert);
+      this.$avatarMessage.html($alert);
+      this.alerttime(this);
+     
     }
   };
 

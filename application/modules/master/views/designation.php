@@ -62,7 +62,7 @@
                                             <label class="error" id="err_designation_departmentId_<?php echo $countDesignation; ?>" > <?php echo form_error("designation_departmentId"); ?></label>
                                     </span>
                                     <span class="col-md-5">
-                                        <input type="text" required="" name="designation_name_<?php echo $countDesignation; ?>" id="designation_name_<?php echo $countDesignation; ?>" class="form-control" value="<?php echo $list->designation_name; ?>" pattern="[a-zA-Z]+">
+                                        <input type="text" required="" name="designation_name_<?php echo $countDesignation; ?>" id="designation_name_<?php echo $countDesignation; ?>" class="form-control" value="<?php echo $list->designation_name; ?>" onkeypress="return isAlpha(event,this.value)">
                                        <label class="error" id="err_designation_name_<?php echo $countDesignation; ?>" > <?php echo form_error("designation_name"); ?></label>
                                     </span>
                                     <span class="col-md-2">

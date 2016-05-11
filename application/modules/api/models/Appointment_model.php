@@ -57,16 +57,19 @@ AND `healthPkgBooking_deleted` = 0';
     }
  
     public function DoctorAppointmentList($now, $userId) {
-      $sql3 = "SELECT  CASE WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 1 ) THEN `qyura_hospital`.`hospital_name` WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 2 ) THEN `qyura_diagnostic`.`diagnostic_name` ELSE concat(`doctors_fName`,' ',`doctors_lName`) END AS title,"
+        
+        $sql3 = "SELECT  CASE WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 1 ) THEN `qyura_hospital`.`hospital_name` WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 2 ) THEN `qyura_diagnostic`.`diagnostic_name` ELSE concat(`doctors_fName`,' ',`doctors_lName`) END AS title,"
                     . "`qyura_doctorAppointment`.`doctorAppointment_unqId` AS `orderId`,"
                     . "DATE_FORMAT(FROM_UNIXTIME(`qyura_doctorAppointment`.`doctorAppointment_date`),'%d %b, %Y') as date,"
-                    . "DATE_FORMAT(`doctorAvailabilitySession_start`,'%h:%i%p') as startTime,"
-                    . "DATE_FORMAT(`doctorAvailabilitySession_end`,'%h:%i%p') as endTime,"
+                    . "DATE_FORMAT(`docTimeDay_open`,'%h:%i%p') as startTime,"
+                    . "DATE_FORMAT(`docTimeDay_close`,'%h:%i%p') as endTime,"
                     . "CASE WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 1 ) THEN `qyura_hospital`.`hospital_address` WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 2 ) THEN `qyura_diagnostic`.`diagnostic_address` ELSE `qyura_doctors`.`doctor_addr` END AS `address`,"
-                    . " CASE WHEN (concat(DATE_FORMAT(FROM_UNIXTIME(`qyura_doctorAppointment`.`doctorAppointment_date`),'%Y-%m-%d'),' ',doctorAvailabilitySession_start) > CURRENT_TIMESTAMP ) THEN 'Upcoming' ELSE 'Completed' END as `upcomingStatus`,"
-                    . " CASE qyura_doctorAppointment.doctorAppointment_status WHEN '1' THEN 'Confirmed' WHEN '2' THEN 'Cancelled' WHEN '3' THEN 'Pending' WHEN '4' THEN 'Completed' ELSE '' END  AS `bookingStatus`,"
+                        . " CASE WHEN (concat(DATE_FORMAT(FROM_UNIXTIME(`qyura_doctorAppointment`.`doctorAppointment_date`),'%Y-%m-%d'),' ',DATE_FORMAT(docTimeDay_open, '%h:%i %p')) > DATE_FORMAT(CURRENT_TIMESTAMP, '%Y-%m-%d %h:%i %p') ) THEN 'Upcoming' ELSE 'Completed' END as `upcomingStatus`,"
+                    . " CASE qyura_doctorAppointment.doctorAppointment_status WHEN '12' THEN 'Confirmed' WHEN '13' THEN 'Cancelled' WHEN '11' THEN 'Pending' WHEN '14' THEN 'Completed' ELSE '' END  AS `bookingStatus`,"
                     . "'Consultation' as `type`, '3' as typeId "
-                    . "FROM `qyura_doctorAppointment`  LEFT JOIN `transactionInfo` ON `transactionInfo`.`order_no` = `qyura_doctorAppointment`.`doctorAppointment_unqId`
+                    . "FROM `qyura_doctorAppointment`
+                    
+LEFT JOIN `transactionInfo` ON `transactionInfo`.`order_no` = `qyura_doctorAppointment`.`doctorAppointment_unqId`
 LEFT JOIN `qyura_users` ON `qyura_users`.`users_id`=`qyura_doctorAppointment`.`doctorAppointment_doctorUserId`
 LEFT JOIN `qyura_hospital` ON `qyura_hospital`.`hospital_usersId`=`qyura_doctorAppointment`.`doctorAppointment_doctorParentId`
 LEFT JOIN `qyura_diagnostic` ON `qyura_diagnostic`.`diagnostic_usersId`=`qyura_doctorAppointment`.`doctorAppointment_doctorParentId` 
