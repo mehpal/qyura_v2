@@ -10,7 +10,7 @@
                     <!-- Upload image and data -->
                     <div class="avatar-upload">
                         <input type="hidden" class="avatar-src" name="avatar_src_bloodbank">
-                        <input type="hidden" class="avatar-data" name="avatar_data_bloodbank">
+                        <input type="hidden" id="avatar_data_bloodbank" class="avatar-data" name="avatar_data_bloodbank">
                         <label for="avatarInput">File upload</label>
                         <input type="file" class="avatar-input" id="avatarInput" name="bloodBank_photo">
                     </div>
