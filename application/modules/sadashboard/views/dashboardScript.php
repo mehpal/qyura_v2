@@ -5,7 +5,6 @@
 <link href="<?php echo base_url(); ?>assets/css/responsive-r.css" rel="stylesheet" />
 <link href="<?php echo base_url(); ?>assets/vendor/js-scroll/style/scroll-2.css" rel="stylesheet" />
 
-<script src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/dashboard/respond.min.js"></script>
 
 <script src="<?php echo base_url(); ?>assets/vendor/raphael/raphael-min.js"></script>
@@ -55,4 +54,46 @@
          $('#loadNotice').load(urls + 'index.php/sadashboard/getNotificatoin/',function () {
         });
     }
+    
+   $(document).ready(function() {
+   
+    var jobCount = $('#list .in').length;
+    $('.list-count').text(jobCount + ' items');
+    $("#search-text").keyup(function () {
+    //$(this).addClass('hidden');
+        var searchTerm = $("#search-text").val();
+        var listItem = $('#list').children('td');
+        var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+          //extends :contains to be case insensitive
+        $.extend($.expr[':'], {
+        'containsi': function(elem, i, match, array)
+        {
+        return (elem.textContent || elem.innerText || '').toLowerCase()
+        .indexOf((match[3] || "").toLowerCase()) >= 0;
+        }
+        });
+        $("#list tr").not(":containsi('" + searchSplit + "')").each(function(e)   {
+          $(this).addClass('hiding out').removeClass('in');
+          setTimeout(function() {
+              $('.out').addClass('hidden');
+            }, 300);
+        });
+
+        $("#list tr:containsi('" + searchSplit + "')").each(function(e) {
+          $(this).removeClass('hidden out').addClass('in');
+          setTimeout(function() {
+              $('.in').removeClass('hiding');
+            }, 1);
+        });
+          var jobCount = $('#list .in').length;
+        $('.list-count').text(jobCount + ' items');
+        //shows empty state text when no jobs found
+        if(jobCount == '0') {
+          $('#list').addClass('empty');
+        }
+        else {
+          $('#list').removeClass('empty');
+        }
+    }); 
+    });
 </script>
