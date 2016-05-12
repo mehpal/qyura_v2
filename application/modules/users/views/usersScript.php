@@ -344,6 +344,16 @@
             
             
     var resultValidate = form.validate({
+	ignore: ':hidden:not("#avatarInput")', 
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "avatar_file")
+        {
+            error.insertAfter('.error-label');
+        }
+        else{
+            error.insertAfter(element);
+        }
+        },
             rules: result,
                     messages: {
                     patientDetails_patientName: {
@@ -517,6 +527,7 @@
 
 </script>
 <script>
+
     function isNumberKey(evt, id) {
     var charCode = (evt.which) ? evt.which : event.keyCode
             if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -528,7 +539,13 @@
     }
     }
 </script>
-<script>                 // datatable get records
+<script>      
+$(document).ready(function () {
+         $('#patientDetails_dob').datepicker({
+            autoclose: false,
+            endDate: new Date()
+    });
+   // datatable get records
     $(document).ready(function () {
     var oTable = $('#users_datatable').DataTable({
     "processing": true,

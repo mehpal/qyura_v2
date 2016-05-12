@@ -54,7 +54,8 @@ class Users extends MY_Controller {
         $this->bf_form_validation->set_rules('patientDetails_cityId', 'City', 'required|trim');
         $this->bf_form_validation->set_rules('patientDetails_pin', 'Pin', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('patientDetails_address', 'Address', 'required|trim');
-        $this->bf_form_validation->set_rules('users_password', 'Password', 'trim|required');
+        $this->bf_form_validation->set_rules('users_password', 'Password', 'trim|required|matches[cnfPassword]');
+        $this->bf_form_validation->set_rules('cnfPassword', 'Confirm Password', 'trim|required');
 //        familymember validation
         $addFamilyMember = $this->input->post('addFamilyMember');
         if ($addFamilyMember == 1) {
@@ -534,9 +535,9 @@ class Users extends MY_Controller {
 
             $usersInsertData = array(
                 'users_ip_address' => $_SERVER['REMOTE_ADDR'],
-                'users_email' => $email,
-                'users_username' => $emailname,
-                'users_mobile' => $phone,
+                //'users_email' => $email,
+                //'users_username' => $emailname,
+                //'users_mobile' => $phone,
                 'modifyTime' => strtotime(date('Y-m-d H:i:s'))
             );
             if (isset($password) && !empty($password)) {
@@ -567,7 +568,7 @@ class Users extends MY_Controller {
                 'patientDetails_patientName' => $name,
                 'patientDetails_gender' => $gender,
                 'patientDetails_dob' => $dob,
-                'patientDetails_mobileNo' => $phone,
+                //'patientDetails_mobileNo' => $phone,
                 'patientDetails_countryId' => $countryId,
                 'patientDetails_stateId' => $stateId,
                 'patientDetails_cityId' => $cityId,
