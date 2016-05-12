@@ -58,11 +58,12 @@ class SaDashboard extends MY_Controller {
          
     }
     
-    function miSignupChart(){
-        echo strtotime(date('2015-05-09'));
-        $chartData = $this->dashboard_model->getSignupChart();
+    function getChartAmbulance(){
+         $year = date('2015');
+         
+         $chartData = $this->dashboard_model->getSignupChart($year);
         
-        dump($chartData);
+         print_r($chartData);
     }
 
 }
