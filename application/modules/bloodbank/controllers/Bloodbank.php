@@ -366,7 +366,7 @@ class Bloodbank extends MY_Controller {
             $response = $this->Bloodbank_model->UpdateTableData($updateBloodBank, $where, 'qyura_bloodBank');
             if ($response) {
                 $updateUserdata = array(
-                    'users_email' => $this->input->post('users_email'),
+                    'users_email' => $this->input->post('email_edit'),
                     'modifyTime' => strtotime(date("Y-m-d H:i:s"))
                 );
                 $whereUser = array(

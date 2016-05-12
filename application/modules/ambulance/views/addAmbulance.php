@@ -239,6 +239,17 @@
                                         </div>
                                     </article>
 
+                           <article class="form-group m-lr-0">
+                                        <label for="cname" class="control-label col-md-4">Doctor On Board </label>
+                                        <div class="col-md-8">
+                                            <aside class="">
+                                                <input type="checkbox" id="docOnBoard" value="1" name="docOnBoard" <?php echo set_radio('isDoctorAvl', '1'); ?>>
+                                                
+                                            </aside>
+                                       
+                                        </div>
+                                    </article>
+
                              <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4">Docat Id : </label>
                                 <div class="col-md-8 col-sm-8">

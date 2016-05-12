@@ -124,7 +124,7 @@
                                             <article class="clearfix m-b-10">
                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Address:</label>
                                                 <p class="col-md-5 col-sm-8">
-                                                    <?php echo ucfirst($ambulanceData[0]->ambulance_address)."</br>".ucwords(strtolower($ambulanceData[0]->city_name." ".$ambulanceData[0]->ambulance_zip.", ".$ambulanceData[0]->state_statename." ".$ambulanceData[0]->country));?>
+                                                    <?php echo ucfirst($ambulanceData[0]->ambulance_address)."</br>".ucwords(strtolower($ambulanceData[0]->city_name." ".$ambulanceData[0]->state_statename." ".$ambulanceData[0]->country.' '.$ambulanceData[0]->ambulance_zip));?>
                                                     
                                                 </p>
                                             </article>
@@ -156,6 +156,10 @@
                                              <article class="clearfix m-b-10">
                                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Docat Id :</label>
                                                 <p class="col-md-8 col-sm-8"><?php echo $ambulanceData[0]->ambulance_docatId;?></p>
+                                            </article>
+                                            <article class="clearfix m-b-10">
+                                                <label for="cemail" class="control-label col-md-4 col-sm-4">Doctor On Board :</label>
+                                                <p class="col-md-8 col-sm-8"><?php if($ambulanceData[0]->docOnBoard == 1){ echo 'Yes'; }else{echo "No";}?></p>
                                             </article>
 
                                         </div>
@@ -377,6 +381,16 @@
                                     <label class="error" > <?php echo form_error("ambulance_docatId"); ?></label>
                                 </div>
                             </article>
+                                    <article class="clearfix m-t-10">
+                                        <label for="cname" class="control-label col-md-4">Doctor On Board </label>
+                                        <div class="col-md-8">
+                                            <aside class="">
+                                                <input type="checkbox" id="docOnBoard" value="1" name="docOnBoard" <?php if($ambulanceData[0]->docOnBoard == 1){ echo 'checked'; }?>>
+                                                
+                                            </aside>
+                                       
+                                        </div>
+                                    </article>
 
                                             <article class="clearfix ">
                                                 <div class="col-md-12 m-t-20 m-b-20">
