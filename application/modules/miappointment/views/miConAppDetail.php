@@ -6,8 +6,8 @@
         <div class="container row">
             <div class="clearfix">
                 <div class="col-md-12">
-                    <h3 class="pull-left page-title">Diagnostic Appointment Detail</h3>
-                    <a href="all-appointment.html" class="btn btn-appointment btn-back waves-effect waves-light pull-right"><i class="fa fa-angle-left"></i> Back</a>
+                    <h3 class="pull-left page-title">Consultation Appointment Detail</h3>
+                    <a href="<?php echo site_url()?>/miappointment" class="btn btn-appointment btn-back waves-effect waves-light pull-right"><i class="fa fa-angle-left"></i> Back</a>
 
                 </div>
             </div>
@@ -32,16 +32,11 @@
                             </div>
 
                             <div class="clearfix m-t-10">
-                                <label class="col-md-4">HMS Id :</label>
-                                <p class="col-md-8"><?php echo isset($conDetail->hmsId) ? $conDetail->hmsId : ''; ?></p>
-                            </div>
-
-                            <div class="clearfix m-t-10">
                                 <label class="col-md-4">Appointment Date :</label>
                                 <p class="col-md-8"><?php echo isset($conDetail->dateTime) ? date('M d,Y', $conDetail->dateTime) : ''; ?></p>
                             </div>
 
-                            <div class="clearfix m-t-10">
+                            <!--div class="clearfix m-t-10">
                                 <label class="col-md-4">Session :</label>
                                 <p class="col-md-8"><?php
                                     if (isset($conDetail->sessionType)) {
@@ -66,7 +61,7 @@
                                     }
                                     ?></p>
 
-                            </div>
+                            </div-->
 
 
                             <div class="clearfix m-t-10">
@@ -77,27 +72,7 @@
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4">Status:</label>
                                 <p class="col-md-8">
-                                    <?php
-                                    if (isset($conDetail->bookingStatus)) {
-                                        switch ($conDetail->bookingStatus) {
-                                            case 0:
-                                                $bookStatus = "Pending";
-                                                break;
-                                            case 1:
-                                                $bookStatus = "Confirmed";
-                                                break;
-                                            case 2:
-                                                $bookStatus = "Completed";
-                                                break;
-                                            case 3:
-                                                $bookStatus = "Cancel";
-                                                break;
-                                            default:
-                                                $bookStatus = "Pending";
-                                        }
-                                        echo $bookStatus;
-                                    }
-                                    ?>
+                                    <?php echo $conDetail->bookingStatus; ?>
                                 </p>
                             </div>
 
@@ -173,9 +148,9 @@
                                 </article>
                             </div>
                             <div class="clearfix m-t-20 text-right">
-                                <button type="button" class="btn btn-danger waves-effect m-r-10">Cancel</button>
+                                <button type="button" class="btn btn-danger waves-effect m-r-10" onclick="changestatus(<?php echo $qtnId;?>,1,13)">Cancel</button>
                                 <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Reschedule</button>
-                                <button type="submit" class="btn btn-appointment waves-effect waves-light m-tb-xs-3">Change Status</button>
+                                <!--button type="submit" class="btn btn-appointment waves-effect waves-light m-tb-xs-3">Change Status</button-->
                             </div>
                         </aside>
                     </article>
@@ -247,11 +222,11 @@
 
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4 col-sm-4">Payment Mode :</label>
-                                <p class="col-md-8 col-sm-8"><?php echo isset($conDetail->paymentMethod) ? $conDetail->paymentMethod : ''; ?></p>
+                                <p class="col-md-8 col-sm-8"><?php echo isset($conDetail->paymode) ? $conDetail->paymode : ''; ?></p>
                             </div>
 
                         </aside>
-                        <aside class="col-md-5">
+                        <!--aside class="col-md-5">
 
                             <section id="effect-3" class="effects clearfix m-t-10">
                                 <div class="clearfix m-t-20">
@@ -280,7 +255,7 @@
                                 ?>
                             </section>
 
-                        </aside>
+                        </aside-->
                     </article>
 
 
