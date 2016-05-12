@@ -9,7 +9,7 @@
                 </div>
                 <div class="col-md-12">
                     <h3 class="pull-left page-title">Modify Quotation Request Detail</h3>
-                    <a href="quotation-detail.html" class="btn  btn-back waves-effect waves-light pull-right"><i class="fa fa-angle-left"></i> Back</a>
+                    <a href="<?php echo site_url("quotation"); ?>" class="btn  btn-back waves-effect waves-light pull-right"><i class="fa fa-angle-left"></i> Back</a>
 
                 </div>
             </div>

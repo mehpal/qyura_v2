@@ -82,7 +82,7 @@
                                             <label for="cname" class="control-label col-md-4 col-sm-4">Diagnostic Type :</label>
                                             <div class="col-md-8 col-sm-8">
                                                 <select class="form-control select2" data-width="100%" name="input28_1" id="input28_1" >
-                                                    <option value="">Select Diagnostic Category</option>
+                                                    <option value="">Select Hospital/Diagnostic Category</option>
                                                 </select>
                                                 <div class="has-error " id="err_input28_1" ><?php echo form_error("input28_1"); ?></div>
                                             </div>

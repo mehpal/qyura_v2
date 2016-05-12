@@ -38,7 +38,7 @@
                     <div class="row avatar-btns">
                             <div class="col-md-12">
                                 <button type="button" class="btn btn-danger cancelCrop" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary avatar-save imgUploadBtn" id="avatar-save-btn">Update Avatar</button>
+                                <button type="button" class="btn btn-primary avatar-crop-btns avatar-save imgUploadBtn" id="avatar-save-btn">Update Avatar</button>
                             </div>
                         </div>
                   

@@ -32,8 +32,8 @@
                                     <img class="img-responsive center-block" src="<?php echo base_url() ?>assets/insuranceImages/3x/<?php echo $insurance->insurance_img; ?>" height="100" width="100">
                                 </span>
                                 <span class="col-md-4 ">
-                                    <h6><?php echo $insurance->insurance_Name ?></h6>
-                                    <?php echo $insurance->insurance_detail; ?>
+                                    <h6><?php echo strip_tags(substr($insurance->insurance_Name, 0,20)); ?></h6>
+                                    <?php echo strip_tags(substr($insurance->insurance_detail, 0,20)); ?>
                                 </span>
                                 <span class="col-md-4 text-right">
                                     <h6>

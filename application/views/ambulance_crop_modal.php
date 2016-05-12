@@ -31,7 +31,7 @@
 
                         </div>
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-primary btn-block avatar-save" id="savebtnUpload" data-dismiss="modal">Done</button>
+                            <button type="button" class="btn btn-primary btn-block avatar-crop-btns avatar-save" id="savebtnUpload" data-dismiss="modal">Done</button>
                         </div>
                     </div>
                 </div>
