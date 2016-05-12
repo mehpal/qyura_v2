@@ -365,6 +365,7 @@
                 // we need to create a new image and assign it's src, so when
                 // the image is loaded we can calculate it's width and height:
                 var image = new Image();
+                console.log(image);
                 image.addEventListener("load", function () {
                     // Concatenate our HTML image info 
                     var imageInfo = file.name + ' ' + // get the value of `name` from the `file` Obj
@@ -373,15 +374,32 @@
                             file.type + ' ' +
                             Math.round(file.size / 1024) + 'KB';
 
+                     
 
-
-                    if (image.width < 425 || image.height < 225) {
+                    if (image.width < 425 || image.height < 225 ) {
                         //CropAvatar.stopCropper();
                         currentObj.stopCropper();
                         currentObj.$avatarInput.val("");
                         currentObj.$avatarPreview.html('<img src="' + currentObj.preUrl + '">');
                         bootbox.alert("Image dimension should be greater than 425px X 225px");
                     }
+                    
+                    if (Math.round((file.size / 1024)/1024) > 2) {
+                        //CropAvatar.stopCropper();
+                        currentObj.stopCropper();
+                        currentObj.$avatarInput.val("");
+                        currentObj.$avatarPreview.html('<img src="' + currentObj.preUrl + '">');
+                        bootbox.alert("Image dimension should be less than 2 mb");
+                    }
+                    
+                    if (image.width > 2048 || image.height > 1080) {
+                        //CropAvatar.stopCropper();
+                        currentObj.stopCropper();
+                        currentObj.$avatarInput.val("");
+                        currentObj.$avatarPreview.html('<img src="' + currentObj.preUrl + '">');
+                        bootbox.alert("Image dimension should be less than 2048px X 1080px");
+                    }
+                    
                     // Finally append our created image and the HTML info string to our `#preview` 
                     //elPreview.appendChild(this);
                     //elPreview.insertAdjacentHTML("beforeend", imageInfo + '<br>');
