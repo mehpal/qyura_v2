@@ -10,7 +10,7 @@
                     <div class="avatar-upload">
                         <input type="hidden" class="avatar-src" name="avatar_src">
                         <input type="hidden" class="avatar-data" name="avatar_data">
-                        <label for="avatarInput">File upload</label>
+                        <label for="avatarInput">File upload.</label>
                         <input type="file" class="avatar-input" id="avatarInput" name="avatar_file">
                     </div>
                 

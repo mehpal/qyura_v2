@@ -9,7 +9,7 @@
             </div>
          </div>
          <div class="map_canvas"></div>
-         <form class="cmxform form-horizontal tasi-form avatar-form-doctor-edit" id="submitForm" method="post" action="<?php echo site_url(); ?>/diagnostic/editDoctor" name="doctorForm" enctype="multipart/form-data">
+         <form class="cmxform form-horizontal tasi-form avatar-form-doctor-edit" id="updateForm" method="post" action="<?php echo site_url(); ?>/diagnostic/editDoctor" name="doctorForm" enctype="multipart/form-data">
             <input type="hidden" name="ProfessionalExpCount" id="ProfessionalExpCount" value="1" />
             <?php
                $date2 = date('Y-m-d');

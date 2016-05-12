@@ -1953,11 +1953,13 @@ class Hospital extends MY_Controller {
      * @return boolean
      */
     function editUploadImage() {
-
+        
+        
         if ($_POST['avatar_file']['name']) {
             $path = realpath(FCPATH . 'assets/hospitalsImages/');
             $upload_data = $this->input->post('avatar-data');
             $upload_data = json_decode($upload_data);
+            
            // echo $upload_data->width; exit;
             if ($upload_data->width > 425) {
                 $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/hospitalsImages/', './assets/hospitalsImages/thumb/', 'hospital');
