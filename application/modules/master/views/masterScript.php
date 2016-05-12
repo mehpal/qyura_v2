@@ -154,7 +154,7 @@ if ($current != 'detailDoctor'): ?>
                 required : "Please enter general name!"
             },
             avatar_file: {
-                required : "Please upload!"
+                required : "Please upload an image!"
             }
            
         }
@@ -929,6 +929,7 @@ function showDiagnosticType(id){
             "bServerSide": true,
             // "searching": true,
             "bLengthChange": false,
+            "bInfo" : false,
             "bProcessing": true,
             "iDisplayLength": 10,
             "bPaginate": true,
