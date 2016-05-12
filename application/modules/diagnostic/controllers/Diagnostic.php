@@ -733,6 +733,8 @@ class Diagnostic extends MY_Controller {
         $this->bf_form_validation->set_rules('isEmergency', 'Is Emergency', 'trim');
         $this->bf_form_validation->set_rules('docatId', 'Docat id', 'trim');
         
+        
+        
       //  $this->bf_form_validation->set_rules('diagno_id', 'Diagnostic id', 'required|trim');
 
 
@@ -810,6 +812,7 @@ class Diagnostic extends MY_Controller {
                         'bloodBank_add' => $this->input->post('diagnostic_address'),
                         'bloodBank_phn' => ltrim($bloodBank_phn, 0),
                         'bloodBank_docatId' => $this->input->post('docatId'),
+                        'bloodBank_cntPrsn' => $this->input->post('diagnostic_cntPrsn'),
                         'modifyTime' => strtotime(date("Y-m-d H:i:s"))
                     );
                     if ($getData) {
@@ -915,6 +918,7 @@ class Diagnostic extends MY_Controller {
                         'ambulance_address' => $this->input->post('diagnostic_address'),
                         'docOnBoard' => $docOnBoard,
                         'ambulance_docatId' => $this->input->post('docatId'),
+                        'ambulance_cntPrsn' => $this->input->post('diagnostic_cntPrsn'),
                     );
                     $ambulanceConditions = array();
                     $ambulanceConditions['ambulance_usersId'] = $this->input->post('user_tables_id');
