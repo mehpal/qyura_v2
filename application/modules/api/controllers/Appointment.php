@@ -25,18 +25,21 @@ class Appointment extends MyRest {
             $now = time();
             
 //            $sql1 = $this->Appointment_model->QuotationList($now,$userId);
-//            $sql2 = $this->Appointment_model->PackageAppointmentList($now,$userId);
+            $sql2 = $this->Appointment_model->PackageAppointmentList($now,$userId);
             $sql3 = $this->Appointment_model->DoctorAppointmentList($now,$userId);
             
-            $colName = array("title", "orderId", "date", "startTime", "endTime", "address","upcomingStatus", "bookingStatus", "type", "typeId");
-//            $sql = $sql1 . " UNION " . $sql2 . " UNION " . $sql3;
- 
-        $queryResult = $this->db->query($sql3)->result();
-
+            $colName = array("id","title", "orderId", "date", "startTime", "endTime", "address","upcomingStatus", "bookingStatus", "type", "typeId");
+//            $sql = $sql1 . " UNION " .
+            $sql = $sql2 . " UNION " . $sql3;
+//         echo   strtotime(date("2016-01-01"));
+        $queryResult = $this->db->query($sql)->result();
+//echo $this->db->last_query();
+//print_r($queryResult); die();
             $finalResult = array();
             if (!empty($queryResult)) {
                 foreach ($queryResult as $row) {
                     $finalTemp = array();
+                    $finalTemp[] = isset($row->id) && $row->id != '' ? $row->id : "";
                     $finalTemp[] = isset($row->title) && $row->title != '' ? $row->title : "";
                     $finalTemp[] = isset($row->orderId) && $row->orderId != '' ? $row->orderId : "";
                     $finalTemp[] = isset($row->date) && $row->date != '' ? $row->date : "";
