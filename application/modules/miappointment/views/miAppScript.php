@@ -215,7 +215,7 @@
                     beforeSend: function (xhr) {
                     },
                     success: function (data) {
-                        alert(data);
+                        
                     }
                 });
             }
@@ -252,8 +252,67 @@
             beforeSend: function (xhr) {
             },
             success: function (data) {
-                $('#changetime').html(data);
-                $('#changeTimemodel').modal('show');
+                if(data==2)
+                {
+                    var msg = "Please select proper Date & Time";
+                     bootbox.alert({closeButton: false, message: msg, callback: function () {
+                                
+                            }});
+                }
+                else
+                {
+                    var msg = "Appointment Rescheduled Successfully";
+                     bootbox.alert({closeButton: false, message: msg, callback: function () {
+                              location.reload();  
+                            }});
+                }
+                
+
+            }
+        });
+    }
+    function changediagapptime()
+    {
+        $("#changetimeform").validate({
+            rules: {appdate: {required: true},
+                
+                finaltime: {required: true},
+            },
+            messages: {
+                appdate: {required: "Please select App Date", },
+                
+                finaltime: {required: "Please select Final Time", },
+            }
+        }); 
+        var appdate = $("#date-7").val();
+        
+        var finaltime = $("#timepicker3").val();
+        var appid = $("#appid").val();
+        var url = '<?php echo site_url(); ?>' + '/miappointment/savediagtimeSlot';
+        $.ajax({
+            url: url,
+            async: false,
+            type: 'POST',
+            data: {'appdate': appdate,'finaltime': finaltime,'appid':appid},
+            beforeSend: function (xhr) {
+            },
+            success: function (data) {
+                
+                if(data==2)
+                {
+                    var msg = "Please select proper Date & Time";
+                     bootbox.alert({closeButton: false, message: msg, callback: function () {
+                                
+                            }});
+                }
+                else
+                {
+                    var msg = "Appointment Rescheduled Successfully";
+                     bootbox.alert({closeButton: false, message: msg, callback: function () {
+                                location.reload();
+                            }});
+                }
+               
             }
         });
     }
@@ -263,35 +322,39 @@
      */
     function getTimeSloat(quotation_id, miId, timeSlotId)
     {
-        var url = '<?php echo site_url(); ?>' + '/miappointment' + '/get_timeSlot';
-        $.ajax({
-            url: url,
-            async: false,
-            type: 'POST',
-            data: {'quotation_id': quotation_id, 'miId': miId, 'timeSlotId': timeSlotId},
-            beforeSend: function (xhr) {
-            },
-            success: function (data) {
-                $('#changetime').html(data);
-                $('#changeTimemodel').modal('show');
-            }
-        });
+         $('#myModal2').modal('show');
+//        var url = '<?php echo site_url(); ?>' + '/miappointment' + '/get_timeSlot';
+//        $.ajax({
+//            url: url,
+//            async: false,
+//            type: 'POST',
+//            data: {'quotation_id': quotation_id, 'miId': miId, 'timeSlotId': timeSlotId},
+//            beforeSend: function (xhr) {
+//            },
+//            success: function (data) {
+//                $('#changetime').html(data);
+//                $('#changeTimemodel').modal('show');
+//            }
+//        });
     }
 
     function getDrTimeSloat(id, doctorUserId, doctorParentId, slotId)
     {
-        var url = '<?php echo site_url(); ?>' + '/miappointment' + '/getDrTimeSlot';
-        $.ajax({
-            url: url,
-            async: false,
-            type: 'POST',
-            data: {'id': id, 'doctorUserId': doctorUserId, 'doctorParentId': doctorParentId, 'slotId': slotId},
-            beforeSend: function (xhr) {
-            },
-            success: function (data) {
-                $('#changetime').html(data);
-                $('#changeTimemodel').modal('show');
-            }
-        });
+       
+        $('#myModal1').modal('show');
+        
+//        var url = '<?php echo site_url(); ?>' + '/miappointment' + '/getDrTimeSlot';
+//        $.ajax({
+//            url: url,
+//            async: false,
+//            type: 'POST',
+//            data: {'id': id, 'doctorUserId': doctorUserId, 'doctorParentId': doctorParentId, 'slotId': slotId},
+//            beforeSend: function (xhr) {
+//            },
+//            success: function (data) {
+//                $('#changetime').html(data);
+//                $('#changeTimemodel').modal('show');
+//            }
+//        });
     }
 </script>

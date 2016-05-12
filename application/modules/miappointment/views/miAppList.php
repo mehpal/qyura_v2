@@ -250,3 +250,5 @@
         2015 &copy; Qyura.
     </footer>
 </div>
+<?php echo $this->load->view('change_diagtimeslot'); ?>
+<?php echo $this->load->view('change_timeslot'); ?>

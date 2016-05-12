@@ -264,7 +264,6 @@ class Miappointment extends MY_Controller {
                     'data' => array(
                         'doctorAppointment_date' => $appdate,
                         'doctorAppointment_slotId' => $timeslot_id,
-                        'doctorAppointment_session' => $time_session,
                         'doctorAppointment_finalTiming' => $final_timing,
                         'modifyTime' => strtotime(date("Y-m-d")),
                     ),
@@ -326,7 +325,7 @@ class Miappointment extends MY_Controller {
 
 
         $timeSlotArray = array(
-            'doctorAppointment_session' => $session[1],
+            
             'doctorAppointment_slotId' => $session[0],
             'doctorAppointment_date' => $appointmentDate,
             'doctorAppointment_finalTiming' => $finalTime
