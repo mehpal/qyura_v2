@@ -78,6 +78,7 @@ class Hospital_model extends My_model {
         $this->db->select('hospitalType_id,hospitalType_name');
         $this->db->from('qyura_hospitalType');
         $this->db->where('hospitalType_deleted', 0);
+        $this->db->where('qyura_hospitalType.status', 1);
         $this->db->where('hospitalType_miRole',1);
         $this->db->order_by("hospitalType_name", "asc");
         return $this->db->get()->result();
