@@ -101,6 +101,7 @@ class Miappointment extends MY_Controller {
      */
     public function consultingDetail($appointmentId = '') {
         $data = array();
+        $data['appid'] = $appointmentId;
         $data['conDetail'] = $this->miappointment->getConsultingData($appointmentId);
         $data['reports'] = $this->miappointment->getConsultingReport($appointmentId);
         $this->load->super_admin_template('miConAppDetail', $data, 'miAppScript');
@@ -240,6 +241,38 @@ class Miappointment extends MY_Controller {
         $data['date'] = date('Y-m-d', $dateTime);
         $data['time'] = date('h:i A', $dateTime);
         $this->load->view('changetimeSlot', $data);
+    }
+    public function savetimeSlot() {
+
+        $final_timing = strtotime($this->input->post('finaltime'));
+        $time_id = $this->input->post('timeslot');
+        $appdate = strtotime($this->input->post('appdate'));
+        $myid = $this->input->post('appid');
+        
+        
+
+        $time_id = explode(',', $time_id);
+        $timeslot_id = $time_id[0];
+        if ($time_id[1]) {
+            $time_session = $time_id[1];
+        }
+        if ($time_id[1] == 0) {
+            $time_session = '0';
+        }
+        
+         $updateOption = array(
+                    'data' => array(
+                        'doctorAppointment_date' => $appdate,
+                        'doctorAppointment_slotId' => $timeslot_id,
+                        'doctorAppointment_session' => $time_session,
+                        'doctorAppointment_finalTiming' => $final_timing,
+                        'modifyTime' => strtotime(date("Y-m-d")),
+                    ),
+                    'table' => 'qyura_doctorAppointment',
+                    'where' => array('doctorAppointment_id' => $myid)
+                );
+                $isUpdate = $this->common_model->customUpdate($updateOption);
+          echo 1;      
     }
 
     public function getDrTimeSlot() {
@@ -808,6 +841,7 @@ class Miappointment extends MY_Controller {
             echo "0";
         }
     }
+   
 
     /**
      * @project Qyura

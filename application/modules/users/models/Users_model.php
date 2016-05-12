@@ -60,11 +60,12 @@ class Users_model extends My_model {
 
         $imgUrl = base_url() . 'assets/usersImage/thumb/thumb_100/$1';
 
-        $this->datatables->select('patient.patientDetails_id as id,patient.patientDetails_usersId,City.city_name,patient.patientDetails_patientName,patient.patientDetails_address,patient.patientDetails_mobileNo,patient.patientDetails_patientImg,patient.patientDetails_dob,patient.status as sts,Users.users_id as user_id,Users.status as user_status');
+        $this->datatables->select('patient.patientDetails_id as id,patient.patientDetails_usersId,City.city_name,patient.patientDetails_patientName,patient.patientDetails_address,patient.patientDetails_mobileNo,patient.patientDetails_patientImg,patient.patientDetails_dob,patient.status as sts,Users.users_id as user_id,Users.status as user_status,usersRoles.usersRoles_roleId');
 
         $this->datatables->from('qyura_patientDetails AS patient');
         $this->datatables->join('qyura_city AS City', 'City.city_id = patient.patientDetails_cityId', 'left');
         $this->datatables->join('qyura_users AS Users', 'Users.users_id = patient.patientDetails_usersId', 'left');
+        $this->datatables->join('qyura_usersRoles AS usersRoles', 'usersRoles.usersRoles_userId = Users.users_id', 'left');
         
         $search = $this->input->post('bloodBank_name');
         if ($search) {
@@ -85,7 +86,7 @@ class Users_model extends My_model {
         if ($condition)
             $this->datatables->where(array('patient.ambulance_id' => $condition));
 
-        $this->datatables->where(array('patient.patientDetails_deleted' => 0));
+        $this->datatables->where(array('patient.patientDetails_deleted' => 0,'usersRoles.usersRoles_roleId' => 6));
 
         $this->datatables->add_column('patientDetails_patientImg', '<img class="img-responsive" height="80px;" width="80px;" src=' . $imgUrl . '>', 'patientDetails_patientImg');
 
@@ -99,45 +100,6 @@ class Users_model extends My_model {
         // echo $this->datatables->last_query();
     }
 
-    function fetchUsersConsultantDataTables() {
 
-
-        $this->datatables->select('doctorAppointment.doctorAppointment_id,doctorAppointment.doctorAppointment_pntUserId,doctorAppointment.doctorAppointment_date,doctorAppointment.doctorAppointment_finalTiming,doctorAppointment.doctorAppointment_doctorUserId,doctorAppointment.doctorAppointment_status,doctorAppointment.doctorAppointment_doctorParentId,');
-
-        $this->datatables->from('qyura_doctorAppointment AS doctorAppointment');
-        //  $this->datatables->join('qyura_city AS City','City.city_id = patient.patientDetails_cityId','left');
-
-        $this->datatables->order_by('doctorAppointment_id');
-        // $this->datatables->where(array('doctorAppointment.doctorAppointment_pntUserId'=> $condition));
-// if($condition)
-//        $this->datatables->where(array('doctorAppointment.ambulance_id'=> $condition));
-//
-//        $this->datatables->where(array('patient.patientDetails_deleted'=> 0));
-//         $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="users/editUserView/$1">View</a>', 'patientDetails_usersId');
-
-        return $this->datatables->generate();
-        // echo $this->datatables->last_query();
-    }
-
-    function fetchUsersDiagnosticDataTables() {
-
-
-        $this->datatables->select('doctorAppointment.doctorAppointment_id,doctorAppointment.doctorAppointment_pntUserId,doctorAppointment.doctorAppointment_date,doctorAppointment.doctorAppointment_finalTiming,doctorAppointment.doctorAppointment_doctorUserId,doctorAppointment.doctorAppointment_status,doctorAppointment.doctorAppointment_doctorParentId,qyura_quotationDetailTests.quotationDetailTests_testName');
-
-        $this->datatables->from('qyura_doctorAppointment AS doctorAppointment');
-        $this->datatables->join('qyura_quotationDetailTests AS quotationDetailTests', 'quotationDetailTests.city_id = patient.patientDetails_cityId', 'left');
-
-        $this->datatables->order_by('doctorAppointment_id');
-        $this->datatables->where(array('doctorAppointment.doctorAppointment_pntUserId' => $condition));
-
-// if($condition)
-//        $this->datatables->where(array('doctorAppointment.ambulance_id'=> $condition));
-//
-//        $this->datatables->where(array('patient.patientDetails_deleted'=> 0));
-//         $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="users/editUserView/$1">View</a>', 'patientDetails_usersId');
-
-        return $this->datatables->generate();
-        // echo $this->datatables->last_query();
-    }
 
 }
