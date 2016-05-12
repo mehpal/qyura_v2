@@ -56,7 +56,7 @@ class Hospital extends MY_Controller {
        $option = array(
             'table' => 'qyura_membership',
             'select' => 'membership_id,membership_name',
-            'where' => array('membership_deleted' => 0, 'status' => 3, 'membership_type' => 1)
+            'where' => array('membership_deleted' => 0, 'qyura_membership.status' => 1, 'membership_type' => 1)
         );
         $data['membership_plan'] = $this->common_model->customGet($option);
         
@@ -2701,7 +2701,7 @@ class Hospital extends MY_Controller {
         $option = array(
             'table' => 'qyura_membershipFacilities',
             'select' => '*',
-            'where' => array('membershipFacilities_deleted' => 0, 'status' => 3, 'membershipFacilities_membershipId' =>$membershipId )
+            'where' => array('membershipFacilities_deleted' => 0, 'qyura_membershipFacilities.status' => 1, 'membershipFacilities_membershipId' =>$membershipId )
         );
         $membership_plan = $this->common_model->customGet($option);
         echo json_encode($membership_plan);
