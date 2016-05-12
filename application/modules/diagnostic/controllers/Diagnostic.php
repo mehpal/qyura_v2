@@ -553,7 +553,8 @@ class Diagnostic extends MY_Controller {
                         'cityId' => $diagnostic_cityId,
                         'bloodBank_add' => $diagnostic_address,
                         'inherit_status' => 1,
-                        'bloodBank_zip' => $diagnostic_zip
+                        'bloodBank_zip' => $diagnostic_zip,
+                        'bloodBank_docatId' => $this->input->post('docatId'),
                     );
                     $bloodBankId = $this->Hospital_model->insertBloodbank($bloodBankDetail);
                     if ($bloodBankId) {
@@ -633,6 +634,7 @@ class Diagnostic extends MY_Controller {
                         'inherit_status' => 1,
                         'ambulance_zip' => $diagnostic_zip,
                         'docOnBoard' => $docOnBoard,
+                        'ambulance_docatId' => $this->input->post('docatId'),
                     );
                     $ambulanceId = $this->Hospital_model->insertAmbulance($ambulanceDetail);
                     if ($ambulanceId) {
@@ -807,6 +809,7 @@ class Diagnostic extends MY_Controller {
                         'bloodBank_long' => $this->input->post('lng'),
                         'bloodBank_add' => $this->input->post('diagnostic_address'),
                         'bloodBank_phn' => ltrim($bloodBank_phn, 0),
+                        'bloodBank_docatId' => $this->input->post('docatId'),
                         'modifyTime' => strtotime(date("Y-m-d H:i:s"))
                     );
                     if ($getData) {
@@ -911,6 +914,7 @@ class Diagnostic extends MY_Controller {
                         'ambulance_phn' => ltrim($ambulance_phn, 0),
                         'ambulance_address' => $this->input->post('diagnostic_address'),
                         'docOnBoard' => $docOnBoard,
+                        'ambulance_docatId' => $this->input->post('docatId'),
                     );
                     $ambulanceConditions = array();
                     $ambulanceConditions['ambulance_usersId'] = $this->input->post('user_tables_id');

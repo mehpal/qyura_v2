@@ -791,7 +791,8 @@ class Hospital extends MY_Controller {
                         'cityId' => $hospital_cityId,
                         'bloodBank_add' => $hospital_address,
                         'inherit_status' => 1,
-                        'bloodBank_zip' => $hospital_zip
+                        'bloodBank_zip' => $hospital_zip,
+                        'bloodBank_docatId' => $docatId
                     );
                     $bloodBankId = $this->Hospital_model->insertBloodbank($bloodBankDetail);
                     if ($bloodBankId) {
@@ -874,6 +875,7 @@ class Hospital extends MY_Controller {
                         'inherit_status' => 1,
                         'ambulance_zip' => $hospital_zip,
                         'docOnBoard' => $docOnBoard,
+                        'ambulance_docatId' => $docatId
                     );
                     $ambulanceId = $this->Hospital_model->insertAmbulance($ambulanceDetail);
                     if ($ambulanceId) {
@@ -1077,6 +1079,7 @@ class Hospital extends MY_Controller {
                         'bloodBank_long' => $hospital_long,
                         'bloodBank_add' => $hospital_address,
                         'bloodBank_phn' => ltrim($bloodBank_phn, 0),
+                        'bloodBank_docatId' => $this->input->post('docatId'),
                         'modifyTime' => strtotime(date("Y-m-d H:i:s"))
                     );
                     if ($getData) {
@@ -1198,6 +1201,7 @@ class Hospital extends MY_Controller {
                         'ambulance_phn' => ltrim($ambulance_phn, 0),
                         'ambulance_address' => $hospital_address,
                         'docOnBoard' => $docOnBoard,
+                        'ambulance_docatId' => $this->input->post('docatId'),
                     );
                     
                     $ambulanceConditions = array();
