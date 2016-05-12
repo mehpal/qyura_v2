@@ -79,13 +79,11 @@
                 $("#patient_email").addClass('loadinggif');
             },
             success: function (data) {
-
-                $("#patient_email").removeClass('loadinggif');
+                
                 if (data && data != 0) {
+                   
                     var data = JSON.parse(data);
-
-                    if (data.email_status != 1) {
-                        console.log(data.mobile);
+                    if (data.email_status != 1) {    
                         $('#users_mobile').val(data.mobile);
                         $('#stateId').val(data.stateId);
                         $('#stateId').selectpicker('refresh');
@@ -115,7 +113,7 @@
                     $('#address').val('');
                     $('#unqId').val('');
                     $('#zip').val('');
-                    $('#user_id').val('data');
+                    $('#user_id').val('');
                     $('#date-4').val('');
                     $('#input36').prop('selectedIndex', '');
                     $('#input36').selectpicker('refresh');
@@ -126,6 +124,7 @@
                     $('#familyListDiv').hide();
                     $("#p_unqId").hide();
                 }
+                
             }
         });
     }
@@ -289,8 +288,13 @@
         var amount = 0;
         var con_fee = parseInt($('#input22').val());
         var oth_fee = parseInt($('#input23').val());
+        if(!oth_fee)
+            oth_fee = 0;
         var tax = parseInt($('#input24').val());
+        if(!tax)
+            tax = 0;
         var amount = con_fee + oth_fee;
+        
         if (type == 1) {
             var total_test = $("#total_test").val();
             var a;
@@ -354,14 +358,14 @@
                 input2: {required: true},
                 input3: {required: true},
                 input5: {required: true},
-                input8: {required: true},
+                
             },
             messages: {
                 input1: {required: "Please select City.", },
                 input2: {required: "Please select Appointment For!", },
                 input3: {required: "Please select MI!", },
                 input5: {required: "Please select Appointment Type!", },
-                input8: {required: "Please select Appointment Status!", },
+                
             }
         });
         if ($("#input5").val() == "0")

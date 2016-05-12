@@ -2387,7 +2387,7 @@ if (isset($mapData) && !empty($mapData)) {
 
     function find_membershipdata(member_id) {
 
-        var url = '<?php echo site_url(); ?>/diagnostic/find_membership';
+        var url = '<?php echo site_url(); ?>/hospital/find_membership';
         if (typeof member_id == 'string') {
             $.ajax({
                 url: url,
