@@ -11,7 +11,7 @@
 
                 </div>
             </div>
-
+<input type="hidden" id="appid" name="appid" value="<?php echo isset($qtnId) ? $qtnId : ''?>">
             <!-- Main Div Start -->
             <section class="clearfix detailbox">
 
@@ -73,7 +73,7 @@
 
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4">Final Time :</label>
-                                <p class="col-md-8"><?php echo isset($qtnDetail->dateTime) ? date('h:i A', $qtnDetail->dateTime) : ''; ?></p>
+                                <p class="col-md-8"><?php echo isset($qtnDetail->finalTime) ? date('h:i A', $qtnDetail->finalTime) : ''; ?></p>
                             </div>
 
                             <div class="clearfix m-t-10">
@@ -168,9 +168,14 @@
                             </div>
                             <div class="clearfix m-t-20 text-right">
                                 <button type="button" class="btn btn-danger waves-effect m-r-10" onclick="changestatus(<?php echo $qtnId;?>,2,13)">Cancel</button>
-                                <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Reschedule</button>
-                                
-                                <button type="submit" class="btn btn-appointment waves-effect waves-light m-tb-xs-3" onclick="changestatus(<?php echo $qtnId;?>,2,12)">Change Status</button>
+                                 <?php 
+                                $dt = date('Y-m-d', $qtnDetail->dateTime);
+                                $tm = date('H:i:s', $qtnDetail->finalTime);
+                                $appdate = strtotime($dt." ".$tm);
+                                if($appdate>= (strtotime(date("Y-m-d H:i:s")))){
+                                ?>
+                                <button data-toggle="modal" data-target="#myModal2" class="btn btn-success waves-effect waves-light m-b-5 applist-btn" type="button">Reschedule</button>
+                                <?php } ?> 
                             </div>
                         </aside>
                     </article>
@@ -322,3 +327,4 @@
 </div>
 <!-- END wrapper -->
 <?php echo $this->load->view('edit_upload_crop_modal'); ?>
+<?php echo $this->load->view('change_diagtimeslot'); ?>
