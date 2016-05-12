@@ -228,7 +228,7 @@ CASE
                         $finalTemp = array();
                         
                         $finalTemp['name'] = (isset($row->name) && $row->name != NULL) ? $row->name : ""; 
-                        $finalTemp['fee'] = (isset($row->fee) && $row->fee != NULL) ? $row->fee : ""; 
+                        $finalTemp['fee'] = (isset($row->fee) && $row->fee != NULL) ? $row->fee : "0"; 
                         
                         if($lat != NULL){
                             $finalTemp['docTimeTable_id'] = $row->docTimeTable_id;
