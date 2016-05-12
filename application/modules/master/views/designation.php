@@ -44,7 +44,7 @@
                                           </h6>
                                        </span>
                                     </li>
-                                    <li class="newmembership m-t-10" style="display:none" id="editDes<?php echo $countDesignation;?>">
+                                    <li class="newmembership clearfix" style="display:none" id="editDes<?php echo $countDesignation;?>">
                                        <span class="col-md-5 ">
                                           <input type="hidden" id="designation_id_<?php echo $countDesignation; ?>" name="designation_id_<?php echo $countDesignation; ?>" value="<?php echo $list->designation_id; ?>" >
                                           <select class="selectpicker" data-width="100%" name="designation_departmentId_<?php echo $countDesignation; ?>" id="designation_departmentId_<?php echo $countDesignation; ?>" style="z-index: 1000000 !important">
@@ -63,9 +63,11 @@
                                        <input type="text" required="" name="designation_name_<?php echo $countDesignation; ?>" id="designation_name_<?php echo $countDesignation; ?>" class="form-control" value="<?php echo $list->designation_name; ?>" onkeypress="return isAlpha(event,this.value)">
                                        <label class="error" id="err_designation_name_<?php echo $countDesignation; ?>" > <?php echo form_error("designation_name"); ?></label>
                                        </span>
-                                       <span class="col-md-2">
-                                       <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                                       <a onclick="hideDesignation('<?php echo $countDesignation;?>')" href="javascript:void(0)" style="line-height: 1.6"><i class="md md-cancel membership-btn"></i></a>
+                                       <span class="col-md-1">
+                                       <button class="btn btn-sm btn-success" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
+                                       </span>
+                                       <span class="col-md-1">
+                                       <a class="text-danger pull-left" onclick="hideDesignation('<?php echo $countDesignation;?>')" href="javascript:void(0)" style="line-height: 1.6"><i class="md md-cancel membership-btn m-t-5"></i></a>
                                        </span>
                                     </li>
                                     <?php $countDesignation++;} } ?>

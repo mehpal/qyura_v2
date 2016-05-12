@@ -67,18 +67,19 @@
                                           </span>
                                        
                                        </li>
-                                    <li class="newmembership clearfix" style="display:none" id="edit<?php echo $countHospi;?>">
+                                    <li class="newmembership clearfix m-t-10" style="display:none" id="edit<?php echo $countHospi;?>">
                                        <span class="col-md-10">
                                        <input type="hidden" id="hospitalType_id_<?php echo $countHospi; ?>" name="hospitalType_id_<?php echo $countHospi; ?>" value="<?php echo $list->hospitalType_id; ?>" >
                                        <input type="text" required="" name="hospitalType_name_<?php echo $countHospi; ?>" id="hospitalType_name_<?php echo $countHospi; ?>" class="form-control" value="<?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>">
                                        <label class="error" id="hospitalType_name_<?php echo $countHospi; ?>" > <?php echo form_error("hospitalType_name_$countHospi"); ?></label>
                                        </span>
-                                       <span class="col-md-2">
+                                       <span class="col-md-1">
 
                                        <button class="btn btn-sm btn-success" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
+</span><span class="col-md-1">
 
-                                       <button class="btn btn-sm btn-danger" onclick="hideHospitalType('<?php echo $countHospi; ?>')"  href="#"><i class="md md-cancel membership-btn l-height"></i></button>
-                                       
+                                       <a class="text-danger pull-left" onclick="hideHospitalType('<?php echo $countHospi; ?>')"  href="#"><i class="md md-cancel m-t-5"></i></a>
+
                                        </span>
                                     </li>
                                     
@@ -157,15 +158,17 @@
                                           </span>
                                        
                                        </li>
-                                    <li class="newmembership" style="display:none" id="editDiag<?php echo $countHospi;?>">
+                                    <li class="newmembership clearfix" style="display:none" id="editDiag<?php echo $countHospi;?>">
                                        <span class="col-md-10">
                                        <input type="hidden" id="hospitalType_id_<?php echo $countHospi; ?>" name="hospitalType_id_<?php echo $countHospi; ?>" value="<?php echo $list->hospitalType_id; ?>" >
                                        <input type="text" required="" name="hospitalType_name_<?php echo $countHospi; ?>" id="hospitalType_name_<?php echo $countHospi; ?>" class="form-control" value="<?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>">
                                        <label class="error" id="hospitalType_name_<?php echo $countHospi; ?>" > <?php echo form_error("hospitalType_name_$countHospi"); ?></label>
                                        </span>
-                                       <span class="col-md-2">
-                                       <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                                       <a onclick="hideDiagnosticType('<?php echo $countHospi; ?>')" href="#"><i class="md md-cancel membership-btn l-height"></i></a>
+                                      <span class="col-md-1">
+                                       <button class="btn btn-sm btn-success" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
+                                       </span>
+                                       <span class="col-md-1">
+                                       <a class="text-danger pull-left" onclick="hideDiagnosticType('<?php echo $countHospi; ?>')" href="#"><i class="md md-cancel membership-btn m-t-5"></i></a>
                                        </span>
                                     
                                     </li>
@@ -243,16 +246,18 @@
                                           <button onclick="if((<?php echo $list->status; ?>)===0)enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>','2')" type="button" class="btn btn-<?php if($list->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
                                           </span>
                                        </li>
-                                    <li class="newmembership" style="display:none" id="editBlood<?php echo $countBlood;?>">
+                                    <li class="newmembership clearfix" style="display:none" id="editBlood<?php echo $countBlood;?>">
                                        <span class="col-md-10">
                                        <input type="hidden" id="hospitalType_id_<?php echo $countBlood; ?>" name="hospitalType_id_<?php echo $countBlood; ?>" value="<?php echo $list->hospitalType_id; ?>" >
                                        <input type="text" required="" name="hospitalType_name_<?php echo $countBlood; ?>" id="hospitalType_name_<?php echo $countBlood; ?>" class="form-control" value="<?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>">
                                        <label class="error" id="hospitalType_name_<?php echo $countBlood; ?>" > <?php echo form_error("hospitalType_name_$countBlood"); ?></label>
                                        </span>
-                                       <span class="col-md-2">
-                                       <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                                       <a onclick="hideBloodBank('<?php echo $countBlood; ?>')" href="#"><i class="md md-cancel membership-btn l-height"></i></a>
-                                       </span>
+                                       <span class="col-md-1">
+                                       <button class="btn btn-sm btn-success" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
+                                        </span>
+                                        <span class="col-md-1">
+                                       <a class="text-danger pull-left" onclick="hideBloodBank('<?php echo $countBlood; ?>')" href="#"><i class="md md-cancel membership-btn m-t-5"></i></a>
+                                      </span>
                                     </li>
                                     
                                     <?php $countBlood++;} } } ?>
@@ -329,15 +334,17 @@
                                           <button onclick="if((<?php echo $list->status; ?>)===0)enableFn('master', 'miTypePublish', '<?php echo $list->hospitalType_id; ?>','<?php echo $list->status; ?>','5')" type="button" class="btn btn-<?php if($list->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($list->status == 1){ echo "Active"; }else if($list->status == 0){ echo "Inactive"; } ?></button>
                                           </span>
                                        </li>
-                                    <li class="newmembership" style="display:none" id="editPh<?php echo $countHospi;?>">
+                                    <li class="newmembership clearfix" style="display:none" id="editPh<?php echo $countHospi;?>">
                                        <span class="col-md-10">
                                        <input type="hidden" id="hospitalType_id_<?php echo $countHospi; ?>" name="hospitalType_id_<?php echo $countHospi; ?>" value="<?php echo $list->hospitalType_id; ?>" >
                                        <input type="text" required="" name="hospitalType_name_<?php echo $countHospi; ?>" id="hospitalType_name_<?php echo $countHospi; ?>" class="form-control" value="<?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>">
                                        <label class="error" id="hospitalType_name_<?php echo $countHospi; ?>" > <?php echo form_error("hospitalType_name_$countHospi"); ?></label>
                                        </span>
-                                       <span class="col-md-2">
-                                       <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                                       <a onclick="hidePharmacy('<?php echo $countHospi; ?>')" href="#"><i class="md md-cancel membership-btn l-height"></i></a>
+                                       <span class="col-md-1">
+                                       <button class="btn btn-sm btn-success" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
+                                       </span>
+                                       <span class="col-md-1">
+                                       <a class="text-danger pull-left" onclick="hidePharmacy('<?php echo $countHospi; ?>')" href="#"><i class="md md-cancel membership-btn m-t-5"></i></a>
                                        </span>
                                     
                                     </li>
@@ -416,15 +423,17 @@
                                           </span>
                                       
                                        </li>
-                                    <li class="newmembership" style="display:none" id="editAmb<?php echo $countHospi;?>">
+                                    <li class="newmembership clearfix" style="display:none" id="editAmb<?php echo $countHospi;?>">
                                        <span class="col-md-10">
                                        <input type="hidden" id="hospitalType_id_<?php echo $countHospi; ?>" name="hospitalType_id_<?php echo $countHospi; ?>" value="<?php echo $list->hospitalType_id; ?>" >
                                        <input type="text" required="" name="hospitalType_name_<?php echo $countHospi; ?>" id="hospitalType_name_<?php echo $countHospi; ?>" class="form-control" value="<?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>">
                                        <label class="error" id="hospitalType_name_<?php echo $countHospi; ?>" > <?php echo form_error("hospitalType_name_$countHospi"); ?></label>
                                        </span>
-                                       <span class="col-md-2">
-                                       <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                                       <a onclick="hideAmbulance('<?php echo $countHospi; ?>')" href="#"><i class="md md-cancel membership-btn l-height"></i></a>
+                                       <span class="col-md-1">
+                                       <button class="btn btn-sm btn-success" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
+                                       </span>
+                                       <span class="col-md-1">
+                                       <a class="text-danger pull-left" onclick="hideAmbulance('<?php echo $countHospi; ?>')" href="#"><i class="md md-cancel membership-btn m-t-5"></i></a>
                                        </span>
                                     
                                     </li>
