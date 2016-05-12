@@ -30,13 +30,13 @@
                                      <?php }?>
                                     </select>
                                 </aside>
-                                <aside class="col-md-3 col-sm-3 m-tb-xs-3">
+<!--                                <aside class="col-md-3 col-sm-3 m-tb-xs-3">
                                     <select name="status" class="selectpicker" data-width="100%" id="status" />
                                    <option value="">Select Status</option>
                                    <option value="1">Active</option>
                                    <option value="0">Inactive</option>
                                     </select>
-                                </aside>
+                                </aside>-->
                                 <aside class="col-md-3 col-sm-4  m-tb-xs-3">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
