@@ -563,7 +563,9 @@ if ($current != 'detailDoctor'): ?>
 <script>
 
     function showDegree(id){
+         
         $("#editDeg"+id).show();
+        $("#editDeg"+id).removeClass('out hidden');
         $("#degree"+id).hide();
     }
 
@@ -573,6 +575,7 @@ if ($current != 'detailDoctor'): ?>
     }
     function showHospitalType(id){
         $("#edit"+id).show();
+        $("#edit"+id).removeClass('out hidden');
         $("#hospitalType"+id).hide();
     }
 
@@ -582,6 +585,7 @@ if ($current != 'detailDoctor'): ?>
     }
 function showDiagnosticType(id){
         $("#editDiag"+id).show();
+        $("#editDiag"+id).removeClass('out hidden');
         $("#diagnosticType"+id).hide();
     }
 
@@ -591,6 +595,7 @@ function showDiagnosticType(id){
     }
     function showBloodBank(id){
         $("#editBlood"+id).show();
+        $("#editBlood"+id).removeClass('out hidden');
         $("#bloodBank"+id).hide();
     }
 
@@ -600,6 +605,7 @@ function showDiagnosticType(id){
     }
     function showPharmacy(id){
         $("#editPh"+id).show();
+        $("#editPh"+id).removeClass('out hidden');
         $("#pharmacy"+id).hide();
     }
 
@@ -609,15 +615,17 @@ function showDiagnosticType(id){
     }
     function showAmbulance(id){
         $("#editAmb"+id).show();
+        $("#editAmb"+id).removeClass('out hidden');
         $("#ambulance"+id).hide();
     }
 
    function hideAmbulance(id){
         $("#editAmb"+id).hide();
-        $("#awardAgency"+id).show();
+        $("#ambulance"+id).show();
     }
     function showAwardAgency(id){
         $("#editAward"+id).show();
+        $("#editAward"+id).removeClass('out hidden');
         $("#awardAgency"+id).hide();
     }
 
@@ -627,6 +635,7 @@ function showDiagnosticType(id){
     }
     function showDepartment(id){
         $("#editDept"+id).show();
+        $("#editDept"+id).removeClass('out hidden');
         $("#department"+id).hide();
     }
 
