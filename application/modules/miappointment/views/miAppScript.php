@@ -215,7 +215,7 @@
                     beforeSend: function (xhr) {
                     },
                     success: function (data) {
-                        
+                        location.reload(); 
                     }
                 });
             }
@@ -287,6 +287,7 @@
         var appdate = $("#date-7").val();
         
         var finaltime = $("#timepicker3").val();
+        
         var appid = $("#appid").val();
         var url = '<?php echo site_url(); ?>' + '/miappointment/savediagtimeSlot';
         $.ajax({
