@@ -294,7 +294,7 @@
                                                         <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
 
                                                         <div class="pre col-md-4 col-sm-4 ">
-                                                            <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
+                                                            <div id="preImgLogo" class="avatar-preview preview-md m-l-15 preImgLogo">
 
                                                                 <img src="<?php echo base_url() ?>assets/default-images/Blood-logo.png"  class="image-preview-show"/>
 
