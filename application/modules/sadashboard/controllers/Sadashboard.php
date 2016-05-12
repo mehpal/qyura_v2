@@ -11,7 +11,6 @@ class SaDashboard extends MY_Controller {
 
     public function index() {
         $this->common_model->mypermission("7");
-
         //$data['MI'] = $this->dashboard_model->getMiCount();
         $data['Doctor'] = $this->dashboard_model->getDoctorCount();
         $data['User'] = $this->dashboard_model->getUserCount();
@@ -19,6 +18,13 @@ class SaDashboard extends MY_Controller {
         $data['doctorList'] = $this->dashboard_model->getDoctorList();
         $data['quotationList'] = $this->dashboard_model->getPendingQuotationList();
         $data['notification'] = $this->dashboard_model->getNotification();
+        $data['cityList'] = $this->dashboard_model->getCityList();
+        $data['topHospital'] = $this->dashboard_model->getTopHospital();
+        $data['doctorOfMonth'] = $this->dashboard_model->getDoctorOfMonth();
+        $data['consultAppoinement'] = $this->dashboard_model->getConsultAppointment();
+        $data['diagnosticAppointmnt'] = $this->dashboard_model->getDoagnosticAppointment();
+//        dump($data['diagnosticAppointmnt']);
+//        exit();
         $data['title'] = 'SuperAdmin Dashboard';
         $this->load->super_admin_template('Superadmin_dashboard', $data, 'dashboardScript');
     }
