@@ -77,8 +77,8 @@
                                             <form  class="cmxform form-horizontal tasi-form avatar-form" id="timeForm" name="addDoctorSlot" method="post" action="#" novalidate="novalidate">
                                                 <input type="hidden" name="doctorId" id="" value="<?php echo $doctorId; ?>" />
                                                 <input type="hidden" name="docTimeTable_stayAt" id="docTimeTable_stayAt" value="1" />
-                                                <input type="hidden" name="docTimeTable_MItype" id="docTimeTable_MItype" value="1" />
-                                                <input type="hidden" name="docTimeTable_MIprofileId" id="docTimeTable_MIprofileId" value="<?php echo $hospitalId; ?>" />
+                                                <input type="hidden" name="docTimeTable_MItype" id="docTimeTable_MItype" value="2" />
+                                                <input type="hidden" name="docTimeTable_MIprofileId" id="docTimeTable_MIprofileId" value="<?php echo $diagnosticId; ?>" />
 
 
 
@@ -178,7 +178,7 @@
 
                         function editTimeSloatView(docTimeTableId, doctorId, docTimeDayId, day) {
                             $.ajax({
-                                url: urls + 'index.php/hospital/editDocTimeView',
+                                url: urls + 'index.php/diagnostic/editDocTimeView',
                                 type: 'POST',
                                 data: {'docTimeTableId': docTimeTableId, 'doctorId': doctorId, 'docTimeDayId': docTimeDayId, 'day': day},
                                 beforeSend: function (xhr) {
@@ -205,7 +205,7 @@
 
                             $("#timeForm").submit(function (event) {
                                 event.preventDefault();
-                                var url = '<?php echo site_url(); ?>/hospital/addDocTime/';
+                                var url = '<?php echo site_url(); ?>/diagnostic/addDocTime/';
                                 var formData = new FormData(this);
                                 submitData(url, formData);
                                 return false;

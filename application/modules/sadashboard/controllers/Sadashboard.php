@@ -57,5 +57,13 @@ class SaDashboard extends MY_Controller {
          exit;
          
     }
+    
+    function getChartAmbulance(){
+         $year = date('2015');
+         
+         $chartData = $this->dashboard_model->getSignupChart($year);
+        
+         print_r($chartData);
+    }
 
 }

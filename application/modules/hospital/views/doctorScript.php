@@ -298,7 +298,8 @@
         var divIds = countsAccademic;
         var degreeData = $('#doctorAcademic_degreeId1').html();
         var specialitiesData = $('#doctorSpecialities_specialitiesCatId1').html();
-        $('#parentDegreeDiv').append('<div id="childDegreeDiv' + divIds + '"><aside class="row"><label for="cname" class="control-label col-md-4">Degree</label><div class="col-md-4 col-sm-4"><select class="select2" data-width="100%" data-size="4" name="doctorAcademic_degreeId[]" id="doctorAcademic_degreeId' + divIds + '" >' + degreeData + '</select></div><div class="col-md-4 col-sm-4 m-t-xs-10"><select class="select2" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId' + divIds + '" >' + specialitiesData + '</select></div></aside><aside class="row"><label for="cname" class="control-label col-md-4 m-t-20">Address</label><div class="col-md-8 col-sm-8 m-t-20"><textarea class="form-control" id="acdemic_addaddress' + divIds + '" name="acdemic_addaddress[]" required=""></textarea><label class="error" style="display:none;" id="error-acdemic_addaddress' + divIds + '"> please fill Address</label></div><label for="cname" class="control-label col-md-4 m-t-20">Year</label><div class="col-md-8 col-sm-8 m-b-20 m-t-10"><input class="form-control" name="acdemic_addyear[]" required="" id="acdemic_addyear' + divIds + '" value="" onkeypress="return isNumberKey(event)" maxlength="4"><label class="error" style="display:none;" id="error-acdemic_addyear' + divIds + '"> please fill Year</label></div></aside><aside class="col-sm-2 text-right"><a id="btn-service2" href="javascript:void(0)" class="gadd"><i class="fa fa-minus-circle fa-2x m-t-5 label-plus"></i></a></aside></div><br />');
+        
+        $('#parentDegreeDiv').append('<div id="childDegreeDiv' + divIds + '"><aside class="row"><label for="cname" class="control-label col-md-4">Degree</label><div class="col-md-4 col-sm-4"><select class="select2" data-width="100%" data-size="4" name="doctorAcademic_degreeId[]" id="doctorAcademic_degreeId' + divIds + '" >' + degreeData + '</select></div><div class="col-md-4 col-sm-4 m-t-xs-10"><select class="select2" data-width="100%" data-size="4" name="doctorSpecialities_specialitiesCatId[]" id="doctorSpecialities_specialitiesCatId' + divIds + '" >' + specialitiesData + '</select></div></aside><aside class="row"><label for="cname" class="control-label col-md-4 m-t-20">Address</label><div class="col-md-8 col-sm-8 m-t-20"><textarea class="form-control" id="acdemic_addaddress' + divIds + '" name="acdemic_addaddress[]" required=""></textarea><label class="error" style="display:none;" id="error-acdemic_addaddress' + divIds + '"> please fill Address</label></div><label for="cname" class="control-label col-md-4 m-t-20">Year</label><div class="col-md-8 col-sm-8  m-t-10"><input class="form-control" name="acdemic_addyear[]" required="" id="acdemic_addyear' + divIds + '" value="" onkeypress="return isNumberKey(event)" maxlength="4"><label class="error" style="display:none;" id="error-acdemic_addyear' + divIds + '"> please fill Year</label></div></aside><aside class="col-sm-2 pull-right text-right"><a id="btn-service2" href="javascript:void(0)" class="gadd"><i class="fa fa-minus-circle fa-2x m-t-5 label-plus"></i></a></aside></div><br />');
         $('.select2').select2({
             width: "100%"
         })
@@ -546,10 +547,10 @@ if ($current == 'doctorDetails'){ ?>
  <script>
     var urls = "<?php echo base_url() ?>";
     $(document).ready(function () {
-    $("#submitForm").validate({
+    $("#submitFormDoctor").validate({
         
       errorPlacement: function(error, element) {
-        if (element.attr("name") == "avatar_file")
+        if (element.attr("name") == "doctor_photo")
         {
             error.insertAfter('.error-label');
         }
@@ -558,22 +559,22 @@ if ($current == 'doctorDetails'){ ?>
         }
         },
         rules: {
+            doctors_phn: {
+                minlength: 10
+            },
             doctors_fName: {
                 required: true
             },
             doctors_lName: {
                 required : true
             },
-             avatar_file: {
+             doctor_photo: {
                 required : true
             },
             'doctorSpecialities_specialitiesId[]': {
                 required: true
             },
-            users_email: {
-                email: true,
-                            
-            },
+            
        'doctorAcademic_degreeId[]':{
          
            required: true
@@ -599,22 +600,21 @@ if ($current == 'doctorDetails'){ ?>
       }    
         },
         messages: {
+            
             doctors_fName: {
                 required: "Please enter doctor's first name!",
             },
               doctors_lName: {
                 required : "Please enter doctor's last name!"
             },
-              avatar_file: {
+              doctor_photo: {
                 required : "Please upload an image!"
             },
 
               'doctorSpecialities_specialitiesId[]': {
                 required: "Please select one or more specialities!"
             },
-            users_email: {
-                email: "Please enter the correct email format!"
-            },
+            
           
              'doctorAcademic_degreeId[]': {
                 required: "Please select a degree!"
@@ -647,6 +647,9 @@ if ($current == 'doctorDetails'){ ?>
     $(document).ready(function () {
     $("#updateForm").validate({
         rules: {
+            doctors_phn: {
+                minlength: 10
+            },
             doctors_fName: {
                 required: true
             },
@@ -744,6 +747,9 @@ function emailIsExist() {
             if (!filter.test(email)) {
                 $('#users_email').addClass('bdr-error');
                 $('#error-users_email').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){
+                $("#users_email").removeClass('bdr-error');
+                }, 3000);
             }
             
             $.ajax({
@@ -754,7 +760,9 @@ function emailIsExist() {
                     if (datas == 0) {
                         $('#users_email').addClass('bdr-error');
                         $('#error-users_email_check').fadeIn().delay(5000).fadeOut('slow');
-                        ;
+                        setTimeout(function(){
+                            $("#users_email").removeClass('bdr-error');
+                        }, 3000);
                         $('#users_email_status').val(datas);
                         return false;
                     }else {

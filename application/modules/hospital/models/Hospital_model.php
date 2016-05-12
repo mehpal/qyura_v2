@@ -11,7 +11,7 @@ class Hospital_model extends My_model {
    function fetchAwardAgency() {
         $this->db->select('awardAgency_id,agency_name');
         $this->db->from('qyura_awardAgency');
-        $this->db->where(array('agency_deleted' => 0, 'status' => 3));
+        $this->db->where(array('agency_deleted' => 0, 'status' => 1));
         $this->db->order_by("agency_name", "asc");
         $this->db->group_by("awardAgency_id");
         return $this->db->get()->result();

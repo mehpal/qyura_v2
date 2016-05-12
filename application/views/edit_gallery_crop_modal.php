@@ -4,7 +4,7 @@
         <div class="modal-content">
             <form class="avatar-form-gallery" action="crop11.php" enctype="multipart/form-data" method="post">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close cancelCrop" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" id="avatar-modal-label">Change Avatar</h4>
                 </div>
                 <div class="modal-body">
@@ -37,7 +37,7 @@
                 <div class="modal-footer">
                     <div class="row avatar-btns">
                             <div class="col-md-12">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-danger cancelCrop" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary avatar-save">Update Avatar</button>
                             </div>
                         </div>

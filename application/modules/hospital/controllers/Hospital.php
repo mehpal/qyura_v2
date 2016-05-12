@@ -683,6 +683,10 @@ class Hospital extends MY_Controller {
 
                 $inserData['hospital_usersId'] = $hospital_usersId;
                 
+                if(isset($_POST['users_email']) && $_POST['users_email'] != '')
+                    $this->sendEmailRegister($this->input->post('users_email'));
+                 
+                 
                 if($hospital_id == 0){
                      $inserData['status'] = 0;
                      $hospitalId = $this->Hospital_model->insertHospital($inserData);
@@ -1953,11 +1957,13 @@ class Hospital extends MY_Controller {
      * @return boolean
      */
     function editUploadImage() {
-
+        
+        
         if ($_POST['avatar_file']['name']) {
             $path = realpath(FCPATH . 'assets/hospitalsImages/');
             $upload_data = $this->input->post('avatar-data');
             $upload_data = json_decode($upload_data);
+            
            // echo $upload_data->width; exit;
             if ($upload_data->width > 425) {
                 $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/hospitalsImages/', './assets/hospitalsImages/thumb/', 'hospital');
@@ -2493,6 +2499,10 @@ class Hospital extends MY_Controller {
                 
             );
             
+            if(!$users_email){
+                $this->sendEmailRegister($this->input->post($users_email));
+            }
+            
             $doctorsProfileId = $this->Doctor_model->insertDoctorData($doctorsinserData, 'qyura_doctors');
             
             //dump($this->db->last_query());
@@ -2818,8 +2828,8 @@ class Hospital extends MY_Controller {
             echo json_encode($responce);
         } elseif ($this->checkEditSloat()) {
 
-            $docTimeTable_stayAt = isset($_POST['docTimeTable_stayAt']) ? $this->input->post('docTimeTable_stayAt') : '';
-            $docTimeTable_MItype = isset($_POST['docTimeTable_MItype']) ? $this->input->post('docTimeTable_MItype') : '';
+            $docTimeTable_stayAt = isset($_POST['docTimeTable_stayAt']) ? $this->input->post('docTimeTable_stayAt') : '1';
+            $docTimeTable_MItype = isset($_POST['docTimeTable_MItype']) ? $this->input->post('docTimeTable_MItype') : '1';
             $docTimeTable_MIprofileId = isset($_POST['docTimeTable_MIprofileId']) ? $this->input->post('docTimeTable_MIprofileId') : '';
             $docTimeTable_price = isset($_POST['fees']) ? $this->input->post('fees') : '';
             $docTimeDay_days = isset($_POST['docTimeDay_day']) ? $this->input->post('docTimeDay_day') : '';

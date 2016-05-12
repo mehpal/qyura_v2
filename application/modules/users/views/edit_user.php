@@ -10,7 +10,7 @@
                         <h3 class="pull-left page-title">Edit User</h3>
                     </div>
                 </div>
-                <form class="cmxform form-horizontal tasi-form avatar-form" id="submitForm" method="post" action="<?php echo site_url('users/editUserSave'); ?>" novalidate="novalidate" enctype="multipart/form-data">
+                <form class="cmxform form-horizontal tasi-form avatar-form" id="editsubmitForm" method="post" action="<?php echo site_url('users/editUserSave'); ?>" novalidate="novalidate" enctype="multipart/form-data">
                     <input type="hidden"  name="users_id" value="<?php if (isset($users_detail->users_id) && !empty($users_detail->users_id)) { echo $users_detail->users_id; } ?>" id="users_id"/>
                     <input type="hidden"  name="patientDetails_id" value="<?php if (isset($users_detail->patientDetails_id) && !empty($users_detail->patientDetails_id)) { echo $users_detail->patientDetails_id; } ?>" id="patientDetails_id"/>
                     
@@ -40,7 +40,7 @@
                                             <?php if (!empty($users_detail->patientDetails_patientImg)) { ?>
                                                 <img src="<?php echo base_url() ?>assets/usersImage/thumb/thumb_100/<?php echo $users_detail->patientDetails_patientImg; ?>" alt="" class="image-preview-show" />
                                             <?php } else { ?>
-                                                <img src="<?php echo base_url() ?>assets/default-images/Blood-logo.png" alt="" class="image-preview-show" />
+                                                <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png" alt="" class="image-preview-show" />
                                             <?php } ?>
                                                 <input type="hidden"  name="patientDetails_patientImg" value="<?php if (isset($users_detail) && !empty($users_detail)) { echo $users_detail->patientDetails_patientImg; } ?>" />
                                             </div>
@@ -146,22 +146,22 @@
                                     </div>
                                 </article>
 
-                                <!--                                <article class="form-group m-lr-0">
+                                                                <article class="form-group m-lr-0">
                                                                     <label for="cname" class="control-label col-md-4 col-sm-4">Enter Password :</label>
                                                                     <div class="col-md-8 col-sm-8">
                                                                         <input type="password" class="form-control" id="users_password" name="users_password" minlength="4"/>
                                 
                                                                         <label class="error" > <?php echo form_error("users_password"); ?></label>
                                                                     </div>
-                                                                </article>-->
-                                <!--                                <article class="form-group m-lr-0">
+                                                                </article>
+                                                                <article class="form-group m-lr-0">
                                                                     <label for="cname" class="control-label col-md-4 col-sm-4">Confirm Password :</label>
                                                                     <div class="col-md-8 col-sm-8">
                                                                         <input type="password" class="form-control" id="cnfPassword" name="cnfPassword" placeholder=" " />
                                 
                                                                         <label class="error" > <?php echo form_error("cnfPassword"); ?></label>
                                                                     </div>
-                                                                </article>-->
+                                                                </article>
                             </div>
                             <!-- .form -->
                         </div>
@@ -228,8 +228,9 @@
                                 <aside class="clearfix m-t-20">
                                     <div id="familyInsuranceSection" > 
                                         <div id="familyInsuranceClon_1">
-                                            <?php $count_family = 1; if(isset($usersfamily_detail) && !empty($usersfamily_detail)){
-                                            foreach ($usersfamily_detail as $val) { ?>
+                                            <?php $count_family = 1; if(isset($usersfamily_detail) && !empty($usersfamily_detail)){ ?>
+                                            <input type="hidden" id="total_family" name="total_family" value="<?php echo count($usersfamily_detail); ?>" >
+                                            <?php foreach ($usersfamily_detail as $val) { ?>
                                                 <input type="hidden" id="usersfamily_id_<?php echo $count_family; ?>" name="usersfamily_id_<?php echo $count_family; ?>" value="<?php echo $val->usersfamily_id; ?>">
                                                 <article class="form-group m-lr-0">
                                                     <label for="" class="control-label col-md-4 col-sm-4">Name :</label>
@@ -301,9 +302,26 @@
                                                             <label class="error" > <?php echo form_error("userInsurance_insuranceNo_$count_family"); ?></label>
                                                         </div>
                                                     </article>
+                                                    
+                                                    
+                                                    
+                                    <article class="form-group m-lr-0">
+                                        <label for="cname" class="control-label col-md-4 col-sm-4">Policy Expiry Date :</label>
+                                        <div class="col-md-8 col-sm-8">
+                                            <div class="input-group">
+                                                <input class="form-control pickDate" id="userInsurance_expDate_<?php echo $count_family; ?>" placeholder="dd/mm/yyyy" type="text" name="userInsurance_expDate_<?php echo $count_family; ?>" onkeydown="return false;" value="<?php if (isset($val->userInsurance_expDate) && !empty($val->userInsurance_expDate)) { echo date('d-m-Y', $val->userInsurance_expDate); } ?>">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>
+                                            <label class="error" > <?php echo form_error("userInsurance_expDate_$count_family"); ?></label>
+                                        </div>
+                                    </article>
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
                                                 </div>
                                                 <hr>
-                                            <?php $count_family++;}  } ?>
+                                            <?php $count_family++; }  } ?>
                                                 <input type="hidden" id="total_test_edit" name="total_test_edit" value="<?php echo $count_family; ?>" >
                                         </div>
                                     </div>

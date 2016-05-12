@@ -226,11 +226,12 @@ CASE
 
                     if($pre != $tag){
                         $finalTemp = array();
-                        $finalTemp['docTimeTable_id'] = $row->docTimeTable_id;
-                        $finalTemp['lat'] = (isset($row->lat) && $row->lat != NULL) ? $row->lat : "";
-                        $finalTemp['lng'] = (isset($row->lng) && $row->lng != NULL) ? $row->lng : "";
+                        
                         $finalTemp['name'] = (isset($row->name) && $row->name != NULL) ? $row->name : ""; 
                         if($lat != NULL){
+                            $finalTemp['docTimeTable_id'] = $row->docTimeTable_id;
+                            $finalTemp['lat'] = (isset($row->lat) && $row->lat != NULL) ? $row->lat : "";
+                            $finalTemp['lng'] = (isset($row->lng) && $row->lng != NULL) ? $row->lng : "";
                             $finalTemp['fee'] = (isset($row->fee) && $row->fee != NULL)? $row->fee :"0";
                             $finalTemp['distance'] = (isset($row->distance) && $row->distance != NULL) ? $row->distance: "0";
                         }
@@ -247,7 +248,7 @@ CASE
 
     public function getDoctorSession($id,$day) {
 
-        $this->db->select('docTimeDay_id, docTimeDay_open as open, docTimeDay_close')
+        $this->db->select('docTimeDay_id, DATE_FORMAT(docTimeDay_open, "%h:%i %p") as open,  DATE_FORMAT(docTimeDay_close, "%h:%i %p") as close')
             ->from('qyura_docTimeDay')
             ->join('qyura_docTimeTable', 'qyura_docTimeTable.docTimeTable_id=qyura_docTimeDay.docTimeDay_docTimeTableId', 'left')
             ->where(array('docTimeDay_docTimeTableId' => $id, "docTimeDay_deleted" => 0,"docTimeDay_day"=>$day))

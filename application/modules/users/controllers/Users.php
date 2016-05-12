@@ -33,7 +33,7 @@ class Users extends MY_Controller {
         $option = array('table' => 'qyura_users', 'select' => 'users_id', 'single' => true, 'order' => array('users_id' => 'desc'));
         $users = $this->common_model->customGet($option);
         $users_id = $users->users_id;
-        $users_id = $users_id + 1; 
+        $users_id = $users_id + 1;
         $data['usersCode'] = "PNT" . $users_id;
         $data['title'] = 'Add Users';
         $data['allStates'] = $this->Users_model->fetchStates();
@@ -57,7 +57,7 @@ class Users extends MY_Controller {
         $this->bf_form_validation->set_rules('users_password', 'Password', 'trim|required');
 //        familymember validation
         $addFamilyMember = $this->input->post('addFamilyMember');
-        if($addFamilyMember == 1){
+        if ($addFamilyMember == 1) {
             $total_test = $this->input->post('total_test');
             for ($j = 1; $j <= $total_test; $j++) {
                 $this->bf_form_validation->set_rules('usersfamily_name_' . $j, "Name $j", 'required|trim');
@@ -87,7 +87,7 @@ class Users extends MY_Controller {
             $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
             echo json_encode($responce);
         } else {
-            
+
             $imagesname = "";
             if ($_FILES['avatar_file']['name']) {
                 $path = realpath(FCPATH . 'assets/usersImage/');
@@ -95,10 +95,8 @@ class Users extends MY_Controller {
                 $upload_data = json_decode($upload_data);
                 $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/usersImage/', './assets/usersImage/thumb/', 'users');
                 if (empty($original_imagesname)) {
-                    
                     $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $this->error_message());
                     echo json_encode($responce);
-                    
                 } else {
                     $imagesname = $original_imagesname;
                 }
@@ -120,14 +118,14 @@ class Users extends MY_Controller {
                     $imagesname = $original_imagesname;
                 }
             }
-            
+
             $email = $this->input->post('users_email');
             $password = $this->input->post('users_password');
             $phone = $this->input->post('patientDetails_mobileNo');
             $encPassword = $this->common_model->encryptPassword($password);
             $emailId = explode("@", $email);
             $emailname = $emailId[0];
-            
+
             $users_email_status = $this->input->post('users_email_status');
             if ($users_email_status == 0) {
                 $usersInsertData = array(
@@ -225,7 +223,7 @@ class Users extends MY_Controller {
                 $users_insert = $this->common_model->customInsert($option);
             }
             $addFamilyMember = $this->input->post('addFamilyMember');
-            if($addFamilyMember == 1){
+            if ($addFamilyMember == 1) {
                 $total_test = $this->input->post('total_test');
                 for ($i = 1; $i <= $total_test; $i++) {
                     $familyMemberName = $this->input->post('usersfamily_name_' . $i);
@@ -262,7 +260,7 @@ class Users extends MY_Controller {
                             'creationTime' => strtotime(date('Y-m-d H:i:s'))
                         );
                         $option = array
-                        (
+                            (
                             'data' => $family_insuranceData,
                             'table' => ' qyura_userInsurance'
                         );
@@ -349,8 +347,8 @@ class Users extends MY_Controller {
     }
 
     function editUserView($userId = '') {
-       
-        
+
+
         $data['title'] = 'Edit User';
         $data['allStates'] = $this->Users_model->fetchStates();
         $data['insurance_cmpny'] = $this->Users_model->fetchinsurance();
@@ -394,51 +392,54 @@ class Users extends MY_Controller {
             'where' => array('qyura_usersFamily.usersfamily_usersId' => $userId, 'qyura_usersFamily.usersfamily_deleted' => 0,)
         );
         $data['usersfamily_detail'] = $this->common_model->customGet($option);
-//        print_r($data['usersfamily_detail']);exit;
+
         $this->load->super_admin_template('edit_user', $data, 'usersScript');
     }
 
     function editUserSave() {
-//       print_r($_POST); exit;
+
         $userid = $this->input->post('users_id');
         $patientid = $this->input->post('patientDetails_id');
-       // $userfamilyid = $this->input->post('usersfamily_id');
-       
+        // $userfamilyid = $this->input->post('usersfamily_id');
+
         $this->bf_form_validation->set_rules('patientDetails_patientName', 'Name', 'required|trim');
         $this->bf_form_validation->set_rules('patientDetails_gender', 'Gender', 'required|trim');
         $this->bf_form_validation->set_rules('patientDetails_dob', 'Date of Birth', 'required|trim');
-//        $this->bf_form_validation->set_rules('users_email', 'Users Email', "required|valid_email|trim");
-//        $this->bf_form_validation->set_rules('patientDetails_mobileNo', 'User Phone', 'required|trim|numeric');
-//        $this->bf_form_validation->set_rules('patientDetails_stateId', 'State', 'required|trim');
-//        $this->bf_form_validation->set_rules('patientDetails_cityId', 'City', 'required|trim');
-//        $this->bf_form_validation->set_rules('patientDetails_pin', 'Pin', 'required|trim|numeric');
-//        $this->bf_form_validation->set_rules('patientDetails_address', 'Address', 'required|trim');
-//        $this->bf_form_validation->set_rules('users_password', 'Password', 'trim|required');
-////        familymember validation
-//        $total_test = $this->input->post('total_test');
-//        for ($j = 1; $j <= $total_test; $j++) {
-//            $healthInsurance = $this->input->post('healthInsurance_' . $i);
-//            if ($healthInsurance == 1) {
-//                $this->bf_form_validation->set_rules('userInsurance_insuranceId_' . $i, 'Health Insura. Company', 'required|trim');
-//                $this->bf_form_validation->set_rules('userInsurance_insuranceNo_' . $i, 'Health Insura. Card no.', 'required|trim');
-//            }
-//            $this->bf_form_validation->set_rules('usersfamily_name_' . $j, "Name $j", 'required|trim');
-//            $this->bf_form_validation->set_rules('usersfamily_gender_' . $j, "Gender $j", 'required|trim');
-//            $this->bf_form_validation->set_rules('usersfamily_age_' . $j, "Age $j", 'required|trim');
-//            $this->bf_form_validation->set_rules('usersfamily_relationId_' . $j, "Relation $j", 'required|trim');
-//        }
-//
-////            user insurance
-//        $healthInsurance = $this->input->post('healthInsurance1');
-//        if ($healthInsurance == 1) {
-//            $this->bf_form_validation->set_rules('userInsurance_insuranceId', 'Health Insura. Company', 'required|trim');
-//            $this->bf_form_validation->set_rules('userInsurance_insuranceNo', 'Health Insura. Card no.', 'required|trim');
-//            $this->bf_form_validation->set_rules('userInsurance_expDate', 'Policy Expiry Date', 'required|trim');
-//        }
+        $this->bf_form_validation->set_rules('users_email', 'Users Email', "required|valid_email|trim");
+        $this->bf_form_validation->set_rules('patientDetails_mobileNo', 'User Phone', 'required|trim|numeric');
+        $this->bf_form_validation->set_rules('patientDetails_stateId', 'State', 'required|trim');
+        $this->bf_form_validation->set_rules('patientDetails_cityId', 'City', 'required|trim');
+        $this->bf_form_validation->set_rules('patientDetails_pin', 'Pin', 'required|trim|numeric');
+        $this->bf_form_validation->set_rules('patientDetails_address', 'Address', 'required|trim');
+
+        $total_test_edit = $this->input->post('total_test_edit');
+        if ($total_test_edit > 1) {
+            for ($j = 1; $j < $total_test_edit; $j++) {
+                $healthInsurance = $this->input->post('healthInsurance_' . $i);
+                if ($healthInsurance == 1) {
+                    $this->bf_form_validation->set_rules('userInsurance_insuranceId_' . $i, 'Health Insura. Company', 'required|trim');
+                    $this->bf_form_validation->set_rules('userInsurance_insuranceNo_' . $i, 'Health Insura. Card no.', 'required|trim');
+                    //$this->bf_form_validation->set_rules('userInsurance_expDate_'.$i, 'Policy Expiry Date', 'required|trim');
+                }
+                $this->bf_form_validation->set_rules('usersfamily_name_' . $j, "Name $j", 'required|trim');
+                $this->bf_form_validation->set_rules('usersfamily_gender_' . $j, "Gender $j", 'required|trim');
+                $this->bf_form_validation->set_rules('usersfamily_age_' . $j, "Age $j", 'required|trim');
+                $this->bf_form_validation->set_rules('usersfamily_relationId_' . $j, "Relation $j", 'required|trim');
+            }
+        }
+
+
+//            user insurance
+        $healthInsurance = $this->input->post('healthInsurance1');
+        if ($healthInsurance == 1) {
+            $this->bf_form_validation->set_rules('userInsurance_insuranceId', 'Health Insura. Company', 'required|trim');
+            $this->bf_form_validation->set_rules('userInsurance_insuranceNo', 'Health Insura. Card no.', 'required|trim');
+            $this->bf_form_validation->set_rules('userInsurance_expDate', 'Policy Expiry Date', 'required|trim');
+        }
 
         if ($this->bf_form_validation->run() === FALSE) {
-        
-            $data['title'] = 'Edit Users';
+
+            $data['title'] = 'Edit User';
             $data['allStates'] = $this->Users_model->fetchStates();
             $this->load->super_admin_template('add_user', $data, 'usersScript');
         } else {
@@ -453,7 +454,7 @@ class Users extends MY_Controller {
                 if (empty($original_imagesname)) {
 
                     $this->session->set_flashdata('valid_upload', $this->error_message);
-                    $data['title'] = 'Add Users';
+                    $data['title'] = 'edithfghfg Users';
                     $data['allStates'] = $this->Users_model->fetchStates();
                     $this->load->super_admin_template('add_user', $data, 'usersScript');
                     return false;
@@ -502,7 +503,7 @@ class Users extends MY_Controller {
                 'data' => $usersInsertData,
                 'table' => ' qyura_users',
             );
-            // dump($usersInsertData);exit();
+
             $users_insertId = $this->common_model->customUpdate($option);
 
             $name = $this->input->post('patientDetails_patientName');
@@ -546,124 +547,120 @@ class Users extends MY_Controller {
                 'userInsurance_expDate' => $user_insuranceDate,
             );
             $healthInsurance = $this->input->post('healthInsurance1');
-            if($healthInsurance == 1){
+            if ($healthInsurance == 1) {
                 if (isset($insuranceid) && $insuranceid != NULL) {
                     $user_insuranceData['modifyTime'] = strtotime(date('Y-m-d H:i:s'));
                     $option = array
-                    (
+                        (
                         'where' => array('userInsurance_id' => $insuranceid),
                         'data' => $user_insuranceData,
                         'table' => ' qyura_userInsurance'
                     );
-                    $users_insert = $this->common_model->customUpdate($option);
-                }else{
+                    $users_insertdata = $this->common_model->customUpdate($option);
+                } else {
                     $user_insuranceData['creationTime'] = strtotime(date('Y-m-d H:i:s'));
                     $user_insuranceData['status'] = 1;
                     $option = array
-                    (
+                        (
                         'data' => $user_insuranceData,
                         'table' => ' qyura_userInsurance'
                     );
-                    $users_insert = $this->common_model->customInsert($option);
+                    $users_insertdata = $this->common_model->customInsert($option);
                 }
-            }else{
+            } else {
                 $query = "DELETE FROM `qyura_userInsurance` WHERE `userInsurance_id` = '$insuranceid'";
-                $users_insert = $this->common_model->customQuery($query,FALSE,TRUE);
+                $users_insertdata = $this->common_model->customQuery($query, FALSE, TRUE);
             }
-            
-            
-//            hemu start
-            
-            //            $addFamilyMember = $this->input->post('addFamilyMember');
-//            
-//            if($addFamilyMember == 1){
-            
-            
-            
-                $total_test_edit = $this->input->post('total_test_edit');
-             
-                for ($i = 1; $i < $total_test_edit; $i++) {
-                    
-                    $userFamilyId = $this->input->post('usersfamily_id_' . $i);
-                    
-                    $familyMemberName = $this->input->post('usersfamily_name_' . $i);
-                    $gender = $this->input->post('usersfamily_gender_' . $i);
-                    $age = $this->input->post('usersfamily_age_' . $i);
-                    $relation = $this->input->post('usersfamily_relationId_' . $i);
-                    $user_familymemberData = array(
-                        'usersfamily_name' => $familyMemberName,
-                        'usersfamily_gender' => $gender,
-                        'usersfamily_age' => $age,
-                        'usersfamily_relationId' => $relation,
-                        'usersfamily_usersId' => $userid,
-                        'creationTime' => strtotime(date('Y-m-d H:i:s'))
-                    );
-                  
-                    
+
+
+            //            hemu start
+
+
+
+
+            $total_test_edit = $this->input->post('total_test_edit');
+
+            for ($i = 1; $i < $total_test_edit; $i++) {
+
+                $userFamilyId = $this->input->post('usersfamily_id_' . $i);
+
+                $familyMemberName = $this->input->post('usersfamily_name_' . $i);
+                $gender = $this->input->post('usersfamily_gender_' . $i);
+                $age = $this->input->post('usersfamily_age_' . $i);
+                $relation = $this->input->post('usersfamily_relationId_' . $i);
+                $user_familymemberData = array(
+                    'usersfamily_name' => $familyMemberName,
+                    'usersfamily_gender' => $gender,
+                    'usersfamily_age' => $age,
+                    'usersfamily_relationId' => $relation,
+                    'usersfamily_usersId' => $userid,
+                    'creationTime' => strtotime(date('Y-m-d H:i:s'))
+                );
+
+                if (isset($userFamilyId) && $userFamilyId != NULL) {
                     $option = array
                         ('where' => array('usersfamily_id' => $userFamilyId),
                         'data' => $user_familymemberData,
                         'table' => ' qyura_usersFamily'
                     );
                     $users_familyinsertId = $this->common_model->customUpdate($option);
-                    
-                    $userFamInsurance=$this->input->post('userFInsurance_id_'. $i);   
-                    
-                        $healthInsurance = $this->input->post('healthInsurance_' . $i);
-                        $family_insurance = $this->input->post('userInsurance_insuranceId_' . $i);
-                        $family_insuranceNo = $this->input->post('userInsurance_insuranceNo_' . $i);
-                       // $family_insuranceDate = $this->input->post('userInsurance_expDate_' . $i);
-                        $family_insuranceData1 = array(
-                            'userInsurance_insuranceId' => $family_insurance,
-                            'userInsurance_insuranceNo' => $family_insuranceNo,
-                            'userInsurance_usersId' => $userid,
-                            'userInsurance_familyId' => $userFamilyId,
-                           // 'userInsurance_expDate' => $family_insuranceDate,
-                            'status' => 1,
-                            'creationTime' => strtotime(date('Y-m-d H:i:s'))
-                        );
-                        
-                    if ($healthInsurance == 1){
-                         if (isset($family_insuranceId) && $family_insuranceId != NULL) {
-                    $family_insuranceData['modifyTime'] = strtotime(date('Y-m-d H:i:s'));
-                    $optionfghf = array
-                    (
-                        'where' => array('userInsurance_id' => $userFamInsurance),
-                        'data' => $family_insuranceData1,
-                        'table' => ' qyura_userInsurance'
-                    );
-                    print_r($optionfghf); exit;
-                    $users_insert = $this->common_model->customUpdate($option);
-                }else{
-                    $family_insuranceData['creationTime'] = strtotime(date('Y-m-d H:i:s'));
-                    $family_insuranceData['status'] = 1;
+                } else {
+                    $user_familymemberData['creationTime'] = strtotime(date('Y-m-d H:i:s'));
+                    $user_familymemberData['status'] = 1;
                     $option = array
-                    (
-                        'data' => $user_insuranceData,
-                        'table' => ' qyura_userInsurance'
+                        (
+                        'data' => $user_familymemberData,
+                        'table' => ' qyura_usersFamily'
                     );
-                    $users_insert = $this->common_model->customInsert($option);
+                    $userFamilyId = $this->common_model->customInsert($option);
                 }
-                      
-                    }else{
-                $query = "DELETE FROM `qyura_userInsurance` WHERE `userInsurance_id` = '$family_insuranceId'";
-                $users_insert = $this->common_model->customQuery($query,FALSE,TRUE);
+
+                $familyhealthInsurance = $this->input->post('healthInsurance_' . $i);
+                $userFamInsurance = $this->input->post('userFInsurance_id_' . $i);
+
+
+                $family_insurance = $this->input->post('userInsurance_insuranceId_' . $i);
+                $family_insuranceNo = $this->input->post('userInsurance_insuranceNo_' . $i);
+                $family_insuranceExpDate = strtotime($this->input->post('userInsurance_expDate_'.$i));
+              //  $family_insuranceExpDate = $this->input->post('userInsurance_expDate_' . $i);
+                $family_insuranceData = array(
+                    'userInsurance_insuranceId' => $family_insurance,
+                    'userInsurance_insuranceNo' => $family_insuranceNo,
+                    'userInsurance_usersId' => $userid,
+                    'userInsurance_familyId' => $userFamilyId,
+                    'userInsurance_expDate' => $family_insuranceExpDate,
+                    
+                    'creationTime' => strtotime(date('Y-m-d H:i:s'))
+                );
+
+                if ($familyhealthInsurance == 1) {
+                    if (isset($userFamInsurance) && $userFamInsurance != NULL) {
+                        $family_insuranceData['modifyTime'] = strtotime(date('Y-m-d H:i:s'));
+                        $option = array
+                            (
+                            'where' => array('userInsurance_id' => $userFamInsurance),
+                            'data' => $family_insuranceData,
+                            'table' => ' qyura_userInsurance'
+                        );
+
+                        $users_insert = $this->common_model->customUpdate($option);
+                    } else {
+                        $family_insuranceData['creationTime'] = strtotime(date('Y-m-d H:i:s'));
+                        $family_insuranceData['status'] = 1;
+                        $option = array
+                            (
+                            'data' => $family_insuranceData,
+                            'table' => ' qyura_userInsurance'
+                        );
+                        $users_insert = $this->common_model->customInsert($option);
+                    }
+                } else {
+                    $query = "DELETE FROM `qyura_userInsurance` WHERE `userInsurance_id` = '$userFamInsurance'";
+                    $users_insert = $this->common_model->customQuery($query, FALSE, TRUE);
+                }
             }
-                    
-                   
-                    
-                }
-                
-                
-//            }
-            
-            
-            
-//  hemu end          
-            
-            
-            
-            
+            $this->session->set_flashdata('message', 'Data updated successfully !');
+            redirect('users');
         }
     }
 
@@ -679,7 +676,6 @@ class Users extends MY_Controller {
         echo $this->Users_model->fetchUsersDiagnosticDataTables();
     }
 
-    
     function check_email() {
 
         $data = 0;
@@ -714,4 +710,5 @@ class Users extends MY_Controller {
         }
         exit;
     }
+
 }

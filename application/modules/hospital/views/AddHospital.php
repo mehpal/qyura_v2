@@ -436,7 +436,7 @@ if (isset($hospital_id) && $hospital_id != 0) {
                                                         <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
 
                                                         <div class="pre col-md-4 col-sm-4 ">
-                                                            <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
+                                                            <div id="preImgLogo" class="avatar-preview preview-md preImgLogo m-l-15">
 
                                                                 <img src="<?php echo base_url() ?>assets/default-images/Blood-logo.png"  class="image-preview-show"/>
 
@@ -530,23 +530,28 @@ if (isset($amobulancestatus) && $amobulancestatus == 1) {
                                             </div>
                                         </article>
                                         
-                                        
+
+
                                         <article class="clearfix m-t-10">
+                                            <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
+                               
+
                                             <div id="ambulance-crop-avatar">
                                                 <?php $this->load->view('ambulance_upload_crop_modal'); ?>
                                                 <article class="col-md-8 col-sm-8 text-right"  class="avatar-form">
-                                                    <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
+                                                    
+
+                                                   
                                                     <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
                                                         <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
 
                                                         <div class="pre col-md-4 col-sm-4 ">
-                                                            <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
+                                                            <div id="preImgLogo" class="avatar-preview preview-md preImgLogo m-l-15">
 
                                                                 <img src="<?php echo base_url() ?>assets/default-images/ambulance_logo.png"  class="image-preview-show"/>
 
                                                             </div>
                                                         </div>
-
                                                         <label class="error" style="display:none;" id="error-avatar_data_ambulance">Ambulance image required</label>
                                                         <label class="error" > <?php echo form_error("avatar_file"); ?></label>
                                                         <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
@@ -556,6 +561,7 @@ if (isset($amobulancestatus) && $amobulancestatus == 1) {
                                                     </div>
                                                 </article>
                                             </div>
+
                                         </article>
 
                                         <article class="clearfix">
@@ -696,7 +702,7 @@ if (isset($amobulancestatus) && $amobulancestatus == 1) {
                             <article class="clearfix m-t-10">
                                 <label for="cname" class="control-label col-md-4 col-sm-4">Registered Email Id:</label>
                                 <div class="col-md-8 col-sm-8">
-                                    <input type="email" class="form-control" id="users_email" name="users_email" placeholder="" onblur="return checkUserExistence(this.value), checkEmailFormat()" value="<?php echo set_value('users_email'); ?>" />
+                                    <input type="email" class="form-control" id="users_email" name="users_email" placeholder="" value="<?php echo set_value('users_email'); ?>" />
                                     <label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>
                                     <label class="error" style="display:none;" id="error-users_email_check"> Email Already Exits!</label>
                                     <label class="error" > <?php echo form_error("users_email"); ?></label>
