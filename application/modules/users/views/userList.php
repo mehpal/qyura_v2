@@ -5,7 +5,7 @@
                 <div class="container">
                     <div class="clearfix">
                         <div class="col-md-12">
-                            <h3 class="pull-left page-title">Users</h3>
+                            <h3 class="pull-left page-title">Users Management</h3>
 
                         </div>
                     </div>

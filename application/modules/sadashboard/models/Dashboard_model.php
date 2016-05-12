@@ -13,7 +13,7 @@ class Dashboard_model extends CI_Model {
         $this->db->order_by("hospital_name", "asc");
         return $this->db->get()->result();
     }
-    
+
     /**
      * @project Qyura
      * @method getMiCount
@@ -98,8 +98,8 @@ class Dashboard_model extends CI_Model {
         $this->db->join('qyura_doctors AS doc', 'doc.doctors_userId = quote.quotation_docRefeId', 'left');
         $this->db->join('qyura_quotationBooking AS qBook', 'qBook.quotationBooking_quotationId = quote.quotation_id', 'left');
         $this->db->join('qyura_quotationDetailTests AS dTest', 'dTest.quotationDetailTests_quotationId = quote.quotation_id', 'left');
-         $this->db->join('qyura_diagnosticsCat AS dCat', 'dCat.diagnosticsCat_catId = dTest.quotationDetailTests_diagnosticCatId', 'left');
-        
+        $this->db->join('qyura_diagnosticsCat AS dCat', 'dCat.diagnosticsCat_catId = dTest.quotationDetailTests_diagnosticCatId', 'left');
+
         $this->db->where(array('quote.quotation_deleted' => 0));
         $this->db->where(array('qBook.quotationBooking_bookStatus' => 1));
         $this->db->group_by('quotation_id');
@@ -107,29 +107,27 @@ class Dashboard_model extends CI_Model {
         $data = $this->db->get();
         return $data->result();
     }
-    
-    function getNotification(){
-        
+
+    function getNotification() {
+
         $sql = "SELECT qyura_cronMsg,qyura_cronMsgId,qyura_fkUserId FROM qyura_cronMsgs";
         $qry = $this->db->query($sql);
         return $qry->result();
     }
-    
-    function getSignupChart(){
-        $year = strtotime(date('2016'));
-        
-//        $sql = "SELECT COUNT(*) FROM qyura_ambulance WHERE status=1 AND ambulance_deleted=0";
-//        $qry = $this->db->query($sql);
-//        return $qry->result();
-        
-        $sql1 = "SELECT COUNT(*) FROM qyura_ambulance WHERE status=1 AND ambulance_deleted=0 AND YEAR(creationTime) = ".$year."";
-        $qry = $this->db->query($sql1);
-        return $qry->result();
-        
-        $sql = "SELECT ambulance_id, ((SELECT COUNT(*) FROM qyura_ambulance WHERE status=1 AND ambulance_deleted=0 ) / (SELECT COUNT(*) FROM qyura_ambulance WHERE status=1 AND ambulance_deleted=0 AND YEAR(creationTime) = ".$year.") * 100 ) as pre FROM qyura_ambulance";
+
+    function getChartAmbulance($year = 0) {
+       
+        $sql = "SELECT COUNT(*) as total FROM qyura_ambulance WHERE status=1 AND ambulance_deleted=0";
         $qry = $this->db->query($sql);
-        return $qry->result();
-        
+        $rs = $qry->result();
+
+        $sql1 = "SELECT FROM_UNIXTIME(creationTime, '%Y') as ct FROM qyura_ambulance WHERE status=1 AND ambulance_deleted=0 HAVING ct = " . $year . "";
+        $qry = $this->db->query($sql1);
+
+        $yearData = count($qry->result());
+        $totalData = (!empty($rs)) ? $rs[0]->total : 0;
+
+        return $new_width = ($yearData / $totalData) * 100;
     }
 
 }
