@@ -74,9 +74,7 @@
                     lettersonlyqyura: true
 
             },
-                    avatarInput: {
-                    required: true
-                    },
+                    
                     patientDetails_gender: {
                     required: true
                     },
@@ -85,19 +83,8 @@
                     },
                     users_email: {
                     required: true,
-                            email: true,
-                            remote: {
-                            url: urls + 'index.php/users/checkUserExistence',
-                                    type: "post",
-                                    data: {
-                                    email: function () {
-                                    return $("#users_email").val();
-                                    },
-                                            id: function () {
-                                            return $("#users_id").val();
-                                            }
-                                    },
-                            }
+                    email: true,
+                           
                     },
                     patientDetails_mobileNo: {
                     required: true,
@@ -177,9 +164,7 @@
                     patientDetails_patientName: {
                     required: "Please enter name.",
                     },
-                            avatarInput: {
-                            required: "Please select Image."
-                            },
+                            
                             patientDetails_gender: {
                             required: "Please select gender."
                             },
@@ -189,7 +174,7 @@
                             users_email: {
                             required: "Please enter email Id",
                                     email: "Please enter valid email Id.",
-                                    remote: 'Email already used.'
+                                    
                             },
                             patientDetails_mobileNo: {
                             required: "Please enter mobile number.",
