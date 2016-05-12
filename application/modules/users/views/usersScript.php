@@ -41,9 +41,11 @@
         $(document).ready(function () {
         $("#submitForm").submit(function (event) {
         event.preventDefault();
+          if($("#submitForm").valid()){
                 var url = '<?php echo site_url(); ?>/users/saveUsers/';
                 var formData = new FormData(this);
                 submitData(url, formData);
+            }
         });
         });
 <?php } ?>
@@ -74,18 +76,31 @@
                     lettersonlyqyura: true
 
             },
-                    
+                    avatarInput: {
+                    required: true
+                    },
                     patientDetails_gender: {
                     required: true
                     },
                     patientDetails_dob: {
                     required: true
                     },
-                    users_email: {
-                    required: true,
-                    email: true,
-                           
-                    },
+//                    users_email: {
+//                    required: true,
+//                            email: true,
+//                            remote: {
+//                            url: urls + 'index.php/users/checkUserExistence',
+//                                    type: "post",
+//                                    data: {
+//                                    email: function () {
+//                                    return $("#users_email").val();
+//                                    },
+//                                            id: function () {
+//                                            return $("#users_id").val();
+//                                            }
+//                                    },
+//                            }
+//                    },
                     patientDetails_mobileNo: {
                     required: true,
                             number: true,
@@ -164,7 +179,9 @@
                     patientDetails_patientName: {
                     required: "Please enter name.",
                     },
-                            
+                            avatarInput: {
+                            required: "Please select Image."
+                            },
                             patientDetails_gender: {
                             required: "Please select gender."
                             },
@@ -174,7 +191,7 @@
                             users_email: {
                             required: "Please enter email Id",
                                     email: "Please enter valid email Id.",
-                                    
+                                    remote: 'Email already used.'
                             },
                             patientDetails_mobileNo: {
                             required: "Please enter mobile number.",
@@ -329,7 +346,7 @@
             
             
     var resultValidate = form.validate({
-	ignore: ':hidden:not("#avatarInput")', 
+                    ignore: ':hidden:not("#avatarInput")', 
       errorPlacement: function(error, element) {
         if (element.attr("name") == "avatar_file")
         {
@@ -408,13 +425,13 @@
 
                             }
                     },
-                      submitHandler: function (form) {
-                        var checkmail = check_email();
-                          if(checkmail == true){
-                            form.submit();  
-                          }
-                
-            },
+//                      submitHandler: function (form) {
+//                        var checkmail = check_email();
+//                          if(checkmail == true){
+//                            form.submit();  
+//                          }
+//                
+//            },
             });
             
             return resultValidate;
@@ -512,7 +529,6 @@
 
 </script>
 <script>
-
     function isNumberKey(evt, id) {
     var charCode = (evt.which) ? evt.which : event.keyCode
             if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -524,15 +540,12 @@
     }
     }
 </script>
-<script>      
-$(document).ready(function () {
+<script>                 // datatable get records
+    $(document).ready(function () {
          $('#patientDetails_dob').datepicker({
             autoclose: false,
             endDate: new Date()
     });
-});
-   // datatable get records
-    $(document).ready(function () {
     var oTable = $('#users_datatable').DataTable({
     "processing": true,
             "bServerSide": true,

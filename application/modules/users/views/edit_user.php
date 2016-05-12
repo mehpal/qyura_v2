@@ -82,7 +82,7 @@
                                 <article class="form-group m-lr-0">
                                     <label for="" class="control-label col-md-4 col-sm-4">Email Id:</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <input class="form-control " id="users_email" type="email" name="users_email" placeholder="" value="<?php if (isset($users_detail->users_email) && !empty($users_detail->users_email)) { echo $users_detail->users_email; } ?>" readonly="">
+                                        <input class="form-control " id="users_email" type="email" name="users_email" placeholder="" value="<?php if (isset($users_detail->users_email) && !empty($users_detail->users_email)) { echo $users_detail->users_email; } ?>">
                                         <label class="error" > <?php echo form_error("users_email"); ?></label>
                                     </div>
                                 </article>
@@ -91,7 +91,7 @@
                                     <div class="col-md-8 col-sm-8">
                                         <aside class="row">
                                             <div class="col-md-12 col-sm-4 col-xs-10 m-t-xs-10 ">
-                                                <input type="text" class="form-control" name="patientDetails_mobileNo" id="patientDetails_mobileNo" maxlength="10" placeholder="Number" onkeypress="return isNumberKey(event)" value="<?php if (isset($users_detail) && !empty($users_detail)) { echo $users_detail->patientDetails_mobileNo; } ?>" readonly=""/>
+                                                <input type="text" class="form-control" name="patientDetails_mobileNo" id="patientDetails_mobileNo" maxlength="10" placeholder="Number" onkeypress="return isNumberKey(event)" value="<?php if (isset($users_detail) && !empty($users_detail)) { echo $users_detail->patientDetails_mobileNo; } ?>"/>
                                                 <label class="error" > <?php echo form_error("patientDetails_mobileNo"); ?></label>
                                             </div>
                                         </aside>
@@ -151,7 +151,7 @@
                                                                     <div class="col-md-8 col-sm-8">
                                                                         <input type="password" class="form-control" id="users_password" name="users_password" minlength="4"/>
                                 
-                                                                        <label class="error" > <?php echo form_error("users_password"); ?></label>
+                                                                        <span class="error" > <?php echo form_error("users_password"); ?></span>
                                                                     </div>
                                                                 </article>
                                                                 <article class="form-group m-lr-0">
@@ -159,7 +159,7 @@
                                                                     <div class="col-md-8 col-sm-8">
                                                                         <input type="password" class="form-control" id="cnfPassword" name="cnfPassword" placeholder=" " />
                                 
-                                                                        <label class="error" > <?php echo form_error("cnfPassword"); ?></label>
+                                                                        <span class="error" > <?php echo form_error("cnfPassword"); ?></span>
                                                                     </div>
                                                                 </article>
                             </div>
