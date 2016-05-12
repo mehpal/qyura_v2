@@ -2738,7 +2738,7 @@ $(this).valid()
             },
             diagnostic_name: {
                 required : true,
-                lettersonly: true
+                //lettersonly: true
 
             },
              avatar_file: {

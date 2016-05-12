@@ -2442,7 +2442,7 @@ if (isset($mapData) && !empty($mapData)) {
             },
             hospital_name: {
                 required : true,
-                lettersonly: true
+               // lettersonly: true
 
             },
             hospital_type: {
@@ -2649,7 +2649,7 @@ if (isset($mapData) && !empty($mapData)) {
             },
             hospital_name: {
                 required : true,
-                lettersonly: true
+             //   lettersonly: true
 
             },
             hospital_type: {
