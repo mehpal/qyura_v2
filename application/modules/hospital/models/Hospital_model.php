@@ -78,6 +78,7 @@ class Hospital_model extends My_model {
         $this->db->select('hospitalType_id,hospitalType_name');
         $this->db->from('qyura_hospitalType');
         $this->db->where('hospitalType_deleted', 0);
+        $this->db->where('qyura_hospitalType.status', 1);
         $this->db->where('hospitalType_miRole',1);
         $this->db->order_by("hospitalType_name", "asc");
         return $this->db->get()->result();
@@ -284,7 +285,7 @@ class Hospital_model extends My_model {
     function fetchAllInsurance($insurance_condition = array()) {
         $this->db->select('insurance_id,insurance_Name,insurance_img,insurance_detail');
         $this->db->from('qyura_insurance');
-        $this->db->where(array('insurance_deleted' => 0));
+        $this->db->where(array('insurance_deleted' => 0, 'qyura_insurance.status' => 1));
         if (!empty($insurance_condition))
             $this->db->where_not_in('insurance_id', $insurance_condition);
         $data = $this->db->get();

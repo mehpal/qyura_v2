@@ -1493,17 +1493,7 @@ if (isset($mapData) && !empty($mapData)) {
             status = 0;
         }
 
-        /*var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-         var email = $('#users_email').val();
-         if (email !== '') {
-         if (!filter.test(email)) {
-         
-         $('#users_email').addClass('bdr-error');
-         $('#error-users_email').fadeIn().delay(3000).fadeOut('slow');
-         status = 0; 
-         
-         }
-         } */
+      
 
         if (status == 0)
             return false;
@@ -1519,15 +1509,15 @@ if (isset($mapData) && !empty($mapData)) {
                     if (insertData == 1) {
                         $('#users_password').val('');
                         $('#cnfPassword').val('');
+                        
+                        bootbox.alert("Account detail update successfully!", function() {
+                            window.location.href = urls + "index.php/hospital/detailHospital/" +<?php echo $check; ?> + "/account";
+                             return true;
 
-                        setTimeout(function () {
-                            $('#error-password_email_check_success').fadeIn().delay(300).fadeOut(function () {
-                                window.location.href = urls + "index.php/hospital/detailHospital/" +<?php echo $check; ?> + "/account";
+                        });
 
-                            });
-                        }, 30);
-
-                        return true;
+                        
+                       
                     }
 
                 }
@@ -2387,7 +2377,7 @@ if (isset($mapData) && !empty($mapData)) {
 
     function find_membershipdata(member_id) {
 
-        var url = '<?php echo site_url(); ?>/diagnostic/find_membership';
+        var url = '<?php echo site_url(); ?>/hospital/find_membership';
         if (typeof member_id == 'string') {
             $.ajax({
                 url: url,

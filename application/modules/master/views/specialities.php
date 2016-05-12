@@ -6,8 +6,7 @@
             <div class="clearfix">
                 <div class="col-md-12">
                     <h3 class="pull-left page-title">MI Specialities</h3>
-                    <div id="load_consulting" class="text-center text-success " style="display: none"><image alt="Please wait data is loading" src="<?php echo base_url('assets/images/loader/Heart_beat.gif'); ?>" /></div>
-                </div>
+                    
             </div>
             <?php
                 $sMsg = $this->session->flashdata('message');

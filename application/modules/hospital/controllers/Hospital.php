@@ -56,7 +56,7 @@ class Hospital extends MY_Controller {
        $option = array(
             'table' => 'qyura_membership',
             'select' => 'membership_id,membership_name',
-            'where' => array('membership_deleted' => 0, 'status' => 3, 'membership_type' => 1)
+            'where' => array('membership_deleted' => 0, 'qyura_membership.status' => 1, 'membership_type' => 1)
         );
         $data['membership_plan'] = $this->common_model->customGet($option);
         
@@ -94,14 +94,10 @@ class Hospital extends MY_Controller {
        
         $data = array();
         
-        
-     
-        
-        
         $option = array(
             'table' => 'qyura_membership',
             'select' => 'membership_id,membership_name',
-            'where' => array('membership_deleted' => 0,'status' => 3,'membership_type' => 1)
+            'where' => array('membership_deleted' => 0,'qyura_membership.status' => 1,'membership_type' => 1)
         );
         $data['membership_plan'] = $this->common_model->customGet($option);
         
@@ -683,6 +679,10 @@ class Hospital extends MY_Controller {
 
                 $inserData['hospital_usersId'] = $hospital_usersId;
                 
+                if(isset($_POST['users_email']) && $_POST['users_email'] != '')
+                    $this->sendEmailRegister($this->input->post('users_email'));
+                 
+                 
                 if($hospital_id == 0){
                      $inserData['status'] = 0;
                      $hospitalId = $this->Hospital_model->insertHospital($inserData);
@@ -1283,33 +1283,13 @@ class Hospital extends MY_Controller {
     }
 
     function updatePassword() {
-        //echo "here";exit;
-        //  $users_email = $this->input->post('users_email');
-        // echo $users_email;
-        // exit;
-        //$existingPassword = $this->input->post('existingPassword');
+  
         $user_tables_id = $this->input->post('hospitalUserId');
         $users_password = $this->input->post('users_password');
 
-        $users_mobile = $this->input->post('users_mobile');
-        $hospital_mmbrTyp = $this->input->post('hospital_mmbrTyp');
-
-        /* if($encrypted != $existingPassword){
-          echo $return;
-          }
-          else {
-          $updateBloodBank = array(
-          'bloodBank_name'=>  $encrypted,
-          'modifyTime'=> strtotime(date("Y-m-d H:i:s"))
-          );
-
-          $where = array(
-          'users_id' => $user_tables_id
-          );
-          $this->Bloodbank_model->UpdateTableData($updateBloodBank,$where,'qyura_users');
-
-          echo $return = '1'.'~'.$encrypted;
-          } */
+        $users_mobile = ltrim($this->input->post('users_mobile'),0);
+      //  $hospital_mmbrTyp = $this->input->post('hospital_mmbrTyp');
+      
         $where = array(
             'users_id' => $user_tables_id
         );
@@ -1327,17 +1307,11 @@ class Hospital extends MY_Controller {
             );
 
 
-            $return = $this->Hospital_model->UpdateTableData($updateHospital, $where, 'qyura_users');
+           echo  $return = $this->Hospital_model->UpdateTableData($updateHospital, $where, 'qyura_users');
+        
         }
 
-        $hospitalData = array(
-            'hospital_mmbrTyp' => $hospital_mmbrTyp,
-            'modifyTime' => strtotime(date("Y-m-d H:i:s"))
-        );
-        $hospitalWhere = array('hospital_usersId' => $user_tables_id);
-        $return = $this->Hospital_model->UpdateTableData($hospitalData, $hospitalWhere, 'qyura_hospital');
-        echo $return;
-        exit;
+      
     }
 
     function hospitalSpecialities($hospitalId) {
@@ -2495,6 +2469,10 @@ class Hospital extends MY_Controller {
                 
             );
             
+            if(!$users_email){
+                $this->sendEmailRegister($this->input->post($users_email));
+            }
+            
             $doctorsProfileId = $this->Doctor_model->insertDoctorData($doctorsinserData, 'qyura_doctors');
             
             //dump($this->db->last_query());
@@ -2693,7 +2671,7 @@ class Hospital extends MY_Controller {
         $option = array(
             'table' => 'qyura_membershipFacilities',
             'select' => '*',
-            'where' => array('membershipFacilities_deleted' => 0, 'status' => 3, 'membershipFacilities_membershipId' =>$membershipId )
+            'where' => array('membershipFacilities_deleted' => 0, 'qyura_membershipFacilities.status' => 1, 'membershipFacilities_membershipId' =>$membershipId )
         );
         $membership_plan = $this->common_model->customGet($option);
         echo json_encode($membership_plan);
