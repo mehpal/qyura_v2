@@ -496,6 +496,7 @@ GLOBAL
                                        <label class="error" > <?php echo form_error("hospital_name"); ?></label>
                                     </div>
                                  </article>
+                                  
                                  <article class="clearfix">
                                     <label for="cname" class="control-label col-md-4  col-sm-4">Hospital Type :</label>
                                     <div class="col-md-8 col-sm-8">
@@ -514,6 +515,7 @@ GLOBAL
                                        </select>
                                     </div>
                                  </article>
+                                  
                                  <article class="clearfix m-t-10">
                                     <label for="cemail" class="control-label col-md-4 col-sm-4">Address :</label>
                                     <div class="col-md-8 col-sm-8">
@@ -1712,7 +1714,7 @@ GLOBAL
             <form name="acccountForm" id="acccountForm" type="post">
             <input type="hidden" name="hospitalUserId" id="hospitalUserId" value="<?php echo $hospitalData[0]->users_id; ?>" >
 <!--            <p class="text-success" style="display:none;" id="error-password_email_check_success"> Data Changed Successfully!</p>-->
-            <aside id="newac" style="display:none">
+            <aside id="account" style="display:none" class="">
             <article class="clearfix m-b-10">
             <label for="cemail" class="control-label col-md-4 col-sm-4">Registered Email Id :</label>
             <div class="col-md-8 col-sm-8">

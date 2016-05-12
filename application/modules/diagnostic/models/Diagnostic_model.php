@@ -16,6 +16,18 @@ class Diagnostic_model extends CI_Model {
         $this->db->group_by("city_id");
         return $this->db->get()->result();
     }
+    
+    // diagno stic type
+    
+     function getDiagnosticType() {
+        $this->db->select('hospitalType_id,hospitalType_name');
+        $this->db->from('qyura_hospitalType');
+        $this->db->where('hospitalType_deleted', 0);
+        $this->db->where('qyura_hospitalType.status', 1);
+        $this->db->where('hospitalType_miRole',3);
+        $this->db->order_by("hospitalType_name", "asc");
+        return $this->db->get()->result();
+    }
 
     // start change by hemany
     // fetch all publish hospital 
@@ -151,7 +163,7 @@ class Diagnostic_model extends CI_Model {
 
     function fetchdiagnosticData($condition = NULL) {
 
-        $this->db->select('qyura_country.country,qyura_state.state_statename,diag.diagnostic_mblNo as mobile,diag.diagnostic_aboutUs,diag.diagnostic_mbrTyp,diag.diagnostic_email,diag.diagnostic_dsgn,diag.diagnostic_id,diag.diagnostic_zip,diag.diagnostic_usersId,diag.diagnostic_name,diag.diagnostic_phn,diag.diagnostic_address,City.city_name,diag.diagnostic_img,diag.diagnostic_cntPrsn,usr.users_email,diag.diagnostic_lat,diag.diagnostic_long,usr.users_id,diag.diagnostic_countryId,diag.diagnostic_stateId,diag.diagnostic_cityId,usr.users_mobile,diag.diagnostic_background_img, diag.isManual, Blood.bloodBank_name,Blood.bloodBank_phn, Blood.bloodBank_photo, Ambu.ambulance_name,Ambu.ambulance_phn, Ambu.docOnBoard, Ambu.ambulance_img, diag.diagnostic_availibility_24_7, diag.diagnostic_hasPharmacy, diag.diagnostic_docatId, diag.diagnostic_specialityNameFormate, diag.diagnostic_hasBloodbank, diag.diagnostic_isBloodBankOutsource, diag.diagnostic_isEmergency, Ambu.ambulance_id, Blood.bloodBank_id');
+        $this->db->select('qyura_country.country,qyura_state.state_statename,diag.diagnostic_mblNo as mobile,diag.diagnostic_aboutUs,diag.diagnostic_mbrTyp,diag.diagnostic_email,diag.diagnostic_dsgn,diag.diagnostic_id,diag.diagnostic_zip,diag.diagnostic_usersId,diag.diagnostic_name,diag.diagnostic_phn,diag.diagnostic_address,City.city_name,diag.diagnostic_img,diag.diagnostic_cntPrsn,usr.users_email,diag.diagnostic_lat,diag.diagnostic_long,usr.users_id,diag.diagnostic_countryId,diag.diagnostic_stateId,diag.diagnostic_cityId,usr.users_mobile,diag.diagnostic_background_img, diag.isManual, Blood.bloodBank_name,Blood.bloodBank_phn, Blood.bloodBank_photo, Ambu.ambulance_name,Ambu.ambulance_phn, Ambu.docOnBoard, Ambu.ambulance_img, diag.diagnostic_availibility_24_7, diag.diagnostic_hasPharmacy, diag.diagnostic_docatId, diag.diagnostic_specialityNameFormate, diag.diagnostic_hasBloodbank, diag.diagnostic_isBloodBankOutsource, diag.diagnostic_isEmergency, Ambu.ambulance_id, Blood.bloodBank_id, hospitalType_id as diagnoTypeId, hospitalType_name as diagnoTypeName');
 
         $this->db->from('qyura_diagnostic AS diag');
         $this->db->join('qyura_city AS City', 'City.city_id = diag.diagnostic_cityId', 'left');
@@ -160,7 +172,9 @@ class Diagnostic_model extends CI_Model {
         $this->db->join('qyura_bloodBank AS Blood', 'Blood.users_id = diag.diagnostic_usersId', 'left');
         //$this->db->join('qyura_pharmacy AS Pharmacy', 'Pharmacy.pharmacy_usersId = Hos.hospital_usersId', 'left');
         $this->db->join('qyura_ambulance AS Ambu', 'Ambu.ambulance_usersId = diag.diagnostic_usersId', 'left');
-
+        
+        $this->db->join('qyura_hospitalType AS hosType', 'hosType.hospitalType_id = diag.diagnostic_type', 'left');
+        
         $this->db->join('qyura_country AS qyura_country', 'qyura_country.country_id = diag.diagnostic_countryId', 'left');
         $this->db->join('qyura_state AS qyura_state', 'qyura_state.state_id = diag.diagnostic_stateId', 'left');
         //$this->db->join('qyura_usersRoles AS Roles','Roles.usersRoles_userId = diag.diagnostic_usersid','left'); // changed
