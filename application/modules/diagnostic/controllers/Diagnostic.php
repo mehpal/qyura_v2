@@ -463,8 +463,9 @@ class Diagnostic extends MY_Controller {
                 );
                 // dump($insertData);exit;
                 
-                
-                
+                if(!$users_email)
+                 $this->sendEmailRegister($this->input->post($users_email));
+                 
                  if($diagno_id == 0){
                       $insertData['status'] = 0;
                       $diagnosticId = $this->diagnostic_model->insertDiagnostic($insertData);
@@ -2384,6 +2385,10 @@ class Diagnostic extends MY_Controller {
                 'status' => 0,
                 
             );
+            
+             if(!$users_email){
+                $this->sendEmailRegister($this->input->post($users_email));
+            }
             
             $doctorsProfileId = $this->Doctor_model->insertDoctorData($doctorsinserData, 'qyura_doctors');
             

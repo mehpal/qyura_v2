@@ -4,12 +4,10 @@
     <div class="content">
         <div class="container row">
             <!-- consultation -->
-
             <div style="display:show;" id="consultDiv">
                 <div class="clearfix">
                     <div class="col-md-12">
                         <h3 class="pull-left page-title">Send a Quote</h3>
-
                     </div>
                 </div>
                 <div class="success"><?php //echo $this->session->flashdata('message'); ?></div>
@@ -28,16 +26,13 @@
                                         <select class="form-control select2" data-width="100%" name="city_id" onchange="getMI()" id="appointment_city">
                                             <option value="">Select City</option>
                                             <?php if (isset($qyura_city) && $qyura_city != NULL) {
-                                                foreach ($qyura_city as $city) {
-                                                    ?>
+                                                foreach ($qyura_city as $city) { ?>
                                                     <option <?php echo set_select('city_id', $city->city_id); ?> value="<?php echo $city->city_id; ?>"><?php echo $city->city_name; ?></option>
-    <?php }
-} ?>
+                                                    <?php } } ?>
                                         </select>
                                         <div class="has-error " id="err_city_id" ><?php echo form_error("city_id"); ?></div>
                                     </div>
                                 </article>
-
                                 <article class="clearfix m-t-10">
                                     <label class="control-label col-md-4 col-sm-4">MI Type :</label>
                                     <div class="col-md-8 col-sm-8">
@@ -49,7 +44,6 @@
                                         <div class="has-error " id="err_miType" ><?php echo form_error("miType"); ?></div>
                                     </div>
                                 </article>
-
                                 <article class="clearfix m-t-10 ">
                                     <label class="control-label col-md-4 col-sm-4">MI Name :</label>
                                     <div class="col-md-8 col-sm-8">
@@ -59,39 +53,6 @@
                                         <div class="has-error " id="err_miId" ><?php echo form_error("miId"); ?></div>
                                     </div>
                                 </article>
-
-<!--                      getTimeSlot();  <article class="clearfix m-t-10">
-                                    <label for="cname" class="control-label col-md-4 col-sm-4">Time Slot :</label>
-                                    <div class="col-md-8 col-sm-8">
-                                        <select class="select2" name="timeslot" id="timeSlot" data-width="100%" >
-                                            <option value="">Select Time Slot</option>
-                                        </select>
-                                        <div class="has-error " id="err_input4" ><?php echo form_error("timeslot"); ?></div>
-                                    </div>
-                                </article>-->
-
-<!--     getMIDoctorList();     <article class="clearfix m-t-10">
-                                    <label for="cname" class="control-label col-md-4 col-sm-4">Ref. Doctor :</label>
-                                    <div class="col-md-8 col-sm-8">
-                                        <input type="radio" <?php //echo set_radio('existsDr', '1'); ?> value="1" checked  name="existsDr" id="drExistsList" onclick="showExistsBox(this.value)"/> Available Dr.
-                                        <input type="radio" <?php //echo set_radio('existsDr', '2'); ?> value="2"  name="existsDr" onclick="showExistsBox(this.value)"/> Not Available Dr.
-                                    </div>
-                                </article>
-
-                                <article class="clearfix m-t-10 drList">
-                                    <div class="col-md-8 col-sm-8 col-md-offset-4">
-                                        <select class="form-control select2" data-width="100%" name="refDoctor" id="refDoctor" required="">
-                                            <option value="">Select Dr.</option>
-                                        </select>
-                                    </div>
-                                </article>-->
-
-<!--                                <article class="clearfix m-t-10 drText" style="display: none">
-                                    <div class="col-md-8 col-sm-8 col-md-offset-4">
-                                        <input value="<?php //set_value('drName'); ?>"  class="form-control" id="drName" type="text" name="drName" >
-                                    </div>
-                                </article>-->
-
                                 <article class="clearfix m-t-10">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Date :</label>
                                     <div class="col-md-8 col-sm-8">
@@ -102,8 +63,6 @@
                                         </div>
                                     </div>
                                 </article>
-
-
                                 <article class="clearfix m-t-10">
                                     <label for="" class="control-label col-md-4 col-sm-4">Final Timing :</label>
                                     <div class="col-md-8 col-sm-8">
@@ -113,39 +72,21 @@
                                         </div>
                                     </div>
                                 </article>
-
-<!--                                <article class="clearfix m-t-10">
-                                    <label for="cname" class="control-label col-md-4 col-sm-4">Appointment Status :</label>
-                                    <div class="col-md-8 col-sm-8">
-                                        <select class="form-control select2" name="bookStatus" id="input8" data-width="100%" >
-                                            <option <?php //echo set_select('bookStatus', '', true); ?> value="" >Select Status</option>
-                                            <option <?php //echo set_select('bookStatus', '1'); ?> value="1" >Pending</option>
-                                            <option <?php //echo set_select('bookStatus', '2'); ?> value="2" >Confirm</option>
-                                            <option <?php //echo set_select('bookStatus', '3'); ?> value="3" >Cancel</option>
-                                            <option <?php //echo set_select('bookStatus', '4'); ?> value="4" >Completed</option>
-                                        </select>
-                                        <div class="has-error " id="err_input8" ><?php echo form_error("input8"); ?></div>
-                                    </div>
-                                </article>-->
-
                                 <div id="diagnosticSectionTest">
                                     <div id="diagnosticClon_1">
                                         <article class="clearfix m-t-10">
                                             <label for="cname" class="control-label col-md-4 col-sm-4 cl-black">Test-1 :</label>
                                             <input type="hidden" id="total_test" name="total_test" value="1">
                                         </article>
-
                                         <article class="clearfix m-t-10">
                                             <label for="cname" class="control-label col-md-4 col-sm-4">Diagnostic Type :</label>
                                             <div class="col-md-8 col-sm-8">
                                                 <select class="form-control select2" data-width="100%" name="input28_1" id="input28_1" >
                                                     <option value="">Select Diagnostic Category</option>
-
                                                 </select>
                                                 <div class="has-error " id="err_input28_1" ><?php echo form_error("input28_1"); ?></div>
                                             </div>
                                         </article>
-
                                         <article class="clearfix m-t-10">
                                             <label for="cname" class="control-label col-md-4 col-sm-4">Test Name :</label>
                                             <div class="col-md-8 col-sm-8">
@@ -153,7 +94,6 @@
                                                 <div class="has-error " id="err_input29_1" ><?php echo form_error("input29_1"); ?></div>
                                             </div>
                                         </article>
-
                                         <article class="clearfix m-t-10">
                                             <label for="" class="control-label col-md-4 col-sm-4">Price :</label>
                                             <div class="col-md-8 col-sm-8">
@@ -161,7 +101,6 @@
                                                 <div class="has-error " id="err_input30_1" ><?php echo form_error("input30_1"); ?></div>
                                             </div>
                                         </article>
-
                                         <article class="clearfix m-t-10">
                                             <label for="" class="control-label col-md-4 col-sm-4">Instruction :</label>
                                             <div class="col-md-8 col-sm-8">
@@ -171,24 +110,19 @@
                                         </article>
                                     </div>    
                                     <article class="clearfix m-t-10">
-
                                         <div class="col-md-5 col-sm-5  col-md-offset-4 col-sm-offset-4">
                                             <button type="button" href="javascript:void(0)" class="btn btn-success btn-block waves-effect waves-light" onclick="addMoreTest()" >Add More Test </button>
                                         </div>
                                         <div class="col-md-3 col-sm-3 col-md-offset-0 col-sm-offset-0">
                                         </div>
                                     </article>
-                                    
                                 </div>
                                 <!-- doctor section end -->
-
                             </div>
                             <!-- .form -->
                         </div>
-
                     </section>
                     <!-- Left Section End -->
-
                     <!-- Right Section Start -->
                     <section class="col-md-6 detailbox mi-form-section">
                         <div class="bg-white clearfix">
@@ -351,32 +285,43 @@
                                     </article>
                                 </aside>
                                 <article class="form-group m-lr-0">
+                                    <label for="cname" class="control-label col-md-4 col-sm-4">Payment Status :</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <select class="selectpicker" name="pay_status" id="pay_status" data-width="100%" >
+                                            <option value="1" >Paid</option>
+                                            <option value="0" >Unpaid</option>
+                                        </select>
+                                        <div class="has-error " id="err_pay_status" ><?php echo form_error("pay_status"); ?></div>
+                                    </div>
+                                </article>
+                                <article class="form-group m-lr-0">
+                                    <label for="cname" class="control-label col-md-4 col-sm-4">Payment Mode:</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <select type="text" class="selectpicker" id="pay_mode" name="pay_mode" data-width="100%" >
+                                            <option value="1" >Cash</option>
+                                        </select>
+                                        <div class="has-error " id="err_input27" ><?php echo form_error("pay_mode"); ?></div>
+                                    </div>
+                                </article>
+                                <article class="form-group m-lr-0">
                                     <label for="cname" class="control-label col-md-4 col-sm-4 cl-black">Total Quotation Price :</label>
                                     <div class="col-md-8 col-sm-8">
                                         <label for="cname" class="control-label col-md-4 cl-black"><i class="fa fa-inr fa-2x"></i> <span id="paidAmount">00</span>.00/-</label>
                                     </div>
                                 </article>
                             </aside>
-
                             <!-- Patient Detail Section End -->
-
                         </div>
                     </section>
                     <section class="clearfix ">
                         <div class="col-md-12 m-t-20 m-b-20">
-                            <button class="btn btn-danger waves-effect pull-right" type="reset">Reset</button>
                             <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" id="submitQuotation">Submit</button>
                         </div>
                     </section>
                 </form>
             </div>
-
             <!-- consultation -->
-
-
-
             <!-- Right Section End -->
-
         </div>
         <!-- container -->
     </div>
