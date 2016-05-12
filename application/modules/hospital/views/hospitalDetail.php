@@ -1675,7 +1675,7 @@ GLOBAL
             </article>
             <article class="clearfix m-b-10">
             <label for="cemail" class="control-label col-md-4 col-sm-5">Registered Mobile Number:</label>
-            <p class="col-md-8 col-sm-7">+91 <?php
+            <p class="col-md-8 col-sm-7"><?php
                if (isset($hospitalData[0]->users_mobile)) {
                    echo $hospitalData[0]->users_mobile;
                }
@@ -1711,7 +1711,7 @@ GLOBAL
             <!-- Account Edit Section -->
             <form name="acccountForm" id="acccountForm" type="post">
             <input type="hidden" name="hospitalUserId" id="hospitalUserId" value="<?php echo $hospitalData[0]->users_id; ?>" >
-            <p class="text-success" style="display:none;" id="error-password_email_check_success"> Data Changed Successfully!</p>
+<!--            <p class="text-success" style="display:none;" id="error-password_email_check_success"> Data Changed Successfully!</p>-->
             <aside id="newac" style="display:none">
             <article class="clearfix m-b-10">
             <label for="cemail" class="control-label col-md-4 col-sm-4">Registered Email Id :</label>
@@ -1751,23 +1751,7 @@ GLOBAL
             </div>
             </article>
             
-<!--            <article class="clearfix m-b-10">
-            <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type:</label>
-            <div class="col-md-8 col-sm-8">
-                <select class="select2" data-width="100%" name="hospital_mmbrTyp" id="hospital_mmbrTyp">
-                <option value="1" <?php
-                   if ($hospitalData[0]->hospital_mmbrTyp == 1) {
-                       echo "selected";
-                   }
-                   ?>>Life Time</option>
-                <option value="2" <?php
-                   if ($hospitalData[0]->hospital_mmbrTyp == 2) {
-                       echo "selected";
-                   }
-                   ?>>Health Club</option>
-                </select>
-            </div>
-            </article>-->
+
             
             <article class="clearfix m-b-10">
             <label for="cemail" class="control-label col-md-4 col-sm-4">Change Password:</label>

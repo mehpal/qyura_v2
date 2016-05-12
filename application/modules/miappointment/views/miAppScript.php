@@ -38,8 +38,9 @@
      * @description get records in listing using datatables
      */
     $(document).ready(function () {
-
-
+        $('.timeslot').timepicker({showMeridian: false});
+        $('#date-7').datepicker();
+        
         var diagnosticTable = $('#datatable_diagnostic').DataTable({
             "processing": true,
             "serverSide": true,
@@ -146,7 +147,51 @@
         });
 
     });
+    function getTimeSlot() {
+        
+        //var h_d_id = $('#mi_centre').val();;
+        var docid = $('#docid').val();
 
+        var appdate = $('#date-7').val();
+        $('#timeSlot').selectpicker('refresh');
+        //var type = $("#centerType").val();
+        var url = '<?php echo site_url(); ?>/miappointment/appoint_timeSlot';
+        
+            $.ajax({
+                url: url,
+                async: false,
+                type: 'POST',
+                data: {'docid': docid, 'appdate': appdate},
+                beforeSend: function (xhr) {
+                    
+                },
+                success: function (data) {
+                    $('#timeSlot').html(data);
+                }
+            });
+            
+    }
+    function check_validaton() {
+        var url = '<?php echo site_url(); ?>/docappointment/check_timeslot/';
+        var final_timing = $("#timepicker3").val();
+        var timeslot_id = $("#timeSlot").val();
+        var resultAjax = false;
+        $.ajax({
+            url: url,
+            async: false,
+            type: 'POST',
+            data: {'timeslot_id': timeslot_id, 'final_timing': final_timing},
+            success: function (data) {
+                if (data == 1) {
+                    $("#err_timepicker4").hide();
+                    resultAjax = 0;
+                } else {
+                    $("#err_timepicker4").show();
+                    resultAjax++;
+                }
+            }
+        });
+    }
     function changestatus(myid, appfor, status_value)
     {
         //appfor 1=Consultation
@@ -178,6 +223,37 @@
             {
                $('#datatble_consulting').DataTable().ajax.reload();
                $('#datatable_diagnostic').DataTable().ajax.reload();
+            }
+        });
+    }
+    function changeapptime()
+    {
+        $("#changetimeform").validate({
+            rules: {appdate: {required: true},
+                timeSlot: {required: true},
+                finaltime: {required: true},
+            },
+            messages: {
+                appdate: {required: "Please select App Date", },
+                timeSlot: {required: "Please select Time Slot!", },
+                finaltime: {required: "Please select Final Time", },
+            }
+        }); 
+        var appdate = $("#date-7").val();
+        var timeSlot = $("#timeSlot").val();
+        var finaltime = $("#timepicker3").val();
+        var appid = $("#appid").val();
+        var url = '<?php echo site_url(); ?>' + '/miappointment/savetimeSlot';
+        $.ajax({
+            url: url,
+            async: false,
+            type: 'POST',
+            data: {'appdate': appdate, 'timeSlot': timeSlot, 'finaltime': finaltime,'appid':appid},
+            beforeSend: function (xhr) {
+            },
+            success: function (data) {
+                $('#changetime').html(data);
+                $('#changeTimemodel').modal('show');
             }
         });
     }

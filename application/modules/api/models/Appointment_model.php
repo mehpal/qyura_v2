@@ -67,9 +67,9 @@ AND `healthPkgBooking_deleted` = 0';
                         
                     . " CASE WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 3 ) THEN (CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_name ELSE  CASE WHEN (docTimeTable_MItype = 1) THEN hospital_name WHEN (docTimeTable_MItype = 2) THEN diagnostic_name ELSE '' END END ) ELSE concat(`doctors_fName`,' ',`doctors_lName`) END AS address,"
                 
-                    . " CASE WHEN (concat(DATE_FORMAT(FROM_UNIXTIME(`qyura_doctorAppointment`.`doctorAppointment_date`),'%Y-%m-%d'),' ',DATE_FORMAT(docTimeDay_open, '%h:%i %p')) > DATE_FORMAT(CURRENT_TIMESTAMP, '%Y-%m-%d %h:%i %p') ) THEN 'Upcoming' ELSE 'Completed' END as `upcomingStatus`,"
+                    . " CASE WHEN (concat(DATE_FORMAT(FROM_UNIXTIME(`qyura_doctorAppointment`.`doctorAppointment_date`),'%Y-%m-%d'),' ',DATE_FORMAT(docTimeDay_open, '%h:%i %p')) > DATE_FORMAT(CURRENT_TIMESTAMP, '%Y-%m-%d %h:%i %p') AND (qyura_doctorAppointment.doctorAppointment_status = 11 || qyura_doctorAppointment.doctorAppointment_status = 14  )) THEN 'Upcoming' ELSE 'Completed' END as `upcomingStatus`,"
                 
-                    . " CASE qyura_doctorAppointment.doctorAppointment_status WHEN '12' THEN 'Confirmed' WHEN '13' THEN 'Cancelled' WHEN '11' THEN 'Pending' WHEN '14' THEN 'Completed' ELSE '' END  AS `bookingStatus`,"
+                    . " CASE qyura_doctorAppointment.doctorAppointment_status WHEN '12' THEN 'Confirmed' WHEN '13' THEN 'Cancelled' WHEN '11' THEN 'Pending' WHEN '14' THEN 'Completed' WHEN '19' THEN 'Expired' ELSE '' END  AS `bookingStatus`,"
                 
                     . "'Consultation' as `type`, '3' as typeId "
                     . "FROM `qyura_doctorAppointment`
@@ -176,6 +176,49 @@ AND `healthPkgBooking_deleted` =0";
     }
     
     public function DoctorAppointmentDetail($now, $userId,$orderId) {
+        
+        $sql3 = "SELECT doctorAppointment_id as id, CASE WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 1 ) THEN `qyura_hospital`.`hospital_name` WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 2 ) THEN `qyura_diagnostic`.`diagnostic_name` ELSE concat(`doctors_fName`,' ',`doctors_lName`) END AS title,"
+                
+                    . "`qyura_doctorAppointment`.`doctorAppointment_unqId` AS `orderId`,"
+                    . "DATE_FORMAT(FROM_UNIXTIME(`qyura_doctorAppointment`.`doctorAppointment_date`),'%d %b, %Y') as date,"
+                    . "DATE_FORMAT(`docTimeDay_open`,'%h:%i%p') as startTime,"
+                    . "DATE_FORMAT(`docTimeDay_close`,'%h:%i%p') as endTime,"
+                        
+                    . " CASE WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 3 ) THEN (CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_name ELSE  CASE WHEN (docTimeTable_MItype = 1) THEN hospital_name WHEN (docTimeTable_MItype = 2) THEN diagnostic_name ELSE '' END END ) ELSE concat(`doctors_fName`,' ',`doctors_lName`) END AS address,"
+                
+                    . " CASE WHEN (concat(DATE_FORMAT(FROM_UNIXTIME(`qyura_doctorAppointment`.`doctorAppointment_date`),'%Y-%m-%d'),' ',DATE_FORMAT(docTimeDay_open, '%h:%i %p')) > DATE_FORMAT(CURRENT_TIMESTAMP, '%Y-%m-%d %h:%i %p') ) THEN 'Upcoming' ELSE 'Completed' END as `upcomingStatus`,"
+                
+                    . " CASE qyura_doctorAppointment.doctorAppointment_status WHEN '12' THEN 'Confirmed' WHEN '13' THEN 'Cancelled' WHEN '11' THEN 'Pending' WHEN '14' THEN 'Completed' ELSE '' END  AS `bookingStatus`,"
+                
+                    . "'Consultation' as `type`, '3' as typeId "
+                    . "FROM `qyura_doctorAppointment`
+                    
+                    LEFT JOIN `transactionInfo` ON `transactionInfo`.`order_no` = `qyura_doctorAppointment`.`doctorAppointment_unqId`
+                    LEFT JOIN `qyura_docTimeDay` ON `qyura_docTimeDay`.`docTimeDay_id` = `qyura_doctorAppointment`.`doctorAppointment_slotId`
+                    
+                    LEFT JOIN `qyura_docTimeTable` ON `qyura_docTimeTable`.`docTimeTable_id` = `qyura_docTimeDay`.`docTimeDay_docTimeTableId`
+                    LEFT JOIN `qyura_hospital` ON `qyura_hospital`.`hospital_id`=qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_MItype = 1 AND hospital_deleted = 0 
+                    
+                    LEFT JOIN `qyura_diagnostic` ON qyura_diagnostic.diagnostic_id = qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_MItype = 2 AND diagnostic_deleted = 0 
+                    
+                    LEFT JOIN qyura_psChamber ON qyura_psChamber.psChamber_id = qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 0 AND qyura_psChamber.status = 1 
+                    
+                    LEFT JOIN `qyura_doctors` ON `qyura_doctors`.`doctors_Id` = qyura_docTimeTable.`docTimeTable_doctorId`
+                    
+                    LEFT JOIN `qyura_specialities` ON `qyura_specialities`.`specialities_id`=`qyura_doctorAppointment`.`doctorAppointment_specialitiesId`
+                    
+                    LEFT JOIN `qyura_usersFamily` ON `qyura_usersFamily`.`usersfamily_id`=`qyura_doctorAppointment`.`doctorAppointment_memberId`
+
+                    LEFT JOIN `qyura_patientDetails` ON `qyura_patientDetails`.`patientDetails_usersId` = `qyura_doctorAppointment`.`doctorAppointment_pntUserId` 
+                    
+                    WHERE `qyura_doctorAppointment`.`doctorAppointment_pntUserId` = '{$userId}'
+                    AND `qyura_doctorAppointment`.`doctorAppointment_deleted` = 0
+                    AND `qyura_doctorAppointment`.`doctorAppointment_date` <> 0";
+        
+        
+        
+        
+        
        $sql3 = "SELECT CASE WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 1 ) THEN `qyura_hospital`.`hospital_name` WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 2 ) THEN `qyura_diagnostic`.`diagnostic_name` ELSE concat(`doctors_fName`,' ',`doctors_lName`) END AS title,"
                     . "`qyura_doctorAppointment`.`doctorAppointment_unqId` AS `orderId`,"
                     . "`qyura_specialities`.`specialities_name` AS `speciality`,"
