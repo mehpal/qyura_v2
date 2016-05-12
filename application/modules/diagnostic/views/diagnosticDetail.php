@@ -142,11 +142,14 @@
                         <p class="col-md-8 col-sm-8 t-xs-left"><?php if (isset($diagnosticData) && !empty($diagnosticData)): echo ucwords($diagnosticData[0]->diagnostic_name);
                            endif; ?></p>
                      </article>
+                      
+                      
                      <article class="clearfix m-b-10">
                         <label for="cemail" class="control-label col-md-4 col-sm-4">Address :</label>
                         <p class="col-md-8 col-sm-8 t-xs-left"><?php if (!empty($diagnosticData) && isset($diagnosticData)): echo ucwords(strtolower($diagnosticData[0]->diagnostic_address . " " . $diagnosticData[0]->diagnostic_zip . " " . $diagnosticData[0]->city_name . "</br>" . $diagnosticData[0]->state_statename . ", " . $diagnosticData[0]->country));
                            endif; ?></p>
                      </article>
+                      
                      <article class="clearfix m-b-10">
                         <label for="cemail" class="control-label col-md-4 col-sm-4">Phone Numbers :</label>
                         <aside class="col-md-8 col-sm-8 t-xs-left">
@@ -160,11 +163,18 @@
                               } ?>
                         </aside>
                      </article>
-                     <!--                                                        <article class="clearfix m-b-10">
-                        <label for="cemail" class="control-label col-md-4 col-sm-4">Mobile :</label>
-                        <p class="col-md-8 col-sm-8 t-xs-left"><?php // if (!empty($diagnosticData) && isset($diagnosticData)): echo $diagnosticData[0]->mobile;
-                           // endif; ?></p>
-                        </article>-->
+                      
+                    <article class="clearfix m-b-10">
+                                 <label for="cemail" class="control-label col-md-4 col-sm-4">Diagnostic Type :</label>
+                                 <p class="col-md-8 col-sm-8 t-xs-left">
+                                    <?php
+                                       if ($diagnosticData[0]->diagnoTypeId != '') {
+                                           echo $diagnosticData[0]->diagnoTypeName;
+                                       }
+                                       ?>
+                                 </p>
+                     </article>
+                           
                      <article class="clearfix m-b-10">
                         <label for="cemail" class="control-label col-md-4 col-sm-4">Contact Person:</label>
                         <p class="col-md-8 col-sm-8 t-xs-left"><?php if (!empty($diagnosticData) && isset($diagnosticData)): echo $diagnosticData[0]->diagnostic_cntPrsn;
@@ -304,6 +314,28 @@
                                  <label class="error" style="display:none;" id="error-diagnostic_name"> please enter diagnostic name only alphabet character's!</label>      
                               </div>
                            </article>
+                           
+                            <article class="clearfix">
+                                    <label for="cname" class="control-label col-md-4  col-sm-4">Diagnostic Type :</label>
+                                    <div class="col-md-8 col-sm-8">
+                                       <select class="form-control select2" data-width="100%" name="diagno_type" id="diagno_type" tabindex="-98">
+                                       <?php
+                                          if (!empty($diagnosticType)) {
+                                              foreach ($diagnosticType as $key => $val) {
+                                                  $selected = '';
+                                                  if (isset($diagnosticData[0]->diagnoTypeId) && $hospitalData[0]->diagnoTypeId == $val->hospitalType_id) {
+                                                      $selected = 'selected = "selected" ';
+                                                  }
+                                                  echo '<option ' . $selected . ' value="' . $val->hospitalType_id . '">' . $val->hospitalType_name . '</option>';
+                                              }
+                                          }
+                                          ?>
+                                       </select>
+                                         <label class="error" style="display:none;" id="error-diagno_type"> please select a country</label>
+                                         <label class="error" > <?php echo form_error("diagno_type"); ?></label>
+                                    </div>
+                            </article>
+                           
                            <article class="clearfix m-t-10">
                               <label for="cemail" class="control-label col-md-4 col-sm-4">Address :</label>
                               <div class="col-md-8 col-sm-8">

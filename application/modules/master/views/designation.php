@@ -26,52 +26,53 @@
                         <div class="nicescroll mxh-400" style="overflow: hidden;" tabindex="5000">
                            <div class="clearfix">
                               <form name="designationEditForm" action="#" id="designationEditForm" method="post">
-                              <ul id="list" class="list-unstyled ul-bigspace">
-                                 <?php $countDesignation = 1; if(isset($Departments) && $Departments != NULL){
-                                    foreach ($Departments as $list){
-                                    ?>
-                                 <li class="clearfix  border-t membership-plan m-t-10" id="designation<?php echo $countDesignation;?>">
-                                    <span class="col-md-4">
-                                       <h6><?php echo $list->department_name;?> </h6>
-                                    </span>
-                                    <span class="col-md-4">
-                                       <h6><?php echo $list->designation_name; ?></h6>
-                                    </span>
-                                    <span class="col-md-4 text-right">
-                                       <h6>
-                                           <a onclick="showDesignation('<?php echo $countDesignation;?>')" href="javascript:void(0)"><i class="md md-edit membership-btn" style="line-height: 3"></i></a>
-                                           <button onclick="if((<?php echo $list->dsgnStatus; ?>)===0)enableFn('master', 'designationPublish', '<?php echo $list->designation_id; ?>','<?php echo $list->dsgnStatus; ?>')" type="button" class="btn btn-<?php if($list->dsgnStatus == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($list->dsgnStatus == 0){ echo "Inactive"; }else if($list->dsgnStatus == 1){ echo "Active"; } ?></button>                                         
-                                       </h6>
-                                    </span>
-                                 </li>
-                                
-                                 <li class="newmembership m-t-10" style="display:none" id="editDes<?php echo $countDesignation;?>">
-                                    <span class="col-md-5 ">
-                                       <input type="hidden" id="designation_id_<?php echo $countDesignation; ?>" name="designation_id_<?php echo $countDesignation; ?>" value="<?php echo $list->designation_id; ?>" >
-
-                                       <select class="selectpicker" data-width="100%" name="designation_departmentId_<?php echo $countDesignation; ?>" id="designation_departmentId_<?php echo $countDesignation; ?>" style="z-index: 1000000 !important">
-                                            <option>Select Department</option>
-                                               <?php if (!empty($allDepartments)):
-                                                  foreach ($allDepartments as $val):
-                                                      ?>
-                                               <option value="<?php echo $val->department_id; ?>" <?php if ($list->department_id == $val->department_id):echo"selected";
-                                                  endif; ?>><?php echo $val->department_name; ?></option>
-                                               <?php endforeach;
-                                                  endif; ?>
-                                            </select>
-                                            <label class="error" id="err_designation_departmentId_<?php echo $countDesignation; ?>" > <?php echo form_error("designation_departmentId"); ?></label>
-                                    </span>
-                                    <span class="col-md-5">
-                                        <input type="text" required="" name="designation_name_<?php echo $countDesignation; ?>" id="designation_name_<?php echo $countDesignation; ?>" class="form-control" value="<?php echo $list->designation_name; ?>" onkeypress="return isAlpha(event,this.value)">
+                                 <ul id="list" class="list-unstyled ul-bigspace">
+                                    <?php $countDesignation = 1; if(isset($Departments) && $Departments != NULL){
+                                       foreach ($Departments as $list){
+                                       ?>
+                                    <li class="clearfix  border-t membership-plan m-t-10" id="designation<?php echo $countDesignation;?>">
+                                       <span class="col-md-4">
+                                          <h6><?php echo strip_tags(substr($list->department_name, 0,20)); ?></h6>
+                                       </span>
+                                       <span class="col-md-4">
+                                          <h6><?php echo strip_tags(substr($list->designation_name, 0,20)); ?></h6>
+                                       </span>
+                                       <span class="col-md-4 text-right">
+                                          <h6>
+                                             <a onclick="showDesignation('<?php echo $countDesignation;?>')" href="javascript:void(0)"><i class="md md-edit membership-btn" style="line-height: 3"></i></a>
+                                             <button onclick="if((<?php echo $list->dsgnStatus; ?>)===0)enableFn('master', 'designationPublish', '<?php echo $list->designation_id; ?>','<?php echo $list->dsgnStatus; ?>')" type="button" class="btn btn-<?php if($list->dsgnStatus == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($list->dsgnStatus == 0){ echo "Inactive"; }else if($list->dsgnStatus == 1){ echo "Active"; } ?></button>                                         
+                                          </h6>
+                                       </span>
+                                    </li>
+                                    <li class="newmembership clearfix" style="display:none" id="editDes<?php echo $countDesignation;?>">
+                                       <span class="col-md-5 ">
+                                          <input type="hidden" id="designation_id_<?php echo $countDesignation; ?>" name="designation_id_<?php echo $countDesignation; ?>" value="<?php echo $list->designation_id; ?>" >
+                                          <select class="selectpicker" data-width="100%" name="designation_departmentId_<?php echo $countDesignation; ?>" id="designation_departmentId_<?php echo $countDesignation; ?>" style="z-index: 1000000 !important">
+                                             <option>Select Department</option>
+                                             <?php if (!empty($allDepartments)):
+                                                foreach ($allDepartments as $val):
+                                                    ?>
+                                             <option value="<?php echo $val->department_id; ?>" <?php if ($list->department_id == $val->department_id):echo"selected";
+                                                endif; ?>><?php echo $val->department_name; ?></option>
+                                             <?php endforeach;
+                                                endif; ?>
+                                          </select>
+                                          <label class="error" id="err_designation_departmentId_<?php echo $countDesignation; ?>" > <?php echo form_error("designation_departmentId"); ?></label>
+                                       </span>
+                                       <span class="col-md-5">
+                                       <input type="text" required="" name="designation_name_<?php echo $countDesignation; ?>" id="designation_name_<?php echo $countDesignation; ?>" class="form-control" value="<?php echo $list->designation_name; ?>" onkeypress="return isAlpha(event,this.value)">
                                        <label class="error" id="err_designation_name_<?php echo $countDesignation; ?>" > <?php echo form_error("designation_name"); ?></label>
-                                    </span>
-                                    <span class="col-md-2">
-                                       <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                                       <a onclick="hideDesignation('<?php echo $countDesignation;?>')" href="javascript:void(0)" style="line-height: 1.6"><i class="md md-cancel membership-btn"></i></a>
-                                    </span>
-                                 </li>
-                                 <?php $countDesignation++;} } ?>
-                                 <input type="hidden" id="total_count" name="total_count" value="<?php echo $countDesignation; ?>" >
+                                       </span>
+                                       <span class="col-md-1">
+                                       <button class="btn btn-sm btn-success" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
+                                       </span>
+                                       <span class="col-md-1">
+                                       <a class="text-danger pull-left" onclick="hideDesignation('<?php echo $countDesignation;?>')" href="javascript:void(0)" style="line-height: 1.6"><i class="md md-cancel membership-btn m-t-5"></i></a>
+                                       </span>
+                                    </li>
+                                    <?php $countDesignation++;} } ?>
+                                    <input type="hidden" id="total_count" name="total_count" value="<?php echo $countDesignation; ?>" >
+                                 </ul>
                               </form>
                            </div>
                         </div>

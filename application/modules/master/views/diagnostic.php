@@ -37,7 +37,7 @@
                                 foreach ($diagnosticList as $val) { ?>
                                     <li class="clearfix  border-t">
                                         <span class="col-md-4">
-                                            <h6><?php echo $val->diagnosticsCat_catName; ?></h6>
+                                            <h6><?php echo strip_tags(substr($val->diagnosticsCat_catName, 0,20)); ?></h6>
                                         </span>
                                         <span class="col-md-4"> 
                                             <img height="80px;" width="80px;" src="<?php echo base_url('assets/diagnosticsCatImages/' . $val->diagnosticsCat_catImage); ?>" class="img-responsive" style="border-radius: 10%">

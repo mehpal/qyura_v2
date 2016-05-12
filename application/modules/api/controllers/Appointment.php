@@ -30,8 +30,7 @@ class Appointment extends MyRest {
             
             $colName = array("id","title", "orderId", "date", "startTime", "endTime", "address","upcomingStatus", "bookingStatus", "type", "typeId");
 //            $sql = $sql1 . " UNION " .
-            $sql = $sql2 . " UNION " . $sql3;
-//         echo   strtotime(date("2016-01-01"));
+            $sql = $sql2 . " UNION " . $sql3; 
         $queryResult = $this->db->query($sql)->result();
 //echo $this->db->last_query();
 //print_r($queryResult); die();
@@ -39,6 +38,7 @@ class Appointment extends MyRest {
             if (!empty($queryResult)) {
                 foreach ($queryResult as $row) {
                     $finalTemp = array();
+                
                     $finalTemp[] = isset($row->id) && $row->id != '' ? $row->id : "";
                     $finalTemp[] = isset($row->title) && $row->title != '' ? $row->title : "";
                     $finalTemp[] = isset($row->orderId) && $row->orderId != '' ? $row->orderId : "";

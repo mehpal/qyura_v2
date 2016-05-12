@@ -7,7 +7,7 @@
             <!--   start section 1 -->
             <section class="clearfix">
                 <!--start MI-->
-                <aside class=" col-md-3 col-sm-6 m-b-10">
+                <aside class=" col-md-4 col-sm-6 m-b-10">
                     <article class="clearfix  r-box">
                         <h4 class="">Total Registered <br>Medical Institutions</h4>
 
@@ -17,7 +17,7 @@
                 </aside>
                 <!--end MI-->
                 <!--start total DOC-->
-                <aside class="col-md-3 col-sm-6 m-b-10">
+                <aside class="col-md-4 col-sm-6 m-b-10">
                     <article class="clearfix  y-box">
                         <h4 class="">Total Registered <br>
                             Doctors</h4>
@@ -27,19 +27,8 @@
                     <article class="y-box-bottom"><a href="<?php echo site_url('doctor');?>">view all</a></article>
                 </aside>
                 <!--end total Doc-->
-                <!--start Revenue-->
-                <aside class="col-md-3 col-sm-6 m-b-10">
-                    <article class="clearfix  b-box">
-                        <h4 class="">Total Revenue <br>
-                            Generated</h4>
-
-                        <p><i class="fa fa-inr"></i> 0</p>
-                    </article>
-                    <article class="b-box-bottom"><a href="#">view all</a></article>
-                </aside>
-                <!--end Revenue-->
                 <!--start profile visits-->
-                <aside class="col-md-3 col-sm-6 m-b-10">
+                <aside class="col-md-4 col-sm-6 m-b-10">
                     <article class="clearfix  g-box">
                         <h4 class="">Total Registered <br>
                             Users</h4>
@@ -111,168 +100,38 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-
-                                                <tr>
+                                                <?php if(!empty($consultAppoinement)):
+                                                        foreach($consultAppoinement as $consult):?>
+                                                   
+                                                    <tr>
                                                     <td width="20%">
-                                                        <h6>APPTH 20</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Mail | 45</p>
+                                                        <h6><?php echo $consult->orderId;?></h6>
+                                                        <p><?php echo $consult->userName;?></p>
+                                                        <p><?php echo getGender($consult->userGender);?> | <?php echo $consult->userAge;?></p>
                                                     </td>
                                                     <td>
-                                                        <h6>Vipul Jain</h6>
-                                                        <p>Mail | 45</p>
+                                                        <h6><?php echo $consult->userName;?></h6>
+                                                        <p><?php echo getGender($consult->userGender);?> | <?php echo $consult->userAge;?></p>
                                                     </td>
                                                     <td>
-                                                        <h6>Dr Sambit Jain</h6>
-                                                        <p>Cardilogy</p>
+                                                        <h6>Dr. <?php echo ucwords($consult->title);?></h6>
+                                                        <p><?php echo ucwords($consult->speciality);?></p>
                                                     </td>
                                                     <td>
-                                                        <h6>Hospital</h6>
-                                                        <p>New Delhi</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6></h6>
-                                                        <button type="button" class="btn btn-success waves-effect waves-light m-b-5">Detail</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>APPTH 20</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Vipul Jain</h6>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Dr Sambit Jain</h6>
-                                                        <p>Cardilogy</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Hospital</h6>
-                                                        <p>New Delhi</p>
+                                                        <h6><?php echo ucwords($consult->MIname);?></h6>
+                                                        <p><?php echo ucwords($consult->city_name);?></p>
                                                     </td>
                                                     <td>
                                                         <h6></h6>
-                                                        <button type="button" class="btn btn-success waves-effect waves-light m-b-5">Detail</button>
+                                                        <a href="<?php echo site_url('miappointment/consultingDetail/'.$consult->id);?>" class="btn btn-success waves-effect waves-light m-b-5">Detail</a>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>APPTH 20</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Vipul Jain</h6>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Dr Sambit Jain</h6>
-                                                        <p>Cardilogy</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Hospital</h6>
-                                                        <p>New Delhi</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6></h6>
-                                                        <button type="button" class="btn btn-success waves-effect waves-light m-b-5">Detail</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>APPTH 20</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Vipul Jain</h6>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Dr Sambit Jain</h6>
-                                                        <p>Cardilogy</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Hospital</h6>
-                                                        <p>New Delhi</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6></h6>
-                                                        <button type="button" class="btn btn-success waves-effect waves-light m-b-5">Detail</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>APPTH 20</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Vipul Jain</h6>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Dr Sambit Jain</h6>
-                                                        <p>Cardilogy</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Hospital</h6>
-                                                        <p>New Delhi</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6></h6>
-                                                        <button type="button" class="btn btn-success waves-effect waves-light m-b-5">Detail</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>APPTH 20</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Vipul Jain</h6>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Dr Sambit Jain</h6>
-                                                        <p>Cardilogy</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Hospital</h6>
-                                                        <p>New Delhi</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6></h6>
-                                                        <button type="button" class="btn btn-success waves-effect waves-light m-b-5">Detail</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>APPTH 20</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Vipul Jain</h6>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Dr Sambit Jain</h6>
-                                                        <p>Cardilogy</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Hospital</h6>
-                                                        <p>New Delhi</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6></h6>
-                                                        <button type="button" class="btn btn-success waves-effect waves-light m-b-5">Detail</button>
-                                                    </td>
-                                                </tr>
+                                                
+                                                    
+                                                <?php endforeach;
+                                                endif;
+?>
+                                  
                                             </tbody>
                                         </table>
                                     </aside>
@@ -594,12 +453,20 @@
                     <div class="bg-white">
                         <figure class="clearfix">
                             <div class="col-md-7 col-sm-8 p-0">
-                                <h3>Top 5 Hospital of 
-                                    The Month (Nov 2014) </h3>
+                                <h3>Top 7 Hospital of 
+                                    The Month ( <?php echo date('F Y');?> ) </h3>
                             </div>
                             <div class="col-md-5 col-sm-4 text-right">
-                                <select class="form-control selectpicker m-tb-5" data-width="100%" >
+                                <select class="form-control selectpicker m-tb-5" id="search-city" data-width="100%" >
                                     <option>All City</option>
+                                    <?php if(!empty($cityList)):
+                                            foreach($cityList as $city):?>
+                                            
+                                            <option value="<?php echo ucwords($city->city_name);?>"><?php echo ucwords($city->city_name);?></option>
+                                            
+                                          <?php  endforeach;
+                                          endif;
+?>
                                     <option>Feb</option>
                                 </select>
                             </div>
@@ -608,69 +475,27 @@
                         <article class="tab-content">
 
                             <!--Hospitals -->
-                            <aside class="table-responsive">
+                            <aside class="table-responsive" id="hospitalList">
                                 <table class="table">
                                     <tbody>
-                                        <tr>
+                                    <?php if(isset($topHospital) && !empty($topHospital)): 
+                                            foreach($topHospital as $list):?>
+                                        
+                                              <tr>
                                             <td>
-                                                <h6><i class="fa fa-image fa-2x"></i></h6></td>
+                                                <h6><img src="<?php echo base_url().$list->imUrl;?>"></h6></td>
                                             <td>
-                                                <h6>Appolo Hospital</h6>
-                                                <p>Kolkata</p>
+                                                <h6><?php echo ucwords($list->name);?></h6>
+                                                <p><?php echo ucwords($list->city);?></p>
                                             </td>
                                             <td>
                                                 <h6></h6>
-                                                <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">Detail</button>
+                                                <a href="<?php echo site_url('hospital/detailHospital/'.$list->id);?>" class="btn btn-success waves-effect waves-light m-b-5 center-block" >View</a>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <h6><i class="fa fa-image fa-2x"></i></h6></td>
-                                            <td>
-                                                <h6>Appolo Hospital</h6>
-                                                <p>Kolkata</p>
-                                            </td>
-                                            <td>
-                                                <h6></h6>
-                                                <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">Detail</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h6><i class="fa fa-image fa-2x"></i></h6></td>
-                                            <td>
-                                                <h6>Appolo Hospital</h6>
-                                                <p>Kolkata</p>
-                                            </td>
-                                            <td>
-                                                <h6></h6>
-                                                <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">Detail</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h6><i class="fa fa-image fa-2x"></i></h6></td>
-                                            <td>
-                                                <h6>Appolo Hospital</h6>
-                                                <p>Kolkata</p>
-                                            </td>
-                                            <td>
-                                                <h6></h6>
-                                                <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">Detail</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h6><i class="fa fa-image fa-2x"></i></h6></td>
-                                            <td>
-                                                <h6>Appolo Hospital</h6>
-                                                <p>Kolkata</p>
-                                            </td>
-                                            <td>
-                                                <h6></h6>
-                                                <button class="btn btn-success waves-effect waves-light m-b-5 center-block" type="button">Detail</button>
-                                            </td>
-                                        </tr>
+                                        
+                                          <?php  endforeach;
+                                        endif;?>
 
                                     </tbody>
                                 </table>
@@ -692,22 +517,37 @@
                         <figure class="clearfix">
                             <div class="col-md-7 col-sm-8 p-0">
                                 <h3>Doctor of the Month
-                                    Nov 2014</h3>
+                                    <?php echo date('F Y')?></h3>
                             </div>
                             <div class="col-md-5 col-sm-4 text-right">
                                 <select class="form-control selectpicker m-tb-5" data-width="100%" >
                                     <option>All City</option>
-                                    <option>Feb</option>
+                                                                       <?php if(!empty($cityList)):
+                                            foreach($cityList as $city):?>
+                                            
+                                            <option value="<?php echo ucwords($city->city_name);?>"><?php echo ucwords($city->city_name);?></option>
+                                            
+                                          <?php  endforeach;
+                                          endif;
+?>
                                 </select>
                             </div>
                         </figure>
-
-                        <p class="text-center"><img src="<?php echo base_url(); ?>assets/images/users/avatar-1.jpg" class="img-responsive img-circle img-thumbnail m-t-20"></p>
+                        
+                        <?php if(!empty($doctorOfMonth) && !empty($doctorOfMonth[0]->imUrl)): ?>
+                                  <p class="text-center"><img src="<?php echo base_url().$doctorOfMonth[0]->imUrl; ?>" class="img-responsive img-circle img-thumbnail m-t-20"></p>
+                        <?php else: ?>
+                                  <p class="text-center"><img src="<?php echo base_url(); ?>assets/default-images/Doctor-logo.png" class="img-responsive img-circle img-thumbnail m-t-20"></p>
+                            <?php endif;
+?>
+                        
+                        
+                        
                         <figcaption class="text-center">
-                            <h3>Dr. Sambit Jain</h3>
-                            <p>MBBS, MD</p>
-                            <p>Cardiology</p>
-                            <h3>Total Appointments : 172</h3>
+                            <h3><?php if(!empty($doctorOfMonth)): echo 'Dr.'.$doctorOfMonth[0]->doctoesName; endif;?></h3>
+                            <p><?php if(!empty($doctorOfMonth)): echo $doctorOfMonth[0]->degree; endif;?></p>
+                            <p><?php if(!empty($doctorOfMonth)): echo $doctorOfMonth[0]->specname; endif;?></p>
+                            <h3>Total Appointments : <?php if(!empty($doctorOfMonth)): echo $doctorOfMonth[0]->totalapp; endif;?></h3>
                         </figcaption>
 
                         <figcaption class="clearfix text-center text-black">
@@ -748,48 +588,8 @@
             <section class="clearfix m-t-30">
                 <aside class="col-md-8">
                     <div class="bg-white clearfix">
-                        <!--Line Chart Start -->
-                        <article class="chartbox">
-                            <figure class="clearfix">
-                                <div class="col-md-9 col-sm-9 p-0">
-                                    <h3>Revenue Trend</h3>
-                                </div>
-                                <div class="col-md-3 col-sm-3 text-right">
-                                    <select class="selectpicker form-control m-tb-5 pull-right" data-width="100%" >
-                                        <option>2015</option>
-                                        <option>2014</option>
-                                    </select>
-                                </div>
-                            </figure>
-                            <figcaption>
-                                <h4 class="text-left">INR(Lacs)</h4>
-                                <canvas id="lineChart" data-type="Line" class="revenue-t"></canvas>
-                            </figcaption>
-
-                            <div class="clearfix">
-                                <aside class="col-md-3 col-sm-3 p-b-20">
-                                    <div id="donut-chart" style="height:150px;"></div>
-                                </aside>
-                                <aside class="col-md-3 col-sm-3">
-                                    <ul class="num-label">
-                                        <li><span></span> Diagnostic</li>
-                                        <li><span class="bg-ong-red"></span>Health Package</li>
-                                    </ul>
-                                </aside>
-                                <aside class="col-md-6 col-sm-6">
-                                    <canvas id="single-bar" data-type="Bar" class="w-full"></canvas>
-                                </aside>
-                            </div>
-
-                        </article>
-                        <!-- Line Chart End -->
-                    </div>
-                    
-                </aside>
-
-                <aside class="col-md-4">
-
-                    <div class="clearfix bg-white">
+                        
+                  <div class="clearfix bg-white">
                         <figure class="clearfix border-full ">
 
                             <div class="col-md-6 col-xs-8">
@@ -887,42 +687,17 @@
                                 </div>
                             </section>
                             <!-- Doctor Section -->
-
-                    </div>
-
-                </aside>
-            </section>
-            <!--Section End-->
-            <section class="clerafix m-t-30">
-                <!--Bar Chart Start -->
-                    <div class="clearfix bg-white m-t-30">
-                        <article class="chartbox">
-                            <figure class="clearfix">
-                                <div class="col-md-12 p-0">
-                                    <h3>Revenue Trend</h3>
-                                </div>
-                                <div class="col-md-3 col-sm-3 text-right">
-                                    <select class="form-control selectpicker m-tb-5 pull-right" data-width="100%" >
-                                        <option>2015</option>
-                                        <option>2014</option>
-                                    </select>
-                                </div>
-                            </figure>
-
-                            <figcaption>
-                                <canvas id="bar-chart" class="h-300" data-type="Bar"></canvas>
-                            </figcaption>
                         </article>
                     </div>
-                    <!--Bar Chart End -->
-                
-            </section>
+                        
+                    </div>
+                    
+                </aside>
 
+                <aside class="col-md-4">
 
-            <!-- start -->
-            <section class="clearfix m-t-30">
-
-                <article class="col-md-4 col-sm-4 chartbox">
+                    
+                         <article class=" chartbox">
                     <div class="bg-white">
                         <figure class="clearfix">
                             <div class="col-md-8 p-0">
@@ -940,54 +715,19 @@
                         </figcaption>
                     </div>
                 </article>
+                    
+                    
+               
 
-
-                <article class="col-md-4 col-sm-4 chartbox">
-                    <div class="bg-white">
-                        <figure class="clearfix">
-                            <div class="col-md-8 p-0">
-                                <h3>Revenue Distribution</h3>
-                            </div>
-                            <div class="col-md-4 text-right">
-                                <select class="form-control selectpicker m-tb-5 pull-right" data-width="100%">
-                                    <option>2015</option>
-                                    <option>2014</option>
-                                </select>
-                            </div>
-                        </figure>
-                        <figcaption>
-                            <div id="chart_div_sec"></div>
-                        </figcaption>
-                    </div>
-                </article>
-
-
-                <article class="col-md-4 col-sm-4 chartbox">
-                    <div class="bg-white">
-                        <figure class="clearfix">
-                            <div class="col-md-8 p-0">
-                                <h3>Use Transaction Flow</h3>
-                            </div>
-                            <div class="col-md-4 text-right">
-                                <select class="form-control selectpicker m-tb-5 pull-right" data-width="100%" >
-                                    <option>2015</option>
-                                    <option>2014</option>
-                                </select>
-                            </div>
-                        </figure>
-                        <figcaption>
-
-                            <div id="chart_trans_flow"></div>
-                        </figcaption>
-                    </div>
-                </article>
-
+                </aside>
             </section>
-            <!-- end -->
+ 
 
 
+            <!-- start -->
+            <section class="clearfix m-t-30">
 
-
+         
             <section>
 
                 <!-- content -->

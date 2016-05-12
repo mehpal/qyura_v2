@@ -43,7 +43,7 @@ class DoctorBooking_model extends Common_model {
         return $this->db->get()->result();
     }
     
-    public function checkDocTimeSlot($hospitalId, $doctorUserId,$slotId,$day) { 
+    public function checkDocTimeSlot($parentId, $doctorUserId,$slotId,$day) { 
         
         $this->db->select("doctorAvailabilitySession_start")
                 ->from("qyura_doctorAvailabilitySession")
