@@ -1714,7 +1714,7 @@ GLOBAL
             <form name="acccountForm" id="acccountForm" type="post">
             <input type="hidden" name="hospitalUserId" id="hospitalUserId" value="<?php echo $hospitalData[0]->users_id; ?>" >
 <!--            <p class="text-success" style="display:none;" id="error-password_email_check_success"> Data Changed Successfully!</p>-->
-            <aside id="account" style="display:none" class="">
+            <aside id="newac" style="display:none">
             <article class="clearfix m-b-10">
             <label for="cemail" class="control-label col-md-4 col-sm-4">Registered Email Id :</label>
             <div class="col-md-8 col-sm-8">
