@@ -45,7 +45,7 @@ if (isset($doctorId) && !empty($doctorId)) {
 <?php
 $current = $this->router->fetch_method();
 if ($current != 'detailDoctor'): ?>
-    <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
+    <script src="<?php echo base_url(); ?>assets/cropper/masterCrop.js"></script>
 <?php else: ?>
     <script  src="<?php echo base_url(); ?>assets/cropper/common_cropper.js"></script>
 <?php endif; ?>

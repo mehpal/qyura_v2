@@ -40,16 +40,18 @@
                                        
                                     </span>
                                 </li>
-                                <li class="newmembership" style="display:none" id="editAward<?php echo $countAgency;?>">
+                                <li class="newmembership clearfix" style="display:none" id="editAward<?php echo $countAgency;?>">
                                     <span class="col-md-10">
                                         <input type="hidden" id="awardAgency_id_<?php echo $countAgency; ?>" name="awardAgency_id_<?php echo $countAgency; ?>" value="<?php echo $awardAgency->awardAgency_id	; ?>" >
                                         <input type="text" required="" name="agency_name_<?php echo $countAgency; ?>" id="agency_name_<?php echo $countAgency; ?>" class="form-control" value="<?php if($awardAgency->agency_name){ echo $awardAgency->agency_name; }else{echo ''; } ?>" onkeypress="return isAlpha(event,this.value)">
                                         <label class="error" id="agency_name_<?php echo $countAgency; ?>" > <?php echo form_error("agency_name_$countAgency"); ?></label>
                                     </span>
                                    
-                                    <span class="col-md-2">
-                                        <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                                        <a onclick="hideAwardAgency('<?php echo $countAgency;?>')" href="#" style="line-height: 2"><i class="md md-cancel membership-btn"></i></a>
+                                    <span class="col-md-1">
+                                        <button class="btn btn-sm btn-success" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
+                                        </span>
+                                        <span class="col-md-1">
+                                        <a class="text-danger pull-left" onclick="hideAwardAgency('<?php echo $countAgency;?>')" href="#" style="line-height: 2"><i class="md md-cancel membership-btn m-t-5"></i></a>
                                     </span>
                                 </li>
                             <?php $countAgency++;} } ?>

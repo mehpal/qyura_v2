@@ -56,10 +56,11 @@
                            <input type="text" required="" name="degree_FName_<?php echo $countDegree; ?>" id="degree_FName_<?php echo $countDegree; ?>" class="form-control" value="<?php if($degrees->degree_FName){ echo $degrees->degree_FName; }else{echo ''; } ?>">
                            <label class="error" id="hospitalType_name_<?php echo $countDegree; ?>" > <?php echo form_error("degree_FName_$countDegree"); ?></label>
                            </span>
-                           <span class="col-md-2">
+                           <span class="col-md-1">
                            <button class="btn btn-sm btn-success" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-
-                           <button class="btn btn-danger btn-sm" onclick="hideDegree('<?php echo $countDegree; ?>')" href="#"><i class="md md-cancel membership-btn"></i></button>
+                           </span>
+                           <span class="col-md-1">
+                           <a class="text-danger pull-left" onclick="hideDegree('<?php echo $countDegree; ?>')" href="#"><i class="md md-cancel membership-btn m-t-5"></i></a>
                            </span>
                         </li>
                         <?php $countDegree++;} } ?>
