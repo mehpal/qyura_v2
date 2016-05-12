@@ -37,26 +37,27 @@
                             <?php if (isset($specialityList) && !empty($specialityList)) {
                                 foreach ($specialityList as $key => $val) { ?>
                                     <li class="clearfix  border-t">
-                                        <span class="col-md-4">
+                                        <span class="col-md-3">
 
                                             <h6><?php echo strip_tags(substr($val->specialities_name, 0,20)); ?></h6>
                                         </span>
-                                        <span class="col-md-4">
+                                        <span class="col-md-3">
                                             <h6><?php echo strip_tags(substr($val->specialities_drName, 0,20)); ?></h6>
                                         </span>
+                                         <span class="col-md-2 m-t-10">
+                                          <img height="80px;" width="80px;" src="<?php echo base_url('assets/specialityImages/thumb/original/' . $val->specialities_img); ?>" class="img-responsive">
+                                         </span>
                                         <span class="col-md-4 text-right">
                                             <h6>
                                                 <a class="btn btn-success waves-effect waves-light m-b-5" href="<?php echo site_url('master/editSpecialitiesView/' . $val->specialities_id); ?>"><i class="fa fa-pencil"></i></a>
                                                 <button onclick="if((<?php echo $val->status; ?>)===0)enableFn('master', 'specialityPublish', '<?php echo $val->specialities_id; ?>','<?php echo $val->status; ?>')" type="button" class="btn btn-<?php if($val->status == 0){ echo "warning"; }else { echo "success"; }?> waves-effect waves-light m-b-5"><?php if($val->status == 0){ echo "Inactive"; }else if($val->status == 1){ echo "Active"; } ?></button>
                                             </h6>
                                         </span>
-                                        <span class="col-md-8">
+                                        <span class="col-md-12">
 
                                             <p><?php echo strip_tags(substr($val->speciality_tag, 0,25)); ?></p>
                                         </span>
-                                        <span> 
-                                            <img height="80px;" width="80px;" src="<?php echo base_url('assets/specialityImages/thumb/original/' . $val->specialities_img); ?>" class="img-responsive">
-                                        </span>
+                                        
                                     </li>
                             <?php } } ?>
                             </ul>

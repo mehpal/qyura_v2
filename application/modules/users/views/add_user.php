@@ -37,6 +37,8 @@
                                                 <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png"  class="image-preview-show"/>
                                             </div>
                                         </div>
+                                        <div id="error-label" class="error-label"></div>
+
                                         <label class="error" > <?php echo form_error("avatar_file"); ?></label>
                                         <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
                                     </div>
@@ -65,7 +67,7 @@
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Date of Birth :</label>
                                     <div class="col-md-8 col-sm-8">
                                         <div class="input-group">
-                                            <input class="form-control pickDate" placeholder="dd/mm/yyyy" id="date-2" type="text" name="patientDetails_dob" onkeydown="return false;" value="<?php echo set_value('patientDetails_dob');?>">
+                                            <input class="form-control pickDatePolicy1" placeholder="dd/mm/yyyy" id="date-2" type="text" name="patientDetails_dob" onkeydown="return false;" value="<?php echo set_value('patientDetails_dob');?>">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                         </div>
                                         <label class="error" id="err_patientDetails_dob" > <?php echo form_error("patientDetails_dob"); ?></label>
@@ -286,7 +288,7 @@
                                                     <article class="form-group m-lr-0">
                                                         <label for="cname" class="control-label col-md-4 col-sm-4">Health Insu. Provider:</label>
                                                         <div class="col-md-8 col-sm-8">
-                                                            <select class="select2" data-width="100%" name="userInsurance_insuranceId_1" id="userInsurance_insuranceId_1">
+                                                            <select class="select2" data-width="100%" required="" name="userInsurance_insuranceId_1" id="userInsurance_insuranceId_1">
                                                                 <option value=""> Select Insurance</option>
                                                                 <?php foreach ($insurance_cmpny as $key => $val) { ?>
                                                                 <option value="<?php echo $val->insurance_id; ?>"><?php echo $val->insurance_Name; ?></option>
@@ -329,7 +331,9 @@
                     </section>
                     <section class="clearfix ">
                         <div class="col-md-12 m-t-20 m-b-20">
-                            <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return check_email();">Submit</button>
+                            <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return formContainer();">Submit</button>
+                             <!--onclick="return check_email();"-->
+                             
                         </div>
                     </section>
                 </form>

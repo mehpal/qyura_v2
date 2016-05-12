@@ -95,5 +95,44 @@
           $('#list').removeClass('empty');
         }
     }); 
+    
+        var jobCount = $('#hospitalList .in').length;
+        $('.list-count').text(jobCount + ' items');
+        $("#search-city").change(function () {
+    //$(this).addClass('hidden');
+        var searchTerm = $("#search-city").val();
+        var listItem = $('#hospitalList').children('td');
+        var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+          //extends :contains to be case insensitive
+        $.extend($.expr[':'], {
+        'containsi': function(elem, i, match, array)
+        {
+        return (elem.textContent || elem.innerText || '').toLowerCase()
+        .indexOf((match[3] || "").toLowerCase()) >= 0;
+        }
+        });
+        $("#hospitalList tr").not(":containsi('" + searchSplit + "')").each(function(e)   {
+          $(this).addClass('hiding out').removeClass('in');
+          setTimeout(function() {
+              $('.out').addClass('hidden');
+            }, 300);
+        });
+
+        $("#hospitalList tr:containsi('" + searchSplit + "')").each(function(e) {
+          $(this).removeClass('hidden out').addClass('in');
+          setTimeout(function() {
+              $('.in').removeClass('hiding');
+            }, 1);
+        });
+          var jobCount = $('#hospitalList .in').length;
+        $('.list-count').text(jobCount + ' items');
+        //shows empty state text when no jobs found
+        if(jobCount == '0') {
+          $('#hospitalList').addClass('empty');
+        }
+        else {
+          $('#hospitalList').removeClass('empty');
+        }
+    }); 
     });
 </script>

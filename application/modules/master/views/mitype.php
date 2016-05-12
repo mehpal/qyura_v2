@@ -56,7 +56,7 @@
                                        foreach ($miList as $list){
                                        if($list->hospitalType_miRole == 1){ ?>
                                     <input type="hidden" id="hospitalType_miRole" name="hospitalType_miRole" value="<?php echo $list->hospitalType_miRole; ?>">
-                                    <li class="clearfix degrees" id="hospitalType<?php echo $countHospi;?>">
+                                    <li class="clearfix degrees membership-plan" id="hospitalType<?php echo $countHospi;?>">
                                        
                                           <span class="col-md-9">
                                           <?php if($list->hospitalType_name){ echo strip_tags(substr($list->hospitalType_name, 0,20)); }else{echo ''; } ?>
@@ -67,15 +67,18 @@
                                           </span>
                                        
                                        </li>
-                                    <li class="newmembership" style="display:none" id="edit<?php echo $countHospi;?>">
+                                    <li class="newmembership clearfix" style="display:none" id="edit<?php echo $countHospi;?>">
                                        <span class="col-md-10">
                                        <input type="hidden" id="hospitalType_id_<?php echo $countHospi; ?>" name="hospitalType_id_<?php echo $countHospi; ?>" value="<?php echo $list->hospitalType_id; ?>" >
                                        <input type="text" required="" name="hospitalType_name_<?php echo $countHospi; ?>" id="hospitalType_name_<?php echo $countHospi; ?>" class="form-control" value="<?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>">
                                        <label class="error" id="hospitalType_name_<?php echo $countHospi; ?>" > <?php echo form_error("hospitalType_name_$countHospi"); ?></label>
                                        </span>
                                        <span class="col-md-2">
-                                       <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                                       <a onclick="hideHospitalType('<?php echo $countHospi; ?>')"  href="#"><i class="md md-cancel membership-btn l-height"></i></a>
+
+                                       <button class="btn btn-sm btn-success" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
+
+                                       <button class="btn btn-sm btn-danger" onclick="hideHospitalType('<?php echo $countHospi; ?>')"  href="#"><i class="md md-cancel membership-btn l-height"></i></button>
+                                       
                                        </span>
                                     </li>
                                     
