@@ -118,7 +118,7 @@
                                         <div class="col-md-8 col-sm-8">
                                             <aside class="row">
                                                 <div class="col-md-12 col-sm-4 col-xs-10 m-t-xs-10 ">
-                                                    <input type="text" class="form-control" name="doctors_phn" id="doctors_phn1" maxlength="10" placeholder="Number" onblur="checkNumber('doctors_phn',1)" onkeypress="return isNumberKey(event)" value="<?php  echo set_value('doctors_phn');  ?>" />
+                                                    <input type="text" class="form-control" name="doctors_phn" id="doctors_phn1" maxlength="10" placeholder="Number" onkeypress="return isNumberKey(event)" value="<?php  echo set_value('doctors_phn');  ?>" />
                                                 </div>
                                             </aside>
                                             <label class="error" style="display:none;" id="error-doctors_phn1"> Please select your phone number</label>
