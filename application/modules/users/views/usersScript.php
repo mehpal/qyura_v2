@@ -530,6 +530,7 @@ $(document).ready(function () {
             autoclose: false,
             endDate: new Date()
     });
+});
    // datatable get records
     $(document).ready(function () {
     var oTable = $('#users_datatable').DataTable({
