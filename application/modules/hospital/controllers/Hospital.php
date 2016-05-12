@@ -683,6 +683,10 @@ class Hospital extends MY_Controller {
 
                 $inserData['hospital_usersId'] = $hospital_usersId;
                 
+                if(isset($_POST['users_email']) && $_POST['users_email'] != '')
+                    $this->sendEmailRegister($this->input->post('users_email'));
+                 
+                 
                 if($hospital_id == 0){
                      $inserData['status'] = 0;
                      $hospitalId = $this->Hospital_model->insertHospital($inserData);
@@ -2494,6 +2498,10 @@ class Hospital extends MY_Controller {
                 'status' => 0,
                 
             );
+            
+            if(!$users_email){
+                $this->sendEmailRegister($this->input->post($users_email));
+            }
             
             $doctorsProfileId = $this->Doctor_model->insertDoctorData($doctorsinserData, 'qyura_doctors');
             
