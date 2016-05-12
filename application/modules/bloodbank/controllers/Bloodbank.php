@@ -354,6 +354,7 @@ class Bloodbank extends MY_Controller {
                 'isEmergency' => $isEmergency,
                 'countryId' => $this->input->post('countryId'),
                 'stateId' => $this->input->post('stateId'),
+                'bloodBank_zip' => $this->input->post('bloodBank_zip'),
                 'cityId' => $this->input->post('cityId'),
                 'bloodBank_isManual' => $this->input->post('isManual'),
                 'modifyTime' => strtotime(date("Y-m-d H:i:s"))

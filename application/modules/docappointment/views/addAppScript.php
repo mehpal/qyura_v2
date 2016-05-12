@@ -229,23 +229,29 @@
         }
     }
 
-    function getpatientdetails() {
-        var patient_email = $("#patient_email").val();
+    function getpatientdetails(option) {
+        var patient_mobile,patient_email = $("#patient_email").val();
+        if(option == 1){
+            patient_mobile = $("#users_mobile").val();
+        }
+        
         var url = '<?php echo site_url(); ?>/docappointment/getpatient/';
         $.ajax({
             url: url,
             async: false,
             type: 'POST',
-            data: {'patient_email': patient_email},
+            data: {'patient_email': patient_email,'patient_mobile':patient_mobile},
             beforeSend: function (xhr) {
                 $("#patient_email").addClass('loadinggif');
             },
             success: function (data) {
                 $("#patient_email").removeClass('loadinggif');
-                if (data && data != 0) {
+                if(data && data != 0){
                     var data = JSON.parse(data);
-                    if (data.email_status != 1) {
+                    if(data.email_status != 1){
                         console.log(data.mobile);
+                        bootbox.alert({closeButton: false, message:"Is this is a correct "+ data.mobile +" which is bind with your respective "+ data.users_email +" address??"});
+                        $('#patient_email').val(data.users_email)
                         $('#users_mobile').val(data.mobile);
                         $('#stateId').val(data.stateId);
                         $('#stateId').selectpicker('refresh');
@@ -258,28 +264,47 @@
                         $("#familyDiv").show();
                         $('#zip').val(data.pin);
                         $('#date-4').val(data.dob);
-                        $('#input27').prop('selectedIndex', data.gender);
+                        $('#input27').prop('selectedIndex',data.gender);
                         $('#input27').selectpicker('refresh');
                         $('#user_id').val(data.user_id);
-                    } else {
+                    }else{
                         $('#user_id').val(data.id);
                         $('#email_status').val(data.email_status);
+                        $('#patient_email').val(patient_email)
+                        $('#users_mobile').val(patient_mobile);
+                        $('#cityId').html('');
+                        $('#cityId').selectpicker('refresh');
+                        $('#stateId').prop('selectedIndex','');
+                        $('#stateId').selectpicker('refresh');
+                        $('#users_username').val('');
+                        $('#address').val('');
+                        $('#unqId').val('');
+                        $('#zip').val('');
+                        $('#date-4').val('');
+                        $('#input27').prop('selectedIndex','');
+                        $('#input27').selectpicker('refresh');
+                        $('#input25').html('');
+                        $('#input25').selectpicker('refresh');
+                        $('#familyDiv').hide();
+                        $('#familyListDiv').hide();
+                        $("#p_unqId").hide();
                     }
-                } else {
+                }else{
+                    $('#patient_email').val('')
                     $('#users_mobile').val('');
                     $('#cityId').html('');
                     $('#cityId').selectpicker('refresh');
-                    $('#stateId').prop('selectedIndex', '');
+                    $('#stateId').prop('selectedIndex','');
                     $('#stateId').selectpicker('refresh');
                     $('#users_username').val('');
                     $('#address').val('');
                     $('#unqId').val('');
                     $('#zip').val('');
                     $('#date-4').val('');
-                    $('#input27').prop('selectedIndex', '');
+                    $('#input27').prop('selectedIndex','');
                     $('#input27').selectpicker('refresh');
                     $('#user_id').val('');
-
+                    
                     $('#input25').html('');
                     $('#input25').selectpicker('refresh');
                     $('#familyDiv').hide();
