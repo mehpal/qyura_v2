@@ -59,7 +59,7 @@
                                     <li class="clearfix degrees" id="hospitalType<?php echo $countHospi;?>">
                                        
                                           <span class="col-md-9">
-                                          <?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>
+                                          <?php if($list->hospitalType_name){ echo strip_tags(substr($list->hospitalType_name, 0,20)); }else{echo ''; } ?>
                                           </span>
                                           <span class="col-md-3">
                                           <a onclick="showHospitalType('<?php echo $countHospi;?>')" href="#"><i class="md md-edit membership-btn l-height"></i></a>
@@ -146,7 +146,7 @@
                                     <li class="clearfix degrees" id="diagnosticType<?php echo $countHospi;?>">
                                        
                                           <span class="col-md-9">
-                                          <?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>
+                                          <?php if($list->hospitalType_name){ echo strip_tags(substr($list->hospitalType_name, 0,20)); }else{echo ''; } ?>
                                           </span>
                                           <span class="col-md-3">
                                           <a onclick="showDiagnosticType('<?php echo $countHospi;?>')" href="#"><i class="md md-edit membership-btn l-height"></i></a>
@@ -233,7 +233,7 @@
                                     <li class="clearfix degrees" id="bloodBank<?php echo $countBlood;?>">
                                        
                                           <span class="col-md-9">
-                                          <?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>
+                                          <?php if($list->hospitalType_name){ echo strip_tags(substr($list->hospitalType_name, 0,20)); }else{echo ''; } ?>
                                           </span>
                                           <span class="col-md-3">
                                           <a onclick="showBloodBank('<?php echo $countBlood;?>')" href="#"><i class="md md-edit membership-btn l-height"></i></a>
@@ -319,7 +319,7 @@
                                     <li class="clearfix degrees" id="pharmacy<?php echo $countHospi;?>">
                                        
                                           <span class="col-md-9">
-                                          <?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>
+                                          <?php if($list->hospitalType_name){ echo strip_tags(substr($list->hospitalType_name, 0,20)); }else{echo ''; } ?>
                                           </span>
                                           <span class="col-md-3">
                                           <a onclick="showPharmacy('<?php echo $countHospi;?>')" href="#"><i class="md md-edit membership-btn l-height"></i></a>
@@ -405,7 +405,7 @@
                                     <li class="clearfix degrees" id="ambulance<?php echo $countHospi;?>">
                                        
                                           <span class="col-md-9">
-                                          <?php if($list->hospitalType_name){ echo $list->hospitalType_name; }else{echo ''; } ?>
+                                          <?php if($list->hospitalType_name){ echo strip_tags(substr($list->hospitalType_name, 0,20)); }else{echo ''; } ?>
                                           </span>
                                           <span class="col-md-3">
                                           <a onclick="showAmbulance('<?php echo $countHospi; ?>')" href="#"><i class="md md-edit membership-btn l-height"></i></a>

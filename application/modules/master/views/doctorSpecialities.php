@@ -38,10 +38,10 @@
                                 foreach ($specialityList as $key => $val) { ?>
                                     <li class="clearfix  border-t">
                                         <span class="col-md-4">
-                                            <h6><?php echo $val->specialities_name; ?></h6>
+                                            <h6><?php echo strip_tags(substr($val->specialities_name, 0,20)); ?></h6>
                                         </span>
                                         <span class="col-md-4">
-                                            <h6><?php echo $val->specialities_drName; ?></h6>
+                                            <h6><?php echo strip_tags(substr($val->specialities_drName, 0,20)); ?></h6>
                                         </span>
                                         <span class="col-md-4 text-right">
                                             <h6>
