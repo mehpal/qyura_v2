@@ -37,11 +37,14 @@
                             <?php if (isset($specialityList) && !empty($specialityList)) {
                                 foreach ($specialityList as $key => $val) { ?>
                                     <li class="clearfix  border-t">
-                                        <span class="col-md-4">
+                                        <span class="col-md-3">
                                             <h6><?php echo strip_tags(substr($val->specialities_name, 0,20)); ?></h6>
                                         </span>
-                                        <span class="col-md-4">
+                                        <span class="col-md-3">
                                             <h6><?php echo strip_tags(substr($val->specialities_drName, 0,20)); ?></h6>
+                                        </span>
+                                        <span class="col-md-2 m-t-10"> 
+                                            <img height="80px;" width="80px;" src="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>" class="img-responsive">
                                         </span>
                                         <span class="col-md-4 text-right">
                                             <h6>
@@ -50,12 +53,10 @@
 						
                                             </h6>
                                         </span>
-                                        <span class="col-md-8">
+                                        <span class="col-md-12">
                                             <p><?php echo $val->speciality_tag; ?></p>
                                         </span>
-                                        <span> 
-                                            <img height="80px;" width="80px;" src="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>" class="img-responsive">
-                                        </span>
+                                        
                                     </li>
                             <?php } } ?>
                             </ul>
