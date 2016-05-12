@@ -4,7 +4,7 @@
         <div class="modal-content">
 
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close cancelCrop" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" id="avatar-modal-label">Change Avatar</h4>
                 </div>
                 <div class="modal-body">
@@ -37,17 +37,12 @@
                 <div class="modal-footer">
                     <div class="row avatar-btns">
                             <div class="col-md-12">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-danger cancelCrop" data-dismiss="modal">Close</button>
                                 <button type="button" class="btn btn-primary avatar-save imgUploadBtn" id="avatar-save-btn">Update Avatar</button>
                             </div>
                         </div>
                   
                 </div> 
-<<<<<<< HEAD
-           <!-- </form>-->
-=======
-<!--            </form>-->
->>>>>>> 8189f1bd2b73a761d64848af2f7e3bb6ec21dd09
         </div>
     </div>
 </div><!-- /.modal -->

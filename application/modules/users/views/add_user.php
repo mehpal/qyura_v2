@@ -34,7 +34,7 @@
                                         <label class="col-md-4 col-sm-4" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
                                         <div class="pre col-md-4 col-sm-4 ">
                                             <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
-                                                <img src="<?php echo base_url() ?>assets/default-images/ambulance_logo.png"  class="image-preview-show"/>
+                                                <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png"  class="image-preview-show"/>
                                             </div>
                                         </div>
                                         <label class="error" > <?php echo form_error("avatar_file"); ?></label>
@@ -52,7 +52,7 @@
                                 <article class="form-group m-lr-0">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Gender :</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <select class="selectpicker" data-width="100%" name="patientDetails_gender">
+                                        <select class="select2" data-width="100%" name="patientDetails_gender">
                                             <option value="">Select Gender</option>
                                             <option value="1"  <?php echo set_select('patientDetails_gender', '1'); ?>>Male</option>
                                             <option value="2" <?php echo set_select('patientDetails_gender', '2'); ?>>Female</option>
@@ -96,12 +96,12 @@
                                     <div class="col-md-8 col-sm-8">
                                         <aside class="row">
                                             <div class="col-md-6 col-sm-6">
-                                                <select class="selectpicker" data-width="100%" name="patientDetails_countryId" id="patientDetails_countryId">
+                                                <select class="select2" data-width="100%" name="patientDetails_countryId" id="patientDetails_countryId">
                                                     <option value="1">India</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-6 col-sm-6 m-t-xs-10">
-                                                <select class="selectpicker" data-width="100%" name="patientDetails_stateId" Id="	patientDetails_stateId" data-size="4" onchange ="fetchCity(this.value)">
+                                                <select class="select2" data-width="100%" name="patientDetails_stateId" Id="	patientDetails_stateId" data-size="4" onchange ="fetchCity(this.value)">
                                                     <option value="">Select State</option>
                                                     <?php foreach ($allStates as $key => $val) { ?>
                                                         <option value="<?php echo $val->state_id; ?>"><?php echo $val->state_statename; ?></option>
@@ -116,7 +116,7 @@
                                     <div class="col-md-8 col-md-offset-4 col-sm-4 col-sm-offset-4">
                                         <aside class="row">
                                             <div class="col-md-6 col-sm-6">
-                                                <select class="selectpicker" data-width="100%" name="patientDetails_cityId" id="patientDetails_cityId" data-size="4" >
+                                                <select class="select2" data-width="100%" name="patientDetails_cityId" id="patientDetails_cityId" data-size="4" >
                                                 </select>
                                                 <label class="error" id="err_patientDetails_cityId" > <?php echo form_error("patientDetails_cityId"); ?></label>
                                             </div>
@@ -177,7 +177,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Health Insura. Company:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="selectpicker" data-width="100%" name="userInsurance_insuranceId">
+                                            <select class="select2" data-width="100%" name="userInsurance_insuranceId">
                                                 <option value=""> Select Insurance</option>
                                                 <?php foreach ($insurance_cmpny as $key => $val) { ?>
                                                     <option value="<?php echo $val->insurance_id; ?>"><?php echo $val->insurance_Name; ?></option>
@@ -197,7 +197,7 @@
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Policy Expiry Date :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <div class="input-group">
-                                                <input class="form-control pickDate" id="userInsurance_expDate" placeholder="dd/mm/yyyy" type="text" name="userInsurance_expDate" onkeydown="return false;">
+                                                <input class="form-control pickDatePolicy" id="userInsurance_expDate" placeholder="dd/mm/yyyy" type="text" name="userInsurance_expDate" onkeydown="return false;">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>
                                             <label class="error" id="err_userInsurance_expDate" > <?php echo form_error("userInsurance_expDate"); ?></label>
                                         </div>
@@ -241,7 +241,7 @@
                                                     <div class="col-md-8 col-sm-8">
                                                         <aside class="row">
                                                             <div class="col-md-6 col-sm-6">
-                                                                <select class="selectpicker" data-width="100%" name="usersfamily_gender_1" id="usersfamily_gender_1" required="">
+                                                                <select class="select2" data-width="100%" name="usersfamily_gender_1" id="usersfamily_gender_1" required="">
                                                                     <option value=""> Select Gender</option>
                                                                     <option value="1">Male</option>
                                                                     <option value="2">Female</option>
@@ -259,7 +259,7 @@
                                                 <article class="form-group m-lr-0">
                                                     <label for="cname" class="control-label col-md-4 col-sm-4">Relationship :</label>
                                                     <div class="col-md-8 col-sm-8">
-                                                        <select class="selectpicker" data-width="100%" name="usersfamily_relationId_1" id="usersfamily_relationId_1" required>
+                                                        <select class="select2" data-width="100%" name="usersfamily_relationId_1" id="usersfamily_relationId_1" required>
                                                             <option value=""> Select Relation</option>
                                                             <?php foreach ($familyMember as $key => $val) { ?>
                                                                 <option value="<?php echo $val->relation_id; ?>"><?php echo $val->relation_type; ?></option>
@@ -286,7 +286,7 @@
                                                     <article class="form-group m-lr-0">
                                                         <label for="cname" class="control-label col-md-4 col-sm-4">Health Insu. Provider:</label>
                                                         <div class="col-md-8 col-sm-8">
-                                                            <select class="selectpicker" data-width="100%" name="userInsurance_insuranceId_1" id="userInsurance_insuranceId_1">
+                                                            <select class="select2" data-width="100%" name="userInsurance_insuranceId_1" id="userInsurance_insuranceId_1">
                                                                 <option value=""> Select Insurance</option>
                                                                 <?php foreach ($insurance_cmpny as $key => $val) { ?>
                                                                 <option value="<?php echo $val->insurance_id; ?>"><?php echo $val->insurance_Name; ?></option>
@@ -306,7 +306,7 @@
                                                         <label for="cname" class="control-label col-md-4 col-sm-4">Policy Expiry Date :</label>
                                                         <div class="col-md-8 col-sm-8">
                                                             <div class="input-group">
-                                                                <input class="form-control pickDate" id="userInsurance_expDate_1" placeholder="dd/mm/yyyy" type="text" name="userInsurance_expDate_1" onkeydown="return false;">
+                                                                <input class="form-control pickDatePolicy" id="userInsurance_expDate_1" placeholder="dd/mm/yyyy" type="text" name="userInsurance_expDate_1" onkeydown="return false;">
                                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>
                                                             <label class="error" id="err_userInsurance_expDate_1" > <?php echo form_error("userInsurance_expDate_1"); ?></label>
                                                         </div>
