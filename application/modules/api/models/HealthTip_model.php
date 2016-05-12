@@ -27,9 +27,9 @@ class HealthTip_model extends CI_Model
         $this->db->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_usersId = hSponsor.sponsor_userId', 'left');
         
         $this->db->where(array('hSponsor.sponsor_cityId' => $city, "hSponsor.sponsor_date"=>$date,"hSponsor.sponsor_deleted"=>0,"htip.healthTips_deleted"=>0,"hCat.category_deleted"=>0));
-        $this->db->limit(1);
+        $this->db->limit(20);
         
-       return  $this->db->get()->row();
+       return  $this->db->get()->result();
         // echo $this->db->last_query();die();
     }
 //    (CASE WHEN (hospital_name is not null) THEN hospital_name WHEN (diagnostic_name is not null) THEN diagnostic_name WHEN (doctors_fName is not null) THEN CONCAT(doctors_fName, " ",doctors_lName) END) AS `name`'
