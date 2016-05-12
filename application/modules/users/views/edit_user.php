@@ -151,7 +151,7 @@
                                                                     <div class="col-md-8 col-sm-8">
                                                                         <input type="password" class="form-control" id="users_password" name="users_password" minlength="4"/>
                                 
-                                                                        <label class="error" > <?php echo form_error("users_password"); ?></label>
+                                                                        <span class="error" > <?php echo form_error("users_password"); ?></span>
                                                                     </div>
                                                                 </article>
                                                                 <article class="form-group m-lr-0">
@@ -159,7 +159,7 @@
                                                                     <div class="col-md-8 col-sm-8">
                                                                         <input type="password" class="form-control" id="cnfPassword" name="cnfPassword" placeholder=" " />
                                 
-                                                                        <label class="error" > <?php echo form_error("cnfPassword"); ?></label>
+                                                                        <span class="error" > <?php echo form_error("cnfPassword"); ?></span>
                                                                     </div>
                                                                 </article>
                             </div>
