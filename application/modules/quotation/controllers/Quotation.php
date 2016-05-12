@@ -602,6 +602,8 @@ class Quotation extends MY_Controller {
         $this->bf_form_validation->set_rules("tax", "Tax", 'required');
         $this->bf_form_validation->set_rules("paidamt", "Total Amount ", 'xss_clean');
         $this->bf_form_validation->set_rules("family_member", "Family Member ", 'xss_clean');
+        $this->bf_form_validation->set_rules("pay_status", "Pay Status ", 'required|xss_clean');
+        $this->bf_form_validation->set_rules("pay_mode", "Pay Mode ", 'required|xss_clean');
 
         $total_test = $this->input->post('total_test');
 
@@ -717,8 +719,10 @@ class Quotation extends MY_Controller {
 
             $dr_user_id = 0;
             $dr_Name = "";
-            
+            $pay_status = $this->input->post("pay_status");
+            $pay_mode = $this->input->post("pay_mode");
             $quotationTime = $this->input->post('quotationTime');
+            
             $quotation = array(
                 'quotation_MiId' => $MIprofileId[1],
                 'quotation_userId' => $user_id,
@@ -730,6 +734,8 @@ class Quotation extends MY_Controller {
                 'quotation_tex' => $this->input->post('tax'),
                 'quotation_cityId' => $this->input->post('city_id'),
                 'quotation_docRefeId' => 0,
+                'quotation_payStatus' => $pay_status,
+                'quotation_payMode' => $pay_mode,
                 'quotation_deleted' => 0,
                 'creationTime' => strtotime(date('Y-m-d H:i:s')),
             );
@@ -738,7 +744,7 @@ class Quotation extends MY_Controller {
                 'data' => $quotation
             );
 
-            $quotation_id = $this->common_model->customInsert($optionAuotation);
+            $cronItemId = $quotation_id = $this->common_model->customInsert($optionAuotation);
 
             $quoUnqId = 'QU' . "_" . $quotation_id . "_" . time();
 
@@ -821,7 +827,18 @@ class Quotation extends MY_Controller {
             );
             $isUpdate = $this->common_model->customUpdate($updateOption);
 
-            if ($isUpdate) {
+            $crnMsg     =  $this->lang->line("quotationReceived");
+            $currentDate = date("d-m-Y");
+            $cronArray = array("qyura_fkModuleId" => 6, "qyura_fkUserId" => $user_id, "qyura_cronMsg" => $crnMsg, "qyura_cronTitle" => $this->lang->line("quotationReceivedTag"), "qyura_fkItemId" => $cronItemId,"qyura_cronDate"=>$currentDate,"qyura_cronMsgsCreation"=>$currentDate);
+
+            $options = array(
+                'data' => $cronArray,
+                'table' => 'qyura_cronMsgs'
+            );
+
+            $cronId = $this->common_model->customInsert($options);
+            
+            if ($isUpdate || $quotation_id) {
 //                $responce = array('status' => 1, 'isAlive' => TRUE, 'message' => 'Successfully send quotation.');
 //            echo json_encode($responce);
                 $this->session->set_flashdata('message', 'Successfully send quotation.');
@@ -861,8 +878,8 @@ class Quotation extends MY_Controller {
         $con = array('qyura_quotations.quotation_id' => $quotationId);
         $data['qtRow'] = $qtRow = $this->Quotation_model->getQuotationDetail($con);
         
-        $type = $qtRow->miType != 'diagnostic' ? 0 : 1;
-        $data['mITimeSloat'] = $this->Quotation_model->getTimeSloat($type, $qtRow->miPfId);
+//        $type = $qtRow->miType != 'diagnostic' ? 0 : 1;
+//        $data['mITimeSloat'] = $this->Quotation_model->getTimeSloat($type, $qtRow->miPfId);
         
         $data['mIDrs'] = $this->Quotation_model->getMiDoc($qtRow->quotation_MiId);
 
