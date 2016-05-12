@@ -56,7 +56,7 @@ class Hospital extends MY_Controller {
        $option = array(
             'table' => 'qyura_membership',
             'select' => 'membership_id,membership_name',
-            'where' => array('membership_deleted' => 0, 'status' => 3, 'membership_type' => 1)
+            'where' => array('membership_deleted' => 0, 'qyura_membership.status' => 1, 'membership_type' => 1)
         );
         $data['membership_plan'] = $this->common_model->customGet($option);
         
@@ -683,6 +683,10 @@ class Hospital extends MY_Controller {
 
                 $inserData['hospital_usersId'] = $hospital_usersId;
                 
+                if(isset($_POST['users_email']) && $_POST['users_email'] != '')
+                    $this->sendEmailRegister($this->input->post('users_email'));
+                 
+                 
                 if($hospital_id == 0){
                      $inserData['status'] = 0;
                      $hospitalId = $this->Hospital_model->insertHospital($inserData);
@@ -2495,6 +2499,10 @@ class Hospital extends MY_Controller {
                 
             );
             
+            if(!$users_email){
+                $this->sendEmailRegister($this->input->post($users_email));
+            }
+            
             $doctorsProfileId = $this->Doctor_model->insertDoctorData($doctorsinserData, 'qyura_doctors');
             
             //dump($this->db->last_query());
@@ -2693,7 +2701,7 @@ class Hospital extends MY_Controller {
         $option = array(
             'table' => 'qyura_membershipFacilities',
             'select' => '*',
-            'where' => array('membershipFacilities_deleted' => 0, 'status' => 3, 'membershipFacilities_membershipId' =>$membershipId )
+            'where' => array('membershipFacilities_deleted' => 0, 'qyura_membershipFacilities.status' => 1, 'membershipFacilities_membershipId' =>$membershipId )
         );
         $membership_plan = $this->common_model->customGet($option);
         echo json_encode($membership_plan);

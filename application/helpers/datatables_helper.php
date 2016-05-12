@@ -4,12 +4,19 @@ defined('BASEPATH') OR exit('No direct script access allowed.');
 
 if (!function_exists('getStatusDropDown')) {
 
-    function getStatusDropDown($status) {
-    	$Confirmed = ($status == 0)?'selected="selected"':'';
-    	$Pending = ($status == 1)?'selected="selected"':'';
-        $dropdwon  = '<select class = "form-control status-select">
-        <option '.$Confirmed.' value="1">Confirmed</option>
-        <option '.$Pending.' value="2">Pending</option>
+    function getStatusDropDown($status,$selid,$selname) {
+    	$Confirmed = ($status == 12)?'selected="selected"':'';
+    	$Pending = ($status == 11)?'selected="selected"':'';
+        $Expired = ($status == 19)?'selected="selected"':'';
+        $Canceled = ($status == 13)?'selected="selected"':'';
+        $Complete = ($status == 14)?'selected="selected"':'';
+        
+        $dropdwon  = '<select class = "appstatus form-control status-select" onchange="changestatus('.$selid.','.$selname.',this.value)">
+        <option '.$Pending.' value="11">Pending</option>
+        <option '.$Confirmed.' value="12">Confirmed</option>
+        <option '.$Canceled.' value="13">Cancel</option>
+        <option '.$Expired.' value="19">Expired</option>
+        <option '.$Complete.' value="14">Completed</option>
         </select>';
         
         return $dropdwon;

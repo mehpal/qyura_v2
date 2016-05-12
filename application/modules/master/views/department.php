@@ -32,7 +32,7 @@
                                  foreach ($departmentList as $list){ ?>
                               <li class="clearfix  border-t membership-plan m-t-10" id="department<?php echo $countDepartment;?>">
                                  <span class="col-md-8">
-                                    <h6><?php echo $list->department_name; ?></h6>
+                                    <h6><?php echo strip_tags(substr($list->department_name, 0,20)); ?></h6>
                                  </span>
                                  <span class="col-md-4 text-right">
                                     <h6>

@@ -135,32 +135,32 @@ class Quotation_model extends CI_Model {
         //echo $this->db->last_query();exit;
         return $data->result();
     }
-    
-    function getTimeSloat($type,$miPfId)
-    {
-        if ($type == 0) {
-            $options = array(
-                'table' => 'qyura_hospitalTimeSlot',
-                'where' => array('qyura_hospitalTimeSlot.hospitalTimeSlot_deleted' => 0, 'qyura_hospitalTimeSlot.hospitalTimeSlot_hospitalId' => $miPfId),
-                'select'=>'hospitalTimeSlot_id as id,hospitalTimeSlot_startTime as startTime,hospitalTimeSlot_endTime as endTime,hospitalTimeSlot_sessionType as sessionType'
-            );
-            $timeSlot = $this->common_model->customGet($options);
-
-            
-        } else {
-
-            $options = array(
-                'table' => 'qyura_diagnosticCenterTimeSlot',
-                'where' => array('qyura_diagnosticCenterTimeSlot.diagnosticCenterTimeSlot_deleted' => 0, 'qyura_diagnosticCenterTimeSlot.diagnosticCenterTimeSlot_diagnosticId' => $miPfId),
-                'select'=>'diagnosticCenterTimeSlot_id as id,diagnosticCenterTimeSlot_startTime as startTime,diagnosticCenterTimeSlot_endTime as endTime,diagnosticCenterTimeSlot_sessionType as sessionType'
-            );
-            $timeSlot = $this->common_model->customGet($options);
-
-            
-        }
-        
-        return $timeSlot;
-    }
+//    
+//    function getTimeSloat($type,$miPfId)
+//    {
+//        if ($type == 0) {
+//            $options = array(
+//                'table' => 'qyura_hospitalTimeSlot',
+//                'where' => array('qyura_hospitalTimeSlot.hospitalTimeSlot_deleted' => 0, 'qyura_hospitalTimeSlot.hospitalTimeSlot_hospitalId' => $miPfId),
+//                'select'=>'hospitalTimeSlot_id as id,hospitalTimeSlot_startTime as startTime,hospitalTimeSlot_endTime as endTime,hospitalTimeSlot_sessionType as sessionType'
+//            );
+//            $timeSlot = $this->common_model->customGet($options);
+//
+//            
+//        } else {
+//
+//            $options = array(
+//                'table' => 'qyura_diagnosticCenterTimeSlot',
+//                'where' => array('qyura_diagnosticCenterTimeSlot.diagnosticCenterTimeSlot_deleted' => 0, 'qyura_diagnosticCenterTimeSlot.diagnosticCenterTimeSlot_diagnosticId' => $miPfId),
+//                'select'=>'diagnosticCenterTimeSlot_id as id,diagnosticCenterTimeSlot_startTime as startTime,diagnosticCenterTimeSlot_endTime as endTime,diagnosticCenterTimeSlot_sessionType as sessionType'
+//            );
+//            $timeSlot = $this->common_model->customGet($options);
+//
+//            
+//        }
+//        
+//        return $timeSlot;
+//    }
 
     function fetchQuotationDataTables($condition = NULL) {
         
@@ -510,10 +510,9 @@ class Quotation_model extends CI_Model {
     {
         $this->db->select("*,IFNULL(hos.hospital_id, diag.diagnostic_id) AS miPfId, IFNULL(hos.hospital_name, diag.diagnostic_name) AS miName, IFNULL(hos.hospital_name, diag.diagnostic_name) AS miName, 
 (CASE WHEN(diagnostic_usersId IS NOT NULL) THEN 'diagnostic' WHEN(hospital_usersId IS NOT NULL) THEN 'hospital' END) AS miType,
-(CASE WHEN(hoscity.city_name IS NOT NULL) THEN hoscity.city_name WHEN(diagcity.city_name IS NOT NULL) THEN diagcity.city_name END) AS cityName, 
-(CASE WHEN(hosTime.hospitalTimeSlot_id IS NOT NULL) 
-THEN CONCAT_WS('-', `hospitalTimeSlot_startTime`, `hospitalTimeSlot_endTime`, hospitalTimeSlot_sessionType) WHEN(diagTime.diagnosticCenterTimeSlot_id IS NOT NULL) 
-THEN CONCAT_WS(' - ', `diagnosticCenterTimeSlot_startTime`, `diagnosticCenterTimeSlot_endTime`, diagnosticCenterTimeSlot_sessionType) END) AS timeSlot,CASE WHEN (qyura_quotations.quotation_familyId <> 0 ) THEN qyura_usersFamily.usersfamily_name ELSE qyura_patientDetails.patientDetails_patientName END AS userName");
+(CASE WHEN(hoscity.city_name IS NOT NULL) THEN hoscity.city_name WHEN(diagcity.city_name IS NOT NULL) THEN diagcity.city_name END) AS cityName, CASE WHEN (qyura_quotations.quotation_familyId <> 0 ) THEN qyura_usersFamily.usersfamily_name ELSE qyura_patientDetails.patientDetails_patientName END AS userName"
+//(CASE WHEN(hosTime.hospitalTimeSlot_id IS NOT NULL) THEN CONCAT_WS('-', `hospitalTimeSlot_startTime`, `hospitalTimeSlot_endTime`, hospitalTimeSlot_sessionType) WHEN(diagTime.diagnosticCenterTimeSlot_id IS NOT NULL) THEN CONCAT_WS(' - ', `diagnosticCenterTimeSlot_startTime`, `diagnosticCenterTimeSlot_endTime`, diagnosticCenterTimeSlot_sessionType) END) AS timeSlot,
+        );
         $this->db->from('qyura_quotations');
         $this->db->join('qyura_users','qyura_users.users_id=qyura_quotations.quotation_userId');
         $this->db->join("qyura_patientDetails", " qyura_patientDetails.patientDetails_usersId=qyura_quotations.quotation_userId", "left");
@@ -522,8 +521,8 @@ THEN CONCAT_WS(' - ', `diagnosticCenterTimeSlot_startTime`, `diagnosticCenterTim
         $this->db->join('qyura_city AS hoscity', 'hoscity.city_id = hos.hospital_cityId', 'left');
         $this->db->join('qyura_diagnostic AS diag', 'diag.diagnostic_usersId = qyura_quotations.quotation_MiId', 'left');
         $this->db->join('qyura_city AS diagcity', 'diagcity.city_id = diag.diagnostic_cityId', 'left');
-        $this->db->join('qyura_hospitalTimeSlot AS hosTime', 'hosTime.hospitalTimeSlot_id = qyura_quotations.quotation_timeSlotId', 'left');
-        $this->db->join('qyura_diagnosticCenterTimeSlot AS diagTime', 'diagTime.diagnosticCenterTimeSlot_id = qyura_quotations.quotation_timeSlotId', 'left');
+//        $this->db->join('qyura_hospitalTimeSlot AS hosTime', 'hosTime.hospitalTimeSlot_id = qyura_quotations.quotation_timeSlotId', 'left');
+//        $this->db->join('qyura_diagnosticCenterTimeSlot AS diagTime', 'diagTime.diagnosticCenterTimeSlot_id = qyura_quotations.quotation_timeSlotId', 'left');
         
         $this->db->where($con);
         $result = $this->db->get()->row();

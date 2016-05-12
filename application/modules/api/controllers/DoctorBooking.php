@@ -117,21 +117,16 @@ class DoctorBooking extends MyRest {
             $bookTime       = isset($_POST['time'])             ? date("H:i:s",strtotime($this->input->post('time')))   : '';
             $userId         = isset($_POST['userId'])           ? $this->input->post('userId')                          : '';
             
-            $date = strtotime(date("Y-m-d"));
-            $time = date("H:i:s", strtotime('+2 hours'));
-            
+//            $date = strtotime(date("Y-m-d"));
+//            $time = date("H:i:s", strtotime('+2 hours'));
+//            
             if($date > $bookingDate){
                 $response = array('status' => FALSE, 'message' => 'You cannot cancle pre-date appointment!' );
                 $this->response($response, 400);
                 return;
-            } elseif($time < $bookTime){
-                
-                $response = array('status' => FALSE, 'message' => 'You exceed the time for cancelling the appointment!!');
-                $this->response($response, 400);
-                return;
-            }else{
+            } else{
                 $where = array('doctorAppointment_unqId' => $appointmentId);
-                $data = array('doctorAppointment_deleted' => 1);
+                $data = array('doctorAppointment_status' => 13);
                 $currentDate = strtotime(date("Y-m-d"));
                 
                 $response = $this->doctorBooking_model->editAppointment("qyura_doctorAppointment",$data,$where);

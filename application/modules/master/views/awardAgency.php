@@ -31,7 +31,7 @@
                                 foreach ($awardAgency_list as $awardAgency){ ?>
                                 <li class="clearfix degrees membership-plan" id="awardAgency<?php echo $countAgency;?>">
                                     <span class="col-md-8 col-sm-9 col-xs-10">
-                                        <?php echo $awardAgency->agency_name; ?>
+                                        <?php echo strip_tags(substr($awardAgency->agency_name, 0,20)); ?>
                                     </span>
                                    
                                     <span class="col-lg-4 col-sm-3 col-xs-2">
