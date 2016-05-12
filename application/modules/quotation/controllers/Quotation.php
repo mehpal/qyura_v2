@@ -860,11 +860,10 @@ class Quotation extends MY_Controller {
      * @return array
      */
     function replyQuotation($rowData = null) {
-
-
         $data = array();
         $options = array('table' => 'qyura_city', 'order' => array('city_name' => 'asc'));
         $data['qyura_city'] = $this->common_model->customGet($options);
+        
         $catOptions = array('table' => 'qyura_diagnosticsCat', 'order' => array('diagnosticsCat_catName' => 'asc'), 'select' => 'diagnosticsCat_catName as catName,diagnosticsCat_catId as catId', 'where' => array('diagnosticsCat_deleted' => 0));
         $data['catOptions'] = $this->common_model->customGet($catOptions);
 
@@ -872,11 +871,14 @@ class Quotation extends MY_Controller {
         $data['spOptions'] = $this->common_model->customGet($spOptions);
 
         $data['allStates'] = $this->Quotation_model->fetchStates();
+        
         $data['cityData'] = (isset($rowData['cityData']) && $rowData != null) ? $rowData['cityData'] : null;
         //fetch from uri
         $data['quotationId'] = $quotationId = isset($_GET['qid']) ? $this->input->get('qid') : '';
         $con = array('qyura_quotations.quotation_id' => $quotationId);
         $data['qtRow'] = $qtRow = $this->Quotation_model->getQuotationDetail($con);
+        
+        
         
 //        $type = $qtRow->miType != 'diagnostic' ? 0 : 1;
 //        $data['mITimeSloat'] = $this->Quotation_model->getTimeSloat($type, $qtRow->miPfId);
