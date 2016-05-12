@@ -79,19 +79,19 @@
 
                                     <!-- comman START-->
                                     <!--Appointment Status-->
-                                    <article class="form-group m-lr-0">
+<!--                                    <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Appointment Status :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="select2" name="input8" id="input8" data-width="100%" >
-                                                <!--option value="" >Select Status</option-->
-                                                <option value="11" >Pending</option>
+                                            <select class="selectpicker" name="input8" id="input8" data-width="100%" >
+                                                option value="" >Select Status</option
+                                                option value="11" >Pending</option
                                                 <option value="12" selected>Confirm</option>
-                                                <option value="13" >Cancel</option>
-                                                <option value="14" >Completed</option>
+                                                option value="13" >Cancel</option>
+                                                <option value="14" >Completed</option
                                             </select>
                                             <div class="has-error " id="err_input8" ><?php echo form_error("input8"); ?></div>
                                         </div>
-                                    </article>
+                                    </article>-->
                                     
                                     <!--HMS Appointment-->
                                     <!--article class="form-group m-lr-0">
@@ -380,7 +380,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Other Fee:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input type="text" class="form-control" id="input23" name="input23" onblur="calculateamount()"  />
+                                            <input type="text" class="form-control" id="input23" name="input23" onblur="calculateamount()" />
                                             <div class="has-error " id="err_input23" ><?php echo form_error("input23"); ?></div>
                                         </div>
                                     </article>
@@ -402,8 +402,8 @@
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Payment Status :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <select class="selectpicker" name="input26" id="input26" data-width="100%" >
-                                                <option value="1" >Paid</option>
-                                                <option value="0" >Unpaid</option>
+                                                <option value="16" >Paid</option>
+                                                <option value="15" >Unpaid</option>
                                             </select>
                                             <div class="has-error " id="err_input26" ><?php echo form_error("input26"); ?></div>
                                         </div>
@@ -412,7 +412,7 @@
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Payment Mode:</label>
                                         <div class="col-md-8 col-sm-8">
                                             <select type="text" class="selectpicker" id="input27" name="input27" data-width="100%" >
-                                                <option value="1" >Cash</option>
+                                                <option value="17" >Cash</option>
                                             </select>
                                             <div class="has-error " id="err_input27" ><?php echo form_error("input27"); ?></div>
                                         </div>
