@@ -103,6 +103,11 @@ class Ambulance extends MY_Controller {
             $cityId = $this->input->post('ambulance_cityId');
             $ambulance_zip = $this->input->post('ambulance_zip');
             $ambulance_docatId = $this->input->post('ambulance_docatId');
+            $docOnBoard = $this->input->post('docOnBoard');
+            $isBoard = 0;
+            if(!empty($docOnBoard)){
+              $isBoard = 1;  
+            }
 
 //            $finalNumber = '';
 //            for ($i = 0; $i < count($ambulance_phn); $i++) {
@@ -132,7 +137,8 @@ class Ambulance extends MY_Controller {
                 'ambulance_stateId' => $stateId,
                 'ambulance_cityId' => $cityId,
                  'ambulance_docatId' => $ambulance_docatId,
-                'ambulance_zip' => $ambulance_zip
+                'ambulance_zip' => $ambulance_zip,
+                'docOnBoard' => $isBoard,
             );
 
             $where = array(
@@ -258,6 +264,11 @@ class Ambulance extends MY_Controller {
             
             $ambulance_docatId = $this->input->post('ambulance_docatId');
             $ambulance_zip = $this->input->post('ambulance_zip');
+            $docOnBoard = $this->input->post('docOnBoard');
+            $isBoard = 0;
+            if(!empty($docOnBoard)){
+              $isBoard = 1;  
+            }
 
             $insertData = array(
                 'ambulance_name' => $ambulance_name,
@@ -277,6 +288,7 @@ class Ambulance extends MY_Controller {
                 'ambulance_long' => $this->input->post('lng'),
                 'ambulance_docatId' => $ambulance_docatId,
                 'ambulanceType' => $this->input->post('ambulanceType'),
+                'docOnBoard' => $isBoard,
                 'status' => 0
             );
 

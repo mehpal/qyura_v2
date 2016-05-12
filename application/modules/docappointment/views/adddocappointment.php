@@ -131,14 +131,14 @@
                                         <div class="col-md-8 col-sm-8">
                                             <input type="hidden" class="form-control" name="user_id" id="user_id" >
                                             <input type="hidden" class="form-control" name="email_status" id="email_status" >
-                                            <input class="form-control" id="patient_email" name="input9" type="email"  aria-required="true" placeholder="Email" onblur="getpatientdetails()">
+                                            <input class="form-control" id="patient_email" name="input9" type="email"  aria-required="true" placeholder="Test@gmail.com" onblur="getpatientdetails('0')">
                                             <div class="has-error " id="err_input9" ><?php echo form_error("input9"); ?></div>
                                         </div>
                                     </article>
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Patient Mobile Number :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input class="form-control" id="users_mobile" name="input10" type="text"  aria-required="true" placeholder="Mobile Number" >
+                                            <input class="form-control" id="users_mobile" name="input10" type="text"  aria-required="true" placeholder="Mobile Number" onblur="getpatientdetails('1')">
                                             <div class="has-error " id="err_input10" ><?php echo form_error("input10"); ?></div>
                                         </div>
                                     </article>
@@ -209,7 +209,7 @@
                                                     <div class="has-error " id="err_input15" ><?php echo form_error("input15"); ?></div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6 m-t-xs-10">
-                                                    <input type="text" class="form-control" id="zip" name="input16" placeholder="ZIP" />
+                                                    <input type="text" class="form-control" id="zip" name="input16" placeholder="700001" />
                                                     <div class="has-error " id="err_input16" ><?php echo form_error("input16"); ?></div>
                                                 </div>
                                             </aside>
@@ -217,7 +217,7 @@
                                     </article>
                                     <article class="form-group m-lr-0 m-t-xs-10">
                                         <div class="col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4">
-                                            <input type="text" class="form-control" id="address" name="input17" placeholder="Address" />
+                                            <input type="text" class="form-control" id="address" name="input17" placeholder="209, ABC Road, near XYZ Building " />
                                             <div class="has-error " id="err_input17" ><?php echo form_error("input17"); ?></div>
                                         </div>
                                     </article>
@@ -252,28 +252,28 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Consulation Fee:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input type="text" class="form-control" id="input18" name="input18" placeholder="Price" onblur="calculateamount()" />
+                                            <input type="text" class="form-control" id="input18" name="input18" placeholder="500" onblur="calculateamount()" />
                                             <div class="has-error " id="err_input18" ><?php echo form_error("input18"); ?></div>
                                         </div>
                                     </article>
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Other Fee:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input type="text" class="form-control" id="input19" name="input19" placeholder=""  onblur="calculateamount()" />
+                                            <input type="text" class="form-control" id="input19" name="input19" placeholder="0"  onblur="calculateamount()" />
                                             <div class="has-error " id="err_input19" ><?php echo form_error("input19"); ?></div>
                                         </div>
                                     </article>
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Tax :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input type="text" class="form-control" name="input20" id="input20" placeholder="%"  onblur="calculateamount()">
+                                            <input type="text" class="form-control" name="input20" id="input20" placeholder="12.5%"  onblur="calculateamount()">
                                             <div class="has-error " id="err_input20" ><?php echo form_error("input20"); ?></div>
                                         </div>
                                     </article>
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Total Payable Amount:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input type="text" class="form-control" id="input21" name="input21" placeholder="Total"  readonly=""/>
+                                            <input type="text" class="form-control" id="input21" name="input21" placeholder="$$$"  readonly=""/>
                                             <div class="has-error " id="err_input21" ><?php echo form_error("input21"); ?></div>
                                         </div>
                                     </article>
