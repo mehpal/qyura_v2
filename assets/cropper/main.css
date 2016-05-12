@@ -47,7 +47,7 @@ body {
 
 .avatar-preview {
   float: left;
-  margin-top: 15px;
+  /* margin-top: 15px; */
   margin-right: 15px;
   border: 1px solid #eee;
   border-radius: 4px;
@@ -107,3 +107,4 @@ body {
   filter: alpha(opacity=75);
   z-index: 20140628;
 }
+.m-l-15{margin-left:15px;}

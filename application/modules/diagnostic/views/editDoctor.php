@@ -162,14 +162,15 @@
                                     <label class="error" style="display:none;" id="error-acdemic_addaddress1"> please fill Address</label>
                                  </div>
                                  <label for="cname" class="control-label col-md-4">Year</label>
-                                 <div class="col-md-8 col-sm-8 m-b-20 m-t-10">
+                                 <div class="col-md-8 col-sm-8 m-t-10">
                                     <input class="form-control" name="acdemic_addyear[]" required="" id="acdemic_addyear1" value="<?php echo $value->doctorAcademic_degreeYear; ?>"  onkeypress="return isNumberKey(event)" placeholder="Year" maxlength="4">
                                     <label class="error" style="display:none;" id="error-acdemic_addyear1"> please fill Year</label>
                                  </div>
                               </aside>
                               <?php if($i != 0){ ?>
-                               <aside class="col-sm-2 text-right"><a id="btn-service2" href="javascript:void(0)"  pull-right="" class="gadd"><i class="fa fa-minus-circle fa-2x m-t-5 label-plus"></i></a>
-                               </aside> <?php } ?>
+                               <div class="clearfix">
+                               <aside class="col-sm-2 pull-right text-right"><a id="btn-service2" href="javascript:void(0)"  pull-right="" class="gadd"><i class="fa fa-minus-circle fa-2x m-t-5 label-plus"></i></a>
+                               </aside></div> <?php } ?>
                        
                               <br />
                            </div>

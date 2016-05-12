@@ -61,9 +61,7 @@
                             <li id="li_diagnostic" class="col-md-4 col-xs-4 b-left">
                                 <a href="#diagnostic" data-toggle="tab">Diagnostics</a>
                             </li>
-                             <li id="li_healthpkg" class="col-md-4 col-xs-4 b-left">
-                                <a href="#healthpkg" data-toggle="tab">Health Package</a>
-                            </li>
+                             
                         </ul>
                     </article>
 
@@ -135,35 +133,7 @@
                         <!-- diagnostic -->
                         
                          <!-- healthpkg -->
-                        <section id="healthpkg" class="tab-pane fade in sa-cons">
-                            <!--<div id="load_healthpkg" class="text-center text-success "><image alt="Please wait data is loading" src="<?php echo base_url('assets/images/loader/Heart_beat.gif'); ?>" /></div>-->
-                            <aside class="table-responsive">
-
-                                <table class="table healthpkg-table" id="datatable_healthpkg">
-
-                                    <thead>
-                                        <tr class="border-a-dull">
-                                            <th>Appt. Detail</th>
-                                            <th>Patient</th>
-                                            <th>Health Package</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </aside>
-                            <!-- Table Section End -->
-                            <!--                                    <aside class="clearfix m-t-20 p-b-20">
-                                                                    <ul class="list-inline list-unstyled call-pagination pull-right">
-                                                                        <li class="disabled"><a href="#">Prev</a></li>
-                                                                        <li><a href="#">1</a></li>
-                                                                        <li class="active"><a href="#">2</a></li>
-                                                                        <li><a href="#">3</a></li>
-                                                                        <li><a href="#">4</a></li>
-                                                                        <li><a href="#">Next</a></li>
-                                                                    </ul>
-                                                                </aside>-->
-                        </section>
+                        
                         <!-- healthpkg -->
                         
                     </article>
