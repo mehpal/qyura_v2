@@ -13,7 +13,7 @@ class Diagnostic extends MY_Controller {
     function index() {
         
         $data = array();
-        $data['allCities'] = $this->Hospital_model->allCities();
+        $data['allCities'] = $this->diagnostic_model->allCities();
       //  $data['allStates'] = $this->diagnostic_model->fetchStates();
         $data['diagnosticData'] = $this->diagnostic_model->fetchdiagnosticData();
         //print_r($data['diagnosticData'] );exit;
@@ -70,7 +70,7 @@ class Diagnostic extends MY_Controller {
         $option = array(
             'table' => 'qyura_membership',
             'select' => 'membership_id,membership_name',
-            'where' => array('membership_deleted' => 0,'status' => 3,'membership_type' => 3)
+            'where' => array('membership_deleted' => 0,'qyura_membership.status' => 1,'membership_type' => 3)
         );
         $data['membership_plan'] = $this->common_model->customGet($option);
         
@@ -85,6 +85,7 @@ class Diagnostic extends MY_Controller {
         
         $data['publishDiagno'] = $this->diagnostic_model->fetchPublishDiagnostic();
         $data['allStates'] = $this->diagnostic_model->fetchStates();
+        $data['diagnosticType'] = $this->diagnostic_model->getDiagnosticType();
         $data['title'] = 'Add Diagnostic';
         $this->load->super_admin_template('addDiagcenter', $data, 'diagnosticScript');
     }
@@ -97,7 +98,7 @@ class Diagnostic extends MY_Controller {
         $option = array(
             'table' => 'qyura_membership',
             'select' => 'membership_id,membership_name',
-            'where' => array('membership_deleted' => 0,'status' => 3,'membership_type' => 3)
+            'where' => array('membership_deleted' => 0,'qyura_membership.status' => 1,'membership_type' => 3)
         );
         $data['membership_plan'] = $this->common_model->customGet($option);
         
@@ -203,7 +204,7 @@ class Diagnostic extends MY_Controller {
         $data['allInsurance'] = $this->Hospital_model->fetchAllInsurance($insurance_condition);
         
         $data['awardAgency'] = $this->Hospital_model->fetchAwardAgency();
-
+        $data['diagnosticType'] = $this->diagnostic_model->getDiagnosticType();
         $data['diagnosticId'] = $diagnosticId;
         $data['showStatus'] = 'none';
         $data['detailShow'] = 'block';
@@ -273,6 +274,7 @@ class Diagnostic extends MY_Controller {
 
       //  $this->load->library('form_validation');
         $this->bf_form_validation->set_rules('diagnostic_name', 'Diagnostic Name', 'required|trim');
+        $this->bf_form_validation->set_rules('diagno_type', 'Diagnostic Type', 'required|trim');
         $this->bf_form_validation->set_rules('diagnostic_countryId', 'Diagnostic Country', 'required|trim');
         $this->bf_form_validation->set_rules('diagnostic_stateId', 'Diagnostic StateId', 'required|trim');
         $this->bf_form_validation->set_rules('diagnostic_cityId', 'Diagnostic City', 'required|trim');
@@ -387,7 +389,7 @@ class Diagnostic extends MY_Controller {
             
 
             $diagnostic_name = $this->input->post('diagnostic_name');
-
+            $diagnostic_type = $this->input->post('diagno_type');
             $diagnostic_address = $this->input->post('diagnostic_address');
             $diagnostic_phn = ltrim($this->input->post('diagnostic_phn'));
             $diagnostic_cntPrsn = $this->input->post('diagnostic_cntPrsn');
@@ -434,6 +436,7 @@ class Diagnostic extends MY_Controller {
                 // $insertData['diagnostic_usersId'] = $diagnostic_usersId;
                 $insertData = array(
                     'diagnostic_name' => $diagnostic_name,
+                    'diagnostic_type' => $diagnostic_type,
                     'diagnostic_dsgn' => $diagnostic_dsgn,
                     'diagnostic_address' => $diagnostic_address,
                     'isManual' => $isManual,
@@ -698,6 +701,7 @@ class Diagnostic extends MY_Controller {
         //echo $diagnosticId;
 
         $this->bf_form_validation->set_rules('diagnostic_name', 'Diagnostic Name', 'required|trim');
+        $this->bf_form_validation->set_rules('diagno_type', 'Diagnostic Type', 'required|trim');
         $this->bf_form_validation->set_rules('diagnostic_countryId', 'Diagnostic Country', 'required|trim');
         $this->bf_form_validation->set_rules('diagnostic_stateId', 'Diagnostic StateId', 'required|trim');
         $this->bf_form_validation->set_rules('diagnostic_cityId', 'Diagnostic City', 'required|trim');
@@ -750,6 +754,7 @@ class Diagnostic extends MY_Controller {
             
             $updateDiagnostic = array(
                 'diagnostic_name' => $this->input->post('diagnostic_name'),
+                'diagnostic_type' => $this->input->post('diagno_type'),
                 'diagnostic_countryId' => $this->input->post('diagnostic_countryId'),
                 'diagnostic_stateId' => $this->input->post('diagnostic_stateId'),
                 'diagnostic_cityId' => $this->input->post('diagnostic_cityId'),
@@ -2003,12 +2008,12 @@ class Diagnostic extends MY_Controller {
     function updatePassword() {
 
 
-        $users_email = $this->input->post('users_email');
+       // $users_email = $this->input->post('users_email');
         $user_tables_id = $this->input->post('user_table_id');
         $users_password = $this->input->post('users_password');
 
         $users_mobile = $this->input->post('users_mobile');
-        $diagnostic_mbrTyp = $this->input->post('diagnostic_mbrTyp');
+      //  $diagnostic_mbrTyp = $this->input->post('diagnostic_mbrTyp');
 
 
         $where = array(
@@ -2016,10 +2021,9 @@ class Diagnostic extends MY_Controller {
         );
         $userTableData = array(
             'users_mobile' => $users_mobile,
-            'users_email' => $users_email,
             'modifyTime' => strtotime(date("Y-m-d H:i:s"))
         );
-        $return = $this->diagnostic_model->UpdateTableData($userTableData, $where, 'qyura_users');
+        $returnNumber = $this->diagnostic_model->UpdateTableData($userTableData, $where, 'qyura_users');
         if (!empty($users_password)) {
             $encrypted = md5($users_password);
             $update = array(
@@ -2028,18 +2032,11 @@ class Diagnostic extends MY_Controller {
             );
 
 
-            $return = $this->diagnostic_model->UpdateTableData($update, $where, 'qyura_users');
+            $returnPassword = $this->diagnostic_model->UpdateTableData($update, $where, 'qyura_users'); 
         }
+        if($returnNumber OR $returnPassword)
+             echo true; 
 
-        $Data = array(
-            'diagnostic_mbrTyp' => $diagnostic_mbrTyp,
-            'modifyTime' => strtotime(date("Y-m-d H:i:s"))
-        );
-        $Wheres = array('diagnostic_usersId' => $user_tables_id);
-        $return = $this->diagnostic_model->UpdateTableData($Data, $Wheres, 'qyura_diagnostic');
-        echo $return;
-        //echo $encrypted;
-        exit;
     }
 
     function uploadImages($imageName, $folderName, $newName) {
@@ -2775,7 +2772,7 @@ class Diagnostic extends MY_Controller {
         $option = array(
             'table' => 'qyura_membershipFacilities',
             'select' => '*',
-            'where' => array('membershipFacilities_deleted' => 0,'status' => 3,'membershipFacilities_membershipId' =>$membershipId )
+            'where' => array('membershipFacilities_deleted' => 0,'qyura_membershipFacilities.status' => 1,'membershipFacilities_membershipId' =>$membershipId )
         );
         $membership_plan = $this->common_model->customGet($option);
         echo json_encode($membership_plan);

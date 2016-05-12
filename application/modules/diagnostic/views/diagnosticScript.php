@@ -1928,22 +1928,20 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
             var pswd = $.trim($("#users_password").val());
             var cnfpswd = $.trim($("#cnfPassword").val());
             var mobile = $('#users_mobile').val();
-            var emails = $('#users_email').val();
+           // var emails = $('#users_email').val();
             var user_tables_id = $('#user_tables_id').val();
             var users_mobile = $('#users_mobile').val();
             var returnValue = 0;
            
             var status = 1;
-            if(emails === ''){
-                $('#users_email').addClass('bdr-error');
-                $('#error-users_email').fadeIn().delay(3000).fadeOut('slow');
-                status = 0;
-            }
+           
             if(users_mobile === ''){
                 $('#users_mobile').addClass('bdr-error');
                 $('#error-users_mobile').fadeIn().delay(3000).fadeOut('slow');
                 status = 0;
             }
+            
+                
             if(pswd != ''){
                 if(pswd.length < 6){
                     $('#users_password').addClass('bdr-error');
@@ -1963,61 +1961,36 @@ if(isset($diagnosticId) && !empty($diagnosticId)){
             if(status == 0)
                 return false;
             else{
-                    var user_table_id = $('#user_tables_id').val();
-                    $.ajax({
-                        url : urls + 'index.php/diagnostic/check_email',
-                        type: 'POST',
-                       data: {'users_email' : emails,'user_table_id' : user_table_id },
-                       success:function(datas){
-                           //console.log(datas);
-                           if(datas == 0 || datas != 1){
-                            
-                             $.ajax({
-                                    url : urls + 'index.php/diagnostic/updatePassword',
+                     $.ajax({
+                              url : urls + 'index.php/diagnostic/updatePassword',
                                     type: 'POST',
                                     data: $('#acccountForm').serialize(),
                                     async: false,
-                                    beforeSend:function (data){
-                               
-                                        $("#defaultloader").show();
-                                    },
+                                  
                                    success:function(insertData){
-                                       
-                                      // console.log(insertData);
 
-                                       if(insertData == 1){
+                                    if(insertData == 1){
                                      $('#users_password').val('');
                                       $('#cnfPassword').val('');
                                    
-                                    setTimeout(function(){
+                                    
                                       $('#users_password').removeClass('bdr-error');
                                       $('#cnfPassword').removeClass('bdr-error');
                                       $('#users_mobile').removeClass('bdr-error');
                                       $('#users_email').removeClass('bdr-error');
                                       $("#defaultloader").hide();
-                                      bootbox.alert("Data Changed Successfully!");
-                                   // window.location.reload();
-                                      //window.location.href = urls + 'index.php/diagnostic/detailDiagnostic/'+diagnosticId+'/account';                     
-//                                      $('#error-password_email_check_success').fadeIn().delay(1000).fadeOut(function() {
-//                                          
-//                                          
-//                                        });
-                                       }, 3000);
                                       
-                                        return true;
+                                       bootbox.alert("Account detail update successfully!", function() {
+                                            window.location.href = urls + 'index.php/diagnostic/detailDiagnostic/'+diagnosticId+'/account';                     
+                                             return true;
+
+                                        });
+                        
                                       }
                                      
                                    } 
                                 });
-                       }
-                       else {
-                         $('#users_email').addClass('bdr-error');
-                         $('#error-users_email_check').fadeIn().delay(3000).fadeOut('slow');;
-
-                        return false;
-                       }
-                       } 
-                    });
+                     
                 
               
             }
