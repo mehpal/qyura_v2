@@ -149,7 +149,7 @@
                                 </article>
                             </div>
                             <div class="clearfix m-t-20 text-right">
-                                <button type="button" class="btn btn-danger waves-effect m-r-10" onclick="changestatus(<?php echo $qtnId;?>,1,13)">Cancel</button>
+                                <button type="button" class="btn btn-danger waves-effect m-r-10" onclick="changestatus(<?php echo $appid;?>,1,13)">Cancel</button>
                                 <?php 
                                 $dt = date('Y-m-d', $conDetail->dateTime);
                                 $tm = date('H:i:s', $conDetail->finalTime);
