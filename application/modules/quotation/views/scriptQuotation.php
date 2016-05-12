@@ -39,7 +39,7 @@
             autoclose: true,
             startDate: '+0d',
         });
-        
+
         if (Modernizr.touch) {
             // show the close overlay button
             $(".close-overlay").removeClass("hidden");
@@ -184,7 +184,7 @@
         });
 
     }
-    
+
     $("#refDoctor").select2({
         allowClear: true,
         placeholder: "Select Ref. Doctor"
@@ -217,8 +217,6 @@
                 {"data": "miName"},
                 {"data": "uniqueId"},
                 {"data": "pName"},
-   
-                
                 {"data": "contact"},
                 {"data": "qStatus"},
                 {"data": "action", "searchable": false, "order": false},
@@ -253,7 +251,7 @@
         $('#isSent').on('change', function () {
             oTableQuo.draw();
         });
-        
+
         $('.searchDate').datepicker().on('changeDate', function (ev) {
             $('.searchDate').datepicker('hide');
             var sDate = $('#fromDate').val();
@@ -272,8 +270,8 @@
                 }
             }
         });
-        
-     });
+
+    });
 
     function check_packageId(packageId) {
         $.ajax({
@@ -478,7 +476,7 @@
                 type: 'POST',
                 data: {'city_id': city_id, 'appointment_type': appointment_type},
                 beforeSend: function (xhr) {
-                    
+
                 },
                 success: function (data) {
                     console.log(data);
@@ -490,7 +488,7 @@
                     $('#input5').selectpicker('refresh');
                     $('#speciallity').prop('selectedIndex', '');
                     $('#speciallity').selectpicker('refresh');
-                    
+
                     $('#doctorSection').hide();
                     $('#diagnosticSection').hide();
                 }
@@ -732,7 +730,7 @@
             success: function (data) {
                 if (data && data != 0) {
                     var data = JSON.parse(data);
-                    if(data.email_status != 1){
+                    if (data.email_status != 1) {
                         console.log(data.mobile);
                         $("#patient_email").removeClass('loadinggif');
                         $('#users_mobile').val(data.mobile);
@@ -751,7 +749,7 @@
                         $('#input27').val(data.gender);
                         $('#input27').selectpicker('refresh');
                         $('#user_id').val(data.user_id);
-                    }else{
+                    } else {
                         $('#user_id').val(data.id);
                         $('#email_status').val(data.email_status);
                     }
@@ -830,27 +828,27 @@
         }
     }
 
-    function totaAmountAddQuo(){
-        var price = 0,i,newPrice = parseInt(0),tax_amount = parseInt(0);
-        
+    function totaAmountAddQuo() {
+        var price = 0, i, newPrice = parseInt(0), tax_amount = parseInt(0);
+
         var oth_fee = parseInt($('#input23').val());
         var tax = parseInt($('#input24').val());
-        
+
         var total_test = $("#total_test").val();
-        for(i=1;i<=total_test;i++){
-            price = parseInt($("#input30_"+i).val());
-            if(price && price != ''){
+        for (i = 1; i <= total_test; i++) {
+            price = parseInt($("#input30_" + i).val());
+            if (price && price != '') {
                 newPrice = price + newPrice;
             }
         }
         $("#input22").val(newPrice);
-        if(oth_fee && oth_fee != ''){
-            newPrice = newPrice+oth_fee;
+        if (oth_fee && oth_fee != '') {
+            newPrice = newPrice + oth_fee;
         }
-        if(tax && tax != ''){
+        if (tax && tax != '') {
             tax_amount = (newPrice / 100) * tax;
         }
-        
+
         var total_amount = newPrice + tax_amount;
 
         if (total_amount) {
@@ -882,15 +880,15 @@
             $("#paidAmount").html('00');
         }
     }
-    
+
     function calculateTestPrice()
     {
         var price = 0;
         $('#diagnosticSectionTest').find('.testPrice').each(function () {
-            var testPrice  = parseInt($(this).val());
-            
-            if(typeof testPrice == 'number')
-            price += parseInt($(this).val());
+            var testPrice = parseInt($(this).val());
+
+            if (typeof testPrice == 'number')
+                price += parseInt($(this).val());
         });
         $('#input22').val(price);
     }
@@ -901,7 +899,7 @@
 //               var formData = new FormData(this);
 //               
 //               $.ajax({
-//                url: '<?php //echo site_url('quotation/sendQuotationSave');      ?>',
+//                url: '<?php //echo site_url('quotation/sendQuotationSave');       ?>',
 //                type: 'POST',
 //                data: formData,
 //                success: function (response) {
@@ -968,7 +966,7 @@
 //    }
 
     $(document).ready(function () {
-        
+
         $("#QuotationForm").validate({
             rules: {
                 city_id: {
@@ -1058,12 +1056,12 @@
                     required: true
                 },
                 refDoctor: {
-                    required: function(element) {
+                    required: function (element) {
                         return $("#drExistsList:checked");
                     }
                 },
                 drName: {
-                    required: function(element) {
+                    required: function (element) {
                         return $("#drNameInput:checked");
                     }
                 }
@@ -1217,24 +1215,20 @@
         $('#search').on('keyup', function () {
             oTableQuoHis.draw();
         });
-        $('.pickDate').datepicker().on('changeDate', function (ev) {
-            $('.pickDate').datepicker('hide');
-            var sDate = $('#fromDate').val();
-            var eDate = $('#toDate').val();
-            var d1 = new Date($('#fromDate').val());
-            var d2 = new Date($('#toDate').val());
-            if (sDate != '' && eDate != '') {
-                if (d1.getTime() > d2.getTime()) {
-                    $("#date_error").html("<p>From date should be less then To date.</p>");
-                    $('#fromDate').val("");
-                    $('#toDate').val("");
-                } else {
-                    oTableQuoHis.draw();
-                    return false;
-                    $("#date_error").html("");
-                }
-            }
+        
+
+        $('#date-3').datepicker({
+            autoclose: true,
+            startDate: new Date()
         });
+        
+        
+         $('#date-4').datepicker({
+            autoclose: true,
+            endDate: new Date()
+        });
+
+
     });
 
 //new function
@@ -1314,10 +1308,10 @@
             $(".img").mouseenter(function () {
                 $(this).addClass("hover");
             })
-            // handle the mouseleave functionality
-            .mouseleave(function () {
-                $(this).removeClass("hover");
-            });
+                    // handle the mouseleave functionality
+                    .mouseleave(function () {
+                        $(this).removeClass("hover");
+                    });
         }
     });
 </script>   

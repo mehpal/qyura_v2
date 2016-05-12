@@ -59,7 +59,7 @@
                                 <article class="form-group m-lr-0">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Gender :</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <select class="selectpicker" data-width="100%" name="patientDetails_gender">
+                                        <select class="select2" data-width="100%" name="patientDetails_gender">
                                             <option value="">Select Gender</option>
                                             <option value="1" <?php if ($users_detail->patientDetails_gender == 1): echo"selected";endif; ?>>Male</option>
                                             <option value="2" <?php if ($users_detail->patientDetails_gender == 2): echo"selected";endif; ?>>Female</option>
@@ -102,12 +102,12 @@
                                     <div class="col-md-8 col-sm-8">
                                         <aside class="row">
                                             <div class="col-md-6 col-sm-6">
-                                                <select class="selectpicker" data-width="100%" name="patientDetails_countryId" id="patientDetails_countryId">
+                                                <select class="select2" data-width="100%" name="patientDetails_countryId" id="patientDetails_countryId">
                                                     <option value="1">India</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-6 col-sm-6 m-t-xs-10">
-                                                <select class="selectpicker" data-width="100%" name="patientDetails_stateId" Id="	patientDetails_stateId" data-size="4" onchange ="fetchCity(this.value)">
+                                                <select class="select2" data-width="100%" name="patientDetails_stateId" Id="	patientDetails_stateId" data-size="4" onchange ="fetchCity(this.value)">
                                                     <option value="">Select State</option>
                                                     <?php foreach ($allStates as $key => $val) { ?>
 
@@ -123,7 +123,7 @@
                                     <div class="col-md-8 col-md-offset-4 col-sm-4 col-sm-offset-4">
                                         <aside class="row">
                                             <div class="col-md-6 col-sm-6">
-                                                <select class="selectpicker" data-width="100%" name="patientDetails_cityId" id="patientDetails_cityId" data-size="4" >
+                                                <select class="select2" data-width="100%" name="patientDetails_cityId" id="patientDetails_cityId" data-size="4" >
                                                     <option value="">Select City</option>
                                                     <?php if (isset($qyura_city) && $qyura_city != NULL) {
                                                         foreach ($qyura_city as $key => $val) { ?>
@@ -194,7 +194,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Health Insura. Company:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="selectpicker" data-width="100%" name="userInsurance_insuranceId">
+                                            <select class="select2" data-width="100%" name="userInsurance_insuranceId">
                                                 <option value=""> select company </option>
                                                 <?php foreach ($insurance_cmpny as $key => $val) { ?>
                                                 <option value="<?php echo $val->insurance_id; ?>" <?php if ($val->insurance_id == $users_insurance->userInsurance_insuranceId): echo"selected"; endif;?>><?php echo $val->insurance_Name; ?></option>
@@ -244,7 +244,7 @@
                                                     <div class="col-md-8 col-sm-8">
                                                         <aside class="row">
                                                             <div class="col-md-6 col-sm-6">
-                                                                <select class="selectpicker" data-width="100%" name="usersfamily_gender_<?php echo $count_family; ?>" id="usersfamily_gender_<?php echo $count_family; ?>" required="">
+                                                                <select class="select2" data-width="100%" name="usersfamily_gender_<?php echo $count_family; ?>" id="usersfamily_gender_<?php echo $count_family; ?>" required="">
                                                                     <option value="1" <?php if ($val->usersfamily_gender == 1): echo"selected"; endif; ?> >Male</option>
                                                                     <option value="2" <?php if ($val->usersfamily_gender == 2): echo"selected"; endif; ?>>Female</option>
                                                                 </select>
@@ -252,6 +252,7 @@
                                                             </div>
                                                             <div class="col-md-6 col-sm-6 m-t-xs-10">
                                                                 <input class="form-control " id="usersfamily_age_<?php echo $count_family; ?>" type="text" name="usersfamily_age_<?php echo $count_family; ?>" required="" value="<?php echo $val->usersfamily_age; ?>" onkeypress="return isNumberKey(event)" placeholder="">
+                                                                 <label class="error" > <?php echo form_error("usersfamily_age_$count_family"); ?></label>
                                                             </div>
                                                         </aside>
                                                     </div>
@@ -259,7 +260,7 @@
                                                 <article class="form-group m-lr-0">
                                                     <label for="cname" class="control-label col-md-4 col-sm-4">Relationship :</label>
                                                     <div class="col-md-8 col-sm-8">
-                                                        <select class="selectpicker" data-width="100%" name="usersfamily_relationId_<?php echo $count_family; ?>" id="usersfamily_relationId_<?php echo $count_family; ?>">
+                                                        <select class="select2" data-width="100%" name="usersfamily_relationId_<?php echo $count_family; ?>" id="usersfamily_relationId_<?php echo $count_family; ?>">
                                                         <?php foreach ($familyMember as $key => $value) { ?>
                                                             <option value="<?php echo $value->relation_id; ?>"<?php if ($value->relation_id == $val->usersfamily_relationId): echo"selected"; endif; ?>><?php echo $value->relation_type; ?></option>
                                                         <?php } ?>
@@ -286,7 +287,7 @@
                                                     <article class="form-group m-lr-0">
                                                         <label for="cname" class="control-label col-md-4 col-sm-4">Health Insu. Provider:</label>
                                                         <div class="col-md-8 col-sm-8">
-                                                            <select class="selectpicker" data-width="100%" name="userInsurance_insuranceId_<?php echo $count_family; ?>" id="userInsurance_insuranceId_<?php echo $count_family; ?>">
+                                                            <select class="select2" data-width="100%" name="userInsurance_insuranceId_<?php echo $count_family; ?>" id="userInsurance_insuranceId_<?php echo $count_family; ?>">
                                                             <?php  if(isset($insurance_cmpny) && !empty($insurance_cmpny)){
                                                             foreach ($insurance_cmpny as $key => $value) { ?>
                                                                 <option value="<?php echo $value->insurance_id; ?>"  <?php if ($value->insurance_id == $val->userInsurance_insuranceId){ echo"selected";} ?>><?php echo $value->insurance_Name; ?></option>
@@ -309,7 +310,7 @@
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Policy Expiry Date :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <div class="input-group">
-                                                <input class="form-control pickDate" id="userInsurance_expDate_<?php echo $count_family; ?>" placeholder="dd/mm/yyyy" type="text" name="userInsurance_expDate_<?php echo $count_family; ?>" onkeydown="return false;" value="<?php if (isset($val->userInsurance_expDate) && !empty($val->userInsurance_expDate)) { echo date('d-m-Y', $val->userInsurance_expDate); } ?>">
+                                                <input class="form-control pickDatePolicyedit" id="userInsurance_expDate_<?php echo $count_family; ?>" placeholder="dd/mm/yyyy" type="text" name="userInsurance_expDate_<?php echo $count_family; ?>" onkeydown="return false;" value="<?php if (isset($val->userInsurance_expDate) && !empty($val->userInsurance_expDate)) { echo date('d-m-Y', $val->userInsurance_expDate); } ?>">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>
                                             <label class="error" > <?php echo form_error("userInsurance_expDate_$count_family"); ?></label>
                                         </div>
@@ -338,7 +339,7 @@
                     </section>
                     <section class="clearfix ">
                         <div class="col-md-12 m-t-20 m-b-20">
-                            <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit">Submit</button>
+                            <button class="btn btn-success waves-effect waves-light pull-right m-r-20" onclick="return editformContainer();" type="submit">Submit</button>
                         </div>
                     </section>
                 </form>

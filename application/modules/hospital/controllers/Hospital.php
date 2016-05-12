@@ -94,14 +94,10 @@ class Hospital extends MY_Controller {
        
         $data = array();
         
-        
-     
-        
-        
         $option = array(
             'table' => 'qyura_membership',
             'select' => 'membership_id,membership_name',
-            'where' => array('membership_deleted' => 0,'status' => 3,'membership_type' => 1)
+            'where' => array('membership_deleted' => 0,'qyura_membership.status' => 1,'membership_type' => 1)
         );
         $data['membership_plan'] = $this->common_model->customGet($option);
         
@@ -795,7 +791,8 @@ class Hospital extends MY_Controller {
                         'cityId' => $hospital_cityId,
                         'bloodBank_add' => $hospital_address,
                         'inherit_status' => 1,
-                        'bloodBank_zip' => $hospital_zip
+                        'bloodBank_zip' => $hospital_zip,
+                        'bloodBank_docatId' => $docatId
                     );
                     $bloodBankId = $this->Hospital_model->insertBloodbank($bloodBankDetail);
                     if ($bloodBankId) {
@@ -878,6 +875,7 @@ class Hospital extends MY_Controller {
                         'inherit_status' => 1,
                         'ambulance_zip' => $hospital_zip,
                         'docOnBoard' => $docOnBoard,
+                        'ambulance_docatId' => $docatId
                     );
                     $ambulanceId = $this->Hospital_model->insertAmbulance($ambulanceDetail);
                     if ($ambulanceId) {
@@ -1081,6 +1079,7 @@ class Hospital extends MY_Controller {
                         'bloodBank_long' => $hospital_long,
                         'bloodBank_add' => $hospital_address,
                         'bloodBank_phn' => ltrim($bloodBank_phn, 0),
+                        'bloodBank_docatId' => $this->input->post('docatId'),
                         'modifyTime' => strtotime(date("Y-m-d H:i:s"))
                     );
                     if ($getData) {
@@ -1202,6 +1201,7 @@ class Hospital extends MY_Controller {
                         'ambulance_phn' => ltrim($ambulance_phn, 0),
                         'ambulance_address' => $hospital_address,
                         'docOnBoard' => $docOnBoard,
+                        'ambulance_docatId' => $this->input->post('docatId'),
                     );
                     
                     $ambulanceConditions = array();
@@ -1287,33 +1287,13 @@ class Hospital extends MY_Controller {
     }
 
     function updatePassword() {
-        //echo "here";exit;
-        //  $users_email = $this->input->post('users_email');
-        // echo $users_email;
-        // exit;
-        //$existingPassword = $this->input->post('existingPassword');
+  
         $user_tables_id = $this->input->post('hospitalUserId');
         $users_password = $this->input->post('users_password');
 
-        $users_mobile = $this->input->post('users_mobile');
-        $hospital_mmbrTyp = $this->input->post('hospital_mmbrTyp');
-
-        /* if($encrypted != $existingPassword){
-          echo $return;
-          }
-          else {
-          $updateBloodBank = array(
-          'bloodBank_name'=>  $encrypted,
-          'modifyTime'=> strtotime(date("Y-m-d H:i:s"))
-          );
-
-          $where = array(
-          'users_id' => $user_tables_id
-          );
-          $this->Bloodbank_model->UpdateTableData($updateBloodBank,$where,'qyura_users');
-
-          echo $return = '1'.'~'.$encrypted;
-          } */
+        $users_mobile = ltrim($this->input->post('users_mobile'),0);
+      //  $hospital_mmbrTyp = $this->input->post('hospital_mmbrTyp');
+      
         $where = array(
             'users_id' => $user_tables_id
         );
@@ -1331,17 +1311,11 @@ class Hospital extends MY_Controller {
             );
 
 
-            $return = $this->Hospital_model->UpdateTableData($updateHospital, $where, 'qyura_users');
+           echo  $return = $this->Hospital_model->UpdateTableData($updateHospital, $where, 'qyura_users');
+        
         }
 
-        $hospitalData = array(
-            'hospital_mmbrTyp' => $hospital_mmbrTyp,
-            'modifyTime' => strtotime(date("Y-m-d H:i:s"))
-        );
-        $hospitalWhere = array('hospital_usersId' => $user_tables_id);
-        $return = $this->Hospital_model->UpdateTableData($hospitalData, $hospitalWhere, 'qyura_hospital');
-        echo $return;
-        exit;
+      
     }
 
     function hospitalSpecialities($hospitalId) {

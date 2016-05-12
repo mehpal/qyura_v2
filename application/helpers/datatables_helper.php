@@ -34,7 +34,7 @@ if (!function_exists('sendQuoteBtn')) {
         $disabled =  ($status != 'Not Sent') ? 'disabled="disabled"' : '';
         $sendLink =  ($status != 'Not Sent') ? '#' : site_url('quotation/replyQuotation').'?qid='.$qid;
         
-    	$btn = '<a type="button" href="'.$sendLink.'" '.$disabled.' class="btn btn-success waves-effect waves-light m-b-5 applist-btn">Send Quote</a>';
+    	$btn = '<a type="button" href="'.$sendLink.'" '.$disabled.' class="btn btn-success waves-effect waves-light m-b-5 applist-btn">Reply On Quote</a>';
         return $btn;
     }
     

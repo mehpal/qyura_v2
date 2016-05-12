@@ -102,7 +102,7 @@ class DoctorBooking extends MyRest {
         
         $this->bf_form_validation->set_rules('appointmentId','Appointment Id','xss_clean|required|trim'); 
         $this->bf_form_validation->set_rules('userId','User Id','xss_clean|numeric|required|trim');
-        $this->bf_form_validation->set_rules('bookingDate','Appointment date','xss_clean|required|valid_date[y-m-d,-]|trim');
+        $this->bf_form_validation->set_rules('bookingDate','Appointment date','xss_clean|required|trim');
         $this->bf_form_validation->set_rules('time','Appointment time','xss_clean|required|trim');
         
         if ($this->bf_form_validation->run($this) == FALSE) {
@@ -117,7 +117,7 @@ class DoctorBooking extends MyRest {
             $bookTime       = isset($_POST['time'])             ? date("H:i:s",strtotime($this->input->post('time')))   : '';
             $userId         = isset($_POST['userId'])           ? $this->input->post('userId')                          : '';
             
-//            $date = strtotime(date("Y-m-d"));
+            $date = strtotime(date("Y-m-d"));
 //            $time = date("H:i:s", strtotime('+2 hours'));
 //            
             if($date > $bookingDate){

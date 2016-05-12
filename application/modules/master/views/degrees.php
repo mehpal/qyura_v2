@@ -26,7 +26,7 @@
                   </div>
                </article>
             </figure>
-            <div class="nicescroll mxh-400" style="overflow: hidden;" tabindex="5000">
+            <div class="nicescroll mxh-400 m-t-20" style="overflow: hidden;" tabindex="5000">
                <div class="clearfix">
                   <form name="degreeEditForm" action="#" id="degreeEditForm" method="post">
                      <ul id="list" class="list-unstyled ul-bigspace">
@@ -46,7 +46,7 @@
                            </h6>
                            </span>
                         </li>
-                        <li class="newmembership m-t-10" style="display:none" id="editDeg<?php echo $countDegree;?>">
+                        <li class="newmembership clearfix" style="display:none" id="editDeg<?php echo $countDegree;?>">
                            <span class="col-md-5">
                            <input type="hidden" id="degree_id_<?php echo $countDegree; ?>" name="degree_id_<?php echo $countDegree; ?>" value="<?php echo $degrees->degree_id; ?>" >
                            <input type="text" required="" name="degree_SName_<?php echo $countDegree; ?>" id="degree_SName_<?php echo $countDegree; ?>" class="form-control" value="<?php if($degrees->degree_SName){ echo $degrees->degree_SName; }else{echo ''; } ?>" onkeypress="return isAlpha(event,this.value)">
@@ -56,9 +56,11 @@
                            <input type="text" required="" name="degree_FName_<?php echo $countDegree; ?>" id="degree_FName_<?php echo $countDegree; ?>" class="form-control" value="<?php if($degrees->degree_FName){ echo $degrees->degree_FName; }else{echo ''; } ?>">
                            <label class="error" id="hospitalType_name_<?php echo $countDegree; ?>" > <?php echo form_error("degree_FName_$countDegree"); ?></label>
                            </span>
-                           <span class="col-md-2">
-                           <button class="" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
-                           <a onclick="hideDegree('<?php echo $countDegree; ?>')" href="#"><i class="md md-cancel membership-btn"></i></a>
+                           <span class="col-md-1">
+                           <button class="btn btn-sm btn-success" type="submit" title="Save"><i class="fa fa-floppy-o membership-btn"></i></button>
+                           </span>
+                           <span class="col-md-1">
+                           <a class="text-danger pull-left" onclick="hideDegree('<?php echo $countDegree; ?>')" href="#"><i class="md md-cancel membership-btn m-t-5"></i></a>
                            </span>
                         </li>
                         <?php $countDegree++;} } ?>

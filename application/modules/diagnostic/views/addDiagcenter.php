@@ -33,7 +33,7 @@
                                     <label for="cname" class="control-label col-md-4  col-sm-4">Select Name :</label>
                                     <div class="col-md-8 col-sm-8">
                                             <?php $publishDiagno[] = (object) array('diagno_id' => 0, 'diagnostic_name' => 'Other') ?>
-                                        <select class="form-control selectpicker" data-width="100%" name="diagno_id" id="diagno_id" onchange="getDiagnodetail(this.value)" >
+                                        <select class="form-control select2" data-width="100%" name="diagno_id" id="diagno_id" onchange="getDiagnodetail(this.value)" >
                                             <option value="">Select Diagnostice Center</option>
                                             <?php
                                             if (!empty($publishDiagno)) {
@@ -65,6 +65,27 @@
                                         <label class="error" > <?php echo form_error("diagnostic_name"); ?></label>
                                     </div>
                                 </article>
+                                
+                                
+                              <article class="clearfix m-t-10">
+                                <label for="cname" class="control-label col-md-4  col-sm-4">Diagnostic Type :</label>
+                                <div class="col-md-8 col-sm-8">
+                                    <select class="form-control select2" data-width="100%" name="diagno_type" id="diagno_type" >
+                                    <option value="">Select Type</option>
+                                        <?php
+                                        if (!empty($diagnosticType)) {
+                                            foreach ($diagnosticType as $key => $val) {
+                                                ?>
+                                                <option <?php echo set_select('diagno_type', $val->hospitalType_id); ?> value="<?php echo $val->hospitalType_id; ?>"> <?php echo $val->hospitalType_name; ?></option>';
+        <?php
+    }
+}
+?>
+                                    </select>
+                                    <label class="error" style="display:none;" id="error-diagno_type"> please select diagnostic type</label>
+                                    <label class="error" > <?php echo form_error("diagno_type"); ?></label>
+                                </div>
+                            </article>
                                 
                                 <div id="crop-avatar">
                                     
@@ -509,7 +530,7 @@
                                 <article class="clearfix m-t-10">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Membership Type :</label>
                                     <div class="col-md-8  col-sm-8">
-                                        <select class="selectpicker" data-width="100%" name="diagnostic_mbrTyp" id="diagnostic_mbrTyp" onchange="find_membershipdata(this.value)">
+                                        <select class="select2" data-width="100%" name="diagnostic_mbrTyp" id="diagnostic_mbrTyp" onchange="find_membershipdata(this.value)">
                                             <option value="">Select Membership</option>
                                             <?php if(isset($membership_plan) && $membership_plan){ 
                                                 foreach($membership_plan as $membership){ ?>

@@ -285,7 +285,7 @@ class Hospital_model extends My_model {
     function fetchAllInsurance($insurance_condition = array()) {
         $this->db->select('insurance_id,insurance_Name,insurance_img,insurance_detail');
         $this->db->from('qyura_insurance');
-        $this->db->where(array('insurance_deleted' => 0));
+        $this->db->where(array('insurance_deleted' => 0, 'qyura_insurance.status' => 1));
         if (!empty($insurance_condition))
             $this->db->where_not_in('insurance_id', $insurance_condition);
         $data = $this->db->get();

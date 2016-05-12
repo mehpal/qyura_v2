@@ -144,7 +144,7 @@
                                 <article class="form-group m-lr-0">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Patient Mobile Number :</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <input class="form-control" id="users_mobile" name="users_mobile" type="text"  aria-required="true" value="<?php echo set_value('users_mobile'); ?>" onkeypress="return isNumberKey(event)">
+                                        <input class="form-control" id="users_mobile" name="users_mobile" type="text"  aria-required="true" maxlength="10" min="10" value="<?php echo set_value('users_mobile'); ?>" onkeypress="return isNumberKey(event)">
                                         <div class="has-error " id="err_users_mobile" ><?php echo form_error("users_mobile"); ?></div>
                                     </div>
                                 </article>
@@ -306,7 +306,7 @@
                                 <article class="form-group m-lr-0">
                                     <label for="cname" class="control-label col-md-4 col-sm-4 cl-black">Total Quotation Price :</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <label for="cname" class="control-label col-md-4 cl-black"><i class="fa fa-inr fa-2x"></i> <span id="paidAmount">00</span>.00/-</label>
+                                        <label for="cname" class="control-label col-md-4 cl-black"><i class="fa fa-inr fa-2x"></i> <span id="paidAmount">00</span>/-</label>
                                     </div>
                                 </article>
                             </aside>
