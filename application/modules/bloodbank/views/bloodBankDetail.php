@@ -246,17 +246,17 @@
                                         </div>
                                         
                                     </article>
-                                        
-                                       <article class="clearfix m-t-10">
+                                        <input class="form-control" id="email_edit" name="email_edit" type="hidden" value="<?php echo $bloodBankData[0]->users_email;?>"  readonly=""/>
+<!--                                       <article class="clearfix m-t-10">
                                           <label for="cemail" class="control-label col-md-4 col-sm-4">Email Id :</label>
                                           <div class="col-md-8 col-sm-8">
-                                              <input class="form-control" id="users_email" name="users_email" type="email" value="<?php echo $bloodBankData[0]->users_email;?>" onblur="checkEmailFormatDetail()" readonly=""/>
+                                              <input class="form-control" id="email_edit" name="email_edit" type="email" value="<?php //echo $bloodBankData[0]->users_email;?>"  readonly=""/>
                                              <label class="error" style="display:none;" id="error-users_email_check"> Email Already Exists!</label>
                                              <label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>
                                              <label class="error" > <?php echo form_error("users_email"); ?></label>
                                           </div>
                                           
-                                       </article>
+                                       </article>-->
                                         
                                        <article class="clearfix">
                                           <label for="cemail" class="control-label col-md-4 col-sm-4">Contact Person:</label>
@@ -418,12 +418,14 @@
                               <aside class="col-md-4 col-sm-4">
                                  <input type="password" name="users_password" class="form-control" id="users_password" />
                                  <!-- <p><a class="m-t-10" href="#">Edit</a></p> -->
+                                  <p class="error" id="error-cnfPassword_check_error" style="display:none;"> Please enter new password</p>
                               </aside>
                            </article>
                            <article class="clearfix m-b-10">
                               <label for="cemail" class="control-label col-md-4 col-sm-5">Confirm Password:</label>
                               <aside class="col-md-4 col-sm-4">
                                  <input type="password" name="cnfPassword" class="form-control" id="cnfPassword" />
+                                  <p class="error" id="error-cnfPassword_check_error_cnn" style="display:none;"> Please enter the same value again.</p>
                                  <!--<p><a class="m-t-10" href="javascript:void(0)" onclick="updatePassword()">Edit</a></p>-->
                                  <p><button type="button" class="btn btn-success waves-effect waves-light pull-right m-t-10" onclick="updatePassword()">Edit</button></p>
                                  <p class="error" id="error-password_email_check" style="display:none;"> Server not respond properly!</p>

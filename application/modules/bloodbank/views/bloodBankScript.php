@@ -616,18 +616,17 @@ if($current == 'detailBloodBank'):?>
             //var password = $('#myPassword').val();
             var user_tables_id = $('#user_tables_id').val();
             var status = 1;
-            if(pswd.length < 6){
+            if(pswd.length < 6 && pswd == ""){
                 $('#users_password').addClass('bdr-error');
-                //$('#error-users_password').fadeIn().delay(3000).fadeOut('slow');
-               // $('#users_password').focus();
+                $('#error-cnfPassword_check_error').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){ $('#users_password').removeClass('bdr-error'); }, 3000);
                status = 0;
             }
            
            if(pswd != cnfpswd){
                 $('#cnfPassword').addClass('bdr-error');
-               // $('#error-cnfPassword_check').fadeIn().delay(3000).fadeOut('slow');
-                
-               // $('#cnfpassword').focus();
+                $('#error-cnfPassword_check_error_cnn').fadeIn().delay(3000).fadeOut('slow');
+                setTimeout(function(){ $('#cnfPassword').removeClass('bdr-error'); }, 3000);
                status = 0;
             }
             if(status == 0)
@@ -651,6 +650,8 @@ if($current == 'detailBloodBank'):?>
                            $('#users_password').val('');
                            $('#cnfPassword').val('');
                            $('#error-password_email_check_success').fadeIn().delay(4000).fadeOut('slow');
+                           $('#error-cnfPassword_check_error').hide();
+                           $('#error-cnfPassword_check_error_cnn').hide();
 
                            return true;
                     }

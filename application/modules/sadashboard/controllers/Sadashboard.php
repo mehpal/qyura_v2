@@ -11,6 +11,7 @@ class SaDashboard extends MY_Controller {
 
     public function index() {
         $this->common_model->mypermission("7");
+        //echo strtotime(date('2016-05-15'));
         //$data['MI'] = $this->dashboard_model->getMiCount();
         $data['Doctor'] = $this->dashboard_model->getDoctorCount();
         $data['User'] = $this->dashboard_model->getUserCount();
@@ -23,8 +24,6 @@ class SaDashboard extends MY_Controller {
         $data['doctorOfMonth'] = $this->dashboard_model->getDoctorOfMonth();
         $data['consultAppoinement'] = $this->dashboard_model->getConsultAppointment();
         $data['diagnosticAppointmnt'] = $this->dashboard_model->getDoagnosticAppointment();
-//        dump($data['diagnosticAppointmnt']);
-//        exit();
         $data['title'] = 'SuperAdmin Dashboard';
         $this->load->super_admin_template('Superadmin_dashboard', $data, 'dashboardScript');
     }
@@ -64,12 +63,24 @@ class SaDashboard extends MY_Controller {
          
     }
     
-    function getChartAmbulance(){
-         $year = date('2015');
+    function getChartDraw(){
+         $year = date('2016');
+         $chart = array();
+         $ambulance = $this->dashboard_model->getChartAmbulance($year);
+         $pharmacy = $this->dashboard_model->getChartPharmacy($year);
+         $bloodbank = $this->dashboard_model->getChartBloodbank($year);
+         $hospital = $this->dashboard_model->getChartHospital($year);
+         $diagnostic = $this->dashboard_model->getChartDiagnostic($year);
          
-         $chartData = $this->dashboard_model->getSignupChart($year);
-        
-         print_r($chartData);
+         $chart = array(
+             'Ambulance' => $ambulance,
+             'Pharmacies' => $pharmacy,
+             'BloodBank' => $bloodbank,
+             'Hospitals' => $hospital,
+             'Diagnostics' => $diagnostic
+         );
+         
+         echo json_encode($chart);
     }
 
 }
