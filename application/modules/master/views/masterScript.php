@@ -119,8 +119,9 @@ if ($current != 'detailDoctor'): ?>
             var file = photo.files[0];
             formData.append('avatar_file', file);
             submitData(url,formData);
+
         });
-    
+
     var urls = "<?php echo base_url() ?>";
     $("#submitForm").validate({
         ignore: "",
@@ -132,6 +133,7 @@ if ($current != 'detailDoctor'): ?>
         else{
             error.insertAfter(element);
         }
+        
         },
 
         rules: {
@@ -160,6 +162,7 @@ if ($current != 'detailDoctor'): ?>
         }
 
     });
+
     });
     <?php } ?>
     //Speciality ends.
@@ -924,6 +927,8 @@ function showDiagnosticType(id){
 
     });
     $(document).ready(function () {
+
+       
         var oTable = $('#city_datatable').DataTable({
             "processing": true,
             "bServerSide": true,
@@ -1481,5 +1486,6 @@ $(document).ready(function (){
             
         }
 //editDoctorSpecialities ends.
+
 </script>
 
