@@ -21,8 +21,8 @@ class Quotation_model extends Common_model {
 CASE 
  WHEN (`qyura_quotations`.`quotation_familyId` <> 0 ) 
  THEN
-      qyura_patientDetails.qyura_usersFamily.usersfamily_age
- ELSE patientDetails_dob END AS  `age`,
+      qyura_usersFamily.usersfamily_age
+ ELSE qyura_patientDetails.patientDetails_dob END AS  `age`,
  CASE 
  WHEN (`qyura_quotations`.`quotation_familyId` <> 0 ) 
  THEN
