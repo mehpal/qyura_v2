@@ -40,9 +40,10 @@ class Users extends MY_Controller {
     }
 
     public function saveUsers() {
-        //print_r($_POST);exit;
+        
         // $this->bf_form_validation->set_rules('patientDetails_unqId', 'User Id', 'required|trim');
         $this->bf_form_validation->set_rules('patientDetails_patientName', 'Name', 'required|trim');
+        //$this->bf_form_validation->set_rules('avatar_file', 'image', 'required');
         $this->bf_form_validation->set_rules('patientDetails_gender', 'Gender', 'required|trim');
         $this->bf_form_validation->set_rules('patientDetails_dob', 'Date of Birth', 'required|trim');
         $this->bf_form_validation->set_rules('users_email', 'Users Email', "required|valid_email|trim");
@@ -53,6 +54,7 @@ class Users extends MY_Controller {
         $this->bf_form_validation->set_rules('patientDetails_address', 'Address', 'required|trim');
         $this->bf_form_validation->set_rules('users_password', 'Password', 'trim|required|matches[cnfPassword]');
         $this->bf_form_validation->set_rules('cnfPassword', 'Confirm Password', 'trim|required');
+       
 //        familymember validation
         $addFamilyMember = $this->input->post('addFamilyMember');
         if ($addFamilyMember == 1) {
@@ -410,24 +412,24 @@ class Users extends MY_Controller {
         $this->bf_form_validation->set_rules('patientDetails_pin', 'Pin', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('patientDetails_address', 'Address', 'required|trim');
 
-        $total_test_edit = $this->input->post('total_test_edit');
-        if ($total_test_edit > 0){
-            if($total_test_edit == 1){
-                $total_test_edit = $total_test_edit+1;
-            }
-            for ($j = 1; $j < $total_test_edit; $j++) {
-                $healthInsurance = $this->input->post('healthInsurance_' . $i);
-                if ($healthInsurance == 1) {
-                    $this->bf_form_validation->set_rules('userInsurance_insuranceId_' . $i, 'Health Insura. Company', 'required|trim');
-                    $this->bf_form_validation->set_rules('userInsurance_insuranceNo_' . $i, 'Health Insura. Card no.', 'required|trim');
-                    $this->bf_form_validation->set_rules('userInsurance_expDate_'.$i, 'Policy Expiry Date', 'required|trim');
-                }
-                $this->bf_form_validation->set_rules('usersfamily_name_' . $j, "Name $j", 'required|trim');
-                $this->bf_form_validation->set_rules('usersfamily_gender_' . $j, "Gender $j", 'required|trim');
-                $this->bf_form_validation->set_rules('usersfamily_age_' . $j, "Age $j", 'required|trim');
-                $this->bf_form_validation->set_rules('usersfamily_relationId_' . $j, "Relation $j", 'required|trim');
-            }
-        }
+//        $total_test_edit = $this->input->post('total_test_edit');
+//        if ($total_test_edit > 0){
+//            if($total_test_edit == 1){
+//                $total_test_edit = $total_test_edit+1;
+//            }
+//            for ($j = 1; $j < $total_test_edit; $j++) {
+//                $healthInsurance = $this->input->post('healthInsurance_' . $i);
+//                if ($healthInsurance == 1) {
+//                    $this->bf_form_validation->set_rules('userInsurance_insuranceId_' . $i, 'Health Insura. Company', 'required|trim');
+//                    $this->bf_form_validation->set_rules('userInsurance_insuranceNo_' . $i, 'Health Insura. Card no.', 'required|trim');
+//                    $this->bf_form_validation->set_rules('userInsurance_expDate_'.$i, 'Policy Expiry Date', 'required|trim');
+//                }
+//                $this->bf_form_validation->set_rules('usersfamily_name_' . $j, "Name $j", 'required|trim');
+//                $this->bf_form_validation->set_rules('usersfamily_gender_' . $j, "Gender $j", 'required|trim');
+//                $this->bf_form_validation->set_rules('usersfamily_age_' . $j, "Age $j", 'required|trim');
+//                $this->bf_form_validation->set_rules('usersfamily_relationId_' . $j, "Relation $j", 'required|trim');
+//            }
+//        }
 
 
 //            user insurance
@@ -754,5 +756,6 @@ class Users extends MY_Controller {
         }
         exit;
     }
-
+   
+   
 }

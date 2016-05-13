@@ -52,10 +52,6 @@
 </script>
 <script>
 
-   
-           
-         
-    
     function merge_options(obj1,obj2){
     var obj3 = {};
     for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
@@ -542,10 +538,7 @@
 </script>
 <script>                 // datatable get records
     $(document).ready(function () {
-         $('#patientDetails_dob').datepicker({
-            autoclose: false,
-            endDate: new Date()
-    });
+        
     var oTable = $('#users_datatable').DataTable({
     "processing": true,
             "bServerSide": true,
@@ -591,6 +584,11 @@
 
 
 <script>
+    
+   
+    
+    
+    
             function check_email() {
             var myEmail = $("#users_email").val();
                     var emailReturn;
@@ -613,3 +611,12 @@
                     return emailReturn;
             }
 </script>
+
+
+<script> 
+  $('.dob').datepicker({
+    autoclose: true,
+            endDate: new Date()
+    });
+    
+           </script>
