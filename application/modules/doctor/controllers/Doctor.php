@@ -10,7 +10,7 @@ class Doctor extends MY_Controller {
         parent:: __construct();
 
         $this->load->model(array('Doctor_model', 'common_model'));
-        $this->load->library('datatables');
+        $this->load->library('datatables','email');
         $this->load->helper('common');
     }
 
@@ -318,7 +318,11 @@ class Doctor extends MY_Controller {
             $to = $this->input->post("users_email");
             $data['name'] = $this->input->post("doctors_fName")." ".$this->input->post("doctors_lName");
             $message = $this->load->view('email/signing_up_user_tpl',$data,true);
-            sendMail($from,$to,$message);
+            $this->email->from($from, 'Team Qyura');
+            $this->email->to($to);
+            $this->email->subject("Qyura");
+            $this->email->message($message);
+            $send = $this->email->send();
             
             redirect('doctor/addDoctor');
         }

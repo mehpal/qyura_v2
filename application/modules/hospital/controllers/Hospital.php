@@ -791,6 +791,7 @@ class Hospital extends MY_Controller {
                         'cityId' => $hospital_cityId,
                         'bloodBank_add' => $hospital_address,
                         'inherit_status' => 1,
+                        'status' => 0,
                         'bloodBank_zip' => $hospital_zip,
                         'bloodBank_docatId' => $docatId
                     );
@@ -873,6 +874,7 @@ class Hospital extends MY_Controller {
                         'ambulance_address' => $hospital_address,
                         'ambulance_cntPrsn' => $hospital_cntPrsn,
                         'inherit_status' => 1,
+                        'status' => 0,
                         'ambulance_zip' => $hospital_zip,
                         'docOnBoard' => $docOnBoard,
                         'ambulance_docatId' => $docatId
@@ -1148,6 +1150,7 @@ class Hospital extends MY_Controller {
                             }
                         }
                         $bloodBankDetail['bloodBank_photo'] = $bloodBankImagesname;
+                        $bloodBankDetail['status'] = 0;
                         $bloodBankId = $this->Hospital_model->insertBloodbank($bloodBankDetail);
 
                         $conditions = array();
@@ -1274,6 +1277,7 @@ class Hospital extends MY_Controller {
                             }
                         }
                         $ambulanceDetail['ambulance_img'] = $ambulanceImagesname;
+                        $ambulanceDetail['status'] = 0;
                         $ambulanceId = $this->Hospital_model->insertAmbulance($ambulanceDetail);
                     }
                 } else {

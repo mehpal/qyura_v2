@@ -17,7 +17,7 @@
                             <h3 class="pull-left page-title">Add Appointments</h3>
                         </div>
                     </div>
-                    <form class="cmxform form-horizontal tasi-form" id="setData" method="post" action="<?php echo site_url(); ?>/miappointment/addAppointmentSave" onsubmit="return check_validaton()">
+                    <form class="cmxform form-horizontal tasi-form" id="setData" method="post" action="#">
                         <!-- Left Section Start -->
                         <section class="col-md-6 detailbox">
                             <div class="bg-white mi-form-section">
@@ -66,7 +66,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Appointment Type :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="selectpicker" data-width="100%" onchange="changeForm()" id="input5" name="input5" >
+                                            <select class="select2" data-width="100%" onchange="changeForm()" id="input5" name="input5" >
                                                 <option value="">Select Type</option>
                                                 <option value="0">Consultation</option>
                                                 <option value="1">Diagnostic</option>
@@ -108,7 +108,7 @@
                                         <article class="form-group m-lr-0">
                                             <label for="cname" class="control-label col-md-4 col-sm-4">Specialities :</label>
                                             <div class="col-md-8 col-sm-8">
-                                                <select class="selectpicker" name="input10" id="speciallity" data-width="100%" onchange="findDoctor()">
+                                                <select class="select2" name="input10" id="speciallity" data-width="100%" onchange="findDoctor()">
                                                     <option value="">Select Speciality</option>
 
                                                 </select>
@@ -119,7 +119,7 @@
                                         <article class="form-group m-lr-0">
                                             <label for="cname" class="control-label col-md-4 col-sm-4">Assign Doctor :</label>
                                             <div class="col-md-8 col-sm-8">
-                                                <select class="selectpicker" name="input12" id="input12" data-width="100%" onchange="getTimeSlot()">
+                                                <select class="select2" name="input12" id="input12" data-width="100%" onchange="getTimeSlot()">
                                                     <option value="">Select Doctor</option>
                                                 </select>
                                                 <div class="has-error " id="err_input12" ><?php echo form_error("input12"); ?></div>
@@ -151,6 +151,7 @@
                                                 <option value="">Select Time Slot</option>
                                             </select>
                                             <div class="has-error " id="err_input4" ><?php echo form_error("input4"); ?></div>
+                                            <div id="timesloterror" class="error"></div>
                                         </div>
                                     </article>
                                     <article class="form-group m-lr-0">
@@ -192,7 +193,7 @@
                                             <article class="form-group m-lr-0">
                                                 <label for="cname" class="control-label col-md-4 col-sm-4">Diagnostic Type :</label>
                                                 <div class="col-md-8 col-sm-8">
-                                                    <select class="selectpicker" data-width="100%" name="input28_1" id="input28_1" >
+                                                    <select class="select2" data-width="100%" name="input28[]" id="input28_1" >
                                                         <option value="">Select Diagnostic Category</option>
 
                                                     </select>
@@ -203,7 +204,7 @@
                                             <article class="form-group m-lr-0">
                                                 <label for="cname" class="control-label col-md-4 col-sm-4">Test Name :</label>
                                                 <div class="col-md-8 col-sm-8">
-                                                    <input type="text" class="form-control" name="input29_1" id="input29_1" >
+                                                    <input type="text" class="form-control" name="input29[]" id="input29_1" >
                                                     <div class="has-error " id="err_input29_1" ><?php echo form_error("input29_1"); ?></div>
                                                 </div>
                                             </article>
@@ -211,7 +212,7 @@
                                             <article class="form-group m-lr-0">
                                                 <label for="" class="control-label col-md-4 col-sm-4">Price :</label>
                                                 <div class="col-md-8 col-sm-8">
-                                                    <input class="form-control " type="text" id="input30_1" name="input30_1"   >
+                                                    <input class="form-control " type="text" id="input30_1" name="input30[]"   >
                                                     <div class="has-error " id="err_input30_1" ><?php echo form_error("input30_1"); ?></div>
                                                 </div>
                                             </article>
@@ -219,7 +220,7 @@
                                             <article class="form-group m-lr-0">
                                                 <label for="" class="control-label col-md-4 col-sm-4">Instruction :</label>
                                                 <div class="col-md-8 col-sm-8">
-                                                    <textarea class="form-control" id="input31_1" name="input31_1"  ></textarea>
+                                                    <textarea class="form-control" id="input31_1" name="input31[]"  ></textarea>
                                                     <div class="has-error " id="err_input31_1" ><?php echo form_error("input31_1"); ?></div>
                                                 </div>
                                             </article>
@@ -290,7 +291,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Gender :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="selectpicker" name="input36" id="input36" data-width="100%" >
+                                            <select class="select2" name="input36" id="input36" data-width="100%" >
                                                 <option value="" >Select Gender</option>
                                                 <option value="1" >Male</option>
                                                 <option value="2" >Female</option>
@@ -304,13 +305,13 @@
                                         <div class="col-md-8 col-sm-8">
                                             <aside class="row">
                                                 <div class="col-md-6 col-sm-6">
-                                                    <select class="selectpicker" id="countryId" name="input18" data-size="4" data-width="100%" >
+                                                    <select class="select2" id="countryId" name="input18" data-size="4" data-width="100%" >
                                                         <option value="1">India</option>
                                                     </select>
                                                     <div class="has-error " id="err_input18" ><?php echo form_error("input18"); ?></div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6 m-t-xs-10">
-                                                    <select class="selectpicker" data-width="100%" name="input19" Id="stateId" data-size="4" onchange ="fetchCity(this.value)" >
+                                                    <select class="select2" data-width="100%" name="input19" Id="stateId" data-size="4" onchange ="fetchCity(this.value)" >
                                                         <option value="">Select State</option>
                                                         <?php foreach ($allStates as $key => $val) { ?>
                                                             <option value="<?php echo $val->state_id; ?>"><?php echo $val->state_statename; ?></option>
@@ -325,7 +326,7 @@
                                         <div class="col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4">
                                             <aside class="row">
                                                 <div class="col-md-6 col-sm-6">
-                                                    <select name="input32" id="cityId" data-size="4" class="selectpicker" data-width="100%" >
+                                                    <select name="input32" id="cityId" data-size="4" class="select2" data-width="100%" >
                                                     </select>
                                                     <div class="has-error " id="err_input32" ><?php echo form_error("input32"); ?></div>
                                                 </div>
@@ -358,7 +359,7 @@
                                     <article class="form-group m-lr-0" id="familyListDiv" style="display: none">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Members :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="selectpicker" name="input33" id="input33" data-width="100%" >
+                                            <select class="select2" name="input33" id="input33" data-width="100%" >
                                                 <option value="" >Select Member</option>
                                             </select>
                                             <div class="has-error " id="err_input33" ><?php echo form_error("input33"); ?></div>
@@ -401,7 +402,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Payment Status :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="selectpicker" name="input26" id="input26" data-width="100%" >
+                                            <select class="select2" name="input26" id="input26" data-width="100%" >
                                                 <option value="16" >Paid</option>
                                                 <option value="15" >Unpaid</option>
                                             </select>
@@ -411,7 +412,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Payment Mode:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select type="text" class="selectpicker" id="input27" name="input27" data-width="100%" >
+                                            <select type="text" class="select2" id="input27" name="input27" data-width="100%" >
                                                 <option value="17" >Cash</option>
                                             </select>
                                             <div class="has-error " id="err_input27" ><?php echo form_error("input27"); ?></div>
