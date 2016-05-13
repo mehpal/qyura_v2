@@ -718,7 +718,7 @@
                         ?>
                      <div class="col-md-3 col-sm-6 part-ins">
                      <a class="delete-ins" href="javascript:void(0)" onclick="deletInsurance(<?php echo $val->diagnoInsurance_id;?>)"><i class="fa fa-close"></i></a>
-                     <img src="<?php echo base_url()?>assets/insurance/<?php echo $val->insurance_img;?>" class="img-responsive center-block img-ins">
+                     <img src="<?php echo base_url()?>assets/insuranceImages/3x/<?php echo $val->insurance_img;?>" class="img-responsive center-block img-ins">
                      <h5><?php echo $val->insurance_Name;?></h5>
                      </div>
                      <?php }} else{?>

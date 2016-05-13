@@ -42,6 +42,12 @@ class SaDashboard extends MY_Controller {
         }
     }
     
+    function doctorOftheMonth(){
+         $city = $this->input->post('city');
+         $data['doctorOfMonth'] = $this->dashboard_model->getDoctorOfMonth($city);
+         $this->load->view('doctorOfTheMonth',$data);
+    }
+    
     function getNotificatoin(){
          $notification = $this->dashboard_model->getNotification();
          $noticeHtml="";
@@ -65,6 +71,10 @@ class SaDashboard extends MY_Controller {
     
     function getChartDraw(){
          $year = date('2016');
+         $getYear = $this->input->post('year');
+         if(!empty($getYear)){
+             $year = $getYear;
+         }
          $chart = array();
          $ambulance = $this->dashboard_model->getChartAmbulance($year);
          $pharmacy = $this->dashboard_model->getChartPharmacy($year);

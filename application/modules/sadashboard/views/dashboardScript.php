@@ -134,5 +134,59 @@
           $('#hospitalList').removeClass('empty');
         }
     }); 
+    
+     var jobCount = $('#app_consult .in').length;
+    $('.list-count').text(jobCount + ' items');
+    $("#search-text-appointment").keyup(function () {
+    //$(this).addClass('hidden');
+        var searchTerm = $("#search-text-appointment").val();
+        var listItem = $('.app_consult').children('td');
+        var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+          //extends :contains to be case insensitive
+        $.extend($.expr[':'], {
+        'containsi': function(elem, i, match, array)
+        {
+        return (elem.textContent || elem.innerText || '').toLowerCase()
+        .indexOf((match[3] || "").toLowerCase()) >= 0;
+        }
+        });
+        $(".app_consult tr").not(":containsi('" + searchSplit + "')").each(function(e)   {
+          $(this).addClass('hiding out').removeClass('in');
+          setTimeout(function() {
+              $('.out').addClass('hidden');
+            }, 300);
+        });
+
+        $(".app_consult tr:containsi('" + searchSplit + "')").each(function(e) {
+          $(this).removeClass('hidden out').addClass('in');
+          setTimeout(function() {
+              $('.in').removeClass('hiding');
+            }, 1);
+        });
+          var jobCount = $('.app_consult .in').length;
+        $('.list-count').text(jobCount + ' items');
+        //shows empty state text when no jobs found
+        if(jobCount == '0') {
+          $('.app_consult').addClass('empty');
+        }
+        else {
+          $('.app_consult').removeClass('empty');
+        }
+    }); 
+    
+        $("#doctorselectCity").on('change',function(){
+        var city = $(this).val();
+ 
+                 $.ajax({
+                     url: urls + 'index.php/sadashboard/doctorOftheMonth',
+                     type: 'POST',
+                     data: {'city': city},
+                     success: function (response) {
+                         $("#doctorOftheMonthDiv").html(response);
+                     }
+
+                 });
+        });
+    
     });
 </script>

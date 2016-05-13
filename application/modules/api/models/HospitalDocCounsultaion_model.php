@@ -13,13 +13,13 @@ class HospitalDocCounsultaion_model extends CI_Model {
     public function getConsultantList($notIn, $hospitalUserId, $specialityId, $search) {
 
         if($search != null){
-            $array = array('CONCAT(qyura_doctors.doctors_fName, " ", qyura_doctors.doctors_lName)' => $search, 'degree_SName' => $search);
+            $array = array('CONCAT(qyura_doctors.doctors_fName, " ", qyura_doctors.doctors_lName)' => $search, 'degree_SName' => $search,'qyura_specialities.specialities_name'=>$search,'qyura_specialities.specialities_drName'=>$search);
             $this->db->or_like($array); 
         };
                         
         $notIn = isset($notIn) ? $notIn : '';
-
-        $this->db->select('qyura_doctors.doctors_id as id,qyura_doctors.doctors_showExp, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, qyura_docTimeTable.docTimeTable_price as consFee, qyura_specialities.specialities_name as specialityName, Group_concat(DISTINCT qyura_degree.degree_SName) as degree, qyura_doctors.doctors_27Src as isEmergency, ( FROM_UNIXTIME(YEAR(getdate()),"%Y") - FROM_UNIXTIME(qyura_doctors.doctors_expYear,"%Y"))  AS exp ,(
+  $date = date("Y-m-d");
+        $this->db->select('qyura_doctors.doctors_id as id,qyura_doctors.doctors_showExp, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, (select MIN(docTimeTable_price) FROM qyura_docTimeTable WHERE qyura_docTimeTable.docTimeTable_doctorId = qyura_doctors.doctors_id ) as consFee,Group_concat(DISTINCT qyura_specialities.specialities_name SEPARATOR ", ") as specialityName, Group_concat(DISTINCT qyura_degree.degree_SName SEPARATOR ", ") as degree, qyura_doctors.doctors_27Src as isEmergency, (YEAR("' . $date . '") - FROM_UNIXTIME(qyura_doctors.doctors_expYear,"%Y")) AS exp ,(
 CASE 
  WHEN (reviews_rating is not null AND qyura_ratings.rating is not null) 
  THEN
@@ -32,12 +32,13 @@ CASE
     ROUND( (AVG(qyura_ratings.rating)), 1)
  END)
  AS `rating` ')
-                ->from('qyura_usersRoles')
-                ->join('qyura_doctors', 'qyura_doctors.doctors_userId = usersRoles_userId', 'left')
+                ->from('qyura_doctors')
                 ->join('qyura_doctorAcademic', 'qyura_doctorAcademic.doctorAcademic_doctorsId=qyura_doctors.doctors_id', 'left')
                 ->join('qyura_degree', 'qyura_doctorAcademic.doctorAcademic_degreeId=qyura_degree.degree_id', 'left')
                 ->join('qyura_doctorSpecialities', 'qyura_doctorSpecialities.doctorSpecialities_doctorsId = qyura_doctors.doctors_id', 'left')
-                ->join('qyura_docTimeTable', 'qyura_docTimeTable.doctorSpecialities_doctorsId = qyura_doctors.doctors_id', 'left')
+                ->join('qyura_docTimeTable', 'qyura_docTimeTable.docTimeTable_doctorId = qyura_doctors.doctors_id', 'left')
+                ->join('qyura_docTimeDay', 'qyura_docTimeDay.docTimeDay_docTimeTableId = qyura_docTimeTable.docTimeTable_id', 'left')
+                ->join("qyura_hospital", "qyura_hospital.hospital_usersId = qyura_doctors.doctors_parentId ", "INNER")
                 ->join('qyura_specialities', 'qyura_specialities.specialities_id = qyura_doctorSpecialities.doctorSpecialities_specialitiesId', 'left')
                 ->join('qyura_reviews', 'qyura_reviews.reviews_relateId=qyura_doctors.doctors_userId', 'left')
                 ->join('qyura_ratings', 'qyura_ratings.rating_relateId=qyura_doctors.doctors_userId', 'left')
@@ -48,23 +49,21 @@ CASE
                 ->limit(DATA_LIMIT);
 
         $response = $this->db->get()->result();
-        //echo $this->db->last_query(); exit;
+//        echo $this->db->last_query(); exit;
         $finalResult = array();
         if (!empty($response)) {
             foreach ($response as $row) {
                 $finalTemp = array();
                 $finalTemp[] = isset($row->id) ? $row->id : "";
+                $finalTemp[] = isset($row->doctors_showExp) ? $row->doctors_showExp : "0";
                 $finalTemp[] = isset($row->name) ? $row->name : "";
-                $finalTemp[] = isset($row->exp) ? $row->exp : "";
+                $finalTemp[] = isset($row->exp) ? $row->exp : "0";
                 $finalTemp[] = isset($row->imUrl) ? 'assets/doctorsImages/' . $row->imUrl : "";
-                $finalTemp[] = isset($row->rating) ? $row->rating : "";
-                $finalTemp[] = isset($row->consFee) ? $row->consFee : "";
+                $finalTemp[] = isset($row->rating) ? $row->rating : "0";
+                $finalTemp[] = isset($row->consFee) ? $row->consFee : "0";
                 $finalTemp[] = isset($row->specialityName) ? $row->specialityName : "";
                 $finalTemp[] = isset($row->degree) ? $row->degree : "";
-                $finalTemp[] = isset($row->lat) ? $row->lat : "";
-                $finalTemp[] = isset($row->long) ? $row->long : "";
-                $finalTemp[] = isset($row->isEmergency) ? $row->isEmergency : "";
-                $finalTemp[] = isset($row->userId) ? $row->userId : "";
+                $finalTemp[] = isset($row->isEmergency) ? $row->isEmergency : "0"; 
                 $finalResult[] = $finalTemp;
             }
             return $finalResult;

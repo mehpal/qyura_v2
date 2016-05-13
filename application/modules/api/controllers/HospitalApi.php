@@ -54,7 +54,7 @@ class HospitalApi extends MyRest {
         $this->bf_form_validation->set_rules('isemergency', 'Is Emergency', 'xss_clean|trim|numeric');
 //        $this->bf_form_validation->set_rules('radius', 'Radius', 'xss_clean|trim|numeric|required');
         $this->bf_form_validation->set_rules('isAmbulance', 'Is Ambulance', 'xss_clean|trim|numeric');
-        $this->bf_form_validation->set_rules('isInsurance', 'Is Insurance', 'xss_clean|trim|numeric');
+        $this->bf_form_validation->set_rules('isInsurance', 'Is Insurance', 'xss_clean|trim');
         $this->bf_form_validation->set_rules('isHealtPkg', 'Is Health Package', 'xss_clean|trim|numeric');
         $this->bf_form_validation->set_rules('rating', 'Rating', 'xss_clean|trim|numeric');
         $this->bf_form_validation->set_rules('notin', 'Not In', 'xss_clean|trim|required');
@@ -100,7 +100,7 @@ class HospitalApi extends MyRest {
 
 
 
-            $response['colName'] = array("id", "fav", "rat", "adr", "name", "phn", "lat", "lng", "upTm", "imUrl", "specialities", "isEmergency", "isAmbulance", "healpkgCount", "insuranceCount", "userId");
+            $response['colName'] = array("id", "fav", "rat", "adr", "name", "phn", "lat", "lng", "upTm", "imUrl", "specialities", "isEmergency", "isAmbulance", "healpkgCount", "insuranceCount", "userId", "insurance");
 
             if ($response['data']) {
                 $response['status'] = TRUE;

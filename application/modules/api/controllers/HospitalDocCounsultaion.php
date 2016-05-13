@@ -34,7 +34,7 @@ class HospitalDocCounsultaion extends MyRest {
             // search
             $search = isset($_POST['search']) && $_POST['search'] != ''  ? $this->input->post('search') : NULL;
             
-            $response['colName'] = array("id", "name", "exp", "imUrl", "consFee", "speciality", "degree");
+            $response['colName'] = array("id","showExp", "name", "exp", "imUrl","rating","consFee", "speciality", "degree","isEmergency");
             $consultantList = $this->hospitalDocCounsultaion_model->getConsultantList($notIn,$hospitalUserId,$specialityId, $search);
             
             if ($consultantList) {
@@ -50,31 +50,4 @@ class HospitalDocCounsultaion extends MyRest {
         }
     }
     
-    function hospitalTimeSlot_post() {
-        $this->bf_form_validation->set_rules('hospitalId','Hospital Id','xss_clean|numeric|required|trim'); 
-        $this->bf_form_validation->set_rules('doctorUserId', 'Doctor UserId', 'xss_clean|numeric|required|trim');
-         if ($this->bf_form_validation->run($this) == FALSE) {
-            // setup the input
-            $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
-            $this->response($response, 400);
-        } else {
-            $hospitalId = $this->input->post('hospitalId');
-            $specialityId = $this->input->post('specialityid');
-            $doctorUserId = $this->input->post('doctorUserId');
-            $hospitalTimeSlot = $this->hospitalDocCounsultaion_model->getHosTimeSlot($hospitalId);
-            if (!empty($hospitalTimeSlot)) {
-                $response['hospitalTimeSlot'] = $hospitalTimeSlot;
-                $response['doctorTimeSlot'] = $this->hospitalDocCounsultaion_model->getDocTimeSlot($hospitalId,$doctorUserId);
-                $response['status'] = TRUE;
-                $response['msg'] = 'success';
-                $this->response($response, 200); // 200 being the HTTP response code
-            } else {
-                $response['status'] = false;
-                $response['msg'] = 'No prefrred time slot available at this hospital!';
-                $this->response($response, 400); // 200 being the HTTP response code
-            }
-            
-        }
-    }
-
 }

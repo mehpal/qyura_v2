@@ -84,7 +84,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="" class="control-label col-md-4 col-sm-4">Speciality:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select  multiple="" class="bs-select form-control-select2 select2" data-width="100%" name="doctorSpecialities_specialitiesId[]" Id="doctorSpecialities_specialitiesId" data-size="4">
+                                            <select  multiple="" class="bs-select selectpicker" data-width="100%" name="doctorSpecialities_specialitiesId[]" Id="doctorSpecialities_specialitiesId" data-size="4">
                                                     <!--<option value="">Select Speciality</option>-->
                                                    <?php foreach($speciality as $key=>$val) {
                                                        echo '<option value="' . $val->specialities_id. '"' . (isset($_POST['doctorSpecialities_specialitiesId']) && in_array($val->specialities_id, $_POST['doctorSpecialities_specialitiesId']) ? ' selected' : '') . '>' . $val->specialities_name . '</option>'; } ?>
