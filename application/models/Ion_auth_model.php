@@ -883,16 +883,67 @@ class Ion_auth_model extends CI_Model {
      * @author Mathew
      * */
     public function login($identity, $password, $remember = FALSE) {
-
-        $this->db->select($this->identity_column . ',users_id,users_password,users_active,users_lastLogin last_login,usersRoles_roleId');
-        $this->db->from("qyura_users u");
-        $this->db->join("qyura_usersRoles ur", "u.users_id=ur.usersRoles_userId");
-        $this->db->where($this->identity_column, $identity);
-        $this->db->where("u.status",1);
-        $this->db->limit(1);
-        $this->db->order_by('users_id', 'desc');
-        $query = $this->db->get();
-
+        if(USER==13)
+        {
+             $this->db->select($this->identity_column . ',u.users_id,u.users_password,u.users_active,u.users_lastLogin last_login,ur.usersRoles_roleId');
+            $this->db->from("qyura_hospital hos");
+            $this->db->join("qyura_users u", "u.users_id=hos.hospital_usersId");
+            $this->db->join("qyura_usersRoles ur", "u.users_id=ur.usersRoles_userId");
+            $this->db->where($this->identity_column, $identity);
+            $this->db->where(array("hos.status"=>1,"usersRoles_roleId"=>1));
+            $this->db->limit(1);
+            $this->db->order_by('u.users_id', 'desc');
+            $query = $this->db->get();
+            $user = $query->row();
+//            echo "here";
+//            print_r($user);
+//            exit;
+            
+        }
+         if(USER==13 && empty($user))
+        {
+             $this->db->select($this->identity_column . ',u.users_id,u.users_password,u.users_active,u.users_lastLogin last_login,ur.usersRoles_roleId');
+            $this->db->from("qyura_diagnostic diag");
+            $this->db->join("qyura_users u", "u.users_id=diag.diagnostic_usersId");
+            $this->db->join("qyura_usersRoles ur", "u.users_id=ur.usersRoles_userId");
+            $this->db->where($this->identity_column, $identity);
+            $this->db->where(array("diag.status"=>1,"usersRoles_roleId"=>3));
+            $this->db->limit(1);
+            $this->db->order_by('u.users_id', 'desc');
+            $query = $this->db->get();
+            $user = $query->row();
+            print_r($user);
+            exit;
+           
+        }
+         if(USER==4)
+        {
+           
+            $this->db->select($this->identity_column . ',u.users_id,u.users_password,u.users_active,u.users_lastLogin last_login,ur.usersRoles_roleId');
+            $this->db->from("qyura_doctors doc");
+            $this->db->join("qyura_users u", "u.users_id=doc.doctors_userId");
+            $this->db->join("qyura_usersRoles ur", "u.users_id=ur.usersRoles_userId");
+            $this->db->where($this->identity_column, $identity);
+            $this->db->where(array("doc.status"=>1,"usersRoles_roleId"=>4));
+            $this->db->limit(1);
+            $this->db->order_by('u.users_id', 'desc');
+            $query = $this->db->get();
+            $user = $query->row();
+        }
+         if(USER==7)
+        {
+            $this->db->select($this->identity_column . ',u.users_id,u.users_password,u.users_active,u.users_lastLogin last_login,ur.usersRoles_roleId');
+            $this->db->from("qyura_patientDetails pat");
+            $this->db->join("qyura_users u", "u.users_id=pat.patientDetails_usersId");
+            $this->db->join("qyura_usersRoles ur", "u.users_id=ur.usersRoles_userId");
+            $this->db->where($this->identity_column, $identity);
+            $this->db->where(array("pat.status"=>1,"usersRoles_roleId"=>7));
+            $this->db->limit(1);
+            $this->db->order_by('u.users_id', 'desc');
+            $query = $this->db->get();
+            $user = $query->row();
+            
+        }
         if ($this->is_time_locked_out($identity)) {
             //Hash something anyway, just to take up time
             $this->hash_password($password);
@@ -904,18 +955,17 @@ class Ion_auth_model extends CI_Model {
         }
 //echo $this->db->last_query();
 //exit;
+        
         if ($query->num_rows() === 1) {
-            $user = $query->row();
+            
 
             $password = $this->hash_password_db($user->users_id, $password);
-              
             if ($password === TRUE) {
 
                 if (($user->usersRoles_roleId == 7 && USER == 7) || ($user->usersRoles_roleId == 4 && USER == 4) || (($user->usersRoles_roleId == 1 || $user->usersRoles_roleId == 3) && USER == 13)) {
                     
                     $this->set_session($user);
-//print_r($_SESSION);
-//exit;
+
                     $this->update_last_login($user->users_id);
 
                     //$this->clear_login_attempts($identity);
