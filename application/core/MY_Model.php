@@ -538,4 +538,41 @@ class My_model extends CI_Model {
             return 0; 
     }
 
+//OTP
+    function sendSms($mobileNo,$mess){
+        $post_data = array(
+            // 'From' doesn't matter; For transactional, this will be replaced with your SenderId;
+            // For promotional, this will be ignored by the SMS gateway
+            'From' => '08039512095',
+            'To'   => $mobileNo,
+            'Priority' => 'high',
+            'Body' => "$mess", //Incase you are wondering who Dr. Rajasekhar is http://en.wikipedia.org/wiki/Dr._Rajasekhar_(actor)
+        );
+
+        $exotel_sid = "qyura"; // Your Exotel SID - Get it from here: http://my.exotel.in/Exotel/settings/site#api-settings
+        $exotel_token = "d89273da48e34ce6c9c080d87f2ebe48415282b3"; // Your exotel token - Get it from here: http://my.exotel.in/Exotel/settings/site#api-settings
+
+        $url = "https://".$exotel_sid.":".$exotel_token."@twilix.exotel.in/v1/Accounts/".$exotel_sid."/Sms/send";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FAILONERROR, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post_data));
+
+        $http_result = curl_exec($ch);
+        $error = curl_error($ch);
+        $http_code = curl_getinfo($ch ,CURLINFO_HTTP_CODE);
+
+        curl_close($ch);
+        if (!empty($http_result) && $http_result != NULL && $error == '') {
+            return '1';
+        }else{
+            return '0';
+        }
+    }
+
 }
