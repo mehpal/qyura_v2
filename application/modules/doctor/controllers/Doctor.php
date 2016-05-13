@@ -10,7 +10,7 @@ class Doctor extends MY_Controller {
         parent:: __construct();
 
         $this->load->model(array('Doctor_model', 'common_model'));
-        $this->load->library('datatables');
+        $this->load->library('datatables','email');
         $this->load->helper('common');
     }
 
@@ -318,7 +318,11 @@ class Doctor extends MY_Controller {
             $to = $this->input->post("users_email");
             $data['name'] = $this->input->post("doctors_fName")." ".$this->input->post("doctors_lName");
             $message = $this->load->view('email/signing_up_user_tpl',$data,true);
-            sendMail($from,$to,$message);
+            $this->email->from($from, 'Team Qyura');
+            $this->email->to($to);
+            $this->email->subject("Qyura");
+            $this->email->message($message);
+            $send = $this->email->send();
             
             redirect('doctor/addDoctor');
         }
@@ -1518,6 +1522,19 @@ class Doctor extends MY_Controller {
 
             $con = array('docTimeDay_docTimeTableId' => $docTimeTableId);
             $days = $this->Doctor_model->getDoctorAvailableOnDaysNew($con);
+            
+//            dump($days);
+//            dump($selectedDays);
+//            
+//            foreach ($days as $day) {
+//                if (!in_array($day->day, $selectedDays)) {
+//                    dump($day->day); 
+//                }
+//                else{
+//                    echo 'else'.$day->day;
+//                }
+//            }
+//            exit();
             $preDays = array();
             if (isset($days) && $days != null) {
                 foreach ($days as $day) {
@@ -1561,35 +1578,22 @@ class Doctor extends MY_Controller {
 
             foreach ($days as $day) {
                 if (!in_array($day->day, $selectedDays)) {
-                    $where = array('docTimeDay_day' => $day->day, 'docTimeDay_docTimeTableId' => $docTimeTableId);
-                    $records_upg['docTimeDay_deleted'] = 1;
-                    $records_upg['modifyTime'] = time();
+                    $where1 = array('docTimeDay_day' => $day->day, 'docTimeDay_docTimeTableId' => $docTimeTableId);
+                    $records_upg1['docTimeDay_deleted'] = 1;
+                    $records_upg1['modifyTime'] = time();
 
                     $updateOptions = array
                         (
-                        'where' => $where,
-                        'data' => $records_upg,
+                        'where' => $where1,
+                        'data' => $records_upg1,
                         'table' => 'qyura_docTimeDay'
                     );
 
                     $id = $this->common_model->customUpdate($updateOptions);
+                    
                     $id = true;
-                } else {
-                    $where = array('docTimeDay_day' => $day->day, 'docTimeDay_docTimeTableId' => $docTimeTableId);
-                    $records_upg['modifyTime'] = time();
-                    $records_upg['docTimeDay_open'] = $docTimeDay_open;
-                    $records_upg['docTimeDay_close'] = $docTimeDay_close;
-
-                    $updateOptions = array
-                        (
-                        'where' => $where,
-                        'data' => $records_upg,
-                        'table' => 'qyura_docTimeDay'
-                    );
-
-                    $id = $this->common_model->customUpdate($updateOptions);
-                    $id = true;
-                }
+                } 
+                
             }
 
             $sql = '';
@@ -1628,7 +1632,7 @@ class Doctor extends MY_Controller {
 
             if ($id) {
                 $this->session->set_flashdata('active_tag', 4);
-                $responce = array('status' => 1, 'msg' => "Time sloat updated successfully", 'url' => "doctor/doctorDetails/".$_POST['doctorId']);
+                $responce = array('status' => 1, 'msg' => "Time slot updated successfully", 'url' => "doctor/doctorDetails/".$_POST['doctorId']);
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);

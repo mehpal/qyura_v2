@@ -336,11 +336,11 @@ class Master extends MY_Controller {
 
             $imagesname = '';
             if ($_FILES['avatar_file']['name']) {
-                $path = realpath(FCPATH . 'assets/specialityImages/');
+                $path = realpath(FCPATH . 'assets/specialityImages/3x');
                 $upload_data = $this->input->post('avatar_data');
                 $upload_data = json_decode($upload_data);
 
-                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/specialityImages/', './assets/specialityImages/thumb/', 'special');
+                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/specialityImages/', './assets/specialityImages/3x/', 'special');
 
                 if (empty($original_imagesname)) {
                     $this->session->set_flashdata('valid_upload', $this->error_message);
