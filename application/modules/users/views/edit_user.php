@@ -72,7 +72,7 @@
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Date of Birth :</label>
                                     <div class="col-md-8 col-sm-8">
                                         <div class="input-group">
-                                            <input class="form-control pickDate" placeholder="dd/mm/yyyy" id="date-2" type="text" name="patientDetails_dob" onkeydown="return false;" value="<?php if (isset($users_detail) && !empty($users_detail)) {
+                                            <input class="form-control pickDate" placeholder="dd/mm/yyyy" id="patientDetails_dob" type="text" name="patientDetails_dob" onkeydown="return false;" value="<?php if (isset($users_detail) && !empty($users_detail)) {
     echo $newformat = date('m/d/Y', $users_detail->patientDetails_dob); } ?>">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                         </div>
@@ -214,7 +214,7 @@
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Policy Expiry Date :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <div class="input-group">
-                                                <input class="form-control pickDate" id="userInsurance_expDate" placeholder="dd/mm/yyyy" id="expiryDate" type="text" name="userInsurance_expDate" onkeydown="return false;" value="<?php if (isset($users_insurance->userInsurance_expDate) && !empty($users_insurance->userInsurance_expDate)) { echo date('d-m-Y', $users_insurance->userInsurance_expDate); } ?>">
+                                                <input class="form-control pickDatePolicyedit" id="userInsurance_expDate" placeholder="dd/mm/yyyy" id="expiryDate" type="text" name="userInsurance_expDate" onkeydown="return false;" value="<?php if (isset($users_insurance->userInsurance_expDate) && !empty($users_insurance->userInsurance_expDate)) { echo date('m/d/Y', $users_insurance->userInsurance_expDate); } ?>">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>
                                             <label class="error" > <?php echo form_error("userInsurance_expDate"); ?></label>
                                         </div>
@@ -310,7 +310,7 @@
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Policy Expiry Date :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <div class="input-group">
-                                                <input class="form-control pickDatePolicyedit" id="userInsurance_expDate_<?php echo $count_family; ?>" placeholder="dd/mm/yyyy" type="text" name="userInsurance_expDate_<?php echo $count_family; ?>" onkeydown="return false;" value="<?php if (isset($val->userInsurance_expDate) && !empty($val->userInsurance_expDate)) { echo date('d-m-Y', $val->userInsurance_expDate); } ?>">
+                                                <input class="form-control pickDatePolicyedit" id="userInsurance_expDate_<?php echo $count_family; ?>" placeholder="dd/mm/yyyy" type="text" name="userInsurance_expDate_<?php echo $count_family; ?>" onkeydown="return false;" value="<?php if (isset($val->userInsurance_expDate) && !empty($val->userInsurance_expDate)) { echo date('m/d/Y', $val->userInsurance_expDate); } ?>">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>
                                             <label class="error" > <?php echo form_error("userInsurance_expDate_$count_family"); ?></label>
                                         </div>
@@ -321,6 +321,7 @@
                                                     
                                                     
                                                 </div>
+<!--                                              <button type="button" onclick="deletefamily('usersfamily_id_<?php echo $count_family; ?>');"> Delete </button>-->
                                                 <hr>
                                             <?php $count_family++; }  } ?>
                                                 <input type="hidden" id="total_test_edit" name="total_test_edit" value="<?php echo $count_family; ?>" >

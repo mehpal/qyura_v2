@@ -1180,10 +1180,10 @@
                                                                                     <h4><?php echo date('h:i A', strtotime($sloat->close)); ?></h4>
                                                                                 </div>
                                                                                 <div class="overlay1">
-                                                                                    <?php echo $sloat->docTimeTableId; ?>
-                                                                                    <?php echo $sloat->doctorId; ?>
-                                                                                    <?php echo $sloat->docTimeDayId; ?>
-                                                                                    <?php echo $sloat->day; ?>
+                                                                                    <?php //echo $sloat->docTimeTableId; ?>
+                                                                                    <?php //echo $sloat->doctorId; ?>
+                                                                                    <?php //echo $sloat->docTimeDayId; ?>
+                                                                                    <?php //echo $sloat->day; ?>
                                                                                     <a href="javascript:void(0)" onclick="editTimeSloatView('<?php echo $sloat->docTimeTableId ?>', '<?php echo $sloat->doctorId ?>', '<?php echo $sloat->docTimeDayId ?>', '<?php echo $sloat->day ?>')"  class="expand" title="Edit"><i class="fa fa-pencil"></i></a>
                                                                                     <!-- <a class="close-overlay hidden">x</a> -->
                                                                                 </div>
