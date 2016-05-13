@@ -638,7 +638,7 @@ class Doctor extends MY_Controller {
         $this->timeSessionCheck($satrt, $end, $session, $day, $limitStart, $limitEnd);
     }
 
-    function timeSessionCheck($startTime, $endTime, $session, $day, $limitStart, $limitEnd, $nextStart = NULL, $nextEnd = NULL) {
+    function timeSessionCheck($startTime, $endTime, $session, $day, $limitStart, $limitEnd, $nextStart = NULL, $nextEnd = NULL)     {
 
         $dayEnd = strtotime(date("Y-m-d", strtotime("+1 day" . date("Y-m-d"))) . " 05:59 AM");
         $dayStart = strtotime(date("Y-m-d") . " 10:59 PM");
