@@ -979,37 +979,26 @@ GLOBAL
                            </h4>
                            <hr/>
                            </aside>
-                           <section id="detailcompany">
-                           <?php
-                              if (!empty($insurance)) {
-                                  foreach ($insurance as $key => $val) {
-                                      ?>
-                           <div class="col-md-3 col-sm-6 part-ins">
-                           <a class="delete-ins" href="javascript:void(0)" onclick="deletInsurance(<?php echo $val->hospitalInsurance_id; ?>)"><i class="fa fa-close"></i></a>
-                           <img src="<?php echo base_url() ?>assets/insurance/<?php echo $val->insurance_img; ?>" class="img-responsive center-block img-ins">
-                           <h5><?php echo $val->insurance_Name; ?></h5>
-                           </div>
-                           <?php
-                              }
-                              } else {
-                              ?>
-                           <div class="col-md-6 col-sm-6">
-                           <h5>Please select Insurance company</h5>
-                           </div>
-                           <?php } ?>
-                           <!--<div class="col-md-3 col-sm-6">
-                              <img src="<?php echo base_url() ?>assets/insurance/hdfc.jpg" class="img-responsive center-block">
-                              <h5>HDFC ERGO</h5>
-                              </div>
-                              <div class="col-md-3 col-sm-6">
-                              <img src="<?php echo base_url() ?>assets/insurance/icici.png" class="img-responsive center-block">
-                              <h5>ICICI</h5>
-                              </div>
-                              <div class="col-md-3 col-sm-6">
-                              <img src="<?php echo base_url() ?>assets/insurance/hsbc.png" class="img-responsive center-block">
-                              <h5>HDFC ERGO</h5>
-                              </div>-->
-                           </section>
+                               
+                          
+                               
+                              <section id="detailcompany">
+                                  <?php if(!empty($insurance)){
+                                     foreach($insurance as $key => $val){    
+                                     ?>
+                                  <div class="col-md-3 col-sm-6 part-ins">
+                                  <a class="delete-ins" href="javascript:void(0)" onclick="deletInsurance(<?php echo $val->hospitalInsurance_id;?>)"><i class="fa fa-close"></i></a>
+                                  <img src="<?php echo base_url()?>assets/insuranceImages/3x/<?php echo $val->insurance_img;?>" class="img-responsive center-block img-ins">
+                                  <h5><?php echo $val->insurance_Name;?></h5>
+                                  </div>
+                                  <?php }} else{?>
+                                  <div class="col-md-6 col-sm-6">
+                                  <h5>Please select Insurance company</h5>
+                                  </div>
+                                  <?php }?>
+                             </section>
+                               
+                               
                            <section id="newcompany" style="display:none;">
                            <form name="insuranceForm" id="insuranceForm" action="<?php echo site_url("hospital/addInsurance/$hospitalId"); ?>" method="post">
                            <input type="hidden" id="countPnone" name="countPnone" value="1" />
@@ -1036,6 +1025,7 @@ GLOBAL
                            </form>    
                            </section>
                            </article> 
+                           <div class="gap"></div>
                            </div>
                            <div class="col-md-6 p-b-20">
                            <article class="clearfix">

@@ -419,7 +419,7 @@ class My_model extends CI_Model {
             $this->db->order_by("state_statename", "asc");
             $allState = $this->db->get()->result();
 
-            $stateSelected = '';
+            $stateSelected = '<option>Select State</option>';
 
             foreach ($allState as $key => $val) {
                 $selected = '';
@@ -435,7 +435,7 @@ class My_model extends CI_Model {
             $this->db->order_by("city_name", "asc");
             $allCity = $this->db->get()->result();
 
-            $citySelected = '';
+            $citySelected = '<option>Select City</option>';
 
             foreach ($allCity as $key => $val) {
                 $selected = '';
@@ -480,7 +480,7 @@ class My_model extends CI_Model {
         $this->db->order_by("state_statename", "asc");
         $allState = $this->db->get()->result();
         
-        $stateSelected = '';
+        $stateSelected = '<option>Select State</option>';
        
         foreach ($allState as $key=>$val){
              $selected = '';
@@ -495,7 +495,7 @@ class My_model extends CI_Model {
         $this->db->order_by("city_name", "asc");
         $allCity =  $this->db->get()->result();
         
-        $citySelected = '';
+        $citySelected = '<option>Select City</option>';
        
         foreach ($allCity as $key=>$val){
             $selected = '';
