@@ -41,15 +41,15 @@ class Sponser_model extends CI_Model {
     {
         $query = "SELECT doctors_id as sponId, doctors_userId as user_id, concat( doctors_fName, ' ', doctors_lName ) AS sponName, '4' AS roleid
 FROM qyura_doctors
-WHERE doctors_deleted =0
+WHERE doctors_deleted =0 AND qyura_doctors.status = 1
 UNION
 SELECT diagnostic_id, diagnostic_usersId, diagnostic_name, '3' AS roleid
 FROM qyura_diagnostic
-WHERE diagnostic_deleted =0
+WHERE diagnostic_deleted =0 AND qyura_diagnostic.status=1
 UNION
 SELECT hospital_id, hospital_usersId, hospital_name, '1' AS roleid
 FROM qyura_hospital
-WHERE hospital_deleted =0";
+WHERE hospital_deleted =0 AND qyura_hospital.status=1";
         $data = $this->db->query($query);
         return $data->result();
     }
