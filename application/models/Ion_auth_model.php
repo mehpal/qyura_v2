@@ -888,6 +888,7 @@ class Ion_auth_model extends CI_Model {
         $this->db->from("qyura_users u");
         $this->db->join("qyura_usersRoles ur", "u.users_id=ur.usersRoles_userId");
         $this->db->where($this->identity_column, $identity);
+        $this->db->where("u.status",1);
         $this->db->limit(1);
         $this->db->order_by('users_id', 'desc');
         $query = $this->db->get();

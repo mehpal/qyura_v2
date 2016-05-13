@@ -718,6 +718,10 @@ if ($current == 'doctorDetails'){ ?>
 <script>
     var urls = "<?php echo base_url() ?>";
     $(document).ready(function () {
+        
+    $('.selectpicker').selectpicker().change(function(){
+        $(this).valid()
+     });
     $("#submitFormDoc").validate({
         
         ignore: ':hidden:not("#avatarInputDoc")', 
@@ -818,6 +822,11 @@ if ($current == 'doctorDetails'){ ?>
    var d = new Date();
    var year = d.getFullYear();
     $(document).ready(function () {
+        
+    $('.selectpicker').selectpicker().change(function(){
+             $(this).valid()
+   });
+
     $("#updateForm").validate({
         rules: {
             doctors_phn: {

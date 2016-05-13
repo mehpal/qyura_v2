@@ -28,7 +28,7 @@ class Hospital_model extends CI_Model {
         if ($isAmbulance != '' && $isAmbulance != NULL && $isAmbulance == 1) {
             $having['isAmbulance !='] = 0;
         }
-        
+
         if ($isInsurance != '' && $isInsurance != NULL && $isInsurance != 0) {
             $isInsurance = isset($isInsurance) ? $isInsurance : '';
         }
@@ -42,7 +42,6 @@ class Hospital_model extends CI_Model {
         if ($rating != '' && $rating != NULL && $rating != 0) {
             $having['rat'] = number_format($rating, 1);
         }
-
 
         $this->db->select('hospital_usersId as userId,hospital_id as id, (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, hospital_address as adr ,hospital_name name, CONCAT("0","",hospital_phn) as  phn, hospital_lat lat, hospital_long long, qyura_hospital.modifyTime upTm, hospital_img imUrl, (
                 6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( hospital_lat ) ) * cos( radians( hospital_long ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( hospital_lat ) ) )
@@ -68,9 +67,12 @@ CASE
                 ->join('qyura_insurance', 'qyura_insurance.insurance_id = qyura_hospitalInsurance.hospitalInsurance_insuranceId', 'left')
                 ->join('qyura_ratings', 'qyura_ratings.rating_relateId=qyura_hospital.hospital_usersId', 'left')
                 ->join('qyura_fav', 'qyura_fav.fav_relateId = qyura_hospital.hospital_usersId AND fav_userId = ' . $userId . '  ', 'left')
-                ->where($where)
-                ->where_in('hospitalInsurance_insuranceId',$isInsurance)
-                ->where_not_in('qyura_hospital.hospital_id', $notIn)
+                ->where($where);
+        
+        if ($isInsurance != "" || $isInsurance != NULL)
+            $this->db->where_in ('hospitalInsurance_insuranceId', $isInsurance);
+                
+        $this->db->where_not_in('qyura_hospital.hospital_id', $notIn)
                 ->order_by('distance', 'ASC')
                 ->limit(DATA_LIMIT);
         if (isset($having) && is_array($having)) {
@@ -103,7 +105,8 @@ CASE
         $this->db->group_by('hospital_id');
 
         $response = $this->db->get()->result();
-//echo $this->db->last_query(); die();
+//        echo $this->db->last_query();
+//        die();
         $finalResult = array();
         if (!empty($response)) {
             foreach ($response as $row) {
@@ -118,14 +121,14 @@ CASE
                 $finalTemp[] = isset($row->lat) ? $row->lat : "";
                 $finalTemp[] = isset($row->long) ? $row->long : "";
                 $finalTemp[] = isset($row->upTm) ? $row->upTm : "";
-                $finalTemp[] = isset($row->imUrl) && $row->imUrl != ''? 'assets/hospitalsImages/thumb/original/'.$row->imUrl:"";
+                $finalTemp[] = isset($row->imUrl) && $row->imUrl != '' ? 'assets/hospitalsImages/thumb/original/' . $row->imUrl : "";
                 $finalTemp[] = isset($row->specialities) ? $row->specialities : "";
                 $finalTemp[] = isset($row->isEmergency) ? $row->isEmergency : "";
                 $finalTemp[] = isset($row->isAmbulance) && $row->isAmbulance > 0 ? "1" : "0";
                 $finalTemp[] = isset($row->isHealtPkg) && $row->isHealtPkg > 0 ? "1" : "0";
                 $finalTemp[] = isset($row->isInsurance) && $row->isInsurance > 0 ? "1" : "0";
                 $finalTemp[] = isset($row->insurance) && $row->insurance != "" ? $row->insurance : "0";
-                
+
                 $finalResult[] = $finalTemp;
             }
 

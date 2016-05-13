@@ -1180,10 +1180,10 @@
                                                                                     <h4><?php echo date('h:i A', strtotime($sloat->close)); ?></h4>
                                                                                 </div>
                                                                                 <div class="overlay1">
-                                                                                    <?php echo $sloat->docTimeTableId; ?>
-                                                                                    <?php echo $sloat->doctorId; ?>
-                                                                                    <?php echo $sloat->docTimeDayId; ?>
-                                                                                    <?php echo $sloat->day; ?>
+                                                                                    <?php //echo $sloat->docTimeTableId; ?>
+                                                                                    <?php //echo $sloat->doctorId; ?>
+                                                                                    <?php //echo $sloat->docTimeDayId; ?>
+                                                                                    <?php //echo $sloat->day; ?>
                                                                                     <a href="javascript:void(0)" onclick="editTimeSloatView('<?php echo $sloat->docTimeTableId ?>', '<?php echo $sloat->doctorId ?>', '<?php echo $sloat->docTimeDayId ?>', '<?php echo $sloat->day ?>')"  class="expand" title="Edit"><i class="fa fa-pencil"></i></a>
                                                                                     <!-- <a class="close-overlay hidden">x</a> -->
                                                                                 </div>
@@ -1309,13 +1309,13 @@
                                                                         </article>
 
                                                                         <article class="clearfix m-t-10 " id="div_psChamber">
-                                                                            <label class="control-label" for="psChamber">Personal Chamber Name:</label>
+                                                                            <label class="control-label" for="psChamber_name123">Personal Chamber Name:</label>
                                                                             <div class="">
-                                                                                <input type="text" name="psChamber" id="psChamber123" class="form-control"  value="<?php echo set_value('psChamber'); ?>">
+                                                                                <input type="text" name="psChamber_name" id="psChamber_name123" class="form-control"  value="<?php echo set_value('psChamber_name'); ?>">
                                                                                 
                                                                                 
                                                                             </div>
-                                                                            <span id="err_psChamber" ><?php echo form_error("psChamber"); ?></span>
+                                                                            <span id="err_psChamber_name" ><?php echo form_error("psChamber"); ?></span>
                                                                         </article>
 
                                                                         <article>

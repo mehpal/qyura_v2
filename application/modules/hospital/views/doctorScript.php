@@ -547,6 +547,11 @@ if ($current == 'doctorDetails'){ ?>
  <script>
     var urls = "<?php echo base_url() ?>";
     $(document).ready(function () {
+        
+        $('.selectpicker').selectpicker().change(function(){
+        $(this).valid()
+        });
+
     $("#submitFormDoctor").validate({
         
       errorPlacement: function(error, element) {
@@ -645,6 +650,11 @@ if ($current == 'doctorDetails'){ ?>
 });
     var urls = "<?php echo base_url() ?>";
     $(document).ready(function () {
+        
+    $('.selectpicker').selectpicker().change(function(){
+      $(this).valid()
+    });
+        
     $("#updateForm").validate({
         rules: {
             doctors_phn: {

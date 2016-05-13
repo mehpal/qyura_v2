@@ -3117,6 +3117,23 @@ $(this).valid()
 
   function fadeInOption(){
           $('#bloodbankOption,#ambulanceOption').css("display", "none");
+            
+            $("#diagnoName").css("display", "none");
+            $("#diagnoName").val('');
+            $("#geocompleteId").val('');
+           // $('#diagnostic_stateId').html('');
+            $("#diagnostic_stateId,#diagno_id,#diagno_type, #diagnostic_mbrTyp").prop('selectedIndex','');
+            $("#diagnostic_cityId").html('<option>Select City</option>');
+            $("#diagnostic_zip").val('');
+            $("#lat").val('');
+            $("#lng").val('');
+            $("#diagnostic_name").val('');
+
+            $("#isAddressDisabled").val(0);
+            $('#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId').prop("disabled", false);
+            $('#diagnostic_cityId,#diagnostic_stateId,#diagnostic_countryId').selectpicker('refresh');
+            $("#geocompleteId,#diagnostic_zip,#lat,#lng").removeAttr("readonly");
+                
        }
 </script>
 

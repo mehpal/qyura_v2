@@ -52,7 +52,7 @@ class HospitalApi extends MyRest {
         $this->bf_form_validation->set_rules('lat', 'Lat', 'xss_clean|trim|required|decimal');
         $this->bf_form_validation->set_rules('long', 'Long', 'xss_clean|trim|required|decimal');
         $this->bf_form_validation->set_rules('isemergency', 'Is Emergency', 'xss_clean|trim|numeric');
-//        $this->bf_form_validation->set_rules('radius', 'Radius', 'xss_clean|trim|numeric|required');
+        $this->bf_form_validation->set_rules('radius', 'Radius', 'xss_clean|trim|numeric');
         $this->bf_form_validation->set_rules('isAmbulance', 'Is Ambulance', 'xss_clean|trim|numeric');
         $this->bf_form_validation->set_rules('isInsurance', 'Is Insurance', 'xss_clean|trim');
         $this->bf_form_validation->set_rules('isHealtPkg', 'Is Health Package', 'xss_clean|trim|numeric');
@@ -89,7 +89,7 @@ class HospitalApi extends MyRest {
             $radius = isset($_POST['radius']) ? $this->input->post('radius') : 70;
             $rating = isset($_POST['rating']) ? $this->input->post('rating') : NULL;
             $isAmbulance = isset($_POST['isAmbulance']) ? $this->input->post('isAmbulance') : NULL;
-            $isInsurance = isset($_POST['isInsurance']) ? $this->input->post('isInsurance') : NULL;
+            $isInsurance = (isset($_POST['isInsurance']) && $_POST['isInsurance'] != 0) ? $this->input->post('isInsurance') : "";
             $isHealtPkg = isset($_POST['isHealtPkg']) ? $this->input->post('isHealtPkg') : NULL;
 
             $response['data'] = $this->hospital_model->getHospitalList($lat, $long, $notIn, $isemergency, $radius, $isAmbulance, $isInsurance, $isHealtPkg, $rating, $userId, $search, $cityId);
@@ -97,8 +97,6 @@ class HospitalApi extends MyRest {
             $option = array('table' => 'hospital', 'select' => 'hospital_id');
             $deleted = $this->singleDelList($option);
             $response['hos_deleted'] = $deleted;
-
-
 
             $response['colName'] = array("id", "fav", "rat", "adr", "name", "phn", "lat", "lng", "upTm", "imUrl", "specialities", "isEmergency", "isAmbulance", "healpkgCount", "insuranceCount", "userId", "insurance");
 
