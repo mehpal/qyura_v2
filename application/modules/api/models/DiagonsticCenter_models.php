@@ -177,17 +177,15 @@ CASE
         return $this->db->get()->result();
     }
 
-    function diagnosticSpecialities_Details($diagnosticId, $limit = NULL) {
-
-        $this->db->select('Group_concat(DISTINCT (CASE diagnostic_specialityNameFormate WHEN 1 THEN qyura_specialities.specialities_drName WHEN 0 THEN qyura_specialities.specialities_name END) order by qyura_specialities.specialities_name SEPARATOR ", ") as specialitiesName, qyura_diagnosticSpecialities.diagnosticSpecialities_id');
-        $this->db->from('qyura_diagnosticSpecialities');
-        $this->db->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_id = qyura_diagnosticSpecialities.diagnosticSpecialities_diagnosticId', 'left');
-        $this->db->join('qyura_specialities', 'qyura_specialities.specialities_id = qyura_diagnosticSpecialities.diagnosticSpecialities_specialitiesId', 'left');
-        $this->db->where(array('qyura_diagnosticSpecialities.diagnosticSpecialities_diagnosticId' => $diagnosticId, 'qyura_diagnosticSpecialities.diagnosticSpecialities_deleted' => 0,
-            'qyura_specialities.specialities_deleted' => 0));
+     public function diagnosticSpecialities_Details($diagnosticId, $limit = NULL) {
+        $this->db->select('(CASE diagnostic_specialityNameFormate WHEN 1 THEN qyura_specialities.specialities_drName WHEN 0 THEN qyura_specialities.specialities_name END) as specialities_name, qyura_specialities.specialities_id');
+        $this->db->from('qyura_specialities');
+        $this->db->join('qyura_diagnosticSpecialities', 'qyura_diagnosticSpecialities.diagnosticSpecialities_specialitiesId=qyura_specialities.specialities_id', 'left');
+       $this->db->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_id=qyura_diagnosticSpecialities.diagnosticSpecialities_diagnosticId', 'left');
+        $this->db->where(array('qyura_diagnosticSpecialities.diagnosticSpecialities_diagnosticId' => $diagnosticId, 'qyura_diagnosticSpecialities.diagnosticSpecialities_deleted' => 0, 'qyura_specialities.specialities_deleted' => 0));
         if ($limit != NULL)
             $this->db->limit($limit);
-
+        $this->db->order_by('diagnosticSpecialities_orderForHos', 'asc');
         return $this->db->get()->result();
     }
 
