@@ -155,8 +155,7 @@
                                                     <th>
                                                         Patient
                                                     </th>
-                                                    <th>
-                                                        Doctor</th>
+                                                 
                                                     <th>
                                                         Hospital
                                                     </th>
@@ -164,167 +163,32 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                   <?php if(!empty($diagnosticAppointmnt)):
+                                                        foreach($diagnosticAppointmnt as $diag):?>
                                                 <tr>
                                                     <td>
-                                                        <h6>APPTH 20</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Mail | 45</p>
+                                                        <h6><?php echo $diag->orderId;?></h6>
+                                                        <p><?php echo $diag->userName;?></p>
+                                                        <p><?php echo getGender($diag->userGender);?> | <?php echo $diag->userAge;?></p>
                                                     </td>
                                                     <td>
-                                                        <h6>Vipul Jain</h6>
-                                                        <p>Mail | 45</p>
+                                                        <h6><?php echo $diag->userName;?></h6>
+                                                        <p><?php echo getGender($diag->userGender);?> | <?php echo $diag->userAge;?></p>
                                                     </td>
+                                                
                                                     <td>
-                                                        <h6>Dr Sambit Jain</h6>
-                                                        <p>Cardilogy</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Hospital</h6>
-                                                        <p>New Delhi</p>
+                                                        <h6><?php echo $diag->MIname;?></h6>
+                                                        <p><?php echo $diag->city;?></p>
                                                     </td>
                                                     <td>
                                                         <h6></h6>
-                                                        <button type="button" class="btn btn-success waves-effect waves-light m-b-5">Detail</button>
+                                                        <a href="<?php echo site_url('miappointment/detail/'.$diag->quotation_id); ?>" class="btn btn-success waves-effect waves-light m-b-5">Detail</a>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>APPTH 20</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Vipul Jain</h6>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Dr Sambit Jain</h6>
-                                                        <p>Cardilogy</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Hospital</h6>
-                                                        <p>New Delhi</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6></h6>
-                                                        <button type="button" class="btn btn-success waves-effect waves-light m-b-5">Detail</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>APPTH 20</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Vipul Jain</h6>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Dr Sambit Jain</h6>
-                                                        <p>Cardilogy</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Hospital</h6>
-                                                        <p>New Delhi</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6></h6>
-                                                        <button type="button" class="btn btn-success waves-effect waves-light m-b-5">Detail</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>APPTH 20</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Vipul Jain</h6>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Dr Sambit Jain</h6>
-                                                        <p>Cardilogy</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Hospital</h6>
-                                                        <p>New Delhi</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6></h6>
-                                                        <button type="button" class="btn btn-success waves-effect waves-light m-b-5">Detail</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>APPTH 20</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Vipul Jain</h6>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Dr Sambit Jain</h6>
-                                                        <p>Cardilogy</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Hospital</h6>
-                                                        <p>New Delhi</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6></h6>
-                                                        <button type="button" class="btn btn-success waves-effect waves-light m-b-5">Detail</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>APPTH 20</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Vipul Jain</h6>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Dr Sambit Jain</h6>
-                                                        <p>Cardilogy</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Hospital</h6>
-                                                        <p>New Delhi</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6></h6>
-                                                        <button type="button" class="btn btn-success waves-effect waves-light m-b-5">Detail</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>APPTH 20</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Vipul Jain</h6>
-                                                        <p>Mail | 45</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Dr Sambit Jain</h6>
-                                                        <p>Cardilogy</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Hospital</h6>
-                                                        <p>New Delhi</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6></h6>
-                                                        <button type="button" class="btn btn-success waves-effect waves-light m-b-5">Detail</button>
-                                                    </td>
-                                                </tr>
+                                                
+                                                 <?php endforeach;
+                                                endif;
+?>
                                             </tbody>
                                         </table>
                                     </aside>
@@ -708,6 +572,7 @@
                                     <option>2016</option>
                                     <option>2015</option>
                                 </select>
+                                <input type="hidden" id="urls" value="<?php echo base_url();?>" />
                             </div>
                         </figure>
                         <figcaption>

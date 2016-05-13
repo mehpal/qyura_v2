@@ -45,7 +45,7 @@
                                             <h6><?php echo strip_tags(substr($val->specialities_drName, 0,20)); ?></h6>
                                         </span>
                                          <span class="col-md-2 m-t-10">
-                                          <img height="80px;" width="80px;" src="<?php echo base_url('assets/specialityImages/thumb/original/' . $val->specialities_img); ?>" class="img-responsive">
+                                          <img height="80px;" width="80px;" src="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>" class="img-responsive">
                                          </span>
                                         <span class="col-md-4 text-right">
                                             <h6>

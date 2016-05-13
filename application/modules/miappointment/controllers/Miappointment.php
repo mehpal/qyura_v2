@@ -36,8 +36,7 @@ class Miappointment extends MY_Controller {
      * @return json data for datatable
      */
     public function getDignostiData() {
-        echo $this->miappointment->getDiagnostic(); 
-       
+        echo $this->miappointment->getDiagnostic();
     }
 
     /**
@@ -184,7 +183,6 @@ class Miappointment extends MY_Controller {
         } else {
             echo 0;
         }
-        
     }
 
     function getMI() {
@@ -242,37 +240,73 @@ class Miappointment extends MY_Controller {
         $data['time'] = date('h:i A', $dateTime);
         $this->load->view('changetimeSlot', $data);
     }
+
     public function savetimeSlot() {
 
         $final_timing = strtotime($this->input->post('finaltime'));
-        $time_id = $this->input->post('timeslot');
+        $timeslot = $this->input->post('timeSlot');
         $appdate = strtotime($this->input->post('appdate'));
         $myid = $this->input->post('appid');
-        
-        
 
-        $time_id = explode(',', $time_id);
-        $timeslot_id = $time_id[0];
-        if ($time_id[1]) {
-            $time_session = $time_id[1];
+        $timeslot = explode(',', $timeslot);
+        $timeslot_id = $timeslot[0];
+        if ($timeslot[1]) {
+            $time_session = $timeslot[1];
         }
-        if ($time_id[1] == 0) {
+        if ($timeslot[1] == 0) {
             $time_session = '0';
         }
-        
-         $updateOption = array(
-                    'data' => array(
-                        'doctorAppointment_date' => $appdate,
-                        'doctorAppointment_slotId' => $timeslot_id,
-                        'doctorAppointment_session' => $time_session,
-                        'doctorAppointment_finalTiming' => $final_timing,
-                        'modifyTime' => strtotime(date("Y-m-d")),
-                    ),
-                    'table' => 'qyura_doctorAppointment',
-                    'where' => array('doctorAppointment_id' => $myid)
-                );
-                $isUpdate = $this->common_model->customUpdate($updateOption);
-          echo 1;      
+        $dt = date('Y-m-d', $appdate);
+        $tm = date('H:i:s', $final_timing);
+        $appdatetime = strtotime($dt . " " . $tm);
+        if ($appdatetime >= (strtotime(date("Y-m-d H:i:s")))) {
+            
+        $updateOption = array(
+            'data' => array(
+                'doctorAppointment_date' => $appdate,
+                'doctorAppointment_slotId' => $timeslot_id,
+                'doctorAppointment_session' => $time_session,
+                'doctorAppointment_finalTiming' => $final_timing,
+                'modifyTime' => strtotime(date("Y-m-d")),
+            ),
+            'table' => 'qyura_doctorAppointment',
+            'where' => array('doctorAppointment_id' => $myid)
+        );
+        $isUpdate = $this->common_model->customUpdate($updateOption);
+       
+        echo 1;
+        }
+        else
+            echo 2;
+    }
+
+    public function savediagtimeSlot() {
+
+        $final_timing = strtotime($this->input->post('finaltime'));
+
+        $appdate = strtotime($this->input->post('appdate'));
+        $myid = $this->input->post('appid');
+        $dt = date('Y-m-d', $appdate);
+        $tm = date('H:i:s', $final_timing);
+        $appdatetime = strtotime($dt . " " . $tm);
+
+        if ($appdatetime >= (strtotime(date("Y-m-d H:i:s")))) {
+
+            $updateOption = array(
+                'data' => array(
+                    'quotation_dateTime' => $appdate,
+                    'quotations_finalTime' => $final_timing,
+                    'modifyTime' => strtotime(date("Y-m-d")),
+                ),
+                'table' => 'qyura_quotations',
+                'where' => array('quotation_id' => $myid)
+            );
+            $isUpdate = $this->common_model->customUpdate($updateOption);
+            
+            echo 1;
+        } else
+            echo 2;
+          echo $this->db->last_query();
     }
 
     public function getDrTimeSlot() {
@@ -376,15 +410,15 @@ class Miappointment extends MY_Controller {
         $this->bf_form_validation->set_rules("input1", "City", 'required|xss_clean');
         $this->bf_form_validation->set_rules("input2", "Centre Type", 'required|xss_clean');
         $this->bf_form_validation->set_rules("input3", "Hospital/Diagnostic", 'required|xss_clean');
-        
+
         $this->bf_form_validation->set_rules("input5", "Appointment Type", 'required|xss_clean');
-       
-        
-       // $this->bf_form_validation->set_rules("input8", "Appointment Status", 'required|xss_clean');
+
+
+        // $this->bf_form_validation->set_rules("input8", "Appointment Status", 'required|xss_clean');
         //test or specialities
         $apoint_type = $this->input->post('input5');
         if ($apoint_type == 0) {
-             $this->bf_form_validation->set_rules("input6", "Date", 'required|xss_clean');
+            $this->bf_form_validation->set_rules("input6", "Date", 'required|xss_clean');
             $this->bf_form_validation->set_rules("input4", "Time Slot", 'required|xss_clean');
             $this->bf_form_validation->set_rules("input34", "Time", 'required|xss_clean');
             $this->bf_form_validation->set_rules("input10", "Specialities", 'required|xss_clean');
@@ -392,7 +426,7 @@ class Miappointment extends MY_Controller {
             $this->bf_form_validation->set_rules("input13", "Remarks", 'required|xss_clean');
         } else {
             $this->bf_form_validation->set_rules("input37", "Time", 'required|xss_clean');
-             $this->bf_form_validation->set_rules("input7", "Date", 'required|xss_clean');
+            $this->bf_form_validation->set_rules("input7", "Date", 'required|xss_clean');
             $total_test = $this->input->post('total_test');
             for ($j = 1; $j <= $total_test; $j++) {
                 $this->bf_form_validation->set_rules("input28_$j", "Diagnostic Type $j ", 'required|xss_clean');
@@ -425,7 +459,7 @@ class Miappointment extends MY_Controller {
 //            exit;
             echo json_encode($responce);
         } else {
-           
+
             $qyura_doctorAppointment = $quotations = '';
             //User Deitails
             $user_id = $this->input->post('user_id');
@@ -507,7 +541,7 @@ class Miappointment extends MY_Controller {
                     $user_id = $user_id;
                 }
             }
-               $familyID = $this->input->post('familyId');
+            $familyID = $this->input->post('familyId');
             if (empty($familyID)) {
                 $familyID = 0;
             }
@@ -597,7 +631,7 @@ class Miappointment extends MY_Controller {
                 $cronItemId = $qyura_doctorAppointment;
                 //create/insert unique id
                 $where = array('doctorAppointment_id' => $qyura_doctorAppointment);
-                $orderno = $update_data['doctorAppointment_unqId'] = $docUnId = 'APDOC' . $user_id. rand(0, 999);
+                $orderno = $update_data['doctorAppointment_unqId'] = $docUnId = 'APDOC' . $user_id . rand(0, 999);
                 $options = array(
                     'table' => 'qyura_doctorAppointment',
                     'where' => $where,
@@ -610,7 +644,7 @@ class Miappointment extends MY_Controller {
                     'creationTime' => strtotime(date('Y-m-d H:i:s')),
                     'user_id' => $user_id,
                     'order_no' => $docUnId
-                        );
+                );
                 $options = array(
                     'data' => $transaction_array1,
                     'table' => 'transactionInfo'
@@ -656,7 +690,7 @@ class Miappointment extends MY_Controller {
                 );
                 $update = $this->common_model->customUpdate($options);
 
-                
+
                 $total_test = $this->input->post('total_test');
                 for ($i = 1; $i <= $total_test; $i++) {
 
@@ -706,23 +740,21 @@ class Miappointment extends MY_Controller {
                     'where' => array('quotationBooking_id' => $quotationBooking)
                 );
                 $isUpdate = $this->common_model->customUpdate($updateOption);
-
             }
-                if($pay_status==16)//If Paid then Insert
-                {
+            if ($pay_status == 16) {//If Paid then Insert
 
-                    //insert data in transaction table
-                    $transaction_array2 = array(
-                        'creationTime' => strtotime(date('Y-m-d H:i:s')),
-                        'user_id' => $user_id,
-                        'order_no' => $orderno
-                    );
-                    $options = array(
-                        'data' => $transaction_array2,
-                        'table' => 'transactionInfo'
-                    );
-                    $digo_trasaction = $this->common_model->customInsert($options);
-                }
+                //insert data in transaction table
+                $transaction_array2 = array(
+                    'creationTime' => strtotime(date('Y-m-d H:i:s')),
+                    'user_id' => $user_id,
+                    'order_no' => $orderno
+                );
+                $options = array(
+                    'data' => $transaction_array2,
+                    'table' => 'transactionInfo'
+                );
+                $digo_trasaction = $this->common_model->customInsert($options);
+            }
 
             $crnMsg = $this->lang->line("miappointmentReceived");
             $currentDate = date("d-m-Y");
@@ -841,7 +873,6 @@ class Miappointment extends MY_Controller {
             echo "0";
         }
     }
-   
 
     /**
      * @project Qyura
@@ -1159,21 +1190,18 @@ class Miappointment extends MY_Controller {
         array_to_csv($arrayFinal, 'Mireport.csv');
         exit();
     }
-    
+
     public function changestatus() {
         $myid = $this->input->post('myid');
         $appfor = $this->input->post('ele');
         $status = $this->input->post('status');
-        
-        if($appfor=="1")
-        {
-            $update = array("doctorAppointment_status"=>$status);
+
+        if ($appfor == "1") {
+            $update = array("doctorAppointment_status" => $status);
             $this->db->where(array('doctorAppointment_id' => $myid));
-            $this->db->update('qyura_doctorAppointment',$update);
-        }
-        else
-        {
-            $update = array("quotation_qtStatus"=>$status);
+            $this->db->update('qyura_doctorAppointment', $update);
+        } else {
+            $update = array("quotation_qtStatus" => $status);
             $this->db->where(array('quotation_id' => $myid));
             $this->db->update('qyura_quotations', $update);
         }

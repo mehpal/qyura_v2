@@ -448,6 +448,16 @@
                                  <label class="error" > <?php echo form_error("diagnostic_dsgn"); ?></label>
                               </div>
                            </article>
+                           
+                           <article class="form-group m-lr-0 ">
+                                    <label for="cemail" class="control-label col-md-4 col-sm-4">Docat Id :</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input class="form-control" id="docatId" name="docatId" type="text" value="<?php if (!empty($diagnosticData) && isset($diagnosticData)): echo $diagnosticData[0]->diagnostic_docatId;
+                                    endif; ?>">
+                                        <label class="error" > <?php echo form_error("docatId"); ?></label>
+                                    </div>
+                          </article>
+                           
                            <article class="clearfix m-t-10">
                               <label for="cemail" class="control-label col-md-4 col-sm-4">About Us :</label>
                               <div class="col-md-8 col-sm-8">

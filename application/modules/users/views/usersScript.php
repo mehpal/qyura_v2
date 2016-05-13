@@ -41,9 +41,11 @@
         $(document).ready(function () {
         $("#submitForm").submit(function (event) {
         event.preventDefault();
+          if($("#submitForm").valid()){
                 var url = '<?php echo site_url(); ?>/users/saveUsers/';
                 var formData = new FormData(this);
                 submitData(url, formData);
+            }
         });
         });
 <?php } ?>
@@ -83,22 +85,22 @@
                     patientDetails_dob: {
                     required: true
                     },
-                    users_email: {
-                    required: true,
-                            email: true,
-                            remote: {
-                            url: urls + 'index.php/users/checkUserExistence',
-                                    type: "post",
-                                    data: {
-                                    email: function () {
-                                    return $("#users_email").val();
-                                    },
-                                            id: function () {
-                                            return $("#users_id").val();
-                                            }
-                                    },
-                            }
-                    },
+//                    users_email: {
+//                    required: true,
+//                            email: true,
+//                            remote: {
+//                            url: urls + 'index.php/users/checkUserExistence',
+//                                    type: "post",
+//                                    data: {
+//                                    email: function () {
+//                                    return $("#users_email").val();
+//                                    },
+//                                            id: function () {
+//                                            return $("#users_id").val();
+//                                            }
+//                                    },
+//                            }
+//                    },
                     patientDetails_mobileNo: {
                     required: true,
                             number: true,
@@ -344,6 +346,16 @@
             
             
     var resultValidate = form.validate({
+                    ignore: ':hidden:not("#avatarInput")', 
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "avatar_file")
+        {
+            error.insertAfter('.error-label');
+        }
+        else{
+            error.insertAfter(element);
+        }
+        },
             rules: result,
                     messages: {
                     patientDetails_patientName: {
@@ -413,13 +425,13 @@
 
                             }
                     },
-                      submitHandler: function (form) {
-                        var checkmail = check_email();
-                          if(checkmail == true){
-                            form.submit();  
-                          }
-                
-            },
+//                      submitHandler: function (form) {
+//                        var checkmail = check_email();
+//                          if(checkmail == true){
+//                            form.submit();  
+//                          }
+//                
+//            },
             });
             
             return resultValidate;
@@ -530,6 +542,10 @@
 </script>
 <script>                 // datatable get records
     $(document).ready(function () {
+         $('#patientDetails_dob').datepicker({
+            autoclose: false,
+            endDate: new Date()
+    });
     var oTable = $('#users_datatable').DataTable({
     "processing": true,
             "bServerSide": true,

@@ -1080,6 +1080,7 @@ class Hospital extends MY_Controller {
                         'bloodBank_add' => $hospital_address,
                         'bloodBank_phn' => ltrim($bloodBank_phn, 0),
                         'bloodBank_docatId' => $this->input->post('docatId'),
+                        'bloodBank_cntPrsn' => $this->input->post('hospital_cntPrsn'),
                         'modifyTime' => strtotime(date("Y-m-d H:i:s"))
                     );
                     if ($getData) {
@@ -1202,6 +1203,7 @@ class Hospital extends MY_Controller {
                         'ambulance_address' => $hospital_address,
                         'docOnBoard' => $docOnBoard,
                         'ambulance_docatId' => $this->input->post('docatId'),
+                        'ambulance_cntPrsn' => $this->input->post('hospital_cntPrsn'),
                     );
                     
                     $ambulanceConditions = array();

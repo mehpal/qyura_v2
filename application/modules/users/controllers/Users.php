@@ -12,10 +12,7 @@ class Users extends MY_Controller {
         $this->load->helper('common');
     }
 
-    function abc() {
-        $data['title'] = 'Users Consultant';
-        $this->load->super_admin_template('user_view', $data, 'usersScript');
-    }
+   
 
     function index() {
 
@@ -54,7 +51,8 @@ class Users extends MY_Controller {
         $this->bf_form_validation->set_rules('patientDetails_cityId', 'City', 'required|trim');
         $this->bf_form_validation->set_rules('patientDetails_pin', 'Pin', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('patientDetails_address', 'Address', 'required|trim');
-        $this->bf_form_validation->set_rules('users_password', 'Password', 'trim|required');
+        $this->bf_form_validation->set_rules('users_password', 'Password', 'trim|required|matches[cnfPassword]');
+        $this->bf_form_validation->set_rules('cnfPassword', 'Confirm Password', 'trim|required');
 //        familymember validation
         $addFamilyMember = $this->input->post('addFamilyMember');
         if ($addFamilyMember == 1) {
@@ -405,8 +403,8 @@ class Users extends MY_Controller {
         $this->bf_form_validation->set_rules('patientDetails_patientName', 'Name', 'required|trim');
         $this->bf_form_validation->set_rules('patientDetails_gender', 'Gender', 'required|trim');
         $this->bf_form_validation->set_rules('patientDetails_dob', 'Date of Birth', 'required|trim');
-        $this->bf_form_validation->set_rules('users_email', 'Users Email', "required|valid_email|trim");
-        $this->bf_form_validation->set_rules('patientDetails_mobileNo', 'User Phone', 'required|trim|numeric');
+       // $this->bf_form_validation->set_rules('users_email', 'Users Email', "required|valid_email|trim");
+        //$this->bf_form_validation->set_rules('patientDetails_mobileNo', 'User Phone', 'required|trim|numeric');
         $this->bf_form_validation->set_rules('patientDetails_stateId', 'State', 'required|trim');
         $this->bf_form_validation->set_rules('patientDetails_cityId', 'City', 'required|trim');
         $this->bf_form_validation->set_rules('patientDetails_pin', 'Pin', 'required|trim|numeric');

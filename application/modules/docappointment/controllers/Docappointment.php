@@ -132,13 +132,14 @@ class Docappointment extends MY_Controller {
             'table' => 'qyura_users',
             'select' => '*',
             'where' => array('qyura_users.users_deleted' => 0,'qyura_users.users_email' => $patient_email),
+            'or_where' => array('qyura_users.users_mobile' => $patient_mobile),
             'single' => TRUE
         );
         $email = $this->common_model->customGet($option);
         
         if(!empty($email)){
             $options = array(
-                'select'=>'qyura_users.users_id as user_id,qyura_users.users_mobile as mobile,qyura_patientDetails.patientDetails_cityId as cityId,qyura_patientDetails.patientDetails_stateId as stateId,qyura_patientDetails.patientDetails_countryId as countryId,qyura_patientDetails.patientDetails_patientName as patientName,qyura_patientDetails.patientDetails_address as address,qyura_patientDetails.patientDetails_unqId as unqId,qyura_patientDetails.patientDetails_pin as pin,qyura_patientDetails.patientDetails_dob as dob,qyura_patientDetails.patientDetails_gender as gender',
+                'select'=>'qyura_users.users_id as user_id,qyura_users.users_mobile as mobile,qyura_patientDetails.patientDetails_cityId as cityId,qyura_patientDetails.patientDetails_stateId as stateId,qyura_patientDetails.patientDetails_countryId as countryId,qyura_patientDetails.patientDetails_patientName as patientName,qyura_patientDetails.patientDetails_address as address,qyura_patientDetails.patientDetails_unqId as unqId,qyura_patientDetails.patientDetails_pin as pin,qyura_patientDetails.patientDetails_dob as dob,qyura_patientDetails.patientDetails_gender as gender,qyura_users.users_email as users_email',
                 'table' => 'qyura_users',
                 'where' => array('qyura_users.users_deleted' => 0, 'qyura_users.users_email' => $patient_email,'qyura_usersRoles.usersRoles_roleId' => 6),
                 'or_where'=>array('qyura_users.users_mobile' => $patient_mobile),

@@ -354,6 +354,7 @@ class Bloodbank extends MY_Controller {
                 'isEmergency' => $isEmergency,
                 'countryId' => $this->input->post('countryId'),
                 'stateId' => $this->input->post('stateId'),
+                'bloodBank_zip' => $this->input->post('bloodBank_zip'),
                 'cityId' => $this->input->post('cityId'),
                 'bloodBank_isManual' => $this->input->post('isManual'),
                 'modifyTime' => strtotime(date("Y-m-d H:i:s"))
@@ -366,7 +367,7 @@ class Bloodbank extends MY_Controller {
             $response = $this->Bloodbank_model->UpdateTableData($updateBloodBank, $where, 'qyura_bloodBank');
             if ($response) {
                 $updateUserdata = array(
-                    'users_email' => $this->input->post('users_email'),
+                    'users_email' => $this->input->post('email_edit'),
                     'modifyTime' => strtotime(date("Y-m-d H:i:s"))
                 );
                 $whereUser = array(

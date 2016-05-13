@@ -26,8 +26,33 @@ google.setOnLoadCallback(drawChart);
 function drawChart() {
 
     var data = new google.visualization.DataTable();
+    var urls = $("#urls").val();
     data.addColumn('string', 'Pizza');
     data.addColumn('number', 'Populartiy');
+       $.ajax({
+        url: urls + 'index.php/sadashboard/getChartDraw',
+        type: 'POST',
+       // data: {'id': id},
+        success: function (response) {
+            var obj = $.parseJSON(response);
+            if (response) {
+                
+              // console.log(obj['Ambulance']);
+               
+                  data.addRows([
+                    ['Hospitals', obj['Hospitals']],
+                    ['Ambulance', obj['Ambulance']],
+                    ['Diagnostics Center', obj['Diagnostics']],
+                       ['Pharmacies', obj['Pharmacies']],
+                       ['Blood Bank', obj['BloodBank']],
+                  ]);
+                  
+            }
+
+        }
+
+    });
+    
     data.addRows([
         ['Hospitals', 45],
         ['Ambulance', 23],
@@ -263,5 +288,5 @@ function drawChartTransFlow() {
 //initializing 
 function ($) {
     "use strict";
-    $.ChartJs.init()
+    //$.ChartJs.init()
 }(window.jQuery);

@@ -11,7 +11,8 @@
 
                 </div>
             </div>
-
+<input type="hidden" id="docid" name="docid" value="<?php echo $conDetail->docid."_".$conDetail->doctorUserId;?>">
+<input type="hidden" id="appid" name="appid" value="<?php echo isset($appid) ? $appid : ''?>">
             <!-- Main Div Start -->
             <section class="clearfix detailbox">
 
@@ -33,7 +34,7 @@
 
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4">Appointment Date :</label>
-                                <p class="col-md-8"><?php echo isset($conDetail->dateTime) ? date('M d,Y', $conDetail->dateTime) : ''; ?></p>
+                                <p class="col-md-8"><?php echo isset($conDetail->appdate) ? date('M d,Y', $conDetail->appdate) : ''; ?></p>
                             </div>
 
                             <!--div class="clearfix m-t-10">
@@ -66,7 +67,7 @@
 
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4">Final Time :</label>
-                                <p class="col-md-8"><?php echo isset($conDetail->dateTime) ? date('h:i A', $conDetail->dateTime) : ''; ?></p>
+                                <p class="col-md-8"><?php echo isset($conDetail->finalTime) ? date('h:i A', $conDetail->finalTime) : ''; ?></p>
                             </div>
 
                             <div class="clearfix m-t-10">
@@ -148,9 +149,15 @@
                                 </article>
                             </div>
                             <div class="clearfix m-t-20 text-right">
-                                <button type="button" class="btn btn-danger waves-effect m-r-10" onclick="changestatus(<?php echo $qtnId;?>,1,13)">Cancel</button>
-                               <button data-toggle="modal" data-target="#myModal" class="btn btn-success waves-effect waves-light m-b-5 applist-btn" type="button">Reschedule</button>
-                                
+                                <button type="button" class="btn btn-danger waves-effect m-r-10" onclick="changestatus(<?php echo $appid;?>,1,13)">Cancel</button>
+                                <?php 
+                                $dt = date('Y-m-d', $conDetail->dateTime);
+                                $tm = date('H:i:s', $conDetail->finalTime);
+                                $appdate = strtotime($dt." ".$tm);
+                                if($appdate>= (strtotime(date("Y-m-d H:i:s")))){
+                                ?>
+                               <button data-toggle="modal" data-target="#myModal1" class="btn btn-success waves-effect waves-light m-b-5 applist-btn" type="button">Reschedule</button>
+                                <?php } ?>
                             </div>
                         </aside>
                     </article>
@@ -274,56 +281,6 @@
 </div>
 <!-- END wrapper -->
 <?php echo $this->load->view('edit_upload_crop_modal'); ?>
+<?php echo $this->load->view('change_timeslot'); ?>
 
-
-    <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Change Timing</h3>
-                </div>
-                <!--input type="hidden" id="mi_centre" name="mi_centre"  value="<?php echo $conDetail->doctorParentId;?>"-->
-                <input type="hidden" id="docid" name="docid" value="<?php echo $conDetail->docid."_".$conDetail->doctorUserId;?>">
-                
-                <input type="hidden" id="appid" name="appid" value="<?php echo isset($appid) ? $appid : ''?>">
-                <div class="modal-body">
-                    <div class="modal-body">
-                        <form class="form-horizontal" id="changetimeform">
-                            <article class="clearfix m-t-10">
-                                <label for="" class="control-label col-md-4 col-sm-4">Appointment Date:</label>
-                                <div class="col-md-8 col-sm-8">
-                                    <div class="input-group">
-                                        <input class="form-control pickDate" value="17/12/2015" id="date-7" type="text" name="appdate" onkeydown="return false;" onchange="getTimeSlot();">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="clearfix m-t-10">
-                                <label class="control-label col-md-4 col-sm-4">Time Slot :</label>
-                                <p class="col-md-8 col-sm-8">
-                                    <select  data-width="100%" name="timeSlot" id="timeSlot">
-                                        <option value="">Select Time Slot</option>
-                                    </select>
-
-                                </p>
-                            </article>
-                            <article class="clearfix m-t-10">
-                                <label for="cname" class="control-label col-md-4 col-sm-4">Final Timing:</label>
-                                <div class="col-md-8 col-sm-8">
-                                    <div class="bootstrap-timepicker input-group w-100">
-                                        <input id="timepicker3" name="finaltime" type="text" class="form-control timepicker" value="06:00 PM" />
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="clearfix m-t-20">
-                                <button type="button" class="btn btn-primary pull-right waves-effect waves-light" onclick="changeapptime()">Save changes</button>
-                            </article>
-                        </form>
-                    </div>
-
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-    </div>
+   
