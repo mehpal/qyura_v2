@@ -1204,7 +1204,7 @@ class Doctor extends MY_Controller {
 
         if (isset($_POST['docTimeTable_stayAt']) && $_POST['docTimeTable_stayAt'] != '' && $_POST['docTimeTable_stayAt'] == 0) {
 
-            $this->bf_form_validation->set_rules('psChamber', 'Chamber Name', 'required|trim');
+            $this->bf_form_validation->set_rules('psChamber_name', 'Chamber Name', 'required|trim');
             $this->bf_form_validation->set_rules('countryId', 'Country Name', 'required|trim');
             $this->bf_form_validation->set_rules('stateId', 'State Name', 'required|trim');
             $this->bf_form_validation->set_rules('cityId', 'City Name', 'required|trim');
@@ -1400,7 +1400,7 @@ class Doctor extends MY_Controller {
 
     function saveChamber() {
         $doctorId = $this->input->post('doctorId');
-        $psChamber_name = $this->input->post('psChamber');
+        $psChamber_name = $this->input->post('psChamber_name');
         $psChamber_countryId = 1;
         $psChamber_stateId = $this->input->post('stateId');
         $psChamber_cityId = $this->input->post('cityId');
@@ -1443,7 +1443,7 @@ class Doctor extends MY_Controller {
 
         if (isset($_POST['docTimeTable_stayAt']) && $_POST['docTimeTable_stayAt'] != '' && $_POST['docTimeTable_stayAt'] == 0) {
 
-            $this->bf_form_validation->set_rules('psChamber', 'Chamber Name', 'required|trim');
+            $this->bf_form_validation->set_rules('psChamber_name', 'Chamber Name', 'required|trim');
             $this->bf_form_validation->set_rules('stateId', 'State Name', 'required|trim');
             $this->bf_form_validation->set_rules('cityId', 'City Name', 'required|trim');
             $this->bf_form_validation->set_rules('pinn', 'Pin Code', 'required|trim');
@@ -1636,7 +1636,7 @@ class Doctor extends MY_Controller {
 
     function updateChamber($id) {
         $doctorId = $this->input->post('doctorId');
-        $psChamber_name = $this->input->post('psChamber');
+        $psChamber_name = $this->input->post('psChamber_name');
         $psChamber_countryId = 1;
         $psChamber_stateId = $this->input->post('stateId');
         $psChamber_cityId = $this->input->post('cityId');

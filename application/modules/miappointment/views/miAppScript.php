@@ -226,32 +226,54 @@
             }
         });
     }
-    function changeapptime()
-    {
+        var url = "<?php echo base_url(); ?>";
         $("#changetimeform").validate({
-            rules: {appdate: {required: true},
-                timeSlot: {required: true},
-                finaltime: {required: true},
+            rules: {
+                appdate: {
+                    required: true
+                },
+                timeSlot: {
+                    required: true,
+                    remote: {
+                    url: url + 'index.php/miappointment/check_timeslot',
+                    type: "post",
+                    data: {
+                        timeslot_id: function () {var timeSlot = $("#timeSlot").val().split(',');return timeSlot[0];},
+                        final_timing: function () {return $("#timepicker3").val();},
+                    }
+                }
+                },
+                finaltime: {
+                    required: true
+                }
             },
             messages: {
-                appdate: {required: "Please select App Date", },
-                timeSlot: {required: "Please select Time Slot!", },
-                finaltime: {required: "Please select Final Time", },
-            }
-        }); 
-        var appdate = $("#date-7").val();
-        var timeSlot = $("#timeSlot").val();
-        var finaltime = $("#timepicker3").val();
-        var appid = $("#appid").val();
-        var url = '<?php echo site_url(); ?>' + '/miappointment/savetimeSlot';
-        $.ajax({
-            url: url,
-            async: false,
-            type: 'POST',
-            data: {'appdate': appdate, 'timeSlot': timeSlot, 'finaltime': finaltime,'appid':appid},
-            beforeSend: function (xhr) {
+                appdate: {
+                    required: "Please select App Date",
+                     },
+                timeSlot: {
+                    required: "Please select Time Slot!",
+                    remote: "Please select correct time slot."
+                     },
+                finaltime: {
+                    required: "Please select Final Time",
+                     }
             },
-            success: function (data) {
+            submitHandler: function(form)
+             {
+                var appdate = $("#date-7").val();
+                var timeSlot = $("#timeSlot").val();
+                var finaltime = $("#timepicker3").val();
+                var appid = $("#appid").val();
+                var url = '<?php echo site_url(); ?>' + '/miappointment/savetimeSlot';
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: 'POST',
+                    data: {'appdate': appdate, 'timeSlot': timeSlot, 'finaltime': finaltime,'appid':appid},
+                    beforeSend: function (xhr) {
+                },
+                success: function (data) {
                 if(data==2)
                 {
                     var msg = "Please select proper Date & Time";
@@ -268,9 +290,11 @@
                 }
                 
 
+                }
+            });
+            $form.submit();
             }
-        });
-    }
+        }); 
     function changediagapptime()
     {
         $("#changetimeform").validate({

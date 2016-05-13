@@ -1309,13 +1309,13 @@
                                                                         </article>
 
                                                                         <article class="clearfix m-t-10 " id="div_psChamber">
-                                                                            <label class="control-label" for="psChamber">Personal Chamber Name:</label>
+                                                                            <label class="control-label" for="psChamber_name123">Personal Chamber Name:</label>
                                                                             <div class="">
-                                                                                <input type="text" name="psChamber" id="psChamber123" class="form-control"  value="<?php echo set_value('psChamber'); ?>">
+                                                                                <input type="text" name="psChamber_name" id="psChamber_name123" class="form-control"  value="<?php echo set_value('psChamber_name'); ?>">
                                                                                 
                                                                                 
                                                                             </div>
-                                                                            <span id="err_psChamber" ><?php echo form_error("psChamber"); ?></span>
+                                                                            <span id="err_psChamber_name" ><?php echo form_error("psChamber"); ?></span>
                                                                         </article>
 
                                                                         <article>
