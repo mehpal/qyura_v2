@@ -1,8 +1,4 @@
-
-    <!-- Start right Content here -->
-    <div class="content-page">
-        <!-- Start content -->
-        <div class="content">
+   <div class="content">
             <div class="container row">
                 <!--   start section 1 -->
                 <section class="clearfix">
@@ -649,7 +645,7 @@
                                 <h3>Notifications</h3>
                             </figure>
 
-                            <div class="mCustomScrollbar mxh-490" style="overflow: hidden;" tabindex="5000">
+                            <div class="mCustomScrollbar mxh-430" style="overflow: hidden;" tabindex="5000">
                                 <aside class="table-responsive">
                                     <table class="table">
                                         <tbody>
@@ -659,7 +655,7 @@
 
                                                 </td>
                                                 <td width="20%">
-                                                    <img src="<?php echo base_url();?>assets/images/delete.png">
+                                                    <img src="assets/images/delete.png">
 
                                                 </td>
 
@@ -670,7 +666,7 @@
 
                                                 </td>
                                                 <td width="20%">
-                                                    <img src="<?php echo base_url();?>assets/images/delete.png">
+                                                    <img src="assets/images/delete.png">
 
                                                 </td>
 
@@ -681,7 +677,7 @@
 
                                                 </td>
                                                 <td width="20%">
-                                                    <img src="<?php echo base_url();?>assets/images/delete.png">
+                                                    <img src="assets/images/delete.png">
 
                                                 </td>
 
@@ -692,7 +688,40 @@
 
                                                 </td>
                                                 <td width="20%">
-                                                    <img src="<?php echo base_url();?>assets/images/delete.png">
+                                                    <img src="assets/images/delete.png">
+
+                                                </td>
+
+                                            </tr>
+                                                <tr>
+                                                <td width="80%">
+                                                    <p>You have received a quotation request for diagnostic booking. View details.</p>
+
+                                                </td>
+                                                <td width="20%">
+                                                    <img src="assets/images/delete.png">
+
+                                                </td>
+
+                                            </tr>
+                                                <tr>
+                                                <td width="80%">
+                                                    <p>You have received a quotation request for diagnostic booking. View details.</p>
+
+                                                </td>
+                                                <td width="20%">
+                                                    <img src="assets/images/delete.png">
+
+                                                </td>
+
+                                            </tr>
+                                                <tr>
+                                                <td width="80%">
+                                                    <p>You have received a quotation request for diagnostic booking. View details.</p>
+
+                                                </td>
+                                                <td width="20%">
+                                                    <img src="assets/images/delete.png">
 
                                                 </td>
 
@@ -703,7 +732,7 @@
 
                                                 </td>
                                                 <td width="20%">
-                                                    <img src="<?php echo base_url();?>assets/images/delete.png">
+                                                    <img src="assets/images/delete.png">
 
                                                 </td>
 
@@ -714,56 +743,15 @@
 
                                                 </td>
                                                 <td width="20%">
-                                                    <img src="<?php echo base_url();?>assets/images/delete.png">
+                                                    <img src="assets/images/delete.png">
 
                                                 </td>
 
                                             </tr>
-                                            <tr>
-                                                <td width="80%">
-                                                    <p>You have received a quotation request for diagnostic booking. View details.</p>
+                            
+                               
 
-                                                </td>
-                                                <td width="20%">
-                                                    <img src="<?php echo base_url();?>assets/images/delete.png">
-
-                                                </td>
-
-                                            </tr>
-                                            <tr>
-                                                <td width="80%">
-                                                    <p>You have received a quotation request for diagnostic booking. View details.</p>
-
-                                                </td>
-                                                <td width="20%">
-                                                    <img src="<?php echo base_url();?>assets/images/delete.png">
-
-                                                </td>
-
-                                            </tr>
-
-                                            <tr>
-                                                <td width="80%">
-                                                    <p>You have received a quotation request for diagnostic booking. View details.</p>
-
-                                                </td>
-                                                <td width="20%">
-                                                    <img src="<?php echo base_url();?>assets/images/delete.png">
-
-                                                </td>
-
-                                            </tr>
-                                            <tr>
-                                                <td width="80%">
-                                                    <p>You have received a quotation request for diagnostic booking. View details.</p>
-
-                                                </td>
-                                                <td width="20%">
-                                                    <img src="<?php echo base_url();?>assets/images/delete.png">
-
-                                                </td>
-
-                                            </tr>
+                                     
 
                                         </tbody>
                                     </table>
@@ -1224,7 +1212,7 @@
                                 <h3>Doctor Of The Month</h3>
                             </figure>
 
-                            <p class="text-center"><img src="<?php echo base_url();?>assets/images/users/avatar-1.jpg" class="img-responsive img-circle img-thumbnail m-t-20"></p>
+                            <p class="text-center"><img src="assets/images/users/avatar-1.jpg" class="img-responsive img-circle img-thumbnail m-t-20"></p>
                             <figcaption class="text-center">
                                 <h3>Dr. Sambit Jain</h3>
                                 <p>MBBS, MD</p>
@@ -1268,7 +1256,7 @@
 
 
                 <!-- start -->
-                <section class="clearfix m-t-30">
+<!--                <section class="clearfix m-t-30">
                     <div class="col-lg-12">
 
                         <article class="clearfix chartbox">
@@ -1306,13 +1294,13 @@
                             </div>
                         </article>
                     </div>
-                </section>
+                </section>-->
                 <!-- end -->
 
 
 
                 <!-- start -->
-                <section class="clearfix m-t-30">
+<!--                <section class="clearfix m-t-30">
                     <article class="col-md-12 chartbox">
                         <div class="bg-white">
                             <figure class="clearfix">
@@ -1320,12 +1308,12 @@
                             </figure>
                             <figcaption>
                                 <h4 class=""><i class="md md-event"></i> 2015</h4>
-                                <!--                                    <div id="bar-chart"></div>-->
+                                                                    <div id="bar-chart"></div>
                                 <canvas id="bar-chart" data-type="Bar" height="300"></canvas>
                             </figcaption>
                         </div>
                     </article>
-                </section>
+                </section>-->
                 <!-- end -->
 
 
@@ -1349,7 +1337,7 @@
                     </article>
 
 
-                    <article class="col-md-4 col-sm-4 chartbox">
+<!--                    <article class="col-md-4 col-sm-4 chartbox">
                         <div class="bg-white">
                             <figure class="clearfix">
                                 <h3>Revenue Distribution</h3>
@@ -1359,7 +1347,7 @@
                                 <div id="chart_div_sec"></div>
                             </figcaption>
                         </div>
-                    </article>
+                    </article>-->
 
 
                     <article class="col-md-4 col-sm-4 chartbox">
@@ -1380,31 +1368,6 @@
 
             </div>
             <!-- container -->
+
         </div>
         <!-- content -->
-        <footer class="footer text-right">
-            2015 © Qyura.
-        </footer>
-    </div>
-    <!-- End Right content here -->
-<script src="<?php echo base_url();?>assets/js/jquery.js"></script>
-
-
-
-    <script src="<?php echo base_url();?>assets/vendor/raphael/raphael-min.js"></script>
-    <script src="<?php echo base_url();?>assets/vendor/morris.js/morris.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>assets/js/jsapi.js"></script>
-
-    <!-- Chart JS -->
-    <script src="<?php echo base_url();?>assets/vendor/chart.js/chart.min.js"></script>
-
-    <!-- EASY PIE CHART JS -->
-    <script src="<?php echo base_url();?>assets/vendor/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
-    <script src="<?php echo base_url();?>assets/js/easy-pie-chart.init.js"></script>
-
-    <!-- Canvas Charts -->
-    <script src="<?php echo base_url();?>assets/js/pages/dashboard.js" type="text/javascript"></script>
-
-    <!--  js-scroll -->
-    <script src="<?php echo base_url();?>assets/vendor/js-scroll/script/scroll-2.js"></script>
-

@@ -34,7 +34,7 @@
                         <div class="mlogo visible-xs visible-sm"><a href="#"><i class="md"></i></a></div>
 
                         <div class="hidden-xs hidden-sm">
-                            <a class="logo" href="#"><img src="<?php echo base_url();?>assets/images/qyura-f-l.png"></a>
+                            <a class="logo" href="<?php echo site_url('midashboard');?>"><img src="<?php echo base_url();?>assets/images/qyura-f-l.png"></a>
 
                             <button class="button-menu-mobile open-left"><i class="fa fa-bars"></i></button> <span class="clearfix"></span>
                         </div>
@@ -157,7 +157,7 @@
             <div id="sidebar-menu">
                 <ul>
                     <li>
-                        <a href="dashboard.html" class="waves-effect active"><i class="ion-ios7-keypad-outline"></i><span>Dashboard</span></a>
+                        <a href="<?php echo site_url('midashboard');?>" class="waves-effect active"><i class="ion-ios7-keypad-outline"></i><span>Dashboard</span></a>
                     </li>
                     <li class="has_sub">
                         <a class="waves-effect" href="#"><i class="fa fa-stethoscope"></i> 
@@ -257,3 +257,6 @@
         </div>
     </div>
     <!-- Left Sidebar End -->
+      <!-- Start right Content here -->
+    <div class="content-page">
+        <!-- Start content -->
