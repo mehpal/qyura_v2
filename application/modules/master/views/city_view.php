@@ -1,4 +1,20 @@
 <!-- Start right Content here -->
+<style>
+#city_datatable_wrapper div.row:nth-child(3) div.col-sm-6:first-child
+{
+    display: none;
+}
+#city_datatable_wrapper div.row:nth-child(3) div.col-sm-6:last-child
+{
+    width: 100% !important;
+}
+   
+#city_datatable_wrapper div.row:nth-child(3) div.col-sm-6:last-child ul.pagination,
+#city_datatable_paginate ul
+{
+   float:left !important;
+}
+</style>
 <div class="content-page">
     <!-- Start content -->
     <div class="content">
