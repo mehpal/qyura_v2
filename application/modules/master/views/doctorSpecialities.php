@@ -38,10 +38,10 @@
                                 foreach ($specialityList as $key => $val) { ?>
                                     <li class="clearfix  border-t">
                                         <span class="col-md-3">
-                                            <h6><?php echo strip_tags(substr($val->specialities_name, 0,20)); ?></h6>
+                                            <h6><?php echo strip_tags(substr($val->specialities_name, 0,15)); ?></h6>
                                         </span>
                                         <span class="col-md-3">
-                                            <h6><?php echo strip_tags(substr($val->specialities_drName, 0,20)); ?></h6>
+                                            <h6><?php echo strip_tags(substr($val->specialities_drName, 0,15)); ?></h6>
                                         </span>
                                         <span class="col-md-2 m-t-10"> 
                                             <img height="80px;" width="80px;" src="<?php echo base_url('assets/specialityImages/3x/' . $val->specialities_img); ?>" class="img-responsive">
