@@ -185,19 +185,20 @@ class Common_model extends MY_Model {
     public function mypermission($roleid = NULL) {
 
         if ($roleid == 1 || $roleid == 3) {
+            $roleid = 13;
             $ses_roleid = $this->session->userdata('ses_mi_roleid');
         } else if ($roleid == 7) {
             $ses_roleid = $this->session->userdata('ses_sa_roleid');
         } else if ($roleid == 4) {
             $ses_roleid = $this->session->userdata('ses_doc_roleid');
         }
-        if ($roleid != $ses_roleid) {
+        
+        if(!preg_match('/'.$ses_roleid.'/',$roleid)){ 
             $this->ion_auth->logout();
-            
             $this->session->set_flashdata('message', 'You do not have access to this page!');
             redirect('auth/login/err', "refresh");
         }
-
+        
         return TRUE;
     }
     

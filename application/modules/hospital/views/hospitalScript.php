@@ -536,7 +536,7 @@ if (isset($mapData) && !empty($mapData)) {
                     if (datas == 0) {
                         reYesNo = false;
                         //  console.log(reYesNo,'andar');
-                        bootbox.alert("Sorry, you can't add more than givin specialities!");
+                        bootbox.alert("Sorry, you can't add more than given specialities!");
 
                     }
                 }
@@ -560,7 +560,7 @@ if (isset($mapData) && !empty($mapData)) {
                     data: {'hospitalId': hospitalId, 'hospitalUserId' : hospitalUserId,  'hospitalSpecialities_specialitiesId': $(this).val()},
                     success: function (datas) {
                         if (datas == 0) {
-                            bootbox.alert("Sorry, you can't add more than givin specialities!");
+                            bootbox.alert("Sorry, you can't add more than given specialities!");
                             return false;
 
                         } else {

@@ -718,7 +718,7 @@
                         ?>
                      <div class="col-md-3 col-sm-6 part-ins">
                      <a class="delete-ins" href="javascript:void(0)" onclick="deletInsurance(<?php echo $val->diagnoInsurance_id;?>)"><i class="fa fa-close"></i></a>
-                     <img src="<?php echo base_url()?>assets/insurance/<?php echo $val->insurance_img;?>" class="img-responsive center-block img-ins">
+                     <img src="<?php echo base_url()?>assets/insuranceImages/3x/<?php echo $val->insurance_img;?>" class="img-responsive center-block img-ins">
                      <h5><?php echo $val->insurance_Name;?></h5>
                      </div>
                      <?php }} else{?>
@@ -1050,7 +1050,8 @@
          <!-- first Section End -->
          <section class="col-md-2 detailbox m-b-20 text-center">
          <div class="m-t-150">
-         <a onclick="addSpeciality(user_tables_id.value)"><i class="fa fa-arrow-right s-add"></i></a>
+         <a onclick="addSpeciality(<?php if (!empty($diagnosticData)): echo $diagnosticData[0]->diagnostic_usersId;
+            endif; ?>)"><i class="fa fa-arrow-right s-add"></i></a>
          </div>
          <div class="m-t-50">
          <a onclick="revertSpeciality()"> <i class="fa fa-arrow-left s-add"></i></a>

@@ -58,7 +58,7 @@
                         <figure class="clearfix">
                             <h3>Today's Appointments</h3>
                             <form class="search-form">
-                                <input type="" class="search pull-right" />
+                                <input type="" class="search pull-right" id="search-text-appointment"/>
                             </form>
                         </figure>
 
@@ -83,7 +83,7 @@
 
                                 <div class="mCustomScrollbar  mxh-400" style="overflow:hidden;" tabindex="5000">
                                     <aside class="table-responsive">
-                                        <table class="table">
+                                        <table class="table app_consult">
                                             <thead>
                                                 <tr class="border-a-dull">
                                                     <th width="20%">
@@ -147,7 +147,7 @@
 
                                 <div class="mCustomScrollbar  mxh-400" style="overflow: hidden;" tabindex="5000">
                                     <aside class="table-responsive">
-                                        <table class="table">
+                                        <table class="table app_consult">
                                             <thead>
                                                 <tr class="border-a-dull">
                                                     <th>
@@ -384,12 +384,12 @@
                                     <?php echo date('F Y')?></h3>
                             </div>
                             <div class="col-md-5 col-sm-4 text-right">
-                                <select class="form-control selectpicker m-tb-5" data-width="100%" >
+                                <select class="form-control selectpicker m-tb-5" id="doctorselectCity" data-width="100%" >
                                     <option>All City</option>
                                                                        <?php if(!empty($cityList)):
                                             foreach($cityList as $city):?>
                                             
-                                            <option value="<?php echo ucwords($city->city_name);?>"><?php echo ucwords($city->city_name);?></option>
+                                            <option value="<?php echo $city->city_id;?>"><?php echo ucwords($city->city_name);?></option>
                                             
                                           <?php  endforeach;
                                           endif;
@@ -397,7 +397,7 @@
                                 </select>
                             </div>
                         </figure>
-                        
+                        <div id="doctorOftheMonthDiv">
                         <?php if(!empty($doctorOfMonth) && !empty($doctorOfMonth[0]->imUrl)): ?>
                                   <p class="text-center"><img src="<?php echo base_url().$doctorOfMonth[0]->imUrl; ?>" class="img-responsive img-circle img-thumbnail m-t-20"></p>
                         <?php else: ?>
@@ -414,7 +414,11 @@
                             <h3>Total Appointments : <?php if(!empty($doctorOfMonth)): echo $doctorOfMonth[0]->totalapp; endif;?></h3>
                         </figcaption>
 
-                        <figcaption class="clearfix text-center text-black">
+           
+
+
+</div>
+                                     <figcaption class="clearfix text-center text-black">
                             <aside class="col-md-4 col-sm-4">
                                 <div class="chart easy-pie-chart-1" data-percent="95">
                                     <span class="percent">95</span>
@@ -434,9 +438,6 @@
                                 <p>Conversion Increment</p>
                             </aside>
                         </figcaption>
-
-
-
 
                     </div>
                 </aside>
@@ -568,9 +569,9 @@
                                 <h3>MI Signup Distribution</h3>
                             </div>
                             <div class="col-md-4 text-right">
-                                <select class="form-control selectpicker m-tb-5 pull-right" data-width="100%">
-                                    <option>2016</option>
-                                    <option>2015</option>
+                                <select class="form-control selectpicker m-tb-5 pull-right" id="chartYear" data-width="100%">
+                                    <option value="2016">2016</option>
+                                    <option value="2015">2015</option>
                                 </select>
                                 <input type="hidden" id="urls" value="<?php echo base_url();?>" />
                             </div>

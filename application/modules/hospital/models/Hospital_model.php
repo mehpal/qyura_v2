@@ -277,6 +277,7 @@ class Hospital_model extends My_model {
         $this->db->from('qyura_hospitalInsurance AS Hos');
         $this->db->join('qyura_insurance AS Insu', 'Insu.insurance_id = Hos.hospitalInsurance_insuranceId', 'left');
         $this->db->where(array('Hos.hospitalInsurance_hospitalId' => $hospitalId, 'Insu.insurance_deleted' => 0, 'Hos.hospitalInsurance_deleted' => 0));
+        $this->db->order_by('Hos.hospitalInsurance_id', 'desc');
 
         $data = $this->db->get();
         return $data->result();
