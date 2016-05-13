@@ -528,6 +528,7 @@ class Doctor extends MY_Controller {
         foreach (getDay() as $weekDay => $weekIndex) {
             $where = array('docTimeDay_day' => $weekIndex, 'docTimeTable_doctorId' => $doctorId);
             $result = $this->Doctor_model->getDocTimeOnDay($where);
+            //dump($this->db->last_query());
             
             if ($result)
                 $timeSloats[$weekDay] = $result;
