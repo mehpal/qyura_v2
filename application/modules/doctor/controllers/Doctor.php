@@ -318,7 +318,7 @@ class Doctor extends MY_Controller {
             $to = $this->input->post("users_email");
             $data['name'] = $this->input->post("doctors_fName")." ".$this->input->post("doctors_lName");
             $message = $this->load->view('email/signing_up_user_tpl',$data,true);
-            $this->common_model->sendMail($from,$to,$message);
+            sendMail($from,$to,$message);
             
             redirect('doctor/addDoctor');
         }
