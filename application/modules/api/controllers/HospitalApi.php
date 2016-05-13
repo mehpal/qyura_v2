@@ -100,7 +100,7 @@ class HospitalApi extends MyRest {
 
 
 
-            $response['colName'] = array("id", "fav", "rat", "adr", "name", "phn", "lat", "lng", "upTm", "imUrl", "specialities", "isEmergency", "isAmbulance", "healpkgCount", "insuranceCount", "userId");
+            $response['colName'] = array("id", "fav", "rat", "adr", "name", "phn", "lat", "lng", "upTm", "imUrl", "specialities", "isEmergency", "isAmbulance", "healpkgCount", "insuranceCount", "userId", "insurance");
 
             if ($response['data']) {
                 $response['status'] = TRUE;
