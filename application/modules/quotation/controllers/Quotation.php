@@ -878,7 +878,8 @@ class Quotation extends MY_Controller {
         $con = array('qyura_quotations.quotation_id' => $quotationId);
         $data['qtRow'] = $qtRow = $this->Quotation_model->getQuotationDetail($con);
         
-        
+//        dump(qyura_city);
+//        exit();
         
 //        $type = $qtRow->miType != 'diagnostic' ? 0 : 1;
 //        $data['mITimeSloat'] = $this->Quotation_model->getTimeSloat($type, $qtRow->miPfId);
@@ -932,11 +933,11 @@ class Quotation extends MY_Controller {
 //        $this->bf_form_validation->set_rules("city_id", "City", 'required');
 //        $this->bf_form_validation->set_rules("miId", "MI Name", 'required');
 //        $this->bf_form_validation->set_rules("miType", "Hospital/Diagnostic", 'required');
-        $this->bf_form_validation->set_rules("existsDr", "Ref. Doctor", 'required');
+        //$this->bf_form_validation->set_rules("existsDr", "Ref. Doctor", 'required');
         $this->bf_form_validation->set_rules("bookStatus", "Book Status", 'required');
         $this->bf_form_validation->set_rules("preferedDate", "Date", 'required');
         $this->bf_form_validation->set_rules("quotationTime", "Time", 'required');
-        $this->bf_form_validation->set_rules("timeslot", "timeSlot", 'required');
+        //$this->bf_form_validation->set_rules("timeslot", "timeSlot", 'required');
 //        $this->bf_form_validation->set_rules("patient_email", "Patient Email", 'required|valid_email');
 //        $this->bf_form_validation->set_rules("users_mobile", "Mobile Number ", 'required');
 //        $this->bf_form_validation->set_rules("user_id", "user", 'trim');
@@ -950,12 +951,11 @@ class Quotation extends MY_Controller {
 
 
         $this->bf_form_validation->set_rules("consulationFee", "Consulation Fee", 'required');
-
         $this->bf_form_validation->set_rules("tax", "Tax", 'required');
         // $this->form_validation->set_rules("paidamt", "Total Amount ", 'required|xss_clean');
-        $this->bf_form_validation->set_rules("family_member", "Family Member ", 'required');
+        //$this->bf_form_validation->set_rules("family_member", "Family Member ", 'required');
 
-        $apoint_type = $this->input->post('input5');
+        //$apoint_type = $this->input->post('input5');
 
         $total_test = $this->input->post('total_test');
 
@@ -988,8 +988,8 @@ class Quotation extends MY_Controller {
 
 
 
-            $MIprofileId = $this->input->post('miId');
-            $MIprofileId = explode(',', $MIprofileId);
+            //new comment $MIprofileId = $this->input->post('miId');
+            //new comment $MIprofileId = explode(',', $MIprofileId);
 
 
             $consultFee = $this->input->post('consulationFee');
@@ -1012,14 +1012,14 @@ class Quotation extends MY_Controller {
 //                $familyID = 0;
 //            }
 
-            $existsDr = $this->input->post('existsDr');
-            $dr_user_id = 0;
-            $dr_Name = "";
-            if ($existsDr == 1) {
-                $dr_user_id = $this->input->post('refDoctor');
-            } elseif ($existsDr == 2) {
-                $dr_Name = $this->input->post('drName');
-            }
+            //new comment $existsDr = $this->input->post('existsDr');
+            //new comment $dr_user_id = 0;
+            //new comment $dr_Name = "";
+//            if ($existsDr == 1) {
+//                $dr_user_id = $this->input->post('refDoctor');
+//            } elseif ($existsDr == 2) {
+//                $dr_Name = $this->input->post('drName');
+//            }
 
 //            $quotation = array(
 //                'quotation_MiId' => $MIprofileId[1],
@@ -1057,10 +1057,11 @@ class Quotation extends MY_Controller {
 
             $quotation = array(
                 'quotation_otherFee' => $this->input->post('otherFee'),
-                'quotation_docRefeId' => $dr_user_id,
-                'quotation_docName' => $dr_Name,
+               // 'quotation_docRefeId' => $dr_user_id,
+               // 'quotation_docName' => $dr_Name,
                 'quotation_qtStatus' => 1,
-                'quotation_timeSlotId'=>$this->input->post('timeslot'),
+               // 'quotation_timeSlotId'=>$this->input->post('timeslot'),
+                'quotations_finalTime' => strtotime($this->input->post('quotationTime')),
                 'quotation_dateTime' => strtotime($quoDatetime),
                 'quotation_tex' => $this->input->post('tax'),
                 'modifyTime' => strtotime(date('Y-m-d H:i:s')),
@@ -1158,7 +1159,7 @@ class Quotation extends MY_Controller {
 //                $responce = array('status' => 1, 'isAlive' => TRUE, 'message' => 'Successfully send quotation.');
 //            echo json_encode($responce);
                 $this->session->set_flashdata('message', 'Successfully send quotation.');
-                redirect("quotation/replyQuotation?qid={$quotation_id}");
+                redirect("quotation/quotationHistory");
             } else {
 //                $responce = array('status' => 0, 'isAlive' => TRUE, 'message' => 'Failed to send quotation.');
 //               echo json_encode($responce);

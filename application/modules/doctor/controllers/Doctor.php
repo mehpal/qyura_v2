@@ -1443,7 +1443,7 @@ class Doctor extends MY_Controller {
 
         if (isset($_POST['docTimeTable_stayAt']) && $_POST['docTimeTable_stayAt'] != '' && $_POST['docTimeTable_stayAt'] == 0) {
 
-            $this->bf_form_validation->set_rules('psChamber', 'Chamber Name', 'required|trim');
+            $this->bf_form_validation->set_rules('psChamber_name', 'Chamber Name', 'required|trim');
             $this->bf_form_validation->set_rules('stateId', 'State Name', 'required|trim');
             $this->bf_form_validation->set_rules('cityId', 'City Name', 'required|trim');
             $this->bf_form_validation->set_rules('pinn', 'Pin Code', 'required|trim');

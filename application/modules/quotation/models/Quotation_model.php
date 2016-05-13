@@ -510,7 +510,7 @@ class Quotation_model extends CI_Model {
     {
         $this->db->select("*,IFNULL(hos.hospital_id, diag.diagnostic_id) AS miPfId, IFNULL(hos.hospital_name, diag.diagnostic_name) AS miName, IFNULL(hos.hospital_name, diag.diagnostic_name) AS miName, 
 (CASE WHEN(diagnostic_usersId IS NOT NULL) THEN 'diagnostic' WHEN(hospital_usersId IS NOT NULL) THEN 'hospital' END) AS miType,
-(CASE WHEN(hoscity.city_name IS NOT NULL) THEN hoscity.city_name WHEN(diagcity.city_name IS NOT NULL) THEN diagcity.city_name END) AS cityName, CASE WHEN (qyura_quotations.quotation_familyId <> 0 ) THEN qyura_usersFamily.usersfamily_name ELSE qyura_patientDetails.patientDetails_patientName END AS userName"
+(CASE WHEN(hoscity.city_name IS NOT NULL) THEN hoscity.city_name WHEN(diagcity.city_name IS NOT NULL) THEN diagcity.city_name END) AS cityName, CASE WHEN (qyura_quotations.quotation_familyId <> 0 ) THEN qyura_usersFamily.usersfamily_name ELSE qyura_patientDetails.patientDetails_patientName END AS userName,qyura_patientDetails.patientDetails_cityId,qyura_patientDetails.patientDetails_stateId "
 //(CASE WHEN(hosTime.hospitalTimeSlot_id IS NOT NULL) THEN CONCAT_WS('-', `hospitalTimeSlot_startTime`, `hospitalTimeSlot_endTime`, hospitalTimeSlot_sessionType) WHEN(diagTime.diagnosticCenterTimeSlot_id IS NOT NULL) THEN CONCAT_WS(' - ', `diagnosticCenterTimeSlot_startTime`, `diagnosticCenterTimeSlot_endTime`, diagnosticCenterTimeSlot_sessionType) END) AS timeSlot,
         );
         $this->db->from('qyura_quotations');
