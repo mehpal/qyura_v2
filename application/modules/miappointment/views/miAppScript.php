@@ -226,6 +226,7 @@
             }
         });
     }
+    //consulting's timeslot update validation starts
         var url = "<?php echo base_url(); ?>";
         $("#changetimeform").validate({
             rules: {
@@ -295,23 +296,31 @@
             $form.submit();
             }
         }); 
-    function changediagapptime()
-    {
+//consulting's timeslot update validation ends
+//diagnostic's timeslot update validation starts
+        var url = "<?php echo base_url(); ?>";
         $("#changetimeform").validate({
-            rules: {appdate: {required: true},
-                
-                finaltime: {required: true},
+            rules: {
+                appdate: {
+                    required: true
+                },
+                finaltime: {
+                    required: true
+                }
             },
             messages: {
-                appdate: {required: "Please select App Date", },
-                
-                finaltime: {required: "Please select Final Time", },
-            }
-        }); 
+                appdate: {
+                    required: "Please select App Date",
+                },
+                finaltime: {
+                    required: "Please select Final Time",
+                }
+            },
+        
+        submitHandler: function(form)
+        {
         var appdate = $("#date-7").val();
-        
         var finaltime = $("#timepicker3").val();
-        
         var appid = $("#appid").val();
         var url = '<?php echo site_url(); ?>' + '/miappointment/savediagtimeSlot';
         $.ajax({
@@ -340,7 +349,11 @@
                
             }
         });
+        $form.submit();
+            
     }
+}); 
+//diagnostic's timeslot update validation ends
     /**
      * @method getTimeSloat
      * @description  SHOW MODAL WITH SLOAT

@@ -43,7 +43,7 @@
         this.$avatarPreview = this.$pre.find('.avatar-preview');
 
         this.preImage = this.$avatarUploadPreview;
-        this.preUrl = $('.preImgLogo img').attr('src');
+        this.preUrl = this.$container.find('.preImgLogo img').attr('src');
         //console.log(this);
         this.init();
     }
@@ -112,14 +112,14 @@
                     try {
                         data = $(this).contents().find('body').text();
                     } catch (e) {
-                        console.log(e.message);
+                      //  console.log(e.message);
                     }
 
                     if (data) {
                         try {
                             data = $.parseJSON(data);
                         } catch (e) {
-                            console.log(e.message);
+                          //  console.log(e.message);
                         }
 
                         _this.submitDone(data);
@@ -143,11 +143,11 @@
         change: function () {
             var files;
             var file;
-            console.log('change');
+          //  console.log('change');
             console.info(this.support.datauri);
             if (this.support.datauri) {
                 files = this.$avatarInput.prop('files');
-                console.log(files);
+              //  console.log(files);
                 if (files.length > 0) {
                     file = files[0];
 
@@ -179,7 +179,7 @@
             }
         },
         submit: function () {
-            console.log('submit');
+          //  console.log('submit');
             if (!this.$avatarSrc.val() && !this.$avatarInput.val()) {
                 return false;
             }
@@ -187,7 +187,7 @@
             //this.$avatarUploadPreview.attr('src',this.url);
             if (this.support.formData) {
                 // this.ajaxUpload();
-                console.log('submit');
+             //   console.log('submit');
                 this.$avatarModal.modal('hide');
                 return false;
             }
@@ -212,7 +212,7 @@
         },
         startCropper: function () {
             var _this = this;
-            console.log(this.active);
+           // console.log(this.active);
             if (this.active) {
                 this.$img.cropper('replace', this.url);
             } else {
@@ -270,7 +270,7 @@
             this.$avatarPreview.html('<img src="' + this.preUrl + '">');
         },
         stopCropper: function () {
-            console.log('stopCropper');
+           // console.log('stopCropper');
             if (this.active) {
                 this.$img.cropper('destroy');
                 this.$img.remove();
@@ -365,7 +365,7 @@
                 // we need to create a new image and assign it's src, so when
                 // the image is loaded we can calculate it's width and height:
                 var image = new Image();
-                console.log(image);
+               // console.log(image);
                 image.addEventListener("load", function () {
                     // Concatenate our HTML image info 
                     var imageInfo = file.name + ' ' + // get the value of `name` from the `file` Obj
