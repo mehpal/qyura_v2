@@ -554,6 +554,7 @@ class Diagnostic extends MY_Controller {
                         'bloodBank_add' => $diagnostic_address,
                         'inherit_status' => 1,
                         'bloodBank_zip' => $diagnostic_zip,
+                        'status' => 0,
                         'bloodBank_docatId' => $this->input->post('docatId'),
                     );
                     $bloodBankId = $this->Hospital_model->insertBloodbank($bloodBankDetail);
@@ -632,6 +633,7 @@ class Diagnostic extends MY_Controller {
                         'ambulance_address' => $diagnostic_address,
                         'ambulance_cntPrsn' => $diagnostic_cntPrsn,
                         'inherit_status' => 1,
+                        'status' => 1,
                         'ambulance_zip' => $diagnostic_zip,
                         'docOnBoard' => $docOnBoard,
                         'ambulance_docatId' => $this->input->post('docatId'),
@@ -855,6 +857,7 @@ class Diagnostic extends MY_Controller {
                         $bloodBankDetail['users_id'] = $this->input->post('user_tables_id');
                         $bloodBankDetail['creationTime'] =  strtotime(date("Y-m-d H:i:s"));
                         $bloodBankDetail['bloodBank_photo'] = $bloodBankImagesname;
+                        $bloodBankDetail['status'] = 0;
                         
                         $optionInsert = array(
                             
@@ -967,6 +970,7 @@ class Diagnostic extends MY_Controller {
                             }
                         }
                         $ambulanceDetail['ambulance_img'] = $ambulanceImagesname;
+                        $ambulanceDetail['status'] = 0;
                         $ambulanceData = array('table' => 'qyura_ambulance', 'data' => $ambulanceDetail);
                         $ambulanceId = $this->common_model->customInsert($ambulanceData);
                     }

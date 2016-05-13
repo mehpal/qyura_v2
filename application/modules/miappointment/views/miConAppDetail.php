@@ -151,7 +151,7 @@
                             <div class="clearfix m-t-20 text-right">
                                 <button type="button" class="btn btn-danger waves-effect m-r-10" onclick="changestatus(<?php echo $appid;?>,1,13)">Cancel</button>
                                 <?php 
-                                $dt = date('Y-m-d', $conDetail->dateTime);
+                                $dt = date('Y-m-d', $conDetail->appdate);
                                 $tm = date('H:i:s', $conDetail->finalTime);
                                 $appdate = strtotime($dt." ".$tm);
                                 if($appdate>= (strtotime(date("Y-m-d H:i:s")))){
