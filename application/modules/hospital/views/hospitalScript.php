@@ -2211,19 +2211,18 @@ if (isset($mapData) && !empty($mapData)) {
         } else if (hospitalId == 0) {
             $("#hospitalName").css("display", "block");
             $("#geocomplete1").val('');
-            $("#hospital_countryId").html();
-            $("#hospital_stateId").html();
-            $("#hospital_cityId").html();
+            $('#hospital_stateId').prop('selectedIndex','');
+            $("#hospital_cityId").html('<option>Select City</option>');
             $("#hospital_zip").val('');
             $("#lat").val('');
             $("#lng").val('');
             $("#hospital_name").val('');
 
             $("#isAddressDisabled").val(0);
-
-            // $('#hospital_cityId,#hospital_stateId,#hospital_countryId').selectpicker('refresh');
-            $("#geocomplete1,#hospital_zip,#lat,#lng").removeAttr("readonly");
             $("#hospital_cityId,#hospital_stateId,#hospital_countryId").prop("disabled", false);
+            $('#hospital_cityId,#hospital_stateId,#hospital_countryId').selectpicker('refresh');
+            $("#geocomplete1,#hospital_zip,#lat,#lng").removeAttr("readonly");
+            
         }
     }
 
