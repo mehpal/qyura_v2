@@ -124,7 +124,7 @@ CASE
                 $finalTemp[] = isset($row->isAmbulance) && $row->isAmbulance > 0 ? "1" : "0";
                 $finalTemp[] = isset($row->isHealtPkg) && $row->isHealtPkg > 0 ? "1" : "0";
                 $finalTemp[] = isset($row->isInsurance) && $row->isInsurance > 0 ? "1" : "0";
-                $finalTemp[] = isset($row->insurance) && $row->insurance > 0 ? $row->insurance : "0";
+                $finalTemp[] = isset($row->insurance) && $row->insurance != "" ? $row->insurance : "0";
                 
                 $finalResult[] = $finalTemp;
             }
