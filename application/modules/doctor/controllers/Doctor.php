@@ -313,12 +313,13 @@ class Doctor extends MY_Controller {
             }
 
 	    $this->session->set_flashdata('message', 'Data inserted successfully !');
-	    
-	    $from = 'support@qyura.com';
+            	    
+            $from = 'support@qyura.com';
             $to = $this->input->post("users_email");
             $data['name'] = $this->input->post("doctors_fName")." ".$this->input->post("doctors_lName");
             $message = $this->load->view('email/signing_up_user_tpl',$data,true);
-
+            $this->common_model->sendMail($from,$to,$message);
+            
             redirect('doctor/addDoctor');
         }
     }
@@ -527,6 +528,7 @@ class Doctor extends MY_Controller {
         foreach (getDay() as $weekDay => $weekIndex) {
             $where = array('docTimeDay_day' => $weekIndex, 'docTimeTable_doctorId' => $doctorId);
             $result = $this->Doctor_model->getDocTimeOnDay($where);
+            
             if ($result)
                 $timeSloats[$weekDay] = $result;
         }
