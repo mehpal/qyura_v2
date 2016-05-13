@@ -638,7 +638,7 @@ class Doctor extends MY_Controller {
         $this->timeSessionCheck($satrt, $end, $session, $day, $limitStart, $limitEnd);
     }
 
-    function timeSessionCheck($startTime, $endTime, $session, $day, $limitStart, $limitEnd, $nextStart = NULL, $nextEnd = NULL) {
+    function timeSessionCheck($startTime, $endTime, $session, $day, $limitStart, $limitEnd, $nextStart = NULL, $nextEnd = NULL)     {
 
         $dayEnd = strtotime(date("Y-m-d", strtotime("+1 day" . date("Y-m-d"))) . " 05:59 AM");
         $dayStart = strtotime(date("Y-m-d") . " 10:59 PM");
@@ -1693,5 +1693,98 @@ class Doctor extends MY_Controller {
         $responce = array('status' => 1, 'isAlive' => TRUE, 'data' => $form);
         echo json_encode($responce);
     }
+    
+    function checkSloat() {
+        $docTimeDay_days = isset($_POST['docTimeDay_day']) ? $this->input->post('docTimeDay_day') : '';
+        $docTimeDay_open = isset($_POST['openingHour']) ? $this->input->post('openingHour') : '';
+        $docTimeDay_close = isset($_POST['closeingHour']) ? $this->input->post('closeingHour') : '';
 
+        $docTimeDay_open = date('H:i:s', strtotime($docTimeDay_open));
+        $docTimeDay_close = date('H:i:s', strtotime($docTimeDay_close));
+        $this->error = array();
+        foreach ($docTimeDay_days as $key => $docTimeDay_day) {
+            $data = array(
+                'day' => $docTimeDay_day,
+                'openTime' => $docTimeDay_open,
+                'closeTime' => $docTimeDay_close,
+                'doctorId' => $this->input->post('doctorId')
+            );
+
+            $row = $this->Doctor_model->checkSloat($data);
+            if ($row)
+                $this->error[] =  'This time '. date('h:i A', strtotime($docTimeDay_open)) .' to '. date('h:i A', strtotime($docTimeDay_close)).' match with '.convertNumberToDay($docTimeDay_day.' please select diffrent sloat');
+        }
+
+        if (count($this->error))
+            return false;
+        else {
+            return true;
+        }
+    }
+    
+    function checkOpenTime() {
+        $openingHour = $this->input->post('openingHour');
+        $closeingHour = $this->input->post('closeingHour');
+        $openingHour = strtotime($openingHour);
+        $closeingHour = strtotime($closeingHour);
+
+        if ($closeingHour < $openingHour) {
+            $this->bf_form_validation->set_message('checkOpenTime', 'Opening time should be less than closing time');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    function checkCloseTime() {
+        $openingHour = $this->input->post('openingHour');
+        $closeingHour = $this->input->post('closeingHour');
+        $openingHour = strtotime($openingHour);
+        $closeingHour = strtotime($closeingHour);
+
+        if ($closeingHour < $openingHour) {
+            $this->bf_form_validation->set_message('checkCloseTime', 'Closing time should be greater than opening time');
+            return FALSE;
+        } else {
+            $timeDiff = $closeingHour - $openingHour;
+            $diff = 30 * 60;
+            if ($timeDiff < $diff) {
+                $this->bf_form_validation->set_message('checkCloseTime', 'Time diffrence sould be 30 min');
+                return FALSE;
+            }
+
+            return TRUE;
+        }
+    }
+    
+    function checkEditSloat() {
+        $docTimeDay_days = isset($_POST['docTimeDay_day']) ? $this->input->post('docTimeDay_day') : '';
+        $docTimeDay_open = isset($_POST['openingHour']) ? $this->input->post('openingHour') : '';
+        $docTimeDay_close = isset($_POST['closeingHour']) ? $this->input->post('closeingHour') : '';
+        $docTimeDayId = isset($_POST['docTimeDayId']) ? $this->input->post('docTimeDayId') : '';
+
+
+        $docTimeDay_open = date('H:i:s', strtotime($docTimeDay_open));
+        $docTimeDay_close = date('H:i:s', strtotime($docTimeDay_close));
+        $this->error = array();
+        foreach ($docTimeDay_days as $key => $docTimeDay_day) {
+            $data = array(
+                'day' => $docTimeDay_day,
+                'openTime' => $docTimeDay_open,
+                'closeTime' => $docTimeDay_close,
+                'doctorId' => $this->input->post('doctorId'),
+                'docTimeDayId' => $docTimeDayId
+            );
+
+            $row = $this->Doctor_model->checkSloat($data);
+            if ($row)
+                $this->error[] =  'This time '. date('h:i A', strtotime($docTimeDay_open)) .' to '. date('h:i A', strtotime($docTimeDay_close)).' match with '.convertNumberToDay($docTimeDay_day.' please select diffrent sloat');
+        }
+
+        if (count($this->error))
+            return false;
+        else {
+            return true;
+        }
+    }
 }
