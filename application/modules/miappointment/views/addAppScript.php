@@ -347,146 +347,238 @@
         }
     }
 
-
-    var urls = "<?php echo base_url() ?>";
     $(document).ready(function () {
 
         $('.timepicker').timepicker({showMeridian: false});
         $('#date-3, #date-4,#date-5').datepicker();
         $("#setData").validate({
-            rules: {input1: {required: true},
-                input2: {required: true},
-                input3: {required: true},
-                input5: {required: true},
-                
-            },
-            messages: {
-                input1: {required: "Please select City.", },
-                input2: {required: "Please select Appointment For!", },
-                input3: {required: "Please select MI!", },
-                input5: {required: "Please select Appointment Type!", },
-                
-            }
-        });
-        if ($("#input5").val() == "0")
+
+        errorPlacement: function(error, element) {
+        if (element.attr("name") == "input4")
         {
-            $("#setData").validate({
-                rules: {
-                    input10: {required: true},
-                    input12: {required: true},
-                    input13: {required: true},
-                    input6: {required: true},
-                    input4: {required: true,
-                    remote: {
-                    url: url + 'index.php/docappointment/check_timeslot',
-                    type: "post",
-                    data: {
-                        timeslot_id: function () {var timeSlot = $("#timeSlot").val().split(',');return timeSlot[0];},
-                        final_timing: function () {return $("#timepicker4").val();},
-                    }
-                }},
-                    input34: {required: true,
-                    },
-                },
-                messages: {
-                    input10: {required: "Please select Speciality!", },
-                    input12: {required: "Please select Doctor!", },
-                    input13: {required: "Please enter Patient Remarks!", },
-                    input6: {required: "Please select Date!", },
-                    input4: {required: "Please select Time Slot!", },
-                    input34: {required: "Please select Time Slot!", }
-                }
-            });
-
-        } else
-        {
-            var tottest = $("#total_test").val();
-
-            $("#setData").validate({
-                rules: {
-                    input7: {required: true},
-                    input37: {required: true},
-                },
-                messages: {
-                    input7: {required: "Please select Date!", },
-                    input37: {required: "Please select Final Time!", },
-                }
-            });
-
-            for (var j = 1; j <= tottest; j++) {
-
-
-                $("#setData").validate({
-                    rules: {
-                        input28_j: {required: true},
-                        input29_j: {required: true},
-                        input30_j: {required: true},
-                        input31_j: {required: true},
-                    },
-                    messages: {
-                        input28_j: {required: "Please select Diagnostic Type " + j + "!", },
-                        input29_j: {required: "Please enter Test Name " + j + "!", },
-                        input30_j: {required: "Please enter Price " + j + "!", },
-                        input31_j: {required: "Please enter Instruction" + j + "!", },
-                    }
-                });
-
-
-            }
+            error.insertAfter('#timesloterror');
         }
-
-        $("#setData").validate({
-            rules: {
-                input14: {required: true},
-                input15: {required: true},
-                input17: {required: true},
-                input18: {required: true},
-                input19: {required: true},
-                input20: {required: true},
-                input21: {required: true},
-                input22: {required: true},
-                input23: {required: true},
-                input24: {required: true},
-                input25: {required: true},
-                input26: {required: true},
-                input27: {required: true},
-                input32: {required: true},
-                input35: {required: true},
-                input36: {required: true},
+        else{
+            error.insertAfter(element);
+        }
+        
+        },
+        rules: {
+            input1: {
+                required: true
             },
-            messages: {
-                input14: {required: "Please enter Patient Email!"},
-                input15: {required: "Please enter Mobile Number!"},
-                input17: {required: "Please enter Name!"},
-                input18: {required: "Please select Country!"},
-                input19: {required: "Please select State!"},
-                input20: {required: "Please enter Zip!"},
-                input21: {required: "Please enter Address!"},
-                input22: {required: "Please enter Consulation Fee!"},
-                input23: {required: "Please enter Other Fee!"},
-                input24: {required: "Please enter Tax!"},
-                input25: {required: "Please enter Total Amount!"},
-                input26: {required: "Please enter Payment Status !"},
-                input27: {required: "Please select Payment Mode!"},
-                input32: {required: "Please select City!"},
-                input35: {required: "Please select DOB!"},
-                input36: {required: "Please select Gender!"},
+            input2: {
+                required: true
+            },
+            input3: {
+                required: true
+            },
+            input5: {
+                required: true
+            },
+            input10: {
+                required: true
+            },
+            input12: {
+                required: true
+            },
+            input13: {
+                required: true
+            },
+            input6: {
+                required: true
+            },
+            input4: {
+                required: true,
+                remote: {
+                url: '<?php echo base_url() ?>' + 'index.php/miappointment/check_timeslot',
+                type: "post",
+                data: {
+                    timeslot_id: function () {var timeSlot = $("#timeSlot").val().split(',');return timeSlot[0];},
+                    final_timing: function () {return $("#timepicker4").val();},
+                }
+            }
+            },
+            input34: {
+                required: true,
+            },
+            input7: {
+                required: true
+            },
+            input37: {
+                required: true
+            },
+            'input28[]': {
+                required: true
+            },
+            'input29[]': {
+                required: true
+            },
+            'input30[]': {
+                required: true
+            },
+            'input31[]': {
+                required: true
+            },
+            input14: {
+                required: true
+            },
+            input15: {
+                required: true
+            },
+            input17: {
+                required: true
+            },
+            input18: {
+                required: true
+            },
+            input19: {
+                required: true
+            },
+            input20: {
+                required: true
+            },
+            input21: {
+                required: true
+            },
+            input22: {
+                required: true
+            },
+            input23: {
+                required: true
+            },
+            input24: {
+                required: true
+            },
+            input25: {
+                required: true
+            },
+            input26: {
+                required: true
+            },
+            input27: {
+                required: true
+            },
+            input32: {
+                required: true
+            },
+            input35: {
+                required: true
+            },
+            input36: {
+                required: true
+            }
+        },
+        messages: {
+            input1: {
+                required: "Please select City.",
+            },
+            input2: {
+                required: "Please select Appointment For!",
+            },
+            input3: {
+                required: "Please select MI!", 
+            },
+            input5: {
+                required: "Please select Appointment Type!",
+            },
+            input10: {
+                required: "Please select Speciality!",
+            },
+            input12: {
+                required: "Please select Doctor!",
+            },
+            input13: {
+                required: "Please enter Patient Remarks!",
+            },
+            input6: {
+                required: "Please select Date!", 
+            },
+            input4: {
+                required: "Please select Time Slot!",
+                remote: "Please select correct time slot.",
+            },
+            input34: {
+                required: "Please select Time Slot!", 
+            },
+            input7: {
+                required: "Please select Date!",
+            },
+            input37: {
+                required: "Please select Final Time!",
+            },
+            'input28[]': {
+                required: "Please select Diagnostic Type ",
+            },
+            'input29[]': {
+                required: "Please enter Test name! ",
+            },
+            'input30[]': {
+                required: "Please enter price! ",
+            },
+            'input31[]': {
+                required: "Please enter instructions! ",
+            },
+            input14: {
+                required: "Please enter Patient Email!"
+            },
+            input15: {
+                required: "Please enter Mobile Number!"
+            },
+            input17: {
+                required: "Please enter Name!"
+            },
+            input18: {
+                required: "Please select Country!"
+            },
+            input19: {
+                required: "Please select State!"
+            },
+            input20: {
+                required: "Please enter Zip!"
+            },
+            input21: {
+                required: "Please enter Address!"
+            },
+            input22: {
+                required: "Please enter Consulation Fee!"
+            },
+            input23: {
+                required: "Please enter Other Fee!"
+            },
+            input24: {
+                required: "Please enter Tax!"
+            },
+            input25: {
+                required: "Please enter Total Amount!"
+            },
+            input26: {
+                required: "Please enter Payment Status !"
+            },
+            input27: {
+                required: "Please select Payment Mode!"
+            },
+
+            input32: {
+                required: "Please select City!"
+            },
+            input35: {
+                required: "Please select DOB!"
+            },
+            input36: {
+                required: "Please select Gender!"
+            }
+                
+        },
+        submitHandler: function(form)
+             {
+                var url = '<?php echo site_url(); ?>/miappointment/addAppointmentSave/';
+                //event.preventDefault();
+                var formData = new FormData(this);
+                submitData(url, formData);
             }
         });
-
-
-        $("#setData").submit(function (event) {
-
-            if (!$("#setData").valid())
-                return false;
-
-            event.preventDefault();
-            var url = '<?php echo site_url(); ?>/miappointment/addAppointmentSave/';
-            var formData = new FormData(this);
-             submitData(url, formData);
-        });
-
-
+        
     });
     function check_validaton() {
         var url = '<?php echo site_url(); ?>/docappointment/check_timeslot/';
