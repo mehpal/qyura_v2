@@ -178,7 +178,7 @@ CASE
     }
 
      public function diagnosticSpecialities_Details($diagnosticId, $limit = NULL) {
-        $this->db->select('(CASE diagnostic_specialityNameFormate WHEN 1 THEN qyura_specialities.specialities_drName WHEN 0 THEN qyura_specialities.specialities_name END) as specialities_name, qyura_specialities.specialities_id');
+        $this->db->select('(CASE diagnostic_specialityNameFormate WHEN 1 THEN qyura_specialities.specialities_drName WHEN 0 THEN qyura_specialities.specialities_name END) as specialitiesName, qyura_specialities.specialities_id as diagnosticSpecialities_id');
         $this->db->from('qyura_specialities');
         $this->db->join('qyura_diagnosticSpecialities', 'qyura_diagnosticSpecialities.diagnosticSpecialities_specialitiesId=qyura_specialities.specialities_id', 'left');
        $this->db->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_id=qyura_diagnosticSpecialities.diagnosticSpecialities_diagnosticId', 'left');
