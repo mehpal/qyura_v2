@@ -371,7 +371,7 @@ GLOBAL
                               </article>
                               <article class="clearfix m-b-10">
                                  <label for="cemail" class="control-label col-md-4 col-sm-4">About Us :</label>
-                                 <p class="col-md-8 col-sm-8 t-xs-left"><?php
+                                 <p class="col-md-8 col-sm-8 t-xs-left text-justify"><?php
                                     if (isset($hospitalData[0]->hospital_aboutUs)) {
                                         echo $hospitalData[0]->hospital_aboutUs;
                                     }
