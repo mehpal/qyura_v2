@@ -868,9 +868,9 @@ class Miappointment extends MY_Controller {
         $close_time = strtotime($time_slot->docTimeDay_close);
 
         if ($final_timing >= $open_time && $final_timing <= $close_time) {
-            echo "1";
+           echo json_encode(TRUE);
         } else {
-            echo "0";
+            echo json_encode(FALSE);
         }
     }
 

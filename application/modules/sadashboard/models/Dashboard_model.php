@@ -137,8 +137,13 @@ class Dashboard_model extends CI_Model {
         return $qry->result();
     }
     
-    function getDoctorOfMonth(){
+    function getDoctorOfMonth($city = ""){
                $month = date('Ym'); 
+               $where="";
+               if(!empty($city)){
+                   $where = "AND qyura_doctors.doctors_cityId = ".$city."";
+               }
+               
                $sql = "SELECT FROM_UNIXTIME(qyura_doctorAppointment.creationTime, '%Y%m') as ct,`doctors_id` as `id`, `doctors_userId` as `userId`,CONCAT('assets/doctorsImages/thumb/thumb_100','/',doctors_img) as imUrl, CONCAT(doctors_fName,' ',doctors_lName) AS doctoesName,qyura_city.city_name as city,COUNT(qyura_doctorAppointment.doctorAppointment_id) as totalapp,GROUP_CONCAT(DISTINCT(qyura_specialities.specialities_name)) AS specname,GROUP_CONCAT(DISTINCT(qyura_degree.degree_SName)) AS degree
                 FROM `qyura_doctors`
                 LEFT JOIN `qyura_usersRoles` ON `qyura_usersRoles`.`usersRoles_userId` = `qyura_doctors`.`doctors_userId`
@@ -151,7 +156,8 @@ class Dashboard_model extends CI_Model {
                 
                 WHERE `qyura_doctors`.`doctors_deleted` = 0 
                 AND `qyura_doctors`.`status` = 1 
-                AND qyura_usersRoles.usersRoles_roleId = 4 GROUP BY doctors_userId HAVING ct= ".$month." ORDER BY doctors_id DESC  LIMIT 1";
+                AND qyura_usersRoles.usersRoles_roleId = 4 ".$where." GROUP BY doctors_userId HAVING ct= ".$month." ORDER BY doctors_id DESC  LIMIT 1";
+               
 
         $qry = $this->db->query($sql);
         return $qry->result(); 

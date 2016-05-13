@@ -37,7 +37,7 @@
     <?php }
 } ?>
                                         </select>-->
-                                        <label><?php echo $qtRow->city_name ?></label>
+                                        <label><?php echo $qtRow->cityName ?></label>
                                         <div class="has-error " id="err_input1" ><?php echo form_error("city_id"); ?></div>
                                     </div>
                                 </article>
@@ -113,7 +113,7 @@
                                     </div>
                                 </article>-->
                                             
-                                <article class="clearfix m-t-10">
+<!--    new comment                            <article class="clearfix m-t-10">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Time Slot :</label>
                                     <div class="col-md-8 col-sm-8">
                                         
@@ -175,7 +175,7 @@ echo form_radio(array('name' => 'existsDr', 'value' => '1', 'checked' => ($qtRow
                                     <div class="col-md-8 col-sm-8 col-md-offset-4">
                                         <input value="<?php echo $qtRow->quotation_docName; ?>"  class="form-control" id="drName" type="text"  name="drName" placeholder="Dr Name">
                                     </div>
-                                </article>
+                                </article>-->
 
                                 <!--                                    <article class="clearfix m-t-10">
                                                                         <label for="cname" class="control-label col-md-4 col-sm-4">Quotation Type :</label>
@@ -218,11 +218,11 @@ echo form_radio(array('name' => 'existsDr', 'value' => '1', 'checked' => ($qtRow
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Appointment Status :</label>
                                     <div class="col-md-8 col-sm-8">
                                         <select class="form-control selectpicker" name="bookStatus" id="input8" data-width="100%" >
-                                            <option <?php echo set_select('bookStatus', '', true); ?> value="" >Select Status</option>
-                                            <option <?php echo set_select('bookStatus', '1'); ?> value="1" >Pending</option>
-                                            <option <?php echo set_select('bookStatus', '2'); ?> value="2" >Confirm</option>
-                                            <option <?php echo set_select('bookStatus', '3'); ?> value="3" >Cancel</option>
-                                            <option <?php echo set_select('bookStatus', '4'); ?> value="4" >Completed</option>
+<!--                                            <option <?php echo set_select('bookStatus', '', true); ?> value="" >Select Status</option>
+                                            <option <?php echo set_select('bookStatus', '1'); ?> value="1" >Pending</option>-->
+                                            <option <?php echo set_select('bookStatus', '2'); ?> value="12" >Confirm</option>
+<!--                                            <option <?php echo set_select('bookStatus', '3'); ?> value="3" >Cancel</option>
+                                            <option <?php echo set_select('bookStatus', '4'); ?> value="4" >Completed</option>-->
                                         </select>
                                         <div class="has-error " id="err_input8" ><?php echo form_error("input8"); ?></div>
                                     </div>
@@ -292,7 +292,7 @@ echo form_radio(array('name' => 'existsDr', 'value' => '1', 'checked' => ($qtRow
                                         <article class="clearfix m-t-10">
                                             <label for="" class="control-label col-md-4 col-sm-4">Price :</label>
                                             <div class="col-md-8 col-sm-8">
-                                                <input class="form-control testPrice" onkeyup="calculateTestPrice()" type="number" id="input30_1" name="input30_1" placeholder="770" onkeypress="return isNumberKey(event)" >
+                                                <input class="form-control testPrice" onkeyup="totaAmountAddQuo()" type="number" id="input30_1" name="input30_1" placeholder="770" onkeypress="return isNumberKey(event)" >
                                                 <div class="has-error " id="err_input30_1" ><?php echo form_error("input30_1"); ?></div>
                                             </div>
                                         </article>
@@ -382,7 +382,7 @@ echo form_radio(array('name' => 'existsDr', 'value' => '1', 'checked' => ($qtRow
                                         <select class="form-control selectpicker" disabled="" data-width="100%" name="userStateId" Id="stateId" data-size="4" onchange ="fetchCity(this.value)" >
                                             <option value="">Select State</option>
                                             <?php foreach ($allStates as $key => $val) { ?>
-                                                <option <?php set_select('userStateId', $qtRow->patientDetails_stateId); ?> value="<?php echo $val->state_id; ?>"><?php echo $val->state_statename; ?></option>
+                                                <option <?php echo  ($qtRow->patientDetails_stateId == $val->state_id) ? 'selected':''; ?> value="<?php echo $val->state_id; ?>"><?php echo $val->state_statename; ?></option>
 <?php } ?>
                                         </select>
                                         <div class="has-error " id="err_input19" ><?php echo form_error("userStateId"); ?> </div>
@@ -395,9 +395,9 @@ echo form_radio(array('name' => 'existsDr', 'value' => '1', 'checked' => ($qtRow
                                     <div class="col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4">
                                         <select disabled="" name="userCityId" id="cityId" data-size="4" class="form-control selectpicker" data-width="100%" >
                                             <option value="">Select City</option>
-                                            <?php if (isset($cityData) && $cityData != NULL) {
-                                                foreach ($cityData as $key => $val) { ?>
-                                                    <option <?php set_select('userCityId', $val->city_id); ?> value="<?php echo $val->city_id; ?>"><?php echo $val->city_name; ?></option>
+                                            <?php if (isset($qyura_city) && $qyura_city != NULL) {
+                                                foreach ($qyura_city as $key => $val) { ?>
+                                                    <option <?php echo  $val->city_id == $qtRow->patientDetails_cityId ? 'selected':'' ?>  value="<?php echo $val->city_id; ?>"><?php echo $val->city_name; ?></option>
     <?php }
 } ?>
 
@@ -450,21 +450,21 @@ echo form_radio(array('name' => 'existsDr', 'value' => '1', 'checked' => ($qtRow
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Total Test Fee:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input type="text" class="form-control" id="input22" name="consulationFee" placeholder="500" onblur="calculateTestPrice()" onkeypress="return isNumberKey(event)"/>
+                                            <input type="text" class="form-control" id="input22" name="consulationFee" placeholder="500" onblur="totaAmountAddQuo()" onkeypress="return isNumberKey(event)"/>
                                             <div class="has-error " id="err_input22" ><?php echo form_error("consulationFee"); ?></div>
                                         </div>
                                     </article>
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Other Fee:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input type="number" class="form-control" id="input23" name="otherFee" placeholder="0"   onkeypress="return isNumberKey(event)" value="0"  onblur="calculateamount()" />
+                                            <input type="number" class="form-control" id="input23" name="otherFee" placeholder="0"   onkeypress="return isNumberKey(event)" value="0"  onblur="totaAmountAddQuo()" />
                                             <div class="has-error " id="err_input23" ><?php echo form_error("otherFee"); ?></div>
                                         </div>
                                     </article>
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Tax :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input type="number" class="form-control" name="tax" id="input24" placeholder="12%"  onblur="calculateamount()" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');">
+                                            <input type="number" class="form-control" name="tax" id="input24" placeholder="12%"  onblur="totaAmountAddQuo()" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');">
                                             <input type="hidden" class="form-control" name="paidamt" id="paidamt" />
                                             <div class="has-error " id="err_input24" ><?php echo form_error("tax"); ?></div>
                                         </div>

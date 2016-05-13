@@ -313,12 +313,13 @@ class Doctor extends MY_Controller {
             }
 
 	    $this->session->set_flashdata('message', 'Data inserted successfully !');
-	    
-	    $from = 'support@qyura.com';
+            	    
+            $from = 'support@qyura.com';
             $to = $this->input->post("users_email");
             $data['name'] = $this->input->post("doctors_fName")." ".$this->input->post("doctors_lName");
             $message = $this->load->view('email/signing_up_user_tpl',$data,true);
-
+            sendMail($from,$to,$message);
+            
             redirect('doctor/addDoctor');
         }
     }
@@ -527,6 +528,7 @@ class Doctor extends MY_Controller {
         foreach (getDay() as $weekDay => $weekIndex) {
             $where = array('docTimeDay_day' => $weekIndex, 'docTimeTable_doctorId' => $doctorId);
             $result = $this->Doctor_model->getDocTimeOnDay($where);
+            
             if ($result)
                 $timeSloats[$weekDay] = $result;
         }
@@ -1204,7 +1206,7 @@ class Doctor extends MY_Controller {
 
         if (isset($_POST['docTimeTable_stayAt']) && $_POST['docTimeTable_stayAt'] != '' && $_POST['docTimeTable_stayAt'] == 0) {
 
-            $this->bf_form_validation->set_rules('psChamber', 'Chamber Name', 'required|trim');
+            $this->bf_form_validation->set_rules('psChamber_name', 'Chamber Name', 'required|trim');
             $this->bf_form_validation->set_rules('countryId', 'Country Name', 'required|trim');
             $this->bf_form_validation->set_rules('stateId', 'State Name', 'required|trim');
             $this->bf_form_validation->set_rules('cityId', 'City Name', 'required|trim');
@@ -1400,7 +1402,7 @@ class Doctor extends MY_Controller {
 
     function saveChamber() {
         $doctorId = $this->input->post('doctorId');
-        $psChamber_name = $this->input->post('psChamber');
+        $psChamber_name = $this->input->post('psChamber_name');
         $psChamber_countryId = 1;
         $psChamber_stateId = $this->input->post('stateId');
         $psChamber_cityId = $this->input->post('cityId');
@@ -1443,7 +1445,7 @@ class Doctor extends MY_Controller {
 
         if (isset($_POST['docTimeTable_stayAt']) && $_POST['docTimeTable_stayAt'] != '' && $_POST['docTimeTable_stayAt'] == 0) {
 
-            $this->bf_form_validation->set_rules('psChamber', 'Chamber Name', 'required|trim');
+            $this->bf_form_validation->set_rules('psChamber_name', 'Chamber Name', 'required|trim');
             $this->bf_form_validation->set_rules('stateId', 'State Name', 'required|trim');
             $this->bf_form_validation->set_rules('cityId', 'City Name', 'required|trim');
             $this->bf_form_validation->set_rules('pinn', 'Pin Code', 'required|trim');
@@ -1636,7 +1638,7 @@ class Doctor extends MY_Controller {
 
     function updateChamber($id) {
         $doctorId = $this->input->post('doctorId');
-        $psChamber_name = $this->input->post('psChamber');
+        $psChamber_name = $this->input->post('psChamber_name');
         $psChamber_countryId = 1;
         $psChamber_stateId = $this->input->post('stateId');
         $psChamber_cityId = $this->input->post('cityId');

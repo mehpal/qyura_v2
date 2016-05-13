@@ -29,15 +29,22 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        
+            $('#QuotationForm').delegate('select','change',function(){
+           var id =$(this).attr('id');
+           console.log(id);
+            $('#'+id+'-error').html('');
+        });
+        
         var date = new Date();
         var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
         var nowTemp = new Date();
         var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
-
+        <?php $date = isset($qtRow->quotation_dateTime) && $qtRow->quotation_dateTime != null ?date('d/m/Y',$qtRow->quotation_dateTime):date('d/m/Y'); ?>
         $('#preferedDate').datepicker({
             autoclose: true,
-            startDate: '+0d',
+            startDate: '<?php echo $date; ?>'
         });
 
         if (Modernizr.touch) {
@@ -578,7 +585,7 @@
 
         $("#total_test").val(newTestValue);
 
-        var htmlData = '<div id="diagnosticClon_' + newTestValue + '"><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4 cl-black">Test-' + newTestValue + ' :</label></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Diagnostic Type :</label><div class="col-md-8 col-sm-8"><select class="selectpicker" data-width="100%" name="input28_' + newTestValue + '" id="input28_' + newTestValue + '" required="" ><option value="">Select Diagnostic</option></option></select><div class="has-error " id="err_input28_' + newTestValue + '" ></div></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Test Name :</label><div class="col-md-8 col-sm-8"><input type="text" required="" class="form-control" name="input29_' + newTestValue + '" id="input29_' + newTestValue + '" ><div class="has-error " id="err_input29_' + newTestValue + '" ></div></div></article><article class="form-group m-lr-0"><label for="" class="control-label col-md-4 col-sm-4">Price :</label><div class="col-md-8 col-sm-8"><input class="form-control testPrice" onkeyup="calculateTestPrice()" required="" type="number" id="input30_' + newTestValue + '" name="input30_' + newTestValue + '" placeholder="770" onkeypress="return isNumberKey(event)"><div class="has-error " id="err_input30_' + newTestValue + '" ></div></div></article><article class="form-group m-lr-0"><label for="" class="control-label col-md-4 col-sm-4">Instruction :</label><div class="col-md-8 col-sm-8"><textarea class="form-control" id="input31_' + newTestValue + '" name="input31_' + newTestValue + '" placeholder="" required="" ></textarea><div class="has-error " id="err_input31_' + newTestValue + '" ></div></div></article><article class="form-group m-lr-0"><div class="col-md-3 col-sm-3 col-md-offset-0 col-sm-offset-0"><button id="remove_' + newTestValue + '" class="btn btn-danger btn-block waves-effect waves-light" type="button" href="javascript:void(0);" onclick="removeTest(\'' + newTestValue + '\');" > Remove </button></div></article></div>';
+        var htmlData = '<div id="diagnosticClon_' + newTestValue + '"><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4 cl-black">Test-' + newTestValue + ' :</label></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Diagnostic Type :</label><div class="col-md-8 col-sm-8"><select class="selectpicker" data-width="100%" name="input28_' + newTestValue + '" id="input28_' + newTestValue + '" required="" ><option value="">Select Diagnostic</option></option></select><div class="has-error " id="err_input28_' + newTestValue + '" ></div></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Test Name :</label><div class="col-md-8 col-sm-8"><input type="text" required="" class="form-control" name="input29_' + newTestValue + '" id="input29_' + newTestValue + '" ><div class="has-error " id="err_input29_' + newTestValue + '" ></div></div></article><article class="form-group m-lr-0"><label for="" class="control-label col-md-4 col-sm-4">Price :</label><div class="col-md-8 col-sm-8"><input class="form-control testPrice" onkeyup="totaAmountAddQuo()" required="" type="number" id="input30_' + newTestValue + '" name="input30_' + newTestValue + '" placeholder="770" onkeypress="return isNumberKey(event)"><div class="has-error " id="err_input30_' + newTestValue + '" ></div></div></article><article class="form-group m-lr-0"><label for="" class="control-label col-md-4 col-sm-4">Instruction :</label><div class="col-md-8 col-sm-8"><textarea class="form-control" id="input31_' + newTestValue + '" name="input31_' + newTestValue + '" placeholder="" required="" ></textarea><div class="has-error " id="err_input31_' + newTestValue + '" ></div></div></article><article class="form-group m-lr-0"><div class="col-md-3 col-sm-3 col-md-offset-0 col-sm-offset-0"><button id="remove_' + newTestValue + '" class="btn btn-danger btn-block waves-effect waves-light" type="button" href="javascript:void(0);" onclick="removeTest(\'' + newTestValue + '\');" > Remove </button></div></article></div>';
         $("#diagnosticSectionTest").append(htmlData);
         if (total_test !== 1) {
             $("#remove_" + total_test).hide();
