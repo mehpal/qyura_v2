@@ -135,9 +135,10 @@
                                                 echo 'disabled';
                                             } ?>>
 
+                                            
                                             <option value="">Select State</option>
                                             <?php foreach ($allStates as $key => $val) { ?>
-                                                <option  value="<?php echo $val->state_id; ?>" ><?php echo $val->state_statename; ?></option>
+                                                <option <?php echo set_select('diagnostic_stateId', $val->state_id); ?>   value="<?php echo $val->state_id; ?>" ><?php echo $val->state_statename; ?></option>
                                             <?php } ?>
                                         </select>
                                         <label class="error" style="display:none;" id="error-diagnostic_stateId"> please select a state</label>
