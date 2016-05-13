@@ -23,8 +23,11 @@ google.load('visualization', '1', {
 });
 google.setOnLoadCallback(drawChart);
 
-function drawChart() {
 
+
+function drawChart() {
+  
+   
     var data = new google.visualization.DataTable();
     var urls = $("#urls").val();
     data.addColumn('string', 'Pizza');
@@ -32,12 +35,12 @@ function drawChart() {
        $.ajax({
         url: urls + 'index.php/sadashboard/getChartDraw',
         type: 'POST',
-       // data: {'id': id},
+        //data: {'year': year},
         success: function (response) {
             var obj = $.parseJSON(response);
             if (response) {
                 
-              // console.log(obj['Ambulance']);
+               console.log(obj);
                
                   data.addRows([
                     ['Hospitals', obj['Hospitals']],
@@ -47,23 +50,9 @@ function drawChart() {
                        ['Blood Bank', obj['BloodBank']],
                   ]);
                   
-            }
-
-        }
-
-    });
-    
-    data.addRows([
-        ['Hospitals', 45],
-        ['Ambulance', 23],
-        ['Diagnostics Center', 11],
-           ['Pharmacies', 11],
-           ['Blood Bank', 10],
-      ]);
-
-    var options = {
+                  var options = {
         //        title: 'Popularity of Types of Pizza',
-        colors: ['#41CDB2', '#F7F3E7', '#ABBCE8', '#BCBCBC', '#FEB777'],
+        colors: ['#41CDB2', '#F7F3E7', '#ABBCE8', '#6E8CD7', '#FEB777'],
         chartArea: {
             left: 20,
             top: 20,
@@ -78,9 +67,73 @@ function drawChart() {
 
     var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
     chart.draw(data, options);
+                  
+            }
+
+        }
+
+    });
+
+    
 }
 
+$("#chartYear").on('change',function(){
+   var year = $(this).val();
 
+   google.setOnLoadCallback(drawChartAjax(year));
+});
+
+function drawChartAjax(year) {
+  
+   
+    var data = new google.visualization.DataTable();
+    var urls = $("#urls").val();
+    data.addColumn('string', 'Pizza');
+    data.addColumn('number', 'Populartiy');
+       $.ajax({
+        url: urls + 'index.php/sadashboard/getChartDraw',
+        type: 'POST',
+        data: {'year': year},
+        success: function (response) {
+            var obj = $.parseJSON(response);
+            if (response) {
+                
+               console.log(obj);
+               
+                  data.addRows([
+                    ['Hospitals', obj['Hospitals']],
+                    ['Ambulance', obj['Ambulance']],
+                    ['Diagnostics Center', obj['Diagnostics']],
+                       ['Pharmacies', obj['Pharmacies']],
+                       ['Blood Bank', obj['BloodBank']],
+                  ]);
+                  
+                  var options = {
+        //        title: 'Popularity of Types of Pizza',
+        colors: ['#41CDB2', '#F7F3E7', '#ABBCE8', '#6E8CD7', '#FEB777'],
+        chartArea: {
+            left: 20,
+            top: 20,
+            width: '100%',
+            height: '100%'
+        },
+        pieSliceTextStyle: {
+            color: 'black',
+        },
+        sliceVisibilityThreshold: .09
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+                  
+            }
+
+        }
+
+    });
+
+    
+}
 /* -- Pie Chart (Revenue Distribution) -- */
 
 google.load('visualization', '1', {
