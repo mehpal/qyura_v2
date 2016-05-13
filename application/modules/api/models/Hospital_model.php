@@ -29,8 +29,9 @@ class Hospital_model extends CI_Model {
         if ($isAmbulance != '' && $isAmbulance != NULL && $isAmbulance == 1) {
             $having['isAmbulance !='] = 0;
         }
+        $where_in = array();
         if ($isInsurance != '' && $isInsurance != NULL && $isInsurance != 0) {
-            $where['hospitalInsurance_insuranceId'] = $isInsurance;
+            $where_in['hospitalInsurance_insuranceId'] = explode($isInsurance);
         }
 
         $healtPkg = '';
@@ -46,7 +47,7 @@ class Hospital_model extends CI_Model {
 
         $this->db->select('hospital_usersId as userId,hospital_id as id, (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, hospital_address as adr ,hospital_name name, CONCAT("0","",hospital_phn) as  phn, hospital_lat lat, hospital_long long, qyura_hospital.modifyTime upTm, hospital_img imUrl, (
                 6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( hospital_lat ) ) * cos( radians( hospital_long ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( hospital_lat ) ) )
-                ) AS distance, Group_concat(DISTINCT (CASE specialityNameFormate WHEN 1 THEN qyura_specialities.specialities_drName WHEN 0 THEN qyura_specialities.specialities_name END) order by qyura_hospitalSpecialities.hospitalSpecialities_orderForHos SEPARATOR ", ") as specialities, isEmergency ' . $ambulance . '  ' . $healtPkg . '
+                ) AS distance, Group_concat(DISTINCT (CASE specialityNameFormate WHEN 1 THEN qyura_specialities.specialities_drName WHEN 0 THEN qyura_specialities.specialities_name END) order by qyura_specialities.specialities_name SEPARATOR ", ") as specialities, isEmergency ' . $ambulance . '  ' . $healtPkg . '
 ,(
 CASE 
  WHEN (reviews_rating is not null AND qyura_ratings.rating is not null) 
@@ -68,6 +69,7 @@ CASE
                 ->join('qyura_ratings', 'qyura_ratings.rating_relateId=qyura_hospital.hospital_usersId', 'left')
                 ->join('qyura_fav', 'qyura_fav.fav_relateId = qyura_hospital.hospital_usersId AND fav_userId = ' . $userId . '  ', 'left')
                 ->where($where)
+                ->where_in($where_in)
                 ->where_not_in('qyura_hospital.hospital_id', $notIn)
                 ->order_by('distance', 'ASC')
                 ->limit(DATA_LIMIT);
@@ -101,9 +103,7 @@ CASE
         $this->db->group_by('hospital_id');
 
         $response = $this->db->get()->result();
-        // dump($this->db->last_query()); die();
-        //$aoClumns = array("id","fav","rat","adr", "name","phn","lat","lng","upTm","imUrl","specialities");
-
+echo $this->db->last_query(); die();
         $finalResult = array();
         if (!empty($response)) {
             foreach ($response as $row) {
@@ -118,10 +118,9 @@ CASE
                 $finalTemp[] = isset($row->lat) ? $row->lat : "";
                 $finalTemp[] = isset($row->long) ? $row->long : "";
                 $finalTemp[] = isset($row->upTm) ? $row->upTm : "";
-                $finalTemp[] = isset($row->imUrl) && $row->imUrl != '' ? 'assets/hospitalsImages/thumb/original/' . $row->imUrl : "";
+                $finalTemp[] = isset($row->imUrl) && $row->imUrl != ''? 'assets/hospitalsImages/thumb/original/'.$row->imUrl:"";
                 $finalTemp[] = isset($row->specialities) ? $row->specialities : "";
                 $finalTemp[] = isset($row->isEmergency) ? $row->isEmergency : "";
-
                 $finalTemp[] = isset($row->isAmbulance) && $row->isAmbulance > 0 ? "1" : "0";
                 $finalTemp[] = isset($row->isHealtPkg) && $row->isHealtPkg > 0 ? "1" : "0";
                 $finalTemp[] = isset($row->isInsurance) && $row->isInsurance > 0 ? "1" : "0";
@@ -184,12 +183,10 @@ CASE
     }
 
     public function getHosSpecialities($hospitalId, $limit = NULL) {
-        $this->db->select('(CASE specialityNameFormate WHEN 1 THEN qyura_specialities.specialities_drName WHEN 0 THEN qyura_specialities.specialities_name END) as specialities_name, qyura_specialities.specialities_id');
+        $this->db->select('qyura_specialities.specialities_name,qyura_specialities.specialities_id');
         $this->db->from('qyura_specialities');
         $this->db->join('qyura_hospitalSpecialities', 'qyura_hospitalSpecialities.hospitalSpecialities_specialitiesId=qyura_specialities.specialities_id', 'left');
-        $this->db->join('qyura_hospital', 'qyura_hospital.hospital_id=qyura_hospitalSpecialities.hospitalSpecialities_hospitalId', 'left');
         $this->db->where(array('qyura_hospitalSpecialities.hospitalSpecialities_hospitalId' => $hospitalId, 'qyura_hospitalSpecialities.hospitalSpecialities_deleted' => 0, 'qyura_specialities.specialities_deleted' => 0));
-        $this->db->order_by('hospitalSpecialities_orderForHos');
         if ($limit != NULL)
             $this->db->limit($limit);
         return $this->db->get()->result();

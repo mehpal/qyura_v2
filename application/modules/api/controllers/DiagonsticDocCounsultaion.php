@@ -11,11 +11,9 @@ class DiagonsticDocCounsultaion extends MyRest {
         parent::__construct();
         $this->load->model(array('diagonSticDocCounsultaion_model'));
     }
-
+    
     function diagonSticConsultantList_post() {
         
-       // $this->form_validation->set_rules('lat', 'Lat', 'xss_clean|trim|required|decimal');
-       // $this->form_validation->set_rules('long', 'Long', 'xss_clean|trim|required|decimal');
         $this->bf_form_validation->set_rules('diagonsticUserId','Diagonstic User Id','xss_clean|numeric|required|trim');
         $this->bf_form_validation->set_rules('specialityid', 'Speciality Id', 'xss_clean|trim|numeric|required');
         $this->bf_form_validation->set_rules('notin', 'Not In', 'xss_clean|trim|required');
@@ -27,8 +25,7 @@ class DiagonsticDocCounsultaion extends MyRest {
             $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
             $this->response($response, 400);
         } else {
-          //  $lat = isset($_POST['lat']) ? $this->input->post('lat') : '';
-         //   $long = isset($_POST['long']) ? $this->input->post('long') : '';
+      
             $diagonsticUserId = $this->input->post('diagonsticUserId');
             $specialityId = $this->input->post('specialityid');
             $notIn = isset($_POST['notin']) && $_POST['notin'] != 0 ? $this->input->post('notin') : '';
@@ -41,7 +38,7 @@ class DiagonsticDocCounsultaion extends MyRest {
             $cityId = isset($_POST['cityId']) ? $this->input->post('cityId') : NULL;
             
             $consultantList = $this->diagonSticDocCounsultaion_model->getConsultantList($notIn,$diagonsticUserId,$specialityId,$search,$cityId);
-            $response['colName'] = array("id", "name", "exp", "imUrl", "rating", "consFee", "speciality", "degree", "lat", "long", "isEmergency", "userId");
+           $response['colName'] = array("id","showExp", "name", "exp", "imUrl","rating","consFee", "speciality", "degree","isEmergency");
             if ($consultantList) {
                 $response['consultantList'] = $consultantList;
                 $response['status'] = TRUE;
@@ -55,33 +52,4 @@ class DiagonsticDocCounsultaion extends MyRest {
         }
     }
     
-    
-   function diagnosticTimeSlot_post(){
-        $this->form_validation->set_rules('diagonsticId','Diagonstic Id','xss_clean|numeric|required|trim');
-       // $this->form_validation->set_rules('specialityid', 'Speciality Id', 'xss_clean|trim|numeric|required');
-        $this->form_validation->set_rules('doctorUserId', 'Doctor UserId', 'xss_clean|numeric|required|trim');
-         if ($this->form_validation->run($this) == FALSE) {
-            // setup the input
-            $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
-            $this->response($response, 400);
-        } else {
-            $diagonsticId = $this->input->post('diagonsticId');
-            $specialityId = $this->input->post('specialityid');
-            $doctorUserId = $this->input->post('doctorUserId');
-            $diagnoTimeSlot = $this->diagonSticDocCounsultaion_model->getDiagnoTimeSlot($diagonsticId);
-            if ($diagnoTimeSlot) {
-                $response['diagnosticTimeSlot'] = $diagnoTimeSlot;
-                $response['doctorTimeSlot'] = $this->diagonSticDocCounsultaion_model->getDocTimeSlot($diagonsticId,$doctorUserId);
-                $response['status'] = TRUE;
-                $response['msg'] = 'success';
-                $this->response($response, 200); // 200 being the HTTP response code
-            } else {
-                $response['status'] = false;
-                $response['msg'] = 'No prefrred time slot available at this hospital!';
-                $this->response($response, 400); // 200 being the HTTP response code
-            }
-            
-        }
-    }
-
 }
