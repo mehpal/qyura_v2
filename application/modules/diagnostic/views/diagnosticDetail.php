@@ -215,7 +215,7 @@
                      </article>
                      <article class="clearfix m-b-10">
                         <label for="cemail" class="control-label col-md-4 col-sm-4">About Us:</label>
-                        <p class="col-md-8 col-sm-8 t-xs-left"><?php if (!empty($diagnosticData) && isset($diagnosticData)): echo $diagnosticData[0]->diagnostic_aboutUs;
+                        <p class="col-md-8 col-sm-8 t-xs-left text-justify"><?php if (!empty($diagnosticData) && isset($diagnosticData)): echo $diagnosticData[0]->diagnostic_aboutUs;
                            endif; ?></p>
                      </article>
                      <?php if(!empty($diagnosticData[0]->bloodBank_phn)){ ?>
