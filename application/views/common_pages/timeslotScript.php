@@ -31,10 +31,32 @@
                 if ($("#check_" + i + "_" + k ).prop("checked") == true) {
                     var day1 = $("#openTime_" + i + "_" + k).val();
                     var day2 = $("#closeTime_" + i + "_" + k).val();
+                    
+                   /// var d1 = new Date(day1);
+                   /// var d2 = new Date(day2);
+                    
+                    //console.log(d1.getTime()+"=="+d2.getTime());
+                    
+                    var duration1 = day1.split(" ");
+                    var duration2 = day2.split(" ");
+                            
+                   // console.log(duration1[1]+"=="+duration2[1]);
+                        
                     var min1 = timeSplit(day1);
                     var min2 = timeSplit(day2);
+                   
+                   // console.log(min1+"=="+min2);
+                   
+                    if(duration1[1] == 'PM'){
+                    min1 = min1+parseInt(12*60);
+                    }
+                    if(duration2[1] == 'PM'){
+                    min2 = min2+parseInt(12*60);
+                    }
+                   
                     count++;
                     if (min1 < min2) {
+                        
                         flag++;
                     } else {
                     }
