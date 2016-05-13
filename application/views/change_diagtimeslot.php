@@ -27,7 +27,7 @@
                                 </div>
                             </article>
                             <article class="clearfix m-t-20">
-                                <button type="button" class="btn btn-primary pull-right waves-effect waves-light" onclick="changediagapptime()">Save changes</button>
+                                <button type="submit" class="btn btn-primary pull-right waves-effect waves-light">Save changes</button>
                             </article>
                         </form>
                     </div>
