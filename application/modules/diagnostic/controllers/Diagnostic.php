@@ -3119,35 +3119,20 @@ class Diagnostic extends MY_Controller {
 
             foreach ($days as $day) {
                 if (!in_array($day->day, $selectedDays)) {
-                    $where = array('docTimeDay_day' => $day->day, 'docTimeDay_docTimeTableId' => $docTimeTableId);
-                    $records_upg['docTimeDay_deleted'] = 1;
-                    $records_upg['modifyTime'] = time();
+                    $where1 = array('docTimeDay_day' => $day->day, 'docTimeDay_docTimeTableId' => $docTimeTableId);
+                    $records_upg1['docTimeDay_deleted'] = 1;
+                    $records_upg1['modifyTime'] = time();
 
-                    $updateOptions = array
+                    $updateOptions1 = array
                         (
-                        'where' => $where,
-                        'data' => $records_upg,
+                        'where' => $where1,
+                        'data' => $records_upg1,
                         'table' => 'qyura_docTimeDay'
                     );
 
-                    $id = $this->common_model->customUpdate($updateOptions);
+                    $id = $this->common_model->customUpdate($updateOptions1);
                     $id = true;
-                } else {
-                    $where = array('docTimeDay_day' => $day->day, 'docTimeDay_docTimeTableId' => $docTimeTableId);
-                    $records_upg['modifyTime'] = time();
-                    $records_upg['docTimeDay_open'] = $docTimeDay_open;
-                    $records_upg['docTimeDay_close'] = $docTimeDay_close;
-
-                    $updateOptions = array
-                        (
-                        'where' => $where,
-                        'data' => $records_upg,
-                        'table' => 'qyura_docTimeDay'
-                    );
-
-                    $id = $this->common_model->customUpdate($updateOptions);
-                    $id = true;
-                }
+                } 
             }
 
             $sql = '';
