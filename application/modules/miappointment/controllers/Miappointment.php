@@ -774,8 +774,9 @@ class Miappointment extends MY_Controller {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
-            echo json_encode($responce);
-            exit;
+            $this->session->set_flashdata('message', 'Data inserted successfully !');
+                redirect('miappointment');
+            
         }
     }
 

@@ -17,7 +17,7 @@
                             <h3 class="pull-left page-title">Add Appointments</h3>
                         </div>
                     </div>
-                    <form class="cmxform form-horizontal tasi-form" id="setData" method="post" action="#">
+                    <form class="cmxform form-horizontal tasi-form" id="setData" method="post" action="<?php echo site_url(); ?>/miappointment/addAppointmentSave/">
                         <!-- Left Section Start -->
                         <section class="col-md-6 detailbox">
                             <div class="bg-white mi-form-section">
@@ -332,7 +332,7 @@
                                                     <div class="has-error " id="err_input32" ><?php echo form_error("input32"); ?></div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6 m-t-xs-10">
-                                                    <input type="text" class="form-control" id="zip" name="input20" />
+                                                    <input type="text" class="form-control" id="zip" name="input20"/>
                                                     <div class="has-error " id="err_input20" ><?php echo form_error("input20"); ?></div>
                                                 </div>
                                             </aside>
