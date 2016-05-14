@@ -235,6 +235,9 @@
                 },
                 timeSlot: {
                     required: true,
+                },
+                finaltime: {
+                    required: true,
                     remote: {
                     url: url + 'index.php/miappointment/check_timeslot',
                     type: "post",
@@ -243,9 +246,6 @@
                         final_timing: function () {return $("#timepicker3").val();},
                     }
                 }
-                },
-                finaltime: {
-                    required: true
                 }
             },
             messages: {
@@ -254,10 +254,10 @@
                      },
                 timeSlot: {
                     required: "Please select Time Slot!",
-                    remote: "Please select correct time slot."
                      },
                 finaltime: {
                     required: "Please select Final Time",
+                    remote: "Please select correct time slot."
                      }
             },
             submitHandler: function(form)
@@ -299,28 +299,28 @@
 //consulting's timeslot update validation ends
 //diagnostic's timeslot update validation starts
         var url = "<?php echo base_url(); ?>";
-        $("#changetimeform").validate({
+        $("#changetimeform2").validate({
             rules: {
-                appdate: {
+                appdate2: {
                     required: true
                 },
-                finaltime: {
+                finaltime2: {
                     required: true
                 }
             },
             messages: {
-                appdate: {
+                appdate2: {
                     required: "Please select App Date",
                 },
-                finaltime: {
+                finaltime2: {
                     required: "Please select Final Time",
                 }
             },
         
         submitHandler: function(form)
         {
-        var appdate = $("#date-7").val();
-        var finaltime = $("#timepicker3").val();
+        var appdate = $("#date-11").val();
+        var finaltime = $("#timepicker11").val();
         var appid = $("#appid").val();
         var url = '<?php echo site_url(); ?>' + '/miappointment/savediagtimeSlot';
         $.ajax({

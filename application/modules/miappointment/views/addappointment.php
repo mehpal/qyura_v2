@@ -151,7 +151,7 @@
                                                 <option value="">Select Time Slot</option>
                                             </select>
                                             <div class="has-error " id="err_input4" ><?php echo form_error("input4"); ?></div>
-                                            <div id="timesloterror" class="error"></div>
+                                            
                                         </div>
                                     </article>
                                     <article class="form-group m-lr-0">
@@ -160,6 +160,7 @@
                                             <div class="bootstrap-timepicker input-group w-full">
                                                 <input id="timepicker4" type="text" class="form-control timepicker" name="input34" value="<?php echo date("H:i"); ?>" />
                                                 <div class="has-error " id="err_input34" ><?php echo form_error("input34"); ?></div>
+                                                <div id="timesloterror" class="error"></div>
                                             </div>
                                         </div>
                                     </article>
