@@ -13,7 +13,7 @@ class Auth extends MyRest {
         $this->lang->load('auth_api');
     }
 
-        //signup
+    //signup
     function signUp_post() {
       
         $this->bf_form_validation->set_rules('device', 'device', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
@@ -430,6 +430,72 @@ class Auth extends MyRest {
         }
     }
     
+    //log the user in
+    function login_post() {
+
+        //validate form input
+        $this->bf_form_validation->set_rules('identity', 'Identity', 'required|xss_clean');
+        $this->bf_form_validation->set_rules('password', 'Password', 'required|xss_clean');
+
+        $this->bf_form_validation->set_rules('pushToken', 'push token', 'min_length[8]|max_length[255]|xss_clean');
+        $this->bf_form_validation->set_rules('udid', 'udid', 'required|min_length[8]|max_length[255]|xss_clean');
+        $this->bf_form_validation->set_rules('device', 'device', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
+
+        if ($this->bf_form_validation->run() == FALSE) {
+            $message = $this->validation_post_warning();
+            $response = array('status' => FALSE, 'message' => $message);
+            $this->response($response, 400);
+        }else{
+            
+            $identity = $this->input->post('identity');
+            $password = $this->common_model->decryptPassword($this->input->post('password'));
+            
+            $option = array(
+                'table' => 'qyura_users',
+                'select' => '*',
+                'where' => array('qyura_users.users_deleted' => 0,'qyura_users.users_email' => $identity,'qyura_usersRoles.usersRoles_roleId' => 6),
+                'or_where'=>array('qyura_users.users_mobile' => $identity),
+                'join' => array(
+                    array('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId = qyura_users.users_id', 'left'),
+                    array('qyura_patientDetails', 'qyura_patientDetails.patientDetails_usersId = qyura_users.users_id', 'left'),
+                    array('qyura_userSocial', 'qyura_userSocial.userSocial_usersId = qyura_users.users_id', 'left'),
+                ),
+                'single'=>true
+            );
+            $userDetail = $this->common_model->customGet($option);
+            
+            
+            
+            if(isset($userDetail) && $userDetail != NULL){
+                $passwordDB = $this->common_model->decryptPassword($userDetail->users_id,$this->input->post('password'));
+                if(isset($passwordDB) && $passwordDB != NULL){
+                    $userDetail->address = $userDetail->patientDetails_address;
+                    $userDetail->dob = $userDetail->patientDetails_dob;
+                    $userDetail->fbId = $userDetail->userSocial_fbId;
+                    $userDetail->gender = $userDetail->patientDetails_gender;
+                    $userDetail->gpId = $userDetail->users_gpId;
+                    $userDetail->logintype = $userDetail->users_logintype;
+                    $userDetail->notification = $userDetail->userSocial_notification;
+                    $userDetail->pLastName = $userDetail->patientDetails_pLastName;
+                    $userDetail->patientImg = $userDetail->patientDetails_patientImg;
+                    $userDetail->patientName = $userDetail->patientDetails_patientName;
+                    $userDetail->device = $userDetail->userSocial_device;
+                    $userDetail->pUnqId = $userDetail->patientDetails_unqId;
+                    $userDetail->pushToken = $userDetail->userSocial_pushToken;
+                    $userDetail->scUsersId = $userDetail->userSocial_id;
+                
+                    $response = array('status' => TRUE, 'userDetail' => $userDetail, 'message' => 'Login successfull');
+                    $this->response($response, 200);
+                }else{
+                    $response = array('status' => FALSE, 'message' => 'Password is Wrong');
+                    $this->response($response, 400);
+                }
+            }else {
+                $response = array('status' => FALSE, 'message' => 'User not Found');
+                $this->response($response, 400);
+            }
+        }
+    }
 
     function imageUpload_post() {
         $this->profImgPath = realpath(FCPATH . 'assets/proImg') . '/';
@@ -607,57 +673,6 @@ class Auth extends MyRest {
             return FALSE;
         } else {
             return TRUE;
-        }
-    }
-
-    //log the user in
-    function login_post() {
-
-        //validate form input
-        $this->bf_form_validation->set_rules('identity', 'Identity', 'required|xss_clean');
-        $this->bf_form_validation->set_rules('password', 'Password', 'required|xss_clean');
-
-        $this->bf_form_validation->set_rules('pushToken', 'push token', 'min_length[8]|max_length[255]|xss_clean');
-        $this->bf_form_validation->set_rules('udid', 'udid', 'required|min_length[8]|max_length[255]|xss_clean');
-        $this->bf_form_validation->set_rules('device', 'device', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
-
-        if ($this->bf_form_validation->run($this) == true) {
-            //check to see if the user is logging in
-            //check for "remember me"
-            $remember = (bool) $this->input->post('remember');
-
-            if ($this->ion_auth_api->login($this->input->post('identity'), $this->input->post('password'), $remember)) {
-                //if the login is successful
-                //redirect them back to the home page
-                //$this->session->set_flashdata('message', $this->ion_auth_api->messages());
-
-                $userDetail = $this->userLoginDetail();
-
-                $userSocial['userSocial_pushToken'] = isset($_POST['pushToken']) ? $this->input->post('pushToken') : '';
-                $userSocial['userSocial_udid'] = isset($_POST['udid']) ? $this->input->post('udid') : '';
-                $userSocial['userSocial_device'] = isset($_POST['device']) ? $this->input->post('device') : '';
-                $usersData['users_logintype'] = 0;
-
-                $this->db->update('qyura_users', $usersData, array('users_id' => $userDetail->users_id));
-
-                $response = array('status' => TRUE, 'message' => $this->ion_auth_api->messages(), 'userDetail' => $userDetail);
-                $this->response($response, 200);
-            } else {
-                //if the login was un-successful
-                //redirect them back to the login page
-                //$this->session->set_flashdata('message', $this->ion_auth_api->errors());
-
-                $userDetail = $this->userLoginDetail();
-                $response = array('status' => FALSE, 'userDetail' => $userDetail, 'message' => $this->ion_auth_api->errors());
-                $this->response($response, 400);
-            }
-        } else {
-            //the user is not logging in so display the login page
-            //set the flash data error message if there is one
-            $message = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-
-            $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
-            $this->response($response, 400);
         }
     }
 
