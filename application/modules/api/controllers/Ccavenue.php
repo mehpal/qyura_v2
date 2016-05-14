@@ -134,8 +134,10 @@ class Ccavenue extends MyRest {
                     $avenuedata as $key => $value) {
                         $merchant_data.=$key . '=' . $value . '&';
                     }
-                    
-                    $encrypted_data = encrypt($merchant_data, $working_key); // Method for encrypting the data.
+                    echo $merchant_data;
+                    exit;
+                    echo $encrypted_data = encrypt($merchant_data, $working_key); // Method for encrypting the data.
+                    exit;
                     ?>
                     <form method="post" name="redirect" action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"> 
                         <?php

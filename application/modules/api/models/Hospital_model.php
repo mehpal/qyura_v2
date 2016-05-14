@@ -123,7 +123,7 @@ CASE
                    
                    if(!empty($time))
                    {
-                       echo $currentTime;
+                       echo $row->name."---".$currentTime;
                        echo "--".$time->openingHours . "----". $time->closingHours;
                        
                        if($time->openingHours >= $currentTime || $time->closingHours <= $currentTime ){
@@ -131,6 +131,7 @@ CASE
                        }
                    }
                 }
+                die();
                 $finalTemp = array();
                 $finalTemp[] = isset($row->id) ? $row->id : "";
                 $finalTemp[] = isset($row->fav) ? $row->fav : "";
