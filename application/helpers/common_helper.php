@@ -280,6 +280,15 @@ if (!function_exists('getDateFormat')) {
 
 }
 
+
+if (!function_exists('getDateFormatUser')) {
+
+    function getDateFormatUser($dateTime) {
+        return isset($dateTime) ? date('M d, Y', $dateTime) : '';
+    }
+
+}
+
 if (!function_exists('getBookQuoteStatus')) {
 
     function getBookQuoteStatus($convertStatus) {
