@@ -581,6 +581,7 @@ class Quotation extends MY_Controller {
      * @return insert id
      */
     function sendQuotationSave() {
+     
         
         $this->bf_form_validation->set_rules("quotationId", "Quotation Id", 'trim');
         $this->bf_form_validation->set_rules("city_id", "City", 'required');
@@ -625,8 +626,9 @@ class Quotation extends MY_Controller {
         } else {
             //print_r($_POST);exit;
             $user_id = $this->input->post('user_id');
-            $quoDatetime = $this->input->post('quotationDate') . " " . $this->input->post('hour') . ":" . $this->input->post('minute');
-            $MIprofileId = $this->input->post('miId');
+            $quoDatetime = date("Y-m-d",$this->input->post('quotationDate')).' '.$this->input->post('quotationTime'); 
+            $quoDatetime = str_replace('/', '-', $quoDatetime);
+            $MIprofileId = $this->input->post('miId'); 
             $MIprofileId = explode(',', $MIprofileId);
 
             $consultFee = $this->input->post('consulationFee');
@@ -730,7 +732,7 @@ class Quotation extends MY_Controller {
                 'quotation_otherFee' => $this->input->post('otherFee'),
                 'quotation_qtStatus' => 1,
                 'quotation_dateTime' => strtotime($quoDatetime),
-                'quotations_finalTime' => $quotationTime,
+                'quotations_finalTime' => strtotime($quotationTime),
                 'quotation_tex' => $this->input->post('tax'),
                 'quotation_cityId' => $this->input->post('city_id'),
                 'quotation_docRefeId' => 0,

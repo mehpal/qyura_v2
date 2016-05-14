@@ -112,7 +112,7 @@ class Quotation extends MyRest {
             $this->response($response, 400);
         } else {
 
-            $userId = isset($_POST['userId']) ? $this->input->post('userId') : '';
+           echo $userId = isset($_POST['userId']) ? $this->input->post('userId') : ''; exit;
 
             $quotationId = isset($_POST['quotationId']) ? $this->input->post('quotationId') : '';
 
