@@ -265,7 +265,6 @@ class Miappointment extends MY_Controller {
             'data' => array(
                 'doctorAppointment_date' => $appdate,
                 'doctorAppointment_slotId' => $timeslot_id,
-                'doctorAppointment_session' => $time_session,
                 'doctorAppointment_finalTiming' => $final_timing,
                 'modifyTime' => strtotime(date("Y-m-d")),
             ),
@@ -277,7 +276,7 @@ class Miappointment extends MY_Controller {
         echo 1;
         }
         else
-            echo 2;
+            echo 0;
     }
 
     public function savediagtimeSlot() {
@@ -305,8 +304,8 @@ class Miappointment extends MY_Controller {
             
             echo 1;
         } else
-            echo 2;
-          echo $this->db->last_query();
+            echo 0;
+          //echo $this->db->last_query();
     }
 
     public function getDrTimeSlot() {
@@ -453,6 +452,7 @@ class Miappointment extends MY_Controller {
         $this->bf_form_validation->set_rules("input25", "Total Amount ", 'required|xss_clean');
         $this->bf_form_validation->set_rules("input26", "Payment Status", 'required|xss_clean');
         $this->bf_form_validation->set_rules("input27", "Payment Mode", 'required|xss_clean');
+       
         if ($this->bf_form_validation->run() == FALSE) {
             $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
 //            print_r($responce);
@@ -773,7 +773,9 @@ class Miappointment extends MY_Controller {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
-            echo json_encode($responce);
+            $this->session->set_flashdata('message', 'Data inserted successfully !');
+                redirect('miappointment');
+            
         }
     }
 

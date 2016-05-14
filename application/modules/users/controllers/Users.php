@@ -18,9 +18,8 @@ class Users extends MY_Controller {
 
         $data = array();
         $data['allStates'] = $this->Users_model->fetchStates();
-        $data['city'] = $this->Users_model->fetchCities();
-        // $data['ambulanceData'] = $this->Ambulance_model->fetchambulanceData();
-        //$data['city'] = $this->getCityByMI(2);
+        $data['city'] = $this->Users_model->fetchusercity();
+        
         $data['title'] = 'Users';
         $this->load->super_admin_template('userList', $data, 'usersScript');
     }
@@ -315,7 +314,7 @@ class Users extends MY_Controller {
 
         $data['users_detail'] = $users_detail = $this->common_model->customGet($option);
 
-        // print_r( $data['users_detail']); exit;
+        
         $option = array(
             'table' => 'qyura_city',
             'select' => '*',
@@ -403,6 +402,7 @@ class Users extends MY_Controller {
         // $userfamilyid = $this->input->post('usersfamily_id');
 
         $this->bf_form_validation->set_rules('patientDetails_patientName', 'Name', 'required|trim');
+       // $this->bf_form_validation->set_rules('avatar_file', 'image', 'required');
         $this->bf_form_validation->set_rules('patientDetails_gender', 'Gender', 'required|trim');
         $this->bf_form_validation->set_rules('patientDetails_dob', 'Date of Birth', 'required|trim');
        // $this->bf_form_validation->set_rules('users_email', 'Users Email', "required|valid_email|trim");
@@ -500,17 +500,18 @@ class Users extends MY_Controller {
                 if (empty($original_imagesname)) {
 
                     $this->session->set_flashdata('valid_upload', $this->error_message);
-                    $data['title'] = 'edithfghfg Users';
+                    $data['title'] = 'Edit Users';
                     $data['allStates'] = $this->Users_model->fetchStates();
                     $this->load->super_admin_template('add_user', $data, 'usersScript');
                     return false;
                 } else {
                     $imagesname = $original_imagesname;
                 }
-            } else {
-                $imagesname = $this->input->post('patientDetails_patientImg');
             }
-
+//             else {
+//                $imagesname = $this->input->post('patientDetails_patientImg');
+//            }
+           
             $email = $this->input->post('users_email');
 
             $password = $this->input->post('users_password');

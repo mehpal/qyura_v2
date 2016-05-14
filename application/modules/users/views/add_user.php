@@ -39,10 +39,10 @@
                                         </div>
                                         <div id="error-label" class="error-label"></div>
 
-                                        <label class="error" > <?php echo form_error("avatar_file"); ?></label>
+                                        <span class="error" > <?php echo form_error("avatar_file"); ?></span>
                                         <label class="error" > <?php echo $this->session->flashdata('valid_upload'); ?></label>
                                     </div>
-                                    <label style="color: #EF5350; display: none" id="error-avatarInput">Please upload an image!</label>
+                                    <span style="color: #EF5350; display: none" id="error-avatarInput">Please upload an image!</span>
                                 </article>
                                 <article class="form-group m-lr-0">
                                     <label for="" class="control-label col-md-4 col-sm-4"> Name :</label>
@@ -61,17 +61,19 @@
                                             <option value="3" <?php echo set_select('patientDetails_gender', '3'); ?>>Other</option>
                                         </select>
                                         <label class="error" id="err_patientDetails_gender" > <?php echo form_error("patientDetails_gender"); ?></label>
+                                         <div id="error_patientDetails_gender" class="error_patientDetails_gender"></div>
                                     </div>
                                 </article>
                                 <article class="form-group m-lr-0">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Date of Birth :</label>
                                     <div class="col-md-8 col-sm-8">
                                         <div class="input-group">
-                                            <input class="form-control dob" placeholder="dd/mm/yyyy" id="patientDetails_dob" type="text" name="patientDetails_dob" onkeydown="return false;" value="<?php echo set_value('patientDetails_dob');?>">
+                                            <input class="form-control dob" placeholder="mm/dd/yyyy" id="patientDetails_dob" type="text" name="patientDetails_dob" onkeydown="return false;" value="<?php echo set_value('patientDetails_dob');?>">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                         </div>
-                                        <label class="error" id="err_patientDetails_dob" > <?php echo form_error("patientDetails_dob"); ?></label>
+                                      
                                     </div>
+                                      <label class="error" id="err_patientDetails_dob" > <?php echo form_error("patientDetails_dob"); ?></label>
                                 </article>
                                 <article class="form-group m-lr-0">
                                     <label for="" class="control-label col-md-4 col-sm-4">Email Id:</label>
@@ -79,7 +81,7 @@
                                         <input class="form-control " id="users_email" type="email" name="users_email" placeholder="" value="<?php echo set_value('users_email'); ?>" onblur="check_email()">
                                         <input type="hidden" class="form-control" id="users_email_status" name="users_email_status" value="" />
                                         <label class="error" id="err_users_email" > <?php echo form_error("users_email"); ?></label>
-                                        <label class="error" style="display:none;" id="error-users_email_check"> Doctor Email Already Exists!</label>
+                                        <label class="error" style="display:none;" id="error-users_email_check"> User Email Already Exists!</label>
                                     </div>
                                 </article>
                                 <article class="form-group m-lr-0">
@@ -88,7 +90,7 @@
                                         <aside class="row">
                                             <div class="col-md-12 col-sm-4 col-xs-10 m-t-xs-10 ">
                                                 <input type="text" class="form-control" name="patientDetails_mobileNo" id="patientDetails_mobileNo" maxlength="10" placeholder="Number" onkeypress="return isNumberKey(event)" value="<?php echo set_value('patientDetails_mobileNo'); ?>"/>
-                                                <label class="error" id="err_patientDetails_mobileNo" > <?php echo form_error("patientDetails_mobileNo"); ?></label>
+                                                <span class="error" id="err_patientDetails_mobileNo" > <?php echo form_error("patientDetails_mobileNo"); ?></span>
                                             </div>
                                         </aside>
                                     </div>
@@ -109,7 +111,8 @@
                                                         <option value="<?php echo $val->state_id; ?>" <?php echo set_select('patientDetails_stateId', $val->state_id); ?>><?php echo $val->state_statename; ?></option>
                                                     <?php } ?>
                                                 </select>
-                                                <label class="error" id="err_patientDetails_stateId" > <?php echo form_error("patientDetails_stateId"); ?></label>
+                                                <span class="error" id="err_patientDetails_stateId" > <?php echo form_error("patientDetails_stateId"); ?></span>
+                                                <div id="error_patientDetails_stateId" class="error_patientDetails_stateId"></div>
                                             </div>
                                         </aside>
                                     </div>
@@ -121,6 +124,7 @@
                                                 <select class="select2" data-width="100%" name="patientDetails_cityId" id="patientDetails_cityId" data-size="4" >
                                                 </select>
                                                 <span class="error" id="err_patientDetails_cityId" > <?php echo form_error("patientDetails_cityId"); ?></span>
+                                                 <div id="error_patientDetails_cityId" class="error_patientDetails_cityId"></div>
                                             </div>
                                             <div class="col-md-6 col-sm-6 m-t-xs-10">
                                                 <input type="text" class="form-control" id="patientDetails_pin" name="patientDetails_pin" placeholder="Pin Code" maxlength="6" onkeypress="return isNumberKey(event)" value="<?php echo set_value('patientDetails_pin'); ?>" />
@@ -131,7 +135,7 @@
                                 </article>
                                 <article class="form-group m-lr-0 m-t-xs-10">
                                     <div class="col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4">
-                                        <input type="text" class="form-control" id="patientDetails_address" name="patientDetails_address" placeholder=" " value="<?php echo set_value('patientDetails_address')?>" placeholder="Address"/>
+                                        <input type="text" class="form-control" id="patientDetails_address" name="patientDetails_address" value="<?php echo set_value('patientDetails_address')?>" placeholder="Address"/>
                                         <span class="error" id="err_patientDetails_address" > <?php echo form_error("patientDetails_address"); ?></span>
                                     </div>
                                 </article>
@@ -154,6 +158,7 @@
                         </div>
                     </section>
                     <!-- Left Section End -->
+                    
                     <!-- Right Section Start -->
                     <section class="col-md-6 detailbox mi-form-section">
                         <div class="bg-white clearfix">
@@ -186,6 +191,7 @@
                                                 <?php } ?>
                                             </select>
                                             <span class="error" id="err_userInsurance_insuranceId" > <?php echo form_error("userInsurance_insuranceId"); ?></span>
+                                            <div id="error_userInsurance_insuranceId" class="error_userInsurance_insuranceId"></div>
                                         </div>
                                     </article>
                                     <article class="form-group m-lr-0">
@@ -199,10 +205,12 @@
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Policy Expiry Date :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <div class="input-group">
-                                                <input class="form-control pickDatePolicy" id="userInsurance_expDate" placeholder="dd/mm/yyyy" type="text" value="<?php echo set_value('userInsurance_expDate'); ?>" name="userInsurance_expDate" onkeydown="return false;">
+                                                <input class="form-control pickDatePolicy" id="userInsurance_expDate" placeholder="mm/dd/yyyy" type="text" value="<?php echo set_value('userInsurance_expDate'); ?>" name="userInsurance_expDate" onkeydown="return false;">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>
-                                            <span class="error" id="err_userInsurance_expDate" > <?php echo form_error("userInsurance_expDate"); ?></span>
+                                                 <span class="error" id="err_userInsurance_expDate" > <?php echo form_error("userInsurance_expDate"); ?></span>
+                                          
                                         </div>
+                                         
                                     </article>
                                 </div>
                                 <!--Health Insuranse End -->
@@ -250,9 +258,10 @@
                                                                     <option value="3" <?php echo set_select('usersfamily_gender_1', '3'); ?>>Other</option>
                                                                 </select>
                                                                 <span class="error" id="err_usersfamily_gender_1" > <?php echo form_error("usersfamily_gender_1"); ?></span>
+                                                                 <div id="error_usersfamily_gender_1" class="error_usersfamily_gender_1"></div>
                                                             </div>
                                                             <div class="col-md-6 col-sm-6 m-t-xs-10">
-                                                                <input class="form-control " id="usersfamily_age_1" type="text" name="usersfamily_age_1" required="" onkeypress="return isNumberKey(event)" placeholder="">
+                                                                <input class="form-control " id="usersfamily_age_1" placeholder ="Age" type="text" name="usersfamily_age_1" required="" onkeypress="return isNumberKey(event)">
                                                                 <span class="error" id="err_usersfamily_age_1" > <?php echo form_error("usersfamily_relationId_1"); ?></span>
                                                             </div>
                                                         </aside>
@@ -269,6 +278,7 @@
 
                                                         </select>
                                                          <span class="error" id="err_usersfamily_relationId_1" > <?php echo form_error("usersfamily_relationId_1"); ?></span>
+                                                         <div id="error_usersfamily_relationId_1" class="error_usersfamily_relationId_1"></div>
                                                     </div>
                                                 </article>
                                                 <article class="form-group m-lr-0">
@@ -295,6 +305,7 @@
                                                                 <?php } ?>
                                                             </select>
                                                              <span class="error" id="err_userInsurance_insuranceId_1" > <?php echo form_error("userInsurance_insuranceId_1"); ?></span>
+                                                              <div id="error_userInsurance_insuranceId_1" class="error_userInsurance_insuranceId_1"></div>
                                                         </div>
                                                     </article>
                                                     <article class="form-group m-lr-0">
@@ -331,7 +342,7 @@
                     </section>
                     <section class="clearfix ">
                         <div class="col-md-12 m-t-20 m-b-20">
-                            <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return formContainer();">Submit</button>
+                            <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return formContainer();return check_email();">Submit</button>
                              <!--onclick="return check_email();"-->
                              
                         </div>

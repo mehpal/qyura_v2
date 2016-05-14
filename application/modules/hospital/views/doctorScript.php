@@ -784,6 +784,10 @@ function emailIsExist() {
             });
         }
     }
+    
+  $('#resetButton').click(function() {
+     location.reload();
+ });
 </script>
 </body>
 

@@ -72,17 +72,18 @@
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Date of Birth :</label>
                                     <div class="col-md-8 col-sm-8">
                                         <div class="input-group">
-                                            <input class="form-control pickDate" placeholder="dd/mm/yyyy" id="patientDetails_dob" type="text" name="patientDetails_dob" onkeydown="return false;" value="<?php if (isset($users_detail) && !empty($users_detail)) {
+                                            <input class="form-control dob" placeholder="mm/dd/yyyy" id="patientDetails_dob" type="text" name="patientDetails_dob" onkeydown="return false;" value="<?php if (isset($users_detail) && !empty($users_detail)) {
     echo $newformat = date('m/d/Y', $users_detail->patientDetails_dob); } ?>">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                         </div>
                                         <label class="error" > <?php echo form_error("patientDetails_dob"); ?></label>
                                     </div>
+                                    
                                 </article>
                                 <article class="form-group m-lr-0">
                                     <label for="" class="control-label col-md-4 col-sm-4">Email Id:</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <input class="form-control " id="users_email" type="email" name="users_email" placeholder="" value="<?php if (isset($users_detail->users_email) && !empty($users_detail->users_email)) { echo $users_detail->users_email; } ?>">
+                                        <input class="form-control " id="users_email" type="email" name="users_email" placeholder="" value="<?php if (isset($users_detail->users_email) && !empty($users_detail->users_email)) { echo $users_detail->users_email; } ?>" readonly>
                                         <label class="error" > <?php echo form_error("users_email"); ?></label>
                                     </div>
                                 </article>
@@ -91,7 +92,7 @@
                                     <div class="col-md-8 col-sm-8">
                                         <aside class="row">
                                             <div class="col-md-12 col-sm-4 col-xs-10 m-t-xs-10 ">
-                                                <input type="text" class="form-control" name="patientDetails_mobileNo" id="patientDetails_mobileNo" maxlength="10" placeholder="Number" onkeypress="return isNumberKey(event)" value="<?php if (isset($users_detail) && !empty($users_detail)) { echo $users_detail->patientDetails_mobileNo; } ?>"/>
+                                                <input type="text" class="form-control" name="patientDetails_mobileNo" id="patientDetails_mobileNo" maxlength="10" placeholder="Number" onkeypress="return isNumberKey(event)" value="<?php if (isset($users_detail) && !empty($users_detail)) { echo $users_detail->patientDetails_mobileNo; } ?>" readonly/>
                                                 <label class="error" > <?php echo form_error("patientDetails_mobileNo"); ?></label>
                                             </div>
                                         </aside>
@@ -115,6 +116,7 @@
                                                     <?php } ?>
                                                 </select>
                                                 <label class="error" > <?php echo form_error("patientDetails_stateId"); ?></label>
+                                                
                                             </div>
                                         </aside>
                                     </div>
@@ -214,7 +216,7 @@
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Policy Expiry Date :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <div class="input-group">
-                                                <input class="form-control pickDatePolicyedit" id="userInsurance_expDate" placeholder="dd/mm/yyyy" id="expiryDate" type="text" name="userInsurance_expDate" onkeydown="return false;" value="<?php if (isset($users_insurance->userInsurance_expDate) && !empty($users_insurance->userInsurance_expDate)) { echo date('m/d/Y', $users_insurance->userInsurance_expDate); } ?>">
+                                                <input class="form-control pickDatePolicyedit" id="userInsurance_expDate" placeholder="mm/dd/yyyy" id="expiryDate" type="text" name="userInsurance_expDate" onkeydown="return false;" value="<?php if (isset($users_insurance->userInsurance_expDate) && !empty($users_insurance->userInsurance_expDate)) { echo date('m/d/Y', $users_insurance->userInsurance_expDate); } ?>">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>
                                             <label class="error" > <?php echo form_error("userInsurance_expDate"); ?></label>
                                         </div>
@@ -310,7 +312,7 @@
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Policy Expiry Date :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <div class="input-group">
-                                                <input class="form-control pickDatePolicyedit" id="userInsurance_expDate_<?php echo $count_family; ?>" placeholder="dd/mm/yyyy" type="text" name="userInsurance_expDate_<?php echo $count_family; ?>" onkeydown="return false;" value="<?php if (isset($val->userInsurance_expDate) && !empty($val->userInsurance_expDate)) { echo date('m/d/Y', $val->userInsurance_expDate); } ?>">
+                                                <input class="form-control pickDatePolicyedit" id="userInsurance_expDate_<?php echo $count_family; ?>" placeholder="mm/dd/yyyy" type="text" name="userInsurance_expDate_<?php echo $count_family; ?>" onkeydown="return false;" value="<?php if (isset($val->userInsurance_expDate) && !empty($val->userInsurance_expDate)) { echo date('m/d/Y', $val->userInsurance_expDate); } ?>">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>
                                             <label class="error" > <?php echo form_error("userInsurance_expDate_$count_family"); ?></label>
                                         </div>

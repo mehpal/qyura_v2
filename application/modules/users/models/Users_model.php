@@ -20,7 +20,14 @@ class Users_model extends My_model {
         $this->db->order_by("city_name", "asc");
         return $this->db->get()->result();
     }
-
+    
+ function fetchusercity(){
+        $this->db->select('city_id,city_name');
+        $this->db->from('qyura_city');
+        $this->db->join('qyura_patientDetails', 'qyura_patientDetails.patientDetails_cityId = qyura_city.city_id');
+        $this->db->group_by("city_name"); 
+        return $this->db->get()->result();
+    }
     function fetchCities() {
         $this->db->select('city_id,city_name');
         $this->db->from('qyura_city');
@@ -60,7 +67,7 @@ class Users_model extends My_model {
 
         $imgUrl = base_url() . 'assets/usersImage/thumb/thumb_100/$1';
 
-        $this->datatables->select('patient.patientDetails_id as id,patient.patientDetails_usersId,City.city_name,patient.patientDetails_patientName,patient.patientDetails_address,patient.patientDetails_mobileNo,patient.patientDetails_patientImg,patient.patientDetails_dob,patient.status as sts,Users.users_id as user_id,Users.status as user_status,usersRoles.usersRoles_roleId');
+        $this->datatables->select('patient.patientDetails_id as id,patient.patientDetails_usersId,patient.patientDetails_unqId,City.city_name,patient.patientDetails_patientName,patient.patientDetails_address,patient.patientDetails_mobileNo,patient.patientDetails_patientImg,patient.patientDetails_dob,patient.status as sts,Users.users_id as user_id,Users.status as user_status,usersRoles.usersRoles_roleId');
 
         $this->datatables->from('qyura_patientDetails AS patient');
         $this->datatables->join('qyura_city AS City', 'City.city_id = patient.patientDetails_cityId', 'left');
@@ -89,8 +96,8 @@ class Users_model extends My_model {
         $this->datatables->where(array('patient.patientDetails_deleted' => 0,'usersRoles.usersRoles_roleId' => 6));
 
         $this->datatables->add_column('patientDetails_patientImg', '<img class="img-responsive" height="80px;" width="80px;" src=' . $imgUrl . '>', 'patientDetails_patientImg');
-
-        $this->datatables->add_column('patientDetails_dob', '$1', 'getDateFormat(patientDetails_dob)');
+       $this->datatables->add_column('patientDetails_patientName', '<h6>$1</h6><p>$2</p>', 'patientDetails_patientName,patientDetails_unqId');
+        $this->datatables->add_column('patientDetails_dob', '$1', 'getDateFormatUser(patientDetails_dob)');
 
         $this->datatables->add_column('status', '$1', 'statusCheck(users,qyura_users,users_id,user_id,user_status)');
 

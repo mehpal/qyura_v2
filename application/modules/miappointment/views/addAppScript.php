@@ -354,7 +354,7 @@
         $("#setData").validate({
 
         errorPlacement: function(error, element) {
-        if (element.attr("name") == "input4")
+        if (element.attr("name") == "input34")
         {
             error.insertAfter('#timesloterror');
         }
@@ -390,6 +390,9 @@
             },
             input4: {
                 required: true,
+            },
+            input34: {
+                required: true,
                 remote: {
                 url: '<?php echo base_url() ?>' + 'index.php/miappointment/check_timeslot',
                 type: "post",
@@ -398,9 +401,6 @@
                     final_timing: function () {return $("#timepicker4").val();},
                 }
             }
-            },
-            input34: {
-                required: true,
             },
             input7: {
                 required: true
@@ -412,10 +412,12 @@
                 required: true
             },
             'input29[]': {
-                required: true
+                required: true,
+                lettersonly:true,
             },
             'input30[]': {
-                required: true
+                required: true,
+                digits:true,
             },
             'input31[]': {
                 required: true
@@ -424,10 +426,12 @@
                 required: true
             },
             input15: {
-                required: true
+                required: true,
+                digits: true,
             },
             input17: {
-                required: true
+                required: true,
+                lettersonly:true,
             },
             input18: {
                 required: true
@@ -436,19 +440,23 @@
                 required: true
             },
             input20: {
-                required: true
+                required: true,
+                digits:true,
             },
             input21: {
                 required: true
             },
             input22: {
-                required: true
+                required: true,
+                digits:true,
             },
             input23: {
-                required: true
+                required: true,
+                digits:true,
             },
             input24: {
-                required: true
+                required: true,
+                digits:true,
             },
             input25: {
                 required: true
@@ -496,10 +504,10 @@
             },
             input4: {
                 required: "Please select Time Slot!",
-                remote: "Please select correct time slot.",
+                remote: "Please select correct Time slot.",
             },
             input34: {
-                required: "Please select Time Slot!", 
+                required: "Please select Final Time!", 
             },
             input7: {
                 required: "Please select Date!",
@@ -514,19 +522,21 @@
                 required: "Please enter Test name! ",
             },
             'input30[]': {
-                required: "Please enter price! ",
+                required: "Please enter Price! ",
             },
             'input31[]': {
-                required: "Please enter instructions! ",
+                required: "Please enter Instructions! ",
             },
             input14: {
                 required: "Please enter Patient Email!"
             },
             input15: {
-                required: "Please enter Mobile Number!"
+                required: "Please enter Mobile Number!",
+                digits: "Please enter number digits only!"
             },
             input17: {
-                required: "Please enter Name!"
+                required: "Please enter Name!",
+                lettersonly:"Please enter characters only!"
             },
             input18: {
                 required: "Please select Country!"
@@ -535,19 +545,23 @@
                 required: "Please select State!"
             },
             input20: {
-                required: "Please enter Zip!"
+                required: "Please enter Zip!",
+                digits: "Please enter digits only!",
             },
             input21: {
                 required: "Please enter Address!"
             },
             input22: {
-                required: "Please enter Consulation Fee!"
+                required: "Please enter Consulation Fee!",
+                digits: "Please enter digits only!",
             },
             input23: {
-                required: "Please enter Other Fee!"
+                required: "Please enter Other Fee!",
+                digits: "Please enter digits only!",
             },
             input24: {
-                required: "Please enter Tax!"
+                required: "Please enter Tax!",
+                digits: "Please enter digits only!",
             },
             input25: {
                 required: "Please enter Total Amount!"
@@ -572,10 +586,9 @@
         },
         submitHandler: function(form)
              {
-                var url = '<?php echo site_url(); ?>/miappointment/addAppointmentSave/';
-                //event.preventDefault();
-                var formData = new FormData(this);
-                submitData(url, formData);
+                
+                form.submit();
+                
             }
         });
         
