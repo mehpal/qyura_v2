@@ -1116,6 +1116,13 @@
          <section class="tab-pane fade in <?php if (isset($active) && ($active == 'timeslot' OR $active == 'timeSlot')) {
             echo "active";
             } ?>" id="timeslot">
+           
+        <?php if(isset($diagnosticData[0]->diagnostic_availibility_24_7) && $diagnosticData[0]->diagnostic_availibility_24_7 == 1){ 
+                         
+                         echo "24/7 Services available"; 
+                     
+                     }else{ ?>
+             
          <?php if (isset($timeSlot) && !empty($timeSlot)): ?>
          <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('diagnostic/updateTimeSlot'); ?>">
          <input type="hidden" name="mi_user_id" value="<?php if (isset($diagnosticData[0]->diagnostic_usersId)) {
@@ -1149,6 +1156,7 @@
          </article>
          </form>
          <?php endif; ?>
+         <?php } ?>
          </section>
          <!-- Timeslot Ends -->
          <!--Staff and Permission Starts -->

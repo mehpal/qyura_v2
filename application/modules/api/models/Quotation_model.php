@@ -22,7 +22,7 @@ CASE
  WHEN (`qyura_quotations`.`quotation_familyId` <> 0 ) 
  THEN
       qyura_usersFamily.usersfamily_age
- ELSE qyura_patientDetails.patientDetails_dob END AS  `age`,
+ ELSE '.$currentYear.' - from_unixtime(qyura_patientDetails.patientDetails_dob,"%Y") END AS  `age`,
  CASE 
  WHEN (`qyura_quotations`.`quotation_familyId` <> 0 ) 
  THEN
