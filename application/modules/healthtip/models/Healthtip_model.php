@@ -86,7 +86,7 @@ class Healthtip_model extends CI_Model {
       $this->datatables->where(array('HTip.healthTips_deleted'=> 0,'Cat.status'=>1));
       
         $this->datatables->add_column('healthtip_img', '<img class="img-responsive" height="80px;" width="80px;" src='.$imgUrl.'>', 'healthTips_image'); 
-        $this->datatables->add_column('view', '<div><a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="healthtip/detailHealthtip/$1" style="color : black !important">View Detail</a></div><div><a class="btn btn-appointment waves-effect waves-light m-l-10 pull-left" href="healthtip/deleteHealthtip/$1" >Delete</a></div>', 'tipid');
+        $this->datatables->add_column('view', '<div><a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="healthtip/detailHealthtip/$1" style="color : black !important">View Detail</a></div><!--div><a class="btn btn-appointment waves-effect waves-light m-l-10 pull-left" href="healthtip/deleteHealthtip/$1" >Delete</a></div-->', 'tipid');
         $this->datatables->edit_column('status','$1','statusCheck(healthtip/healthtip,qyura_healthTips,healthTips_id,tipid,status)');
        
        
