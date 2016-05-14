@@ -98,7 +98,6 @@ function drawChartAjax(year) {
             var obj = $.parseJSON(response);
             if (response) {
                 
-               console.log(obj);
                
                   data.addRows([
                     ['Hospitals', obj['Hospitals']],
