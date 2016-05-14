@@ -23,8 +23,8 @@ class   Ccavenue extends MyRest {
         $currency = "INR";
 //        $redirect_url = "http://qyura.com/ccavenue/IFRAME_KIT/ccavResponseHandler.php";
 //        $cancel_url = "http://qyura.com/ccavenue/IFRAME_KIT/ccavResponseHandler.php&language=EN";
-        $redirect_url = "http://localhost/index.php/ccavenue/ccavenue_response";
-        $cancel_url = "http://localhost/index.php/ccavenue/ccavenue_cancel";
+        $redirect_url = site_url()."/ccavenue/ccavenue_response";
+        $cancel_url = site_url()."/ccavenue/ccavenue_cancel";
 
 //        $this->bf_form_validation->set_rules('specialitiesId', 'Specialities Id', 'xss_clean|numeric|required|trim');
 //        $this->bf_form_validation->set_rules('preferedDate', 'Prefered Date', 'xss_clean|required|trim|max_length[11]|valid_date[y-m-d,-]|callback__check_date');
@@ -134,8 +134,7 @@ class   Ccavenue extends MyRest {
                 $avenuedata as $key => $value) {
                     $merchant_data.=$key . '=' . $value . '&';
                 }
-                echo $merchant_data;
-                exit();
+                
                $encrypted_data = encrypt($merchant_data, $working_key); // Method for encrypting the data.
                                
                 ?>
