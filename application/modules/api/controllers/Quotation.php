@@ -124,7 +124,7 @@ class Quotation extends MyRest {
 
                 $finalResult['selfDetail'] = $myQuotationSelfDetail;
                 $finalResult['testDetail'] = $quotationTests;
-                $aoClumns = array('quotation_id', 'testId', 'qtDetailId', 'diagCatId', 'diagCatName', 'testName', 'price','dateTime', 'instruction');
+                $aoClumns = array('quotation_id', 'testId', 'qtDetailId', 'diagCatId', 'diagCatName', 'testName', 'price','dateTime', 'instruction', 'otherFee', 'tax');
 
                 $response = array('status' => TRUE, 'message' => 'Success', 'clumns' => $aoClumns, 'result' => $finalResult);
                 $this->response($response, 200);
