@@ -68,9 +68,7 @@ CASE
                 ->join('qyura_specialities', 'qyura_specialities.specialities_id=qyura_hospitalSpecialities.hospitalSpecialities_specialitiesId', 'left')
                 ->join('qyura_reviews', 'qyura_reviews.reviews_relateId=qyura_hospital.hospital_usersId', 'left')
                 ->join('qyura_hospitalInsurance', 'qyura_hospitalInsurance.hospitalInsurance_hospitalId=qyura_hospital.hospital_id', 'left');
-                if($openNow != NULL){
-                    
-                }
+                
                 $this->db->join('qyura_insurance', 'qyura_insurance.insurance_id = qyura_hospitalInsurance.hospitalInsurance_insuranceId', 'left')
                 ->join('qyura_ratings', 'qyura_ratings.rating_relateId=qyura_hospital.hospital_usersId', 'left')
                 ->join('qyura_fav', 'qyura_fav.fav_relateId = qyura_hospital.hospital_usersId AND fav_userId = ' . $userId . '  ', 'left')
@@ -120,6 +118,19 @@ CASE
             foreach ($response as $row) {
 //dump($row);die();
 //                $time = $this->
+                if($openNow != NULL){
+                   $time = $this->miTimeSlot($row->userId);
+                   
+                   if(!empty($time))
+                   {
+                       echo $currentTime;
+                       echo "--".$time->openingHours . "----". $time->closingHours;
+                       
+                       if($time->openingHours >= $currentTime || $time->closingHours <= $currentTime ){
+                           echo "HERE";
+                       }
+                   }
+                }
                 $finalTemp = array();
                 $finalTemp[] = isset($row->id) ? $row->id : "";
                 $finalTemp[] = isset($row->fav) ? $row->fav : "";
@@ -147,6 +158,15 @@ CASE
         }
     }
 
+    
+    // mi time slot
+    public function miTimeSlot($hospitalUserId) {
+        $this->db->select('(CASE WHEN (openingHours is NULL) THEN 0 ELSE openingHours END) AS openingHours , (CASE WHEN (closingHours is NULL) THEN 0 ELSE closingHours END) AS closingHours');
+        $this->db->from('qyura_miTimeSlot');
+        $this->db->where(array('deleted' => 0, 'status' => 1, 'mi_user_id' => $hospitalUserId, 'hourLabel' => date("l")));
+        return $this->db->get()->row();
+    }
+    
     public function getHosDetails($hospitalId) {
         $this->db->select('hospital_id, hospital_usersId, hospital_address, hospital_name, hospital_aboutUs,  CONCAT("0","",hospital_phn) as  hospital_phn, hospital_lat, hospital_long, isEmergency');
         $this->db->from('qyura_hospital');
@@ -300,13 +320,6 @@ CASE
         // echo $this->db->last_query(); exit;
     }
 
-    // mi time slot
-    public function miTimeSlot($hospitalUserId) {
-        $this->db->select('(CASE WHEN (openingHours is NULL) THEN 0 ELSE openingHours END) AS openingHours , (CASE WHEN (closingHours is NULL) THEN 0 ELSE closingHours END) AS closingHours');
-        $this->db->from('qyura_miTimeSlot');
-        $this->db->where(array('deleted' => 0, 'status' => 1, 'mi_user_id' => $hospitalUserId, 'hourLabel' => date("l")));
-        return $this->db->get()->row();
-    }
 
 }
 
