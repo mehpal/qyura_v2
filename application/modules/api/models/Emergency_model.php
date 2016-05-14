@@ -171,13 +171,24 @@ class Emergency_model extends CI_Model {
         }
     }
 
-    public function getAmbulanceList($lat, $long, $notIn, $cityId = null,$openNow) {
+    public function getAmbulanceList($lat, $long, $notIn, $cityId = null,$openNow,$radius,$docOnBoard) {
 
         $lat = isset($lat) ? $lat : '';
         $long = isset($long) ? $long : '';
         $notIn = isset($notIn) ? $notIn : '';
         $notIn = explode(',', $notIn);
         $curDay = getDay(date("l",strtotime(date("Y-m-d"))));
+        $where = array('ambulance_deleted' => 0,'qyura_ambulance.status'=>1);
+        if($docOnBoard != NULL){
+            $where["docOnBoard"] = $docOnBoard;
+        }
+        $havingRadius = array();
+        if ($cityId != NULL) {
+            $where['ambulance_cityId'] = $cityId;
+        } else {
+            $havingRadius = array('distance <=' => $radius);
+        }
+
 
         $this->db->select('ambulance_id id, ambulance_name name, CONCAT("0","",SUBSTR(ambulance_phn, -10)) phn,
 (CASE WHEN(hospital_usersId is not null) THEN hospital_usersId WHEN(diagnostic_usersId is not null) THEN diagnostic_usersId ELSE  qyura_ambulance.ambulance_usersId END) as userId,
@@ -190,18 +201,12 @@ class Emergency_model extends CI_Model {
                 ->join('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId=qyura_ambulance.ambulance_usersId', 'left') 
                 ->join('qyura_hospital', 'qyura_usersRoles.usersRoles_parentId=qyura_hospital.hospital_usersId AND `qyura_hospital`.`status` = 1 AND `qyura_hospital`.`hospital_deleted` = "0"', 'left')
                 ->join('qyura_diagnostic', 'qyura_usersRoles.usersRoles_parentId=qyura_diagnostic.diagnostic_usersId AND `qyura_diagnostic`.`status`=1 AND `qyura_diagnostic`.`diagnostic_deleted` = 0', 'left')
-                ->where(array('ambulance_deleted' => 0,'qyura_ambulance.status'=>1))
+                ->where($where)
                 ->where_not_in('ambulance_id', $notIn)
                 ->order_by('distance', 'ASC')
                 ->group_by('ambulance_id')
-                ->limit(DATA_LIMIT);
-
-        if ($cityId != NULL) {
-            $cityCon = array('ambulance_cityId' => $cityId);
-            $this->db->where($cityCon);
-        } else {
-            $this->db->having(array('distance <' => USER_DISTANCE));
-        }
+                ->limit(DATA_LIMIT)
+                ->having($havingRadius);
 
         $response = $this->db->get()->result();
         $finalResult = array();

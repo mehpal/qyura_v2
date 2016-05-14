@@ -36,10 +36,11 @@ class EmergencyServicesApi extends MyRest {
             //city
             $cityId = isset($_POST['cityId']) ? $this->input->post('cityId') : NULL;
             $openNow = (isset($_POST['openNow'] )&& $_POST['openNow'] != 0) ? $this->input->post('openNow') : NULL;
-
+            $docOnBoard = (isset($_POST['docOnBoard'] )&& $_POST['docOnBoard'] != 0) ? $this->input->post('docOnBoard') : NULL;
+             $radius = isset($_POST['radius']) ? $this->input->post('radius') : 70;
             if($emergencyType == 1){
     
-              $response['ambulance'] =  $this->emergency_model->getAmbulanceList($lat,$long,$notIn,$cityId,$openNow);
+              $response['ambulance'] =  $this->emergency_model->getAmbulanceList($lat,$long,$notIn,$cityId,$openNow,$radius,$docOnBoard);
               $response['aoClumns'] =  array("id","name","phn","docOnBoard","openingHours","closingHours","allTime","address","distance");
               
               if($response['ambulance']){

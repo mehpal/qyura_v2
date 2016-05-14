@@ -32,7 +32,7 @@ class PharmacyApi extends MyRest {
             $notIn = isset($_POST['notin']) ? $this->input->post('notin') : '';
             $notIn = explode(',', $notIn);
             $isemergency = (isset($_POST['isemergency']) && $_POST['isemergency'] != 0 ) ? $this->input->post('isemergency') : NULL;
-
+            $radius = isset($_POST['radius']) ? $this->input->post('radius') : 70;
             // search
             $search = isset($_POST['search']) && $_POST['search'] != '' ? $this->input->post('search') : NULL;
 
@@ -40,10 +40,7 @@ class PharmacyApi extends MyRest {
             $cityId = isset($_POST['cityId']) ? $this->input->post('cityId') : NULL;
             $openNow = (isset($_POST['openNow'] )&& $_POST['openNow'] != 0) ? $this->input->post('openNow') : NULL;
 
-            $response['data'] = $this->pharmacy_model->getPhamacyList($lat, $long, $notIn, $isemergency, $search, $cityId, $openNow);
-
-            
-            
+            $response['data'] = $this->pharmacy_model->getPhamacyList($lat, $long, $notIn, $isemergency, $search, $cityId, $openNow, $radius);
             $option = array('table' => 'pharmacy', 'select' => 'pharmacy_deleted');
             $deleted = $this->singleDelList($option);
             $response['pharmacy_deleted'] = $deleted;

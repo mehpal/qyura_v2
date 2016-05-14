@@ -10,7 +10,7 @@ class Pharmacy_model extends CI_Model {
         parent::__construct();
     }
 
-    public function getPhamacyList($lat, $long, $notIn, $isemergency, $search, $cityId = NULL, $openNow) {
+    public function getPhamacyList($lat, $long, $notIn, $isemergency, $search, $cityId = NULL, $openNow,$radius) {
 
         $lat = isset($lat) ? $lat : '';
         $long = isset($long) ? $long : '';
@@ -21,6 +21,13 @@ class Pharmacy_model extends CI_Model {
         if ($isemergency != '' && $isemergency != NULL) {
             $where['qyura_pharmacy.pharmacy_27Src'] = $isemergency;
         }
+        
+        if ($cityId != NULL) {
+            $where['qyura_pharmacy.pharmacy_cityId'] = $cityId;
+        } else {
+            $havingRadius = array('distance <=' => $radius);
+        }
+
         
         $day = getDay(date("l"));
         $currentTime = strtotime(date("h:i A"));
@@ -41,14 +48,9 @@ class Pharmacy_model extends CI_Model {
                 ->where_not_in('qyura_pharmacy.pharmacy_id', $notIn)
                 ->order_by('distance', 'ASC')
                 ->group_by('pharmacy_id')
-                ->limit(DATA_LIMIT);
+                ->limit(DATA_LIMIT)
+                ->having($havingRadius);;
 
-        if ($cityId != NULL) {
-            $cityCon = array('pharmacy_cityId' => $cityId);
-            $this->db->where($cityCon);
-        } else {
-            $this->db->having(array('distance <' => USER_DISTANCE));
-        }
         $response = $this->db->get()->result();
         $curDay = getDay(date("l", strtotime(date("Y-m-d"))));
 
