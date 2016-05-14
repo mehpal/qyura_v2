@@ -10,21 +10,32 @@ class Hospital_model extends CI_Model {
         parent::__construct();
     }
 
-    public function getHospitalList($lat, $long, $notIn, $isemergency, $radius, $isAmbulance, $isInsurance, $isHealtPkg, $rating, $userId, $search = null, $cityId = null) {
+    public function getHospitalList($lat, $long, $notIn, $isemergency, $radius, $isAmbulance, $isInsurance, $rating, $userId, $search = null, $cityId = null, $openNow) {
 
         $lat = isset($lat) ? $lat : '';
         $long = isset($long) ? $long : '';
-
+//echo "--".$openNow;
         $notIn = isset($notIn) ? $notIn : '';
+        
         $where = array('hospital_deleted' => 0, 'qyura_hospital.status' => 1);
 
         if ($isemergency != '' && $isemergency != NULL && $isemergency == 1) {
             $where['qyura_hospital.isEmergency'] = $isemergency;
         }
-
+        
+        $day = getDay(date("l"));
+        $currentTime = strtotime(date("h:i A"));
+        
+        if($openNow != NULL){
+//            $where["openingHours >= "] = $currentTime;
+//            $where["closingHours <= "]  = $currentTime;
+            $where["dayNumber"] = $day;
+        }
+        
         // having array
         $ambulance = '';
         $ambulance = ', (SELECT count(ambulance_id) from qyura_ambulance where ambulance_usersId = hospital_usersId AND ambulance_deleted = 0 AND status = 1) as isAmbulance';
+        
         if ($isAmbulance != '' && $isAmbulance != NULL && $isAmbulance == 1) {
             $having['isAmbulance !='] = 0;
         }
@@ -33,20 +44,13 @@ class Hospital_model extends CI_Model {
             $isInsurance = isset($isInsurance) ? $isInsurance : '';
         }
 
-        $healtPkg = '';
-        $healtPkg = ', (SELECT count(healthPackage_id) from qyura_healthPackage where healthPackage_MIuserId = userId AND healthPackage_deleted = 0 AND status = 1) as isHealtPkg';
-        if ($isHealtPkg != '' && $isHealtPkg != NULL && $isHealtPkg == 1) {
-            $having['isHealtPkg !='] = 0;
+        if ($rating != '' && $rating != NULL ) {
+            $having['rat >= '] = number_format($rating, 1);
         }
 
-        if ($rating != '' && $rating != NULL && $rating != 0) {
-            $having['rat'] = number_format($rating, 1);
-        }
-
-        $this->db->select('hospital_usersId as userId,hospital_id as id, (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, hospital_address as adr ,hospital_name name, CONCAT("0","",hospital_phn) as  phn, hospital_lat lat, hospital_long long, qyura_hospital.modifyTime upTm, hospital_img imUrl, (
+        $this->db->select('hospital_usersId as userId,hospital_id as id, openingHours, closingHours, (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, hospital_address as adr ,hospital_name name, CONCAT("0","",hospital_phn) as  phn, hospital_lat lat, hospital_long long, qyura_hospital.modifyTime upTm, hospital_img imUrl, (
                 6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( hospital_lat ) ) * cos( radians( hospital_long ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( hospital_lat ) ) )
-                ) AS distance, Group_concat(DISTINCT insurance_Name SEPARATOR ", ") as insurance, Group_concat(DISTINCT (CASE specialityNameFormate WHEN 1 THEN qyura_specialities.specialities_drName WHEN 0 THEN qyura_specialities.specialities_name END) order by qyura_specialities.specialities_name SEPARATOR ", ") as specialities, isEmergency ' . $ambulance . '  ' . $healtPkg . '
-,(
+                ) AS distance, Group_concat(DISTINCT insurance_Name SEPARATOR ", ") as insurance, Group_concat(DISTINCT (CASE specialityNameFormate WHEN 1 THEN qyura_specialities.specialities_drName WHEN 0 THEN qyura_specialities.specialities_name END) order by qyura_specialities.specialities_name SEPARATOR ", ") as specialities, isEmergency ' . $ambulance .' ,(
 CASE 
  WHEN (reviews_rating is not null AND qyura_ratings.rating is not null) 
  THEN
@@ -63,18 +67,23 @@ CASE
                 ->join('qyura_hospitalSpecialities', 'qyura_hospitalSpecialities.hospitalSpecialities_hospitalId=qyura_hospital.hospital_id', 'left')
                 ->join('qyura_specialities', 'qyura_specialities.specialities_id=qyura_hospitalSpecialities.hospitalSpecialities_specialitiesId', 'left')
                 ->join('qyura_reviews', 'qyura_reviews.reviews_relateId=qyura_hospital.hospital_usersId', 'left')
-                ->join('qyura_hospitalInsurance', 'qyura_hospitalInsurance.hospitalInsurance_hospitalId=qyura_hospital.hospital_id', 'left')
-                ->join('qyura_insurance', 'qyura_insurance.insurance_id = qyura_hospitalInsurance.hospitalInsurance_insuranceId', 'left')
+                ->join('qyura_hospitalInsurance', 'qyura_hospitalInsurance.hospitalInsurance_hospitalId=qyura_hospital.hospital_id', 'left');
+                if($openNow != NULL){
+                    $this->db->join('qyura_miTimeSlot', 'qyura_miTimeSlot.mi_user_id = qyura_hospital.hospital_id ' , 'LEFT');
+                }
+                
+               $this->db->join('qyura_insurance', 'qyura_insurance.insurance_id = qyura_hospitalInsurance.hospitalInsurance_insuranceId', 'left')
                 ->join('qyura_ratings', 'qyura_ratings.rating_relateId=qyura_hospital.hospital_usersId', 'left')
                 ->join('qyura_fav', 'qyura_fav.fav_relateId = qyura_hospital.hospital_usersId AND fav_userId = ' . $userId . '  ', 'left')
                 ->where($where);
         
         if ($isInsurance != "" || $isInsurance != NULL)
             $this->db->where_in ('hospitalInsurance_insuranceId', $isInsurance);
-                
+             
         $this->db->where_not_in('qyura_hospital.hospital_id', $notIn)
                 ->order_by('distance', 'ASC')
                 ->limit(DATA_LIMIT);
+        
         if (isset($having) && is_array($having)) {
             $this->db->having($having);
         }
@@ -111,6 +120,7 @@ CASE
         if (!empty($response)) {
             foreach ($response as $row) {
 //dump($row);die();
+//                $time = $this->
                 $finalTemp = array();
                 $finalTemp[] = isset($row->id) ? $row->id : "";
                 $finalTemp[] = isset($row->fav) ? $row->fav : "";
@@ -292,7 +302,6 @@ CASE
     }
 
     // mi time slot
-
     public function miTimeSlot($hospitalUserId) {
         $this->db->select('(CASE WHEN (openingHours is NULL) THEN 0 ELSE openingHours END) AS openingHours , (CASE WHEN (closingHours is NULL) THEN 0 ELSE closingHours END) AS closingHours');
         $this->db->from('qyura_miTimeSlot');
