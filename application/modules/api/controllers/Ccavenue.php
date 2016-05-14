@@ -13,7 +13,7 @@ class Ccavenue extends MyRest {
         $this->load->model(array('Ccavenue_model'));
     }
 
-    function Ccavenue_Request_post() {
+    function Ccavenue_Request_get() {
 
         $working_key = '3794D9838D0C5C87EB4F80E843D63715'; //Shared by CCAVENUES 
         $access_code = 'AVHP64DB16BW48PHWB'; //Shared by CCAVENUES
@@ -134,7 +134,7 @@ class Ccavenue extends MyRest {
                     $avenuedata as $key => $value) {
                         $merchant_data.=$key . '=' . $value . '&';
                     }
-
+                    
                     $encrypted_data = encrypt($merchant_data, $working_key); // Method for encrypting the data.
                     ?>
                     <form method="post" name="redirect" action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"> 
