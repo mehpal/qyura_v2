@@ -154,7 +154,7 @@ class Healthcare_model extends CI_Model {
          
         // $this->datatables->edit_column('status', '$1', 'getStatus(status)');
        $this->datatables->add_column('status', '$1', 'statusCheck(healthcare, qyura_healthPackage, healthPackage_id, id, sts)');
-         $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light btn-health m-b-5" href="healthcare/detailHealthpkg/$1">View Deatil</a> <a href="healthcare/editHealthpkg/$1"  class="btn btn-success waves-effect waves-light btn-health">Edit Detail</a>', 'id,getOppStatus(status),status');
+         $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light btn-health m-b-5" href="healthcare/detailHealthpkg/$1">View Detail</a> <a href="healthcare/editHealthpkg/$1"  class="btn btn-success waves-effect waves-light btn-health">Edit Detail</a>', 'id,getOppStatus(status),status');
          
        return  $this->datatables->generate(); 
       //  echo $this->datatables->last_query(); exit;

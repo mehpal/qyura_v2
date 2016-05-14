@@ -209,7 +209,7 @@
                                                     <div class="has-error " id="err_input15" ><?php echo form_error("input15"); ?></div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6 m-t-xs-10">
-                                                    <input type="text" class="form-control" id="zip" name="input16" placeholder="Zip" onkeypress="return isNumberKey(event)" max="6"/>
+                                                    <input type="text" class="form-control" id="zip" name="input16" placeholder="Zip" onkeypress="return isNumberKey(event)" max="999999"/>
                                                     <div class="has-error " id="err_input16" ><?php echo form_error("input16"); ?></div>
                                                 </div>
                                             </aside>

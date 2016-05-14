@@ -158,6 +158,7 @@
                         </div>
                     </section>
                     <!-- Left Section End -->
+                    
                     <!-- Right Section Start -->
                     <section class="col-md-6 detailbox mi-form-section">
                         <div class="bg-white clearfix">
@@ -204,10 +205,12 @@
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Policy Expiry Date :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <div class="input-group">
-                                                <input class="form-control pickDatePolicy" id="userInsurance_expDate" placeholder="dd/mm/yyyy" type="text" value="<?php echo set_value('userInsurance_expDate'); ?>" name="userInsurance_expDate" onkeydown="return false;">
+                                                <input class="form-control pickDatePolicy" id="userInsurance_expDate" placeholder="mm/dd/yyyy" type="text" value="<?php echo set_value('userInsurance_expDate'); ?>" name="userInsurance_expDate" onkeydown="return false;">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>
-                                            <span class="error" id="err_userInsurance_expDate" > <?php echo form_error("userInsurance_expDate"); ?></span>
+                                                 <span class="error" id="err_userInsurance_expDate" > <?php echo form_error("userInsurance_expDate"); ?></span>
+                                          
                                         </div>
+                                         
                                     </article>
                                 </div>
                                 <!--Health Insuranse End -->
