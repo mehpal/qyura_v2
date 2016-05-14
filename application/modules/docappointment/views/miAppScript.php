@@ -54,7 +54,7 @@ if ($current == 'detailBloodBank'):
                     "targets": [0,1,2,3,4,5],
                     "orderable": false
                 }],
-            // "searching": true,
+            "searching": false,
             "bLengthChange": false,
             "bProcessing": true,
             "iDisplayLength": 10,
