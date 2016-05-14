@@ -980,7 +980,8 @@ class Quotation extends MY_Controller {
         } else {
 
             $user_id = $this->input->post('user_id');
-            $quoDatetime = $this->input->post('preferedDate') . " " . $this->input->post('hour') . ":" . $this->input->post('minute');
+            $quoDatetime = str_replace($this->input->post('preferedDate')).' '.$this->input->post('quotationTime'); 
+           // $quoDatetime = $this->input->post('preferedDate') . " " . $this->input->post('hour') . ":" . $this->input->post('minute');
             $quotation_id = $this->input->post('quotationId');
             $con = array('qyura_quotations.quotation_id' => $quotation_id);
             $qtRow = $this->Quotation_model->getQuotationDetail($con);
