@@ -197,23 +197,30 @@
     function getTimeSlot() {
         var id = $('#mi_centre').val();
         id = id.split(',');
-        var h_d_id = id[1];
+        var h_d_id = id[0];
         var docid = $('#input12').val();
 
         var appdate = $('#date-3').val();
 
         var type = $("#centerType").val();
+        
+        if(type=="0")
+           var type1 = 1;
+        else
+            var type1 = 2;
+        
         var url = '<?php echo site_url(); ?>/miappointment/appoint_timeSlot';
         if (typeof h_d_id == 'string' && typeof type == 'string') {
             $.ajax({
                 url: url,
                 async: false,
                 type: 'POST',
-                data: {'h_d_id': h_d_id, 'type': type, 'docid': docid, 'appdate': appdate},
+                data: {'h_d_id': h_d_id, 'type': type, 'docid': docid, 'appdate': appdate,'centertype':type1},
                 beforeSend: function (xhr) {
                     $("#timeSlot").addClass('loadinggif');
                 },
                 success: function (data) {
+                    
                     
                     $('#timeSlot').html(data);
                     $('#timeSlot').selectpicker('refresh');

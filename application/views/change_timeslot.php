@@ -13,7 +13,7 @@
                                 <label for="" class="control-label col-md-4 col-sm-4">Appointment Date:</label>
                                 <div class="col-md-8 col-sm-8">
                                     <div class="input-group">
-                                        <input class="form-control pickDate" id="date-7" type="text" name="appdate" onkeydown="return false;" onchange="getTimeSlot();">
+                                        <input class="form-control pickDate" id="date-7" type="text" name="appdate" onkeydown="return false;" onchange="getTimeSlot($('#docid').val(),this.value,$('#h_d_id').val(),$('#center_type').val());">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                     </div>
                                 </div>

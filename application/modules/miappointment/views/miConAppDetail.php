@@ -11,8 +11,10 @@
 
                 </div>
             </div>
-<input type="hidden" id="docid" name="docid" value="<?php echo $conDetail->docid."_".$conDetail->doctorUserId;?>">
+<input type="hidden" id="docid" name="docid" value="<?php echo $conDetail->docid.",".$conDetail->doctorUserId;?>">
 <input type="hidden" id="appid" name="appid" value="<?php echo isset($appid) ? $appid : ''?>">
+<input type="hidden" id="h_d_id" name="h_d_id" value="<?php echo isset($conDetail->MIid) ? $conDetail->MIid : ''?>">
+<input type="hidden" id="center_type" name="center_type" value="<?php echo isset($conDetail->centerType) ? $conDetail->centerType : ''?>">
             <!-- Main Div Start -->
             <section class="clearfix detailbox">
 
