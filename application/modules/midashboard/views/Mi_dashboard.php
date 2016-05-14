@@ -140,146 +140,31 @@
                                     <div class="mCustomScrollbar mxh-400" style="overflow: hidden;" tabindex="5000">
                                         <table class="table">
                                             <tbody>
+                                                
+                                                <?php if(!empty($consultAppoinement)):
+                                                foreach($consultAppoinement as $consult):?>
+                                                   
                                                 <tr>
                                                     <td width="30%">
-                                                        <h6>AHC098</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Male | 45</p>
+                                                        <h6><?php echo smart_wordwrap($consult->orderId,10,'<br>');?></h6>
+                                                        <p><?php echo $consult->userName;?></p>
+                                                        <p><?php echo getGender($consult->userGender);?> | <?php echo $consult->userAge;?></p>
                                                     </td>
                                                     <td width="40%">
-                                                        <h6>Dr. Sambit Jain</h6>
-                                                        <p>Cardiology</p>
+                                                        <h6>Dr. <?php echo ucwords($consult->title);?></h6>
+                                                        <p><?php echo ucwords($consult->speciality);?></p>
                                                     </td>
                                                     <td width="30%">
-                                                        <h6> 01:00 PM</h6>
+                                                        <h6> <?php echo date('h:i A',$consult->finalTime);?></h6>
 
                                                         <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
 
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td width="30%">
-                                                        <h6>AHC098</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Male | 45</p>
-                                                    </td>
-                                                    <td width="40%">
-                                                        <h6>Dr. Sambit Jain</h6>
-                                                        <p>Cardiology</p>
-                                                    </td>
-                                                    <td width="30%">
-                                                        <h6> 01:00 PM</h6>
-
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="30%">
-                                                        <h6>AHC098</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Male | 45</p>
-                                                    </td>
-                                                    <td width="40%">
-                                                        <h6>Dr. Sambit Jain</h6>
-                                                        <p>Cardiology</p>
-                                                    </td>
-                                                    <td width="30%">
-                                                        <h6> 01:00 PM</h6>
-
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="30%">
-                                                        <h6>AHC098</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Male | 45</p>
-                                                    </td>
-                                                    <td width="40%">
-                                                        <h6>Dr. Sambit Jain</h6>
-                                                        <p>Cardiology</p>
-                                                    </td>
-                                                    <td width="30%">
-                                                        <h6> 01:00 PM</h6>
-
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="30%">
-                                                        <h6>AHC098</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Male | 45</p>
-                                                    </td>
-                                                    <td width="40%">
-                                                        <h6>Dr. Sambit Jain</h6>
-                                                        <p>Cardiology</p>
-                                                    </td>
-                                                    <td width="30%">
-                                                        <h6> 01:00 PM</h6>
-
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="30%">
-                                                        <h6>AHC098</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Male | 45</p>
-                                                    </td>
-                                                    <td width="40%">
-                                                        <h6>Dr. Sambit Jain</h6>
-                                                        <p>Cardiology</p>
-                                                    </td>
-                                                    <td width="30%">
-                                                        <h6> 01:00 PM</h6>
-
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="30%">
-                                                        <h6>AHC098</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Male | 45</p>
-                                                    </td>
-                                                    <td width="40%">
-                                                        <h6>Dr. Sambit Jain</h6>
-                                                        <p>Cardiology</p>
-                                                    </td>
-                                                    <td width="30%">
-                                                        <h6> 01:00 PM</h6>
-
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="30%">
-                                                        <h6>AHC098</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Male | 45</p>
-                                                    </td>
-                                                    <td width="40%">
-                                                        <h6>Dr. Sambit Jain</h6>
-                                                        <p>Cardiology</p>
-                                                    </td>
-                                                    <td width="30%">
-                                                        <h6> 01:00 PM</h6>
-
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-
-                                                    </td>
-                                                </tr>
-
-
-
-
+                                                
+                                                    
+                                                <?php endforeach;
+                                                endif;?>
 
                                             </tbody>
                                         </table>
@@ -296,7 +181,7 @@
                                         <thead>
                                             <tr>
                                                 <th width="30%">Appt. Detail</th>
-                                                <th width="40%">Doctor</th>
+                                                <th width="40%">Hospital</th>
                                                 <th width="30%">Time</th>
                                             </tr>
                                         </thead>
@@ -304,131 +189,30 @@
                                     <div class="mCustomScrollbar mxh-400" style="overflow: hidden;" tabindex="5000">
                                         <table class="table">
                                             <tbody>
+                                                
+                                                <?php if(!empty($diagnosticAppointmnt)):
+                                                        foreach($diagnosticAppointmnt as $diag):?>
+                                                
                                                 <tr>
                                                     <td width="30%">
-                                                        <h6>AHC098</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Male | 45</p>
+                                                        <h6><?php echo smart_wordwrap($diag->orderId,10,'<br>');?></h6>
+                                                        <p><?php echo $diag->userName;?></p>
+                                                        <p><?php echo getGender($diag->userGender);?> | <?php echo $diag->userAge;?></p>
                                                     </td>
                                                     <td width="40%">
-                                                        <h6>Dr. Sambit Jain</h6>
-                                                        <p>Cardiology</p>
+                                                        <h6><?php echo $diag->MIname;?></h6>
+                                                        <p><?php echo $diag->city;?></p>
                                                     </td>
                                                     <td width="30%">
-                                                        <h6> 01:00 PM</h6>
+                                                        <h6> <?php echo date('h:i A',$consult->dateTime);?></h6>
                                                         <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td width="30%">
-                                                        <h6>AHC098</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Male | 45</p>
-                                                    </td>
-                                                    <td width="40%">
-                                                        <h6>Dr. Sambit Jain</h6>
-                                                        <p>Cardiology</p>
-                                                    </td>
-                                                    <td width="30%">
-                                                        <h6> 01:00 PM</h6>
+                                                
+                                                 <?php endforeach;
+                                                endif;?>
+                                       
 
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="30%">
-                                                        <h6>AHC098</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Male | 45</p>
-                                                    </td>
-                                                    <td width="40%">
-                                                        <h6>Dr. Sambit Jain</h6>
-                                                        <p>Cardiology</p>
-                                                    </td>
-                                                    <td width="30%">
-                                                        <h6> 01:00 PM</h6>
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="30%">
-                                                        <h6>AHC098</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Male | 45</p>
-                                                    </td>
-                                                    <td width="40%">
-                                                        <h6>Dr. Sambit Jain</h6>
-                                                        <p>Cardiology</p>
-                                                    </td>
-                                                    <td width="30%">
-                                                        <h6> 01:00 PM</h6>
-
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="30%">
-                                                        <h6>AHC098</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Male | 45</p>
-                                                    </td>
-                                                    <td width="40%">
-                                                        <h6>Dr. Sambit Jain</h6>
-                                                        <p>Cardiology</p>
-                                                    </td>
-                                                    <td width="30%">
-                                                        <h6> 01:00 PM</h6>
-
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="30%">
-                                                        <h6>AHC098</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Male | 45</p>
-                                                    </td>
-                                                    <td width="40%">
-                                                        <h6>Dr. Sambit Jain</h6>
-                                                        <p>Cardiology</p>
-                                                    </td>
-                                                    <td width="30%">
-                                                        <h6> 01:00 PM</h6>
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="30%">
-                                                        <h6>AHC098</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Male | 45</p>
-                                                    </td>
-                                                    <td width="40%">
-                                                        <h6>Dr. Sambit Jain</h6>
-                                                        <p>Cardiology</p>
-                                                    </td>
-                                                    <td width="30%">
-                                                        <h6> 01:00 PM</h6>
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="30%">
-                                                        <h6>AHC098</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>Male | 45</p>
-                                                    </td>
-                                                    <td width="40%">
-                                                        <h6>Dr. Sambit Jain</h6>
-                                                        <p>Cardiology</p>
-                                                    </td>
-                                                    <td width="30%">
-                                                        <h6> 01:00 PM</h6>
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -462,175 +246,29 @@
                             <div class="mCustomScrollbar mxh-430" style="overflow: hidden;" tabindex="5000">
                                 <table class="table">
                                     <tbody>
+                                        
+                                                <?php if(!empty($helthPackageBooking)):
+                                                        foreach($helthPackageBooking as $helthBook):?>
+                                                        
                                         <tr>
                                             <td width="30%">
-                                                <h6>AHHP0986</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
+                                                <h6><?php echo strtoupper($helthBook->healthPkgBooking_orderNo);?></h6>
+                                                <p><?php echo $helthBook->bookedBy;?></p>
+                                                <p><?php echo date('d/m/Y',$helthBook->createdAt);?></p>
                                             </td>
                                             <td width="40%">
-                                                <h6>Comprehensive</h6>
-                                                <p>HPO111</p>
-                                                <p>NR 500</p>
+                                                <h6><?php echo $helthBook->healthPackage_packageTitle;?></h6>
+                                                <p><?php echo smart_wordwrap($helthBook->healthPackage_packageId,10,'<br>');?></p>
+                                                <p>NR <?php echo round($helthBook->price);?></p>
                                             </td>
                                             <td width="30%">
-                                                <h6> Paid</h6>
+                                                <h6> <?php echo getBookStatus($helthBook->healthPkgBooking_bkStatus);?></h6>
                                                 <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td width="30%">
-                                                <h6>AHHP0986</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td width="40%">
-                                                <h6>Comprehensive</h6>
-                                                <p>HPO111</p>
-                                                <p>NR 500</p>
-                                            </td>
-                                            <td width="30%">
-                                                <h6> Paid</h6>
-                                                <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="30%">
-                                                <h6>AHHP0986</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td width="40%">
-                                                <h6>Comprehensive</h6>
-                                                <p>HPO111</p>
-                                                <p>NR 500</p>
-                                            </td>
-                                            <td width="30%">
-                                                <h6> Paid</h6>
-                                                <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="30%">
-                                                <h6>AHHP0986</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td width="40%">
-                                                <h6>Comprehensive</h6>
-                                                <p>HPO111</p>
-                                                <p>NR 500</p>
-                                            </td>
-                                            <td width="30%">
-                                                <h6> Paid</h6>
-                                                <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="30%">
-                                                <h6>AHHP0986</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td width="40%">
-                                                <h6>Comprehensive</h6>
-                                                <p>HPO111</p>
-                                                <p>NR 500</p>
-                                            </td>
-                                            <td width="30%">
-                                                <h6> Paid</h6>
-
-                                                <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="30%">
-                                                <h6>AHHP0986</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td width="40%">
-                                                <h6>Comprehensive</h6>
-                                                <p>HPO111</p>
-                                                <p>NR 500</p>
-                                            </td>
-                                            <td width="30%">
-                                                <h6> Paid</h6>
-                                                <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="30%">
-                                                <h6>AHHP0986</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td width="40%">
-                                                <h6>Comprehensive</h6>
-                                                <p>HPO111</p>
-                                                <p>NR 500</p>
-                                            </td>
-                                            <td width="30%">
-                                                <h6> Paid</h6>
-                                                <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="30%">
-                                                <h6>AHHP0986</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td width="40%">
-                                                <h6>Comprehensive</h6>
-                                                <p>HPO111</p>
-                                                <p>NR 500</p>
-                                            </td>
-                                            <td width="30%">
-                                                <h6> Paid</h6>
-
-                                                <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="30%">
-                                                <h6>AHHP0986</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td width="40%">
-                                                <h6>Comprehensive</h6>
-                                                <p>HPO111</p>
-                                                <p>NR 500</p>
-                                            </td>
-                                            <td width="30%">
-                                                <h6> Paid</h6>
-
-                                                <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="30%">
-                                                <h6>AHHP0986</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td width="40%">
-                                                <h6>Comprehensive</h6>
-                                                <p>HPO111</p>
-                                                <p>NR 500</p>
-                                            </td>
-                                            <td width="30%">
-                                                <h6> Paid</h6>
-
-                                                <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-
-                                            </td>
-                                        </tr>
-
+                                                
+                                                 <?php endforeach;
+                                                endif;?>
                                     </tbody>
                                 </table>
                             </div>
@@ -796,118 +434,27 @@
                             <div class="mCustomScrollbar mxh-430" style="overflow: hidden;" tabindex="5000">
                                 <table class="table">
                                     <tbody>
-                                        <tr>
+                                        
+                                              <?php if(!empty($quotationList)):
+                                                        foreach($quotationList as $quot):?>
+                                                
+                                              <tr>
                                             <td width="40%">
-                                                <h6>AHQT089</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
+                                                <h6><?php echo smart_wordwrap($quot->uniqueId,10,'<br>');?></h6>
+                                                 <p><?php echo $quot->userName;?></p>
+                                                <p><?php echo $quot->dateTime;?></p>
                                             </td>
                                             <td>
-                                                <h6>Blood Test-1</h6>
-                                                <p>Vipul Jain</p>
+                                                <h6><?php echo $quot->diagnosticsCat_catName;?></h6>
+                                                <p><?php echo $quot->miName;?></p>
                                             </td>
                                             <td>
                                                 <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td width="40%">
-                                                <h6>AHQT089</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td>
-                                                <h6>Blood Test-1</h6>
-                                                <p>Vipul Jain</p>
-                                            </td>
-                                            <td>
-                                                <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="40%">
-                                                <h6>AHQT089</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td>
-                                                <h6>Blood Test-1</h6>
-                                                <p>Vipul Jain</p>
-                                            </td>
-                                            <td>
-                                                <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="40%">
-                                                <h6>AHQT089</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td>
-                                                <h6>Blood Test-1</h6>
-                                                <p>Vipul Jain</p>
-                                            </td>
-                                            <td>
-                                                <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="40%">
-                                                <h6>AHQT089</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td>
-                                                <h6>Blood Test-1</h6>
-                                                <p>Vipul Jain</p>
-                                            </td>
-                                            <td>
-                                                <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="40%">
-                                                <h6>AHQT089</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td>
-                                                <h6>Blood Test-1</h6>
-                                                <p>Vipul Jain</p>
-                                            </td>
-                                            <td>
-                                                <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="40%">
-                                                <h6>AHQT089</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td>
-                                                <h6>Blood Test-1</h6>
-                                                <p>Vipul Jain</p>
-                                            </td>
-                                            <td>
-                                                <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="40%">
-                                                <h6>AHQT089</h6>
-                                                <p>Vipul Jain</p>
-                                                <p>15/11/2015</p>
-                                            </td>
-                                            <td>
-                                                <h6>Blood Test-1</h6>
-                                                <p>Vipul Jain</p>
-                                            </td>
-                                            <td>
-                                                <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                            </td>
-                                        </tr>
+                                                
+                                                 <?php endforeach;
+                                                endif;?>
                                     </tbody>
                                 </table>
                             </div>
@@ -958,118 +505,27 @@
                                     <div class="mCustomScrollbar mxh-382" style="overflow: hidden;" tabindex="5000">
                                         <table class="table">
                                             <tbody>
-                                                <tr>
+                                                
+                                             <?php if(!empty($medicartBooking)):
+                                                        foreach($medicartBooking as $mbook):?>
+                                                
+                                               <tr>
                                                     <td width="40%">
-                                                        <h6>AHQT089</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>15/11/2015</p>
+                                                       <h6><?php echo smart_wordwrap($mbook->medicartBooking_bookId,10,'<br>');?></h6>
+                                                       <p><?php echo $mbook->patientDetails_patientName;?></p>
+                                                       <p><?php echo date('d/m/Y',$mbook->medicartBooking_preferredDate);?></p>
                                                     </td>
                                                     <td>
-                                                        <h6>Blood Test-1</h6>
-                                                        <p>Vipul Jain</p>
+                                                        <h6><?php echo $mbook->medicartOffer_title;?></h6>
+                                                        <p><?php echo $mbook->MIname;?></p>
                                                     </td>
                                                     <td>
                                                         <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td width="40%">
-                                                        <h6>AHQT089</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>15/11/2015</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Blood Test-1</h6>
-                                                        <p>Vipul Jain</p>
-                                                    </td>
-                                                    <td>
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="40%">
-                                                        <h6>AHQT089</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>15/11/2015</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Blood Test-1</h6>
-                                                        <p>Vipul Jain</p>
-                                                    </td>
-                                                    <td>
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="40%">
-                                                        <h6>AHQT089</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>15/11/2015</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Blood Test-1</h6>
-                                                        <p>Vipul Jain</p>
-                                                    </td>
-                                                    <td>
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="40%">
-                                                        <h6>AHQT089</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>15/11/2015</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Blood Test-1</h6>
-                                                        <p>Vipul Jain</p>
-                                                    </td>
-                                                    <td>
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="40%">
-                                                        <h6>AHQT089</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>15/11/2015</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Blood Test-1</h6>
-                                                        <p>Vipul Jain</p>
-                                                    </td>
-                                                    <td>
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="40%">
-                                                        <h6>AHQT089</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>15/11/2015</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Blood Test-1</h6>
-                                                        <p>Vipul Jain</p>
-                                                    </td>
-                                                    <td>
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="40%">
-                                                        <h6>AHQT089</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>15/11/2015</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Blood Test-1</h6>
-                                                        <p>Vipul Jain</p>
-                                                    </td>
-                                                    <td>
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
+                                                
+                                                 <?php endforeach;
+                                                endif;?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -1092,104 +548,28 @@
                                     <div class="mCustomScrollbar mxh-382" style="overflow: hidden;" tabindex="5000">
                                         <table class="table">
                                             <tbody>
-                                                <tr>
+                                               
+                                                 <?php if(!empty($medicartEnquiry)):
+                                                        foreach($medicartEnquiry as $enquiry):?>
+                                                
+                                                 <tr>
                                                     <td width="40%">
-                                                        <h6>AHQT089</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>15/11/2015</p>
+                                                        <h6><?php echo smart_wordwrap($enquiry->medicartContect_enquiryId,10,'<br>');?></h6>
+                                                       <p><?php echo $enquiry->medicartContect_name;?></p>
+                                                       <p><?php echo date('d/m/Y',$enquiry->creationTime);?></p>
                                                     </td>
                                                     <td>
-                                                        <h6>Blood Test-1</h6>
-                                                        <p>Vipul Jain</p>
+                                                        <h6><?php echo $enquiry->medicartOffer_title;?></h6>
+                                                        <p><?php echo $enquiry->MIname;?></p>
                                                     </td>
                                                     <td>
                                                         <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td width="40%">
-                                                        <h6>AHQT089</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>15/11/2015</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Blood Test-1</h6>
-                                                        <p>Vipul Jain</p>
-                                                    </td>
-                                                    <td>
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="40%">
-                                                        <h6>AHQT089</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>15/11/2015</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Blood Test-1</h6>
-                                                        <p>Vipul Jain</p>
-                                                    </td>
-                                                    <td>
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="40%">
-                                                        <h6>AHQT089</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>15/11/2015</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Blood Test-1</h6>
-                                                        <p>Vipul Jain</p>
-                                                    </td>
-                                                    <td>
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="40%">
-                                                        <h6>AHQT089</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>15/11/2015</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Blood Test-1</h6>
-                                                        <p>Vipul Jain</p>
-                                                    </td>
-                                                    <td>
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="40%">
-                                                        <h6>AHQT089</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>15/11/2015</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Blood Test-1</h6>
-                                                        <p>Vipul Jain</p>
-                                                    </td>
-                                                    <td>
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="40%">
-                                                        <h6>AHQT089</h6>
-                                                        <p>Vipul Jain</p>
-                                                        <p>15/11/2015</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6>Blood Test-1</h6>
-                                                        <p>Vipul Jain</p>
-                                                    </td>
-                                                    <td>
-                                                        <h2><button class="btn btn-success waves-effect waves-light m-b-5" type="button">Detail</button></h2>
-                                                    </td>
-                                                </tr>
+                                                
+                                                 <?php endforeach;
+                                                endif;?>
+                                                
                                             </tbody>
                                         </table>
                                     </div>
@@ -1212,12 +592,18 @@
                                 <h3>Doctor Of The Month</h3>
                             </figure>
 
-                            <p class="text-center"><img src="assets/images/users/avatar-1.jpg" class="img-responsive img-circle img-thumbnail m-t-20"></p>
+                                                    <?php if(!empty($doctorOfMonth) && !empty($doctorOfMonth[0]->imUrl)): ?>
+                                  <p class="text-center"><img src="<?php echo base_url().$doctorOfMonth[0]->imUrl; ?>" class="img-responsive img-circle img-thumbnail m-t-20"></p>
+                        <?php else: ?>
+                                  <p class="text-center"><img src="<?php echo base_url(); ?>assets/default-images/Doctor-logo.png" class="img-responsive img-circle img-thumbnail m-t-20"></p>
+                            <?php endif;
+?>
+                            
                             <figcaption class="text-center">
-                                <h3>Dr. Sambit Jain</h3>
-                                <p>MBBS, MD</p>
-                                <p>Cardiology</p>
-                                <h3>Total Appointments:175</h3>
+                                <h3><?php if(!empty($doctorOfMonth)): echo 'Dr.'.$doctorOfMonth[0]->doctoesName; endif;?></h3>
+                                <p><?php if(!empty($doctorOfMonth)): echo $doctorOfMonth[0]->degree; endif;?></p>
+                                <p><?php if(!empty($doctorOfMonth)): echo $doctorOfMonth[0]->specname; endif;?></p>
+                                <h3>Total Appointments: <?php if(!empty($doctorOfMonth)): echo $doctorOfMonth[0]->totalapp; endif;?></h3>
                             </figcaption>
 
                             <figcaption class="clearfix text-center text-black">
@@ -1330,13 +716,23 @@
                                 <h3>Booking Distribution</h3>
                             </figure>
                             <figcaption>
-                                <h4 class=""><i class="md md-event"></i> 2015</h4>
+                                <h4 class=""><i class="md md-event"></i> <?php echo date('Y');?></h4>
                                 <div id="chart_div"></div>
                             </figcaption>
                         </div>
                     </article>
 
-
+                    <article class="col-md-4 col-sm-4 chartbox">
+                        <div class="bg-white">
+                            <figure class="clearfix">
+                                <h3>Medicart</h3>
+                            </figure>
+                            <figcaption>
+                                <h4 class=""><i class="md md-event"></i> <?php echo date('Y');?></h4>
+                                <div id="donut-example" style="height:200px"></div>
+                            </figcaption>
+                        </div>
+                    </article>
 <!--                    <article class="col-md-4 col-sm-4 chartbox">
                         <div class="bg-white">
                             <figure class="clearfix">
@@ -1350,17 +746,7 @@
                     </article>-->
 
 
-                    <article class="col-md-4 col-sm-4 chartbox">
-                        <div class="bg-white">
-                            <figure class="clearfix">
-                                <h3>Medicart</h3>
-                            </figure>
-                            <figcaption>
-                                <h4 class=""><i class="md md-event"></i> 2015</h4>
-                                <div id="donut-example" style="height:200px"></div>
-                            </figcaption>
-                        </div>
-                    </article>
+            <input type="hidden" id="urls" value="<?php echo base_url();?>" />
 
                 </section>
                 <!-- end -->
