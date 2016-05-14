@@ -13,21 +13,371 @@ class Auth extends MyRest {
         $this->lang->load('auth_api');
     }
 
+    // create a new group
+    function signUp_post()  {
+      
+        $this->bf_form_validation->set_rules('device', 'device', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
+        $this->bf_form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean');
+        $this->bf_form_validation->set_rules('gender', 'Gender', 'trim|min_length[1]|max_length[1]|numeric|xss_clean');
+        $this->bf_form_validation->set_rules('logintype', 'logintype', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
+        $this->bf_form_validation->set_rules('mobileNo', 'Mobile No', 'required|min_length[10]|max_length[10]|numeric|xss_clean');
+        $this->bf_form_validation->set_rules('name', 'name', 'required|max_length[80]|xss_clean');
+        
+        $this->bf_form_validation->set_rules('pushToken', 'push token', 'min_length[8]|max_length[255]|xss_clean');
+        $this->bf_form_validation->set_rules('udid', 'udid', 'required|min_length[8]|max_length[255]|xss_clean');
+        
+        $logintype = $this->input->post('logintype');
+        if($logintype == 0){
+            $this->bf_form_validation->set_rules('password', 'password', 'required|min_length[' . $this->config->item('min_password_length', 'auth_conf_api') . ']|max_length[' . $this->config->item('max_password_length', 'auth_conf_api') . ']|xss_clean');
+            $this->bf_form_validation->set_rules('dob', 'Date of Birth', 'trim|xss_clean|valid_date[y-m-d,-]'); 
+        }elseif($logintype == 2){
+            $this->bf_form_validation->set_rules('socialId', 'Social Id', 'trim|required|xss_clean');
+        }
+        
+        if ($this->bf_form_validation->run() == FALSE) {
+            $message = $this->validation_post_warning();
+            $response = array('status' => FALSE, 'message' => $message);
+            $this->response($response, 400);
+        } else {
+            
+            $data['device'] = $this->input->post('device');
+            $data['email'] = $users_email = $this->input->post('email');
+            $data['gender']  = $this->input->post('gender');
+            $data['logintype'] = $this->input->post('logintype');
+            $data['mobileNo'] = $this->input->post('mobileNo');
+            $data['name'] = $this->input->post('name');
+            $data['pushToken'] = $this->input->post('pushToken');
+            $data['udid'] = $this->input->post('udid');
+            $data['pushToken'] = $this->input->post('pushToken');
+            $data['pushToken'] = $this->input->post('pushToken');
+            $data['user_id'] = '';
+            if($logintype == 0){
+                $data['password'] = $this->common_model->encryptPassword($this->input->post('password'));
+                $data['dob'] = strtotime($this->input->post('dob'));
+                $data['socialId'] = '';
+            }elseif($logintype == 2){
+                $length = 10;
+                $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                $password = '';
+                for ($i = 0; $i < $length; $i++) {
+                    $password .= $characters[rand(0, strlen($characters) - 1)];
+                }
+                $data['password'] = $this->common_model->encryptPassword($password);
+                $data['dob'] = '';
+                $data['socialId'] = $this->input->post('socialId');
+            }
+            
+            $option = array(
+                'table' => 'qyura_users',
+                'select' => '*',
+                'where' => array('qyura_users.users_deleted' => 0,'qyura_users.users_email' => $users_email),
+                'single' => TRUE
+            );
+            $email = $this->common_model->customGet($option);
+            
+            if(!empty($email)){
+                $options = array(
+                    'select'=>'*',
+                    'table' => 'qyura_users',
+                    'where' => array('qyura_users.users_deleted' => 0, 'qyura_users.users_email' => $users_email,'qyura_usersRoles.usersRoles_roleId' => 6),
+                    'join' => array(
+                        array('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId = qyura_users.users_id', 'left'),
+                    ),
+                    'single'=>true
+                );
+                $data = $this->common_model->customGet($options);
+
+                if(isset($data) && $data != null){
+                    $message = "This email already registered with us";
+                    $response = array('status' => FALSE, 'message' => $message);
+                    $this->response($response, 400);
+                }else{
+                    $data['user_id'] = $email->users_id;
+                    $user_mobile = $this->input->post('mobileNo');
+                    $option = array(
+                        'table' => 'qyura_users',
+                        'select' => '*',
+                        'where' => array('qyura_users.users_deleted' => 0,'qyura_users.users_mobile' => $user_mobile,'qyura_usersRoles.usersRoles_roleId' => 6),
+                        'join' => array(
+                            array('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId = qyura_users.users_id', 'left'),
+                        ),
+                        'single'=>true
+                    );
+                    $mobile = $this->common_model->customGet($option);
+                    if(isset($mobile) && $mobile != null){
+                        $message = "This mobile number already registered with us";
+                        $response = array('status' => FALSE, 'message' => $message);
+                        $this->response($response, 400);
+                    }else{
+                        $this->sendOtp($data);
+                    }
+                }
+            }else{
+                $user_mobile = $this->input->post('mobileNo');
+                $option = array(
+                    'table' => 'qyura_users',
+                    'select' => '*',
+                    'where' => array('qyura_users.users_deleted' => 0,'qyura_users.users_mobile' => $user_mobile,'qyura_usersRoles.usersRoles_roleId' => 6),
+                    'join' => array(
+                        array('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId = qyura_users.users_id', 'left'),
+                    ),
+                    'single'=>true
+                );
+                $mobile = $this->common_model->customGet($option);
+                if(isset($mobile) && $mobile != null){
+                    $message = "This mobile number already registered with us";
+                    $response = array('status' => FALSE, 'message' => $message);
+                    $this->response($response, 400);
+                }else{
+                    $this->sendOtp($data);
+                }
+            }
+        }
+    }
+    
+    // saveUserData
+    function sendOtp($data){
+        $length = 5;
+        $characters = '0123456789';
+        $otp = '';
+        for ($i = 0; $i < $length; $i++) {
+            $otp .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        $otp_no= $otp.": This is your Qyura One Time Password";
+        $data['users_otpCode'] = $otp;
+        $send = $this->common_model->sendSms($data['mobileNo'],$otp_no);
+        $from = 'support@qyura.com';
+        $to = $data['email'];
+        $send = $this->common_model->sendMail($from,$to,$otp_no);
+        $option = array(
+            'table' => 'qyura_otp',
+            'select' => '*',
+            'where' => array('qyura_otp.otp_deleted' => 0,'qyura_otp.status' => 1,'qyura_otp.otp_mobile' => $data['mobileNo']),
+            'single' => TRUE
+        );
+        $mobile = $this->common_model->customGet($option);
+        if(isset($mobile) && $mobile != NULL){
+            $update_user['otp_number'] = $otp;
+            $update_user['otp_confirm'] = '0';
+            $updateOptions = array
+            (
+                'where' => array('otp_mobile' => $data['mobileNo']),
+                'data'  => $update_user,
+                'table' => 'qyura_otp'
+            );
+            $otpInsert = $this->common_model->customUpdate($updateOptions);
+        }else{
+            $records_array = array('creationTime' => date('Y-m-d'), 'otp_mobile' => $data['mobileNo'], 'otp_number' => $otp);
+            $options = array
+                (
+                'data' => $records_array,
+                'table' => 'qyura_otp'
+            );
+            $otpInsert = $this->common_model->customInsert($options);
+        }
+        $msg = "Thank You! Please check your email or SMS to activate your account";
+        $response = array('status' => 1, 'message' => $msg, 'userDetail' => $data);
+        $this->response($response, 200); // 200 being the HTTP response code
+    }
+    
+    //Active Otp
+    function activeOTP_post() {
+
+        $this->bf_form_validation->set_rules('code', 'OTP Code', 'required|numeric|min_length[5]|max_length[5]|xss_clean');
+        $this->bf_form_validation->set_rules('device', 'device', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
+        $this->bf_form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean');
+        $this->bf_form_validation->set_rules('gender', 'Gender', 'trim|min_length[1]|max_length[1]|numeric|xss_clean');
+        $this->bf_form_validation->set_rules('logintype', 'logintype', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
+        $this->bf_form_validation->set_rules('mobileNo', 'Mobile No', 'required|min_length[10]|max_length[10]|numeric|xss_clean');
+        $this->bf_form_validation->set_rules('name', 'name', 'required|max_length[80]|xss_clean');
+        
+        $this->bf_form_validation->set_rules('pushToken', 'push token', 'min_length[8]|max_length[255]|xss_clean');
+        $this->bf_form_validation->set_rules('udid', 'udid', 'required|min_length[8]|max_length[255]|xss_clean');
+        
+        $logintype = $this->input->post('logintype');
+        if($logintype == 0){
+            $this->bf_form_validation->set_rules('password', 'password', 'required|min_length[' . $this->config->item('min_password_length', 'auth_conf_api') . ']|max_length[' . $this->config->item('max_password_length', 'auth_conf_api') . ']|xss_clean');
+            $this->bf_form_validation->set_rules('dob', 'Date of Birth', 'trim|xss_clean|valid_date[y-m-d,-]'); 
+        }elseif($logintype == 2){
+            $this->bf_form_validation->set_rules('socialId', 'Social Id', 'trim|required|xss_clean');
+        }
+
+        if ($this->bf_form_validation->run($this) === FALSE) {
+            $message = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+            $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
+            $this->response($response, 400);
+        } else {
+            $data['user_id'] = $user_id = $this->input->post('user_id');
+            $data['device'] = $device = $this->input->post('device');
+            $data['email'] = $users_email = $this->input->post('email');
+            $data['gender']  = $gender = $this->input->post('gender');
+            $data['logintype'] = $logintype = $this->input->post('logintype');
+            $data['mobileNo'] = $mobileNo =$this->input->post('mobileNo');
+            $data['name'] = $name = $this->input->post('name');
+            $data['pushToken'] = $pushToken = $this->input->post('pushToken');
+            $data['udid'] = $udid =$this->input->post('udid');
+            $data['user_id'] = '';
+            $username = explode('@', $users_email);
+            $username = $this->username = $username[0];
+            if($logintype == 0){
+                $data['password'] = $password = $this->common_model->encryptPassword($this->input->post('password'));
+                $data['dob'] = $dob = strtotime($this->input->post('dob'));
+                $data['socialId'] = $socialId = '';
+            }elseif($logintype == 2){
+                $length = 10;
+                $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                $password = '';
+                for ($i = 0; $i < $length; $i++) {
+                    $password .= $characters[rand(0, strlen($characters) - 1)];
+                }
+                $data['password'] = $password = $this->common_model->encryptPassword($password);
+                $data['dob'] = $dob = '';
+                $data['socialId'] = $socialId = $this->input->post('socialId');
+            }
+            
+            $code = $this->input->post('code');
+            $option = array(
+                'table' => 'qyura_otp',
+                'select' => '*',
+                'where' => array('qyura_otp.otp_deleted' => 0,'qyura_otp.status' => 1,'qyura_otp.otp_confirm' => 0,'qyura_otp.otp_mobile' => $mobileNo,'qyura_otp.otp_number' => $code),
+                'single' => TRUE
+            );
+            $mobile = $this->common_model->customGet($option);
+            
+            if(isset($mobile) && $mobile != NULL){
+                $update_user['otp_confirm'] = '1';
+                $updateOptions = array
+                (
+                    'where' => array('otp_mobile' => $mobileNo,'otp_number' => $code),
+                    'data'  => $update_user,
+                    'table' => 'qyura_otp'
+                );
+                $otpInsert = $this->common_model->customUpdate($updateOptions);
+                if (empty($user_id)) {
+                    $optionUser = array(
+                        'table' => 'qyura_users',
+                        'data' => array(
+                            'users_username' => $username,
+                            'users_password' => $password,
+                            'users_email' => $users_email,
+                            'users_mobile' => $mobileNo,
+                            'users_active' => 1,
+                            'users_otpActive' => 1,
+                            'users_otpCode' => $code,
+                            'users_deleted' => 0,
+                            'users_gpId' => $socialId,
+                            'users_logintype' => $logintype,
+                            'users_ip_address' => $_SERVER['REMOTE_ADDR'],
+                            'creationTime' => strtotime(date('Y-m-d H:i:s'))
+                        )
+                    );
+                    $user_id = $this->common_model->customInsert($optionUser);
+                }else{
+                    $update_user['userSocial_gpId'] = $socialId;
+                    $updateOptions = array
+                    (
+                        'where' => array('users_id' => $user_id),
+                        'data'  => $update_user,
+                        'table' => 'qyura_users'
+                    );
+                    $this->common_model->customUpdate($updateOptions);
+                }
+                if (!empty($user_id)) {
+                    $optionAuotation = array(
+                        'table' => 'qyura_patientDetails',
+                        'data' => array(
+                            'patientDetails_usersId' => $user_id,
+                            'patientDetails_mobileNo' => $mobileNo,
+                            'patientDetails_unqId' => 'PNT' . random_string('alnumnew', 6),
+                            'patientDetails_patientName' => $name,
+                            'patientDetails_dob' => $dob,
+                            'patientDetails_gender' => $gender,
+                            'patientDetails_deleted'=> 0,
+                            'creationTime' => strtotime(date('Y-m-d H:i:s'))
+                        )
+                     );
+                    $patitentId = $this->common_model->customInsert($optionAuotation);
+                    $optionRole = array(
+                        'table' => 'qyura_usersRoles',
+                        'data' => array(
+                            'usersRoles_userId' => $user_id,
+                            'usersRoles_roleId' => 6,
+                            'creationTime' => strtotime(date('Y-m-d H:i:s'))
+                        )
+                     );
+                    $rolesId = $this->common_model->customInsert($optionRole);
+                    $optionSocial = array(
+                        'table' => 'qyura_userSocial',
+                        'data' => array(
+                            'userSocial_usersId' => $user_id,
+                            'userSocial_notification' => 1,
+                            'userSocial_pushToken' => $pushToken,
+                            'userSocial_udid' => $udid,
+                            'userSocial_device' => $device,
+                            'userSocial_gpId'=> $socialId,
+                            'creationTime' => strtotime(date('Y-m-d H:i:s'))
+                        )
+                    );
+                    $this->common_model->customInsert($optionSocial);
+                }
+                
+                $from = 'support@qyura.com';
+                $to = $users_email;
+                $data_tpl['name'] = $name;
+                $data_tpl['email'] = $users_email;
+                $data_tpl['password'] = $password;
+                $message = $this->load->view('email/signing_up_user_tpl',$data_tpl,true);
+                $this->common_model->sendMail($from,$to,$message);
+                
+                $msg = "Your Account is Activated Successfully";
+                $response = array('status' => 1, 'message' => $msg, 'userDetail' => $data);
+                $this->response($response, 200); // 200 being the HTTP response code
+            }else{
+                $message = "Please Check Your OTP";
+                $response = array('status' => FALSE, 'message' => $message);
+                $this->response($response, 400);
+            }
+        }
+    }
+    
+    //Check Social
     function checkSocial_post() {
+        
         $logintype = (int) $this->input->post('logintype');
         $this->bf_form_validation->set_rules('logintype', 'logintype', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
         $this->bf_form_validation->set_rules('socialId', 'Social Id', 'trim|required|xss_clean');
-        if ($this->bf_form_validation->run($this) == true) {
-
-            if ($logintype == 1 && isset($_POST['socialId']))
-                $where = array('qyura_userSocial.userSocial_fbId' => $_POST['socialId'], 'qyura_userSocial.userSocial_deleted' => 0, 'qyura_users.users_deleted' => 0);
-            if ($logintype == 2 && isset($_POST['socialId']))
-                $where = array('qyura_userSocial.userSocial_gpId' => $_POST['socialId'], 'qyura_userSocial.userSocial_deleted' => 0, 'qyura_users.users_deleted' => 0);
-
-
-            $userDetail = $this->ion_auth_api->getSocialData($where);
-
-            //if ($userDetail && (($userDetail->users_mobile == null && $userDetail->users_mobile == ''))) {
+        $this->bf_form_validation->set_rules('email', 'Email Id', 'trim|required|xss_clean');
+        if ($this->bf_form_validation->run() == FALSE) {
+            $message = $this->validation_post_warning();
+            $response = array('status' => FALSE, 'message' => $message);
+            $this->response($response, 400);
+        }else{
+            $email = $this->input->post('email');
+            $social = $this->input->post('socialId');
+            
+            $option = array(
+                'table' => 'qyura_users',
+                'select' => '*',
+                'where' => array('qyura_users.users_deleted' => 0,'qyura_users.users_email' => $email,'qyura_usersRoles.usersRoles_roleId' => 6),
+                'join' => array(
+                    array('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId = qyura_users.users_id', 'left'),
+                    array('qyura_patientDetails', 'qyura_patientDetails.patientDetails_usersId = qyura_users.users_id', 'left'),
+                    array('qyura_userSocial', 'qyura_userSocial.userSocial_usersId = qyura_users.users_id', 'left'),
+                ),
+                'single'=>true
+            );
+            $userDetail = $this->common_model->customGet($option);
+            $userDetail->address = $userDetail->patientDetails_address;
+            $userDetail->dob = $userDetail->patientDetails_dob;
+            $userDetail->fbId = $userDetail->userSocial_fbId;
+            $userDetail->gender = $userDetail->patientDetails_gender;
+            $userDetail->gpId = $userDetail->users_gpId;
+            $userDetail->logintype = $userDetail->users_logintype;
+            $userDetail->notification = $userDetail->userSocial_notification;
+            $userDetail->pLastName = $userDetail->patientDetails_pLastName;
+            $userDetail->patientImg = $userDetail->patientDetails_patientImg;
+            $userDetail->patientName = $userDetail->patientDetails_patientName;
+            
             if ($userDetail) {
 
                 if ($userDetail->gpId == null)
@@ -40,235 +390,14 @@ class Auth extends MyRest {
                     $userDetail->patientImg = '';
 
                 $response = array('status' => TRUE, 'userDetail' => $userDetail, 'message' => 'Login successfull');
-                $this->response($response, 400);
+                $this->response($response, 200);
             }else {
                 $response = array('status' => FALSE, 'message' => 'Please go to next step');
                 $this->response($response, 400);
             }
-        } else {
-            $message = $this->validation_post_warning();
-            $response = array('status' => FALSE, 'message' => $message);
-            $this->response($response, 400);
         }
     }
-
-    // create a new group
-    function signUp_post() {
-        //validate form input
-        $this->bf_form_validation->set_rules('name', 'name', 'required|callback__alpha_dash_space|max_length[80]|xss_clean');
-        $this->bf_form_validation->set_rules('logintype', 'logintype', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
-
-        $this->bf_form_validation->set_rules('pushToken', 'push token', 'min_length[8]|max_length[255]|xss_clean');
-        $this->bf_form_validation->set_rules('udid', 'udid', 'required|min_length[8]|max_length[255]|xss_clean');
-        $this->bf_form_validation->set_rules('device', 'device', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
-        $this->bf_form_validation->set_rules('dob', 'Date of Birth', 'trim|xss_clean|valid_date[y-m-d,-]');
-        $this->bf_form_validation->set_rules('gender', 'Gender', 'trim|min_length[1]|max_length[1]|numeric|xss_clean');
-
-        $logintype = (int) $this->input->post('logintype');
-
-        $update = false;
-
-        $additional_data = array('users_logintype' => $logintype, 'users_mobile' => isset($_POST['mobileNo']) ? $_POST['mobileNo'] : '');
-
-        if ($logintype) {
-            //|is_unique[qyura_userSocial.userSocial_socialId,userSocial_deleted=0]
-
-            $this->bf_form_validation->set_rules('socialId', 'Social Id', 'trim|required|xss_clean');
-            $this->bf_form_validation->set_rules('image', 'Image', 'trim|xss_clean');
-
-            $this->bf_form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean');
-
-            if ($logintype == 1 && isset($_POST['socialId']))
-                $where = array('qyura_userSocial.userSocial_fbId' => $_POST['socialId'], 'qyura_userSocial.userSocial_deleted' => 0, 'qyura_users.users_deleted' => 0);
-            if ($logintype == 2 && isset($_POST['socialId']))
-                $where = array('qyura_userSocial.userSocial_gpId' => $_POST['socialId'], 'qyura_userSocial.userSocial_deleted' => 0, 'qyura_users.users_deleted' => 0);
-
-            $userCheck = $this->ion_auth_api->getSocialData($where);
-
-            if (!$userCheck)
-                $this->bf_form_validation->set_rules('mobileNo', 'Mobile No', 'required|min_length[10]|max_length[10]|numeric|xss_clean');
-        } else {
-            $this->bf_form_validation->set_rules('password', 'password', 'required|min_length[' . $this->config->item('min_password_length', 'auth_conf_api') . ']|max_length[' . $this->config->item('max_password_length', 'auth_conf_api') . ']|xss_clean');
-            $this->bf_form_validation->set_rules('email', 'email', 'required|valid_email|is_unique[qyura_users.users_email,qyura_users.users_deleted=0]|max_length[255]|xss_clean');
-            $this->bf_form_validation->set_rules('mobileNo', 'Mobile No', 'required|is_unique[qyura_users.users_mobile,qyura_users.users_deleted=0]|min_length[10]|max_length[10]|numeric|xss_clean');
-        }
-
-        $this->profImgPath = realpath(FCPATH . 'assets/proImg') . '/';
-        $mobile = isset($_POST['mobileNo']) ? $this->input->post('mobileNo') : '';
-
-        if ($this->bf_form_validation->run($this) == true) {
-            if (isset($_POST['email']))
-                $email = $this->email = strtolower($this->input->post('email'));
-
-            $password = $this->input->post('password');
-            $username = explode('@', $email);
-            $username = $this->username = $username[0];
-
-            if (isset($_POST['email']) || isset($_POST['mobileNo'])) {
-
-
-                if ($this->config->item('identity', 'auth_conf_api') == 'users_username') {
-                    $identity = $userDetail = $this->ion_auth_api->where('qyura_users.users_username', $email)->where('qyura_users.users_deleted', 0)->users()->row();
-                } else {
-                    $identity = $userDetail = $this->ion_auth_api->where('qyura_users.users_email', $email)->where('qyura_users.users_deleted', 0)->or_where('qyura_users.users_mobile', $mobile)->users()->row();
-                }
-
-                $userSocial['userSocial_pushToken'] = isset($_POST['pushToken']) ? $this->input->post('pushToken') : '';
-                $userSocial['userSocial_udid'] = isset($_POST['udid']) ? $this->input->post('udid') : '';
-                $userSocial['userSocial_device'] = isset($_POST['device']) ? $this->input->post('device') : '';
-
-                if (!empty($identity)) {
-
-                    if (isset($_POST['mobileNo']) && ($identity->users_mobile == null || $identity->users_mobile == ''))
-                        $usersData['users_mobile'] = $this->input->post('mobileNo');
-
-                    if (($identity->users_username == null || $identity->users_username == ''))
-                        $usersData['users_username'] = $username;
-
-                    $usersData['modifyTime'] = time();
-                    $usersData['users_logintype'] = $logintype;
-                    $usersData['users_active'] = 1;
-
-                    $this->db->update('qyura_users', $usersData, array('users_id' => $identity->users_id));
-
-                    if ($identity->users_password == null || $identity->users_password == '')
-                        $forgotten = $this->ion_auth_api->forgotten_password($identity->{$this->config->item('identity', 'auth_conf_api')});
-
-                    $userSocial['modifyTime'] = time();
-
-                    if ($logintype == 1) {
-                        $userSocialFb['userSocial_fbId'] = isset($_POST['socialId']) ? $this->input->post('socialId') : '';
-
-                        $userSocialFb = array_merge($userSocial, $userSocialFb);
-
-                        if ($identity->scUsersId == null || $identity->scUsersId == '') {
-                            $this->insertSocialProfile($identity->users_id, $userSocialFb);
-                            $update = $this->db->insert_id();
-                        } else {
-                            $this->db->update('qyura_userSocial', $userSocialFb, array('userSocial_usersId' => $identity->users_id));
-                            $update = $this->db->affected_rows() == 1;
-                        }
-                    }
-
-
-                    if ($logintype == 2) {
-                        $userSocialGp['userSocial_gpId'] = isset($_POST['socialId']) ? $this->input->post('socialId') : '';
-                        $userSocialGp = array_merge($userSocial, $userSocialGp);
-
-                        if ($identity->scUsersId == null || $identity->scUsersId == '') {
-                            $this->insertSocialProfile($identity->users_id, $userSocialGp);
-                            $update = $this->db->insert_id();
-                        } else {
-                            $this->db->update('qyura_userSocial', $userSocialGp, array('userSocial_usersId' => $identity->users_id));
-                            $update = $this->db->affected_rows() == 1;
-                        }
-                    }
-
-
-
-                    if ($identity->patientImg == null || $identity->patientImg == '' || $identity->patientImg == 'assets/proImg/') {
-                        
-                        $img = isset($_POST['image']) ? createImage($this->input->post('image'), $this->profImgPath) : false;
-                        $image_name = $img ? $img : '';
-                        $userPatient['patientDetails_patientImg'] = $image_name;
-                    }
-
-                    if ($identity->dob == null || $identity->dob == '' || $identity->dob == 0) {
-                        $dob = isset($_POST['dob']) ? strtotime($this->input->post('dob')) : '';
-                        $userPatient['patientDetails_dob'] = $dob;
-                    }
-
-                    if ($identity->gender == null || $identity->gender == '' || $identity->gender == 0) {
-                        $gender = isset($_POST['gender']) ? $this->input->post('gender') : '';
-                        $userPatient['patientDetails_gender'] = $gender;
-                    }
-
-                    if ($identity->patientImg == null || $identity->patientImg == '' || $identity->patientImg == 'assets/proImg/') {
-                        $img = isset($_POST['image']) ? createImage($this->input->post('image'), $this->profImgPath) : false;
-                        $image_name = $img ? $img : '';
-                        $userPatient['patientDetails_patientImg'] = $image_name;
-                    }
-
-                    $userPatient['modifyTime'] = time();
-
-                    if ($identity->patientName == null || $identity->patientName == '')
-                        $userPatient['patientDetails_patientName'] = isset($_POST['name']) ? $this->input->post('name') : '';
-
-                    $this->db->update('qyura_patientDetails', $userPatient, array('patientDetails_usersId' => $identity->users_id));
-
-
-
-                    $update = $this->db->affected_rows() == 1;
-
-                    $userDetail = $this->getUserDetailByIdentity($email, $mobile);
-
-                    if ($userDetail->users_otpActive == 0)
-                        $message = 'Thank You! Please check your SMS to activate your account';
-                    else
-                        $message = 'Thank You! You have successfully login';
-
-                    $response = array('status' => TRUE, 'message' => $message, 'userDetail' => $userDetail);
-
-                    $this->response($response, 200);
-                }
-                elseif ($logintype) {
-                    $password = null;
-                    $users = $update = $this->update = $this->ion_auth_api->registerSocial($username, $password, $email, $additional_data);
-
-                    if ($logintype == 1) {
-                        $userSocialFb['userSocial_fbId'] = isset($_POST['socialId']) ? $this->input->post('socialId') : '';
-                        $userSocialFb = array_merge($userSocial, $userSocialFb);
-                        $this->insertSocialProfile($users['id'], $userSocialFb);
-                        $update = $this->db->insert_id();
-                    }
-
-
-                    if ($logintype == 2) {
-                        $userSocialGp['userSocial_gpId'] = isset($_POST['socialId']) ? $this->input->post('socialId') : '';
-                        $userSocialGp = array_merge($userSocial, $userSocialGp);
-                        $this->insertSocialProfile($users['id'], $userSocialGp);
-                        $update = $this->db->insert_id();
-                    }
-
-                    $this->insertUserProfile($users['id']);
-
-                    $userDetail = $this->getUserDetailByIdentity($email, $mobile);
-
-                    if ($userDetail->users_otpActive == 0)
-                        $message = 'Thank You! Please check your SMS to activate your account';
-                    else
-                        $message = 'Thank You! You have successfully login';
-                    $response = array('status' => TRUE, 'message' => $message, 'userDetail' => $userDetail);
-
-                    $this->response($response, 200);
-                }
-            }
-        } else {
-            $message = $this->validation_post_warning();
-            $response = array('status' => FALSE, 'message' => $message);
-            $this->response($response, 400);
-        }
-
-        if ($this->bf_form_validation->run($this) == true && !$update) {
-            //check to see if we are creating the user
-            //redirect them back to the admin page
-            if (!$logintype)
-                $password = $users = $this->ion_auth_api->register($username, $password, $email, $additional_data);
-            if ($users) {
-                $this->insertUserProfile($users['id']);
-
-                $this->insertSocialProfile($users['id']);
-
-                $userDetail = $this->getUserDetailByIdentity($email, $mobile);
-
-                $response = array('status' => TRUE, 'message' => 'Thank You! Please check your email or SMS to activate your account', 'userDetail' => $userDetail);
-                $this->response($response, 200);
-            } else {
-                $response = array('status' => FALSE, 'message' => $this->ion_auth_api->errors());
-                $this->response($response, 400);
-            }
-        }
-    }
+    
 
     function imageUpload_post() {
         $this->profImgPath = realpath(FCPATH . 'assets/proImg') . '/';
@@ -364,42 +493,6 @@ class Auth extends MyRest {
             $userDetail->fbId = '';
 
         return $userDetail;
-    }
-
-    function activeOTP_post() {
-        //$this->bf_form_validation->set_rules('mobileNo', 'mobileNo', 'required|min_length[10]|max_length[10]|numeric|xss_clean');
-        $this->bf_form_validation->set_rules('userId', 'user id', 'required|numeric');
-        $this->bf_form_validation->set_rules('code', 'OTP Code', 'required|numeric|min_length[5]|max_length[5]|xss_clean');
-
-        $this->bf_form_validation->set_rules('pushToken', 'push token', 'min_length[8]|max_length[255]|xss_clean');
-        $this->bf_form_validation->set_rules('udid', 'udid', 'min_length[8]|max_length[255]|xss_clean');
-        $this->bf_form_validation->set_rules('device', 'device', 'min_length[1]|max_length[1]|numeric|xss_clean');
-
-        if ($this->bf_form_validation->run($this) === FALSE) {
-            $message = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-            $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
-            $this->response($response, 400);
-        } else {
-            $userId = isset($_POST['userId']) ? $this->input->post('userId') : '';
-            $otpCode = isset($_POST['code']) ? $this->input->post('code') : '';
-
-            $userSocial['userSocial_pushToken'] = isset($_POST['pushToken']) ? $this->input->post('pushToken') : '';
-            $userSocial['userSocial_udid'] = isset($_POST['udid']) ? $this->input->post('udid') : '';
-            $userSocial['userSocial_device'] = isset($_POST['device']) ? $this->input->post('device') : '';
-
-            $result = $this->ion_auth_api->otp_activate($userId, $otpCode);
-
-            if ($result) {
-
-                //$this->db->update('qyura_userSocial', $userSocial, array('userSocial_usersId' => $identity->users_id));
-                $response = array('status' => TRUE, 'message' => $this->ion_auth_api->messages(), 'otpStaus' => $result);
-                $this->response($response, 200);
-            } else {
-
-                $response = array('status' => FALSE, 'message' => $this->ion_auth_api->errors());
-                $this->response($response, 401);
-            }
-        }
     }
 
     function resendOtp_post() {
