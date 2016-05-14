@@ -626,8 +626,8 @@ class Quotation extends MY_Controller {
         } else {
             //print_r($_POST);exit;
             $user_id = $this->input->post('user_id');
-            $quoDatetime = date("Y-m-d",$this->input->post('quotationDate')).' '.$this->input->post('quotationTime'); 
-            $quoDatetime = str_replace('/', '-', $quoDatetime);
+            $quoDatetime = str_replace($this->input->post('quotationDate')).' '.$this->input->post('quotationTime'); 
+         //   $quoDatetime = str_replace('/', '-', $quoDatetime);
             $MIprofileId = $this->input->post('miId'); 
             $MIprofileId = explode(',', $MIprofileId);
 

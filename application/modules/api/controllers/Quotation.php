@@ -103,7 +103,7 @@ class Quotation extends MyRest {
 
         $this->load->model(array('quotation_model'));
 
-        $this->bf_form_validation->set_rules('quotationId', 'Quotation Id', 'xss_clean|trim|required|numeric|max_length[20]|is_natural_no_zero|_user_check');
+        $this->bf_form_validation->set_rules('quotationId', 'Quotation Id', 'xss_clean|trim|required|numeric|max_length[20]|is_natural_no_zero');
 
 
         if ($this->bf_form_validation->run($this) == FALSE) {
@@ -112,7 +112,7 @@ class Quotation extends MyRest {
             $this->response($response, 400);
         } else {
 
-           echo $userId = isset($_POST['userId']) ? $this->input->post('userId') : ''; exit;
+            $userId = isset($_POST['userId']) ? $this->input->post('userId') : '';
 
             $quotationId = isset($_POST['quotationId']) ? $this->input->post('quotationId') : '';
 
