@@ -200,5 +200,16 @@ class Ccavenue extends MyRest {
             $this->response($response, 200);
         }
     }
+    function _check_date($str_in = '')
+    {
+        $currentDate = strtotime(date("y-m-d"));
+        $prfDate = strtotime($str_in);
+        if ($prfDate >= $currentDate) {
+            return true;
+        } else {
+            $this->bf_form_validation->set_message('_check_date', 'Please select post date for booking!!');
+            return false;
+        }
+    }
 
 }

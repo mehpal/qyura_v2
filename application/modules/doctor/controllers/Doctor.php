@@ -317,7 +317,7 @@ class Doctor extends MY_Controller {
             $from = 'support@qyura.com';
             $to = $this->input->post("users_email");
             $data['name'] = $this->input->post("doctors_fName")." ".$this->input->post("doctors_lName");
-            $message = $this->load->view('email/signing_up_user_tpl',$data,true);
+            $message = $this->load->view('email/signing_up_doctor_tpl',$data,true);
             $this->email->from($from, 'Team Qyura');
             $this->email->to($to);
             $this->email->subject("Qyura");
