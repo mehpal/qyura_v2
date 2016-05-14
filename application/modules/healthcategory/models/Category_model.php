@@ -40,7 +40,7 @@ class Category_model extends CI_Model {
         
         $this->datatables->where(array('cat.category_deleted'=> 0));
       
-        $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="healthcategory/detailcategory/$1" style="margin-left:3px;">View Detail</a><a class="btn btn-appointment waves-effect waves-light m-l-10 pull-left" href="healthcategory/deleteCategory/$1">Delete</a>', 'catid');
+        $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="healthcategory/detailcategory/$1" style="margin-left:3px;">View Detail</a><!--a class="btn btn-appointment waves-effect waves-light m-l-10 pull-left" href="healthcategory/deleteCategory/$1">Delete</a-->', 'catid');
         $this->datatables->edit_column('status','$1','statusCheck(healthcategory/healthcategory,qyura_healthCategory,category_id,catid,status)');
        
       

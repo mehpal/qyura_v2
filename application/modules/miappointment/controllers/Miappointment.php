@@ -791,25 +791,33 @@ class Miappointment extends MY_Controller {
      * @return option
      */
     function appoint_timeSlot() {
+        
         $id = $this->input->post('docid');
         $id = explode(',', $id);
         $doc_id = $id[0];
         $doc_userid = $id[1];
 
         $date = $this->input->post('appdate');
-
+        
+        $h_d_id = $this->input->post('h_d_id');
+        $centertype = $this->input->post('centertype');
+//        if($centertype=="0")
+//           $centertype = 1;
+//        else
+//            $centertype = 2;
         $day = date('l', strtotime($date));
         $day_no = getDay($day);
         $option = '';
         $options = array(
             'table' => 'qyura_docTimeTable',
-            'where' => array('docTimeTable_doctorId' => $doc_id, 'qyura_docTimeTable.docTimeTable_deleted' => 0, 'qyura_docTimeDay.docTimeDay_deleted' => 0, 'qyura_docTimeDay.docTimeDay_day' => $day_no),
+            'where' => array('docTimeTable_doctorId' => $doc_id, 'qyura_docTimeTable.docTimeTable_deleted' => 0, 'qyura_docTimeDay.docTimeDay_deleted' => 0, 'qyura_docTimeDay.docTimeDay_day' => $day_no,'docTimeTable_MItype'=>$centertype,'docTimeTable_MIprofileId'=>$h_d_id),
             'join' => array(
                 array('qyura_docTimeDay', 'qyura_docTimeDay.docTimeDay_docTimeTableId = qyura_docTimeTable.docTimeTable_id', 'left'),
             ),
         );
+        
         $timeSlot = $this->common_model->customGet($options);
-
+echo $this->db->last_query();
         if (isset($timeSlot) && $timeSlot != NULL) {
             $option .= '<option value="">Select Time Slot</option>';
             foreach ($timeSlot as $time) {

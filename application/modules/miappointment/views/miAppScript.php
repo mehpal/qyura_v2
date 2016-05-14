@@ -147,21 +147,22 @@
         });
 
     });
-    function getTimeSlot() {
+    
+    function getTimeSlot(docid=false,appdate=false,h_d_id=false,center_type=false) {
         
-        //var h_d_id = $('#mi_centre').val();;
-        var docid = $('#docid').val();
+//        var h_d_id = $('#mi_centre').val();
+//        var docid = $('#docid').val();
 
-        var appdate = $('#date-7').val();
+//        var appdate = $('#date-7').val();
         $('#timeSlot').selectpicker('refresh');
-        //var type = $("#centerType").val();
+//        var type = $("#centerType").val();
         var url = '<?php echo site_url(); ?>/miappointment/appoint_timeSlot';
         
             $.ajax({
                 url: url,
                 async: false,
                 type: 'POST',
-                data: {'docid': docid, 'appdate': appdate},
+                data: {'docid': docid, 'appdate': appdate,'h_d_id':h_d_id,'centertype':center_type},
                 beforeSend: function (xhr) {
                     
                 },
