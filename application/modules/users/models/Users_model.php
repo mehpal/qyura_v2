@@ -97,7 +97,7 @@ class Users_model extends My_model {
 
         $this->datatables->add_column('patientDetails_patientImg', '<img class="img-responsive" height="80px;" width="80px;" src=' . $imgUrl . '>', 'patientDetails_patientImg');
        $this->datatables->add_column('patientDetails_patientName', '<h6>$1</h6><p>$2</p>', 'patientDetails_patientName,patientDetails_unqId');
-        $this->datatables->add_column('patientDetails_dob', '$1', 'getDateFormat(patientDetails_dob)');
+        $this->datatables->add_column('patientDetails_dob', '$1', 'getDateFormatUser(patientDetails_dob)');
 
         $this->datatables->add_column('status', '$1', 'statusCheck(users,qyura_users,users_id,user_id,user_status)');
 
