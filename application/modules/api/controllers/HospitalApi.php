@@ -54,8 +54,7 @@ class HospitalApi extends MyRest {
         $this->bf_form_validation->set_rules('isemergency', 'Is Emergency', 'xss_clean|trim|numeric');
         $this->bf_form_validation->set_rules('radius', 'Radius', 'xss_clean|trim|numeric');
         $this->bf_form_validation->set_rules('isAmbulance', 'Is Ambulance', 'xss_clean|trim|numeric');
-        $this->bf_form_validation->set_rules('isInsurance', 'Is Insurance', 'xss_clean|trim');
-        $this->bf_form_validation->set_rules('isHealtPkg', 'Is Health Package', 'xss_clean|trim|numeric');
+        $this->bf_form_validation->set_rules('isInsurance', 'Is Insurance', 'xss_clean|trim'); 
         $this->bf_form_validation->set_rules('rating', 'Rating', 'xss_clean|trim|numeric');
         $this->bf_form_validation->set_rules('notin', 'Not In', 'xss_clean|trim|required');
         $this->bf_form_validation->set_rules('userId', 'User Id', 'xss_clean|trim');
@@ -82,17 +81,18 @@ class HospitalApi extends MyRest {
             //city
             $cityId = isset($_POST['cityId']) ? $this->input->post('cityId') : NULL;
 
-
             $isemergency = isset($_POST['isemergency']) ? $this->input->post('isemergency') : NULL;
+            
+            $openNow = isset($_POST['openNow']) ? $this->input->post('openNow') : NULL;
 
             // filtration parameter
             $radius = isset($_POST['radius']) ? $this->input->post('radius') : 70;
-            $rating = isset($_POST['rating']) ? $this->input->post('rating') : NULL;
+            $rating = isset($_POST['rating']) ? $this->input->post('rating') : NULL; // 0 for All 4 for 4+
             $isAmbulance = isset($_POST['isAmbulance']) ? $this->input->post('isAmbulance') : NULL;
             $isInsurance = (isset($_POST['isInsurance']) && $_POST['isInsurance'] != 0) ? $this->input->post('isInsurance') : "";
-            $isHealtPkg = isset($_POST['isHealtPkg']) ? $this->input->post('isHealtPkg') : NULL;
+       
 
-            $response['data'] = $this->hospital_model->getHospitalList($lat, $long, $notIn, $isemergency, $radius, $isAmbulance, $isInsurance, $isHealtPkg, $rating, $userId, $search, $cityId);
+            $response['data'] = $this->hospital_model->getHospitalList($lat, $long, $notIn, $isemergency, $radius, $isAmbulance, $isInsurance,   $rating, $userId, $search, $cityId, $openNow);
 
             $option = array('table' => 'hospital', 'select' => 'hospital_id');
             $deleted = $this->singleDelList($option);
@@ -128,7 +128,6 @@ class HospitalApi extends MyRest {
  
                 $response['isAmbulance'] = $isAmbulance = $this->hospital_model->isAmbulance($hospitalDetails->hospital_usersId);
  
-
                 $response['services'] = $services = $this->hospital_model->getHosServices($hospitalId);
 
                 $response['specialities'] = $specialities = $this->hospital_model->getHosSpecialities($hospitalId);
