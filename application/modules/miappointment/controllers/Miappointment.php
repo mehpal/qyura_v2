@@ -272,11 +272,14 @@ class Miappointment extends MY_Controller {
             'where' => array('doctorAppointment_id' => $myid)
         );
         $isUpdate = $this->common_model->customUpdate($updateOption);
-       
-        echo 1;
+         $this->session->set_flashdata('message', 'Data updated successfully !');
+        redirect('miappointment/consultingDetail/');
         }
-        else
-            echo 0;
+        else{
+         $this->session->set_flashdata('message', 'Data not updated successfully !');
+        redirect('miappointment/consultingDetail/');
+        }
+       
     }
 
     public function savediagtimeSlot() {

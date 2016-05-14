@@ -21,7 +21,7 @@
                             <article class="clearfix m-t-10">
                                 <label class="control-label col-md-4 col-sm-4">Time Slot :</label>
                                 <p class="col-md-8 col-sm-8">
-                                    <select  data-width="100%" name="timeSlot" id="timeSlot">
+                                    <select class="selectpicker" style:"z-index:50000000" data-width="100%" name="timeSlot" id="timeSlot">
                                         <option value="">Select Time Slot</option>
                                     </select>
 
