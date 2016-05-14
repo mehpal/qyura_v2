@@ -354,7 +354,7 @@
         $("#setData").validate({
 
         errorPlacement: function(error, element) {
-        if (element.attr("name") == "input4")
+        if (element.attr("name") == "input34")
         {
             error.insertAfter('#timesloterror');
         }
@@ -390,6 +390,9 @@
             },
             input4: {
                 required: true,
+            },
+            input34: {
+                required: true,
                 remote: {
                 url: '<?php echo base_url() ?>' + 'index.php/miappointment/check_timeslot',
                 type: "post",
@@ -398,9 +401,6 @@
                     final_timing: function () {return $("#timepicker4").val();},
                 }
             }
-            },
-            input34: {
-                required: true,
             },
             input7: {
                 required: true
@@ -496,10 +496,10 @@
             },
             input4: {
                 required: "Please select Time Slot!",
-                remote: "Please select correct time slot.",
+                remote: "Please select correct Time slot.",
             },
             input34: {
-                required: "Please select Time Slot!", 
+                required: "Please select Final Time!", 
             },
             input7: {
                 required: "Please select Date!",
@@ -514,10 +514,10 @@
                 required: "Please enter Test name! ",
             },
             'input30[]': {
-                required: "Please enter price! ",
+                required: "Please enter Price! ",
             },
             'input31[]': {
-                required: "Please enter instructions! ",
+                required: "Please enter Instructions! ",
             },
             input14: {
                 required: "Please enter Patient Email!"
