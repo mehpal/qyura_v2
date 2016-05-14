@@ -131,7 +131,7 @@ $autoload['config'] = array();
 |
 */
 
-$autoload['language'] = array('cronMsg');
+$autoload['language'] = array('cronMsg','email');
 
 
 /*
