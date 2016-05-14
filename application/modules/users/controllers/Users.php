@@ -508,10 +508,9 @@ class Users extends MY_Controller {
                     $imagesname = $original_imagesname;
                 }
             }
-//             else {
-//                $imagesname = $this->input->post('patientDetails_patientImg');
-//            }
-           
+             else {
+                $imagesname = $this->input->post('patientDetails_patientImg');
+            }
             $email = $this->input->post('users_email');
 
             $password = $this->input->post('users_password');

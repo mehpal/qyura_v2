@@ -42,7 +42,7 @@
                                             <?php } else { ?>
                                                 <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png" alt="" class="image-preview-show" />
                                             <?php } ?>
-                                                <input type="hidden"  name="patientDetails_patientImg" value="<?php if (isset($users_detail) && !empty($users_detail)) { echo $users_detail->patientDetails_patientImg; } ?>" />
+                                        
                                             </div>
                                         </div>
                                         <label class="error" > <?php echo form_error("avatar_file"); ?></label>
@@ -56,6 +56,7 @@
                                         <label class="error" > <?php echo form_error("patientDetails_patientName"); ?></label>
                                     </div>
                                 </article>
+                                        <input type="hidden"  name="patientDetails_patientImg" value="<?php if (isset($users_detail) && !empty($users_detail)) { echo $users_detail->patientDetails_patientImg; } ?>" />
                                 <article class="form-group m-lr-0">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Gender :</label>
                                     <div class="col-md-8 col-sm-8">
