@@ -1371,6 +1371,13 @@ GLOBAL
                    echo "active";
                }
                ?>" id="timeslot">
+             
+                <?php if(isset($hospitalData[0]->availibility_24_7) && $hospitalData[0]->availibility_24_7 == 1){ 
+                         
+                         echo "24/7 Services available"; 
+                     
+                     }else{ ?>
+                
             <?php if (isset($timeSlot) && !empty($timeSlot)): ?>
             <form method="post" name="timeSlotForm" id="timeSlotForm" action="<?php echo site_url('hospital/updateTimeSlot'); ?>">
             <input type="hidden" name="mi_user_id" value="<?php
@@ -1412,6 +1419,7 @@ GLOBAL
             </article>
             </form>
             <?php endif; ?>
+              <?php } ?>
             </section>
             <!-- Timeslot Ends -->
             <!--<label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>

@@ -22,7 +22,7 @@ CASE
  WHEN (`qyura_quotations`.`quotation_familyId` <> 0 ) 
  THEN
       qyura_usersFamily.usersfamily_age
- ELSE qyura_patientDetails.patientDetails_dob END AS  `age`,
+ ELSE '.$currentYear.' - from_unixtime(qyura_patientDetails.patientDetails_dob,"%Y") END AS  `age`,
  CASE 
  WHEN (`qyura_quotations`.`quotation_familyId` <> 0 ) 
  THEN
@@ -46,7 +46,7 @@ CASE
     public function myQuotationTests($quotationId) {
 
         $option = array(
-            'select' => 'qyura_quotations.quotation_id,qyura_quotationDetailTests.quotationDetailTests_id as testId,qyura_quotationDetailTests.quotationDetailTests_quotationDetailId as qtDetailId,qyura_quotationDetailTests.quotationDetailTests_diagnosticCatId as diagCatId,qyura_diagnosticsCat.diagnosticsCat_catName as diagCatName,qyura_quotationDetailTests.quotationDetailTests_testName as testName,qyura_quotationDetailTests.quotationDetailTests_price as price,qyura_quotationDetailTests.quotationDetailTests_date as dateTime,qyura_quotationDetailTests.quotationDetailTests_instruction as instruction',
+            'select' => 'qyura_quotations.quotation_id,qyura_quotationDetailTests.quotationDetailTests_id as testId,qyura_quotationDetailTests.quotationDetailTests_quotationDetailId as qtDetailId,qyura_quotationDetailTests.quotationDetailTests_diagnosticCatId as diagCatId,qyura_diagnosticsCat.diagnosticsCat_catName as diagCatName,qyura_quotationDetailTests.quotationDetailTests_testName as testName,qyura_quotationDetailTests.quotationDetailTests_price as price,qyura_quotationDetailTests.quotationDetailTests_date as dateTime,qyura_quotationDetailTests.quotationDetailTests_instruction as instruction,quotation_otherFee as otherFee, quotation_tex as tax',
             'table' => 'qyura_quotations',
             'join' => array(
                 array('qyura_quotationDetailTests', 'qyura_quotationDetailTests.quotationDetailTests_quotationId=qyura_quotations.quotation_id', 'right'),
@@ -72,7 +72,9 @@ CASE
                 $finalTemp[] = isset($quotationTest->testName) ? $quotationTest->testName : ""; 
                 $finalTemp[] = isset($quotationTest->price) ? $quotationTest->price : ""; 
                 $finalTemp[] = isset($quotationTest->dateTime) ? $quotationTest->dateTime : ""; 
-                $finalTemp[] = isset($quotationTest->instruction) ? $quotationTest->instruction : ""; 
+                $finalTemp[] = isset($quotationTest->instruction) ? $quotationTest->instruction : "";
+                $finalTemp[] = isset($quotationTest->otherFee) ? $quotationTest->otherFee : "";
+                $finalTemp[] = isset($quotationTest->tax) ? $quotationTest->tax : "";
                 $finalResult[] = $finalTemp;
             }
             

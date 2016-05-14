@@ -290,8 +290,6 @@
                         $("#p_unqId").hide();
                     }
                 }else{
-                    $('#patient_email').val('')
-                    $('#users_mobile').val('');
                     $('#cityId').html('');
                     $('#cityId').selectpicker('refresh');
                     $('#stateId').prop('selectedIndex','');
@@ -430,14 +428,6 @@
     $(".select2").select2({
         width: '100%'
     });
-
-//    $(".bs-select").select2({
-//        placeholder: "Select a Speciality",
-//        //allowClear: true,
-//        tags: true
-//    });
-
-
 
     function check_validaton() {
         var url = '<?php echo site_url(); ?>/docappointment/check_timeslot/';

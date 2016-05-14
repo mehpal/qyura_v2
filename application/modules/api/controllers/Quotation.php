@@ -103,7 +103,7 @@ class Quotation extends MyRest {
 
         $this->load->model(array('quotation_model'));
 
-        $this->bf_form_validation->set_rules('quotationId', 'Quotation Id', 'xss_clean|trim|required|numeric|max_length[20]|is_natural_no_zero|_user_check');
+        $this->bf_form_validation->set_rules('quotationId', 'Quotation Id', 'xss_clean|trim|required|numeric|max_length[20]|is_natural_no_zero');
 
 
         if ($this->bf_form_validation->run($this) == FALSE) {
@@ -124,7 +124,7 @@ class Quotation extends MyRest {
 
                 $finalResult['selfDetail'] = $myQuotationSelfDetail;
                 $finalResult['testDetail'] = $quotationTests;
-                $aoClumns = array('quotation_id', 'testId', 'qtDetailId', 'diagCatId', 'diagCatName', 'testName', 'price','dateTime', 'instruction');
+                $aoClumns = array('quotation_id', 'testId', 'qtDetailId', 'diagCatId', 'diagCatName', 'testName', 'price','dateTime', 'instruction', 'otherFee', 'tax');
 
                 $response = array('status' => TRUE, 'message' => 'Success', 'clumns' => $aoClumns, 'result' => $finalResult);
                 $this->response($response, 200);

@@ -275,7 +275,7 @@
                     beforeSend: function (xhr) {
                 },
                 success: function (data) {
-                if(data==2)
+                if(data==0)
                 {
                     var msg = "Please select proper Date & Time";
                      bootbox.alert({closeButton: false, message: msg, callback: function () {
