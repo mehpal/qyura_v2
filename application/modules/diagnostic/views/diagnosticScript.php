@@ -2041,7 +2041,8 @@ $(document).ready(function (e) {
             {
                 var obj = jQuery.parseJSON(data);
                 if(obj.status == 200){
-                     $("#messageErrors").html("<div class='alert alert-success'>"+obj.messsage+"</div>");
+                       bootbox.alert(obj.messsage);
+                     // $("#messageErrors").html("<div class='alert alert-success'>"+obj.messsage+"</div>");
                       changebackgroundImage(diagnosticId);
                       $("#changeBg").modal('hide');
                     

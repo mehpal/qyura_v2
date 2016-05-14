@@ -72,7 +72,7 @@
                     lettersonlyqyura: true
 
             },
-                    avatarInput: {
+                    avatar_file: {
                     required: true
                     },
                     patientDetails_gender: {
@@ -97,12 +97,12 @@
 //                                    },
 //                            }
 //                    },
-                    patientDetails_mobileNo: {
-                    required: true,
-                            number: true,
-                            minlength: 10,
-                            maxlength: 10
-                    },
+//                    patientDetails_mobileNo: {
+//                    required: true,
+//                            number: true,
+//                            minlength: 10,
+//                            maxlength: 10
+//                    },
                     patientDetails_stateId: {
                     required: true
                     },
@@ -175,7 +175,7 @@
                     patientDetails_patientName: {
                     required: "Please enter name.",
                     },
-                            avatarInput: {
+                            avatar_file: {
                             required: "Please select Image."
                             },
                             patientDetails_gender: {
@@ -184,15 +184,15 @@
                             patientDetails_dob: {
                             required: "Please enter date of birth."
                             },
-                            users_email: {
-                            required: "Please enter email Id",
-                                    email: "Please enter valid email Id.",
-                                    remote: 'Email already used.'
-                            },
-                            patientDetails_mobileNo: {
-                            required: "Please enter mobile number.",
-                                    number: "Please enter only number format."
-                            },
+//                            users_email: {
+//                            required: "Please enter email Id",
+//                                    email: "Please enter valid email Id.",
+//                                    remote: 'Email already used.'
+//                            },
+//                            patientDetails_mobileNo: {
+//                            required: "Please enter mobile number.",
+//                                    number: "Please enter only number format."
+//                            },
                             patientDetails_stateId: {
                             required: "Please select state."
                             },
@@ -347,6 +347,26 @@
         if (element.attr("name") == "avatar_file")
         {
             error.insertAfter('.error-label');
+        }else if(element.attr("name") == "patientDetails_stateId"){
+             error.insertAfter('.error_patientDetails_stateId');
+        }
+        else if(element.attr("name") == "patientDetails_cityId"){
+             error.insertAfter('.error_patientDetails_cityId');
+        }
+          else if(element.attr("name") == "patientDetails_gender"){
+             error.insertAfter('.error_patientDetails_gender');
+        }
+        else if(element.attr("name") == "userInsurance_insuranceId"){
+             error.insertAfter('.error_userInsurance_insuranceId');
+        }
+        else if(element.attr("name") == "usersfamily_gender_1"){
+             error.insertAfter('.error_usersfamily_gender_1');
+        }
+         else if(element.attr("name") == "userInsurance_insuranceId_1"){
+             error.insertAfter('.error_userInsurance_insuranceId_1');
+        }
+        else if(element.attr("name") == "usersfamily_relationId_1"){
+             error.insertAfter('.error_usersfamily_relationId_1');
         }
         else{
             error.insertAfter(element);
@@ -368,7 +388,7 @@
                             },
                             users_email: {
                             required: "Please enter email Id",
-                                    email: "Please enter valid email Id.",
+                            email: "Please enter valid email Id.",
                                    
                             },
                             patientDetails_mobileNo: {
@@ -468,7 +488,7 @@
     var total_test = parseInt($("#total_test").val());
             var newTestValue = total_test + parseInt(1);
             $("#total_test").val(newTestValue);
-            var htmlData = '<div id="familyInsuranceClon_' + newTestValue + '"><hr><article class="form-group m-lr-0"><label for="" class="control-label col-md-4 col-sm-4">Name :</label><div class="col-md-8 col-sm-8"><input class="form-control" id="usersfamily_name_' + newTestValue + '" type="text" required="" name="usersfamily_name_' + newTestValue + '"/><label class="error" id="err_usersfamily_name_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Gender & Age:</label><div class="col-md-8 col-sm-8"><aside class="row"><div class="col-md-6 col-sm-6"><select class="select2" data-width="100%" required="" name="usersfamily_gender_' + newTestValue + '" id="usersfamily_gender_' + newTestValue + '"><option value=""> Select Gender</option><option value="1">Male</option><option value="2">Female</option><option value="3">Other</option></select><label class="error" id="err_usersfamily_gender_' + newTestValue + '" ></label></div><div class="col-md-6 col-sm-6 m-t-xs-10"><input class="form-control" id="usersfamily_age_' + newTestValue + '" type="text" name="usersfamily_age_' + newTestValue + '" required="" placeholder=""><label class="error" id="err_usersfamily_age_' + newTestValue + '" ></label></div></aside></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Relationship :</label><div class="col-md-8 col-sm-8"><select class="select2" required="" data-width="100%" name="usersfamily_relationId_' + newTestValue + '" id="usersfamily_relationId_' + newTestValue + '"><option value=""> Select Relation</option><?php foreach ($familyMember as $key => $val) { ?><option value="<?php echo $val->relation_id; ?>"><?php echo $val->relation_type; ?></option><?php } ?></select><label class="error" id="err_usersfamily_relationId_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Have Health Insurance ?</label><div class="col-md-8 col-sm-8"><div class="radio radio-success radio-inline"><input type="radio" name="healthInsurance_' + newTestValue + '" value="1" id="inlineRadio3_' + newTestValue + '" onclick="insuranceShowHide(\'1\',\'insuranceDivfamily_' + newTestValue + '\')"><label for="inlineRadio3_' + newTestValue + '">Yes</label></div><div class="radio radio-success radio-inline"><input type="radio" name="healthInsurance_' + newTestValue + '" value="0" id="inlineRadio4_' + newTestValue + '" checked onclick="insuranceShowHide(\'0\',\'insuranceDivfamily_' + newTestValue + '\')"><label for="inlineRadio4_' + newTestValue + '">No</label></div></div></article><div style="display:none" id="insuranceDivfamily_' + newTestValue + '"><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Health Insu. Provider:</label><div class="col-md-8 col-sm-8"><select class="select2" required="" data-width="100%" name="userInsurance_insuranceId_' + newTestValue + '" id="userInsurance_insuranceId_' + newTestValue + '"><option value=""> Select Insurance</option><?php foreach ($insurance_cmpny as $key => $val) { ?><option value="<?php echo $val->insurance_id; ?>"><?php echo $val->insurance_Name; ?></option><?php } ?></select><label class="error" id="err_userInsurance_insuranceId_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label  class="control-label col-md-4 col-sm-4">Health Card no. :</label><div class="col-md-8 col-sm-8"><input class="form-control" id="userInsurance_insuranceNo_' + newTestValue + '" type="text" name="userInsurance_insuranceNo_' + newTestValue + '" required /><label class="error" id="err_userInsurance_insuranceNo_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Policy Expiry Date :</label><div class="col-md-8 col-sm-8"><div class="input-group"><input class="form-control pickDate" required="" id="userInsurance_expDate_' + newTestValue + '" placeholder="dd/mm/yyyy" type="text" name="userInsurance_expDate_' + newTestValue + '" onkeydown="return false;"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div><label class="error" id="err_userInsurance_expDate_' + newTestValue + '" ></label></div></article></div><article class="form-group m-lr-0"><div class="col-md-3 col-sm-3 col-md-offset-0 col-sm-offset-0"><button id="remove_' + newTestValue + '" class="btn btn-danger btn-block waves-effect waves-light" type="button" href="javascript:void(0);" onclick="removeTest(\'' + newTestValue + '\');" > Remove </button></div></article></div>'
+            var htmlData = '<div id="familyInsuranceClon_' + newTestValue + '"><hr><article class="form-group m-lr-0"><label for="" class="control-label col-md-4 col-sm-4">Name :</label><div class="col-md-8 col-sm-8"><input class="form-control" id="usersfamily_name_' + newTestValue + '" type="text" required="" name="usersfamily_name_' + newTestValue + '"/><label class="error" id="err_usersfamily_name_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Gender & Age:</label><div class="col-md-8 col-sm-8"><aside class="row"><div class="col-md-6 col-sm-6"><select class="select2" data-width="100%" required="" name="usersfamily_gender_' + newTestValue + '" id="usersfamily_gender_' + newTestValue + '"><option value=""> Select Gender</option><option value="1">Male</option><option value="2">Female</option><option value="3">Other</option></select><label class="error" id="err_usersfamily_gender_' + newTestValue + '" ></label></div><div class="col-md-6 col-sm-6 m-t-xs-10"><input class="form-control" placeholder="Age" id="usersfamily_age_' + newTestValue + '" type="text" name="usersfamily_age_' + newTestValue + '" required="" placeholder=""><label class="error" id="err_usersfamily_age_' + newTestValue + '" ></label></div></aside></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Relationship :</label><div class="col-md-8 col-sm-8"><select class="select2" required="" data-width="100%" name="usersfamily_relationId_' + newTestValue + '" id="usersfamily_relationId_' + newTestValue + '"><option value=""> Select Relation</option><?php foreach ($familyMember as $key => $val) { ?><option value="<?php echo $val->relation_id; ?>"><?php echo $val->relation_type; ?></option><?php } ?></select><label class="error" id="err_usersfamily_relationId_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Have Health Insurance ?</label><div class="col-md-8 col-sm-8"><div class="radio radio-success radio-inline"><input type="radio" name="healthInsurance_' + newTestValue + '" value="1" id="inlineRadio3_' + newTestValue + '" onclick="insuranceShowHide(\'1\',\'insuranceDivfamily_' + newTestValue + '\')"><label for="inlineRadio3_' + newTestValue + '">Yes</label></div><div class="radio radio-success radio-inline"><input type="radio" name="healthInsurance_' + newTestValue + '" value="0" id="inlineRadio4_' + newTestValue + '" checked onclick="insuranceShowHide(\'0\',\'insuranceDivfamily_' + newTestValue + '\')"><label for="inlineRadio4_' + newTestValue + '">No</label></div></div></article><div style="display:none" id="insuranceDivfamily_' + newTestValue + '"><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Health Insu. Provider:</label><div class="col-md-8 col-sm-8"><select class="select2" required="" data-width="100%" name="userInsurance_insuranceId_' + newTestValue + '" id="userInsurance_insuranceId_' + newTestValue + '"><option value=""> Select Insurance</option><?php foreach ($insurance_cmpny as $key => $val) { ?><option value="<?php echo $val->insurance_id; ?>"><?php echo $val->insurance_Name; ?></option><?php } ?></select><label class="error" id="err_userInsurance_insuranceId_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label  class="control-label col-md-4 col-sm-4">Health Card no. :</label><div class="col-md-8 col-sm-8"><input class="form-control" id="userInsurance_insuranceNo_' + newTestValue + '" type="text" name="userInsurance_insuranceNo_' + newTestValue + '" required /><label class="error" id="err_userInsurance_insuranceNo_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Policy Expiry Date :</label><div class="col-md-8 col-sm-8"><div class="input-group"><input class="form-control pickDate" required="" id="userInsurance_expDate_' + newTestValue + '" placeholder="dd/mm/yyyy" type="text" name="userInsurance_expDate_' + newTestValue + '" onkeydown="return false;"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div><label class="error" id="err_userInsurance_expDate_' + newTestValue + '" ></label></div></article></div><article class="form-group m-lr-0"><div class="col-md-3 col-sm-3 col-md-offset-0 col-sm-offset-0"><button id="remove_' + newTestValue + '" class="btn btn-danger btn-block waves-effect waves-light" type="button" href="javascript:void(0);" onclick="removeTest(\'' + newTestValue + '\');" > Remove </button></div></article></div>'
             $("#familyInsuranceSection").append(htmlData);
             if (total_test !== 1) {
     $("#remove_" + total_test).hide();
@@ -478,7 +498,7 @@
     }
 
     $('.pickDatePolicy').datepicker({
-    autoclose: true,
+            autoclose: true,
             startDate: new Date()
     });
    
@@ -498,7 +518,7 @@
          }
             var total_family = parseInt($("#total_family").val());
             $("#total_test_edit").val(newTestValue);
-            var htmlData = '<div id="familyInsuranceClon_' + newTestValue + '"><article class="form-group m-lr-0"><label for="" class="control-label col-md-4 col-sm-4">Name :</label><div class="col-md-8 col-sm-8"><input class="form-control" id="usersfamily_name_' + newTestValue + '" type="text" required="" name="usersfamily_name_' + newTestValue + '"/><label class="error" id="err_usersfamily_name_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Gender & Age:</label><div class="col-md-8 col-sm-8"><aside class="row"><div class="col-md-6 col-sm-6"><select class="select2" data-width="100%" required="" name="usersfamily_gender_' + newTestValue + '" id="usersfamily_gender_' + newTestValue + '"><option value=""> Select Gender</option><option value="1">Male</option><option value="2">Female</option><option value="3">Other</option></select><label class="error" id="err_usersfamily_gender_' + newTestValue + '" ></label></div><div class="col-md-6 col-sm-6 m-t-xs-10"><input class="form-control" id="usersfamily_age_' + newTestValue + '" type="text" name="usersfamily_age_' + newTestValue + '" required="" placeholder=""><label class="error" id="err_usersfamily_age_' + newTestValue + '" ></label></div></aside></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Relationship :</label><div class="col-md-8 col-sm-8"><select class="select2" required="" data-width="100%" name="usersfamily_relationId_' + newTestValue + '" id="usersfamily_relationId_' + newTestValue + '"><option value=""> Select Relation</option><?php foreach ($familyMember as $key => $val) { ?><option value="<?php echo $val->relation_id; ?>"><?php echo $val->relation_type; ?></option><?php } ?></select><label class="error" id="err_usersfamily_relationId_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Have Health Insurance ?</label><div class="col-md-8 col-sm-8"><div class="radio radio-success radio-inline"><input type="radio" name="healthInsurance_' + newTestValue + '" value="1" id="inlineRadio3_' + newTestValue + '" onclick="insuranceShowHide(\'1\',\'insuranceDivfamily_' + newTestValue + '\')"><label for="inlineRadio3_' + newTestValue + '">Yes</label></div><div class="radio radio-success radio-inline"><input type="radio" name="healthInsurance_' + newTestValue + '" value="0" id="inlineRadio4_' + newTestValue + '" checked onclick="insuranceShowHide(\'0\',\'insuranceDivfamily_' + newTestValue + '\')"><label for="inlineRadio4_' + newTestValue + '">No</label></div></div></article><div style="display:none" id="insuranceDivfamily_' + newTestValue + '"><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Health Insu. Provider:</label><div class="col-md-8 col-sm-8"><select class="select2" required="" data-width="100%" name="userInsurance_insuranceId_' + newTestValue + '" id="userInsurance_insuranceId_' + newTestValue + '"><option value=""> Select Insurance</option><?php foreach ($insurance_cmpny as $key => $val) { ?><option value="<?php echo $val->insurance_id; ?>"><?php echo $val->insurance_Name; ?></option><?php } ?></select><label class="error" id="err_userInsurance_insuranceId_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label  class="control-label col-md-4 col-sm-4">Health Card no. :</label><div class="col-md-8 col-sm-8"><input class="form-control" id="userInsurance_insuranceNo_' + newTestValue + '" type="text" name="userInsurance_insuranceNo_' + newTestValue + '" required /><label class="error" id="err_userInsurance_insuranceNo_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Policy Expiry Date :</label><div class="col-md-8 col-sm-8"><div class="input-group"><input class="form-control pickDate" id="userInsurance_expDate_' + newTestValue + '" placeholder="dd/mm/yyyy" type="text" name="userInsurance_expDate_' + newTestValue + '" onkeydown="return false;"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div><label class="error" id="err_userInsurance_expDate_' + newTestValue + '" ></label></div></article></div><article class="form-group m-lr-0"><div class="col-md-3 col-sm-3 col-md-offset-0 col-sm-offset-0"><button id="remove_' + newTestValue + '" class="btn btn-danger btn-block waves-effect waves-light" type="button" href="javascript:void(0);" onclick="removeTestEdit(\'' + newTestValue + '\');" > Remove </button></div></article><hr></div>'
+            var htmlData = '<div id="familyInsuranceClon_' + newTestValue + '"><article class="form-group m-lr-0"><label for="" class="control-label col-md-4 col-sm-4">Name :</label><div class="col-md-8 col-sm-8"><input class="form-control" id="usersfamily_name_' + newTestValue + '" type="text" required="" name="usersfamily_name_' + newTestValue + '"/><label class="error" id="err_usersfamily_name_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Gender & Age:</label><div class="col-md-8 col-sm-8"><aside class="row"><div class="col-md-6 col-sm-6"><select class="select2" data-width="100%" required="" name="usersfamily_gender_' + newTestValue + '" id="usersfamily_gender_' + newTestValue + '"><option value=""> Select Gender</option><option value="1">Male</option><option value="2">Female</option><option value="3">Other</option></select><label class="error" id="err_usersfamily_gender_' + newTestValue + '" ></label></div><div class="col-md-6 col-sm-6 m-t-xs-10"><input class="form-control" placeholder="Age" id="usersfamily_age_' + newTestValue + '" type="text" name="usersfamily_age_' + newTestValue + '" required=""><label class="error" id="err_usersfamily_age_' + newTestValue + '" ></label></div></aside></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Relationship :</label><div class="col-md-8 col-sm-8"><select class="select2" required="" data-width="100%" name="usersfamily_relationId_' + newTestValue + '" id="usersfamily_relationId_' + newTestValue + '"><option value=""> Select Relation</option><?php foreach ($familyMember as $key => $val) { ?><option value="<?php echo $val->relation_id; ?>"><?php echo $val->relation_type; ?></option><?php } ?></select><label class="error" id="err_usersfamily_relationId_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Have Health Insurance ?</label><div class="col-md-8 col-sm-8"><div class="radio radio-success radio-inline"><input type="radio" name="healthInsurance_' + newTestValue + '" value="1" id="inlineRadio3_' + newTestValue + '" onclick="insuranceShowHide(\'1\',\'insuranceDivfamily_' + newTestValue + '\')"><label for="inlineRadio3_' + newTestValue + '">Yes</label></div><div class="radio radio-success radio-inline"><input type="radio" name="healthInsurance_' + newTestValue + '" value="0" id="inlineRadio4_' + newTestValue + '" checked onclick="insuranceShowHide(\'0\',\'insuranceDivfamily_' + newTestValue + '\')"><label for="inlineRadio4_' + newTestValue + '">No</label></div></div></article><div style="display:none" id="insuranceDivfamily_' + newTestValue + '"><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Health Insu. Provider:</label><div class="col-md-8 col-sm-8"><select class="select2" required="" data-width="100%" name="userInsurance_insuranceId_' + newTestValue + '" id="userInsurance_insuranceId_' + newTestValue + '"><option value=""> Select Insurance</option><?php foreach ($insurance_cmpny as $key => $val) { ?><option value="<?php echo $val->insurance_id; ?>"><?php echo $val->insurance_Name; ?></option><?php } ?></select><label class="error" id="err_userInsurance_insuranceId_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label  class="control-label col-md-4 col-sm-4">Health Card no. :</label><div class="col-md-8 col-sm-8"><input class="form-control" id="userInsurance_insuranceNo_' + newTestValue + '" type="text" name="userInsurance_insuranceNo_' + newTestValue + '" required /><label class="error" id="err_userInsurance_insuranceNo_' + newTestValue + '" ></label></div></article><article class="form-group m-lr-0"><label for="cname" class="control-label col-md-4 col-sm-4">Policy Expiry Date :</label><div class="col-md-8 col-sm-8"><div class="input-group"><input class="form-control pickDate" id="userInsurance_expDate_' + newTestValue + '" placeholder="dd/mm/yyyy" type="text" name="userInsurance_expDate_' + newTestValue + '" onkeydown="return false;"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div><label class="error" id="err_userInsurance_expDate_' + newTestValue + '" ></label></div></article></div><article class="form-group m-lr-0"><div class="col-md-3 col-sm-3 col-md-offset-0 col-sm-offset-0"><button id="remove_' + newTestValue + '" class="btn btn-danger btn-block waves-effect waves-light" type="button" href="javascript:void(0);" onclick="removeTestEdit(\'' + newTestValue + '\');" > Remove </button></div></article><hr></div>'
             $("#familyInsuranceSection").append(htmlData);
             var remove_no = newTestValue - parseInt(1);
             if (total_family != remove_no) {
@@ -591,11 +611,13 @@
     
             function check_email() {
             var myEmail = $("#users_email").val();
+         
                     var emailReturn;
                     $.ajax({
                     url: urls + 'index.php/users/check_email',
                             type: 'POST',
-                            data: {'users_email': myEmail},
+                            data: {'users_email': myEmail },
+
                             success: function (datas) {
                             if (datas == 0) {
                             $('#users_email_status').val(datas);
@@ -603,6 +625,10 @@
                             } else if (datas == 1) {
                             $('#users_email').addClass('bdr-error');
                                     $('#error-users_email_check').fadeIn().delay(3000).fadeOut('slow');
+                                    $('#users_email').removeClass('bdr-error');
+                                     setTimeout(function(){
+                    $('#users_email').removeClass('bdr-error');
+                 }, 3000);
                                     $('#users_email_status').val(datas);
                                     emailReturn = false;
                             }
@@ -614,9 +640,11 @@
 
 
 <script> 
+    
   $('.dob').datepicker({
     autoclose: true,
             endDate: new Date()
     });
     
-           </script>
+    
+</script>
