@@ -220,8 +220,8 @@ class Auth extends MyRest {
             $username = explode('@', $users_email);
             $username = $this->username = $username[0];
             if($logintype == 0){
-                $data['password'] = $password = $this->common_model->encryptPassword($this->input->post('password'));
-                $data['dob'] = $dob = strtotime($this->input->post('dob'));
+                $data['password'] = $password = $this->input->post('password');
+                $data['dob'] = $dob = $this->input->post('dob');
                 $data['socialId'] = $socialId = '';
             }elseif($logintype == 2){
                 $length = 10;
@@ -230,7 +230,7 @@ class Auth extends MyRest {
                 for ($i = 0; $i < $length; $i++) {
                     $password .= $characters[rand(0, strlen($characters) - 1)];
                 }
-                $data['password'] = $password = $this->common_model->encryptPassword($password);
+                $data['password'] = $password = $password;
                 $data['dob'] = $dob = '';
                 $data['socialId'] = $socialId = $this->input->post('socialId');
             }
