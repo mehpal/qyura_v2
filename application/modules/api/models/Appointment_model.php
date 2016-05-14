@@ -8,14 +8,14 @@ class Appointment_model extends Common_model {
 
     public function QuotationList($now, $userId) {
         
-        $sql1 = "SELECT quotation_id as id, `qyura_quotationBooking`.`quotationBooking_reportTitle` as title,"
+        $sql1 = "SELECT quotation_id as id, CASE WHEN ( `qyura_hospital`.`hospital_usersId` <> NULL ) THEN `qyura_hospital`.`hospital_name` WHEN (`qyura_diagnostic`.`diagnostic_usersId` <> NULL ) THEN `qyura_diagnostic`.`diagnostic_name` ELSE  '' END AS title,"
                     . "`qyura_quotationBooking`.`quotationBooking_orderId` AS `orderId`,"
                     . "DATE_FORMAT(FROM_UNIXTIME(`qyura_quotations`.`quotation_dateTime`),'%d %b, %Y') as date,"
                     . "0 AS `startTime`,"
                     . "0 AS `endTime`,"
                     . "CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN qyura_hospital.hospital_address ELSE qyura_diagnostic.diagnostic_address END AS `address`,"
                 
-                    . "(CASE WHEN(quotation_dateTime > CURRENT_TIMESTAMP AND (qyura_doctorAppointment.doctorAppointment_status = 11 || qyura_doctorAppointment.doctorAppointment_status = 14  ))  THEN 'Upcoming' ELSE 'Completed' END  ) as `upcomingStatus`,"
+                    . "(CASE WHEN(quotation_dateTime > CURRENT_TIMESTAMP AND (quotationBooking_bookStatus = 11 || quotationBooking_bookStatus = 14  ))  THEN 'Upcoming' ELSE 'Completed' END  ) as `upcomingStatus`,"
                 
                     . "CASE qyura_quotationBooking.quotationBooking_bookStatus WHEN '12' THEN 'Confirmed' WHEN '13' THEN 'Cancelled' WHEN '11' THEN 'Pending' WHEN '14' THEN 'Completed' WHEN '19' THEN 'Expired' ELSE '' END AS `bookingStatus`,"
                 
