@@ -13,8 +13,8 @@ class Auth extends MyRest {
         $this->lang->load('auth_api');
     }
 
-    // create a new group
-    function signUp_post()  {
+        //signup
+    function signUp_post() {
       
         $this->bf_form_validation->set_rules('device', 'device', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
         $this->bf_form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean');
@@ -134,7 +134,7 @@ class Auth extends MyRest {
             }
         }
     }
-    
+
     // saveUserData
     function sendOtp($data){
         $length = 5;
@@ -329,6 +329,34 @@ class Auth extends MyRest {
                 $message = $this->load->view('email/signing_up_user_tpl',$data_tpl,true);
                 $this->common_model->sendMail($from,$to,$message);
                 
+                $option = array(
+                    'table' => 'qyura_users',
+                    'select' => '*',
+                    'where' => array('qyura_users.users_deleted' => 0,'qyura_users.users_email' => $users_email,'qyura_usersRoles.usersRoles_roleId' => 6),
+                    'join' => array(
+                        array('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId = qyura_users.users_id', 'left'),
+                        array('qyura_patientDetails', 'qyura_patientDetails.patientDetails_usersId = qyura_users.users_id', 'left'),
+                        array('qyura_userSocial', 'qyura_userSocial.userSocial_usersId = qyura_users.users_id', 'left'),
+                    ),
+                    'single'=>true
+                );
+                $userDetail = $this->common_model->customGet($option);
+                $userDetail->address = $userDetail->patientDetails_address;
+                $userDetail->dob = $userDetail->patientDetails_dob;
+                $userDetail->fbId = $userDetail->userSocial_fbId;
+                $userDetail->gender = $userDetail->patientDetails_gender;
+                $userDetail->gpId = $userDetail->users_gpId;
+                $userDetail->logintype = $userDetail->users_logintype;
+                $userDetail->notification = $userDetail->userSocial_notification;
+                $userDetail->pLastName = $userDetail->patientDetails_pLastName;
+                $userDetail->patientImg = $userDetail->patientDetails_patientImg;
+                $userDetail->patientName = $userDetail->patientDetails_patientName;
+                $userDetail->device = $device;
+                $userDetail->pUnqId = $userDetail->patientDetails_unqId;
+                $userDetail->pushToken = $userDetail->userSocial_pushToken;
+                $userDetail->scUsersId = $userDetail->userSocial_id;
+                
+                print_r($userDetail);exit;
                 $msg = "Your Account is Activated Successfully";
                 $response = array('status' => 1, 'message' => $msg, 'userDetail' => $data);
                 $this->response($response, 200); // 200 being the HTTP response code
@@ -377,7 +405,11 @@ class Auth extends MyRest {
             $userDetail->pLastName = $userDetail->patientDetails_pLastName;
             $userDetail->patientImg = $userDetail->patientDetails_patientImg;
             $userDetail->patientName = $userDetail->patientDetails_patientName;
-            
+            $userDetail->device = $userDetail->userSocial_device;
+            $userDetail->pUnqId = $userDetail->patientDetails_unqId;
+            $userDetail->pushToken = $userDetail->userSocial_pushToken;
+            $userDetail->scUsersId = $userDetail->userSocial_id;
+                
             if ($userDetail) {
 
                 if ($userDetail->gpId == null)
