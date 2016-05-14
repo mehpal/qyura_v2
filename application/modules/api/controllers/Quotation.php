@@ -51,7 +51,7 @@ class Quotation extends MyRest {
                     'quotation_familyId' => $familyId,
                     'quotation_diagnosticsCatId' => $diagCatId,
                     'quotation_timeSlotId' => $timeSlotId,
-                    'quotation_dateTime'=> $preferedDate != '' ?strtotime($preferedDate):'',
+                    'quotation_dateTime'=> $preferedDate != '' ? strtotime($preferedDate): '',
                     'creationTime' => time()
                 ),
                 'table' => 'qyura_quotations'
