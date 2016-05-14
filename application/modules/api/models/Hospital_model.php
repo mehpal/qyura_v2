@@ -114,8 +114,8 @@ CASE
         $this->db->group_by('hospital_id');
 
         $response = $this->db->get()->result();
-        echo $this->db->last_query();
-        die();
+//        echo $this->db->last_query();
+//        die();
         $finalResult = array();
         if (!empty($response)) {
             foreach ($response as $row) {
