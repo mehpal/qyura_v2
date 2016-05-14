@@ -575,4 +575,13 @@ class My_model extends CI_Model {
         }
     }
 
+   function sendMail($from,$to,$message){
+        $this->email->from($from, 'Team Qyura');
+        $this->email->to($to);
+        $this->email->subject("Qyura");
+        $this->email->message($message);
+        $send = $this->email->send();
+        if($send){ return '1';}else{ return '0';}
+    }
+
 }
