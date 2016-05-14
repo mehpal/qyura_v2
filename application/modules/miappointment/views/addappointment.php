@@ -261,7 +261,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Patient Mobile Number :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input class="form-control" id="users_mobile" name="input15" type="text"  aria-required="true" >
+                                            <input class="form-control" id="users_mobile" name="input15" type="text"  aria-required="true" maxlength="10">
                                             <div class="has-error " id="err_input15" ><?php echo form_error("input15"); ?></div>
                                         </div>
                                     </article>
