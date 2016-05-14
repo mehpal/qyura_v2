@@ -48,7 +48,7 @@ class Hospital_model extends CI_Model {
             $having['rat >= '] = number_format($rating, 1);
         }
 
-        $this->db->select('hospital_usersId as userId,hospital_id as id,  (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, hospital_address as adr ,hospital_name name, CONCAT("0","",hospital_phn) as  phn, hospital_lat lat, hospital_long long, qyura_hospital.modifyTime upTm, hospital_img imUrl, (
+        $this->db->select('hospital_usersId as userId,hospital_id as id, availibility_24_7 as fullTime,  (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, hospital_address as adr ,hospital_name name, CONCAT("0","",hospital_phn) as  phn, hospital_lat lat, hospital_long long, qyura_hospital.modifyTime upTm, hospital_img imUrl, (
                 6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( hospital_lat ) ) * cos( radians( hospital_long ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( hospital_lat ) ) )
                 ) AS distance, Group_concat(DISTINCT insurance_Name SEPARATOR ", ") as insurance, Group_concat(DISTINCT (CASE specialityNameFormate WHEN 1 THEN qyura_specialities.specialities_drName WHEN 0 THEN qyura_specialities.specialities_name END) order by qyura_specialities.specialities_name SEPARATOR ", ") as specialities, isEmergency ' . $ambulance . ' ,(
 CASE 
@@ -115,6 +115,7 @@ CASE
 //        die();
         $finalResult = array();
         if (!empty($response)) {
+//            dump($response);
             foreach ($response as $row) {
 //dump($row);die();
 //                $time = $this->
@@ -124,7 +125,7 @@ CASE
                 $finalTemp[] = isset($row->fav) ? $row->fav : "";
                 $finalTemp[] = isset($row->rat) ? $row->rat : "";
                 $finalTemp[] = isset($row->adr) ? $row->adr : "";
-               echo  $finalTemp[] = isset($row->name) ? $row->name : "";
+                $finalTemp[] = isset($row->name) ? $row->name : "";
                 $finalTemp[] = isset($row->phn) ? $row->phn : "";
                 $finalTemp[] = isset($row->lat) ? $row->lat : "";
                 $finalTemp[] = isset($row->long) ? $row->long : "";
@@ -139,20 +140,16 @@ CASE
 
                 if ($openNow != NULL || $openNow != 0) {
 
-                    if ($row->isEmergency == 1) {
+                    if ($row->fullTime == 1) {
                         $finalResult[] = $finalTemp;
                     } else {
-                        
                         $time = $this->miTimeSlot($row->userId);
                         if (!empty($time)) {
-
-                            echo $row->name . "---" . date("h:i A", strtotime($currentTime));
-                            echo "--" . date("h:i A", strtotime($time->openingHours)) . "----" . date("h:i A", strtotime($time->closingHours));
                             if (($time->openingHours <= $currentTime && $time->closingHours >= $currentTime)) {
                                 $finalResult[] = $finalTemp;
                             }
                         }
-                    } 
+                    }
                 } else {
                     $finalResult[] = $finalTemp;
                 }
