@@ -334,6 +334,14 @@ if ($msg != "" || $msg != NULL) {
             $(this).valid();
             
         });
+         $('.select').select().change(function(){
+            $(this).valid();
+            
+        });
+         $('.selectpicker').selectpicker().change(function(){
+            $(this).valid();
+            
+        });
       });
 </script>
  <?php echo $this->load->view('common_pages/timeslotScript');?>
