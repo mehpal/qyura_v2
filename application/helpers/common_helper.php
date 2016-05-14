@@ -59,9 +59,9 @@ function getDoctorAvailibilitySession($number) {
     return $session[$number];
 }
 
-function getDay($day=NULL) {
+function getDay($day = NULL) {
     $days = array('Monday' => 0, 'Tuesday' => 1, 'Wednesday' => 2, 'Thursday' => 3, 'Friday' => 4, 'Saturday' => 5, 'Sunday' => 6);
-    if($day != NULL)
+    if ($day != NULL)
         return $days[$day];
     else
         return $days;
@@ -230,9 +230,9 @@ if (!function_exists('isConvertDays')) {
         } elseif (!empty($month)) {
             return $month . ' month ' . $days . ' days ago';
         } else {
-            if($days == 0){
-             return $days . ' days ago';
-            }else{
+            if ($days == 0) {
+                return $days . ' days ago';
+            } else {
                 return $days . ' days ago';
             }
         }
@@ -414,7 +414,7 @@ if (!function_exists("defalutTimeSlots")) {
 
     }
 
-  if (!function_exists('status')) {
+    if (!function_exists('status')) {
 
         function status($stat) {
             $status = array(11 => 'Pending', 12 => 'Confirm', 13 => 'Cancle', 14 => 'Completed');
@@ -449,13 +449,11 @@ if (!function_exists('puStatusCheck')) {
         $template = '';
         if ($status_value == 2) {
             $template = '<a class="btn btn-danger waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)" onclick="puStatusFn(\'' . $controller . '\',\'' . $table_name . '\',\'' . $table_field_name . '\',\'' . $table_field_value . '\',\'' . $status_value . '\')">Unverified</a>';
-        } else if($status_value == 0){
+        } else if ($status_value == 0) {
             $template = '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)">Inactive</a>';
-       } 
-       else if($status_value == 1){
+        } else if ($status_value == 1) {
             $template = '<a class="btn btn-success waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)">Active</a>';
-       } 
-        else{
+        } else {
 
             $template = '<a class="btn btn-primary waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)">Verified</a>';
         }
@@ -466,64 +464,66 @@ if (!function_exists('puStatusCheck')) {
 }
 
 
-if(!function_exists('togalHospital')){
-    function togalHospital($timeData)
-    {
-        if($timeData->stayAt == 1)
-        {
-            if($timeData->MItype == 1)
-            {
-                return  TRUE;
+if (!function_exists('togalHospital')) {
+
+    function togalHospital($timeData) {
+        if ($timeData->stayAt == 1) {
+            if ($timeData->MItype == 1) {
+                return TRUE;
             }
-            
+
             return FALSE;
         }
-        
+
         return FALSE;
-        
     }
+
 }
 
-if(!function_exists('togalDiagnostic')){
-    function togalDiagnostic($timeData)
-    {
-        if($timeData->stayAt == 1)
-        {
-            if($timeData->MItype == 2)
-            {
-                return  TRUE;
+if (!function_exists('togalDiagnostic')) {
+
+    function togalDiagnostic($timeData) {
+        if ($timeData->stayAt == 1) {
+            if ($timeData->MItype == 2) {
+                return TRUE;
             }
-            
+
             return FALSE;
         }
-        
+
         return FALSE;
-        
     }
+
 }
 
-if(!function_exists('togalpsChamber')){
-    function togalpsChamber($timeData)
-    {
-        if($timeData->stayAt == 0)
-        {
-            return  TRUE;
+if (!function_exists('togalpsChamber')) {
+
+    function togalpsChamber($timeData) {
+        if ($timeData->stayAt == 0) {
+            return TRUE;
         }
-        
+
         return FALSE;
     }
+
 }
 
 
 // get doc exp
 if (!function_exists('getDocExp')) {
-    function getDocExp($docDate){
-                $date2 = date('Y-m-d');
-                if(isset($docDate) && $docDate != NULL){ $date1 = $docDate; }else{ $date1 = strtotime(date('Y-m-d'));}
-                $diff = abs(strtotime($date2) - $date1);
-              return  $years = floor($diff / (365*60*60*24));
+
+    function getDocExp($docDate) {
+        $date2 = date('Y-m-d');
+        if (isset($docDate) && $docDate != NULL) {
+            $date1 = $docDate;
+        } else {
+            $date1 = strtotime(date('Y-m-d'));
+        }
+        $diff = abs(strtotime($date2) - $date1);
+        return $years = floor($diff / (365 * 60 * 60 * 24));
     }
-} 
+
+}
 
 if (!function_exists("expYear")) {
 
@@ -539,26 +539,33 @@ if (!function_exists("expYear")) {
         return $years;
     }
 
-}       
+}
 
 if (!function_exists("sendMail")) {
-    function sendMail($from,$to,$message){
+
+    function sendMail($from, $to, $message) {
         $this->email->from($from, 'Team Froyofit');
         $this->email->to($to);
         $this->email->subject("Froyofit");
         $this->email->message($message);
         $send = $this->email->send();
-        if($send){ return '1';}else{ return '0';}
+        if ($send) {
+            return '1';
+        } else {
+            return '0';
+        }
     }
+
 }
 
 if (!function_exists("sendSms")) {
-    function sendSms($mobileNo,$mess){
+
+    function sendSms($mobileNo, $mess) {
         $post_data = array(
             // 'From' doesn't matter; For transactional, this will be replaced with your SenderId;
             // For promotional, this will be ignored by the SMS gateway
             'From' => '08039512095',
-            'To'   => $mobileNo,
+            'To' => $mobileNo,
             'Priority' => 'high',
             'Body' => "$mess", //Incase you are wondering who Dr. Rajasekhar is http://en.wikipedia.org/wiki/Dr._Rajasekhar_(actor)
         );
@@ -566,7 +573,7 @@ if (!function_exists("sendSms")) {
         $exotel_sid = "froyo"; // Your Exotel SID - Get it from here: http://my.exotel.in/Exotel/settings/site#api-settings
         $exotel_token = "1edf133173574c62525e4bf034b50952f655c799"; // Your exotel token - Get it from here: http://my.exotel.in/Exotel/settings/site#api-settings
 
-        $url = "https://".$exotel_sid.":".$exotel_token."@twilix.exotel.in/v1/Accounts/".$exotel_sid."/Sms/send";
+        $url = "https://" . $exotel_sid . ":" . $exotel_token . "@twilix.exotel.in/v1/Accounts/" . $exotel_sid . "/Sms/send";
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_VERBOSE, 1);
@@ -579,15 +586,70 @@ if (!function_exists("sendSms")) {
 
         $http_result = curl_exec($ch);
         $error = curl_error($ch);
-        $http_code = curl_getinfo($ch ,CURLINFO_HTTP_CODE);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         curl_close($ch);
         if (!empty($http_result) && $http_result != NULL && $error == '') {
             return '1';
-        }else{
+        } else {
             return '0';
         }
     }
-}   
 
+}
+
+if (!function_exists("smart_wordwrap")) {
+
+    function smart_wordwrap($string, $width = 75, $break = "\n") {
+        // split on problem words over the line length
+        $pattern = sprintf('/([^ ]{%d,})/', $width);
+        $output = '';
+        $words = preg_split($pattern, $string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+
+        foreach ($words as $word) {
+            if (false !== strpos($word, ' ')) {
+                // normal behaviour, rebuild the string
+                $output .= $word;
+            } else {
+                // work out how many characters would be on the current line
+                $wrapped = explode($break, wordwrap($output, $width, $break));
+                $count = $width - (strlen(end($wrapped)) % $width);
+
+                // fill the current line and add a break
+                $output .= substr($word, 0, $count) . $break;
+
+                // wrap any remaining characters from the problem word
+                $output .= wordwrap(substr($word, $count), $width, $break, true);
+            }
+        }
+
+        // wrap the final output
+        return wordwrap($output, $width, $break);
+    }
+
+}
+
+if (!function_exists("getBookStatus")) {
+
+    function getBookStatus($check) {
+        $status = "";
+            switch ($check) {
+                case 1:
+                    $status = "Pending";
+                    break;
+                case 2:
+                   $status = "Confirm";
+                    break;
+                case 3:
+                    $status = "Cancle";
+                    break;
+                case 4:
+                    $status = "Completed";
+                    break;
+            }
+        
+        return $status;
+    }
+
+}
 ?>
