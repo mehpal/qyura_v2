@@ -58,6 +58,7 @@ class Emergency_model extends CI_Model {
                 $finalTemp[] = isset($row->upTm) ? $row->upTm : "";
                 $finalTemp[] = isset($row->imUrl) ? base_url() . 'assets/hospitalsImages/' . $row->imUrl : "";
                 $finalTemp[] = isset($row->specialities) ? $row->specialities : "";
+                
                 $finalResult[] = $finalTemp;
             }
 
@@ -170,7 +171,7 @@ class Emergency_model extends CI_Model {
         }
     }
 
-    public function getAmbulanceList($lat, $long, $notIn, $cityId = null) {
+    public function getAmbulanceList($lat, $long, $notIn, $cityId = null,$openNow) {
 
         $lat = isset($lat) ? $lat : '';
         $long = isset($long) ? $long : '';
@@ -231,7 +232,21 @@ class Emergency_model extends CI_Model {
                 $finalTemp[] = isset($row->isEmergency) ? $row->isEmergency : "0";
                 $finalTemp[] = isset($row->adr) ? $row->adr : "";
                 $finalTemp[] = isset($row->distance) ? $row->distance : "0";
-                $finalResult[] = $finalTemp;
+                
+                if ($openNow != NULL || $openNow != 0) {
+
+                    if ($row->isEmergency == 1) {
+                        $finalResult[] = $finalTemp;
+                    } else {
+                        if (($slots->openingHours <= $currentTime && $slots->closingHours >= $currentTime)) {
+                            $finalResult[] = $finalTemp;
+                        }
+                    }
+                } else {
+                    $finalResult[] = $finalTemp;
+                }
+                
+                
             }
             return $finalResult;
         } else {

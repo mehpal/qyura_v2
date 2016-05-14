@@ -12,3 +12,5 @@ ERROR - 2016-05-14 13:41:36 --> 404 Page Not Found: ../modules/api/controllers//
 ERROR - 2016-05-14 13:41:46 --> 404 Page Not Found: ../modules/api/controllers//index
 ERROR - 2016-05-14 13:44:59 --> 404 Page Not Found: ../modules/api/controllers//index
 ERROR - 2016-05-14 13:46:45 --> 404 Page Not Found: ../modules/api/controllers/auth//index
+ERROR - 2016-05-14 14:31:19 --> 404 Page Not Found: ../modules/auth/controllers/Auth/assets
+ERROR - 2016-05-14 14:34:21 --> Severity: Error --> Call to undefined method BloodCatApi::miTimeSlot() /var/www/html/qyura_v2/application/modules/api/controllers/BloodCatApi.php 152

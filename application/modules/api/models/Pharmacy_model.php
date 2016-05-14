@@ -10,18 +10,21 @@ class Pharmacy_model extends CI_Model {
         parent::__construct();
     }
 
-    public function getPhamacyList($lat, $long, $notIn, $isemergency, $search, $cityId = NULL) {
+    public function getPhamacyList($lat, $long, $notIn, $isemergency, $search, $cityId = NULL, $openNow) {
 
         $lat = isset($lat) ? $lat : '';
         $long = isset($long) ? $long : '';
         $notIn = isset($notIn) ? $notIn : '';
 
         $where = array('qyura_pharmacy.pharmacy_deleted' => 0);
-        
+
         if ($isemergency != '' && $isemergency != NULL) {
             $where['qyura_pharmacy.pharmacy_27Src'] = $isemergency;
         }
-
+        
+        $day = getDay(date("l"));
+        $currentTime = strtotime(date("h:i A"));
+            
         if ($search != null) {
             $this->db->group_start();
             $array = array('pharmacy_name' => $search, 'pharmacy_address' => $search);
@@ -29,17 +32,17 @@ class Pharmacy_model extends CI_Model {
             $this->db->group_end();
         }
 
-        $this->db->select('qyura_pharmacy.pharmacy_id as id, pharmacy_name name, pharmacy_address adr, pharmacy_img imUrl, pharmacy_usersId  as userId, pharmacy_lat as lat, pharmacy_long as lng, ' 
-                . '(6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( pharmacy_lat ) ) * cos( radians( pharmacy_long ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( pharmacy_lat ) ) )
+        $this->db->select('qyura_pharmacy.pharmacy_id as id, pharmacy_name name, pharmacy_address adr, pharmacy_img imUrl, pharmacy_usersId  as userId, pharmacy_lat as lat, pharmacy_long as lng, '
+                        . '(6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( pharmacy_lat ) ) * cos( radians( pharmacy_long ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( pharmacy_lat ) ) )
                 ) AS distance, CONCAT("0","",pharmacy_phn) as  phn, qyura_pharmacy.pharmacy_27Src isEmergency')
                 ->from('qyura_pharmacy')
-                ->join('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId=qyura_pharmacy.pharmacy_usersId', 'left') 
+                ->join('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId=qyura_pharmacy.pharmacy_usersId', 'left')
                 ->where($where)
                 ->where_not_in('qyura_pharmacy.pharmacy_id', $notIn)
                 ->order_by('distance', 'ASC')
                 ->group_by('pharmacy_id')
                 ->limit(DATA_LIMIT);
-        
+
         if ($cityId != NULL) {
             $cityCon = array('pharmacy_cityId' => $cityId);
             $this->db->where($cityCon);
@@ -47,21 +50,21 @@ class Pharmacy_model extends CI_Model {
             $this->db->having(array('distance <' => USER_DISTANCE));
         }
         $response = $this->db->get()->result();
-        $curDay = getDay(date("l",strtotime(date("Y-m-d"))));
-        
+        $curDay = getDay(date("l", strtotime(date("Y-m-d"))));
+
         $finalResult = array();
         if (!empty($response)) {
             foreach ($response as $row) {
 
                 $finalTemp = array();
-                
+
                 $userId = (isset($row->userId) ? $row->userId : "");
-                $slots  = NULL;
-                
-                if($userId != "" || $userId != NULL){
-                    $slots = $this->common_model->getMITimeSlot($userId,$curDay);
+                $slots = NULL;
+
+                if ($userId != "" || $userId != NULL) {
+                    $slots = $this->common_model->getMITimeSlot($userId, $curDay);
                 }
-                
+
                 $finalTemp[] = isset($row->id) ? $row->id : "";
                 $finalTemp[] = isset($row->name) ? $row->name : "";
                 $finalTemp[] = isset($row->adr) ? $row->adr : "";
@@ -69,16 +72,29 @@ class Pharmacy_model extends CI_Model {
                 $finalTemp[] = isset($row->phn) ? $row->phn : "";
                 $finalTemp[] = isset($row->lat) ? $row->lat : "";
                 $finalTemp[] = isset($row->lng) ? $row->lng : "";
-                
-                if($slots != NULL){
+
+                if ($slots != NULL) {
                     $finalTemp[] = isset($slots->openingHours) ? $slots->openingHours : "";
                     $finalTemp[] = isset($slots->closingHours) ? $slots->closingHours : "";
-                }else{
+                } else {
                     $finalTemp[] = "";
                     $finalTemp[] = "";
                 }
+                
                 $finalTemp[] = isset($row->isEmergency) ? $row->isEmergency : "";
-                $finalResult[] = $finalTemp;
+
+                if ($openNow != NULL || $openNow != 0) {
+
+                    if ($row->isEmergency == 1) {
+                        $finalResult[] = $finalTemp;
+                    } else {
+                        if (($slots->openingHours <= $currentTime && $slots->closingHours >= $currentTime)) {
+                            $finalResult[] = $finalTemp;
+                        }
+                    }
+                } else {
+                    $finalResult[] = $finalTemp;
+                }
             }
             return $finalResult;
         } else {
@@ -93,7 +109,7 @@ class Pharmacy_model extends CI_Model {
         $notIn = isset($notIn) ? $notIn : '';
 
         $where = array('qyura_pharmacy.pharmacy_deleted' => 0);
-        
+
         if ($isemergency != '' && $isemergency != NULL) {
 
             $where['qyura_pharmacy.pharmacy_27Src'] = $isemergency;
@@ -116,7 +132,7 @@ class Pharmacy_model extends CI_Model {
                 ->order_by('distance', 'ASC')
                 ->group_by('pharmacy_id')
                 ->limit(DATA_LIMIT);
-        
+
         if ($cityId != NULL) {
             $cityCon = array('pharmacy_cityId' => $cityId);
             $this->db->where($cityCon);

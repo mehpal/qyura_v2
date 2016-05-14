@@ -45,7 +45,7 @@ class BloodCatApi extends MyRest {
             //city
             $cityId = isset($_POST['cityId']) ? $this->input->post('cityId') : NULL;
             
-            $isemergency = isset($_POST['isemergency']) ? $this->input->post('isemergency') : NULL;
+            $isemergency = (isset($_POST['isemergency'])&& $_POST['isemergency'] != 0)  ? $this->input->post('isemergency') : NULL;
             
             if ($cityId != NULL) {
                 $array = array('qyura_bloodBank.cityId' => $cityId);
@@ -65,6 +65,11 @@ class BloodCatApi extends MyRest {
                         
             $where = array('qyura_bloodBank.bloodBank_deleted' => 0);
             
+            $day = getDay(date("l"));
+            $currentTime = strtotime(date("h:i A"));
+            
+            $openNow = (isset($_POST['openNow'])&& $_POST['openNow'] != 0  ) ? $this->input->post('openNow') : NULL;
+
             if ($isemergency != '' && $isemergency != NULL) {
                 $where['qyura_bloodBank.isEmergency'] = $isemergency;
             }
@@ -107,12 +112,16 @@ class BloodCatApi extends MyRest {
             } 
             
             $data = $this->db->get()->result();
+            
+            
+//            echo $this->db->last_query(); die();
             $array_data = array();
 
             $option = array('table' => 'bloodCatBank', 'select' => 'bloodBank_id');
             $deleted = $this->singleDelList($option);
 
             $response = '';
+            
             foreach ($data as $row) {
                 
                 $userId = (isset($row->userId) ? $row->userId : "");
@@ -139,7 +148,23 @@ class BloodCatApi extends MyRest {
                 }
                 
                 $array_data[] = isset($row->isEmergency) ? $row->isEmergency : "";
-                $finalResult[] = $array_data;
+                
+                if ($openNow != NULL || $openNow != 0) {
+
+                    if ($row->isEmergency == 1) {
+                        $finalResult[] = $array_data;
+                    } else {
+                        
+                        if (($slots->openingHours <= $currentTime && $slots->closingHours >= $currentTime)) {
+                            $finalResult[] = $array_data;
+                        }
+                       
+                    }
+                } else {
+                   $finalResult[] = $array_data;
+                
+                }
+                 
                 $array_data = '';
             }
  
