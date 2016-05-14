@@ -1550,3 +1550,8 @@ text-align: right;
 {
 	min-height: 155px;
 }
+
+.t-xs-left.text-justify
+{
+	text-align:justify;
+}

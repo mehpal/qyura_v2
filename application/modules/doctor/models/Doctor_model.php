@@ -264,8 +264,8 @@ class Doctor_model extends My_model {
             $this->db->group_end();
         }
         
-//        $docSpecialities = $this->input->post('docSpecialitiesId');
-//        isset($docSpecialities) && $docSpecialities != '' ? $this->db->where('qyura_specialities.specialities_id', $docSpecialities) : '';
+        $docSpecialities = $this->input->post('docSpecialitiesId');
+        isset($docSpecialities) && $docSpecialities != '' ? $this->db->where('qyura_specialities.specialities_id', $docSpecialities) : '';
 
         $this->db->where(array('doc.doctors_deleted' => 0,'doc.doctors_roll' => 0));
         $this->datatables->add_column('exp', '$1 Years', 'expYear(doctors_expYear)');
