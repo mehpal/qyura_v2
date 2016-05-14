@@ -8,12 +8,12 @@
               
                 <div class="modal-body">
                     <div class="modal-body">
-                        <form class="form-horizontal" id="changetimeform">
+                        <form class="form-horizontal" id="changetimeform2">
                             <article class="clearfix m-t-10">
                                 <label for="" class="control-label col-md-4 col-sm-4">Appointment Date:</label>
                                 <div class="col-md-8 col-sm-8">
                                     <div class="input-group">
-                                        <input class="form-control pickDate" id="date-7" type="text" name="appdate" onkeydown="return false;">
+                                        <input class="form-control pickDate" id="date-11" type="text" name="appdate2" onkeydown="return false;">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                     </div>
                                 </div>
@@ -22,7 +22,7 @@
                                 <label for="cname" class="control-label col-md-4 col-sm-4">Final Timing:</label>
                                 <div class="col-md-8 col-sm-8">
                                     <div class="bootstrap-timepicker input-group w-100">
-                                        <input id="timepicker3" name="finaltime" type="text" class="form-control timepicker"  />
+                                        <input id="timepicker11" name="finaltime2" type="text" class="form-control timepicker"  />
                                     </div>
                                 </div>
                             </article>

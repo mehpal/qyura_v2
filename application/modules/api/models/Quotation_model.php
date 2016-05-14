@@ -11,7 +11,7 @@ class Quotation_model extends Common_model {
     }
 
     public function myQuotationSelfDetail($quotationId) {
-
+        $currentYear = date('Y');
         $option = array(
             'select' => 'qyura_quotations.quotation_familyId,qyura_quotations.quotation_userId,CASE 
  WHEN (`qyura_quotations`.`quotation_familyId` <> 0 ) 

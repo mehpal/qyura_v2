@@ -247,9 +247,9 @@ class Diagnostic_model extends CI_Model {
         $this->datatables->join('qyura_doctorSpecialities', 'qyura_doctorSpecialities.doctorSpecialities_doctorsId = qyura_doctors.doctors_id', 'left');
         $this->datatables->join('qyura_specialities', 'qyura_specialities.specialities_id = qyura_doctorSpecialities.doctorSpecialities_specialitiesId', 'left');
 
-        $this->db->group_by('doctors_id');
+        $this->datatables->group_by('doctors_id');
 
-        $this->db->order_by('doctors_id', 'desc');
+        $this->datatables->order_by('doctors_id', 'desc');
 
 
         $search = $this->input->post('doctor_search');
