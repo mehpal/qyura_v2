@@ -57,7 +57,7 @@
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Date :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <div class="input-group">
-                                                <input class="form-control pickDate" placeholder="dd/mm/yy" id="date-3" type="text"  name="input4" value="<?php echo date("m/d/Y"); ?>"/>
+                                                <input class="form-control pickDate" placeholder="mm/dd/yy" id="date-3" type="text"  name="input4" value="<?php echo date("m/d/Y"); ?>"/>
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                                 <div class="has-error " id="err_input4" ><?php echo form_error("input4"); ?></div>
                                             </div>
@@ -131,14 +131,14 @@
                                         <div class="col-md-8 col-sm-8">
                                             <input type="hidden" class="form-control" name="user_id" id="user_id" >
                                             <input type="hidden" class="form-control" name="email_status" id="email_status" >
-                                            <input class="form-control" id="patient_email" name="input9" type="email"  aria-required="true" placeholder="Test@gmail.com" onblur="getpatientdetails('0')">
+                                            <input class="form-control" id="patient_email" name="input9" type="email"  aria-required="true" placeholder="Email" onblur="getpatientdetails('0')">
                                             <div class="has-error " id="err_input9" ><?php echo form_error("input9"); ?></div>
                                         </div>
                                     </article>
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Patient Mobile Number :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input class="form-control" id="users_mobile" name="input10" type="text"  aria-required="true" placeholder="Mobile Number" onblur="getpatientdetails('1')">
+                                            <input class="form-control" id="users_mobile" name="input10" type="text"  aria-required="true" placeholder="Mobile Number" onkeypress="return isNumberKey(event)" >
                                             <div class="has-error " id="err_input10" ><?php echo form_error("input10"); ?></div>
                                         </div>
                                     </article>
@@ -152,7 +152,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Patient Name:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input class="form-control" id="users_username" name="input12" type="text"  aria-required="true" placeholder="Name" >
+                                            <input class="form-control" id="users_username" name="input12" type="text"  aria-required="true" placeholder="Name" onkeypress="return isAlpha(event)" >
                                             <div class="has-error " id="err_input12" ><?php echo form_error("input12"); ?></div>
                                         </div>
                                     </article>
@@ -160,7 +160,7 @@
                                         <label for="cname" class="control-label col-md-4 col-sm-4">DOB :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <div class="input-group">
-                                                <input class="form-control pickDate" placeholder="dd/mm/yy" id="date-4" type="text"  name="input26" value="<?php echo date("m/d/Y"); ?>"/>
+                                                <input class="form-control pickDate" placeholder="mm/dd/yy" id="date-4" type="text"  name="input26" value="<?php echo date("m/d/Y"); ?>"/>
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                                 <div class="has-error " id="err_input26" ><?php echo form_error("input26"); ?></div>
                                             </div>
@@ -209,7 +209,7 @@
                                                     <div class="has-error " id="err_input15" ><?php echo form_error("input15"); ?></div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6 m-t-xs-10">
-                                                    <input type="text" class="form-control" id="zip" name="input16" placeholder="700001" />
+                                                    <input type="text" class="form-control" id="zip" name="input16" placeholder="Zip" onkeypress="return isNumberKey(event)" max="999999"/>
                                                     <div class="has-error " id="err_input16" ><?php echo form_error("input16"); ?></div>
                                                 </div>
                                             </aside>
@@ -217,7 +217,7 @@
                                     </article>
                                     <article class="form-group m-lr-0 m-t-xs-10">
                                         <div class="col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4">
-                                            <input type="text" class="form-control" id="address" name="input17" placeholder="209, ABC Road, near XYZ Building " />
+                                            <input type="text" class="form-control" id="address" name="input17" placeholder="Address " />
                                             <div class="has-error " id="err_input17" ><?php echo form_error("input17"); ?></div>
                                         </div>
                                     </article>
@@ -252,28 +252,28 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Consulation Fee:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input type="text" class="form-control" id="input18" name="input18" placeholder="500" onblur="calculateamount()" />
+                                            <input type="text" class="form-control" id="input18" name="input18" placeholder="500" onblur="calculateamount()" onkeypress="return isNumberKey(event)"/>
                                             <div class="has-error " id="err_input18" ><?php echo form_error("input18"); ?></div>
                                         </div>
                                     </article>
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Other Fee:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input type="text" class="form-control" id="input19" name="input19" placeholder="0"  onblur="calculateamount()" />
+                                            <input type="text" class="form-control" id="input19" name="input19"  onblur="calculateamount()" onkeypress="return isNumberKey(event)"/>
                                             <div class="has-error " id="err_input19" ><?php echo form_error("input19"); ?></div>
                                         </div>
                                     </article>
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Tax :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input type="text" class="form-control" name="input20" id="input20" placeholder="12.5%"  onblur="calculateamount()">
+                                            <input type="text" class="form-control" name="input20" id="input20" placeholder="%"  onblur="calculateamount()" onkeypress="return isNumberKey(event)">
                                             <div class="has-error " id="err_input20" ><?php echo form_error("input20"); ?></div>
                                         </div>
                                     </article>
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Total Payable Amount:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <input type="text" class="form-control" id="input21" name="input21" placeholder="$$$"  readonly=""/>
+                                            <input type="text" class="form-control" id="input21" name="input21" placeholder="Total"  readonly="" onkeypress="return isNumberKey(event)"/>
                                             <div class="has-error " id="err_input21" ><?php echo form_error("input21"); ?></div>
                                         </div>
                                     </article>

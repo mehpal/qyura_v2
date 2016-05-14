@@ -70,7 +70,7 @@ class SaDashboard extends MY_Controller {
     }
     
     function getChartDraw(){
-         $year = date('2016');
+         $year = date('Y');
          $getYear = $this->input->post('year');
          if(!empty($getYear)){
              $year = $getYear;

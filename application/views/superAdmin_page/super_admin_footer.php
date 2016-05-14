@@ -282,12 +282,7 @@ if ($msg != "" || $msg != NULL) {
         });
         
     }
-     function isAlpha(e) { // Alphanumeric only
-        var k;
-        document.all ? k = e.keycode : k = e.which;
-        return((k >= 65 && k <= 90) || (k >= 97 && k <= 122) || k == 0 || k == 32 || k == 8 || k == 127 || k == 9);
-
-    }
+    
     function puStatusFn(controller, table_name, table_field_name, table_field_value, status_value)
     {
         if (status_value == 2)
@@ -343,6 +338,30 @@ if ($msg != "" || $msg != NULL) {
             
         });
       });
+    function isNumberKey(evt, id) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            $("#" + id).html("Please enter number key");
+            return false;
+        } else {
+            $("#" + id).html('');
+            return true;
+        }
+    }
+
+    function isAlphaNumeric(e) { // Alphanumeric only
+        var k;
+        document.all ? k = e.keycode : k = e.which;
+        return((k > 47 && k < 58) || (k > 64 && k < 91) || (k > 96 && k < 123) || k == 0 || k == 32 || k == 8 || k == 127);
+    }
+
+    function isAlpha(e) { // Alphanumeric only
+        var k;
+        document.all ? k = e.keycode : k = e.which;
+        return((k >= 65 && k <= 90) || (k >= 97 && k <= 122) || k == 0 || k == 32 || k == 8 || k == 127 || k == 9);
+
+    }
+
 </script>
  <?php echo $this->load->view('common_pages/timeslotScript');?>
 
