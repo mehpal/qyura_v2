@@ -62,7 +62,7 @@
                                             <th>Quote Amount </th>
                                             <th>Quote Date</th>
                                             <th>Status</th>
-                                            
+                                            <th>Booking Status</th>
                                             <th>Action</th>
                                         </tr>          
                                 </thead>

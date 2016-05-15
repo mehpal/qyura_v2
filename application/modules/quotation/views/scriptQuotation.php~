@@ -680,7 +680,6 @@
         $("#total_test").val(typeVal);
         $("#remove_" + typeVal).show();
         $("#diagnosticClon_" + div_no).remove();
-	totaAmountAddQuo();
     }
 
     function findDoctor() {
@@ -1197,7 +1196,7 @@
                 {"data": "amount"},
                 {"data": "dt"},
                 {"data": "qStatus"},
-                
+                {"data": "convertStatus"},
                 {"data": "action"},
             ],
             "ajax": {
