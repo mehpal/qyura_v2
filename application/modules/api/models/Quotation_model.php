@@ -83,7 +83,7 @@ CASE
     public function qtTestTotalAmount($quotationId)
     {
         $option = array(
-            'select' => 'sum(qyura_quotationDetailTests.quotationDetailTests_price) as price + qyura_quotations.quotation_otherFee + qyura_quotations.quotation_tex',
+            'select' => '(round(( (sum(qyura_quotationDetailTests.quotationDetailTests_price) + qyura_quotations.quotation_otherFee)/100 * qyura_quotations.quotation_tex ), 2) + sum(qyura_quotationDetailTests.quotationDetailTests_price) + qyura_quotations.quotation_otherFee) as price',
             'table' => 'qyura_quotations',
             'join' => array(
                 array('qyura_quotationDetailTests', 'qyura_quotationDetailTests.quotationDetailTests_quotationId=qyura_quotations.quotation_id', 'right')
