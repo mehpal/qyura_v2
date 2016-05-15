@@ -16,22 +16,26 @@ class HealthTipApi extends MyRest {
 
     function todaytip_post() {
            
-            echo $cityId = isset($_POST['cityId']) ? $this->input->post('cityId') : NULL; 
-//            echo  $date = strtotime(date("Y-m-d")); 
+            $cityId = isset($_POST['cityId']) ? $this->input->post('cityId') : NULL; 
+            $date = strtotime(date("Y-m-d")); 
            
             $sponserTip = NULL;
-            if($cityId != NULL) {
-                echo "Hi";
+            
+            if($cityId != NULL) { 
                 $sponserTip = $this->HealthTip_model->getSponsorTip($cityId,$date);
+//                echo $this->db->last_query();
             }
+            
+//            dump($sponserTip);die();
             
             if(isset($sponserTip) && $sponserTip != NULL){
                 $response['status'] = TRUE;
                 $response["data"] = $sponserTip;
                 $response['msg'] = 'success';
                 $this->response($response, 200);
+                return;
             }else{
-                echo "HERE";
+//                echo "HERE";
                 $response['data'] = $sponserTip = $this->HealthTip_model->getRandomTip($date);
                 
                 if(isset($sponserTip) && $sponserTip != NULL){
