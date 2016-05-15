@@ -117,7 +117,12 @@ if ($msg != "" || $msg != NULL) {
                 }, false);
                 return xhr;
             },
+	    beforeSend: function (xhr) {
+                qyuraLoader.startLoader();
+            },
+
             success: function (response, textStatus, jqXHR) {
+		qyuraLoader.stopLoader();
                 try {
                     $("#load_consulting").hide();
 
