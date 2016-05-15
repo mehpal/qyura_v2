@@ -185,8 +185,9 @@ class Ccavenue extends MyRest {
                     $data["access_code"] = $access_code;
                     $res = $this->load->view("api/ccavenue",$data,true);
                     $response = array("status"=>1, $result=>$res);
-                    echo json_encode($response);
-                    exit();
+//                    echo json_encode($response);
+//                    exit();
+                    $this->response($response);
                     ?>
                     <!--form method="post" name="redirect" action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"> 
                         <?php
