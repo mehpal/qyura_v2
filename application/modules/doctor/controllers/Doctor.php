@@ -1189,7 +1189,7 @@ class Doctor extends MY_Controller {
         $option = array(
             'table' => 'qyura_qap',
             'select' => '*',
-            'where' => array('qyura_qap.qap_deleted' => 0, 'qyura_qap.qap_code' => $qapId),
+            'where' => array('qyura_qap.qap_deleted' => 0,'qyura_qap.status' => 1, 'qyura_qap.qap_code' => $qapId),
             'single' => TRUE
         );
         $qap_data = $this->common_model->customGet($option);

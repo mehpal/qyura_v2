@@ -20,6 +20,7 @@
                                                 <option <?php if($city_value->city_countryid == $val->country_id){ echo "selected"; } ?>  value="<?php echo $val->country_id; ?>"><?php echo $val->country; ?></option>
                                         <?php } } ?>
                                     </select>
+                                    <div class="error-country"></div>
                                     <label class="error" id="err_city_countryid" > <?php echo form_error("city_countryid"); ?></label>
                                 </div>
                             </article>
@@ -33,6 +34,7 @@
                                                 <option <?php if($city_value->city_stateid == $val->state_id){ echo "selected"; } ?> value="<?php echo $val->state_id; ?>"><?php echo $val->state_statename; ?></option>
                                             <?php } } ?>
                                     </select>
+                                    <div class="error-state"></div>
                                     <label class="error" id="err_city_stateid" > <?php echo form_error("city_stateid"); ?></label>
                                 </div>
                             </article>

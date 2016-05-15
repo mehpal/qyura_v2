@@ -355,9 +355,14 @@
     }
 
     $(document).ready(function () {
-
+        <?php $date = date('d/m/Y'); ?>
         $('.timepicker').timepicker({showMeridian: false});
-        $('#date-3, #date-4,#date-5').datepicker();
+        $('#date-3,#date-5').datepicker({
+            autoclose: true,
+            startDate: '<?php echo $date; ?>', 
+        });
+        $('#date-4').datepicker({autoclose: true});
+         
         $('.selectpicker').selectpicker().change(function(){
             $(this).valid();
             

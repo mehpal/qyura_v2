@@ -21,8 +21,8 @@ class SpecialityApi extends MyRest {
             $this->response($response, 400);
         } else {
 
-            $miId       = (isset($_POST['miID']) && $_POST['miID'] != "") ? $_POST['miID'] : NULL; // Profile id
-            $type       = (isset($_POST['type']) && $_POST['type'] != "") ? $_POST['type'] : NULL;
+            $miId   = (isset($_POST['miID']) && $_POST['miID'] != "") ? $_POST['miID'] : NULL; // USER ID OF HOSPI / Diagno
+            $type   = (isset($_POST['type']) && $_POST['type'] != "") ? $_POST['type'] : NULL;
 
             $specialityList = NULL;
             

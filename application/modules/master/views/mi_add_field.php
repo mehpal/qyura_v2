@@ -15,6 +15,7 @@
                     <option <?php echo set_select('mi_countryId', $val->country_id); ?>  value="<?php echo $val->country_id; ?>"><?php echo $val->country; ?></option>
             <?php } } ?>
         </select>
+        <div class="error-country"></div>
         <label class="error" id="err_mi_countryId" > <?php echo form_error("mi_countryId"); ?></label>
     </div>
 </article>
@@ -27,6 +28,7 @@
                     <option <?php echo set_select('mi_stateId', $val->state_id); ?> value="<?php echo $val->state_id; ?>"><?php echo $val->state_statename; ?></option>
                 <?php } } ?>
         </select>
+         <div class="error-state"></div>
         <label class="error" id="err_mi_stateId" > <?php echo form_error("mi_stateId"); ?></label>
     </div>
 </article>
@@ -39,6 +41,7 @@
                     <option <?php echo set_select('mi_cityId', $val->city_id); ?> value="<?php echo $val->city_id; ?>"><?php echo $val->city_name; ?></option>
                     <?php } }  ?>
         </select>
+         <div class="error-city"></div>
         <label class="error" id="err_mi_cityId" > <?php echo form_error("mi_cityId"); ?></label>
     </div>
 </article>
