@@ -37,8 +37,9 @@ class Hospital_model extends CI_Model {
         if ($isInsurance != '' && $isInsurance != NULL && $isInsurance != 0) {
             $isInsurance = isset($isInsurance) ? $isInsurance : '';
         }
-
-        if ($rating != '' && $rating != NULL || $rating != 0) {
+//echo $rating ; die();
+        
+        if ($rating != '' && $rating != NULL && $rating != 0) {
             $having['rat >= '] = $rating;
         }
 
@@ -105,8 +106,8 @@ CASE
         $this->db->group_by('hospital_id');
 
         $response = $this->db->get()->result();
-        echo $this->db->last_query();
-        die();
+//        echo $this->db->last_query();
+//        die();
         $finalResult = array();
         if (!empty($response)) {
 //            dump($response);

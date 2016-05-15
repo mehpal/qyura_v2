@@ -543,7 +543,7 @@ class My_model extends CI_Model {
         $post_data = array(
             // 'From' doesn't matter; For transactional, this will be replaced with your SenderId;
             // For promotional, this will be ignored by the SMS gateway
-            'From' => '08039512095',
+            'From' => '08039534362',
             'To'   => $mobileNo,
             'Priority' => 'high',
             'Body' => "$mess", //Incase you are wondering who Dr. Rajasekhar is http://en.wikipedia.org/wiki/Dr._Rajasekhar_(actor)
