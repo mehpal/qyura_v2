@@ -4,7 +4,7 @@
         parent::__construct();
     }
 
-    function diaginsticList($lat, $long, $notIn, $isemergency, $radius, $rating, $isHealtPkg, $isConsulting, $userId, $search = null,$cityId=NULL) {
+    function diaginsticList($lat, $long, $notIn, $isemergency, $radius, $rating, $isHealtPkg, $isConsulting, $userId, $search = null,$cityId=NULL, $openNow) {
 
         $lat = isset($lat) ? $lat : '';
         $long = isset($long) ? $long : '';
@@ -19,7 +19,10 @@
         if ($rating != '' && $rating != NULL && $rating != 0) {
             $having['rat'] = number_format($rating, 1);
         }
-
+        
+        $day = getDay(date("l"));
+        $currentTime = strtotime(date("h:i A"));
+        
         $healtPkg = '';
         $healtPkg = ', (SELECT count(healthPackage_id) from qyura_healthPackage where healthPackage_MIuserId = diagnostic_usersId AND healthPackage_deleted = 0 AND qyura_healthPackage.status = 1) as isHealtPkg';
         if ($isHealtPkg != '' && $isHealtPkg != NULL && $isHealtPkg == 1) {
@@ -29,10 +32,10 @@
         $isConsun = '';
         $isConsun = ', (SELECT count(usersRoles_id) from qyura_usersRoles where usersRoles_parentId = diagnostic_usersId AND usersRoles_roleId = ' . ROLE_DOCTORE . ') as isConsulting';
         if ($isConsulting != '' && $isConsulting != NULL && $isConsulting == 1) {
-            $having['isConsulting !='] = 0;
+            $having['isConsulting !='] = 0; 
         }
 
-        $this->db->select('diagnostic_isEmergency as isEmergency,diagnostic_usersId userId,qyura_diagnostic.diagnostic_id as id, (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, diagnostic_deleted as rat, diagnostic_address adr,diagnostic_name name, CONCAT("0","",diagnostic_phn) as  phn, diagnostic_lat AS lat, diagnostic_long AS long, diagnostic_img imUrl, ( 6371 * acos( cos( radians(' . $lat . ')) * cos( radians(diagnostic_lat)) * cos( radians( diagnostic_long ) - radians( ' . $long . ' )) + sin( radians(' . $lat . ')) * sin( radians(diagnostic_lat)))) AS distance, ' . $healtPkg . ', ' . $isConsun . ',   Group_concat(DISTINCT qyura_diagnosticsCat.diagnosticsCat_catName order by diagnosticsCat_catName ) as diaCat
+        $this->db->select('diagnostic_isEmergency as isEmergency, diagnostic_availibility_24_7 as fullTime, diagnostic_usersId userId,qyura_diagnostic.diagnostic_id as id, (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, diagnostic_deleted as rat, diagnostic_address adr,diagnostic_name name, CONCAT("0","",diagnostic_phn) as  phn, diagnostic_lat AS lat, diagnostic_long AS long, diagnostic_img imUrl, ( 6371 * acos( cos( radians(' . $lat . ')) * cos( radians(diagnostic_lat)) * cos( radians( diagnostic_long ) - radians( ' . $long . ' )) + sin( radians(' . $lat . ')) * sin( radians(diagnostic_lat)))) AS distance, ' . $healtPkg . ', ' . $isConsun . ',   Group_concat(DISTINCT qyura_diagnosticsCat.diagnosticsCat_catName order by diagnosticsCat_catName ) as diaCat
      ,(
 CASE 
  WHEN (reviews_rating is not null AND qyura_ratings.rating is not null) 
@@ -120,7 +123,22 @@ CASE
                 $finalTemp[] = isset($row->isConsulting) && $row->isConsulting > 0 ? "1" : "0";
                 $finalTemp[] = isset($row->userId) ? $row->userId : "";
                 $finalTemp[] = isset($row->isEmergency) ? $row->isEmergency : "0";
-                $finalResult[] = $finalTemp;
+                
+                if ($openNow != NULL || $openNow != 0) {
+
+                    if ($row->fullTime == 1) {
+                        $finalResult[] = $finalTemp;
+                    } else {
+                        $time = $this->miTimeSlot($row->userId);
+                        if (!empty($time)) {
+                            if (($time->openingHours <= $currentTime && $time->closingHours >= $currentTime)) {
+                                $finalResult[] = $finalTemp;
+                            }
+                        }
+                    }
+                } else {
+                    $finalResult[] = $finalTemp;
+                }
             }
             return $finalResult;
         } else {
@@ -177,15 +195,17 @@ CASE
         return $this->db->get()->result();
     }
 
-     public function diagnosticSpecialities_Details($diagnosticId, $limit = NULL) {
-        $this->db->select('(CASE diagnostic_specialityNameFormate WHEN 1 THEN qyura_specialities.specialities_drName WHEN 0 THEN qyura_specialities.specialities_name END) as specialitiesName, qyura_specialities.specialities_id as diagnosticSpecialities_id');
-        $this->db->from('qyura_specialities');
-        $this->db->join('qyura_diagnosticSpecialities', 'qyura_diagnosticSpecialities.diagnosticSpecialities_specialitiesId=qyura_specialities.specialities_id', 'left');
-       $this->db->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_id=qyura_diagnosticSpecialities.diagnosticSpecialities_diagnosticId', 'left');
-        $this->db->where(array('qyura_diagnosticSpecialities.diagnosticSpecialities_diagnosticId' => $diagnosticId, 'qyura_diagnosticSpecialities.diagnosticSpecialities_deleted' => 0, 'qyura_specialities.specialities_deleted' => 0));
+    function diagnosticSpecialities_Details($diagnosticId, $limit = NULL) {
+
+        $this->db->select('Group_concat(DISTINCT (CASE diagnostic_specialityNameFormate WHEN 1 THEN qyura_specialities.specialities_drName WHEN 0 THEN qyura_specialities.specialities_name END) order by qyura_specialities.specialities_name SEPARATOR ", ") as specialitiesName, qyura_diagnosticSpecialities.diagnosticSpecialities_id');
+        $this->db->from('qyura_diagnosticSpecialities');
+        $this->db->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_id = qyura_diagnosticSpecialities.diagnosticSpecialities_diagnosticId', 'left');
+        $this->db->join('qyura_specialities', 'qyura_specialities.specialities_id = qyura_diagnosticSpecialities.diagnosticSpecialities_specialitiesId', 'left');
+        $this->db->where(array('qyura_diagnosticSpecialities.diagnosticSpecialities_diagnosticId' => $diagnosticId, 'qyura_diagnosticSpecialities.diagnosticSpecialities_deleted' => 0,
+            'qyura_specialities.specialities_deleted' => 0));
         if ($limit != NULL)
             $this->db->limit($limit);
-        $this->db->order_by('diagnosticSpecialities_orderForHos', 'asc');
+
         return $this->db->get()->result();
     }
 

@@ -3,7 +3,7 @@
                 <!--   start section 1 -->
                 <section class="clearfix">
                     <!--start total booking-->
-                    <aside class=" col-md-4 col-sm-4 m-b-10">
+                    <aside class=" col-md-6 col-sm-6 m-b-10">
                         <h4 class="r-box-title">Total Bookings</h4>
                         <article class="clearfix  r-box">
                             <figure class="col-md-4">
@@ -31,7 +31,7 @@
                     </aside>
                     <!--end total booking-->
                     <!--start total revenue-->
-                    <aside class=" col-md-4 col-sm-4 m-b-10">
+<!--                    <aside class=" col-md-4 col-sm-4 m-b-10">
                         <h4 class="y-box-title">Total Revenues (INR)</h4>
                         <article class="clearfix  y-box">
                             <figure class="col-md-4">
@@ -56,10 +56,10 @@
                                 <h6>35% Higher than last month</h6>
                             </div>
                         </article>
-                    </aside>
+                    </aside>-->
                     <!--end total revenue-->
                     <!--start profile visits-->
-                    <aside class=" col-md-4 col-sm-4 m-b-10">
+                    <aside class=" col-md-6 col-sm-6 m-b-10">
                         <h4 class="b-box-title">Profile Visits</h4>
                         <article class="clearfix  b-box">
                             <figure class="col-md-4">

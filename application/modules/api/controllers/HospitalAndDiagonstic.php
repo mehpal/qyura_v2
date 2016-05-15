@@ -20,6 +20,15 @@ class HospitalAndDiagonstic extends MyRest {
         $this->bf_form_validation->set_rules('search ', 'Search Keyword', 'xss_clean|trim');
         $this->bf_form_validation->set_rules('cityId', 'cityId', 'xss_clean|trim|numeric|is_natural_no_zero');
         
+        // filter parameter
+        $this->bf_form_validation->set_rules('isemergency', 'Is Emergency', 'xss_clean|trim|numeric');
+        $this->bf_form_validation->set_rules('isAmbulance', 'Is Ambulance', 'xss_clean|trim|numeric');
+        $this->bf_form_validation->set_rules('rating', 'Rating', 'xss_clean|trim|numeric');
+        $this->bf_form_validation->set_rules('isInsurance', 'Is Insurance', 'xss_clean|trim');
+        $this->bf_form_validation->set_rules('openNow', 'Open Now', 'xss_clean|trim');
+        $this->bf_form_validation->set_rules('radius', 'Radius', 'xss_clean|trim|numeric');
+        $this->bf_form_validation->set_rules('notin', 'Not In', 'xss_clean|trim');
+        
         if ($this->bf_form_validation->run($this) == FALSE) {
             // setup the input
             $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
@@ -42,8 +51,19 @@ class HospitalAndDiagonstic extends MyRest {
             
             $userId = isset($_POST['userId']) && $_POST['userId'] != null && $_POST['userId'] !=0 ? $this->input->post('userId') : 0;
             
-            $hosDiagonList = $this->hospitalAndDiagonstic_model->getHosDiagonList($lat, $long, $notIn, $specialityid, $userId, $search,$cityId);
-            $aoClumns = array("isAmbulance","totalHealtPkg","totalInsurance","isEmergency","id", "userId", "type", "fav","rat","adr", "name","phn","lat","lng","upTm","imUrl","facility");
+            // filter value
+             // filtration parameter
+            $radius = isset($_POST['radius']) ? $this->input->post('radius') : 70;
+            $rating = isset($_POST['rating']) ? $this->input->post('rating') : NULL; // 0 for All 4 for 4+
+            $isAmbulance = isset($_POST['isAmbulance']) ? $this->input->post('isAmbulance') : NULL;
+            $isInsurance = (isset($_POST['isInsurance']) && $_POST['isInsurance'] != 0) ? $this->input->post('isInsurance') : "";
+            $openNow = isset($_POST['openNow']) ? $this->input->post('openNow') : NULL;
+            $isemergency = isset($_POST['isemergency']) ? $this->input->post('isemergency') : NULL;
+            
+            
+            $hosDiagonList = $this->hospitalAndDiagonstic_model->getHosDiagonList($lat, $long, $notIn, $specialityid, $userId, $search, $cityId, $radius, $isemergency,  $isAmbulance, $isInsurance,   $rating, $openNow);
+            
+            $aoClumns = array("isAmbulance","totalHealtPkg","totalInsurance","isEmergency","id", "userId", "type", "fav","rat","adr", "name","phn","lat","lng", "imUrl", "facility");
             // print_r($diagonList); exit;
             if ($hosDiagonList) {
                 $response['hosDiagonList'] = $hosDiagonList;

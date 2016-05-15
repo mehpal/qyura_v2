@@ -55,6 +55,19 @@
         });
     }
     
+        function doctorOftheMonthByCity(city){  
+
+                 $.ajax({
+                     url: urls + 'index.php/sadashboard/doctorOftheMonth',
+                     type: 'POST',
+                     data: {'city': city},
+                     success: function (response) {
+                         $("#doctorOftheMonthDiv").html(response);
+                     }
+
+                 });
+          }
+    
    $(document).ready(function() {
    
     var jobCount = $('#list .in').length;
@@ -174,19 +187,8 @@
         }
     }); 
     
-        $("#doctorselectCity").on('change',function(){
-        var city = $(this).val();
- 
-                 $.ajax({
-                     url: urls + 'index.php/sadashboard/doctorOftheMonth',
-                     type: 'POST',
-                     data: {'city': city},
-                     success: function (response) {
-                         $("#doctorOftheMonthDiv").html(response);
-                     }
-
-                 });
-        });
+   
+     
     
     });
 </script>
