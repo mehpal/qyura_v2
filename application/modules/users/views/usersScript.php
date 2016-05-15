@@ -283,7 +283,16 @@
                 required: true,
                 number: true,
                 minlength: 10,
-                maxlength: 10
+                maxlength: 10,
+                remote: {
+                    url:  urls + 'index.php/users/isMobileRegister',
+                    type: "post",
+                    data: {
+                            mobileNo: function(){ return $("#patientDetails_mobileNo").val(); },
+                           // id: function(){ return $("#user_tables_id").val(); },
+                            role: function(){ return 6; }
+                    }
+                  }
             },
             patientDetails_stateId: {
                 required: true
@@ -403,7 +412,8 @@
                 },
                 patientDetails_mobileNo: {
                     required: "Please enter mobile number.",
-                    number: "Please enter only number format."
+                    number: "Please enter only number format.",
+                    remote: jQuery.validator.format("{0} is already exists.")
                 },
                 patientDetails_stateId: {
                     required: "Please select state."
