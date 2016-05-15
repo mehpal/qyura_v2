@@ -787,47 +787,47 @@ class Quotation extends MY_Controller {
 
             /* insert data in transaction table */
 
-            $transaction_array2 = array(
-                'creationTime' => strtotime(date('Y-m-d H:i:s')),
-                'user_id' => $user_id,
-                'order_no' => $quoUnqId
-            );
-            $options = array(
-                'data' => $transaction_array2,
-                'table' => 'transactionInfo'
-            );
-            $digo_trasaction = $this->common_model->customInsert($options);
+//            $transaction_array2 = array(
+//                'creationTime' => strtotime(date('Y-m-d H:i:s')),
+//                'user_id' => $user_id,
+//                'order_no' => $quoUnqId
+//            );
+//            $options = array(
+//                'data' => $transaction_array2,
+//                'table' => 'transactionInfo'
+//            );
+//            $digo_trasaction = $this->common_model->customInsert($options);
 
 
             /* insert quotations booking */
 
-            $records_array4 = array(
-                'creationTime' => strtotime(date('Y-m-d H:i:s')),
-                'quotationBooking_quotationId' => $quotation_id,
-                'quotationBooking_userId' => $user_id,
-                'quotationBooking_orderId' => $quoUnqId,
-                'quotationBooking_amount' => $totalFee,
-                'quotationBooking_bookStatus' => 12,
-                'quotation_familyId' => $familyID
-            );
+//            $records_array4 = array(
+//                'creationTime' => strtotime(date('Y-m-d H:i:s')),
+//                'quotationBooking_quotationId' => $quotation_id,
+//                'quotationBooking_userId' => $user_id,
+//                'quotationBooking_orderId' => $quoUnqId,
+//                'quotationBooking_amount' => $totalFee,
+//                'quotationBooking_bookStatus' => 12,
+//                'quotation_familyId' => $familyID
+//            );
+//
+//            $options = array(
+//                'data' => $records_array4,
+//                'table' => 'qyura_quotationBooking'
+//            );
+//
+//            $quotationBooking = $this->common_model->customInsert($options);
 
-            $options = array(
-                'data' => $records_array4,
-                'table' => 'qyura_quotationBooking'
-            );
 
-            $quotationBooking = $this->common_model->customInsert($options);
-
-
-            $bookId = 'DIAG' . '_' . $quotationBooking . '_' . time();
-            $updateOption = array(
-                'data' => array(
-                    'quotationBooking_orderId' => $bookId,
-                ),
-                'table' => 'qyura_quotationBooking',
-                'where' => array('quotationBooking_id' => $quotationBooking)
-            );
-            $isUpdate = $this->common_model->customUpdate($updateOption);
+//            $bookId = 'DIAG' . '_' . $quotationBooking . '_' . time();
+//            $updateOption = array(
+//                'data' => array(
+//                    'quotationBooking_orderId' => $bookId,
+//                ),
+//                'table' => 'qyura_quotationBooking',
+//                'where' => array('quotationBooking_id' => $quotationBooking)
+//            );
+//            $isUpdate = $this->common_model->customUpdate($updateOption);
 
             $crnMsg     =  $this->lang->line("quotationReceived");
             $currentDate = date("d-m-Y");
@@ -1103,48 +1103,48 @@ class Quotation extends MY_Controller {
 
             /* insert quotations booking */
 
-            $records_array4 = array(
-                'creationTime' => strtotime(date('Y-m-d H:i:s')),
-                'quotationBooking_quotationId' => $quotation_id,
-                'quotationBooking_userId' => $qtRow->quotation_userId,
-                'quotationBooking_orderId' => $qtRow->quotation_unqId,
-                'quotationBooking_amount' => $totalFee,
-                'quotationBooking_bookStatus' => $this->input->post('bookStatus'),
-                'quotation_familyId' => $qtRow->quotation_familyId
-            );
+//            $records_array4 = array(
+//                'creationTime' => strtotime(date('Y-m-d H:i:s')),
+//                'quotationBooking_quotationId' => $quotation_id,
+//                'quotationBooking_userId' => $qtRow->quotation_userId,
+//                'quotationBooking_orderId' => $qtRow->quotation_unqId,
+//                'quotationBooking_amount' => $totalFee,
+//                'quotationBooking_bookStatus' => $this->input->post('bookStatus'),
+//                'quotation_familyId' => $qtRow->quotation_familyId
+//            );
+//
+//            $options = array(
+//                'data' => $records_array4,
+//                'table' => 'qyura_quotationBooking'
+//            );
+//
+//            $quotationBooking = $this->common_model->customInsert($options);
 
-            $options = array(
-                'data' => $records_array4,
-                'table' => 'qyura_quotationBooking'
-            );
 
-            $quotationBooking = $this->common_model->customInsert($options);
-
-
-            $bookId = 'DIAG' . '_' . $quotationBooking . '_' . time();
-            $updateOption = array(
-                'data' => array(
-                    'quotationBooking_orderId' => $bookId,
-                ),
-                'table' => 'qyura_quotationBooking',
-                'where' => array('quotationBooking_id' => $quotationBooking)
-            );
-            $isUpdate = $this->common_model->customUpdate($updateOption);
+//            $bookId = 'DIAG' . '_' . $quotationBooking . '_' . time();
+//            $updateOption = array(
+//                'data' => array(
+//                    'quotationBooking_orderId' => $bookId,
+//                ),
+//                'table' => 'qyura_quotationBooking',
+//                'where' => array('quotationBooking_id' => $quotationBooking)
+//            );
+//            $isUpdate = $this->common_model->customUpdate($updateOption);
 
             /* insert data in transaction table */
 
-            $transaction_array2 = array(
-                'creationTime' => strtotime(date('Y-m-d H:i:s')),
-                'user_id' => $qtRow->quotation_userId,
-                'order_no' => $bookId
-            );
-
-            $options = array(
-                'data' => $transaction_array2,
-                'table' => 'transactionInfo'
-            );
-
-            $digo_trasaction = $this->common_model->customInsert($options);
+//            $transaction_array2 = array(
+//                'creationTime' => strtotime(date('Y-m-d H:i:s')),
+//                'user_id' => $qtRow->quotation_userId,
+//                'order_no' => $bookId
+//            );
+//
+//            $options = array(
+//                'data' => $transaction_array2,
+//                'table' => 'transactionInfo'
+//            );
+//
+//            $digo_trasaction = $this->common_model->customInsert($options);
 
             //cron message
              $crnMsg     =  replaceStr($this->lang->line("quotationNotification"), array("<ID>"), array($qtRow->quotation_unqId));
