@@ -99,6 +99,7 @@ class Ccavenue extends MyRest {
                   $currentDate = strtotime(date("Y-m-d")); */
 
                 $patdata = $this->Ccavenue_model->fetchPatData(array('pat.patientDetails_usersId' => $userId));
+              
                 if (!empty($patdata)) {
 
                     $billing_name = $patdata->patientDetails_patientName;
@@ -134,12 +135,9 @@ class Ccavenue extends MyRest {
                     $avenuedata as $key => $value) {
                         $merchant_data.=$key . '=' . $value . '&';
                     }
-                    echo phpinfo();
-                    exit;
-                     
-                   
-                    echo $encrypted_data = encrypt($merchant_data, $working_key); // Method for encrypting the data.
-                    exit;
+                    
+                    $encrypted_data = encrypt($merchant_data, $working_key); // Method for encrypting the data.
+                    
                     ?>
                     <form method="post" name="redirect" action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"> 
                         <?php

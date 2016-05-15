@@ -196,8 +196,8 @@ class Auth extends MyRest {
         
         $logintype = $this->input->post('logintype');
         if($logintype == 0){
-            $this->bf_form_validation->set_rules('password', 'password', 'required|min_length[' . $this->config->item('min_password_length', 'auth_conf_api') . ']|max_length[' . $this->config->item('max_password_length', 'auth_conf_api') . ']|xss_clean');
-            $this->bf_form_validation->set_rules('dob', 'Date of Birth', 'trim|xss_clean|valid_date[y-m-d,-]'); 
+            $this->bf_form_validation->set_rules('password', 'password', 'required|xss_clean');
+            $this->bf_form_validation->set_rules('dob', 'Date of Birth', 'trim|xss_clean'); 
         }elseif($logintype == 2){
             $this->bf_form_validation->set_rules('socialId', 'Social Id', 'trim|required|xss_clean');
         }
@@ -356,7 +356,7 @@ class Auth extends MyRest {
                 $userDetail->pushToken = $userDetail->userSocial_pushToken;
                 $userDetail->scUsersId = $userDetail->userSocial_id;
                 
-                print_r($userDetail);exit;
+                
                 $msg = "Your Account is Activated Successfully";
                 $response = array('status' => 1, 'message' => $msg, 'userDetail' => $data);
                 $this->response($response, 200); // 200 being the HTTP response code

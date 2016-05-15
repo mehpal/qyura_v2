@@ -8,7 +8,7 @@ class Appointment_model extends Common_model {
 
     public function QuotationList($now, $userId) {
         
-        $sql1 = "SELECT quotation_id as id, CASE WHEN ( `qyura_hospital`.`hospital_usersId` <> NULL ) THEN `qyura_hospital`.`hospital_name` WHEN (`qyura_diagnostic`.`diagnostic_usersId` <> NULL ) THEN `qyura_diagnostic`.`diagnostic_name` ELSE  '' END AS title,"
+        $sql1 = "SELECT quotation_id as id, CASE WHEN ( `qyura_hospital`.`hospital_usersId` <> NULL ) THEN `qyura_hospital`.`hospital_name` WHEN (`qyura_diagnostic`.`diagnostic_usersId` <> NULL ) THEN `qyura_diagnostic`.`diagnostic_name` ELSE  'Diagnostic Booking' END AS title,"
                     . "`qyura_quotationBooking`.`quotationBooking_orderId` AS `orderId`,"
                     . "DATE_FORMAT(FROM_UNIXTIME(`qyura_quotations`.`quotation_dateTime`),'%d %b, %Y') as date,"
                     . "0 AS `startTime`,"
