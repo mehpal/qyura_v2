@@ -663,7 +663,7 @@ class Miappointment extends MY_Controller {
                     'quotation_userId' => $user_id,
                     'quotation_familyId' => $family_member_id,
                     'quotation_timeSlotId' => $timeslot_id,
-                    'quotation_qtStatus' => 12,
+                    'quotation_qtStatus' => 1,
                     'quotation_dateTime' => $apoint_date,
                     'quotation_tex' => $tax,
                     'quotation_otherFee' => $othr_fee,
