@@ -116,7 +116,8 @@ class Auth extends CI_Controller {
                     //if the login was un-successful
                     //redirect them back to the login page
                     $this->session->set_flashdata('message', "Login Unsucessfull");
-                    $this->load->view('auth/login', $this);
+                    redirect("auth/login");
+//                    $this->load->view('auth/login', $this);
                 }
             }
         }
