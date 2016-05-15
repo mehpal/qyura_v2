@@ -358,18 +358,13 @@
 
         $('.timepicker').timepicker({showMeridian: false});
         $('#date-3, #date-4,#date-5').datepicker();
+        $('.selectpicker').selectpicker().change(function(){
+            $(this).valid();
+            
+        });
         $("#setData").validate({
 
-        errorPlacement: function(error, element) {
-        if (element.attr("name") == "input34")
-        {
-            error.insertAfter('#timesloterror');
-        }
-        else{
-            error.insertAfter(element);
-        }
         
-        },
         rules: {
             input1: {
                 required: true
@@ -465,15 +460,6 @@
                 required: true,
                 digits:true,
             },
-            input25: {
-                required: true
-            },
-            input26: {
-                required: true
-            },
-            input27: {
-                required: true
-            },
             input32: {
                 required: true
             },
@@ -484,110 +470,152 @@
                 required: true
             }
         },
+
+        errorPlacement: function(error, element) {
+        if (element.attr("name") == "input1")
+        {
+            error.insertAfter('.error-city');
+        }
+        else if (element.attr("name") == "input2")
+        {
+            error.insertAfter('.error-appt');
+        }
+        else if (element.attr("name") == "input3")
+        {
+            error.insertAfter('.error-hosdiag');
+        }
+        else if (element.attr("name") == "input5")
+        {
+            error.insertAfter('.error-type');
+        }
+        else if (element.attr("name") == "input10")
+        {
+            error.insertAfter('.error-spec');
+        }
+        else if (element.attr("name") == "input12")
+        {
+            error.insertAfter('.error-doc');
+        }
+        else if (element.attr("name") == "input4")
+        {
+            error.insertAfter('.error-ts');
+        }
+        else if (element.attr("name") == "input28[]")
+        {
+            error.insertAfter('.error-diagcat');
+        }
+        else if (element.attr("name") == "input36")
+        {
+            error.insertAfter('.error-gender');
+        }
+        else if (element.attr("name") == "input19")
+        {
+            error.insertAfter('.error-state');
+        }
+        else if (element.attr("name") == "input32")
+        {
+            error.insertAfter('.error-c');
+        }
+        
+        else{
+            error.insertAfter(element);
+        }
+        
+        },
         messages: {
             input1: {
-                required: "Please select City.",
+                required: "Please select a city!",
             },
             input2: {
-                required: "Please select Appointment For!",
+                required: "Please select appointment for!",
             },
             input3: {
                 required: "Please select MI!", 
             },
             input5: {
-                required: "Please select Appointment Type!",
+                required: "Please select appointment type!",
             },
             input10: {
-                required: "Please select Speciality!",
+                required: "Please select a speciality!",
             },
             input12: {
-                required: "Please select Doctor!",
+                required: "Please select a doctor!",
             },
             input13: {
-                required: "Please enter Patient Remarks!",
+                required: "Please enter remarks!",
             },
             input6: {
-                required: "Please select Date!", 
+                required: "Please select a date!", 
             },
             input4: {
-                required: "Please select Time Slot!",
-                remote: "Please select correct Time slot.",
+                required: "Please select a time slot!",
+                remote: "Please select a correct time slot!",
             },
             input34: {
-                required: "Please select Final Time!", 
+                required: "Please select a final time!", 
             },
             input7: {
-                required: "Please select Date!",
+                required: "Please select a date!",
             },
             input37: {
-                required: "Please select Final Time!",
+                required: "Please select a final time!",
             },
             'input28[]': {
-                required: "Please select Diagnostic Type ",
+                required: "Please select a diagnostic type!",
             },
             'input29[]': {
-                required: "Please enter Test name! ",
+                required: "Please enter a test name! ",
             },
             'input30[]': {
-                required: "Please enter Price! ",
+                required: "Please enter price! ",
             },
             'input31[]': {
-                required: "Please enter Instructions! ",
+                required: "Please enter instructions! ",
             },
             input14: {
-                required: "Please enter Patient Email!"
+                required: "Please enter an email-id!"
             },
             input15: {
-                required: "Please enter Mobile Number!",
-                digits: "Please enter number digits only!"
+                required: "Please enter a mobile number!",
+                digits: "Please enter digits only!"
             },
             input17: {
-                required: "Please enter Name!",
+                required: "Please enter a name!",
                 lettersonly:"Please enter characters only!"
             },
             input18: {
-                required: "Please select Country!"
+                required: "Please select a country!"
             },
             input19: {
-                required: "Please select State!"
+                required: "Please select a state!"
             },
             input20: {
-                required: "Please enter Zip!",
+                required: "Please enter zip code!",
                 digits: "Please enter digits only!",
             },
             input21: {
-                required: "Please enter Address!"
+                required: "Please enter an address!"
             },
             input22: {
-                required: "Please enter Consulation Fee!",
+                required: "Please enter consultation fees!",
                 digits: "Please enter digits only!",
             },
             input23: {
-                required: "Please enter Other Fee!",
+                required: "Please enter any other fees!",
                 digits: "Please enter digits only!",
             },
             input24: {
-                required: "Please enter Tax!",
+                required: "Please enter tax!",
                 digits: "Please enter digits only!",
             },
-            input25: {
-                required: "Please enter Total Amount!"
-            },
-            input26: {
-                required: "Please enter Payment Status !"
-            },
-            input27: {
-                required: "Please select Payment Mode!"
-            },
-
             input32: {
                 required: "Please select City!"
             },
             input35: {
-                required: "Please select DOB!"
+                required: "Please select a DOB!"
             },
             input36: {
-                required: "Please select Gender!"
+                required: "Please select a gender!"
             }
                 
         },
