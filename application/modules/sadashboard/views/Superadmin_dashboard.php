@@ -321,7 +321,7 @@
                                     The Month ( <?php echo date('F Y');?> ) </h3>
                             </div>
                             <div class="col-md-5 col-sm-4 text-right">
-                                <select class="form-control selectpicker m-tb-5" id="search-city" data-width="100%" >
+                                <select class="form-control selectpicker m-tb-5" id="search-city" data-width="100%">
                                     <option>All City</option>
                                     <?php if(!empty($cityList)):
                                             foreach($cityList as $city):?>
@@ -331,7 +331,6 @@
                                           <?php  endforeach;
                                           endif;
 ?>
-                                    <option>Feb</option>
                                 </select>
                             </div>
                         </figure>
@@ -384,7 +383,7 @@
                                     <?php echo date('F Y')?></h3>
                             </div>
                             <div class="col-md-5 col-sm-4 text-right">
-                                <select class="form-control selectpicker m-tb-5" id="doctorselectCity" data-width="100%" >
+                                <select class="form-control selectpicker m-tb-5" id="doctorselectCity"  onchange="doctorOftheMonthByCity(this.value)" data-width="100%" >
                                     <option>All City</option>
                                                                        <?php if(!empty($cityList)):
                                             foreach($cityList as $city):?>
@@ -569,7 +568,7 @@
                                 <h3>MI Signup Distribution</h3>
                             </div>
                             <div class="col-md-4 text-right">
-                                <select class="form-control selectpicker m-tb-5 pull-right" id="chartYear" data-width="100%">
+                                <select class="form-control selectpicker m-tb-5 pull-right" id="chartYear" onchange="getChartYear(this.value)" data-width="100%">
                                     <option value="2016">2016</option>
                                     <option value="2015">2015</option>
                                 </select>
