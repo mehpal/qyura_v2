@@ -184,7 +184,9 @@ class Ccavenue extends MyRest {
                     $encrypted_data = encrypt($merchant_data, $workingkey); // Method for encrypting the data.
                     $data["encrypted_data"] = $encrypted_data;
                     $data["access_code"] = $access_code;
-                    $this->load->view("ccavenue",$data);
+                    $res = $this->load->view("ccavenue",$data,true);
+                    echo json_encode($res);
+                    exit();
                     ?>
                     <!--form method="post" name="redirect" action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"> 
                         <?php
