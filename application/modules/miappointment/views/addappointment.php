@@ -31,7 +31,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Select City:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="selectpicker" onchange="getMI()" id="appointment_city" name="input1" data-width="100%" >
+                                            <select class="select2" onchange="getMI()" id="appointment_city" name="input1" data-width="100%" >
                                                 <option value="">Select City</option>
                                                 <?php if (isset($qyura_city) && $qyura_city != NULL) {
                                                     foreach ($qyura_city as $city) {
@@ -47,7 +47,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Appointment For :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="selectpicker" data-width="100%" onchange="getMI()" id="centerType" name="input2" >
+                                            <select class="select2" data-width="100%" onchange="getMI()" id="centerType" name="input2" >
                                                 <option value="">Select Type</option>
                                                 <option value="0">Hospitals</option>
                                                 <option value="1">Diagnostic Center</option>
@@ -59,7 +59,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Select Hospital/Diagnostic:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="selectpicker" data-width="100%" id="mi_centre" name="input3" onchange="getTimeSlot()" >
+                                            <select class="select2" data-width="100%" id="mi_centre" name="input3" onchange="getTimeSlot()" >
                                                 <option value="">Select Hospital/Diagnostic</option>
                                             </select>
                                             <div class="error-hosdiag"></div>
@@ -291,7 +291,7 @@
                                         <label for="cname" class="control-label col-md-4 col-sm-4">DOB :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <div class="input-group">
-                                                <input class="form-control pickDate"  id="date-4" type="text"  name="input35" value="<?php echo date("m/d/Y"); ?>"/>
+                                                <input class="form-control pickDate"  id="date-4" type="text"  name="input35" value="<?php echo date("d/m/Y"); ?>"/>
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                                 <div class="has-error " id="err_input35" ><?php echo form_error("input35"); ?></div>
                                             </div>
