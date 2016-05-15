@@ -680,6 +680,7 @@
         $("#total_test").val(typeVal);
         $("#remove_" + typeVal).show();
         $("#diagnosticClon_" + div_no).remove();
+	totaAmountAddQuo();
     }
 
     function findDoctor() {
