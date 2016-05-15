@@ -27,9 +27,9 @@
                             </div>
                         </aside>
                        
-                        <aside class="col-md-2 col-sm-2 pull-right">
+                        <!--aside class="col-md-2 col-sm-2 pull-right">
                             <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit" onclick="createCSV()">Export</button>
-                        </aside>
+                        </aside-->
 
                     </form>
                 </article>
