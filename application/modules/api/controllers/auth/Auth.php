@@ -186,7 +186,7 @@ class Auth extends MyRest {
         $this->bf_form_validation->set_rules('code', 'OTP Code', 'required|numeric|min_length[5]|max_length[5]|xss_clean');
         $this->bf_form_validation->set_rules('device', 'device', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
         $this->bf_form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean');
-        $this->bf_form_validation->set_rules('gender', 'Gender', 'trim|min_length[1]|max_length[1]|numeric|xss_clean');
+        $this->bf_form_validation->set_rules('gender', 'Gender', 'trim|xss_clean');
         $this->bf_form_validation->set_rules('logintype', 'logintype', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
         $this->bf_form_validation->set_rules('mobileNo', 'Mobile No', 'required|min_length[10]|max_length[10]|numeric|xss_clean');
         $this->bf_form_validation->set_rules('name', 'name', 'required|max_length[80]|xss_clean');
