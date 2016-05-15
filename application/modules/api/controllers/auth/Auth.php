@@ -395,23 +395,22 @@ class Auth extends MyRest {
                 'single'=>true
             );
             $userDetail = $this->common_model->customGet($option);
-            $userDetail->address = $userDetail->patientDetails_address;
-            $userDetail->dob = $userDetail->patientDetails_dob;
-            $userDetail->fbId = $userDetail->userSocial_fbId;
-            $userDetail->gender = $userDetail->patientDetails_gender;
-            $userDetail->gpId = $userDetail->users_gpId;
-            $userDetail->logintype = $userDetail->users_logintype;
-            $userDetail->notification = $userDetail->userSocial_notification;
-            $userDetail->pLastName = $userDetail->patientDetails_pLastName;
-            $userDetail->patientImg = $userDetail->patientDetails_patientImg;
-            $userDetail->patientName = $userDetail->patientDetails_patientName;
-            $userDetail->device = $userDetail->userSocial_device;
-            $userDetail->pUnqId = $userDetail->patientDetails_unqId;
-            $userDetail->pushToken = $userDetail->userSocial_pushToken;
-            $userDetail->scUsersId = $userDetail->userSocial_id;
-                
-            if ($userDetail) {
-
+            if (isset($userDetail) && $userDetail != NULL) {
+		    $userDetail->address = $userDetail->patientDetails_address;
+		    $userDetail->dob = $userDetail->patientDetails_dob;
+		    $userDetail->fbId = $userDetail->userSocial_fbId;
+		    $userDetail->gender = $userDetail->patientDetails_gender;
+		    $userDetail->gpId = $userDetail->users_gpId;
+		    $userDetail->logintype = $userDetail->users_logintype;
+		    $userDetail->notification = $userDetail->userSocial_notification;
+		    $userDetail->pLastName = $userDetail->patientDetails_pLastName;
+		    $userDetail->patientImg = $userDetail->patientDetails_patientImg;
+		    $userDetail->patientName = $userDetail->patientDetails_patientName;
+		    $userDetail->device = $userDetail->userSocial_device;
+		    $userDetail->pUnqId = $userDetail->patientDetails_unqId;
+		    $userDetail->pushToken = $userDetail->userSocial_pushToken;
+		    $userDetail->scUsersId = $userDetail->userSocial_id;
+    
                 if ($userDetail->gpId == null)
                     $userDetail->gpId = '';
 
