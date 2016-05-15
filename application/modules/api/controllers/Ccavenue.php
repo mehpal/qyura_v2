@@ -51,7 +51,7 @@ $merchant_id = "91637";
             $memberId = isset($_POST['memberId']) ? $this->input->post('memberId') : 0;
             $doctorType = $center_type = isset($_POST['doctorType']) ? $this->input->post('doctorType') : '';
             $doctorUserId = isset($_POST['doctorId']) ? $this->input->post('doctorId') : '';
-            $parentId = $miid = isset($_POST['parentId']) ? $this->input->post('parentId') : 0;
+            $parentId = $miuser_id = isset($_POST['parentId']) ? $this->input->post('parentId') : 0;
             $consulationFee = isset($_POST['consulationFee']) ? $this->input->post('consulationFee') : 0;
             $tax = isset($_POST['tax']) ? $this->input->post('tax') : 0;
             $remark = isset($_POST['remark']) ? $this->input->post('remark') : '';
@@ -77,15 +77,15 @@ $merchant_id = "91637";
 
             if ($correctSlot) {
 
-                $midata = $this->Ccavenue_model->fetchMIdata($centertype,$miid);
-
-                if(!empty($midata))
-                    $miuser_id = $midata->miuserid;
-                else
-                {
-                    $response = array('status' => FALSE, 'message' => 'MI details not found!');
-                    $this->response($response, 200);
-                }
+//                $midata = $this->Ccavenue_model->fetchMIdata($centertype,$miid);
+//
+//                if(!empty($midata))
+//                    $miuser_id = $midata->miuserid;
+//                else
+//                {
+//                    $response = array('status' => FALSE, 'message' => 'MI details not found!');
+//                    $this->response($response, 200);
+//                }
             
                  $pay_mode = "CCA";
                
