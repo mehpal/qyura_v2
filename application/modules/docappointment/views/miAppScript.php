@@ -133,8 +133,7 @@ function changestatus(myid, appfor, status_value)
             }
             else
             {
-               $('#datatble_consulting').DataTable().ajax.reload();
-               $('#datatable_diagnostic').DataTable().ajax.reload();
+               $('#doctorAppointmentTable').DataTable().ajax.reload();
             }
         });
     }
