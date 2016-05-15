@@ -6,6 +6,7 @@
             <div class="clearfix">
                 <div class="col-md-12">
                     <h3 class="pull-left page-title">Doctor Time Slot</h3>
+                    <a class="btn btn-warning waves-effect pull-right" type="button" href="<?php echo base_url().'/index.php/hospital/detailHospital/'.$hospitalId.'/doctor'; ?>">Back</a>
                 </div>
             </div>
             <!-- Left Section Start -->
