@@ -6,7 +6,7 @@
             <div class="clearfix">
                 <div class="col-md-12">
                     <h3 class="pull-left page-title">Quotation Request Detail</h3>
-                    <a href="<?php echo site_url("quotation"); ?>" class="btn btn-appointment btn-back waves-effect waves-light pull-right"><i class="fa fa-angle-left"></i> Back</a>
+                    <a href="<?php if($this->uri->segment(5) && $this->uri->segment(5) == 'history'){ echo site_url("quotation/quotationHistory"); }else{ echo site_url("quotation"); }?>" class="btn btn-appointment btn-back waves-effect waves-light pull-right"><i class="fa fa-angle-left"></i> Back</a>
                 </div>
             </div>
 

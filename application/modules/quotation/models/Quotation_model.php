@@ -386,7 +386,7 @@ class Quotation_model extends CI_Model {
         $this->datatables->edit_column('qStatus', '<h6>$1</h6>', 'getQuoteStatus(qStatus)');
         $this->datatables->edit_column('convertStatus', '<h6>$1</h6>', 'getBookQuoteStatus(convertStatus)');
 
-        $this->datatables->add_column('action', '<h6><a type="button" class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="quotation/viewPrescription/$1">View Prescription</a></h6>
+        $this->datatables->add_column('action', '<h6><a type="button" class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="quotation/viewPrescription/$1/history">View Prescription</a></h6>
                                                 <button type="button" disabled="disabled" class="btn btn-success waves-effect waves-light m-b-5 applist-btn">Send Quote</button>', 'qId');
 
         return $this->datatables->generate();
