@@ -42,9 +42,11 @@
             $("#submitForm").submit(function (event) {
                 event.preventDefault();
                 if ($("#submitForm").valid()) {
+
                     var url = '<?php echo site_url(); ?>/users/saveUsers/';
                     var formData = new FormData(this);
                     submitData(url, formData);
+
                 }
             });
         });
@@ -246,9 +248,9 @@
 
     var formContainer = function () {
         var form = $("#submitForm");
-
+       
         //var results = {};
-
+       
         var ruleContainer = {
             patientDetails_patientName: {
                 required: true,
@@ -267,6 +269,15 @@
             users_email: {
                 required: true,
                 email: true,
+                remote: {
+                            url:  urls + 'index.php/users/isEmailRegister',
+                            type: "post",
+                            data: {
+                            email: function(){ return $("#users_email").val(); },
+                           // id: function(){ return $("#user_tables_id").val(); },
+                            role: function(){ return 6; }
+                            }
+                       }
             },
             patientDetails_mobileNo: {
                 required: true,
@@ -387,7 +398,8 @@
                 },
                 users_email: {
                     required: "Please enter email Id",
-                    email: "Please enter valid email Id.",
+                  //  email: "Please enter valid email Id.",
+                     remote: jQuery.validator.format("{0} is already exists.")
                 },
                 patientDetails_mobileNo: {
                     required: "Please enter mobile number.",
@@ -623,7 +635,7 @@
     function check_email() {
         var myEmail = $("#users_email").val();
 
-        var emailReturn;
+        var emailReturn = 0;
         $.ajax({
             url: urls + 'index.php/users/check_email',
             type: 'POST',
@@ -631,35 +643,64 @@
             success: function (datas) {
                 if (datas == 0) {
                     $('#users_email_status').val(datas);
-                    emailReturn = true;
+                     $('#erroremail_check').hide();
+                    emailReturn = 1;
                 } else if (datas == 1) {
                     $('#users_email').addClass('bdr-error');
-                    $('#error-users_email_check').fadeIn().delay(3000).fadeOut('slow');
+                    $('#erroremail_check').fadeIn().delay(3000).fadeOut('slow');
                     $('#users_email').removeClass('bdr-error');
                     setTimeout(function () {
                         $('#users_email').removeClass('bdr-error');
                     }, 3000);
                     $('#users_email_status').val(datas);
-                    emailReturn = false;
+                    emailReturn = 0;
                 }
             }
         });
         return emailReturn;
     }
+    
+     function check_mobileNo() {
+        var myMobileNo = $("#patientDetails_mobileNo").val();
+
+        var mobileReturn = 0;
+        $.ajax({
+            url: urls + 'index.php/users/check_MobileNo',
+            type: 'POST',
+            data: {'mobile_no': myMobileNo},
+            success: function (datas) {
+                if (datas == 0) {
+                    $('#users_mobile_status').val(datas);
+                    mobileReturn = 1;
+                } else if (datas == 1) {
+                    $('#patientDetails_mobileNo').addClass('bdr-error');
+                    $('#error-mobile_check').fadeIn().delay(3000).fadeOut('slow');
+                    $('#patientDetails_mobileNo').removeClass('bdr-error');
+                    setTimeout(function () {
+                        $('#patientDetails_mobileNo').removeClass('bdr-error');
+                    }, 3000);
+                    $('#users_mobile_status').val(datas);
+                    mobileReturn = 0;
+                }
+            }
+        });
+        return mobileReturn;
+    }
+    
+
 </script>
 
 
 <script>
-
-//  $('.dob').datepicker({
-//    autoclose: true,
-//            endDate: new Date()
-//    });
-
     $('.dob').datepicker({
         autoclose: true,
         endDate: new Date(),
     }).on('changeDate', function () {
         $('#patientDetails_dob').valid();
     });
+    
+    
+ 
 </script>
+
+

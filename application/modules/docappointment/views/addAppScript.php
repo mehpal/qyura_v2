@@ -175,10 +175,11 @@
             type: 'POST',
             data: {'stateId': stateId},
             beforeSend: function (xhr) {
-                $("#cityId").addClass('loadinggif');
+                qyuraLoader.startLoader();
             },
+            
             success: function (datas) {
-
+                qyuraLoader.stopLoader();
                 $('#cityId').html(datas);
                 $("#cityId").removeClass('loadinggif');
                 $('#cityId').selectpicker('refresh');
@@ -209,9 +210,11 @@
                 type: 'POST',
                 data: {'city_id': city_id, 'appointment_type': appointment_type},
                 beforeSend: function (xhr) {
-                    $("#mi_centre").addClass('loadinggif');
+                    qyuraLoader.startLoader();
                 },
+                
                 success: function (data) {
+                    qyuraLoader.stopLoader();
                     console.log(data);
                     $('#mi_centre').html(data);
                     $('#mi_centre').selectpicker('refresh');
@@ -228,50 +231,68 @@
             });
         }
     }
-
+//bootbox.alert({closeButton: false, message:"Is this is a correct "+ data.mobile +" which is bind with your respective "+ data.users_email +" address??"});
     function getpatientdetails(option) {
-        var patient_mobile,patient_email = $("#patient_email").val();
-        if(option == 1){
-            patient_mobile = $("#users_mobile").val();
-        }
-        
-        var url = '<?php echo site_url(); ?>/docappointment/getpatient/';
-        $.ajax({
-            url: url,
-            async: false,
-            type: 'POST',
-            data: {'patient_email': patient_email,'patient_mobile':patient_mobile},
-            beforeSend: function (xhr) {
-                $("#patient_email").addClass('loadinggif');
-            },
-            success: function (data) {
-                $("#patient_email").removeClass('loadinggif');
-                if(data && data != 0){
-                    var data = JSON.parse(data);
-                    if(data.email_status != 1){
-                        console.log(data.mobile);
-                        bootbox.alert({closeButton: false, message:"Is this is a correct "+ data.mobile +" which is bind with your respective "+ data.users_email +" address??"});
-                        $('#patient_email').val(data.users_email)
-                        $('#users_mobile').val(data.mobile);
-                        $('#stateId').val(data.stateId);
-                        $('#stateId').selectpicker('refresh');
-                        fetchCity(data.stateId, data.cityId, 'cityId');
-                        $('#cityId').val(data.cityId);
-                        $('#users_username').val(data.patientName);
-                        $('#address').val(data.address);
-                        $('#unqId').val(data.unqId);
-                        $("#p_unqId").show();
-                        $("#familyDiv").show();
-                        $('#zip').val(data.pin);
-                        $('#date-4').val(data.dob);
-                        $('#input27').prop('selectedIndex',data.gender);
-                        $('#input27').selectpicker('refresh');
-                        $('#user_id').val(data.user_id);
+        var patient_email = $("#patient_email").val();
+        if(patient_email != ''){
+            var url = '<?php echo site_url(); ?>/docappointment/getpatient/';
+            $.ajax({
+                url: url,
+                async: false,
+                type: 'POST',
+                data: {'patient_email': patient_email},
+
+                beforeSend: function (xhr) {
+                    qyuraLoader.startLoader();
+                },
+
+                success: function (data) {
+                    qyuraLoader.stopLoader();
+                    $("#patient_email").removeClass('loadinggif');
+                    if(data && data != 0){
+                        var data = JSON.parse(data);
+                        if(data.email_status != 1){
+                            console.log(data.mobile);
+                            $('#patient_email').val(data.users_email)
+                            $('#users_mobile').val(data.mobile);
+                            $('#stateId').val(data.stateId);
+                            $('#stateId').selectpicker('refresh');
+                            fetchCity(data.stateId, data.cityId, 'cityId');
+                            $('#cityId').val(data.cityId);
+                            $('#users_username').val(data.patientName);
+                            $('#address').val(data.address);
+                            $('#unqId').val(data.unqId);
+                            $("#p_unqId").show();
+                            $("#familyDiv").show();
+                            $('#zip').val(data.pin);
+                            $('#date-4').val(data.dob);
+                            $('#input27').prop('selectedIndex',data.gender);
+                            $('#input27').selectpicker('refresh');
+                            $('#user_id').val(data.user_id);
+                            checkMobile();
+                        }else{
+                            $('#user_id').val(data.id);
+                            $('#email_status').val(data.email_status);
+                            $('#users_mobile').val('');
+                            $('#cityId').html('');
+                            $('#cityId').selectpicker('refresh');
+                            $('#stateId').prop('selectedIndex','');
+                            $('#stateId').selectpicker('refresh');
+                            $('#users_username').val('');
+                            $('#address').val('');
+                            $('#unqId').val('');
+                            $('#zip').val('');
+                            $('#date-4').val('');
+                            $('#input27').prop('selectedIndex','');
+                            $('#input27').selectpicker('refresh');
+                            $('#input25').html('');
+                            $('#input25').selectpicker('refresh');
+                            $('#familyDiv').hide();
+                            $('#familyListDiv').hide();
+                            $("#p_unqId").hide();
+                            checkMobile();
+                        }
                     }else{
-                        $('#user_id').val(data.id);
-                        $('#email_status').val(data.email_status);
-                        $('#patient_email').val(patient_email)
-                        $('#users_mobile').val(patient_mobile);
                         $('#cityId').html('');
                         $('#cityId').selectpicker('refresh');
                         $('#stateId').prop('selectedIndex','');
@@ -283,34 +304,17 @@
                         $('#date-4').val('');
                         $('#input27').prop('selectedIndex','');
                         $('#input27').selectpicker('refresh');
+                        $('#user_id').val('');
                         $('#input25').html('');
                         $('#input25').selectpicker('refresh');
                         $('#familyDiv').hide();
                         $('#familyListDiv').hide();
                         $("#p_unqId").hide();
+                        checkMobile();
                     }
-                }else{
-                    $('#cityId').html('');
-                    $('#cityId').selectpicker('refresh');
-                    $('#stateId').prop('selectedIndex','');
-                    $('#stateId').selectpicker('refresh');
-                    $('#users_username').val('');
-                    $('#address').val('');
-                    $('#unqId').val('');
-                    $('#zip').val('');
-                    $('#date-4').val('');
-                    $('#input27').prop('selectedIndex','');
-                    $('#input27').selectpicker('refresh');
-                    $('#user_id').val('');
-                    
-                    $('#input25').html('');
-                    $('#input25').selectpicker('refresh');
-                    $('#familyDiv').hide();
-                    $('#familyListDiv').hide();
-                    $("#p_unqId").hide();
                 }
-            }
-        });
+            });
+        }
     }
 
     function getTimeSlot() {
@@ -325,9 +329,11 @@
                 type: 'POST',
                 data: {'doc_id': doc_id, 'date': date},
                 beforeSend: function (xhr) {
-                    $("#timeSlot").addClass('loadinggif');
+                    qyuraLoader.startLoader();
                 },
+                
                 success: function (data) {
+                    qyuraLoader.stopLoader();
                     console.log(data);
                     $('#timeSlot').html(data);
                     $('#timeSlot').selectpicker('refresh');
@@ -350,8 +356,11 @@
                 type: 'POST',
                 data: {'city_id': city_id, 'special_id': special_id},
                 beforeSend: function (xhr) {
+                    qyuraLoader.startLoader();
                 },
+                
                 success: function (data) {
+                    qyuraLoader.stopLoader();
                     $('#input3').html(data);
                     $('#input3').selectpicker('refresh');
                     $("#input3").removeClass('loadinggif');
@@ -394,9 +403,11 @@
                     type: 'POST',
                     data: {'user_id': user_id},
                     beforeSend: function (xhr) {
-                        $("#input25").addClass('loadinggif');
+                        qyuraLoader.startLoader();
                     },
+                    
                     success: function (data) {
+                        qyuraLoader.stopLoader();
                         $('#familyListDiv').show();
                         $("#input25").removeClass('loadinggif');
                         $('#input25').html(data);
@@ -449,5 +460,28 @@
                 }
             }
         });
+    }
+    
+    function checkMobile() {
+        var patient_email = $("#patient_email").val();
+        var users_mobile = $("#users_mobile").val();
+        if(users_mobile != ''){
+            var url = '<?php echo site_url(); ?>/docappointment/check_mobile';
+            if (typeof patient_email == 'string' && typeof users_mobile == 'string') {
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: 'POST',
+                    data: {'patient_email': patient_email, 'users_mobile': users_mobile},
+
+                    success: function (data) {
+                        if(data == 1){
+                            $("#users_mobile").val('');
+                            alert("This Mobile Number already used with another user");
+                        }
+                    }
+                });
+            }
+        }
     }
 </script>

@@ -34,3 +34,4 @@ FROM `qyura_hospitalTimeSlot`
 WHERE `qyura_hospitalTimeSlot`.`hospitalTimeSlot_deleted` =0
 AND `qyura_hospitalTimeSlot`.`hospitalTimeSlot_hospitalId` = '5'
 ERROR - 2016-05-15 07:26:17 --> 404 Page Not Found: ../modules/auth/controllers/Auth/assets
+ERROR - 2016-05-15 08:10:37 --> 404 Page Not Found: ../modules/auth/controllers/Auth/assets

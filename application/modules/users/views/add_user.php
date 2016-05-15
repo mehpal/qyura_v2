@@ -22,12 +22,14 @@
                                 <article class="form-group m-lr-0 ">
                                     <label for="cemail" class="control-label col-md-4 col-sm-4">User Id :</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <input class="form-control disabled" id="patientDetails_unqId" name="patientDetails_unqId"  aria-required="true" value="<?php if(isset($usersCode) && !empty($usersCode)){echo $usersCode;}; ?>" placeholder="" readonly>
+                                        <input class="form-control disabled" id="patientDetails_unqId" name="patientDetails_unqId"  aria-required="true" value="<?php if (isset($usersCode) && !empty($usersCode)) {
+    echo $usersCode;
+}; ?>" placeholder="" readonly>
                                     </div>
                                 </article>
                                 <article class="clearfix m-t-10" id="crop-avatar">
                                     <div id="upload_modal_form">
-                                        <?php $this->load->view('upload_crop_modal');?>
+<?php $this->load->view('upload_crop_modal'); ?>
                                     </div>
                                     <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
                                     <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
@@ -60,28 +62,29 @@
                                             <option value="2" <?php echo set_select('patientDetails_gender', '2'); ?>>Female</option>
                                             <option value="3" <?php echo set_select('patientDetails_gender', '3'); ?>>Other</option>
                                         </select>
-                                        <label class="error" id="err_patientDetails_gender" > <?php echo form_error("patientDetails_gender"); ?></label>
-                                         <div id="error_patientDetails_gender" class="error_patientDetails_gender"></div>
+                                        <span class="error" id="err_patientDetails_gender" > <?php echo form_error("patientDetails_gender"); ?></span>
+                                        <div id="error_patientDetails_gender" class="error_patientDetails_gender"></div>
                                     </div>
                                 </article>
                                 <article class="form-group m-lr-0">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Date of Birth :</label>
                                     <div class="col-md-8 col-sm-8">
                                         <div class="input-group">
-                                            <input class="form-control dob" placeholder="mm/dd/yyyy" id="patientDetails_dob" type="text" name="patientDetails_dob" onkeydown="return false;" value="<?php echo set_value('patientDetails_dob');?>">
+                                            <input class="form-control dob" placeholder="mm/dd/yyyy" id="patientDetails_dob" type="text" name="patientDetails_dob" onkeydown="return false;" value="<?php echo set_value('patientDetails_dob'); ?>">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                         </div>
-                                      
+
                                     </div>
-                                      <label class="error" id="err_patientDetails_dob" > <?php echo form_error("patientDetails_dob"); ?></label>
+                                    <label class="error" id="err_patientDetails_dob" > <?php echo form_error("patientDetails_dob"); ?></label>
                                 </article>
                                 <article class="form-group m-lr-0">
                                     <label for="" class="control-label col-md-4 col-sm-4">Email Id:</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <input class="form-control " id="users_email" type="email" name="users_email" placeholder="" value="<?php echo set_value('users_email'); ?>" onblur="check_email()">
+                                        <input class="form-control " id="users_email" type="email" name="users_email" placeholder="" value="<?php echo set_value('users_email'); ?>">
                                         <input type="hidden" class="form-control" id="users_email_status" name="users_email_status" value="" />
-                                        <label class="error" id="err_users_email" > <?php echo form_error("users_email"); ?></label>
-                                        <label class="error" style="display:none;" id="error-users_email_check"> User Email Already Exists!</label>
+                                        <span class="error" id="err_users_email" > <?php echo form_error("users_email"); ?></span>
+                                      
+                                        <div class="error" style="display:none;" id="erroremail_check"> User Email Already Exists!</div>
                                     </div>
                                 </article>
                                 <article class="form-group m-lr-0">
@@ -90,7 +93,13 @@
                                         <aside class="row">
                                             <div class="col-md-12 col-sm-4 col-xs-10 m-t-xs-10 ">
                                                 <input type="text" class="form-control" name="patientDetails_mobileNo" id="patientDetails_mobileNo" maxlength="10" placeholder="Number" onkeypress="return isNumberKey(event)" value="<?php echo set_value('patientDetails_mobileNo'); ?>"/>
+                                                <input type="hidden" class="form-control" id="users_mobile_status" name="users_mobile_status" value="" />
+
                                                 <span class="error" id="err_patientDetails_mobileNo" > <?php echo form_error("patientDetails_mobileNo"); ?></span>
+                                               
+                                                <div class="error" style="display:none;" id="error-mobile_check"> User Mobile Number Already Exists!</div>
+
+
                                             </div>
                                         </aside>
                                     </div>
@@ -109,7 +118,7 @@
                                                     <option value="">Select State</option>
                                                     <?php foreach ($allStates as $key => $val) { ?>
                                                         <option value="<?php echo $val->state_id; ?>" <?php echo set_select('patientDetails_stateId', $val->state_id); ?>><?php echo $val->state_statename; ?></option>
-                                                    <?php } ?>
+<?php } ?>
                                                 </select>
                                                 <span class="error" id="err_patientDetails_stateId" > <?php echo form_error("patientDetails_stateId"); ?></span>
                                                 <div id="error_patientDetails_stateId" class="error_patientDetails_stateId"></div>
@@ -124,7 +133,7 @@
                                                 <select class="select2" data-width="100%" name="patientDetails_cityId" id="patientDetails_cityId" data-size="4" >
                                                 </select>
                                                 <span class="error" id="err_patientDetails_cityId" > <?php echo form_error("patientDetails_cityId"); ?></span>
-                                                 <div id="error_patientDetails_cityId" class="error_patientDetails_cityId"></div>
+                                                <div id="error_patientDetails_cityId" class="error_patientDetails_cityId"></div>
                                             </div>
                                             <div class="col-md-6 col-sm-6 m-t-xs-10">
                                                 <input type="text" class="form-control" id="patientDetails_pin" name="patientDetails_pin" placeholder="Pin Code" maxlength="6" onkeypress="return isNumberKey(event)" value="<?php echo set_value('patientDetails_pin'); ?>" />
@@ -135,7 +144,7 @@
                                 </article>
                                 <article class="form-group m-lr-0 m-t-xs-10">
                                     <div class="col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4">
-                                        <input type="text" class="form-control" id="patientDetails_address" name="patientDetails_address" value="<?php echo set_value('patientDetails_address')?>" placeholder="Address"/>
+                                        <input type="text" class="form-control" id="patientDetails_address" name="patientDetails_address" value="<?php echo set_value('patientDetails_address') ?>" placeholder="Address"/>
                                         <span class="error" id="err_patientDetails_address" > <?php echo form_error("patientDetails_address"); ?></span>
                                     </div>
                                 </article>
@@ -158,7 +167,7 @@
                         </div>
                     </section>
                     <!-- Left Section End -->
-                    
+
                     <!-- Right Section Start -->
                     <section class="col-md-6 detailbox mi-form-section">
                         <div class="bg-white clearfix">
@@ -188,7 +197,7 @@
                                                 <option value=""> Select Insurance</option>
                                                 <?php foreach ($insurance_cmpny as $key => $val) { ?>
                                                     <option value="<?php echo $val->insurance_id; ?>" <?php echo set_select('patientDetails_stateId', $val->insurance_id); ?>><?php echo $val->insurance_Name; ?></option>
-                                                <?php } ?>
+<?php } ?>
                                             </select>
                                             <span class="error" id="err_userInsurance_insuranceId" > <?php echo form_error("userInsurance_insuranceId"); ?></span>
                                             <div id="error_userInsurance_insuranceId" class="error_userInsurance_insuranceId"></div>
@@ -207,15 +216,15 @@
                                             <div class="input-group">
                                                 <input class="form-control pickDatePolicy" id="userInsurance_expDate" placeholder="mm/dd/yyyy" type="text" value="<?php echo set_value('userInsurance_expDate'); ?>" name="userInsurance_expDate" onkeydown="return false;">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>
-                                                 <span class="error" id="err_userInsurance_expDate" > <?php echo form_error("userInsurance_expDate"); ?></span>
-                                          
+                                            <span class="error" id="err_userInsurance_expDate" > <?php echo form_error("userInsurance_expDate"); ?></span>
+
                                         </div>
-                                         
+
                                     </article>
                                 </div>
                                 <!--Health Insuranse End -->
                                 <!--Family Section Start -->
-                                
+
                                 <figure class="clearfix">
                                     <h3>Add Family Members :</h3>
                                 </figure>
@@ -258,7 +267,7 @@
                                                                     <option value="3" <?php echo set_select('usersfamily_gender_1', '3'); ?>>Other</option>
                                                                 </select>
                                                                 <span class="error" id="err_usersfamily_gender_1" > <?php echo form_error("usersfamily_gender_1"); ?></span>
-                                                                 <div id="error_usersfamily_gender_1" class="error_usersfamily_gender_1"></div>
+                                                                <div id="error_usersfamily_gender_1" class="error_usersfamily_gender_1"></div>
                                                             </div>
                                                             <div class="col-md-6 col-sm-6 m-t-xs-10">
                                                                 <input class="form-control " id="usersfamily_age_1" placeholder ="Age" type="text" name="usersfamily_age_1" required="" onkeypress="return isNumberKey(event)">
@@ -274,11 +283,11 @@
                                                             <option value=""> Select Relation</option>
                                                             <?php foreach ($familyMember as $key => $val) { ?>
                                                                 <option value="<?php echo $val->relation_id; ?>" <?php echo set_select('usersfamily_relationId_1', $val->relation_type); ?>><?php echo $val->relation_type; ?></option>
-                                                            <?php } ?>
+<?php } ?>
 
                                                         </select>
-                                                         <span class="error" id="err_usersfamily_relationId_1" > <?php echo form_error("usersfamily_relationId_1"); ?></span>
-                                                         <div id="error_usersfamily_relationId_1" class="error_usersfamily_relationId_1"></div>
+                                                        <span class="error" id="err_usersfamily_relationId_1" > <?php echo form_error("usersfamily_relationId_1"); ?></span>
+                                                        <div id="error_usersfamily_relationId_1" class="error_usersfamily_relationId_1"></div>
                                                     </div>
                                                 </article>
                                                 <article class="form-group m-lr-0">
@@ -301,18 +310,18 @@
                                                             <select class="select2" data-width="100%" required="" name="userInsurance_insuranceId_1" id="userInsurance_insuranceId_1">
                                                                 <option value=""> Select Insurance</option>
                                                                 <?php foreach ($insurance_cmpny as $key => $val) { ?>
-                                                                <option value="<?php echo $val->insurance_id; ?>" <?php echo set_select('userInsurance_insuranceId_1', $val->insurance_id); ?>><?php echo $val->insurance_Name; ?></option>
-                                                                <?php } ?>
+                                                                    <option value="<?php echo $val->insurance_id; ?>" <?php echo set_select('userInsurance_insuranceId_1', $val->insurance_id); ?>><?php echo $val->insurance_Name; ?></option>
+<?php } ?>
                                                             </select>
-                                                             <span class="error" id="err_userInsurance_insuranceId_1" > <?php echo form_error("userInsurance_insuranceId_1"); ?></span>
-                                                              <div id="error_userInsurance_insuranceId_1" class="error_userInsurance_insuranceId_1"></div>
+                                                            <span class="error" id="err_userInsurance_insuranceId_1" > <?php echo form_error("userInsurance_insuranceId_1"); ?></span>
+                                                            <div id="error_userInsurance_insuranceId_1" class="error_userInsurance_insuranceId_1"></div>
                                                         </div>
                                                     </article>
                                                     <article class="form-group m-lr-0">
                                                         <label for="" class="control-label col-md-4 col-sm-4">Health Card no. :</label>
                                                         <div class="col-md-8 col-sm-8">
                                                             <input class="form-control " id="userInsurance_insuranceNo_1" type="text" name="userInsurance_insuranceNo_1" required="" placeholder="" value="<?php echo set_value('userInsurance_insuranceNo_1'); ?>" />
-                                                             <span class="error" id="err_userInsurance_insuranceNo_1" > <?php echo form_error("userInsurance_insuranceNo_1"); ?></span>
+                                                            <span class="error" id="err_userInsurance_insuranceNo_1" > <?php echo form_error("userInsurance_insuranceNo_1"); ?></span>
                                                         </div>
                                                     </article>
                                                     <article class="form-group m-lr-0">
@@ -342,9 +351,10 @@
                     </section>
                     <section class="clearfix ">
                         <div class="col-md-12 m-t-20 m-b-20">
-                            <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return formContainer();return check_email();">Submit</button>
-                             <!--onclick="return check_email();"-->
-                             
+                            <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return formContainer();">Submit</button>
+                                   
+                            <!--onclick="return check_email();"-->
+
                         </div>
                     </section>
                 </form>
