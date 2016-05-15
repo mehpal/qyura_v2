@@ -71,7 +71,7 @@ class HospitalApi extends MyRest {
 
             $lat = isset($_POST['lat']) ? $this->input->post('lat') : '';
             $long = isset($_POST['long']) ? $this->input->post('long') : '';
-            $userId = isset($_POST['userId']) && $_POST['userId'] != null && $_POST['userId'] != 0 ? $this->input->post('userId') : 0;
+            $userId = (isset($_POST['userId']) && $_POST['userId'] != null && $_POST['userId'] != 0) ? $this->input->post('userId') : 0;
 
             $notIn = isset($_POST['notin']) && $_POST['notin'] != 0 ? $this->input->post('notin') : '';
             $notIn = explode(',', $notIn);
@@ -81,7 +81,7 @@ class HospitalApi extends MyRest {
             //city
             $cityId = isset($_POST['cityId']) ? $this->input->post('cityId') : NULL;
 
-            $isemergency = isset($_POST['isemergency']) ? $this->input->post('isemergency') : NULL;
+            $isemergency = (isset($_POST['isemergency']) && ($_POST['isemergency']) != 0) ? $this->input->post('isemergency') : NULL;
             
             $openNow = isset($_POST['openNow'] ) ? $this->input->post('openNow') : NULL;
 

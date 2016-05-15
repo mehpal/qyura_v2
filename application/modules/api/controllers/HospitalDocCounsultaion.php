@@ -34,7 +34,7 @@ class HospitalDocCounsultaion extends MyRest {
             // search
             $search = isset($_POST['search']) && $_POST['search'] != ''  ? $this->input->post('search') : NULL;
             
-            $response['colName'] = array("id","showExp", "name", "exp", "imUrl","rating","consFee", "speciality", "degree","isEmergency");
+            $response['colName'] = array("id", "name", "showExp", "exp", "imUrl", "rating", "consFee", "speciality", "degree", "lat", "long", "isEmergency", "mobile", "userId");
             $consultantList = $this->hospitalDocCounsultaion_model->getConsultantList($notIn,$hospitalUserId,$specialityId, $search);
             
             if ($consultantList) {
