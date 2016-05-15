@@ -516,3 +516,59 @@ ERROR - 2016-05-15 12:27:56 --> Query error: You have an error in your SQL synta
                 AND `qyura_doctorAppointment`.`doctorAppointment_deleted` = 0
                 AND `qyura_doctorAppointment`.`doctorAppointment_date` <> 0
 ERROR - 2016-05-15 12:54:09 --> 404 Page Not Found: ../modules/auth/controllers/Auth/assets
+ERROR - 2016-05-15 12:56:03 --> Query error: Subquery returns more than 1 row - Invalid query: SELECT `Spon`.`sponsor_id`, `healthTips_detail`, `healthTips_image`, `healthTips_amount`, `category_name`, `city_name`, FROM_UNIXTIME(sponsor_date, '%d-%m-%Y') sponsor_date, CASE 
+WHEN (Spon.sponser_userRole = 1 ) THEN (select hospital_name from qyura_hospital hos where hos.hospital_usersId=sponsor_userId)  
+WHEN (Spon.sponser_userRole = 3 ) THEN (select diagnostic_name from qyura_diagnostic diag where diag.diagnostic_usersId=sponsor_userId) 
+WHEN (Spon.sponser_userRole = 4 ) THEN (select concat(doctors_fName, ' ', doctors_lName) from qyura_doctors doc where doc.doctors_userId=sponsor_userId)  end as miname, CASE 
+WHEN (Spon.sponser_userRole = 1 ) THEN 'Hospital'  
+WHEN (Spon.sponser_userRole = 3 ) THEN 'Diagnostic Center' 
+WHEN (Spon.sponser_userRole = 4 ) THEN 'Doctor'  end as mitype
+FROM `qyura_healthTipSponsor` AS `Spon`
+JOIN `qyura_healthTips` AS `HTip` ON `Spon`.`sponsor_tipId`=`HTip`.`healthTips_id`
+JOIN `qyura_healthCategory` `Cat` ON `HTip`.`healthTips_categoryId` = `Cat`.`category_id`
+JOIN `qyura_city` `Ct` ON `Ct`.`city_id` = `Spon`.`sponsor_cityId`
+WHERE `Spon`.`sponsor_deleted` =0
+ORDER BY `Spon`.`sponsor_date` DESC, `Spon`.`sponsor_date` DESC, `miname` ASC
+ LIMIT 10
+ERROR - 2016-05-15 12:56:08 --> Query error: Subquery returns more than 1 row - Invalid query: SELECT `Spon`.`sponsor_id`, `healthTips_detail`, `healthTips_image`, `healthTips_amount`, `category_name`, `city_name`, FROM_UNIXTIME(sponsor_date, '%d-%m-%Y') sponsor_date, CASE 
+WHEN (Spon.sponser_userRole = 1 ) THEN (select hospital_name from qyura_hospital hos where hos.hospital_usersId=sponsor_userId)  
+WHEN (Spon.sponser_userRole = 3 ) THEN (select diagnostic_name from qyura_diagnostic diag where diag.diagnostic_usersId=sponsor_userId) 
+WHEN (Spon.sponser_userRole = 4 ) THEN (select concat(doctors_fName, ' ', doctors_lName) from qyura_doctors doc where doc.doctors_userId=sponsor_userId)  end as miname, CASE 
+WHEN (Spon.sponser_userRole = 1 ) THEN 'Hospital'  
+WHEN (Spon.sponser_userRole = 3 ) THEN 'Diagnostic Center' 
+WHEN (Spon.sponser_userRole = 4 ) THEN 'Doctor'  end as mitype
+FROM `qyura_healthTipSponsor` AS `Spon`
+JOIN `qyura_healthTips` AS `HTip` ON `Spon`.`sponsor_tipId`=`HTip`.`healthTips_id`
+JOIN `qyura_healthCategory` `Cat` ON `HTip`.`healthTips_categoryId` = `Cat`.`category_id`
+JOIN `qyura_city` `Ct` ON `Ct`.`city_id` = `Spon`.`sponsor_cityId`
+WHERE `Spon`.`sponsor_deleted` =0
+ORDER BY `Spon`.`sponsor_date` DESC, `Spon`.`sponsor_date` DESC, `miname` ASC
+ LIMIT 10
+ERROR - 2016-05-15 12:56:23 --> Query error: Subquery returns more than 1 row - Invalid query: SELECT `Spon`.`sponsor_id`, `healthTips_detail`, `healthTips_image`, `healthTips_amount`, `category_name`, `city_name`, FROM_UNIXTIME(sponsor_date, '%d-%m-%Y') sponsor_date, CASE 
+WHEN (Spon.sponser_userRole = 1 ) THEN (select hospital_name from qyura_hospital hos where hos.hospital_usersId=sponsor_userId)  
+WHEN (Spon.sponser_userRole = 3 ) THEN (select diagnostic_name from qyura_diagnostic diag where diag.diagnostic_usersId=sponsor_userId) 
+WHEN (Spon.sponser_userRole = 4 ) THEN (select concat(doctors_fName, ' ', doctors_lName) from qyura_doctors doc where doc.doctors_userId=sponsor_userId)  end as miname, CASE 
+WHEN (Spon.sponser_userRole = 1 ) THEN 'Hospital'  
+WHEN (Spon.sponser_userRole = 3 ) THEN 'Diagnostic Center' 
+WHEN (Spon.sponser_userRole = 4 ) THEN 'Doctor'  end as mitype
+FROM `qyura_healthTipSponsor` AS `Spon`
+JOIN `qyura_healthTips` AS `HTip` ON `Spon`.`sponsor_tipId`=`HTip`.`healthTips_id`
+JOIN `qyura_healthCategory` `Cat` ON `HTip`.`healthTips_categoryId` = `Cat`.`category_id`
+JOIN `qyura_city` `Ct` ON `Ct`.`city_id` = `Spon`.`sponsor_cityId`
+WHERE `Spon`.`sponsor_deleted` =0
+ORDER BY `Spon`.`sponsor_date` DESC, `Spon`.`sponsor_date` DESC, `miname` ASC
+ LIMIT 10
+ERROR - 2016-05-15 12:56:34 --> Query error: Subquery returns more than 1 row - Invalid query: SELECT `Spon`.`sponsor_id`, `healthTips_detail`, `healthTips_image`, `healthTips_amount`, `category_name`, `city_name`, FROM_UNIXTIME(sponsor_date, '%d-%m-%Y') sponsor_date, CASE 
+WHEN (Spon.sponser_userRole = 1 ) THEN (select hospital_name from qyura_hospital hos where hos.hospital_usersId=sponsor_userId)  
+WHEN (Spon.sponser_userRole = 3 ) THEN (select diagnostic_name from qyura_diagnostic diag where diag.diagnostic_usersId=sponsor_userId) 
+WHEN (Spon.sponser_userRole = 4 ) THEN (select concat(doctors_fName, ' ', doctors_lName) from qyura_doctors doc where doc.doctors_userId=sponsor_userId)  end as miname, CASE 
+WHEN (Spon.sponser_userRole = 1 ) THEN 'Hospital'  
+WHEN (Spon.sponser_userRole = 3 ) THEN 'Diagnostic Center' 
+WHEN (Spon.sponser_userRole = 4 ) THEN 'Doctor'  end as mitype
+FROM `qyura_healthTipSponsor` AS `Spon`
+JOIN `qyura_healthTips` AS `HTip` ON `Spon`.`sponsor_tipId`=`HTip`.`healthTips_id`
+JOIN `qyura_healthCategory` `Cat` ON `HTip`.`healthTips_categoryId` = `Cat`.`category_id`
+JOIN `qyura_city` `Ct` ON `Ct`.`city_id` = `Spon`.`sponsor_cityId`
+WHERE `Spon`.`sponsor_deleted` =0
+ORDER BY `Spon`.`sponsor_date` DESC, `Spon`.`sponsor_date` DESC, `miname` ASC
+ LIMIT 10
