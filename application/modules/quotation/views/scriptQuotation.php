@@ -215,7 +215,7 @@
                     "searchable": false,
                     "orderable": false
                 }],
-            "pageLength": 3,
+            "pageLength": 10,
             "bJQueryUI": true,
             "sPaginationType": "full_numbers",
             "dom": '<<t><"clearfix m-t-20 p-b-20" p>',
