@@ -83,14 +83,14 @@ CASE
     public function qtTestTotalAmount($quotationId)
     {
         $option = array(
-            'select' => 'sum(qyura_quotationDetailTests.quotationDetailTests_price) as price',
+            'select' => 'sum(qyura_quotationDetailTests.quotationDetailTests_price) as price + qyura_quotations.quotation_otherFee + qyura_quotations.quotation_tex',
             'table' => 'qyura_quotations',
             'join' => array(
                 array('qyura_quotationDetailTests', 'qyura_quotationDetailTests.quotationDetailTests_quotationId=qyura_quotations.quotation_id', 'right')
                 
             ),
-            'where' => array('qyura_quotations.quotation_id' => $quotationId,'qyura_quotations.quotation_deleted'=>0,'qyura_quotationDetailTests.quotationDetailTests_deleted'=>0),
-            'limit'=>1,
+            'where' => array('qyura_quotations.quotation_id' => $quotationId, 'qyura_quotations.quotation_deleted'=>0,'qyura_quotationDetailTests.quotationDetailTests_deleted'=>0),
+            'limit'=> 1 ,
             'single'=>TRUE
             
         );
