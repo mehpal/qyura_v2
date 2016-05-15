@@ -290,7 +290,7 @@
                     data: {
                             mobileNo: function(){ return $("#patientDetails_mobileNo").val(); },
                            // id: function(){ return $("#user_tables_id").val(); },
-                            role: function(){ return 2; }
+                            role: function(){ return 6; }
                     }
                   }
             },
