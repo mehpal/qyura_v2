@@ -116,7 +116,7 @@ class Users extends MY_Controller {
                 }
             }
 
-            $email = $this->input->post('users_email');
+            $email = strtolower($this->input->post('users_email'));
             $password = $this->input->post('users_password');
             $phone = $this->input->post('patientDetails_mobileNo');
             $encPassword = $this->common_model->encryptPassword($password);
@@ -727,7 +727,7 @@ class Users extends MY_Controller {
 
         $data = 0;
         $user_table_id = '';
-        $users_email = $this->input->post('users_email');
+        $users_email = strtolower($this->input->post('users_email'));
 
         $option = array(
             'table' => 'qyura_users',
@@ -736,6 +736,7 @@ class Users extends MY_Controller {
             'single' => TRUE
         );
         $email = $this->common_model->customGet($option);
+
 
         if ($email != NULL) {
             $option = array(
@@ -750,6 +751,42 @@ class Users extends MY_Controller {
                 echo $data;
             } else {
                 $data = $email->users_id;
+                echo $data;
+            }
+        } else {
+            echo $data;
+        }
+        exit;
+    }
+
+    function check_MobileNo() {
+
+        $data = 0;
+        $user_table_id = '';
+        $users_mobile = $this->input->post('mobile_no');
+
+        $option = array(
+            'table' => 'qyura_users',
+            'select' => '*',
+            'where' => array('qyura_users.users_deleted' => 0, 'qyura_users.users_mobile' => $users_mobile),
+            'single' => TRUE
+        );
+        $phone = $this->common_model->customGet($option);
+
+        if ($phone != NULL) {
+            $option = array(
+                'table' => 'qyura_usersRoles',
+                'select' => '*',
+                'where' => array('qyura_usersRoles.usersRoles_deleted' => 0, 'qyura_usersRoles.usersRoles_userId' => $phone->users_id, 'qyura_usersRoles.usersRoles_roleId' => 6),
+                'single' => TRUE
+            );
+            $userRoles = $this->common_model->customGet($option);
+
+            $data = 1;
+            if (!empty($userRoles)) {
+                echo $data;
+            } else {
+                $data = $phone->users_id;
                 echo $data;
             }
         } else {
