@@ -706,3 +706,4 @@ WHERE `qyura_quotations`.`quotation_id` = '24'
 AND `qyura_quotations`.`quotation_deleted` =0
 AND `qyura_quotationDetailTests`.`quotationDetailTests_deleted` =0
  LIMIT 1
+ERROR - 2016-05-15 14:02:14 --> Unable to save the image. Please make sure the image and file directory are writable.
