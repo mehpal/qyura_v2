@@ -24,8 +24,11 @@
             input3: {
                 required: true
             },
+            input5: {
+                required: true
+            },
             input24: {
-                required: true,
+                
                 remote: {
                     url: url + 'index.php/docappointment/check_timeslot',
                     type: "post",
@@ -87,13 +90,44 @@
                 required: true,
                 numberdecimalonly: true
             },
-            input21: {
-                required: true,
-                numberdecimalonly: true
-            },
             input22: {
                 required: true
             },
+        },
+        errorPlacement: function(error, element) {
+        if (element.attr("name") == "input1")
+        {
+            error.insertAfter('.error-city');
+        }
+        else if (element.attr("name") == "input2")
+        {
+            error.insertAfter('.error-spec');
+        }
+        else if (element.attr("name") == "input3")
+        {
+            error.insertAfter('.error-doc');
+        }
+        else if (element.attr("name") == "input5")
+        {
+            error.insertAfter('.error-ts');
+        }
+        else if (element.attr("name") == "input27")
+        {
+            error.insertAfter('.error-gender');
+        }
+        else if (element.attr("name") == "input14")
+        {
+            error.insertAfter('.error-state');
+        }
+        else if (element.attr("name") == "input15")
+        {
+            error.insertAfter('.error-c');
+        }
+        
+        else{
+            error.insertAfter(element);
+        }
+        
         },
         messages: {
             input1: {
@@ -105,12 +139,16 @@
             input4: {
                 required: "Please select Date."
             },
+            
             input3: {
                 required: "Please select Assign Doctor."
             },
+            input5: {
+                required: "Please select a time slot!."
+            },
             input24: {
-                required: "Please select Time Slot.",
-                remote: "Please select correct time slot."
+                
+                remote: "Please select a correct time slot."
             },
             input8: {
                 required: "Please enter Patient Remarks."
@@ -153,9 +191,6 @@
             },
             input20: {
                 required: "Please enter Tax."
-            },
-            input21: {
-                required: "Please enter Total Payable Amount."
             },
             input22: {
                 required: "Please select Payment Status."
@@ -425,6 +460,10 @@
     $('#date-3, #date-4').datepicker({autoclose: true});
     $('.timepicker').timepicker({showMeridian: true});
     $(document).ready(function () {
+        $('.selectpicker').selectpicker().change(function(){
+            $(this).valid();
+            
+        });
         $("#setData").submit(function (event) {
 
             if (!formValid.valid())
