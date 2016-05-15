@@ -125,24 +125,20 @@ class Docappointment extends MY_Controller {
     function getpatient() {
         
         $patient_email = $this->input->post("patient_email");
-        $patient_mobile = $this->input->post("patient_mobile");
-        
                 
         $option = array(
             'table' => 'qyura_users',
             'select' => '*',
             'where' => array('qyura_users.users_deleted' => 0,'qyura_users.users_email' => $patient_email),
-            'or_where' => array('qyura_users.users_mobile' => $patient_mobile),
             'single' => TRUE
         );
         $email = $this->common_model->customGet($option);
         
         if(!empty($email)){
             $options = array(
-                'select'=>'qyura_users.users_id as user_id,qyura_users.users_mobile as mobile,qyura_patientDetails.patientDetails_cityId as cityId,qyura_patientDetails.patientDetails_stateId as stateId,qyura_patientDetails.patientDetails_countryId as countryId,qyura_patientDetails.patientDetails_patientName as patientName,qyura_patientDetails.patientDetails_address as address,qyura_patientDetails.patientDetails_unqId as unqId,qyura_patientDetails.patientDetails_pin as pin,qyura_patientDetails.patientDetails_dob as dob,qyura_patientDetails.patientDetails_gender as gender,qyura_users.users_email as users_email',
+                'select'=>'qyura_users.users_id as user_id,qyura_users.users_mobile as mobile,qyura_patientDetails.patientDetails_cityId as cityId,qyura_patientDetails.patientDetails_stateId as stateId,qyura_patientDetails.patientDetails_countryId as countryId,qyura_patientDetails.patientDetails_patientName as patientName,qyura_patientDetails.patientDetails_address as address,qyura_patientDetails.patientDetails_unqId as unqId,qyura_patientDetails.patientDetails_pin as pin,FROM_UNIXTIME(qyura_patientDetails.patientDetails_dob,"%d/%m/%Y") as dob,qyura_patientDetails.patientDetails_gender as gender,qyura_users.users_email as users_email',
                 'table' => 'qyura_users',
                 'where' => array('qyura_users.users_deleted' => 0, 'qyura_users.users_email' => $patient_email,'qyura_usersRoles.usersRoles_roleId' => 6),
-                'or_where'=>array('qyura_users.users_mobile' => $patient_mobile),
                 'join' => array(
                     array('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId = qyura_users.users_id', 'left'),
                     array('qyura_patientDetails', 'qyura_patientDetails.patientDetails_usersId = qyura_users.users_id', 'left'),
@@ -164,6 +160,31 @@ class Docappointment extends MY_Controller {
         }
     }
 
+    function check_mobile(){
+        $patient_email = $this->input->post("patient_email");
+        $users_mobile = $this->input->post("users_mobile");
+        
+        $options = array(
+            'select'=>'qyura_users.users_id as user_id,qyura_users.users_mobile as mobile,qyura_users.users_email as users_email',
+            'table' => 'qyura_users',
+            'where' => array('qyura_users.users_deleted' => 0, 'qyura_users.users_mobile' => $users_mobile,'qyura_usersRoles.usersRoles_roleId' => 6),
+            'join' => array(
+                array('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId = qyura_users.users_id', 'left'),
+            ),
+            'single'=>true
+        );
+        $data = $this->common_model->customGet($options);
+        if(isset($data) && $data != NULL){
+            if($data->users_email == $patient_email){
+                echo "0";
+            }else{
+                echo "1";
+            }
+        }else{
+            echo "0";
+        }
+    }
+    
     function getMI() {
         $city_id = $this->input->post('city_id');
         $appointment_type = $this->input->post('appointment_type');
