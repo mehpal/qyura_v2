@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="container row " style="width: 600px; margin: 0 auto ; background: whitesmoke;">
-            <form  class="cmxform form-horizontal tasi-form avatar-form"  name="editHospitalForm" method="post"  action="<?php echo site_url(); ?>/master/mi_master/editHospital" novalidate="novalidate" enctype="multipart/form-data" id="submitForm">
+            <form  class="cmxform form-horizontal tasi-form avatar-form"  name="editHospitalForm" method="post"  action="<?php echo site_url(); ?>/master/mi_master/editHospital" novalidate="novalidate" enctype="multipart/form-data" id="editHospitalForm">
                 <?php if (isset($hospital_value) && !empty($hospital_value)) { ?>
                         <input type="hidden" name="hospital_id" value="<?php echo $hospital_value->hospital_id; ?>" />
                             <article class="clearfix m-t-10">
@@ -27,6 +27,7 @@
                                                 <option <?php if($hospital_value->hospital_countryId == $val->country_id){ echo "selected"; } ?>  value="<?php echo $val->country_id; ?>"><?php echo $val->country; ?></option>
                                         <?php } } ?>
                                     </select>
+                                    <div class="error-country"></div>
                                     <label class="error" id="err_hospital_countryId" > <?php echo form_error("hospital_countryId"); ?></label>
                                 </div>
                             </article>
@@ -39,6 +40,7 @@
                                                 <option <?php if($hospital_value->hospital_stateId == $val->state_id){ echo "selected"; } ?> value="<?php echo $val->state_id; ?>"><?php echo $val->state_statename; ?></option>
                                             <?php } } ?>
                                     </select>
+                                    <div class="error-state"></div>
                                     <label class="error" id="err_hospital_stateId" > <?php echo form_error("hospital_stateId"); ?></label>
                                 </div>
                             </article>
@@ -51,6 +53,7 @@
                                                 <option <?php if($hospital_value->hospital_cityId == $val->city_id){ echo "selected"; } ?> value="<?php echo $val->city_id; ?>"><?php echo $val->city_name; ?></option>
                                                 <?php } }  ?>
                                     </select>
+                                    <div class="error-city"></div>
                                     <label class="error" id="err_hospital_cityId" > <?php echo form_error("hospital_cityId"); ?></label>
                                 </div>
                             </article>
