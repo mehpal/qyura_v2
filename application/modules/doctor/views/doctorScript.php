@@ -252,7 +252,9 @@ if ($current != 'detailDoctor'):
             event.preventDefault();
             var url = '<?php echo site_url(); ?>/doctor/changeDetailDoctor/';
             var formData = new FormData(this);
-            submitData(url,formData);
+            if(count == 0){
+                submitData(url,formData);
+            }
         });
 
         $("#addAcademicForm").submit(function (event) {
