@@ -31,7 +31,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Select City:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="select2" onchange="getMI()" id="appointment_city" name="input1" data-width="100%" >
+                                            <select class="selectpicker" onchange="getMI()" id="appointment_city" name="input1" data-width="100%" >
                                                 <option value="">Select City</option>
                                                 <?php if (isset($qyura_city) && $qyura_city != NULL) {
                                                     foreach ($qyura_city as $city) {
@@ -40,37 +40,41 @@
     <?php }
 } ?>
                                             </select>
+                                            <div class="error-city"></div>
                                             <div class="has-error " id="err_input1" ><?php echo form_error("input1"); ?></div>
                                         </div>
                                     </article>
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Appointment For :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="select2" data-width="100%" onchange="getMI()" id="centerType" name="input2" >
+                                            <select class="selectpicker" data-width="100%" onchange="getMI()" id="centerType" name="input2" >
                                                 <option value="">Select Type</option>
                                                 <option value="0">Hospitals</option>
                                                 <option value="1">Diagnostic Center</option>
                                             </select>
+                                            <div class="error-appt"></div>
                                             <div class="has-error " id="err_input2" ><?php echo form_error("input2"); ?></div>
                                         </div>
                                     </article>
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Select Hospital/Diagnostic:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="select2" data-width="100%" id="mi_centre" name="input3" onchange="getTimeSlot()" >
+                                            <select class="selectpicker" data-width="100%" id="mi_centre" name="input3" onchange="getTimeSlot()" >
                                                 <option value="">Select Hospital/Diagnostic</option>
                                             </select>
+                                            <div class="error-hosdiag"></div>
                                             <div class="has-error " id="err_input3" ><?php echo form_error("input3"); ?></div>
                                         </div>
                                     </article>
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Appointment Type :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="select2" data-width="100%" onchange="changeForm()" id="input5" name="input5" >
+                                            <select class="selectpicker" data-width="100%" onchange="changeForm()" id="input5" name="input5" >
                                                 <option value="">Select Type</option>
                                                 <option value="0">Consultation</option>
                                                 <option value="1">Diagnostic</option>
                                             </select>
+                                            <div class="error-type"></div>
                                             <div class="has-error " id="err_input5" ><?php echo form_error("input5"); ?></div>
                                         </div>
                                     </article>
@@ -108,10 +112,11 @@
                                         <article class="form-group m-lr-0">
                                             <label for="cname" class="control-label col-md-4 col-sm-4">Specialities :</label>
                                             <div class="col-md-8 col-sm-8">
-                                                <select class="select2" name="input10" id="speciallity" data-width="100%" onchange="findDoctor()">
+                                                <select class="selectpicker" name="input10" id="speciallity" data-width="100%" onchange="findDoctor()">
                                                     <option value="">Select Speciality</option>
 
                                                 </select>
+                                                <div class="error-spec"></div>
                                                 <div class="has-error " id="err_input10" ><?php echo form_error("input10"); ?></div>
                                             </div>
                                         </article>
@@ -119,9 +124,10 @@
                                         <article class="form-group m-lr-0">
                                             <label for="cname" class="control-label col-md-4 col-sm-4">Assign Doctor :</label>
                                             <div class="col-md-8 col-sm-8">
-                                                <select class="select2" name="input12" id="input12" data-width="100%" onchange="getTimeSlot()">
+                                                <select class="selectpicker" name="input12" id="input12" data-width="100%" onchange="getTimeSlot()">
                                                     <option value="">Select Doctor</option>
                                                 </select>
+                                                <div class="error-doc"></div>
                                                 <div class="has-error " id="err_input12" ><?php echo form_error("input12"); ?></div>
                                             </div>
                                         </article>
@@ -147,9 +153,10 @@
                                     <article class="form-group m-lr-0">
                                         <label for="" class="control-label col-md-4 col-sm-4">Time Slot :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="select2" name="input4" id="timeSlot" data-width="100%" >
+                                            <select class="selectpicker" name="input4" id="timeSlot" data-width="100%" >
                                                 <option value="">Select Time Slot</option>
                                             </select>
+                                            <div class="error-ts"></div>
                                             <div class="has-error " id="err_input4" ><?php echo form_error("input4"); ?></div>
                                             
                                         </div>
@@ -160,7 +167,7 @@
                                             <div class="bootstrap-timepicker input-group w-full">
                                                 <input id="timepicker4" type="text" class="form-control timepicker" name="input34" value="<?php echo date("H:i"); ?>" />
                                                 <div class="has-error " id="err_input34" ><?php echo form_error("input34"); ?></div>
-                                                <div id="timesloterror" class="error"></div>
+                                                <div id="timesloterror" class="error-timeslot"></div>
                                             </div>
                                         </div>
                                     </article>
@@ -194,10 +201,11 @@
                                             <article class="form-group m-lr-0">
                                                 <label for="cname" class="control-label col-md-4 col-sm-4">Diagnostic Type :</label>
                                                 <div class="col-md-8 col-sm-8">
-                                                    <select class="select2" data-width="100%" name="input28[]" id="input28_1" >
+                                                    <select class="selectpicker" data-width="100%" name="input28[]" id="input28_1" >
                                                         <option value="">Select Diagnostic Category</option>
 
                                                     </select>
+                                                    <div class="error-diagcat"></div>
                                                     <div class="has-error " id="err_input28_1" ><?php echo form_error("input28_1"); ?></div>
                                                 </div>
                                             </article>
@@ -292,12 +300,13 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Gender :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="select2" name="input36" id="input36" data-width="100%" >
+                                            <select class="selectpicker" name="input36" id="input36" data-width="100%" >
                                                 <option value="" >Select Gender</option>
                                                 <option value="1" >Male</option>
                                                 <option value="2" >Female</option>
                                                 <option value="3" >Other</option>
                                             </select>
+                                            <div class="error-gender"></div>
                                             <div class="has-error " id="err_input36" ><?php echo form_error("input36"); ?></div>
                                         </div>
                                     </article>
@@ -306,18 +315,19 @@
                                         <div class="col-md-8 col-sm-8">
                                             <aside class="row">
                                                 <div class="col-md-6 col-sm-6">
-                                                    <select class="select2" id="countryId" name="input18" data-size="4" data-width="100%" >
+                                                    <select class="selectpicker" id="countryId" name="input18" data-size="4" data-width="100%" >
                                                         <option value="1">India</option>
                                                     </select>
                                                     <div class="has-error " id="err_input18" ><?php echo form_error("input18"); ?></div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6 m-t-xs-10">
-                                                    <select class="select2" data-width="100%" name="input19" Id="stateId" data-size="4" onchange ="fetchCity(this.value)" >
+                                                    <select class="selectpicker" data-width="100%" name="input19" Id="stateId" data-size="4" onchange ="fetchCity(this.value)" >
                                                         <option value="">Select State</option>
                                                         <?php foreach ($allStates as $key => $val) { ?>
                                                             <option value="<?php echo $val->state_id; ?>"><?php echo $val->state_statename; ?></option>
 <?php } ?>
                                                     </select>
+                                                    <div class="error-state"></div>
                                                     <div class="has-error " id="err_input19" ><?php echo form_error("input19"); ?></div>
                                                 </div>
                                             </aside>
@@ -327,10 +337,12 @@
                                         <div class="col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4">
                                             <aside class="row">
                                                 <div class="col-md-6 col-sm-6">
-                                                    <select name="input32" id="cityId" data-size="4" class="select2" data-width="100%" >
+                                                    <select name="input32" id="cityId" data-size="4" class="selectpicker" data-width="100%" >
                                                     </select>
+                                                    <div class="error-c"></div>
                                                     <div class="has-error " id="err_input32" ><?php echo form_error("input32"); ?></div>
                                                 </div>
+
                                                 <div class="col-md-6 col-sm-6 m-t-xs-10">
                                                     <input type="text" class="form-control" id="zip" name="input20"/>
                                                     <div class="has-error " id="err_input20" ><?php echo form_error("input20"); ?></div>
@@ -360,7 +372,7 @@
                                     <article class="form-group m-lr-0" id="familyListDiv" style="display: none">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Members :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="select2" name="input33" id="input33" data-width="100%" >
+                                            <select class="selectpicker" name="input33" id="input33" data-width="100%" >
                                                 <option value="" >Select Member</option>
                                             </select>
                                             <div class="has-error " id="err_input33" ><?php echo form_error("input33"); ?></div>
@@ -403,7 +415,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Payment Status :</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select class="select2" name="input26" id="input26" data-width="100%" >
+                                            <select class="selectpicker" name="input26" id="input26" data-width="100%" >
                                                 <option value="16" >Paid</option>
                                                 <option value="15" >Unpaid</option>
                                             </select>
@@ -413,7 +425,7 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Payment Mode:</label>
                                         <div class="col-md-8 col-sm-8">
-                                            <select type="text" class="select2" id="input27" name="input27" data-width="100%" >
+                                            <select type="text" class="selectpicker" id="input27" name="input27" data-width="100%" >
                                                 <option value="17" >Cash</option>
                                             </select>
                                             <div class="has-error " id="err_input27" ><?php echo form_error("input27"); ?></div>
