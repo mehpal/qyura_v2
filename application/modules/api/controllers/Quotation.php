@@ -306,7 +306,7 @@ class Quotation extends MyRest {
                 return TRUE;
         }
         else {
-            $this->bf_form_validation->set_message('_checkQt', 'Please provide quotationId ');
+            $this->bf_form_validation->set_message('_checkQt', 'Please provide quotationId');
             return FALSE;
         }
 

@@ -441,7 +441,7 @@ if ($current != 'detailDoctor'):
         }
     
     function check_qap() {
-        var qapId = $("#qapId").val();
+        var count,qapId = $("#qapId").val();
         $.ajax({
             url: urls + 'index.php/doctor/check_qap',
             type: 'POST',
@@ -452,21 +452,24 @@ if ($current != 'detailDoctor'):
                     $("#qapIdTb").val('');
                     $('#qapId').addClass('bdr-error');
                     $('#error-qapIdTb').fadeIn().delay(3000).fadeOut('slow');
-                    return false;
+                    count = 1;
                 }else {
                     $('#qapId').removeClass('bdr-error');
                     $('#error-qapIdTb').hide();
                     $("#qapIdTb").val(datas);
-                    return true;
+                    count = 0;
                 }
             }
         });
+        return count;
     }
     
     function validationDoctor() {
         $("#submitForm").find( ".bdr-error" ).each(function(){
             $(this).removeClass('bdr-error');
         });
+	var count = 0;
+        var count = check_qap();
         // $("form[name='doctorForm']").submit();
         var todayDate = Date.parse(new Date());
         var currentYear = new Date().getFullYear();
@@ -488,7 +491,6 @@ if ($current != 'detailDoctor'):
         var exp_year = $("#exp_year").val();
         var docatId = $("#docatId").val();
         var qapId = $("#qapId").val();
-        var count = 0;
         
         if (image == '') {
             $('#image_select').addClass('bdr-error');
