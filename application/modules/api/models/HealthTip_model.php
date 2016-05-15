@@ -36,7 +36,7 @@ class HealthTip_model extends CI_Model
     
     
     public function getRandomTip($date) {
-        
+        echo "HERE";die();
         $date = date("Y-m-d");
         $date = strtotime($date);
         
