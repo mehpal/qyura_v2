@@ -40,7 +40,7 @@ class SpecialityApi_model extends CI_Model {
         $this->db->order_by('specialities_id', 'ASC');
         
         return $this->db->get()->result();
-        
+        echo $this->db->last_query();die();
     }
     
 //    public function getDiaSpecialityList($miId = NULL) {

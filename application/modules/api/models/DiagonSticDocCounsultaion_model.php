@@ -19,7 +19,7 @@ class DiagonSticDocCounsultaion_model extends CI_Model {
                         
         $notIn = isset($notIn) ? $notIn : '';
   $date = date("Y-m-d");
-        $this->db->select('qyura_doctors.doctors_id as id,qyura_doctors.doctors_showExp, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, (select MIN(docTimeTable_price) FROM qyura_docTimeTable WHERE qyura_docTimeTable.docTimeTable_doctorId = qyura_doctors.doctors_id ) as consFee,Group_concat(DISTINCT qyura_specialities.specialities_name SEPARATOR ", ") as specialityName, Group_concat(DISTINCT qyura_degree.degree_SName SEPARATOR ", ") as degree, qyura_doctors.doctors_27Src as isEmergency, (YEAR("' . $date . '") - FROM_UNIXTIME(qyura_doctors.doctors_expYear,"%Y")) AS exp ,(
+        $this->db->select('CONCAT("0", "",  `qyura_doctors`.`doctors_phn`) phn ,qyura_doctors.doctors_id as id,qyura_doctors.doctors_showExp, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name, qyura_doctors.doctors_img imUrl, (select MIN(docTimeTable_price) FROM qyura_docTimeTable WHERE qyura_docTimeTable.docTimeTable_doctorId = qyura_doctors.doctors_id ) as consFee,Group_concat(DISTINCT qyura_specialities.specialities_name SEPARATOR ", ") as specialityName, Group_concat(DISTINCT qyura_degree.degree_SName SEPARATOR ", ") as degree, qyura_doctors.doctors_27Src as isEmergency, (YEAR("' . $date . '") - FROM_UNIXTIME(qyura_doctors.doctors_expYear,"%Y")) AS exp ,qyura_doctors.doctors_lat as lat, qyura_doctors.doctors_long as long,(
 CASE 
  WHEN (reviews_rating is not null AND qyura_ratings.rating is not null) 
  THEN
@@ -55,15 +55,19 @@ CASE
             foreach ($response as $row) {
                 $finalTemp = array();
                 $finalTemp[] = isset($row->id) ? $row->id : "";
-                $finalTemp[] = isset($row->doctors_showExp) ? $row->doctors_showExp : "0";
                 $finalTemp[] = isset($row->name) ? $row->name : "";
+                $finalTemp[] = isset($row->doctors_showExp) ? $row->doctors_showExp : "0";
                 $finalTemp[] = isset($row->exp) ? $row->exp : "0";
                 $finalTemp[] = isset($row->imUrl) ? 'assets/doctorsImages/' . $row->imUrl : "";
                 $finalTemp[] = isset($row->rating) ? $row->rating : "0";
                 $finalTemp[] = isset($row->consFee) ? $row->consFee : "0";
                 $finalTemp[] = isset($row->specialityName) ? $row->specialityName : "";
                 $finalTemp[] = isset($row->degree) ? $row->degree : "";
+                $finalTemp[] = isset($row->lat) ? $row->lat : "";
+                $finalTemp[] = isset($row->long) ? $row->long : "";
                 $finalTemp[] = isset($row->isEmergency) ? $row->isEmergency : "0"; 
+                $finalTemp[] = isset($row->phn) ? $row->phn : "";
+                $finalTemp[] = isset($row->userId) ? $row->userId : "";
                 $finalResult[] = $finalTemp;
             }
             return $finalResult;
