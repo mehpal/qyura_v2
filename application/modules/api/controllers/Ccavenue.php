@@ -177,14 +177,13 @@ class Ccavenue extends MyRest {
                         "integration_type" => "iframe_normal"
                     );
                     foreach
-                    (
-                    $avenuedata as $key => $value) {
+                    ($avenuedata as $key => $value) {
                         $merchant_data.=$key . '=' . $value . '&';
                     }
                     $encrypted_data = encrypt($merchant_data, $workingkey); // Method for encrypting the data.
                     $data["encrypted_data"] = $encrypted_data;
                     $data["access_code"] = $access_code;
-                    $res = $this->load->view("ccavenue",$data,true);
+                    $res = $this->load->view("api/ccavenue",$data,true);
                     $response = array("status"=>1, $result=>$res);
                     echo json_encode($response);
                     exit();
