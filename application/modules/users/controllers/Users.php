@@ -35,6 +35,36 @@ class Users extends MY_Controller {
         $data['familyMember'] = $this->Users_model->fetchfamilyMember();
         $this->load->super_admin_template('add_user', $data, 'usersScript');
     }
+    
+    function _isEmailRegisterCallBack($email = '') {
+
+        if (!empty($email)) {
+            $resonse = $this->common_model->fetchEmail($email, 6, '');
+            if ($resonse) {
+               $this->bf_form_validation->set_message('_isEmailRegisterCallBack', ''.$email.' already exist');
+               return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+    
+      function _ismobileRegisterCallBack($mobile = '') {
+
+        if (!empty($mobile)) {
+            $resonse = $this->common_model->fetchMobileNo($mobile, 6, '');
+            if ($resonse) {
+               $this->bf_form_validation->set_message('_ismobileRegisterCallBack', ''.$mobile.' already exist');
+               return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
 
     public function saveUsers() {
 
@@ -43,8 +73,8 @@ class Users extends MY_Controller {
         //$this->bf_form_validation->set_rules('avatar_file', 'image', 'required');
         $this->bf_form_validation->set_rules('patientDetails_gender', 'Gender', 'required|trim');
         $this->bf_form_validation->set_rules('patientDetails_dob', 'Date of Birth', 'required|trim');
-        $this->bf_form_validation->set_rules('users_email', 'Users Email', "required|valid_email|trim");
-        $this->bf_form_validation->set_rules('patientDetails_mobileNo', 'User Phone', 'required|trim|numeric');
+        $this->bf_form_validation->set_rules('users_email', 'Users Email', "required|valid_email|trim|callback__isEmailRegisterCallBack");
+        $this->bf_form_validation->set_rules('patientDetails_mobileNo', 'User Phone', 'required|trim|numeric|callback__ismobileRegisterCallBack');
         $this->bf_form_validation->set_rules('patientDetails_stateId', 'State', 'required|trim');
         $this->bf_form_validation->set_rules('patientDetails_cityId', 'City', 'required|trim');
         $this->bf_form_validation->set_rules('patientDetails_pin', 'Pin', 'required|trim|numeric');
