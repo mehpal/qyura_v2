@@ -14,13 +14,11 @@ class PharmacyApi extends MyRest {
 
     function pharmacylist_post() {
 
-
         $this->form_validation->set_rules('lat', 'Lat', 'xss_clean|trim|required|decimal');
         $this->form_validation->set_rules('long', 'Long', 'xss_clean|trim|required|decimal');
         $this->form_validation->set_rules('isemergency', 'Is Emergency', 'xss_clean|trim|numeric');
         $this->bf_form_validation->set_rules('search', 'Search Keyword', 'xss_clean|trim');
         $this->bf_form_validation->set_rules('cityId', 'cityId', 'xss_clean|trim|numeric|is_natural_no_zero');
-
 
         if ($this->form_validation->run() == FALSE) {
             // setup the input
@@ -33,16 +31,16 @@ class PharmacyApi extends MyRest {
             $long = isset($_POST['long']) ? $this->input->post('long') : '';
             $notIn = isset($_POST['notin']) ? $this->input->post('notin') : '';
             $notIn = explode(',', $notIn);
-            $isemergency = isset($_POST['isemergency']) ? $this->input->post('isemergency') : NULL;
-
+            $isemergency = (isset($_POST['isemergency']) && $_POST['isemergency'] != 0 ) ? $this->input->post('isemergency') : NULL;
+            $radius = isset($_POST['radius']) ? $this->input->post('radius') : 70;
             // search
             $search = isset($_POST['search']) && $_POST['search'] != '' ? $this->input->post('search') : NULL;
 
             //city
             $cityId = isset($_POST['cityId']) ? $this->input->post('cityId') : NULL;
+            $openNow = (isset($_POST['openNow'] )&& $_POST['openNow'] != 0) ? $this->input->post('openNow') : NULL;
 
-            $response['data'] = $this->pharmacy_model->getPhamacyList($lat, $long, $notIn, $isemergency, $search, $cityId);
-
+            $response['data'] = $this->pharmacy_model->getPhamacyList($lat, $long, $notIn, $isemergency, $search, $cityId, $openNow, $radius);
             $option = array('table' => 'pharmacy', 'select' => 'pharmacy_deleted');
             $deleted = $this->singleDelList($option);
             $response['pharmacy_deleted'] = $deleted;

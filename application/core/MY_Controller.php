@@ -33,7 +33,6 @@ class MY_Controller extends CI_Controller {
         $this->access_denied = $this->session->flashdata('access_denied');
         $this->load->helper(array('csv', 'download'));
         $this->Common_model->mypermission("7");
-
     }
 
     /**
@@ -253,9 +252,9 @@ class MY_Controller extends CI_Controller {
         if (!empty($table_field_name) && !empty($table_name) && !empty($field_value)) {
 
             $where = array($table_field_name => $field_value);
-            if ($status_value == 2 ) {
+            if ($status_value == 2) {
                 $update_data['status'] = 3;
-            } 
+            }
 
             $options = array(
                 'table' => $table_name,
@@ -272,6 +271,7 @@ class MY_Controller extends CI_Controller {
             echo 0;
         }
     }
+
     function getCityByMI($id = '') {
 
         $this->db->select('city.city_id,city.city_name,city.city_center');
@@ -321,7 +321,7 @@ class MY_Controller extends CI_Controller {
         return $data->result();
     }
 
-   /**
+    /**
      * @method updateTimeSlot
      * @description update time slot
      * @access public
@@ -334,7 +334,7 @@ class MY_Controller extends CI_Controller {
         $mi_user_id = $this->input->post('mi_user_id');
         $miId = $this->input->post('mi_id');
         $timeSlotsIds = array();
-        
+
         for ($j = 1; $j < 8; $j++) {
 
             $totalSlot = $this->input->post("totalSlot_$j");
@@ -401,21 +401,20 @@ class MY_Controller extends CI_Controller {
 
         if (true) {
             $this->session->set_flashdata('message', 'Time Slot Update successfully!');
-            redirect($redirectUrl.'/'.$miId.'/timeSlot');
+            redirect($redirectUrl . '/' . $miId . '/timeSlot');
         } else {
             $this->session->set_flashdata('error', 'Time Slot Update failed !');
-             redirect($redirectUrl.'/'.$miId.'/timeSlot');
+            redirect($redirectUrl . '/' . $miId . '/timeSlot');
         }
     }
-    
-     /**
+
+    /**
      * @method setTimeSlotMi
      * @description add time slot
      * @access public
      * @param int
      * @return boolean
      */
-
     function setTimeSlotMi() {
 
         $redirectUrl = $this->input->post('redirectControllerMethod');
@@ -452,14 +451,14 @@ class MY_Controller extends CI_Controller {
 
         if ($insertId) {
             $this->session->set_flashdata('message', 'Time Slot insert successfully!');
-             redirect($redirectUrl.'/'.$miId.'/timeSlot');
+            redirect($redirectUrl . '/' . $miId . '/timeSlot');
         } else {
             $this->session->set_flashdata('error', 'Time Slot insert failed !');
-             redirect($redirectUrl.'/'.$miId.'/timeSlot');
+            redirect($redirectUrl . '/' . $miId . '/timeSlot');
         }
     }
-    
-    function sendEmailRegister($emailId){
+
+    function sendEmailRegister($emailId) {
 
         $this->load->library('email');
 
@@ -472,7 +471,7 @@ class MY_Controller extends CI_Controller {
         $this->email->set_newline("\r\n");
         $this->email->from('admin@qyuram.com', 'QYURA TEAM');
         $this->email->to($emailId);
-        $body = "Hello ".$emailId;
+        $body = "Hello " . $emailId;
         $this->email->subject('Conguratilation! Welcome to Qyura');
         $this->email->message($body);
 
@@ -480,22 +479,20 @@ class MY_Controller extends CI_Controller {
             return true;
         } else {
             return false;
-        } 
-        
+        }
     }
 
-     function updateMultipleIds($formData, $dbData, $mainId, $table) {
+    function updateMultipleIds($formData, $dbData, $mainId, $table) {
         $newDbData = array();
         $newDbData = '';
         $date = strtotime(date('Y-m-d'));
-         if(isset($dbData) && count($dbData) == 0){
+        if (isset($dbData) && count($dbData) == 0) {
             foreach ($formData as $key => $value) {
-                 $insert = $this->common_model->customQuery("insert into $table(`doctorSpecialities_doctorsId`,`doctorSpecialities_specialitiesId`,`creationTime`)values($mainId,$value,$date)", $single = false, $updDelete = false, $noReturn = true);
-                 
+                $insert = $this->common_model->customQuery("insert into $table(`doctorSpecialities_doctorsId`,`doctorSpecialities_specialitiesId`,`creationTime`)values($mainId,$value,$date)", $single = false, $updDelete = false, $noReturn = true);
             }
-           return true;
+            return true;
         }
-        
+
         foreach ($dbData as $key => $value) {
             $newDbData[] = $dbData[$key]->doctorSpecialities_specialitiesId;
         }
@@ -525,14 +522,31 @@ class MY_Controller extends CI_Controller {
         }
         return $response;
     }
-    
-      function isEmailRegister() {
+
+    function isEmailRegister() {
 
         $email = $this->input->post('email');
         $id = $this->input->post('id');
         $role = $this->input->post('role');
         if (!empty($email)) {
-            $resonse = $this->common_model->fetchEmail($email,$role, $id);
+            $resonse = $this->common_model->fetchEmail($email, $role, $id);
+            if ($resonse) {
+                echo "false";
+            } else {
+                echo "true";
+            }
+        } else {
+            echo "false";
+        }
+    }
+
+    function isMobileRegister() {
+
+        $mobileNo = $this->input->post('mobileNo');
+        $id = $this->input->post('id');
+        $role = $this->input->post('role');
+        if (!empty($mobileNo)) {
+            $resonse = $this->common_model->fetchMobileNo($mobileNo, $role, $id);
             if ($resonse) {
                 echo "false";
             } else {

@@ -186,7 +186,7 @@ class Auth extends MyRest {
         $this->bf_form_validation->set_rules('code', 'OTP Code', 'required|numeric|min_length[5]|max_length[5]|xss_clean');
         $this->bf_form_validation->set_rules('device', 'device', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
         $this->bf_form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean');
-        $this->bf_form_validation->set_rules('gender', 'Gender', 'trim|min_length[1]|max_length[1]|numeric|xss_clean');
+        $this->bf_form_validation->set_rules('gender', 'Gender', 'trim|xss_clean');
         $this->bf_form_validation->set_rules('logintype', 'logintype', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
         $this->bf_form_validation->set_rules('mobileNo', 'Mobile No', 'required|min_length[10]|max_length[10]|numeric|xss_clean');
         $this->bf_form_validation->set_rules('name', 'name', 'required|max_length[80]|xss_clean');
@@ -196,8 +196,8 @@ class Auth extends MyRest {
         
         $logintype = $this->input->post('logintype');
         if($logintype == 0){
-            $this->bf_form_validation->set_rules('password', 'password', 'required|min_length[' . $this->config->item('min_password_length', 'auth_conf_api') . ']|max_length[' . $this->config->item('max_password_length', 'auth_conf_api') . ']|xss_clean');
-            $this->bf_form_validation->set_rules('dob', 'Date of Birth', 'trim|xss_clean|valid_date[y-m-d,-]'); 
+            $this->bf_form_validation->set_rules('password', 'password', 'required|xss_clean');
+            $this->bf_form_validation->set_rules('dob', 'Date of Birth', 'trim|xss_clean'); 
         }elseif($logintype == 2){
             $this->bf_form_validation->set_rules('socialId', 'Social Id', 'trim|required|xss_clean');
         }
@@ -356,9 +356,9 @@ class Auth extends MyRest {
                 $userDetail->pushToken = $userDetail->userSocial_pushToken;
                 $userDetail->scUsersId = $userDetail->userSocial_id;
                 
-                print_r($userDetail);exit;
+                
                 $msg = "Your Account is Activated Successfully";
-                $response = array('status' => 1, 'message' => $msg, 'userDetail' => $data);
+                $response = array('status' => 1, 'message' => $msg, 'userDetail' => $userDetail);
                 $this->response($response, 200); // 200 being the HTTP response code
             }else{
                 $message = "Please Check Your OTP";
@@ -395,23 +395,22 @@ class Auth extends MyRest {
                 'single'=>true
             );
             $userDetail = $this->common_model->customGet($option);
-            $userDetail->address = $userDetail->patientDetails_address;
-            $userDetail->dob = $userDetail->patientDetails_dob;
-            $userDetail->fbId = $userDetail->userSocial_fbId;
-            $userDetail->gender = $userDetail->patientDetails_gender;
-            $userDetail->gpId = $userDetail->users_gpId;
-            $userDetail->logintype = $userDetail->users_logintype;
-            $userDetail->notification = $userDetail->userSocial_notification;
-            $userDetail->pLastName = $userDetail->patientDetails_pLastName;
-            $userDetail->patientImg = $userDetail->patientDetails_patientImg;
-            $userDetail->patientName = $userDetail->patientDetails_patientName;
-            $userDetail->device = $userDetail->userSocial_device;
-            $userDetail->pUnqId = $userDetail->patientDetails_unqId;
-            $userDetail->pushToken = $userDetail->userSocial_pushToken;
-            $userDetail->scUsersId = $userDetail->userSocial_id;
-                
-            if ($userDetail) {
-
+            if (isset($userDetail) && $userDetail != NULL) {
+		    $userDetail->address = $userDetail->patientDetails_address;
+		    $userDetail->dob = $userDetail->patientDetails_dob;
+		    $userDetail->fbId = $userDetail->userSocial_fbId;
+		    $userDetail->gender = $userDetail->patientDetails_gender;
+		    $userDetail->gpId = $userDetail->users_gpId;
+		    $userDetail->logintype = $userDetail->users_logintype;
+		    $userDetail->notification = $userDetail->userSocial_notification;
+		    $userDetail->pLastName = $userDetail->patientDetails_pLastName;
+		    $userDetail->patientImg = $userDetail->patientDetails_patientImg;
+		    $userDetail->patientName = $userDetail->patientDetails_patientName;
+		    $userDetail->device = $userDetail->userSocial_device;
+		    $userDetail->pUnqId = $userDetail->patientDetails_unqId;
+		    $userDetail->pushToken = $userDetail->userSocial_pushToken;
+		    $userDetail->scUsersId = $userDetail->userSocial_id;
+    
                 if ($userDetail->gpId == null)
                     $userDetail->gpId = '';
 

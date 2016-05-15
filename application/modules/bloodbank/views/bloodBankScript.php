@@ -1088,7 +1088,16 @@ function isNumberKey(evt, id) {
                     required: true,
                     number: true,
                     minlength:10,
-                    maxlength:10
+                    maxlength:10,
+                    remote: {
+                    url:  url + 'index.php/bloodbank/isMobileRegister',
+                    type: "post",
+                    data: {
+                            mobileNo: function(){ return $("#bloodBank_mblNo").val(); },
+                            id: function(){ return $("#user_tables_id").val(); },
+                            role: function(){ return 2; }
+                    }
+                  }
                 },
                   users_password: {
                     required: true, 
@@ -1148,6 +1157,7 @@ function isNumberKey(evt, id) {
                 },
                 bloodBank_mblNo: {
                     required: "Please enter mobile number",
+                    remote: jQuery.validator.format("{0} is already exists.")
                 },
                 users_password: {
                     required: "Please enter password",

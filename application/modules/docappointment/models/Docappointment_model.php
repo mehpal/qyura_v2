@@ -406,7 +406,7 @@ CASE
 
         $this->datatables->add_column('Doctor', '<h6>$1</h6>', 'doc_name');
 
-        $this->datatables->edit_column('Status', '<h6>$1</h6>', 'status(appoint_status)');
+        $this->datatables->edit_column('bookStatus', '$1', 'getStatusDropDown(appoint_status,appoint_id,"1")');
 
         $this->datatables->add_column('Action', '<p><a  class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="' . site_url('docappointment/appointment_view') . '/$1">View Detail</a></p>', 'appoint_id,quotation_MiId');
         return  $this->datatables->generate();

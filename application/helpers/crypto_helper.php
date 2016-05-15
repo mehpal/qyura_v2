@@ -2,19 +2,21 @@
 
 	error_reporting(0);
 
-	function encrypt($plainText,$key)
-	{
+	 function encrypt($plainText,$key)
+	{  
+            
 		$secretKey = hextobin(md5($key));
 		$initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
-	  	$openMode = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '','cbc', '');
-	  	$blockSize = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, 'cbc');
-		$plainPad = pkcs5_pad($plainText, $blockSize);
+//	  	$openMode = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '','cbc', '');
+//	  	$blockSize = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, 'cbc');
+//		$plainPad = pkcs5_pad($plainText, $blockSize);
 	  	if (mcrypt_generic_init($openMode, $secretKey, $initVector) != -1) 
 		{
 		      $encryptedText = mcrypt_generic($openMode, $plainPad);
 	      	      mcrypt_generic_deinit($openMode);
 		      			
 		} 
+                
 		return bin2hex($encryptedText);
 	}
 
@@ -65,4 +67,3 @@
   	        return $binString; 
     	  } 
 ?>
-
