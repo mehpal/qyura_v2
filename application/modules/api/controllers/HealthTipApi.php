@@ -21,12 +21,13 @@ class HealthTipApi extends MyRest {
            
             $sponserTip = NULL;
             
-            if($cityId != NULL) {
-                echo "Hi";
+            if($cityId != NULL) { 
                 $sponserTip = $this->HealthTip_model->getSponsorTip($cityId,$date);
-                
+                echo $this->db->last_query();
             }
+            
             dump($sponserTip);die();
+            
             if(isset($sponserTip) && $sponserTip != NULL){
                 $response['status'] = TRUE;
                 $response["data"] = $sponserTip;
