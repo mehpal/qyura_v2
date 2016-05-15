@@ -587,3 +587,4 @@ JOIN `qyura_city` `Ct` ON `Ct`.`city_id` = `Spon`.`sponsor_cityId`
 WHERE `Spon`.`sponsor_deleted` =0
 ORDER BY `Spon`.`sponsor_date` DESC, `Spon`.`sponsor_date` DESC, `miname` ASC
  LIMIT 10
+ERROR - 2016-05-15 13:11:24 --> Unable to save the image. Please make sure the image and file directory are writable.
