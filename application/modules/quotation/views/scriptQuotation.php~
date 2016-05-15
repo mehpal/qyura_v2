@@ -1196,7 +1196,7 @@
                 {"data": "amount"},
                 {"data": "dt"},
                 {"data": "qStatus"},
-                
+                {"data": "convertStatus"},
                 {"data": "action"},
             ],
             "ajax": {
