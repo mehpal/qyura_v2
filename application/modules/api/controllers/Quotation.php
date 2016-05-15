@@ -260,9 +260,11 @@ class Quotation extends MyRest {
     function _checkTotalAmount($str_in = '') {
         $this->load->model(array('quotation_model'));
         $quotationId = $_POST['quotationId'];
+        
         $quotationTestsAmount = $this->quotation_model->qtTestTotalAmount($quotationId);
-
-        $str_in = number_format($str_in, 2, '.', '');
+       echo $quotationTestsAmount->price;
+      echo  $str_in = number_format($str_in, 2, '.', ''); exit;
+        
         if (isset($quotationId) && $quotationId != NULL) {
 
             if ($quotationTestsAmount->price != $str_in || $quotationTestsAmount == null) {
