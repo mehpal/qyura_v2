@@ -13,13 +13,13 @@ class Ccavenue extends MyRest {
         $this->load->model(array('Ccavenue_model'));
     }
 
-    function Ccavenue_Request_post() {
+    function Ccavenue_Request_get() {
 
+        
         $workingkey = '3794D9838D0C5C87EB4F80E843D63715'; //Shared by CCAVENUES 
+
         $access_code = 'AVHP64DB16BW48PHWB'; //Shared by CCAVENUES
         $merchant_id = "91637";
-
-                        dump($workingkey  );die();
 
         $integration_type = "iframe_normal";
 
@@ -28,46 +28,48 @@ class Ccavenue extends MyRest {
         $redirect_url = site_url() . "/api/ccavenue/ccavenue_response";
         $cancel_url = site_url() . "/api/ccavenue/ccavenue_cancel";
 
-        $this->bf_form_validation->set_rules('specialitiesId', 'Specialities Id', 'xss_clean|numeric|required|trim');
-        $this->bf_form_validation->set_rules('preferedDate', 'Prefered Date', 'xss_clean|required|trim|max_length[11]|valid_date[y-m-d,-]|callback__check_date');
-        $this->bf_form_validation->set_rules('preferedTimeId', 'Prefered time', 'xss_clean|required|trim|numeric'); //docTimeDayId
-        $this->bf_form_validation->set_rules('userId', 'User Id', 'xss_clean|numeric|required|trim'); // Loged In user Id
-        $this->bf_form_validation->set_rules('memberId', 'Member Id', 'xss_clean|numeric|required|trim'); // 0 =Self as patient
-        $this->bf_form_validation->set_rules('doctorType', 'Doctor Type', 'xss_clean|numeric|required|trim'); //1 Hos /2 Dig /3 ind
-        $this->bf_form_validation->set_rules('doctorId', 'Doctor Id', 'xss_clean|numeric|required|trim'); // Doctor Profile Id
-        $this->bf_form_validation->set_rules('parentId', 'Mi Id', 'xss_clean|numeric|required|trim'); // 0=indi Doctor
-        $this->bf_form_validation->set_rules('consulationFee', 'consulationFee', 'xss_clean|required|trim|numeric');
-        $this->bf_form_validation->set_rules('tax', 'tax', 'xss_clean|trim|numeric');
-        $this->bf_form_validation->set_rules('remark', 'Remark', 'xss_clean|required|trim|max_length[100]'); // Remark
+//        $this->bf_form_validation->set_rules('specialitiesId', 'Specialities Id', 'xss_clean|numeric|required|trim');
+//        $this->bf_form_validation->set_rules('preferedDate', 'Prefered Date', 'xss_clean|required|trim|max_length[11]|valid_date[y-m-d,-]|callback__check_date');
+//        $this->bf_form_validation->set_rules('preferedTimeId', 'Prefered time', 'xss_clean|required|trim|numeric'); //docTimeDayId
+//        $this->bf_form_validation->set_rules('userId', 'User Id', 'xss_clean|numeric|required|trim'); // Loged In user Id
+//        $this->bf_form_validation->set_rules('memberId', 'Member Id', 'xss_clean|numeric|required|trim'); // 0 =Self as patient
+//        $this->bf_form_validation->set_rules('doctorType', 'Doctor Type', 'xss_clean|numeric|required|trim'); //1 Hos /2 Dig /3 ind
+//        $this->bf_form_validation->set_rules('doctorId', 'Doctor Id', 'xss_clean|numeric|required|trim'); // Doctor Profile Id
+//        $this->bf_form_validation->set_rules('parentId', 'Mi Id', 'xss_clean|numeric|required|trim'); // 0=indi Doctor
+//        $this->bf_form_validation->set_rules('consulationFee', 'consulationFee', 'xss_clean|required|trim|numeric');
+//        $this->bf_form_validation->set_rules('tax', 'tax', 'xss_clean|trim|numeric');
+//        $this->bf_form_validation->set_rules('remark', 'Remark', 'xss_clean|required|trim|max_length[100]'); // Remark
+//
+//        if ($this->bf_form_validation->run($this) == FALSE) {
+//            // setup the input
+//            $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
+//        
+//            $this->response($response, 400);
+//        } else {
+//           
+//            $specialitiesId = isset($_POST['specialitiesId']) ? $this->input->post('specialitiesId') : '';
+//            $preferedDate = isset($_POST['preferedDate']) ? $this->input->post('preferedDate') : '';
+//            $preferedTimeId = isset($_POST['preferedTimeId']) ? $this->input->post('preferedTimeId') : ''; //SessionId of slots
+//            $userId = isset($_POST['userId']) ? $this->input->post('userId') : '';
+//            $memberId = isset($_POST['memberId']) ? $this->input->post('memberId') : 0;
+//            $doctorType = $center_type = isset($_POST['doctorType']) ? $this->input->post('doctorType') : '';
+//            $doctorUserId = isset($_POST['doctorId']) ? $this->input->post('doctorId') : '';
+//            $parentId = $miuser_id = isset($_POST['parentId']) ? $this->input->post('parentId') : 0;
+//            $consulationFee = isset($_POST['consulationFee']) ? $this->input->post('consulationFee') : 0;
+//            $tax = isset($_POST['tax']) ? $this->input->post('tax') : 0;
+//            $remark = isset($_POST['remark']) ? $this->input->post('remark') : '';
 
-        if ($this->bf_form_validation->run($this) == FALSE) {
-            // setup the input
-            $response = array('status' => FALSE, 'message' => $this->validation_post_warning());
-            $this->response($response, 400);
-        } else {
-            $specialitiesId = isset($_POST['specialitiesId']) ? $this->input->post('specialitiesId') : '';
-            $preferedDate = isset($_POST['preferedDate']) ? $this->input->post('preferedDate') : '';
-            $preferedTimeId = isset($_POST['preferedTimeId']) ? $this->input->post('preferedTimeId') : ''; //SessionId of slots
-            $userId = isset($_POST['userId']) ? $this->input->post('userId') : '';
-            $memberId = isset($_POST['memberId']) ? $this->input->post('memberId') : 0;
-            $doctorType = $center_type = isset($_POST['doctorType']) ? $this->input->post('doctorType') : '';
-            $doctorUserId = isset($_POST['doctorId']) ? $this->input->post('doctorId') : '';
-            $parentId = $miuser_id = isset($_POST['parentId']) ? $this->input->post('parentId') : 0;
-            $consulationFee = isset($_POST['consulationFee']) ? $this->input->post('consulationFee') : 0;
-            $tax = isset($_POST['tax']) ? $this->input->post('tax') : 0;
-            $remark = isset($_POST['remark']) ? $this->input->post('remark') : '';
-
-//$specialitiesId = isset($_POST['specialitiesId']) ? $this->input->post('specialitiesId') : '38';
-//$preferedDate = isset($_POST['preferedDate']) ? $this->input->post('preferedDate') : '2016-05-15';
-//$preferedTimeId = isset($_POST['preferedTimeId']) ? $this->input->post('preferedTimeId') : '62'; //SessionId of slots
-//$userId = isset($_POST['userId']) ? $this->input->post('userId') : '14';
-//$memberId = isset($_POST['memberId']) ? $this->input->post('memberId') : 10;
-//$doctorType = $centertype = isset($_POST['doctorType']) ? $this->input->post('doctorType') : '1';
-//$doctorUserId = isset($_POST['doctorId']) ? $this->input->post('doctorId') : '40';
-//$parentId = $miuser_id = isset($_POST['parentId']) ? $this->input->post('parentId') : 45;
-//$consulationFee = isset($_POST['consulationFee']) ? $this->input->post('consulationFee') : 5;
-//$tax = isset($_POST['tax']) ? $this->input->post('tax') : 5;
-//$remark = isset($_POST['remark']) ? $this->input->post('remark') : 'test rem';
+$specialitiesId = isset($_POST['specialitiesId']) ? $this->input->post('specialitiesId') : '38';
+$preferedDate = isset($_POST['preferedDate']) ? $this->input->post('preferedDate') : '2016-05-15';
+$preferedTimeId = isset($_POST['preferedTimeId']) ? $this->input->post('preferedTimeId') : '62'; //SessionId of slots
+$userId = isset($_POST['userId']) ? $this->input->post('userId') : '14';
+$memberId = isset($_POST['memberId']) ? $this->input->post('memberId') : 10;
+$doctorType = $centertype = isset($_POST['doctorType']) ? $this->input->post('doctorType') : '1';
+$doctorUserId = isset($_POST['doctorId']) ? $this->input->post('doctorId') : '40';
+$parentId = $miuser_id = isset($_POST['parentId']) ? $this->input->post('parentId') : 45;
+$consulationFee = isset($_POST['consulationFee']) ? $this->input->post('consulationFee') : 5;
+$tax = isset($_POST['tax']) ? $this->input->post('tax') : 5;
+$remark = isset($_POST['remark']) ? $this->input->post('remark') : 'test rem';
 
 
             $tax_amount = ($consulationFee / 100) * $tax;
@@ -143,8 +145,6 @@ class Ccavenue extends MyRest {
 
                 $cronId = $this->common_model->customInsert($options);
 
-
-
                 $patdata = $this->Ccavenue_model->fetchPatData(array('pat.patientDetails_usersId' => $userId));
 
                 if (!empty($patdata)) {
@@ -182,31 +182,34 @@ class Ccavenue extends MyRest {
                     ($avenuedata as $key => $value) {
                         $merchant_data.=$key . '=' . $value . '&';
                     }
-                    $encrypted_data = encrypt($merchant_data, $workingkey); // Method for encrypting the data.
+                    
+                    echo $encrypted_data = encrypt($merchant_data, $workingkey); // Method for encrypting the data.
+                    exit;
+                    
                     $data["encrypted_data"] = $encrypted_data;
                     $data["access_code"] = $access_code;
-                        dump($encrypted_data  );die();
-                    $res = $this->load->view("api/ccavenue",$data,true);
-                    $response = array("status"=>1, $result=>$res);
-                    dump($response  );die();
-//                    echo json_encode($response);
-//                    exit();
-                    $this->response($response);
+                       
+//                    $res = $this->load->view("api/ccavenue",$data,true);
+//                    $response = array("status"=>1, $result=>$res);
+//                    dump($response  );die();
+////                    echo json_encode($response);
+////                    exit();
+//                    $this->response($response);
                     ?>
-                    <!--form method="post" name="redirect" action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"> 
+                   <form method="post" name="redirect" action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"> 
                         <?php
-                        /*echo "<input type=hidden name=encRequest value=$encrypted_data>";
-                        echo "<input type=hidden name=access_code value=$access_code>";*/
+                        echo "<input type=hidden name=encRequest value=$encrypted_data>";
+                        echo "<input type=hidden name=access_code value=$access_code>";
                         ?>
                     </form>
-                    <script language='javascript'>document.redirect.submit();</script-->
+                    <script language='javascript'>document.redirect.submit();</script>
                     <?php
                 } else {
                     $response = array('status' => FALSE, 'message' => 'Patient details not found!');
                     $this->response($response, 200);
                 }
             }
-        }
+//        }
     }
 
     function Ccavenue_Response_post() {
