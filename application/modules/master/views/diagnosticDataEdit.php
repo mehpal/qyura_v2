@@ -27,6 +27,7 @@
                                                 <option <?php if($diagnostic_value->diagnostic_countryId == $val->country_id){ echo "selected"; } ?>  value="<?php echo $val->country_id; ?>"><?php echo $val->country; ?></option>
                                         <?php } } ?>
                                     </select>
+                                    <div class="error-country"></div>
                                     <label class="error" id="err_diagnostic_countryId" > <?php echo form_error("diagnostic_countryId"); ?></label>
                                 </div>
                             </article>
@@ -39,6 +40,7 @@
                                                 <option <?php if($diagnostic_value->diagnostic_stateId == $val->state_id){ echo "selected"; } ?> value="<?php echo $val->state_id; ?>"><?php echo $val->state_statename; ?></option>
                                             <?php } } ?>
                                     </select>
+                                    <div class="error-state"></div>
                                     <label class="error" id="err_diagnostic_stateId" > <?php echo form_error("diagnostic_stateId"); ?></label>
                                 </div>
                             </article>
@@ -51,6 +53,7 @@
                                                 <option <?php if($diagnostic_value->diagnostic_cityId == $val->city_id){ echo "selected"; } ?> value="<?php echo $val->city_id; ?>"><?php echo $val->city_name; ?></option>
                                                 <?php } }  ?>
                                     </select>
+                                    <div class="error-city"></div>
                                     <label class="error" id="err_diagnostic_cityId" > <?php echo form_error("diagnostic_cityId"); ?></label>
                                 </div>
                             </article>

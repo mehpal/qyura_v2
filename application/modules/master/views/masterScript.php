@@ -1184,6 +1184,24 @@ function showDiagnosticType(id){
             required: true
             }
         },
+        errorPlacement: function(error, element) {
+        if (element.attr("name") == "mi_countryId")
+        {
+            error.insertAfter('.error-country');
+        }
+        else if (element.attr("name") == "mi_stateId")
+        {
+            error.insertAfter('.error-state');
+        }
+        else if (element.attr("name") == "mi_cityId")
+        {
+            error.insertAfter('.error-city');
+        }
+        else{
+            error.insertAfter(element);
+        }
+
+        },
         messages: {
             mi_name: {
                 required: "Please enter MI name!",
@@ -1252,6 +1270,24 @@ function showDiagnosticType(id){
             required: true
             }
         },
+        errorPlacement: function(error, element) {
+        if (element.attr("name") == "diagnostic_countryId")
+        {
+            error.insertAfter('.error-country');
+        }
+        else if (element.attr("name") == "diagnostic_stateId")
+        {
+            error.insertAfter('.error-state');
+        }
+        else if (element.attr("name") == "diagnostic_cityId")
+        {
+            error.insertAfter('.error-city');
+        }
+        else{
+            error.insertAfter(element);
+        }
+
+        },
         messages: {
             diagnostic_name: {
                 required: "Please enter MI name!",
@@ -1270,6 +1306,91 @@ function showDiagnosticType(id){
                 required: "Please enter a zip code!"
             },
             diagnostic_address: {
+                required: "Please enter an address!"
+            },
+            lat: {
+                required: "Please enter the latitude!"
+            },
+            lng: {
+                required: "Please enter the longitude!"
+            }   
+           
+        }
+
+    });
+    
+});
+</script>
+<script>
+    var urls = "<?php echo base_url() ?>";
+    $(document).ready(function () {
+    $("#editHospitalForm").validate({
+        rules: {
+            hospital_name: {
+                required: true
+            },
+            hospital_countryId: {
+                required : true
+            },
+            hospital_stateId: {
+                required : true
+            },
+            hospital_cityId: {
+                required : true
+            },
+            hospital_zip: {
+                required: true,
+                            
+            },
+            hospital_address:{
+         
+                required: true
+            },
+            lat:{
+         
+           required: true
+            },
+            lng:{
+         
+            required: true
+            }
+        },
+        errorPlacement: function(error, element) {
+        if (element.attr("name") == "hospital_countryId")
+        {
+            error.insertAfter('.error-country');
+        }
+        else if (element.attr("name") == "hospital_stateId")
+        {
+            error.insertAfter('.error-state');
+        }
+        else if (element.attr("name") == "hospital_cityId")
+        {
+            error.insertAfter('.error-city');
+        }
+        else{
+            error.insertAfter(element);
+        }
+
+        },
+        messages: {
+            hospital_name: {
+                required: "Please enter MI name!",
+            },
+            hospital_countryId: {
+                required : "Please select a country!"
+            },
+            hospital_stateId: {
+                required : "Please select a state!"
+            },
+            hospital_cityId: {
+                required : "Please select a city!"
+            },
+         
+            hospital_zip: {
+                required: "Please enter a zip code!"
+            },
+            hospital_address: {
                 required: "Please enter an address!"
             },
             lat: {
@@ -1312,6 +1433,24 @@ function showDiagnosticType(id){
          
                 required: true
             }
+        },
+        errorPlacement: function(error, element) {
+        if (element.attr("name") == "city_countryid")
+        {
+            error.insertAfter('.error-country');
+        }
+        else if (element.attr("name") == "city_stateid")
+        {
+            error.insertAfter('.error-state');
+        }
+        else if (element.attr("name") == "city_name")
+        {
+            error.insertAfter('.error-city');
+        }
+        else{
+            error.insertAfter(element);
+        }
+
         },
         messages: {
             city_countryid: {
@@ -1367,6 +1506,24 @@ function showDiagnosticType(id){
          
                 required: true
             }
+        },
+        errorPlacement: function(error, element) {
+        if (element.attr("name") == "city_countryid")
+        {
+            error.insertAfter('.error-country');
+        }
+        else if (element.attr("name") == "city_stateid")
+        {
+            error.insertAfter('.error-state');
+        }
+        else if (element.attr("name") == "city_name")
+        {
+            error.insertAfter('.error-city');
+        }
+        else{
+            error.insertAfter(element);
+        }
+
         },
         messages: {
             city_countryid: {

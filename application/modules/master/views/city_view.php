@@ -78,6 +78,7 @@
                                                     <option <?php echo set_select('city_countryid', $val->country_id); ?>  value="<?php echo $val->country_id; ?>"><?php echo $val->country; ?></option>
                                             <?php } } ?>
                                         </select>
+                                        <div class="error-country"></div>
                                         <label class="error" id="err_city_countryid" > <?php echo form_error("city_countryid"); ?></label>
                                     </div>
                                 </article>
@@ -91,6 +92,7 @@
                                                     <option <?php echo set_select('city_stateid', $val->state_id); ?> value="<?php echo $val->state_id; ?>"><?php echo $val->state_statename; ?></option>
                                                 <?php } } ?>
                                         </select>
+                                        <div class="error-state"></div>
                                         <label class="error" id="err_city_stateid" > <?php echo form_error("city_stateid"); ?></label>
                                     </div>
                                 </article>
@@ -98,6 +100,7 @@
                                     <label for="cname" class="control-label col-md-4 col-sm-4 m-t-10">City Name:</label>
                                     <div class="col-md-8 col-sm-8">
                                         <input class="form-control" id="city_name" type="text" name="city_name" placeholder="City Name" onkeypress="return isAlpha(event,this.value)">
+                                        <div class="error-city"></div>
                                         <label class="error" id="err_city_name" > <?php echo form_error("city_name"); ?></label>
                                     </div>
                                 </article>
