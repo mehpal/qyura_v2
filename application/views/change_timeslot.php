@@ -13,7 +13,7 @@
                                 <label for="" class="control-label col-md-4 col-sm-4">Appointment Date:</label>
                                 <div class="col-md-8 col-sm-8">
                                     <div class="input-group">
-                                        <input class="form-control pickDate" id="date-7" type="text" name="appdate" onkeydown="return false;" onchange="getTimeSlot();">
+                                        <input class="form-control pickDate" id="date-7" type="text" name="appdate" onkeydown="return false;" onchange="getTimeSlot($('#docid').val(),this.value,$('#h_d_id').val(),$('#center_type').val());">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                     </div>
                                 </div>
@@ -21,7 +21,7 @@
                             <article class="clearfix m-t-10">
                                 <label class="control-label col-md-4 col-sm-4">Time Slot :</label>
                                 <p class="col-md-8 col-sm-8">
-                                    <select  data-width="100%" name="timeSlot" id="timeSlot">
+                                    <select class="selectpicker" style:"z-index:50000000" data-width="100%" name="timeSlot" id="timeSlot">
                                         <option value="">Select Time Slot</option>
                                     </select>
 

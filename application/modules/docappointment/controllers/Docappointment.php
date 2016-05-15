@@ -614,4 +614,21 @@ class Docappointment extends MY_Controller {
             echo json_encode(FALSE);
         }
     }
+    
+    public function changestatus() {
+        $myid = $this->input->post('myid');
+        $appfor = $this->input->post('ele');
+        $status = $this->input->post('status');
+
+        if ($appfor == "1") {
+            $update = array("doctorAppointment_status" => $status);
+            $this->db->where(array('doctorAppointment_id' => $myid));
+            $this->db->update('qyura_doctorAppointment', $update);
+        } else {
+            $update = array("quotation_qtStatus" => $status);
+            $this->db->where(array('quotation_id' => $myid));
+            $this->db->update('qyura_quotations', $update);
+        }
+        echo $this->db->last_query();
+    }
 }

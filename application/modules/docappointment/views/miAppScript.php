@@ -54,7 +54,7 @@ if ($current == 'detailBloodBank'):
                     "targets": [0,1,2,3,4,5],
                     "orderable": false
                 }],
-            // "searching": true,
+            "searching": false,
             "bLengthChange": false,
             "bProcessing": true,
             "iDisplayLength": 10,
@@ -65,7 +65,7 @@ if ($current == 'detailBloodBank'):
                 {"data": "DateTime"},
                 {"data": "PatientName"},
                 {"data": "Doctor"},
-                {"data": "Status"},
+                {"data": "bookStatus"},
                 {"data": "Action","searchable": false, "order": false},
             ],
             "ajax": {
@@ -103,4 +103,40 @@ if ($current == 'detailBloodBank'):
             }
         });
     }
+    
+function changestatus(myid, appfor, status_value)
+    {
+        //appfor 1=Consultation
+        if (status_value == 11)
+            var con_mess = "Pending";
+        else if(status_value == 12)
+            con_mess = "Confirm";
+        else if(status_value == 13)
+            con_mess = "Canceled";
+        else if(status_value == 19)
+            con_mess = "Expired";
+        bootbox.confirm('Do you really want to change status to ' + con_mess + '?', function (result) {
+            if (result) {
+
+                var url = '<?php echo site_url(); ?>' + '/docappointment/changestatus';
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: 'POST',
+                    data: {'myid': myid, 'ele': appfor, 'status': status_value},
+                    beforeSend: function (xhr) {
+                    },
+                    success: function (data) {
+                        location.reload(); 
+                    }
+                });
+            }
+            else
+            {
+               $('#datatble_consulting').DataTable().ajax.reload();
+               $('#datatable_diagnostic').DataTable().ajax.reload();
+            }
+        });
+    }
+    
 </script>

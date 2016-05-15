@@ -40,7 +40,7 @@ function drawChart() {
             var obj = $.parseJSON(response);
             if (response) {
                 
-               console.log(obj);
+              // console.log(obj);
                
                   data.addRows([
                     ['Hospitals', obj['Hospitals']],
@@ -77,11 +77,14 @@ function drawChart() {
     
 }
 
-$("#chartYear").on('change',function(){
-   var year = $(this).val();
-
-   google.setOnLoadCallback(drawChartAjax(year));
-});
+//$("#chartYear").on('change',function(){
+//   var year = $(this).val();
+//
+//   
+//});
+function getChartYear(year){
+  google.setOnLoadCallback(drawChartAjax(year));  
+}
 
 function drawChartAjax(year) {
   

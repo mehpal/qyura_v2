@@ -3,7 +3,7 @@
                 <!--   start section 1 -->
                 <section class="clearfix">
                     <!--start total booking-->
-                    <aside class=" col-md-4 col-sm-4 m-b-10">
+                    <aside class=" col-md-6 col-sm-6 m-b-10">
                         <h4 class="r-box-title">Total Bookings</h4>
                         <article class="clearfix  r-box">
                             <figure class="col-md-4">
@@ -31,7 +31,7 @@
                     </aside>
                     <!--end total booking-->
                     <!--start total revenue-->
-                    <aside class=" col-md-4 col-sm-4 m-b-10">
+<!--                    <aside class=" col-md-4 col-sm-4 m-b-10">
                         <h4 class="y-box-title">Total Revenues (INR)</h4>
                         <article class="clearfix  y-box">
                             <figure class="col-md-4">
@@ -56,10 +56,10 @@
                                 <h6>35% Higher than last month</h6>
                             </div>
                         </article>
-                    </aside>
+                    </aside>-->
                     <!--end total revenue-->
                     <!--start profile visits-->
-                    <aside class=" col-md-4 col-sm-4 m-b-10">
+                    <aside class=" col-md-6 col-sm-6 m-b-10">
                         <h4 class="b-box-title">Profile Visits</h4>
                         <article class="clearfix  b-box">
                             <figure class="col-md-4">
@@ -106,7 +106,7 @@
                             <figure class="clearfix">
                                 <h3 class="pull-left">Today's Appointments</h3>
                                 <form class="search-form pull-right">
-                                    <input type="" class="search pull-right" />
+                                    <input type="" class="search pull-right" id="text-search"/>
                                 </form>
                             </figure>
 
@@ -128,7 +128,7 @@
 
                                 <!-- consulting -->
                                 <section class="tab-pane in active" id="consulting">
-                                    <table class="table table-hover table-striped m-0">
+                                    <table class="table table-hover table-striped m-0" id="consultSearch">
                                         <thead>
                                             <tr>
                                                 <th width="30%">Appt. Detail</th>
@@ -187,7 +187,7 @@
                                         </thead>
                                     </table>
                                     <div class="mCustomScrollbar mxh-400" style="overflow: hidden;" tabindex="5000">
-                                        <table class="table">
+                                        <table class="table table-hover table-striped m-0" id="diagnosticApp">
                                             <tbody>
                                                 
                                                 <?php if(!empty($diagnosticAppointmnt)):
@@ -229,7 +229,7 @@
                             <figure class="clearfix">
                                 <h3 class="pull-left">Recent Health Package Booking</h3>
                                 <form class="search-form pull-right">
-                                    <input type="" class="search pull-right" />
+                                    <input type="" class="search pull-right" id="package-search"/>
                                 </form>
                             </figure>
                             
@@ -244,7 +244,7 @@
                             </table>
 
                             <div class="mCustomScrollbar mxh-430" style="overflow: hidden;" tabindex="5000">
-                                <table class="table">
+                                <table class="table" id="packages">
                                     <tbody>
                                         
                                                 <?php if(!empty($helthPackageBooking)):
@@ -417,7 +417,7 @@
                         <div class="bg-white">
                             <figure class="clearfix">
                                 <h3>Quotation Requests</h3>
-                                <form class="search-form pull-right">
+                                <form class="search-form pull-right" id="quotation-search">
                                     <input type="" class="search pull-right" />
                                 </form>
                             </figure>
@@ -432,7 +432,7 @@
                             </table>
 
                             <div class="mCustomScrollbar mxh-430" style="overflow: hidden;" tabindex="5000">
-                                <table class="table">
+                                <table class="table" id="quotation">
                                     <tbody>
                                         
                                               <?php if(!empty($quotationList)):
@@ -472,7 +472,7 @@
                             <figure class="clearfix">
                                 <h3>Medicart</h3>
                                 <form class="search-form pull-right">
-                                    <input type="" class="search pull-right" />
+                                    <input type="" class="search pull-right" id="medicart-search"/>
                                 </form>
                             </figure>
 
@@ -503,7 +503,7 @@
                                         </thead>
                                     </table>
                                     <div class="mCustomScrollbar mxh-382" style="overflow: hidden;" tabindex="5000">
-                                        <table class="table">
+                                        <table class="table" id="bookingS">
                                             <tbody>
                                                 
                                              <?php if(!empty($medicartBooking)):
@@ -546,7 +546,7 @@
                                         </thead>
                                     </table>
                                     <div class="mCustomScrollbar mxh-382" style="overflow: hidden;" tabindex="5000">
-                                        <table class="table">
+                                        <table class="table" id="contactS">
                                             <tbody>
                                                
                                                  <?php if(!empty($medicartEnquiry)):
