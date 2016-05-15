@@ -36,6 +36,7 @@
                                                     <option value="<?php echo $city->city_id; ?>"><?php echo $city->city_name; ?></option>
                                                 <?php } } ?>
                                             </select>
+                                            <div class="error-city"></div>
                                             <div class="has-error " id="err_input1" ><?php echo form_error("input1"); ?></div>
                                         </div>
                                     </article>
@@ -49,6 +50,7 @@
                                                     <option value="<?php echo $spOption->speId; ?>"><?php echo $spOption->speName; ?></option>
                                                 <?php } } ?>
                                             </select>
+                                            <div class="error-spec"></div>
                                             <div class="has-error " id="err_input2" ><?php echo form_error("input2"); ?></div>
                                         </div>
                                     </article>
@@ -70,6 +72,7 @@
                                             <select class="form-control select2" name="input3" id="input3" data-width="100%" onchange="getTimeSlot();">
                                                 <option value="">Select Doctor</option>
                                             </select>
+                                            <div class="error-doc"></div>
                                             <div class="has-error " id="err_input3" ><?php echo form_error("input3"); ?></div>
                                         </div>
                                     </article>
@@ -80,6 +83,7 @@
                                             <select class="form-control select2" name="input5" id="timeSlot" data-width="100%" >
                                                 <option value="">Select Time Slot</option>
                                             </select>
+                                            <div class="error-ts"></div>
                                             <div class="has-error " id="err_input5" ><?php echo form_error("input5"); ?></div>
                                         </div>
                                     </article>
@@ -175,6 +179,7 @@
                                                 <option value="2" >Female</option>
                                                 <option value="3" >Other</option>
                                             </select>
+                                            <div class="error-gender"></div>
                                             <div class="has-error " id="err_input27" ><?php echo form_error("input27"); ?></div>
                                         </div>
                                     </article>
@@ -195,6 +200,7 @@
                                                         <option value="<?php echo $val->state_id;?>"><?php echo $val->state_statename;?></option>
                                                          <?php }?>
                                                     </select>
+                                                    <div class="error-state"></div>
                                                     <div class="has-error " id="err_input14" ><?php echo form_error("input14"); ?></div>
                                                 </div>
                                             </aside>
@@ -207,6 +213,7 @@
                                                     <select name="input15" id="cityId" data-size="4" class="form-control selectpicker" data-width="100%" >
                                                         <option value="">Select City</option>
                                                     </select>
+                                                    <div class="error-c"></div>
                                                     <div class="has-error " id="err_input15" ><?php echo form_error("input15"); ?></div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6 m-t-xs-10">
