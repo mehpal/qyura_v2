@@ -674,3 +674,35 @@ ORDER BY `Spon`.`sponsor_date` DESC, `Spon`.`sponsor_date` DESC, `miname` ASC
  LIMIT 10
 ERROR - 2016-05-15 13:29:04 --> Unable to save the image. Please make sure the image and file directory are writable.
 ERROR - 2016-05-15 13:35:04 --> Unable to save the image. Please make sure the image and file directory are writable.
+ERROR - 2016-05-15 13:50:20 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '+ qyura_quotations.quotation_otherFee + qyura_quotations.quotation_tex
+FROM `qyu' at line 1 - Invalid query: SELECT sum(qyura_quotationDetailTests.quotationDetailTests_price) as price + qyura_quotations.quotation_otherFee + qyura_quotations.quotation_tex
+FROM `qyura_quotations`
+RIGHT JOIN `qyura_quotationDetailTests` ON `qyura_quotationDetailTests`.`quotationDetailTests_quotationId`=`qyura_quotations`.`quotation_id`
+WHERE `qyura_quotations`.`quotation_id` = '24'
+AND `qyura_quotations`.`quotation_deleted` =0
+AND `qyura_quotationDetailTests`.`quotationDetailTests_deleted` =0
+ LIMIT 1
+ERROR - 2016-05-15 13:50:25 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '+ qyura_quotations.quotation_otherFee + qyura_quotations.quotation_tex
+FROM `qyu' at line 1 - Invalid query: SELECT sum(qyura_quotationDetailTests.quotationDetailTests_price) as price + qyura_quotations.quotation_otherFee + qyura_quotations.quotation_tex
+FROM `qyura_quotations`
+RIGHT JOIN `qyura_quotationDetailTests` ON `qyura_quotationDetailTests`.`quotationDetailTests_quotationId`=`qyura_quotations`.`quotation_id`
+WHERE `qyura_quotations`.`quotation_id` = '24'
+AND `qyura_quotations`.`quotation_deleted` =0
+AND `qyura_quotationDetailTests`.`quotationDetailTests_deleted` =0
+ LIMIT 1
+ERROR - 2016-05-15 13:51:49 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '+ qyura_quotations.quotation_otherFee + qyura_quotations.quotation_tex
+FROM `qyu' at line 1 - Invalid query: SELECT sum(qyura_quotationDetailTests.quotationDetailTests_price) as price + qyura_quotations.quotation_otherFee + qyura_quotations.quotation_tex
+FROM `qyura_quotations`
+RIGHT JOIN `qyura_quotationDetailTests` ON `qyura_quotationDetailTests`.`quotationDetailTests_quotationId`=`qyura_quotations`.`quotation_id`
+WHERE `qyura_quotations`.`quotation_id` = '24'
+AND `qyura_quotations`.`quotation_deleted` =0
+AND `qyura_quotationDetailTests`.`quotationDetailTests_deleted` =0
+ LIMIT 1
+ERROR - 2016-05-15 13:54:24 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '+ qyura_quotations.quotation_otherFee + qyura_quotations.quotation_tex
+FROM `qyu' at line 1 - Invalid query: SELECT sum(qyura_quotationDetailTests.quotationDetailTests_price) as price + qyura_quotations.quotation_otherFee + qyura_quotations.quotation_tex
+FROM `qyura_quotations`
+RIGHT JOIN `qyura_quotationDetailTests` ON `qyura_quotationDetailTests`.`quotationDetailTests_quotationId`=`qyura_quotations`.`quotation_id`
+WHERE `qyura_quotations`.`quotation_id` = '24'
+AND `qyura_quotations`.`quotation_deleted` =0
+AND `qyura_quotationDetailTests`.`quotationDetailTests_deleted` =0
+ LIMIT 1
