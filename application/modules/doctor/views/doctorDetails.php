@@ -369,7 +369,7 @@
                                                         if (isset($doctorDetail[0]->users_email) && $doctorDetail[0]->users_email != NULL) {
                                                             echo $doctorDetail[0]->users_email;
                                                         }
-                                                        ?>" onblur="checkEmailFormat()"/>
+                                                        ?>" onblur="checkEmailFormat()" readonly="" />
                                                         <label class="error" id="err_users_email" > <?php echo form_error("users_email"); ?></label>
                                                     </div>
                                                 </article>
@@ -1078,7 +1078,7 @@
                                                 if (isset($doctorDetail[0]->users_email) && $doctorDetail[0]->users_email != NULL) {
                                                     echo $doctorDetail[0]->users_email;
                                                 }
-                                                ?>" >
+                                                ?>" readonly="">
                                                 <label class="error" id="err_registered_email" > <?php echo form_error("registered_email"); ?></label>
                                             </aside>
                                         </article>
