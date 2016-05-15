@@ -19,6 +19,7 @@ class Ccavenue extends MyRest {
         $access_code = 'AVHP64DB16BW48PHWB'; //Shared by CCAVENUES
         $merchant_id = "91637";
 
+                        dump($workingkey  );die();
 
         $integration_type = "iframe_normal";
 
@@ -176,6 +177,7 @@ class Ccavenue extends MyRest {
                         "customer_identifier" => $userId,
                         "integration_type" => "iframe_normal"
                     );
+                    
                     foreach
                     ($avenuedata as $key => $value) {
                         $merchant_data.=$key . '=' . $value . '&';
@@ -183,8 +185,10 @@ class Ccavenue extends MyRest {
                     $encrypted_data = encrypt($merchant_data, $workingkey); // Method for encrypting the data.
                     $data["encrypted_data"] = $encrypted_data;
                     $data["access_code"] = $access_code;
+                        dump($encrypted_data  );die();
                     $res = $this->load->view("api/ccavenue",$data,true);
                     $response = array("status"=>1, $result=>$res);
+                    dump($response  );die();
 //                    echo json_encode($response);
 //                    exit();
                     $this->response($response);
