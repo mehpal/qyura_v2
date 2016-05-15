@@ -38,7 +38,7 @@ class DiagonsticDocCounsultaion extends MyRest {
             $cityId = isset($_POST['cityId']) ? $this->input->post('cityId') : NULL;
             
             $consultantList = $this->diagonSticDocCounsultaion_model->getConsultantList($notIn,$diagonsticUserId,$specialityId,$search,$cityId);
-           $response['colName'] = array("id","showExp", "name", "exp", "imUrl","rating","consFee", "speciality", "degree","isEmergency");
+           $response['colName'] = array("id", "name", "showExp", "exp", "imUrl", "rating", "consFee", "speciality", "degree", "lat", "long", "isEmergency", "mobile", "userId");
             if ($consultantList) {
                 $response['consultantList'] = $consultantList;
                 $response['status'] = TRUE;

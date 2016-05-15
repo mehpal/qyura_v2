@@ -19,7 +19,7 @@ class Hospital_model extends CI_Model {
 
         $where = array('hospital_deleted' => 0, 'qyura_hospital.status' => 1);
 
-        if ($isemergency != '' && $isemergency != NULL && $isemergency == 1) {
+        if ($isemergency != '' && $isemergency != NULL && $isemergency != 1) {
             $where['qyura_hospital.isEmergency'] = $isemergency;
         }
 
@@ -30,7 +30,7 @@ class Hospital_model extends CI_Model {
         $ambulance = '';
         $ambulance = ', (SELECT count(ambulance_id) from qyura_ambulance where ambulance_usersId = hospital_usersId AND ambulance_deleted = 0 AND status = 1) as isAmbulance';
 
-        if ($isAmbulance != '' && $isAmbulance != NULL && $isAmbulance == 1) {
+        if ($isAmbulance != '' && $isAmbulance != NULL && $isAmbulance != 0) {
             $having['isAmbulance !='] = 0;
         }
 
@@ -133,13 +133,16 @@ CASE
                 $finalTemp[] = isset($row->isInsurance) && $row->isInsurance > 0 ? "1" : "0";
                 $finalTemp[] = isset($row->insurance) && $row->insurance != "" ? $row->insurance : "0";
 
-                if ($openNow != NULL || $openNow != 0) {
-
+                if ($openNow == 1) {
+                 
                     if ($row->fullTime == 1) {
                         $finalResult[] = $finalTemp;
+//                           echo $row->name."FullTIme";
                     } else {
                         $time = $this->miTimeSlot($row->userId);
+                           
                         if (!empty($time)) {
+//                           echo $row->name."TimeSlot";
                             if (($time->openingHours <= $currentTime && $time->closingHours >= $currentTime)) {
                                 $finalResult[] = $finalTemp;
                             }
