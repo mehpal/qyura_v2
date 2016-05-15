@@ -329,14 +329,14 @@ if ($msg != "" || $msg != NULL) {
             $(this).valid();
             
         });
-         $('.select').select().change(function(){
+         $('.select').select2().change(function(){
             $(this).valid();
             
         });
-         $('.selectpicker').selectpicker().change(function(){
-            $(this).valid();
-            
-        });
+//         $('.selectpicker').selectpicker().change(function(){
+//            $(this).valid();
+//            
+//        });
       });
     function isNumberKey(evt, id) {
         var charCode = (evt.which) ? evt.which : event.keyCode

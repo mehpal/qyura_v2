@@ -24,13 +24,12 @@ class Appointment extends MyRest {
             $userId = isset($_POST['userId']) ? $this->input->post('userId') : '';
             $now = time();
             
-//            $sql1 = $this->Appointment_model->QuotationList($now,$userId);
+            $sql1 = $this->Appointment_model->QuotationList($now,$userId);
             $sql2 = $this->Appointment_model->PackageAppointmentList($now,$userId);
             $sql3 = $this->Appointment_model->DoctorAppointmentList($now,$userId);
             
             $colName = array("id","title", "orderId", "date", "startTime", "endTime", "address","upcomingStatus", "bookingStatus", "type", "typeId");
-//            $sql = $sql1 . " UNION " .
-            $sql = $sql2 . " UNION " . $sql3; 
+            $sql = $sql1 . " UNION " .$sql2 . " UNION " . $sql3; 
         $queryResult = $this->db->query($sql)->result();
 //echo $this->db->last_query();
 //print_r($queryResult); die();

@@ -8,14 +8,7 @@
 <script src="<?php echo base_url();?>assets/js/pages/miDashboard_js.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/vendor/js-scroll/script/scroll-2.js"></script>
 
-
-
-
-
 <script>
-    
-    
-    
     
    $(document).ready(function() {
    
