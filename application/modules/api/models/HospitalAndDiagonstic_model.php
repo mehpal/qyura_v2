@@ -218,7 +218,9 @@ ORDER BY `distance` ASC
                                 }
                             }
                             }
-                        } 
+                        }else {
+                    $finalResult[] = $finalTemp;
+                }
                     
                 }
               return $finalResult;
