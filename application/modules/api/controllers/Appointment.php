@@ -31,8 +31,7 @@ class Appointment extends MyRest {
             $colName = array("id","title", "orderId", "date", "startTime", "endTime", "address","upcomingStatus", "bookingStatus", "type", "typeId");
             $sql = $sql1 . " UNION " .$sql2 . " UNION " . $sql3; 
         $queryResult = $this->db->query($sql)->result();
-//echo $this->db->last_query();
-//print_r($queryResult); die();
+
             $finalResult = array();
             if (!empty($queryResult)) {
                 foreach ($queryResult as $row) {
@@ -81,7 +80,7 @@ class Appointment extends MyRest {
             $sql = "";
             
             if($type == 1){
-                $sql = $this->Appointment_model->QuotationDetail($now,$userId,$orderId);
+                $sql = $this->Appointment_model->QuotationDetail($now, $userId, $orderId);
             } elseif($type == 2){
                 $sql = $this->Appointment_model->PackageAppointmentDetail($now,$userId,$orderId);
             }  elseif($type == 3){

@@ -19,7 +19,7 @@ class Appointment_model extends Common_model {
                 
                     . "CASE qyura_quotationBooking.quotationBooking_bookStatus WHEN '12' THEN 'Confirmed' WHEN '13' THEN 'Cancelled' WHEN '11' THEN 'Pending' WHEN '14' THEN 'Completed' WHEN '19' THEN 'Expired' ELSE '' END AS `bookingStatus`,"
                 
-                    . "'Diagnostic' as `type`, '2' as `typeId`"
+                    . "'Diagnostic' as `type`, '1' as `typeId`"
                 
                     . "FROM `qyura_quotationBooking` LEFT JOIN `transactionInfo` ON `transactionInfo`.`order_no` = `qyura_quotationBooking`.`quotationBooking_orderId`
                         
@@ -103,14 +103,13 @@ AND `healthPkgBooking_deleted` = 0';
                     
     }
     
-    public function QuotationDetail($now, $userId,$orderId) {
+    public function QuotationDetail($now, $userId, $orderId) {
         
       $sql1 = "SELECT `qyura_quotationBooking`.`quotationBooking_orderId` AS `orderId`,"
-                . "`qyura_diagnosticsCat`.`diagnosticsCat_catName` as `speciality`,"
-                . "`qyura_doctors`.`doctors_fName`,"
+                . "group_concat(`qyura_diagnosticsCat`.`diagnosticsCat_catName`) as `speciality`,"
                 . "DATE_FORMAT(FROM_UNIXTIME(`qyura_quotations`.`quotation_dateTime`),'%d %b, %Y') as date,"
-                . "CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN DATE_FORMAT(FROM_UNIXTIME(`qyura_hospitalTimeSlot`.`hospitalTimeSlot_startTime`),'%h:%i%p') ELSE DATE_FORMAT(FROM_UNIXTIME(`qyura_diagnosticCenterTimeSlot`.`diagnosticCenterTimeSlot_startTime`),'%h:%i%p') END AS `startTime`,"
-                . "CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN DATE_FORMAT(FROM_UNIXTIME(`qyura_hospitalTimeSlot`.`hospitalTimeSlot_endTime`),'%h:%i%p') ELSE DATE_FORMAT(FROM_UNIXTIME(`qyura_diagnosticCenterTimeSlot`.`diagnosticCenterTimeSlot_endTime`),'%h:%i%p') END AS `endTime`,"
+                . "0 AS `startTime`,"
+                . "0 AS `startTime`,"
                 ."CASE WHEN (qyura_quotations.quotation_familyId <> 0 ) THEN qyura_usersFamily.usersfamily_name ELSE qyura_patientDetails.patientDetails_patientName END AS `userName`,"
                 . "CASE WHEN (`qyura_quotations`.`quotation_familyId` <> 0 ) THEN qyura_usersFamily.usersfamily_gender ELSE qyura_patientDetails.patientDetails_gender END AS `userGender`,"
                 . "CASE WHEN (`qyura_quotations`.`quotation_familyId` <> 0 ) THEN qyura_usersFamily.usersfamily_age ELSE (FROM_UNIXTIME('{$now}', '%Y') - FROM_UNIXTIME(qyura_patientDetails.patientDetails_dob, '%Y')) END AS `userAge`,"
@@ -129,22 +128,19 @@ AND `healthPkgBooking_deleted` = 0';
                 LEFT JOIN `qyura_quotations` ON `qyura_quotations`.`quotation_id`=`qyura_quotationBooking`.`quotationBooking_quotationId`
                 LEFT JOIN `qyura_users` ON `qyura_users`.`users_id`=`qyura_quotations`.`quotation_userId`
                 LEFT JOIN `qyura_patientDetails` ON `qyura_patientDetails`.`patientDetails_usersId`=`qyura_quotationBooking`.`quotationBooking_userId`
-                LEFT JOIN `qyura_doctors` ON `qyura_doctors`.`doctors_userId` = `qyura_quotations`.`quotation_assignDoctorId`
                 LEFT JOIN `qyura_usersFamily` ON `qyura_usersFamily`.`usersfamily_id`=`qyura_quotations`.`quotation_familyId`
                 LEFT JOIN `qyura_hospital` ON `qyura_hospital`.`hospital_usersId`=`qyura_quotations`.`quotation_MiId`
                 LEFT JOIN `qyura_diagnostic` ON `qyura_diagnostic`.`diagnostic_usersId`=`qyura_quotations`.`quotation_MiId`
-                
-                LEFT JOIN `qyura_diagnosticCenterTimeSlot` ON `qyura_diagnosticCenterTimeSlot`.`diagnosticCenterTimeSlot_id`=`qyura_quotations`.`quotation_timeSlotId`
-                LEFT JOIN `qyura_hospitalTimeSlot` ON `qyura_hospitalTimeSlot`.`hospitalTimeSlot_id`=`qyura_quotations`.`quotation_diagnosticsCatId`
-LEFT JOIN `qyura_diagnosticsCat` ON `qyura_diagnosticsCat`.`diagnosticsCat_catId`=`qyura_quotations`.`quotation_diagnosticsCatId`
+                LEFT JOIN `qyura_quotationDetailTests` ON `qyura_quotationDetailTests`.`quotationDetailTests_quotationId`=`qyura_quotations`.`quotation_id`
+                LEFT JOIN `qyura_diagnosticsCat` ON `qyura_diagnosticsCat`.`diagnosticsCat_catId`=`qyura_quotationDetailTests`.`quotationDetailTests_diagnosticCatId`
                 LEFT JOIN `qyura_reviews` ON `qyura_reviews`.`reviews_aptmntId`=`qyura_quotationBooking`.`quotationBooking_orderId`
                 WHERE `qyura_quotationBooking`.`quotationBooking_userId` = '{$userId}'
-                AND `qyura_quotations`.`quotation_unqId` = '{$orderId}'    
+                AND `qyura_quotationBooking`.`quotationBooking_orderId` = '{$orderId}'    
                 AND `qyura_quotationBooking`.`quotationBooking_deleted` = 0";
         return $sql1; 
     }
     
-    public function PackageAppointmentDetail($now, $userId,$orderId) {
+    public function PackageAppointmentDetail($now, $userId, $orderId) {
         
         $sql2 = "SELECT `healthPackage_packageTitle` as `doctors_fName`, "
                         . "`healthPkgBooking_orderNo` as `orderId`,"
