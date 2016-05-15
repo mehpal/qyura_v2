@@ -19,6 +19,9 @@ class HospitalAndDiagonstic_model extends CI_Model {
          $dignoJoin = '';
          $diagnoLike = '';
          
+        $day = getDay(date("l"));
+        $currentTime = strtotime(date("h:i A"));
+         
          
          $cityHos=' ';
          $cityDig=' ';
@@ -50,11 +53,16 @@ class HospitalAndDiagonstic_model extends CI_Model {
         }
         
         // is amergency filter parameter
+        
+         if ($isInsurance != '' && $isInsurance != NULL && $isInsurance != 0) {
+            $isInsurance = isset($isInsurance) ? $isInsurance : '';
+        }
+        
         $isInsuranceFilterHosspital = '';
         $isInsuranceFilterdiagno = '';
-        if ($isInsurance != '' && $isInsurance != NULL && $isInsurance == 1) {
-            $isInsuranceFilterHosspital = " AND totalInsurance >= $isInsurance";
-            $isInsuranceFilterdiagno = " AND (totalInsurance >= $isInsurance";
+        if ($isInsurance != "" || $isInsurance != NULL) {
+            $isInsuranceFilterHosspital = " AND hospitalInsurance_id IN ( $isInsurance )";
+            $isInsuranceFilterdiagno = " AND diagnoInsurance_id IN ( $isInsurance )";
         }
         
         
@@ -107,20 +115,24 @@ CASE
  THEN
       ROUND( (AVG(qyura_ratings.rating)), 1)
  END)
- AS `rat` $isAmbulanceHospital ,  (SELECT count(healthPackage_id) from qyura_healthPackage where healthPackage_MIuserId = userId AND healthPackage_deleted = 0 AND status = 1) as totalHealtPkg ,  (SELECT count(hospitalInsurance_id) from qyura_hospitalInsurance where hospitalInsurance_hospitalId = hospital_id AND hospitalInsurance_deleted = 0) as totalInsurance
+ AS `rat` $isAmbulanceHospital ,  (SELECT count(healthPackage_id) from qyura_healthPackage where healthPackage_MIuserId = userId AND healthPackage_deleted = 0 AND status = 1) as totalHealtPkg ,  (SELECT count(hospitalInsurance_id) from qyura_hospitalInsurance where hospitalInsurance_hospitalId = hospital_id AND hospitalInsurance_deleted = 0) as totalInsurance, availibility_24_7 as fullTime
 FROM `qyura_specialities`
 LEFT JOIN `qyura_hospitalSpecialities` ON `qyura_hospitalSpecialities`.`hospitalSpecialities_specialitiesId` = `qyura_specialities`.`specialities_id`
 LEFT JOIN `qyura_hospital` ON `qyura_hospital`.`hospital_id` = `qyura_hospitalSpecialities`.`hospitalSpecialities_hospitalId`
 LEFT JOIN `qyura_usersRoles` ON `qyura_usersRoles`.`usersRoles_userId` = `qyura_hospital`.`hospital_usersId` AND usersRoles_roleId = 5 AND usersRoles_parentId = qyura_hospital.hospital_usersId
 LEFT JOIN `qyura_reviews` ON `qyura_reviews`.`reviews_relateId`=`qyura_hospital`.`hospital_usersId`
 LEFT JOIN `qyura_ratings` ON `qyura_ratings`.`rating_relateId`=`qyura_hospital`.`hospital_usersId`
+
+LEFT JOIN `qyura_hospitalInsurance` ON `qyura_hospitalInsurance`.`hospitalInsurance_hospitalId`=`qyura_hospital`.`hospital_id`
+LEFT JOIN `qyura_insurance` ON `qyura_insurance`.`insurance_id`=`qyura_hospitalInsurance`.`hospitalInsurance_insuranceId`
+
 LEFT JOIN `qyura_fav` ON `qyura_fav`.`fav_relateId`=`qyura_hospital`.`hospital_usersId` AND `fav_userId` = $userId
 $hospitalJoin
-WHERE `hospital_deleted` = 0 AND qyura_hospital.status = 1 ".$cityHos.$hosIsEmergency."
+WHERE `hospital_deleted` = 0 AND qyura_hospital.status = 1 ".$cityHos.$hosIsEmergency.$isInsuranceFilterHosspital."
 AND `specialities_id` = $specialityid
 $hospitalLike
 AND `hospital_usersId` NOT IN( '" . implode($notIn, "', '") . "' )
-GROUP BY `hospital_id`  ".$HAVING.$rateHavingHospital.$isAmbulanceFilterHosspital.$isInsuranceFilterHosspital." 
+GROUP BY `hospital_id`  ".$HAVING.$rateHavingHospital.$isAmbulanceFilterHosspital." 
 
 
 union all
@@ -139,7 +151,7 @@ CASE
  THEN
       ROUND( (AVG(qyura_ratings.rating)), 1)
  END)
- AS `rat` $isAmbulanceDiagnostic , (SELECT count(healthPackage_id) from qyura_healthPackage where healthPackage_MIuserId = diagnostic_usersId AND healthPackage_deleted = 0 AND status = 1) as totalHealtPkg , (SELECT count(diagnoInsurance_id) from qyura_diagnoInsurance where diagnoInsurance_diagnoId = diagnostic_id AND diagnoInsurance_deleted = 0) as totalInsurance
+ AS `rat` $isAmbulanceDiagnostic , (SELECT count(healthPackage_id) from qyura_healthPackage where healthPackage_MIuserId = diagnostic_usersId AND healthPackage_deleted = 0 AND status = 1) as totalHealtPkg , (SELECT count(diagnoInsurance_id) from qyura_diagnoInsurance where diagnoInsurance_diagnoId = diagnostic_id AND diagnoInsurance_deleted = 0) as totalInsurance, diagnostic_availibility_24_7 as fullTime
 FROM `qyura_specialities`
 LEFT JOIN `qyura_diagnosticSpecialities` ON `qyura_diagnosticSpecialities`.`diagnosticSpecialities_specialitiesId`=`qyura_specialities`.`specialities_id`
 LEFT JOIN `qyura_diagnostic` ON `qyura_diagnostic`.`diagnostic_id`=`qyura_diagnosticSpecialities`.`diagnosticSpecialities_diagnosticId`
@@ -147,6 +159,10 @@ LEFT JOIN `qyura_diagnosticsHasCat` ON `qyura_diagnosticsHasCat`.`diagnosticsHas
 LEFT JOIN `qyura_diagnosticsCat` ON `qyura_diagnosticsCat`.`diagnosticsCat_catId`=`qyura_diagnosticsHasCat`.`diagnosticsHasCat_diagnosticsCatId`
 LEFT JOIN `qyura_reviews` ON `qyura_reviews`.`reviews_relateId`=`qyura_diagnostic`.`diagnostic_usersId`
 LEFT JOIN `qyura_ratings` ON `qyura_ratings`.`rating_relateId`=`qyura_diagnostic`.`diagnostic_usersId`
+
+LEFT JOIN `qyura_diagnoInsurance` ON `qyura_diagnoInsurance`.`diagnoInsurance_diagnoId`=`qyura_diagnostic`.`diagnostic_id`
+LEFT JOIN `qyura_insurance` ON `qyura_insurance`.`insurance_id`=`qyura_diagnoInsurance`.`diagnoInsurance_insuranceId`
+
 LEFT JOIN `qyura_usersRoles` ON `qyura_usersRoles`.`usersRoles_userId`=`qyura_diagnostic`.`diagnostic_usersId`
 LEFT JOIN `qyura_fav` ON `qyura_fav`.`fav_relateId`=`qyura_diagnostic`.`diagnostic_usersId` AND `fav_userId` = $userId
 $dignoJoin 
@@ -156,7 +172,7 @@ AND `specialities_id` = $specialityid
 $diagnoLike
 AND `usersRoles_roleId` = ".ROLE_DIAGNOSTICS." 
 AND `diagnostic_usersId` NOT IN( '" . implode($notIn, "', '") . "' )
-GROUP BY `diagnostic_id` ".$HAVING.$rateHavingDiagno.$isAmbulanceFilterDiagno.$isInsuranceFilterdiagno." 
+GROUP BY `diagnostic_id` ".$HAVING.$rateHavingDiagno.$isAmbulanceFilterDiagno." 
 
 ORDER BY `distance` ASC
 
@@ -190,7 +206,19 @@ ORDER BY `distance` ASC
                     $finalTemp[] = isset($row->long) ? $row->long : "";
                     $finalTemp[] = isset($row->imUrl) ? $row->imUrl : "";
                     $finalTemp[] = isset($row->facility) ? $row->facility : "";
-                    $finalResult[] = $finalTemp;
+                   // $finalResult[] = $finalTemp;
+                    if ($openNow != NULL && $openNow != 0) {
+                        if ($row->fullTime == 1) {
+                                $finalResult[] = $finalTemp;
+                            } else {
+                            $time = $this->miTimeSlot($row->userId);
+                            if (!empty($time)) {
+                                if (($time->openingHours <= $currentTime && $time->closingHours >= $currentTime)) {
+                                $finalResult[] = $finalTemp;
+                                }
+                            }
+                            }
+                        } 
                     
                 }
               return $finalResult;
@@ -200,5 +228,14 @@ ORDER BY `distance` ASC
         
         
      }
+     
+     
+         // mi time slot
+    public function miTimeSlot($miUserId) {
+        $this->db->select('(CASE WHEN (openingHours is NULL) THEN 0 ELSE openingHours END) AS openingHours , (CASE WHEN (closingHours is NULL) THEN 0 ELSE closingHours END) AS closingHours');
+        $this->db->from('qyura_miTimeSlot');
+        $this->db->where(array('deleted' => 0, 'status' => 1, 'mi_user_id' => $miUserId, 'hourLabel' => date("l")));
+        return $this->db->get()->row();
+    }
 }
 ?>
