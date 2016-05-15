@@ -83,7 +83,7 @@ class HospitalApi extends MyRest {
 
             $isemergency = isset($_POST['isemergency']) ? $this->input->post('isemergency') : NULL;
             
-            $openNow = isset($_POST['openNow']) ? $this->input->post('openNow') : NULL;
+            $openNow = isset($_POST['openNow'] ) ? $this->input->post('openNow') : NULL;
 
             // filtration parameter
             $radius = isset($_POST['radius']) ? $this->input->post('radius') : 70;
