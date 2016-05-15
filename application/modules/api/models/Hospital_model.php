@@ -26,12 +26,6 @@ class Hospital_model extends CI_Model {
         $day = getDay(date("l"));
         $currentTime = strtotime(date("h:i A"));
 
-        if ($openNow != NULL) {
-//            $where["openingHours >= "] = $currentTime;
-//            $where["closingHours <= "]  = $currentTime;
-//            $where["dayNumber"] = $day;
-        }
-
         // having array
         $ambulance = '';
         $ambulance = ', (SELECT count(ambulance_id) from qyura_ambulance where ambulance_usersId = hospital_usersId AND ambulance_deleted = 0 AND status = 1) as isAmbulance';
@@ -44,8 +38,8 @@ class Hospital_model extends CI_Model {
             $isInsurance = isset($isInsurance) ? $isInsurance : '';
         }
 
-        if ($rating != '' && $rating != NULL) {
-            $having['rat >= '] = number_format($rating, 1);
+        if ($rating != '' && $rating != NULL || $rating != 0) {
+            $having['rat >= '] = $rating;
         }
 
         $this->db->select('hospital_usersId as userId,hospital_id as id, availibility_24_7 as fullTime,  (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, hospital_address as adr ,hospital_name name, CONCAT("0","",hospital_phn) as  phn, hospital_lat lat, hospital_long long, qyura_hospital.modifyTime upTm, hospital_img imUrl, (
@@ -111,8 +105,8 @@ CASE
         $this->db->group_by('hospital_id');
 
         $response = $this->db->get()->result();
-//        echo $this->db->last_query();
-//        die();
+        echo $this->db->last_query();
+        die();
         $finalResult = array();
         if (!empty($response)) {
 //            dump($response);
