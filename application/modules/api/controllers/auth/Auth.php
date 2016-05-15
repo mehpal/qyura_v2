@@ -356,9 +356,9 @@ class Auth extends MyRest {
                 $userDetail->pushToken = $userDetail->userSocial_pushToken;
                 $userDetail->scUsersId = $userDetail->userSocial_id;
                 
-                print_r($userDetail);exit;
+                
                 $msg = "Your Account is Activated Successfully";
-                $response = array('status' => 1, 'message' => $msg, 'userDetail' => $data);
+                $response = array('status' => 1, 'message' => $msg, 'userDetail' => $userDetail);
                 $this->response($response, 200); // 200 being the HTTP response code
             }else{
                 $message = "Please Check Your OTP";
