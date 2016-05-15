@@ -181,17 +181,21 @@ class Ccavenue extends MyRest {
                     $avenuedata as $key => $value) {
                         $merchant_data.=$key . '=' . $value . '&';
                     }
-                     echo    $merchant_data;
-                     exit;
                     $encrypted_data = encrypt($merchant_data, $workingkey); // Method for encrypting the data.
+                    $data["encrypted_data"] = $encrypted_data;
+                    $data["access_code"] = $access_code;
+                    $res = $this->load->view("ccavenue",$data,true);
+                    $response = array("status"=>1, $result=>$res);
+                    echo json_encode($response);
+                    exit();
                     ?>
-                    <form method="post" name="redirect" action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"> 
+                    <!--form method="post" name="redirect" action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"> 
                         <?php
-                        echo "<input type=hidden name=encRequest value=$encrypted_data>";
-                        echo "<input type=hidden name=access_code value=$access_code>";
+                        /*echo "<input type=hidden name=encRequest value=$encrypted_data>";
+                        echo "<input type=hidden name=access_code value=$access_code>";*/
                         ?>
                     </form>
-                    <script language='javascript'>document.redirect.submit();</script>
+                    <script language='javascript'>document.redirect.submit();</script-->
                     <?php
                 } else {
                     $response = array('status' => FALSE, 'message' => 'Patient details not found!');
