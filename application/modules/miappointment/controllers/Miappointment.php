@@ -418,6 +418,8 @@ class Miappointment extends MY_Controller {
 
         // $this->bf_form_validation->set_rules("input8", "Appointment Status", 'required|xss_clean');
         //test or specialities
+        print_r($_POST);
+        exit;
         $apoint_type = $this->input->post('input5');
         if ($apoint_type == 0) {
             $this->bf_form_validation->set_rules("input6", "Date", 'required|xss_clean');

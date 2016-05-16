@@ -192,8 +192,7 @@ class Common_model extends MY_Model {
         } else if ($roleid == 4) {
             $ses_roleid = $this->session->userdata('ses_doc_roleid');
         }
-        
-        if(!preg_match('/'.$ses_roleid.'/',$roleid)){ 
+        if(!preg_match('/'.$roleid.'/',$ses_roleid)){ 
             $this->ion_auth->logout();
             $this->session->set_flashdata('message', 'You do not have access to this page!');
             redirect('auth/login/err', "refresh");

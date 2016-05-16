@@ -6,9 +6,9 @@ require APPPATH . 'modules/api/controllers/MyRest.php';
 class Ccavenue extends MyRest {
 
     function __construct() {
-// Construct our parent class
+        // Construct our parent class
         parent::__construct();
-//$this->load->library('session');
+        //$this->load->library('session');
         $this->load->helper('crypto_helper');
         $this->load->model(array('Ccavenue_model'));
     }
@@ -18,7 +18,6 @@ class Ccavenue extends MyRest {
         $workingkey = '3794D9838D0C5C87EB4F80E843D63715'; //Shared by CCAVENUES 
         $access_code = 'AVHP64DB16BW48PHWB'; //Shared by CCAVENUES
         $merchant_id = "91637";
-
 
         $integration_type = "iframe_normal";
 
@@ -56,17 +55,17 @@ class Ccavenue extends MyRest {
             $tax = isset($_POST['tax']) ? $this->input->post('tax') : 0;
             $remark = isset($_POST['remark']) ? $this->input->post('remark') : '';
 
-//$specialitiesId = isset($_POST['specialitiesId']) ? $this->input->post('specialitiesId') : '38';
-//$preferedDate = isset($_POST['preferedDate']) ? $this->input->post('preferedDate') : '2016-05-15';
-//$preferedTimeId = isset($_POST['preferedTimeId']) ? $this->input->post('preferedTimeId') : '62'; //SessionId of slots
-//$userId = isset($_POST['userId']) ? $this->input->post('userId') : '14';
-//$memberId = isset($_POST['memberId']) ? $this->input->post('memberId') : 10;
-//$doctorType = $centertype = isset($_POST['doctorType']) ? $this->input->post('doctorType') : '1';
-//$doctorUserId = isset($_POST['doctorId']) ? $this->input->post('doctorId') : '40';
-//$parentId = $miuser_id = isset($_POST['parentId']) ? $this->input->post('parentId') : 45;
-//$consulationFee = isset($_POST['consulationFee']) ? $this->input->post('consulationFee') : 5;
-//$tax = isset($_POST['tax']) ? $this->input->post('tax') : 5;
-//$remark = isset($_POST['remark']) ? $this->input->post('remark') : 'test rem';
+//        $specialitiesId = isset($_POST['specialitiesId']) ? $this->input->post('specialitiesId') : '38';
+//        $preferedDate = isset($_POST['preferedDate']) ? $this->input->post('preferedDate') : '2016-08-08';
+//        $preferedTimeId = isset($_POST['preferedTimeId']) ? $this->input->post('preferedTimeId') : '2'; //SessionId of slots
+//        $userId = isset($_POST['userId']) ? $this->input->post('userId') : '14';
+//        $memberId = isset($_POST['memberId']) ? $this->input->post('memberId') : 0;
+//        $doctorType = $centertype =  isset($_POST['doctorType']) ? $this->input->post('doctorType') : '2';
+//        $doctorUserId = isset($_POST['doctorId']) ? $this->input->post('doctorId') : '8';
+//        $parentId = $miuser_id  = isset($_POST['parentId']) ? $this->input->post('parentId') : 10;
+//        $consulationFee = isset($_POST['consulationFee']) ? $this->input->post('consulationFee') : 5;
+//        $tax = isset($_POST['tax']) ? $this->input->post('tax') : 5;
+//        $remark = isset($_POST['remark']) ? $this->input->post('remark') : 'test rem';
 
 
             $tax_amount = ($consulationFee / 100) * $tax;
@@ -111,7 +110,6 @@ class Ccavenue extends MyRest {
                     'doctorAppointment_date' => strtotime($preferedDate),
                     'doctorAppointment_specialitiesId' => $specialitiesId
                 );
-
                 $options = array(
                     'data' => $records_array1,
                     'table' => 'qyura_doctorAppointment'
@@ -129,7 +127,7 @@ class Ccavenue extends MyRest {
                 );
                 $update = $this->common_model->customUpdate($options);
 
-//insert data in transaction table
+                //insert data in transaction table
 
                 $crnMsg = $this->lang->line("miappointmentReceived");
                 $currentDate = date("d-m-Y");
@@ -176,25 +174,27 @@ class Ccavenue extends MyRest {
                         "customer_identifier" => $userId,
                         "integration_type" => "iframe_normal"
                     );
-                    foreach
-                    ($avenuedata as $key => $value) {
+                    foreach ( $avenuedata as $key => $value ) {
                         $merchant_data.=$key . '=' . $value . '&';
                     }
+
                     $encrypted_data = encrypt($merchant_data, $workingkey); // Method for encrypting the data.
-                    $data["encrypted_data"] = $encrypted_data;
-                    $data["access_code"] = $access_code;
+                    $data['encrypted_data'] = $encrypted_data;
+                    $data['access_code'] = $access_code;
                     $res = $this->load->view("api/ccavenue",$data,true);
-                    $response = array("status"=>1, $result=>$res);
-                    echo json_encode($response);
-                    exit();
+                    
+                    $response = array("status"=>1,"result"=>$res);
+                    $this->response($response);
+                    
                     ?>
-                    <!--form method="post" name="redirect" action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"> 
-                        <?php
-                        /*echo "<input type=hidden name=encRequest value=$encrypted_data>";
-                        echo "<input type=hidden name=access_code value=$access_code>";*/
+<!--                    <form method="post" name="redirect" action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"> 
+                        <?php /*
+                        echo "<input type=hidden name=encRequest value=$encrypted_data>";
+                        echo "<input type=hidden name=access_code value=$access_code>"; */
                         ?>
                     </form>
-                    <script language='javascript'>document.redirect.submit();</script-->
+                    <script language='javascript'>document.redirect.submit();</script>-->
+
                     <?php
                 } else {
                     $response = array('status' => FALSE, 'message' => 'Patient details not found!');
@@ -334,14 +334,14 @@ class Ccavenue extends MyRest {
         return $decryptedText;
     }
 
-//*********** Padding Function *********************
+    //*********** Padding Function *********************
 
     function pkcs5_pad($plainText, $blockSize) {
         $pad = $blockSize - (strlen($plainText) % $blockSize);
         return $plainText . str_repeat(chr($pad), $pad);
     }
 
-//********** Hexadecimal to Binary function for php 4.0 version ********
+    //********** Hexadecimal to Binary function for php 4.0 version ********
 
     function hextobin($hexString) {
         $length = strlen($hexString);

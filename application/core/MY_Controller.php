@@ -32,7 +32,6 @@ class MY_Controller extends CI_Controller {
         $this->small_loader = '<div><img src="' . base_url() . 'images/loader.gif" /></div>';
         $this->access_denied = $this->session->flashdata('access_denied');
         $this->load->helper(array('csv', 'download'));
-        $this->Common_model->mypermission("7");
     }
 
     /**
