@@ -50,7 +50,7 @@ class DoctorApi extends MyRest {
             $rating = isset($_POST['rating']) ? $this->input->post('rating') : NULL;
             $exp = isset($_POST['exp']) ? $this->input->post('exp') : NULL;
             $docOnCall = isset($_POST['docOnCall']) ? $this->input->post('docOnCall') : NULL;
-//die();  
+                                                                                                                                                                                                                                                               
             $notIn = isset($_POST['notin']) && $_POST['notin'] != 0 ? $this->input->post('notin') : '';
             $notIn = explode(',', $notIn);
 
