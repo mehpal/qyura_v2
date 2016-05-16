@@ -328,7 +328,7 @@
                         <span>FAQ</span><span class="pull-right"><i class="md md-add"></i></span></a>
                             <ul class="list-unstyled">
                                 <li class="<?php if($this->router->fetch_class() == 'faq' && $this->router->fetch_method() != 'addFaq'):echo"boldTitle  active";endif;?>"><a href="<?php echo site_url('faq');?>">All FAQ</a></li>
-                                <li class="<?php if($this->router->fetch_class() == 'faq' && $this->router->fetch_method() == 'addFaq'):echo"boldTitle  active";endif;?>"><a href="<?php echo site_url('faq/addFaq');?>">Add New Doctor</a></li>
+                                <li class="<?php if($this->router->fetch_class() == 'faq' && $this->router->fetch_method() == 'addFaq'):echo"boldTitle  active";endif;?>"><a href="<?php echo site_url('faq/addFaq');?>">Add New FAQ</a></li>
                             </ul>
                         </li>
                         <li class="has_sub">
