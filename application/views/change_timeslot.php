@@ -4,8 +4,10 @@
                 <div class="modal-header">
                     <h3>Change Timing</h3>
                 </div>
-                <!--input type="hidden" id="mi_centre" name="mi_centre"  value="<?php echo $conDetail->doctorParentId;?>"-->
-              
+                <input type="hidden" id="docid" name="docid" value="<?php IF(!empty($conDetail)){echo $conDetail->docid.",".$conDetail->doctorUserId;}?>">
+<input type="hidden" id="appid" name="appid" value="<?php echo isset($appid) ? $appid : ''?>">
+<input type="hidden" id="h_d_id" name="h_d_id" value="<?php echo isset($conDetail->MIid) ? $conDetail->MIid : ''?>">
+<input type="hidden" id="center_type" name="center_type" value="<?php echo isset($conDetail->centerType) ? $conDetail->centerType : ''?>">
                 <div class="modal-body">
                     <div class="modal-body">
                         <form class="form-horizontal" id="changetimeform">
@@ -21,7 +23,7 @@
                             <article class="clearfix m-t-10">
                                 <label class="control-label col-md-4 col-sm-4">Time Slot :</label>
                                 <p class="col-md-8 col-sm-8">
-                                    <select class="selectpicker" style:"z-index:50000000" data-width="100%" name="timeSlot" id="timeSlot">
+                                    <select class="selectpicker" style="z-index:50000000" data-width="100%" name="timeSlot" id="timeSlot">
                                         <option value="">Select Time Slot</option>
                                     </select>
 

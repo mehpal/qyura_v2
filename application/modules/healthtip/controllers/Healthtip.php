@@ -9,6 +9,7 @@ class HealthTip extends MY_Controller {
         $this->load->model('Healthtip_model');
         $this->load->library('form_validation');
         $this->load->library('datatables');
+        $this->common_model->mypermission("1");
     }
 
     function index() {

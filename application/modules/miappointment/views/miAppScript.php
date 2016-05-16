@@ -38,8 +38,13 @@
      * @description get records in listing using datatables
      */
     $(document).ready(function () {
+        <?php $date = date('d/m/Y'); ?>
         $('.timeslot').timepicker({showMeridian: false});
-        $('#date-7').datepicker();
+        $('#date-7,#date-11').datepicker({
+            autoclose: true,
+            startDate: '<?php echo $date; ?>', 
+        });
+
         
         var diagnosticTable = $('#datatable_diagnostic').DataTable({
             "processing": true,
@@ -167,6 +172,7 @@
                     
                 },
                 success: function (data) {
+                    
                     $('#timeSlot').html(data);
                 }
             });
@@ -204,6 +210,8 @@
             con_mess = "Canceled";
         else if(status_value == 19)
             con_mess = "Expired";
+	else if(status_value == 14)
+            con_mess = "Completed";
         bootbox.confirm('Do you really want to change status to ' + con_mess + '?', function (result) {
             if (result) {
 
@@ -322,7 +330,7 @@
         {
         var appdate = $("#date-11").val();
         var finaltime = $("#timepicker11").val();
-        var appid = $("#appid").val();
+        var appid = $("#quotid").val();
         var url = '<?php echo site_url(); ?>' + '/miappointment/savediagtimeSlot';
         $.ajax({
             url: url,
@@ -359,8 +367,9 @@
      * @method getTimeSloat
      * @description  SHOW MODAL WITH SLOAT
      */
-    function getTimeSloat(quotation_id, miId, timeSlotId)
+    function getTimeSloat(appid)
     {
+        $("#quotid").val(appid);
          $('#myModal2').modal('show');
 //        var url = '<?php echo site_url(); ?>' + '/miappointment' + '/get_timeSlot';
 //        $.ajax({
@@ -377,9 +386,14 @@
 //        });
     }
 
-    function getDrTimeSloat(id, doctorUserId, doctorParentId, slotId)
+    function getDrTimeSloat(id, docId, Miid, centerType)
     {
+       $("#docid").val(docId);
        
+       $("#appid").val(id);
+       $("#h_d_id").val(Miid);
+        $("#center_type").val(centerType);
+        
         $('#myModal1').modal('show');
         
 //        var url = '<?php echo site_url(); ?>' + '/miappointment' + '/getDrTimeSlot';

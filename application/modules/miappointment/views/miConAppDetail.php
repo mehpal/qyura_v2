@@ -11,10 +11,6 @@
 
                 </div>
             </div>
-<input type="hidden" id="docid" name="docid" value="<?php echo $conDetail->docid.",".$conDetail->doctorUserId;?>">
-<input type="hidden" id="appid" name="appid" value="<?php echo isset($appid) ? $appid : ''?>">
-<input type="hidden" id="h_d_id" name="h_d_id" value="<?php echo isset($conDetail->MIid) ? $conDetail->MIid : ''?>">
-<input type="hidden" id="center_type" name="center_type" value="<?php echo isset($conDetail->centerType) ? $conDetail->centerType : ''?>">
             <!-- Main Div Start -->
             <section class="clearfix detailbox">
 
@@ -151,12 +147,15 @@
                                 </article>
                             </div>
                             <div class="clearfix m-t-20 text-right">
+                                <?php if($conDetail->apstatus!="13"){?>
                                 <button type="button" class="btn btn-danger waves-effect m-r-10" onclick="changestatus(<?php echo $appid;?>,1,13)">Cancel</button>
-                                <?php 
+                                <?php } ?>
+                                <?php
                                 $dt = date('Y-m-d', $conDetail->appdate);
                                 $tm = date('H:i:s', $conDetail->finalTime);
                                 $appdate = strtotime($dt." ".$tm);
-                                if($appdate>= (strtotime(date("Y-m-d H:i:s")))){
+                                // if appointment not cancel/Confirm/Expired Or Time Slot Gone
+                                if($appdate>= (strtotime(date("Y-m-d H:i:s"))) && ($conDetail->apstatus!="13" && $conDetail->apstatus!="14" && $conDetail->apstatus!="19") ){
                                 ?>
                                <button data-toggle="modal" data-target="#myModal1" class="btn btn-success waves-effect waves-light m-b-5 applist-btn" type="button">Reschedule</button>
                                 <?php } ?>

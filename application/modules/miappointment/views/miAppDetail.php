@@ -11,7 +11,7 @@
 
                 </div>
             </div>
-<input type="hidden" id="appid" name="appid" value="<?php echo isset($qtnId) ? $qtnId : ''?>">
+
             <!-- Main Div Start -->
             <section class="clearfix detailbox">
 
@@ -83,10 +83,10 @@
                                 </p>
                             </div>
 
-                            <div class="clearfix m-t-10">
+                            <!--div class="clearfix m-t-10">
                                 <label class="col-md-4">Patient Remarks :</label>
                                 <p class="col-md-8"><?php echo 'Need discus'; ?></p>
-                            </div>
+                            </div-->
 
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4">Instruction :</label>
@@ -167,12 +167,13 @@
                                 </article>
                             </div>
                             <div class="clearfix m-t-20 text-right">
-                                <button type="button" class="btn btn-danger waves-effect m-r-10" onclick="changestatus(<?php echo $qtnId;?>,2,13)">Cancel</button>
+                                <?php if($qtnDetail->quotation_qtStatus!="13"){?>
+                                <button type="button" class="btn btn-danger waves-effect m-r-10" onclick="changestatus(<?php echo $qtnId;?>,2,13)">Cancel</button><?php } ?>
                                  <?php 
                                 $dt = date('Y-m-d', $qtnDetail->dateTime);
                                 $tm = date('H:i:s', $qtnDetail->finalTime);
                                 $appdate = strtotime($dt." ".$tm);
-                                if($appdate>= (strtotime(date("Y-m-d H:i:s")))){
+                                if($appdate>= (strtotime(date("Y-m-d H:i:s"))) && ($conDetail->apstatus!="13" && $conDetail->apstatus!="14" && $conDetail->apstatus!="19")){
                                 ?>
                                 <button data-toggle="modal" data-target="#myModal2" class="btn btn-success waves-effect waves-light m-b-5 applist-btn" type="button">Reschedule</button>
                                 <?php } ?> 
@@ -226,13 +227,13 @@
                             </div>
 
                             <div class="clearfix m-t-10">
-                                <label class="col-md-4 col-sm-4">Other Fee :</label>
-                                <p class="col-md-8 col-sm-8">0</p>
+                                <label class="col-md-4 col-sm-4">Other Fee:</label>
+                                <p class="col-md-8 col-sm-8"><?php echo isset($qtnDetail->quotation_otherFee) ? $qtnDetail->quotation_otherFee : '0'; ?></p>
                             </div>
 
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4 col-sm-4">Tax :</label>
-                                <p class="col-md-8 col-sm-8">5%</p>
+                                <p class="col-md-8 col-sm-8"><?php echo isset($qtnDetail->quotation_tex) ? $qtnDetail->quotation_tex : '0'; ?></p>
                             </div>
 
                             <div class="clearfix m-t-10">
