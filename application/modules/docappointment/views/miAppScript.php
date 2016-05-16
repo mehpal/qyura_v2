@@ -115,6 +115,8 @@ function changestatus(myid, appfor, status_value)
             con_mess = "Canceled";
         else if(status_value == 19)
             con_mess = "Expired";
+	else if(status_value == 14)
+            con_mess = "Completed";
         bootbox.confirm('Do you really want to change status to ' + con_mess + '?', function (result) {
             if (result) {
 

@@ -260,22 +260,18 @@ class Quotation extends MyRest {
     function _checkTotalAmount($str_in = '') {
         $this->load->model(array('quotation_model'));
         $quotationId = $_POST['quotationId'];
+        
         $quotationTestsAmount = $this->quotation_model->qtTestTotalAmount($quotationId);
-
-        $str_in = number_format($str_in, 2, '.', '');
+        $str_in = number_format($str_in, 2, '.', ''); 
+        
         if (isset($quotationId) && $quotationId != NULL) {
 
-            if ($quotationTestsAmount->price != $str_in || $quotationTestsAmount == null) {
-                if ($quotationTestsAmount->price > $str_in)
-                    $this->bf_form_validation->set_message('_checkTotalAmount', 'Please provide correct amount  !!');
-                if ($quotationTestsAmount->price < $str_in)
-                    $this->bf_form_validation->set_message('_checkTotalAmount', 'Please provide correct amount ^ !!');
-                if ($quotationTestsAmount == null)
-                    $this->bf_form_validation->set_message('_checkTotalAmount', 'Please provide correct amount ^ !!');
-
-                return FALSE;
-            } else
+            if ($quotationTestsAmount->price == $str_in) {
                 return TRUE;
+            } else{
+                $this->bf_form_validation->set_message('_checkTotalAmount', 'Please provide correct amount ^ !!');
+                return FALSE;
+            }
         }
         else {
             $this->bf_form_validation->set_message('_checkTotalAmount', 'Please provide correct amount ^ !!');
