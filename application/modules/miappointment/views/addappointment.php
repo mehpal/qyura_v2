@@ -214,7 +214,7 @@
                                                 <label for="cname" class="control-label col-md-4 col-sm-4">Test Name :</label>
                                                 <div class="col-md-8 col-sm-8">
                                                     <input type="text" class="form-control" name="input29[]" id="input29_1" >
-                                                    <div class="has-error " id="err_input29_1" ><?php echo form_error("input29_1"); ?></div>
+                                                    <div class="has-error error-diagtest" id="err_input29_1" ><?php echo form_error("input29_1"); ?></div>
                                                 </div>
                                             </article>
 
@@ -222,7 +222,7 @@
                                                 <label for="" class="control-label col-md-4 col-sm-4">Price :</label>
                                                 <div class="col-md-8 col-sm-8">
                                                     <input class="form-control " type="text" id="input30_1" name="input30[]"   >
-                                                    <div class="has-error " id="err_input30_1" ><?php echo form_error("input30_1"); ?></div>
+                                                    <div class="has-error error-diagprice" id="err_input30_1" ><?php echo form_error("input30_1"); ?></div>
                                                 </div>
                                             </article>
 
@@ -230,7 +230,7 @@
                                                 <label for="" class="control-label col-md-4 col-sm-4">Instruction :</label>
                                                 <div class="col-md-8 col-sm-8">
                                                     <textarea class="form-control" id="input31_1" name="input31[]"  ></textarea>
-                                                    <div class="has-error " id="err_input31_1" ><?php echo form_error("input31_1"); ?></div>
+                                                    <div class="has-error error-diagins" id="err_input31_1" ><?php echo form_error("input31_1"); ?></div>
                                                 </div>
                                             </article>
                                         </div>    

@@ -5,7 +5,7 @@
                     <h3>Change Timing</h3>
                 </div>
                 <!--input type="hidden" id="mi_centre" name="mi_centre"  value="<?php echo $conDetail->doctorParentId;?>"-->
-              
+              <input type="hidden" id="quotid" name="quotid" value="<?php echo isset($qtnId) ? $qtnId : ''?>">
                 <div class="modal-body">
                     <div class="modal-body">
                         <form class="form-horizontal" id="changetimeform2">

@@ -84,6 +84,7 @@ class Miappointment extends MY_Controller {
         $data = array();
         $data['qtnDetail'] = $this->miappointment->getDetail($qtnId);
         $data['quotationTests'] = $this->miappointment->getQuotationTests($qtnId);
+        
         $data['userDetail'] = $this->miappointment->getQuotationUserDetail($qtnId);
         $data['qtnAmount'] = $this->miappointment->qtTestTotalAmount($qtnId);
         $data['qtnId'] = $qtnId;
@@ -418,8 +419,7 @@ class Miappointment extends MY_Controller {
 
         // $this->bf_form_validation->set_rules("input8", "Appointment Status", 'required|xss_clean');
         //test or specialities
-        print_r($_POST);
-        exit;
+       
         $apoint_type = $this->input->post('input5');
         if ($apoint_type == 0) {
             $this->bf_form_validation->set_rules("input6", "Date", 'required|xss_clean');
@@ -432,11 +432,11 @@ class Miappointment extends MY_Controller {
             $this->bf_form_validation->set_rules("input37", "Time", 'required|xss_clean');
             $this->bf_form_validation->set_rules("input7", "Date", 'required|xss_clean');
             $total_test = $this->input->post('total_test');
-            for ($j = 1; $j <= $total_test; $j++) {
-                $this->bf_form_validation->set_rules("input28_$j", "Diagnostic Type $j ", 'required|xss_clean');
-                $this->bf_form_validation->set_rules("input29_$j", "Test Name $j ", 'required|xss_clean');
-                $this->bf_form_validation->set_rules("input30_$j", "Price $j", 'required|xss_clean');
-                $this->bf_form_validation->set_rules("input31_$j", "Instruction $j", 'required|xss_clean');
+            for ($j = 0; $j < $total_test; $j++) {
+                $this->bf_form_validation->set_rules("input28[$j]", "Diagnostic Type $j ", 'required|xss_clean');
+                $this->bf_form_validation->set_rules("input29[$j]", "Test Name $j ", 'required|xss_clean');
+                $this->bf_form_validation->set_rules("input30[$j]", "Price $j", 'required|xss_clean');
+                $this->bf_form_validation->set_rules("input31[$j]", "Instruction $j", 'required|xss_clean');
             }
         }
         //user
@@ -460,9 +460,7 @@ class Miappointment extends MY_Controller {
        
         if ($this->bf_form_validation->run() == FALSE) {
             $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
-//            print_r($responce);
-//            exit;
-            echo json_encode($responce);
+           
         } else {
 
             $qyura_doctorAppointment = $quotations = '';
@@ -697,13 +695,13 @@ class Miappointment extends MY_Controller {
 
 
                 $total_test = $this->input->post('total_test');
-                for ($i = 1; $i <= $total_test; $i++) {
+                for ($i = 0; $i < $total_test; $i++) {
 
                     //insert multiple test 
-                    $test_type = $this->input->post("input28_" . $i);
-                    $test_name = $this->input->post("input29_" . $i);
-                    $test_price = $this->input->post("input30_" . $i);
-                    $test_instruction = $this->input->post("input31_" . $i);
+                    $test_type = $this->input->post("input28[". $i."]");
+                    $test_name = $this->input->post("input29[". $i."]");
+                    $test_price = $this->input->post("input30[". $i."]");
+                    $test_instruction = $this->input->post("input31[". $i."]");
 
                     $records_array3 = array('creationTime' => strtotime(date('Y-m-d H:i:s')),
                         'quotationDetailTests_quotationId' => $quotation_id,
@@ -714,6 +712,7 @@ class Miappointment extends MY_Controller {
                         'quotationDetailTests_price' => $test_price,
                         'quotationDetailTests_instruction' => $test_instruction
                     );
+                    
                     $options = array(
                         'data' => $records_array3,
                         'table' => 'qyura_quotationDetailTests'
@@ -819,7 +818,7 @@ class Miappointment extends MY_Controller {
         );
         
         $timeSlot = $this->common_model->customGet($options);
-echo $this->db->last_query();
+
         if (isset($timeSlot) && $timeSlot != NULL) {
             $option .= '<option value="">Select Time Slot</option>';
             foreach ($timeSlot as $time) {
