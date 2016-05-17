@@ -842,8 +842,17 @@ class Quotation extends MY_Controller {
             $cronId = $this->common_model->customInsert($options);
             
             if ($isUpdate || $quotation_id) {
-//                $responce = array('status' => 1, 'isAlive' => TRUE, 'message' => 'Successfully send quotation.');
-//            echo json_encode($responce);
+		$from = "suport@qyura.com";
+                $title = "QYURA TEAM";
+                $to = $email;
+                $subject = "Conguratilation! Welcome to Qyura";
+                $msg = "Hello /n"
+                        . "Email : ".$email."/n"
+                        . "Your Password : " .$password;
+                if(isset($password) && $password != '')
+                    $this->send_mail($from,$to,$subject,$title,$msg);
+		
+	
                 $this->session->set_flashdata('message', 'Successfully send quotation.');
                 redirect('quotation/sendQuotation');
             } else {
