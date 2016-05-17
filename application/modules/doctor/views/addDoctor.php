@@ -51,9 +51,9 @@
                                         <label class="control-label col-md-4 col-sm-4" for="cemail">Upload Logo :</label>
                                         <div class="col-md-8 col-sm-8" data-target="#modal" data-toggle="modal">
                                             <label class="col-md-4 col-sm-4 pull-right" for="file-input"><i style="border:1px solid #777777; padding:10px;" class="fa fa-cloud-upload fa-3x avatar-view"></i></label>
-                                            <div class="pre col-md-4 col-sm-4 pull-right" style="margin-top: -10%">
-                                                <div id="preImgLogo" class="avatar-preview preview-md preImgLogo">
-                                                    <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png"  class="image-preview-show" width="80px" height="80px" style="margin-top: 0"/>
+                                            <div class="pre col-md-4 col-sm-4 pull-right" >
+                                                <div id="preImgLogo" class="avatar-preview preview-md preImgLogo" style="width: 100%;height: 63px">
+                                                    <img src="<?php echo base_url() ?>assets/default-images/Doctor-logo.png"  class="image-preview-show" width="80px" height="80px" style="margin-top: 0;width: 100%;height: 63px"/>
                                                 </div>
                                             </div>
                                             <label class="error" id="error-avatarInput" style="display: none"> Please select image</label>
