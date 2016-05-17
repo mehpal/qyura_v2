@@ -397,7 +397,7 @@ if (!function_exists("defalutTimeSlots")) {
     if (!function_exists('dateFn')) {
 
         function dateFn($strToTime) {
-            return date("m  D, Y", $strToTime);
+            return date("d M,Y", $strToTime);
             //return date("Y-m-d H:i:s",$strToTime);
         }
 

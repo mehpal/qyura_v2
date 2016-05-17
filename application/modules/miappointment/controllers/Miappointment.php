@@ -25,7 +25,8 @@ class Miappointment extends MY_Controller {
      */
     public function index() {
        $data = array();
-
+//       $msg = $this->load->view('email/signing_up_doctor_tpl', '', true);
+//       $this->send_mail("prachi.pj@gmail.com","pj.mobileappz@gmail.com","testing","Test Mail",$msg);
        $this->load->super_admin_template('miAppList', $data, 'miAppScript');
     }
 
