@@ -65,7 +65,7 @@
                                     <div class="pre col-md-4 col-sm-4 ">
                                     <div id="preImgLogo" class="avatar-preview preview-md preImgLogo" style="height: 60px;width: 60px">
                                         
-                                   <img src="<?php echo base_url() ?>assets/default-images/ambulance_logo.png"  class="image-preview-show"/>
+                                   <img src="<?php echo base_url() ?>assets/default-images/Emerg-logo.png"  class="image-preview-show"/>
                                         
                                     </div>
                                     </div>
