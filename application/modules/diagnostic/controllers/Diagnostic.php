@@ -467,7 +467,14 @@ class Diagnostic extends MY_Controller {
                 // dump($insertData);exit;
                 
                 if(!$users_email)
-                 $this->sendEmailRegister($this->input->post($users_email));
+                    $from = "suport@qyura.com";
+                    $title = "QYURA TEAM";
+                    $to = $this->input->post('users_email');
+                    $subject = "Conguratilation! Welcome to Qyura";
+                    $msg = "Hello /n"
+                            . "Email : ".$this->input->post('users_email')."/n"
+                            . "Your Password : " .$this->input->post('users_password');
+                    $this->send_mail($from,$to,$subject,$title,$msg);
                  
                  if($diagno_id == 0){
                       $insertData['status'] = 0;
@@ -1025,6 +1032,15 @@ class Diagnostic extends MY_Controller {
             );
             $response = $this->diagnostic_model->customUpdate($options_dia);
             if ($response) {
+		$from = "suport@qyura.com";
+                $title = "QYURA TEAM";
+                $to = $users_email;
+                $subject = "Conguratilation! Welcome to Qyura";
+                $msg = "Hello /n"
+                        . "Email : ".$users_email."/n"
+                        . "Your New Password : " .$passwords;
+                if(isset($passwords) && $passwords != '')
+                    $this->send_mail($from,$to,$subject,$title,$msg);
                 $this->session->set_flashdata('message', 'Record has been updated successfully!');
                 redirect("diagnostic/detailDiagnostic/$diagnosticId");
             } else {
