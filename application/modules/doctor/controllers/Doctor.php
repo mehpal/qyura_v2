@@ -1803,4 +1803,13 @@ class Doctor extends MY_Controller {
             return true;
         }
     }
+
+    function checkMail(){
+        $from = "qyura@gmail.com";
+        $to = "sq.mobileappz@gmail.com";
+        $subject = "demo";
+        $title = "tital";
+        $msg = "Hiiiiii";
+        $this->send_mail($from,$to,$subject,$title,$msg);
+    }
 }
