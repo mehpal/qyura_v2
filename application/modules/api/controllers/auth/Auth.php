@@ -7,7 +7,7 @@ class Auth extends MyRest {
 
     function __construct() {
         parent::__construct();
-        $this->load->library(array('ion_auth_api', 'form_validation'));
+        $this->load->library(array('ion_auth_api', 'form_validation','email'));
         $this->load->helper(array('url', 'language', 'common', 'string'));
         $this->bf_form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'auth_conf_api'), $this->config->item('error_end_delimiter', 'auth_conf_api'));
         $this->lang->load('auth_api');
@@ -152,12 +152,12 @@ class Auth extends MyRest {
         $to = $data['email'];
         $subject = "OTP";
         $msg = $otp_no;
-        $this->send_mail($from,$to,$subject,$title,$msg);
+        $this->send_mail_user($from,$to,$subject,$title,$msg);
         
         if($data['logintype'] == 2){
             $subject2 = "Login Password";
             $message2 = "Auto Generated Password :" . $data['password'];
-            $this->send_mail($from,$to,$subject2,$title,$message2);
+            $this->send_mail_user($from,$to,$subject2,$title,$message2);
         }
 
         $option = array(
@@ -340,7 +340,7 @@ class Auth extends MyRest {
                 $message = $this->load->view('email/signing_up_user_tpl',$data_tpl,true);
                 $subject = "Qyura";
                 $title = "Qyura Team";
-                $this->send_mail($from,$to,$subject,$title,$message);
+                $this->send_mail_user($from,$to,$subject,$title,$message);
                 
                 $option = array(
                     'table' => 'qyura_users',
@@ -1081,13 +1081,7 @@ class Auth extends MyRest {
             return $view_html;
     }
 
-function send_mail($from,$to,$subject,$title,$msg) {
-        
-        $this->load->library('email');
-        
-        //$mesg = $this->load->view('email/signing_up_doctor_tpl', '', true);
-
-        $this->load->library('email');
+function send_mail_user($from,$to,$subject,$title,$msg) {
 
         $config = array(
             'charset' => 'utf-8',
