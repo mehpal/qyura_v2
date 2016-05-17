@@ -101,7 +101,7 @@ class Users_model extends My_model {
 
         $this->datatables->add_column('status', '$1', 'statusCheck(users,qyura_users,users_id,user_id,user_status)');
 
-        $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="users/editUserView/$1">Edit</a>', 'patientDetails_usersId');
+        $this->datatables->add_column('view', '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="users/editUserView/$1">Edit</a>', 'user_id');
 
         return $this->datatables->generate();
         // echo $this->datatables->last_query();
