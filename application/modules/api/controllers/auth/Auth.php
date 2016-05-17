@@ -146,9 +146,20 @@ class Auth extends MyRest {
         $otp_no= $otp.": This is your Qyura One Time Password";
         $data['users_otpCode'] = $otp;
         $send = $this->common_model->sendSms($data['mobileNo'],$otp_no);
-        $from = 'support@qyura.com';
+        
+	$from = "qyura@gmail.com";
+        $title = "QYURA TEAM";
         $to = $data['email'];
-        $send = $this->common_model->sendMail($from,$to,$otp_no);
+        $subject = "OTP";
+        $msg = $otp_no;
+        $this->send_mail($from,$to,$subject,$title,$msg);
+        
+        if($data['logintype'] == 2){
+            $subject2 = "Login Password";
+            $message2 = "Auto Generated Password :" . $data['password'];
+            $this->send_mail($from,$to,$subject2,$title,$message2);
+        }
+
         $option = array(
             'table' => 'qyura_otp',
             'select' => '*',
