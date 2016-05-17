@@ -1810,6 +1810,7 @@ class Doctor extends MY_Controller {
         $subject = "demo";
         $title = "tital";
         $msg = "Hiiiiii";
-        $this->send_mail($from,$to,$subject,$title,$msg);
+        $mail = $this->send_mail($from,$to,$subject,$title,$msg);
+if($mail){echo "hello";}else{echo "hiii";}
     }
 }
