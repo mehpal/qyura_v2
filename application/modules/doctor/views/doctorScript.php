@@ -252,6 +252,7 @@ if ($current != 'detailDoctor'):
             event.preventDefault();
             var url = '<?php echo site_url(); ?>/doctor/changeDetailDoctor/';
             var formData = new FormData(this);
+	    var count = check_qap();
             if(count == 0){
                 submitData(url,formData);
             }
@@ -795,6 +796,7 @@ if ($current != 'detailDoctor'):
             "iDisplayLength": 10,
             "bPaginate": true,
             "sPaginationType": "full_numbers",
+	    "bInfo" : false,
             "columnDefs": [{
                     "targets": [0,1,2,3,4,5,6,7],
                     "orderable": false
