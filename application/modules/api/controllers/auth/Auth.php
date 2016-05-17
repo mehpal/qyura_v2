@@ -203,7 +203,7 @@ class Auth extends MyRest {
         $this->bf_form_validation->set_rules('name', 'name', 'required|max_length[80]|xss_clean');
         
         $this->bf_form_validation->set_rules('pushToken', 'push token', 'min_length[8]|max_length[255]|xss_clean');
-        $this->bf_form_validation->set_rules('udid', 'udid', 'min_length[8]|max_length[255]|xss_clean');
+        $this->bf_form_validation->set_rules('udid', 'udid', 'max_length[255]|xss_clean');
         
         $logintype = $this->input->post('logintype');
         if($logintype == 0){
@@ -450,7 +450,7 @@ class Auth extends MyRest {
         $this->bf_form_validation->set_rules('password', 'Password', 'required|xss_clean');
 
         $this->bf_form_validation->set_rules('pushToken', 'push token', 'min_length[8]|max_length[255]|xss_clean');
-        $this->bf_form_validation->set_rules('udid', 'udid', 'min_length[8]|max_length[255]|xss_clean');
+        $this->bf_form_validation->set_rules('udid', 'udid', 'max_length[255]|xss_clean');
         $this->bf_form_validation->set_rules('device', 'device', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
 
         if ($this->bf_form_validation->run() == FALSE) {
