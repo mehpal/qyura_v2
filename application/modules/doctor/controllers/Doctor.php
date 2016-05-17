@@ -1803,25 +1803,4 @@ class Doctor extends MY_Controller {
             return true;
         }
     }
-
-function checkMail(){
-	$data['name'] = "Shoaib";
-		$this->load->library('email');
-            $config = array(
-                'charset' => 'utf-8',
-                'wordwrap' => TRUE,
-                'mailtype' => 'html',
-                'protocol' => 'sendmail',
-                'mailpath' => '/usr/sbin/sendmail',
-            );
-            $this->email->initialize($config);
-            $this->email->set_newline("\r\n");
-            $this->email->to("sq.mobileappz@gmail.com");
-            $this->email->from('admin@qyuram.com', 'QYURA TEAM');
-            $this->email->subject('Doctor');
-            $body = $this->load->view('email/signing_up_doctor_tpl', $data, TRUE);
-            $this->email->message($body);
-            $mail = $this->email->send();
-	if($mail){echo "hi";}else{echo "hello";}
-}
 }
