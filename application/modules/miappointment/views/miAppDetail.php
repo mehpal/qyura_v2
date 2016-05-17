@@ -139,6 +139,7 @@
                                         }
                                         ?> | <?php echo isset($userDetail->userAge) ? $userDetail->userAge : ''; ?> Year</p>
                                     <p><?php echo isset($userDetail->mobile) ? $userDetail->mobile : ''; ?></p>
+                                    
                                 </article>
                             </div>
 
@@ -146,16 +147,19 @@
                                 <article class="col-md-2 p-0 pull-right m-r-20">
                                     
                                     <?php
+                                    
                                         if($qtnDetail->type == 'hospital')
-                                        $path = FCPATH . BS_HOSIMG_PATH;
+                                        $path = BS_HOSIMG_PATH;
                                         
                                         if($qtnDetail->type == 'diagnostic')
-                                        $path = FCPATH . BS_DIAGIMG_PATH;
+                                        $path = BS_DIAGIMG_PATH;
                                         
+                                        $path1 = FCPATH.$path ;
                                         
-                                        if (file_exists(realpath($path) . '/' . $qtnDetail->MIimg)) {
+                                        if (file_exists(realpath($path1) . '/' . $qtnDetail->MIimg)) {
+                                            
                                             ?>
-                                            <img src="<?php echo base_url(BS_PROF_PATH); ?>/<?php echo $qtnDetail->MIimg  ?>" alt="" class="img-responsive patient-pic">
+                                            <img src="<?php echo base_url($path); ?>/<?php echo $qtnDetail->MIimg  ?>" alt="" class="img-responsive patient-pic">
                                             <?php
                                         }
                                     ?>
