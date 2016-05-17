@@ -591,23 +591,13 @@ class My_model extends CI_Model {
         }
     }
 
-    function sendMail($to,$subject,$message){
-
-        $this->load->library('email');
-        $config = array(
-            'charset' => 'utf-8',
-            'wordwrap' => TRUE,
-            'mailtype' => 'html',
-            'protocol' => 'sendmail',
-            'mailpath' => '/usr/sbin/sendmail',
-        );
-        $this->email->initialize($config);
-        $this->email->set_newline("\r\n");
+   function sendMail($from,$to,$message){
+        $this->email->from($from, 'Team Qyura');
         $this->email->to($to);
-        $this->email->from('admin@qyuram.com', 'QYURA TEAM');
-        $this->email->subject($subject);
+        $this->email->subject("Qyura");
         $this->email->message($message);
         $send = $this->email->send();
+
         if($send){ return '1';}else{ return '0';}
     }
 
