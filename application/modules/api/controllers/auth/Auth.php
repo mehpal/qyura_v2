@@ -338,7 +338,9 @@ class Auth extends MyRest {
                 $data_tpl['email'] = $users_email;
                 $data_tpl['password'] = $password;
                 $message = $this->load->view('email/signing_up_user_tpl',$data_tpl,true);
-                $this->common_model->sendMail($from,$to,$message);
+                $subject = "Qyura";
+                $title = "Qyura Team";
+                $this->send_mail($from,$to,$subject,$title,$message);
                 
                 $option = array(
                     'table' => 'qyura_users',
@@ -1077,6 +1079,37 @@ class Auth extends MyRest {
 
         if (!$render)
             return $view_html;
+    }
+
+function send_mail($from,$to,$subject,$title,$msg) {
+        
+        $this->load->library('email');
+        
+        //$mesg = $this->load->view('email/signing_up_doctor_tpl', '', true);
+
+        $this->load->library('email');
+
+        $config = array(
+            'charset' => 'utf-8',
+            'wordwrap' => TRUE,
+            'mailtype' => 'html',
+            'protocol' => 'sendmail',
+            'mailpath' => '/usr/sbin/sendmail',
+        );
+
+        $this->email->initialize($config);
+
+        $this->email->to($to);
+        $this->email->from($from,$title);
+        $this->email->subject($subject);
+        $this->email->message($msg);
+        $mail = $this->email->send();
+        if ($mail)
+            return true;
+        else {
+            return FALSE;
+            show_error($this->email->print_debugger());
+        }
     }
 
 }
