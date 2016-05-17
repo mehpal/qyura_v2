@@ -27,9 +27,9 @@
     </head>
     <body style="width:100%; float:left; font-family:arial;">
         <div class="main" style="width:900px; margin:0px auto">
-            <div style="">
+            <!--<div style="">
                 <img src="<?php echo base_url(); ?>assest/img/froyologoheader.png" style="margin:30px 44%" 0px;/>
-            </div>
+            </div>-->
             <h1 style="text-align:left; margin-top:0px;">Hey <?php echo $name; ?></h1>
             <h1 style="text-align:left; margin-top:0px;">Username <?php echo $email; ?></h1>
             <h1 style="text-align:left; margin-top:0px;">Password <?php echo $password; ?></h1>
