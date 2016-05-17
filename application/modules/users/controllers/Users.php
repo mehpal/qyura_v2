@@ -297,13 +297,16 @@ class Users extends MY_Controller {
             }
             if ($users_insert_patient) {
 
-                $from = 'support@qyura.com';
+               $from = 'support@qyura.com';
                 $to = $email;
+                $subject = "User";
+                $title = "Qyura Team";
                 $data_tpl['name'] = $name;
                 $data_tpl['email'] = $email;
                 $data_tpl['password'] = $password;
-                $message = $this->load->view('email/signing_up_user_tpl', $data_tpl, true);
-                $this->common_model->sendMail($from, $to, $message);
+                $msg = $this->load->view('email/signing_up_user_tpl', $data_tpl, true);
+                 $this->send_mail($from,$to,$subject,$title,$msg);
+                 
                 $responce = array('status' => 1, 'msg' => "Data inserted successfully", 'url' => "users");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
