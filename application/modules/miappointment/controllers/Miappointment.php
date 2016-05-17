@@ -24,8 +24,10 @@ class Miappointment extends MY_Controller {
      * @return html
      */
     public function index() {
-        $data = array();
-        $this->load->super_admin_template('miAppList', $data, 'miAppScript');
+       $data = array();
+//       $msg = $this->load->view('email/signing_up_doctor_tpl', '', true);
+//       $this->send_mail("prachi.pj@gmail.com","pj.mobileappz@gmail.com","testing","Test Mail",$msg);
+       $this->load->super_admin_template('miAppList', $data, 'miAppScript');
     }
 
     /**
@@ -84,7 +86,7 @@ class Miappointment extends MY_Controller {
         $data = array();
         $data['qtnDetail'] = $this->miappointment->getDetail($qtnId);
         $data['quotationTests'] = $this->miappointment->getQuotationTests($qtnId);
-        
+
         $data['userDetail'] = $this->miappointment->getQuotationUserDetail($qtnId);
         $data['qtnAmount'] = $this->miappointment->qtTestTotalAmount($qtnId);
         $data['qtnId'] = $qtnId;
@@ -261,26 +263,24 @@ class Miappointment extends MY_Controller {
         $tm = date('H:i:s', $final_timing);
         $appdatetime = strtotime($dt . " " . $tm);
         if ($appdatetime >= (strtotime(date("Y-m-d H:i:s")))) {
-            
-        $updateOption = array(
-            'data' => array(
-                'doctorAppointment_date' => $appdate,
-                'doctorAppointment_slotId' => $timeslot_id,
-                'doctorAppointment_finalTiming' => $final_timing,
-                'modifyTime' => strtotime(date("Y-m-d")),
-            ),
-            'table' => 'qyura_doctorAppointment',
-            'where' => array('doctorAppointment_id' => $myid)
-        );
-        $isUpdate = $this->common_model->customUpdate($updateOption);
-         $this->session->set_flashdata('message', 'Data updated successfully !');
-        redirect('miappointment/consultingDetail/');
+
+            $updateOption = array(
+                'data' => array(
+                    'doctorAppointment_date' => $appdate,
+                    'doctorAppointment_slotId' => $timeslot_id,
+                    'doctorAppointment_finalTiming' => $final_timing,
+                    'modifyTime' => strtotime(date("Y-m-d")),
+                ),
+                'table' => 'qyura_doctorAppointment',
+                'where' => array('doctorAppointment_id' => $myid)
+            );
+            $isUpdate = $this->common_model->customUpdate($updateOption);
+            $this->session->set_flashdata('message', 'Data updated successfully !');
+            redirect('miappointment/consultingDetail/');
+        } else {
+            $this->session->set_flashdata('message', 'Data not updated successfully !');
+            redirect('miappointment/consultingDetail/');
         }
-        else{
-         $this->session->set_flashdata('message', 'Data not updated successfully !');
-        redirect('miappointment/consultingDetail/');
-        }
-       
     }
 
     public function savediagtimeSlot() {
@@ -305,11 +305,11 @@ class Miappointment extends MY_Controller {
                 'where' => array('quotation_id' => $myid)
             );
             $isUpdate = $this->common_model->customUpdate($updateOption);
-            
+
             echo 1;
         } else
             echo 0;
-          //echo $this->db->last_query();
+        //echo $this->db->last_query();
     }
 
     public function getDrTimeSlot() {
@@ -419,7 +419,7 @@ class Miappointment extends MY_Controller {
 
         // $this->bf_form_validation->set_rules("input8", "Appointment Status", 'required|xss_clean');
         //test or specialities
-       
+
         $apoint_type = $this->input->post('input5');
         if ($apoint_type == 0) {
             $this->bf_form_validation->set_rules("input6", "Date", 'required|xss_clean');
@@ -457,10 +457,9 @@ class Miappointment extends MY_Controller {
         $this->bf_form_validation->set_rules("input25", "Total Amount ", 'required|xss_clean');
         $this->bf_form_validation->set_rules("input26", "Payment Status", 'required|xss_clean');
         $this->bf_form_validation->set_rules("input27", "Payment Mode", 'required|xss_clean');
-       
+
         if ($this->bf_form_validation->run() == FALSE) {
             $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => ajax_validation_errors());
-           
         } else {
 
             $qyura_doctorAppointment = $quotations = '';
@@ -698,10 +697,10 @@ class Miappointment extends MY_Controller {
                 for ($i = 0; $i < $total_test; $i++) {
 
                     //insert multiple test 
-                    $test_type = $this->input->post("input28[". $i."]");
-                    $test_name = $this->input->post("input29[". $i."]");
-                    $test_price = $this->input->post("input30[". $i."]");
-                    $test_instruction = $this->input->post("input31[". $i."]");
+                    $test_type = $this->input->post("input28[" . $i . "]");
+                    $test_name = $this->input->post("input29[" . $i . "]");
+                    $test_price = $this->input->post("input30[" . $i . "]");
+                    $test_instruction = $this->input->post("input31[" . $i . "]");
 
                     $records_array3 = array('creationTime' => strtotime(date('Y-m-d H:i:s')),
                         'quotationDetailTests_quotationId' => $quotation_id,
@@ -712,7 +711,7 @@ class Miappointment extends MY_Controller {
                         'quotationDetailTests_price' => $test_price,
                         'quotationDetailTests_instruction' => $test_instruction
                     );
-                    
+
                     $options = array(
                         'data' => $records_array3,
                         'table' => 'qyura_quotationDetailTests'
@@ -746,7 +745,6 @@ class Miappointment extends MY_Controller {
                 $isUpdate = $this->common_model->customUpdate($updateOption);
             }
             if ($pay_status == 16) {//If Paid then Insert
-
                 //insert data in transaction table
                 $transaction_array2 = array(
                     'creationTime' => strtotime(date('Y-m-d H:i:s')),
@@ -778,8 +776,7 @@ class Miappointment extends MY_Controller {
                 $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $error);
             }
             $this->session->set_flashdata('message', 'Data inserted successfully !');
-                redirect('miappointment');
-            
+            redirect('miappointment');
         }
     }
 
@@ -792,14 +789,14 @@ class Miappointment extends MY_Controller {
      * @return option
      */
     function appoint_timeSlot() {
-        
+
         $id = $this->input->post('docid');
         $id = explode(',', $id);
         $doc_id = $id[0];
         $doc_userid = $id[1];
 
         $date = $this->input->post('appdate');
-        
+
         $h_d_id = $this->input->post('h_d_id');
         $centertype = $this->input->post('centertype');
 //        if($centertype=="0")
@@ -811,12 +808,12 @@ class Miappointment extends MY_Controller {
         $option = '';
         $options = array(
             'table' => 'qyura_docTimeTable',
-            'where' => array('docTimeTable_doctorId' => $doc_id, 'qyura_docTimeTable.docTimeTable_deleted' => 0, 'qyura_docTimeDay.docTimeDay_deleted' => 0, 'qyura_docTimeDay.docTimeDay_day' => $day_no,'docTimeTable_MItype'=>$centertype,'docTimeTable_MIprofileId'=>$h_d_id),
+            'where' => array('docTimeTable_doctorId' => $doc_id, 'qyura_docTimeTable.docTimeTable_deleted' => 0, 'qyura_docTimeDay.docTimeDay_deleted' => 0, 'qyura_docTimeDay.docTimeDay_day' => $day_no, 'docTimeTable_MItype' => $centertype, 'docTimeTable_MIprofileId' => $h_d_id),
             'join' => array(
                 array('qyura_docTimeDay', 'qyura_docTimeDay.docTimeDay_docTimeTableId = qyura_docTimeTable.docTimeTable_id', 'left'),
             ),
         );
-        
+
         $timeSlot = $this->common_model->customGet($options);
 
         if (isset($timeSlot) && $timeSlot != NULL) {
@@ -882,7 +879,7 @@ class Miappointment extends MY_Controller {
         $close_time = strtotime($time_slot->docTimeDay_close);
 
         if ($final_timing >= $open_time && $final_timing <= $close_time) {
-           echo json_encode(TRUE);
+            echo json_encode(TRUE);
         } else {
             echo json_encode(FALSE);
         }
