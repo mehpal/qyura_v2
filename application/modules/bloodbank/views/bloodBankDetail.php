@@ -413,6 +413,7 @@
                            <p class="col-md-8 col-sm-7">+91 <?php if(isset($bloodBankData[0]->users_mobile)){ echo $bloodBankData[0]->users_mobile; } ?></p>
                         </article>
                         <form class="" name="passwordUpdate" id="passwordUpdate" action="<?php base_url();?>bloodbank/updatePassword">
+			   <input type="hidden" id="user_email" name="user_email" value="<?php echo $bloodBankData[0]->users_email; ?>" >
                            <article class="clearfix m-b-10">
                               <label for="cemail" class="control-label col-md-4 col-sm-5">Change Password:</label>
                               <aside class="col-md-4 col-sm-4">

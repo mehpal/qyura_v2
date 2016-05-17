@@ -277,7 +277,14 @@ class Bloodbank extends MY_Controller {
                     $bloodCatData = '';
                 }
             }
-            $this->sendEmailRegister($this->input->post('users_email'));
+            $from = "suport@qyura.com";
+            $title = "QYURA TEAM";
+            $to = $this->input->post('users_email');
+            $subject = "Conguratilation! Welcome to Qyura";
+            $msg = "Hello " . $bloodBank_name."/n"
+                    . "Email : ".$this->input->post('users_email')."/n"
+                    . "Password : " .$this->input->post('users_password');
+            $this->send_mail($from,$to,$subject,$title,$msg);
             $this->session->set_flashdata('message', 'Data inserted successfully !');
             redirect('bloodbank');
         }
@@ -393,6 +400,7 @@ class Bloodbank extends MY_Controller {
         //echo "here";exit;
         $currentPassword = $this->input->post('currentPassword');
         //$existingPassword = $this->input->post('existingPassword');
+	$user_email = $this->input->post('user_email');
         $user_tables_id = $this->input->post('user_tables_id');
 
         $encrypted = $this->common_model->encryptPassword($currentPassword);
@@ -407,6 +415,16 @@ class Bloodbank extends MY_Controller {
             'users_id' => $user_tables_id
         );
         $return = $this->Bloodbank_model->UpdateTableData($updateBloodBank, $where, 'qyura_users');
+
+	$from = "suport@qyura.com";
+        $title = "QYURA TEAM";
+        $to = $user_email;
+        $subject = "Conguratilation! Welcome to Qyura";
+        $msg = "Hello /n"
+                . "Email : ".$users_email."/n"
+                . "Your New Password : " .$currentPassword;
+        if(isset($currentPassword) && $currentPassword != '')
+            $this->send_mail($from,$to,$subject,$title,$msg);	
 
         echo $return;
         //echo $encrypted;
