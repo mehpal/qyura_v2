@@ -407,7 +407,7 @@ class Diagnostic extends MY_Controller {
             $users_email_status = $this->input->post('users_email_status');
             if($users_email_status == ''){
             $users_email = $this->input->post('users_email');
-            $users_password = md5($this->input->post('users_password'));
+            $users_password = $this->input->post('users_password');
             $diagnosticInsert = array(
                 'users_email' => $users_email,
                 'users_password' => $this->common_model->encryptPassword($users_password),
