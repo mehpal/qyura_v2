@@ -176,7 +176,7 @@
 
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4 col-sm-4">Address :</label>
-                                <p class="col-md-8 col-sm-8"><?php echo isset($conDetail->address) ? $conDetail->address : ''; ?></p>
+                                <p class="col-md-8 col-sm-8"><?php echo isset($conDetail->pataddress) ? $conDetail->pataddress : ''; ?></p>
                             </div>
 
                             <div class="clearfix m-t-10">

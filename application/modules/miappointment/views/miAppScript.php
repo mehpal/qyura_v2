@@ -77,15 +77,16 @@
                     d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
                 },
                 beforeSend: function () {
-                    // setting a timeout
-                    $('#load_diagnostic').addClass('loading').show();
+                    qyuraLoader.startLoader();
                 },
                 complete: function ()
                 {
-                    $('#load_diagnostic').removeClass('loading').hide('200');
+                    qyuraLoader.stopLoader();
                 },
             }
+        
         });
+        
 
         var consultingTable = $('#datatble_consulting').DataTable({
             "bProcessing": true,
@@ -116,14 +117,14 @@
                     d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
                 },
                 beforeSend: function () {
-                    // setting a timeout
-                    $('#load_consulting').addClass('loading').show();
+                    qyuraLoader.startLoader();
                 },
                 complete: function ()
                 {
-                    $('#load_consulting').removeClass('loading').hide('200');
+                   qyuraLoader.stopLoader();
                 },
             }
+            
         });
 
         $('#search').on('keyup', function () {
@@ -169,13 +170,14 @@
                 type: 'POST',
                 data: {'docid': docid, 'appdate': appdate,'h_d_id':h_d_id,'centertype':center_type},
                 beforeSend: function (xhr) {
-                    
+                    //qyuraLoader.startLoader();
                 },
                 success: function (data) {
                     
                     $('#timeSlot').html(data);
                 }
             });
+            //qyuraLoader.stopLoader();
             
     }
     function check_validaton() {
@@ -222,6 +224,7 @@
                     type: 'POST',
                     data: {'myid': myid, 'ele': appfor, 'status': status_value},
                     beforeSend: function (xhr) {
+                        qyuraLoader.startLoader();
                     },
                     success: function (data) {
                         location.reload(); 
@@ -282,6 +285,7 @@
                     type: 'POST',
                     data: {'appdate': appdate, 'timeSlot': timeSlot, 'finaltime': finaltime,'appid':appid},
                     beforeSend: function (xhr) {
+                        qyuraLoader.startLoader();
                 },
                 success: function (data) {
                 if(data==0)
@@ -302,7 +306,9 @@
 
                 }
             });
+            qyuraLoader.stopLoader();
             $form.submit();
+            
             }
         }); 
 //consulting's timeslot update validation ends
@@ -338,6 +344,7 @@
             type: 'POST',
             data: {'appdate': appdate,'finaltime': finaltime,'appid':appid},
             beforeSend: function (xhr) {
+                qyuraLoader.startLoader();
             },
             success: function (data) {
                 
@@ -358,6 +365,7 @@
                
             }
         });
+        qyuraLoader.stopLoader();
         $form.submit();
             
     }

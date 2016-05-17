@@ -13,12 +13,11 @@
             type: 'POST',
             data: {'stateId': stateId},
             beforeSend: function (xhr) {
-                $("#cityId").addClass('loadinggif');
+                qyuraLoader.startLoader();
             },
             success: function (datas) {
 
                 $('#cityId').html(datas);
-                $("#cityId").removeClass('loadinggif');
                 $('#cityId').selectpicker('refresh');
                 $('#StateId').val(stateId);
                 console.log(cityId);
@@ -30,6 +29,7 @@
                 }
             }
         });
+        qyuraLoader.startLoader();
 
     }
 
@@ -47,7 +47,7 @@
                 type: 'POST',
                 data: {'city_id': city_id, 'appointment_type': appointment_type},
                 beforeSend: function (xhr) {
-                    $("#mi_centre").addClass('loadinggif');
+                    qyuraLoader.startLoader();
                 },
                 success: function (data) {
                     console.log(data);
@@ -59,11 +59,11 @@
                     $('#input5').selectpicker('refresh');
                     $('#speciallity').prop('selectedIndex', '');
                     $('#speciallity').selectpicker('refresh');
-                    $("#mi_centre").removeClass('loadinggif');
                     $('#doctorSection').hide();
                     $('#diagnosticSection').hide();
                 }
             });
+            qyuraLoader.stopLoader();
         }
     }
 
@@ -76,7 +76,7 @@
             type: 'POST',
             data: {'patient_email': patient_email},
             beforeSend: function (xhr) {
-                $("#patient_email").addClass('loadinggif');
+                qyuraLoader.startLoader();
             },
             success: function (data) {
                 
@@ -127,6 +127,7 @@
                 
             }
         });
+        qyuraLoader.stopLoader();
     }
 
     function changeForm() {
@@ -149,15 +150,16 @@
                     type: 'POST',
                     data: {'h_d_id': h_d_id, 'type': type},
                     beforeSend: function (xhr) {
-                        $("#speciallity").addClass('loadinggif');
+                        qyuraLoader.startLoader();
                     },
                     success: function (data) {
                         console.log(data);
                         $('#speciallity').html(data);
                         $('#speciallity').selectpicker('refresh');
-                        $("#speciallity").removeClass('loadinggif');
+                        
                     }
                 });
+                qyuraLoader.stopLoader();
             }
         } else
         {
@@ -179,16 +181,17 @@
                     type: 'POST',
                     data: {'h_d_id': h_d_id, 'type': type},
                     beforeSend: function (xhr) {
-                        $("#input28_" + total_test).addClass('loadinggif');
+                        qyuraLoader.startLoader();
                     },
                     success: function (data) {
                         console.log(data);
 
                         $("#input28_" + total_test).html(data);
                         $("#input28_" + total_test).selectpicker('refresh');
-                        $("#input28_" + total_test).removeClass('loadinggif');
+                        
                     }
                 });
+                qyuraLoader.stopLoader();
             }
         }
 
@@ -217,19 +220,17 @@
                 type: 'POST',
                 data: {'h_d_id': h_d_id, 'type': type, 'docid': docid, 'appdate': appdate,'centertype':type1},
                 beforeSend: function (xhr) {
-                    $("#timeSlot").addClass('loadinggif');
+                   qyuraLoader.startLoader();
                 },
                 success: function (data) {
                     
                     
                     $('#timeSlot').html(data);
                     $('#timeSlot').selectpicker('refresh');
-                    $("#timeSlot").removeClass('loadinggif');
-
-
-
+                    
                 }
             });
+            qyuraLoader.stopLoader();
         }
     }
 
@@ -337,15 +338,15 @@
                     type: 'POST',
                     data: {'user_id': user_id},
                     beforeSend: function (xhr) {
-                        $("#input25").addClass('loadinggif');
+                        qyuraLoader.startLoader();
                     },
                     success: function (data) {
                         $('#familyListDiv').show();
-                        $("#input25").removeClass('loadinggif');
                         $('#input33').html(data);
                         $('#input33').selectpicker('refresh');
                     }
                 });
+                qyuraLoader.startLoader();
             }
         } else {
             $('#familyListDiv').hide();
