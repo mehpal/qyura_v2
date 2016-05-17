@@ -748,6 +748,16 @@ class Doctor extends MY_Controller {
             $user_updated = $this->common_model->customUpdate($updateOption);
             $doctorAjaxId = $this->input->post('doctorAjaxId');
             if ($user_updated) {
+		$from = "suport@qyura.com";
+                $title = "QYURA TEAM";
+                $to = $this->input->post('registered_email');
+                $subject = "Conguratilation! Welcome to Qyura";
+                $msg = "Hello /n"
+                        . "Email : ".$this->input->post('registered_email')."/n"
+                        . "Your New Password : " .$this->input->post('password');
+                if(isset($users_password) && $users_password != '')
+                    $this->send_mail($from,$to,$subject,$title,$msg);		
+
 
                 $this->session->set_flashdata('active_tag', 5);
                 $responce = array('status' => 1, 'msg' => "Information update successfully", 'url' => "doctor/doctorDetails/$doctorAjaxId");
