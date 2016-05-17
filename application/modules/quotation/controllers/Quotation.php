@@ -255,17 +255,18 @@ class Quotation extends MY_Controller {
             $this->load->super_admin_template('quotationEdit', $data, 'scriptQuotation');
         } else {
 
-            $imagesname = "";
+       
+            
+                $imagesname = "";
             if ($_FILES['avatar_file']['name']) {
-                $path = realpath(FCPATH . 'assets/proImg/');
+                $path = realpath(FCPATH . 'assets/prsImg/');
                 $upload_data = $this->input->post('avatar_data');
                 $upload_data = json_decode($upload_data);
-                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/proImg/', './assets/proImg/thumb/', 'pre');
-                if ($original_imagesname != '') {
-                    $imagesname = $original_imagesname;
-                }
-            }
+                $original_imagesname = $this->uploadImageWithThumb($upload_data, 'avatar_file', $path, 'assets/prsImg/', './assets/prsImg/thumb/', 'quotation');
 
+                $imagesname = $original_imagesname;
+                
+            }
             if ($imagesname != '') {
                 $insertData = array('quotationDetail_prescription' => $imagesname, 'quotationDetail_quotationId' => $qId, 'creationTime' => strtotime(date("Y-m-d H:i:s")));
                 $this->Quotation_model->insertPrescription($insertData);

@@ -75,7 +75,7 @@
                             </div>
                             <section id="effect-3" class="effects clearfix">
                                 <aside class="col-md-12">
-                                    <?php if (isset($quotationPrescription) && !empty($quotationPrescription)) {
+                                    <?php dump($quotationPrescription);if (isset($quotationPrescription) && !empty($quotationPrescription)) {
                                         foreach ($quotationPrescription as $key => $val) { ?>
                                             <article class="img m-t-10">
                                                 <img src="<?php $prsImg = ''; $Img = ''; if ($val->pricription != '') { echo base_url($val->pricription); $prsImg = urlencode($val->pricription); $Img = $val->pricription; } ?>" alt="">
