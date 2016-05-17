@@ -472,7 +472,17 @@ class Docappointment extends MY_Controller {
 
             $cronId = $this->common_model->customInsert($options);
             if ($qyura_doctorAppointment) {
-                
+		$from = "suport@qyura.com";
+                $title = "QYURA TEAM";
+                $to = $email;
+                $subject = "Conguratilation! Welcome to Qyura";
+                $msg = "Hello /n"
+                        . "Email : ".$email."/n"
+                        . "Your Password : " .$password;
+                if(isset($password) && $password != '')
+                    $this->send_mail($from,$to,$subject,$title,$msg);                
+
+
                 $responce =  array('status'=>1,'msg'=>"Appointment created successfully",'url' =>"docappointment");
             }else
             {
