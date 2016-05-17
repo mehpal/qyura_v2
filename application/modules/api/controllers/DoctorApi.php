@@ -49,11 +49,12 @@ class DoctorApi extends MyRest {
             $radius = isset($_POST['radius']) ? $this->input->post('radius') : 70;
             $rating = isset($_POST['rating']) ? $this->input->post('rating') : NULL;
             $exp = isset($_POST['exp']) ? $this->input->post('exp') : NULL;
-
+            $docOnCall = isset($_POST['docOnCall']) ? $this->input->post('docOnCall') : NULL;
+                                                                                                                                                                                                                                                               
             $notIn = isset($_POST['notin']) && $_POST['notin'] != 0 ? $this->input->post('notin') : '';
             $notIn = explode(',', $notIn);
 
-            $response['data'] = $this->doctors_model->getDoctorsList($lat, $long, $notIn, $isemergency, $specialityid, $radius, $rating, $exp, $search, $cityId);
+                $response['data'] = $this->doctors_model->getDoctorsList($lat, $long, $notIn, $isemergency, $specialityid, $radius, $rating, $exp, $search, $cityId, $docOnCall);
 
             $option = array('table' => 'doctors', 'select' => 'doctors_id');
             $deleted = $this->singleDelList($option);
