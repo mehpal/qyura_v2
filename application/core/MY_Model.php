@@ -597,6 +597,7 @@ class My_model extends CI_Model {
         $this->email->subject("Qyura");
         $this->email->message($message);
         $send = $this->email->send();
+
         if($send){ return '1';}else{ return '0';}
     }
 
