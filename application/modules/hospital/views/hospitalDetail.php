@@ -1716,7 +1716,7 @@ GLOBAL
             <article class="clearfix m-b-10">
             <label for="cemail" class="control-label col-md-4 col-sm-4">Registered Email Id :</label>
             <div class="col-md-8 col-sm-8">
-            <input class="form-control" id="users_email" type="text" value="<?php echo $hospitalData[0]->users_email; ?>" readonly="">
+            <input class="form-control" id="users_email" name="users_email" type="text" value="<?php echo $hospitalData[0]->users_email; ?>" readonly="">
             <label class="error" style="display:none;" id="error-users_email"> please enter Email id Properly</label>
             <label class="error" style="display:none;" id="error-users_email_check"> Email Already Exits!</label>
             <label class="error" style="display:none;" id="error-users_emailBlank"> Email id field should not be blank!</label>

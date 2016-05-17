@@ -659,7 +659,7 @@ class Hospital extends MY_Controller {
             $users_email_status = $this->input->post('users_email_status');
             if ($users_email_status == '') {
                 $users_email = $this->input->post('users_email');
-                $users_password = md5($this->input->post('users_password'));
+                $users_password = $this->input->post('users_password');
                 $hospitalInsert = array(
                     'users_email' => $users_email,
                     'users_password' => $this->common_model->encryptPassword($users_password),
@@ -679,8 +679,15 @@ class Hospital extends MY_Controller {
 
                 $inserData['hospital_usersId'] = $hospital_usersId;
                 
+                $from = "suport@qyura.com";
+                $title = "QYURA TEAM";
+                $to = $this->input->post('users_email');
+                $subject = "Conguratilation! Welcome to Qyura";
+                $msg = "Hello " . $hospital_name."/n"
+                        . "Email : ".$this->input->post('users_email')."/n"
+                        . "Password : " .$this->input->post('users_password');
                 if(isset($_POST['users_email']) && $_POST['users_email'] != '')
-                    $this->sendEmailRegister($this->input->post('users_email'));
+                    $this->send_mail($from,$to,$subject,$title,$msg);
                  
                  
                 if($hospital_id == 0){
@@ -1318,7 +1325,15 @@ class Hospital extends MY_Controller {
 
 
            echo  $return = $this->Hospital_model->UpdateTableData($updateHospital, $where, 'qyura_users');
-        
+            $from = "suport@qyura.com";
+            $title = "QYURA TEAM";
+            $to = $this->input->post('users_email');
+            $subject = "Conguratilation! Welcome to Qyura";
+            $msg = "Hello /n"
+                    . "Email : ".$this->input->post('users_email')."/n"
+                    . "Your New Password : " .$this->input->post('users_password');
+            if(isset($_POST['users_email']) && $_POST['users_email'] != '')
+                $this->send_mail($from,$to,$subject,$title,$msg);
         }
 
       
