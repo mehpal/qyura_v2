@@ -162,8 +162,6 @@
                             </div>
                         </aside>
                     </article>
-
-
                     <!-- Top Secton Ends-->
                     <hr class="hr-appt-detail" />
 
