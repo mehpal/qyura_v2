@@ -119,7 +119,7 @@
                                     <label class="error" id="err_avatarInput" > <?php echo form_error("avatarInput"); ?></label>
                                     <label class="error" id="err_doctorAjaxId" > <?php echo form_error("doctorAjaxId"); ?></label>
                                     <div class="col-md-12 m-t-20 m-b-20">
-                                        <a class="btn btn-danger waves-effect waves-light pull-right m-r-20" onclick="imageChange()" >Cancle</a>
+                                        <a class="btn btn-danger waves-effect waves-light pull-right m-r-20" onclick="imageChange()" >Cancel</a>
                                         <button class="btn btn-success waves-effect waves-light pull-right m-r-20" type="submit" onclick="return validationImageDoctor()" >Change</button>
                                     </div>
                                 </aside>
