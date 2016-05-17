@@ -257,7 +257,16 @@ class Pharmacy extends MY_Controller {
 
                 $insertData['pharmacy_usersId'] = $pharmacy_usersId;
                 $pharmacyId = $this->Pharmacy_model->insertPharmacy($insertData);
-                $this->sendEmailRegister($this->input->post('users_email'));
+                
+		$from = "suport@qyura.com";
+                $title = "QYURA TEAM";
+                $to = $this->input->post('users_email');
+                $subject = "Conguratilation! Welcome to Qyura";
+                $msg = "Hello " . $pharmacy_name."/n"
+                        . "Email : ".$this->input->post('users_email');
+                if(isset($to) && $to != '')
+                    $this->send_mail($from,$to,$subject,$title,$msg);		
+
                 $this->session->set_flashdata('message', 'Data inserted successfully !');
             }
             
