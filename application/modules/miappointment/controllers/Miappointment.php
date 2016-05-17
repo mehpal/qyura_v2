@@ -25,6 +25,34 @@ class Miappointment extends MY_Controller {
      */
     public function index() {
         $data = array();
+        
+
+//$this->load->library('email');
+//$fromemail="prachi.pj@gmail.com ";
+//$toemail = "pj.mobileappz@gmail.com";
+//$subject = "Mail Subject is here";
+//echo $mesg = $this->load->view('email/signing_up_doctor_tpl.php',true);
+//exit;
+//
+//$this->load->library('email');
+//
+//$config=array(
+//'charset'=>'utf-8',
+//'wordwrap'=> TRUE,
+//'mailtype' => 'html'
+//);
+//
+//$this->email->initialize($config);
+//
+//$this->email->to($toemail);
+//$this->email->from($fromemail, "Title");
+//$this->email->subject($subject);
+//$this->email->message($mesg);
+//$mail = $this->email->send();
+//echo "mail==".$mail;
+//exit;
+
+
         $this->load->super_admin_template('miAppList', $data, 'miAppScript');
     }
 
