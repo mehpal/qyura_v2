@@ -38,7 +38,8 @@
      * @description get records in listing using datatables
      */
     $(document).ready(function () {
-        <?php $date = date('d/m/Y'); ?>
+        <?php $date = date('m/d/Y'); ?>
+             
         $('.timeslot').timepicker({showMeridian: false});
         $('#date-7,#date-11').datepicker({
             autoclose: true,
@@ -375,10 +376,20 @@
      * @method getTimeSloat
      * @description  SHOW MODAL WITH SLOAT
      */
-    function getTimeSloat(appid)
+    function getTimeSloat(appid,status)
     {
+        
+        if(status=="13" || status=="14" || status=="19")
+        {
+            bootbox.alert({closeButton: true, message: "Access Denied..!!", callback: function () {
+                    
+                            }});
+        }
+        else
+        {
         $("#quotid").val(appid);
          $('#myModal2').modal('show');
+     }
 //        var url = '<?php echo site_url(); ?>' + '/miappointment' + '/get_timeSlot';
 //        $.ajax({
 //            url: url,
@@ -394,15 +405,25 @@
 //        });
     }
 
-    function getDrTimeSloat(id, docId, Miid, centerType)
+    function getDrTimeSloat(id, docId, Miid, centerType,status)
     {
-       $("#docid").val(docId);
-       
-       $("#appid").val(id);
-       $("#h_d_id").val(Miid);
-        $("#center_type").val(centerType);
-        
-        $('#myModal1').modal('show');
+       if(status=="13" || status=="14" || status=="19")
+        {
+            bootbox.alert({closeButton: true, message: "Access Denied..!!", callback: function () {
+                    
+                            }});
+        }
+        else
+        {  
+        $("#docid").val(docId);
+
+        $("#appid").val(id);
+        $("#h_d_id").val(Miid);
+
+         $("#center_type").val(centerType);
+
+         $('#myModal1').modal('show');
+     }
         
 //        var url = '<?php echo site_url(); ?>' + '/miappointment' + '/getDrTimeSlot';
 //        $.ajax({

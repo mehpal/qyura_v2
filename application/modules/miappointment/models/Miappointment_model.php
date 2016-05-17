@@ -44,7 +44,7 @@ class Miappointment_model extends Common_model {
 
         $this->datatables->edit_column('bookStatus', '$1', 'getStatusDropDown(bookingstatus,quotation_id,2)');
 
-        $this->datatables->add_column('action', '<p><a  class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="' . site_url('miappointment/detail') . '/$1">View Detail</a></p><button type="button" onclick="getTimeSloat($1)" class="btn btn-success waves-effect waves-light m-b-5 applist-btn">Change Timing</button>', 'quotation_id');
+        $this->datatables->add_column('action', '<p><a  class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="' . site_url('miappointment/detail') . '/$1">View Detail</a></p><button type="button" onclick="getTimeSloat($1,$2)" class="btn btn-success waves-effect waves-light m-b-5 applist-btn">Change Timing</button>', 'quotation_id,bookingstatus');
         
         return $this->datatables->generate();
 //        echo $this->datatables->last_query();
@@ -196,7 +196,7 @@ class Miappointment_model extends Common_model {
         $this->datatables->from("qyura_doctorAppointment");
         $this->datatables->join("transactionInfo", "transactionInfo.order_no = qyura_doctorAppointment.doctorAppointment_unqId", "left");
         $this->datatables->join("qyura_users", "qyura_users.users_id=qyura_doctorAppointment.doctorAppointment_doctorUserId", "left");
-        $this->datatables->join("qyura_patientDetails", "qyura_patientDetails.patientDetails_usersId=qyura_doctorAppointment.doctorAppointment_pntUserId", "left");
+        $this->datatables->join("qyura_patientDetails", "qyura_patientDetails.patientDetails_usersId=qyura_doctorAppointment.doctorAppointment_pntUserId");
         $this->datatables->join("qyura_usersFamily", "qyura_usersFamily.usersfamily_id=qyura_doctorAppointment.doctorAppointment_memberId", "left");
         $this->datatables->join("qyura_hospital", "qyura_hospital.hospital_usersId=qyura_doctorAppointment.doctorAppointment_doctorParentId", "left");
         $this->datatables->join("qyura_doctors", "qyura_doctors.doctors_userId=qyura_doctorAppointment.doctorAppointment_doctorUserId", "left");
@@ -215,7 +215,7 @@ class Miappointment_model extends Common_model {
         $this->datatables->add_column('title', '<h6>$1</h6><p>$2</p>', 'title,MIname');
         $this->datatables->edit_column('bookStatus', '$1', 'getStatusDropDown(bookingStatus,id,"1")');
         
-        $this->datatables->add_column('action', '<p><a  class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="' . site_url('miappointment/consultingDetail') . '/$1">View Detail</a></p><button type="button" onclick="getDrTimeSloat($1,$2,$3,$4)" class="btn btn-success waves-effect waves-light m-b-5 applist-btn">Change Timing</button>', 'id,docid,MIid,centerType');
+        $this->datatables->add_column('action', '<p><a  class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="' . site_url('miappointment/consultingDetail') . '/$1">View Detail</a></p><button type="button" onclick="getDrTimeSloat($1,$2,$3,$4,$5)" class="btn btn-success waves-effect waves-light m-b-5 applist-btn">Change Timing</button>', 'id,docid,MIid,centerType,bookingStatus');
 
         return $this->datatables->generate();
     }

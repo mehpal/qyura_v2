@@ -117,7 +117,6 @@
                     $('#date-4').val('');
                     $('#input36').prop('selectedIndex', '');
                     $('#input36').selectpicker('refresh');
-
                     $('#input33').html('');
                     $('#input33').selectpicker('refresh');
                     $('#familyDiv').hide();
@@ -356,7 +355,7 @@
     }
 
     $(document).ready(function () {
-        <?php $date = date('d/m/Y'); ?>
+        <?php $date = date('m/d/Y'); ?>
         $('.timepicker').timepicker({showMeridian: false});
         $('#date-3,#date-5').datepicker({
             autoclose: true,
