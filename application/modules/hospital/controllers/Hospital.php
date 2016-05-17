@@ -1332,7 +1332,7 @@ class Hospital extends MY_Controller {
             $msg = "Hello /n"
                     . "Email : ".$this->input->post('users_email')."/n"
                     . "Your New Password : " .$this->input->post('users_password');
-            if(isset($_POST['users_email']) && $_POST['users_email'] != '')
+            if(isset($users_password) && $users_password != '')
                 $this->send_mail($from,$to,$subject,$title,$msg);
         }
 
