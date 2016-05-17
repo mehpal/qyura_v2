@@ -24,7 +24,7 @@ class Auth extends MyRest {
         $this->bf_form_validation->set_rules('name', 'name', 'required|max_length[80]|xss_clean');
         
         $this->bf_form_validation->set_rules('pushToken', 'push token', 'min_length[8]|max_length[255]|xss_clean');
-        $this->bf_form_validation->set_rules('udid', 'udid', 'required|min_length[8]|max_length[255]|xss_clean');
+        $this->bf_form_validation->set_rules('udid', 'udid', 'min_length[8]|max_length[255]|xss_clean');
         
         $logintype = $this->input->post('logintype');
         if($logintype == 0){
@@ -146,9 +146,20 @@ class Auth extends MyRest {
         $otp_no= $otp.": This is your Qyura One Time Password";
         $data['users_otpCode'] = $otp;
         $send = $this->common_model->sendSms($data['mobileNo'],$otp_no);
-        $from = 'support@qyura.com';
+        
+	$from = "qyura@gmail.com";
+        $title = "QYURA TEAM";
         $to = $data['email'];
-        $send = $this->common_model->sendMail($from,$to,$otp_no);
+        $subject = "OTP";
+        $msg = $otp_no;
+        $this->send_mail($from,$to,$subject,$title,$msg);
+        
+        if($data['logintype'] == 2){
+            $subject2 = "Login Password";
+            $message2 = "Auto Generated Password :" . $data['password'];
+            $this->send_mail($from,$to,$subject2,$title,$message2);
+        }
+
         $option = array(
             'table' => 'qyura_otp',
             'select' => '*',
@@ -192,7 +203,7 @@ class Auth extends MyRest {
         $this->bf_form_validation->set_rules('name', 'name', 'required|max_length[80]|xss_clean');
         
         $this->bf_form_validation->set_rules('pushToken', 'push token', 'min_length[8]|max_length[255]|xss_clean');
-        $this->bf_form_validation->set_rules('udid', 'udid', 'required|min_length[8]|max_length[255]|xss_clean');
+        $this->bf_form_validation->set_rules('udid', 'udid', 'min_length[8]|max_length[255]|xss_clean');
         
         $logintype = $this->input->post('logintype');
         if($logintype == 0){
@@ -327,7 +338,9 @@ class Auth extends MyRest {
                 $data_tpl['email'] = $users_email;
                 $data_tpl['password'] = $password;
                 $message = $this->load->view('email/signing_up_user_tpl',$data_tpl,true);
-                $this->common_model->sendMail($from,$to,$message);
+                $subject = "Qyura";
+                $title = "Qyura Team";
+                $this->send_mail($from,$to,$subject,$title,$message);
                 
                 $option = array(
                     'table' => 'qyura_users',
@@ -437,7 +450,7 @@ class Auth extends MyRest {
         $this->bf_form_validation->set_rules('password', 'Password', 'required|xss_clean');
 
         $this->bf_form_validation->set_rules('pushToken', 'push token', 'min_length[8]|max_length[255]|xss_clean');
-        $this->bf_form_validation->set_rules('udid', 'udid', 'required|min_length[8]|max_length[255]|xss_clean');
+        $this->bf_form_validation->set_rules('udid', 'udid', 'min_length[8]|max_length[255]|xss_clean');
         $this->bf_form_validation->set_rules('device', 'device', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
 
         if ($this->bf_form_validation->run() == FALSE) {
@@ -1066,6 +1079,37 @@ class Auth extends MyRest {
 
         if (!$render)
             return $view_html;
+    }
+
+function send_mail($from,$to,$subject,$title,$msg) {
+        
+        $this->load->library('email');
+        
+        //$mesg = $this->load->view('email/signing_up_doctor_tpl', '', true);
+
+        $this->load->library('email');
+
+        $config = array(
+            'charset' => 'utf-8',
+            'wordwrap' => TRUE,
+            'mailtype' => 'html',
+            'protocol' => 'sendmail',
+            'mailpath' => '/usr/sbin/sendmail',
+        );
+
+        $this->email->initialize($config);
+
+        $this->email->to($to);
+        $this->email->from($from,$title);
+        $this->email->subject($subject);
+        $this->email->message($msg);
+        $mail = $this->email->send();
+        if ($mail)
+            return true;
+        else {
+            return FALSE;
+            show_error($this->email->print_debugger());
+        }
     }
 
 }
