@@ -314,15 +314,24 @@ class Doctor extends MY_Controller {
 
 	    $this->session->set_flashdata('message', 'Data inserted successfully !');
             	    
-            $from = 'support@qyura.com';
             $to = $this->input->post("users_email");
             $data['name'] = $this->input->post("doctors_fName")." ".$this->input->post("doctors_lName");
-            $message = $this->load->view('email/signing_up_doctor_tpl',$data,true);
-            $this->email->from($from, 'Team Qyura');
+            $this->load->library('email');
+            $config = array(
+                'charset' => 'utf-8',
+                'wordwrap' => TRUE,
+                'mailtype' => 'html',
+                'protocol' => 'sendmail',
+                'mailpath' => '/usr/sbin/sendmail',
+            );
+            $this->email->initialize($config);
+            $this->email->set_newline("\r\n");
             $this->email->to($to);
-            $this->email->subject("Qyura");
-            $this->email->message($message);
-            $send = $this->email->send();
+            $this->email->from('admin@qyuram.com', 'QYURA TEAM');
+            $this->email->subject('Doctor');
+            $body = $this->load->view('email/signing_up_doctor_tpl', $data, TRUE);
+            $this->email->message($body);
+            $mail = $this->email->send();
             
             redirect('doctor/addDoctor');
         }
