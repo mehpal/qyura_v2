@@ -15,7 +15,7 @@
 <!-- crooper css and js -->
 <link href="<?php echo base_url(); ?>assets/cropper/cropper.min.css" rel="stylesheet">
 <link href="<?php echo base_url(); ?>assets/cropper/main.css" rel="stylesheet">
-<script src="<?php echo base_url(); ?>assets/js/cropper/cropper.js"></script>
+<script src="<?php echo base_url(); ?>assets/cropper/cropper.js"></script>
 <script src="<?php echo base_url(); ?>assets/cropper/main.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/bootbox.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/common_js.js" type="text/javascript"></script>

@@ -51,7 +51,7 @@ class Quotation_model extends CI_Model {
     function sendQuotationToUser($qId) {
         $this->db->select('quote.quotation_id as qId, quote.quotation_unqId as uniqueId, quote.quotation_MiId as MI, quote.quotation_userId User, quote.quotation_dateTime as dt,  quote.creationTime createdAt, IFNULL(hos.hospital_name,diag.diagnostic_name) as miName, IFNULL(hos.hospital_phn,diag.diagnostic_phn) as miNumber, quote.status, quote.quotation_qtStatus as qStatus, usr.users_email as email, pd.patientDetails_mobileNo as contact, (CASE pd.patientDetails_dob WHEN pd.patientDetails_dob <> 0 THEN "0" ELSE FROM_UNIXTIME(UNIX_TIMESTAMP(), "%Y") - FROM_UNIXTIME(pd.patientDetails_dob, "%Y") END) as userAge, pd.patientDetails_gender as gender, CONCAT(pd.patientDetails_patientName," ",pd.patientDetails_pLastName) as pName, (SELECT city_name from qyura_city where city_id=IFNULL(hos.hospital_cityId,diag.diagnostic_cityId)) as cityName, CONCAT("assets/proImg","/",pd.patientDetails_patientImg) as pImg, IFNULL(CONCAT("assets/diagnosticsImage/thumb/original/","/",diagnostic_img), CONCAT("assets/hospitalsImages/thumb/original/","/",hospital_img) ) as miImg, (CASE quote.quotation_docRefeId WHEN  0 THEN quote.quotation_docName ELSE CONCAT(doc.doctors_fName," ", doc.doctors_lName) END) as docName, qBook.quotationBooking_bookStatus as bookStatus, qBook.quotationBooking_id as bookId,quote.quotation_docRefeId AS docRefeId'
                 //IFNULL(CONCAT(hosT.hospitalTimeSlot_startTime,"-",hosT.hospitalTimeSlot_endTime),CONCAT(diagT.diagnosticCenterTimeSlot_startTime,"-",diagT.diagnosticCenterTimeSlot_endTime)) as timeslot
-                );
+        );
 
         $this->db->from('qyura_quotations AS quote');
 
@@ -75,44 +75,36 @@ class Quotation_model extends CI_Model {
 
         $data['allTest'] = $this->getQuotationTests($qId);
 
-
-
-
-
         $this->load->library('email');
-
-        $config['protocol'] = 'sendmail';
-        $config['mailpath'] = '/usr/sbin/sendmail';
-        $config['charset'] = 'iso-8859-1';
-        $config['wordwrap'] = TRUE;
-
+        $config = array(
+            'charset' => 'utf-8',
+            'wordwrap' => TRUE,
+            'mailtype' => 'html',
+            'protocol' => 'sendmail',
+            'mailpath' => '/usr/sbin/sendmail',
+        );
         $this->email->initialize($config);
-
         $this->email->set_newline("\r\n");
-
-
-
-        $this->email->from('admin@qyuram.com', 'QYURA TEAM');
         $this->email->to($data['userDetail'][0]->email);
-        $body = $this->load->view('mailTemplate', $data, TRUE);
+        $this->email->from('admin@qyuram.com', 'QYURA TEAM');
         $this->email->subject('Quotation response from qyura');
+        $body = $this->load->view('mailTemplate', $data, TRUE);
         $this->email->message($body);
-
-        if ($this->email->send()) {
+        $mail = $this->email->send();
+        if ($mail)
             return true;
-        } else {
-            return false;
+        else {
+            return FALSE;
         }
 
-        //  echo $this->email->print_debugger();
     }
 
     function fetchQuotationData($condition = NULL) {
 
         $this->db->select('quote.quotation_id as qId, quote.quotation_unqId as uniqueId, quote.quotation_MiId as MI, quote.quotation_userId User, quote.quotation_dateTime as dt,  quote.creationTime createdAt, IFNULL(hos.hospital_name,diag.diagnostic_name) as miName, IFNULL(hos.hospital_phn,diag.diagnostic_phn) as miNumber, quote.status, quote.quotation_qtStatus as qStatus, usr.users_email as email, usr.users_mobile as contact, (CASE pd.patientDetails_dob WHEN pd.patientDetails_dob <> 0 THEN "0" ELSE FROM_UNIXTIME(UNIX_TIMESTAMP(), "%Y") - FROM_UNIXTIME(pd.patientDetails_dob, "%Y") END) as userAge, pd.patientDetails_gender as gender, CONCAT(pd.patientDetails_patientName," ",pd.patientDetails_pLastName) as pName, (SELECT city_name from qyura_city where city_id=IFNULL(hos.hospital_cityId,diag.diagnostic_cityId)) as cityName, CONCAT("assets/proImg","/",pd.patientDetails_patientImg) as pImg, IFNULL(CONCAT("assets/diagnosticsImage/thumb/original/","/",diagnostic_img), CONCAT("assets/hospitalsImages/thumb/original/","/",hospital_img) ) as miImg, (CASE quote.quotation_docRefeId WHEN  0 THEN quote.quotation_docName ELSE CONCAT(doc.doctors_fName," ", doc.doctors_lName) END) as docName, qBook.quotationBooking_bookStatus as bookStatus, qBook.quotationBooking_id as bookId,quote.quotation_tex as tex,quote.quotation_otherFee AS otherFee,quote.quotation_docRefeId as docRefeId,(CASE WHEN(diag.diagnostic_usersId IS NOT NULL) THEN "diagnostic" WHEN(hos.hospital_usersId IS NOT NULL) THEN "hospital" END) AS miType,(CASE WHEN(diag.diagnostic_usersId IS NOT NULL) THEN diag.diagnostic_id WHEN(hos.hospital_usersId IS NOT NULL) THEN hos.hospital_id END) AS miPfId,quote.quotations_finalTime as finalTime'
                 //IFNULL(CONCAT(hosT.hospitalTimeSlot_startTime,"-",hosT.hospitalTimeSlot_endTime),CONCAT(diagT.diagnosticCenterTimeSlot_startTime,"-",diagT.diagnosticCenterTimeSlot_endTime)) as timeslot,,quote.quotation_timeSlotId as timeSlotId
-                );
-         
+        );
+
 
         $this->db->from('qyura_quotations AS quote');
 
@@ -135,6 +127,7 @@ class Quotation_model extends CI_Model {
         //echo $this->db->last_query();exit;
         return $data->result();
     }
+
 //    
 //    function getTimeSloat($type,$miPfId)
 //    {
@@ -163,7 +156,7 @@ class Quotation_model extends CI_Model {
 //    }
 
     function fetchQuotationDataTables($condition = NULL) {
-        
+
         $this->datatables->select('quote.quotation_id as qId, quote.quotation_unqId as uniqueId, quote.quotation_MiId as MI, quote.quotation_userId User, quote.quotation_dateTime as dt,  quote.creationTime createdAt, IFNULL(hos.hospital_name,diag.diagnostic_name) as miName, quote.status, (CASE quote.quotation_qtStatus WHEN 1 THEN "Sent" WHEN 0 THEN "Not Sent" END) as qStatus, usr.users_email as email, pd.patientDetails_mobileNo as contact, (CASE pd.patientDetails_dob WHEN pd.patientDetails_dob <> 0 THEN "0" ELSE FROM_UNIXTIME(UNIX_TIMESTAMP(), "%Y") - FROM_UNIXTIME(pd.patientDetails_dob, "%Y") END) as userAge, pd.patientDetails_gender as gender, CONCAT(pd.patientDetails_patientName," ",pd.patientDetails_pLastName) as pName,(SELECT city_name from qyura_city where city_id=IFNULL(hos.hospital_cityId,diag.diagnostic_cityId)) as cityName, (CASE quote.quotation_docRefeId WHEN  0 THEN quote.quotation_docName ELSE CONCAT(doc.doctors_fName," ", doc.doctors_lName) END) as docName,quote.quotation_docRefeId as docRefeId'
 //                . 'IFNULL(CONCAT(hosT.hospitalTimeSlot_startTime,"-",hosT.hospitalTimeSlot_endTime),CONCAT(diagT.diagnosticCenterTimeSlot_startTime,"-",diagT.diagnosticCenterTimeSlot_endTime)) as timeslot
         );
@@ -199,8 +192,8 @@ class Quotation_model extends CI_Model {
         $toDate = $this->input->post('toDate');
 
         if ($fromDate != '' && $toDate != '') {
-            $fromDate = strtotime($fromDate.' '.'00:00:00 AM');
-            $toDate = strtotime($toDate.' '.'11:59:59 PM');
+            $fromDate = strtotime($fromDate . ' ' . '00:00:00 AM');
+            $toDate = strtotime($toDate . ' ' . '11:59:59 PM');
             $this->db->where('quotation_dateTime >=', strtotime($fromDate));
             $this->db->where('quotation_dateTime <=', strtotime($toDate));
         }
@@ -213,7 +206,6 @@ class Quotation_model extends CI_Model {
 
         // $this->db->get(); 
         // echo $this->db->last_query(); exit;
-
         //$this->datatables->add_column('docName', '<h6>$1</h6>', 'docName');
         $this->datatables->add_column('uniqueId', '<h6>$1</h6>', 'uniqueId');
         $this->datatables->add_column('pName', '<h6>$1</h6><p>$2 $3</p>', 'pName, getGender(gender), isBlank(userAge)');
@@ -222,13 +214,12 @@ class Quotation_model extends CI_Model {
 //        $this->datatables->add_column('dt', '<h6>$1</h6><p>$2</p>', 'getDateFormat(dt), timeslot');
         $this->datatables->edit_column('qStatus', '<h6>$1</h6>', 'qStatus');
 
-        $this->datatables->add_column('action', '<h6><a type="button" class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="'.site_url('quotation/viewPrescription').'/$1">View Prescription</a></h6>$2', 'qId,sendQuoteBtn(qId,qStatus)');
+        $this->datatables->add_column('action', '<h6><a type="button" class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="' . site_url('quotation/viewPrescription') . '/$1">View Prescription</a></h6>$2', 'qId,sendQuoteBtn(qId,qStatus)');
 
         return $this->datatables->generate();
     }
-    
-    function getMiDoc($MiId)
-    {
+
+    function getMiDoc($MiId) {
         $this->db->select('doctors_userId userId,qyura_doctors.doctors_id as id, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS name')
                 ->from('qyura_usersRoles')
                 ->join('qyura_doctors', 'qyura_doctors.doctors_userId = usersRoles_userId', 'left')
@@ -236,11 +227,11 @@ class Quotation_model extends CI_Model {
                 ->order_by('name', 'ASC')
                 ->group_by('doctors_id');
         $response = $this->db->get()->result();
-        
-        if(isset($response) && $response != null)
-        return $response;
+
+        if (isset($response) && $response != null)
+            return $response;
         else
-        return false;    
+            return false;
     }
 
     function UpdateTableData($data = array(), $where = array(), $tableName = NULL) {
@@ -340,8 +331,8 @@ class Quotation_model extends CI_Model {
 
     function fetchQuotationHistoryDataTables($condition = NULL) {
         $this->datatables->select('quote.quotation_id as qId, quote.quotation_unqId as uniqueId, quote.quotation_MiId as MI, quote.quotation_userId User, quote.quotation_dateTime as dt,  quote.creationTime createdAt, IFNULL(hos.hospital_name,diag.diagnostic_name) as miName, quote.quotation_qtStatus as qStatus,FROM_UNIXTIME(UNIX_TIMESTAMP(), "%Y") - FROM_UNIXTIME(pd.patientDetails_dob, "%Y") as userAge, pd.patientDetails_gender as gender, CONCAT(pd.patientDetails_patientName," ",pd.patientDetails_pLastName) as pName,(SELECT city_name from qyura_city where city_id=IFNULL(hos.hospital_cityId,diag.diagnostic_cityId)) as cityName,quoteBook.quotationBooking_quotationId,quoteBook.quotationBooking_amount as amount,quoteBook.quotationBooking_bookStatus as convertStatus'
-                 //IFNULL(CONCAT(hosT.hospitalTimeSlot_startTime,"-",hosT.hospitalTimeSlot_endTime),CONCAT(diagT.diagnosticCenterTimeSlot_startTime,"-",diagT.diagnosticCenterTimeSlot_endTime)) as timeslot,
-                );
+                //IFNULL(CONCAT(hosT.hospitalTimeSlot_startTime,"-",hosT.hospitalTimeSlot_endTime),CONCAT(diagT.diagnosticCenterTimeSlot_startTime,"-",diagT.diagnosticCenterTimeSlot_endTime)) as timeslot,
+        );
 
         $this->datatables->from('qyura_quotations AS quote');
 
@@ -361,8 +352,8 @@ class Quotation_model extends CI_Model {
         $toDate = $this->input->post('toDate');
 
         if ($fromDate != '' && $toDate != '') {
-            $fromDate = strtotime($fromDate.' '.'00:00:00 AM');
-            $toDate = strtotime($toDate.' '.'11:59:59 PM');
+            $fromDate = strtotime($fromDate . ' ' . '00:00:00 AM');
+            $toDate = strtotime($toDate . ' ' . '11:59:59 PM');
             $this->db->where('quotation_dateTime >=', strtotime($fromDate));
             $this->db->where('quotation_dateTime <=', strtotime($toDate));
         }
@@ -384,7 +375,7 @@ class Quotation_model extends CI_Model {
         $this->datatables->add_column('miName', '<h6>$1</h6><p>$2</p>', 'miName,cityName');
         $this->datatables->add_column('dt', '<h6>$1</h6>', 'getDateFormat(dt)');
         $this->datatables->edit_column('qStatus', '<h6>$1</h6>', 'getQuoteStatus(qStatus)');
-        
+
 
         $this->datatables->add_column('action', '<h6><a type="button" class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="quotation/viewPrescription/$1/history">View Prescription</a></h6>
                                                 <button type="button" disabled="disabled" class="btn btn-success waves-effect waves-light m-b-5 applist-btn">Send Quote</button>', 'qId');
@@ -505,29 +496,27 @@ class Quotation_model extends CI_Model {
 
         return $qry->result();
     }
-    
-    public function getQuotationDetail($con)
-    {
+
+    public function getQuotationDetail($con) {
         $this->db->select("*,IFNULL(hos.hospital_id, diag.diagnostic_id) AS miPfId, IFNULL(hos.hospital_name, diag.diagnostic_name) AS miName, IFNULL(hos.hospital_name, diag.diagnostic_name) AS miName, 
 (CASE WHEN(diagnostic_usersId IS NOT NULL) THEN 'diagnostic' WHEN(hospital_usersId IS NOT NULL) THEN 'hospital' END) AS miType,
 (CASE WHEN(hoscity.city_name IS NOT NULL) THEN hoscity.city_name WHEN(diagcity.city_name IS NOT NULL) THEN diagcity.city_name END) AS cityName, CASE WHEN (qyura_quotations.quotation_familyId <> 0 ) THEN qyura_usersFamily.usersfamily_name ELSE qyura_patientDetails.patientDetails_patientName END AS userName,qyura_patientDetails.patientDetails_cityId,qyura_patientDetails.patientDetails_stateId "
 //(CASE WHEN(hosTime.hospitalTimeSlot_id IS NOT NULL) THEN CONCAT_WS('-', `hospitalTimeSlot_startTime`, `hospitalTimeSlot_endTime`, hospitalTimeSlot_sessionType) WHEN(diagTime.diagnosticCenterTimeSlot_id IS NOT NULL) THEN CONCAT_WS(' - ', `diagnosticCenterTimeSlot_startTime`, `diagnosticCenterTimeSlot_endTime`, diagnosticCenterTimeSlot_sessionType) END) AS timeSlot,
         );
         $this->db->from('qyura_quotations');
-        $this->db->join('qyura_users','qyura_users.users_id=qyura_quotations.quotation_userId');
+        $this->db->join('qyura_users', 'qyura_users.users_id=qyura_quotations.quotation_userId');
         $this->db->join("qyura_patientDetails", " qyura_patientDetails.patientDetails_usersId=qyura_quotations.quotation_userId", "left");
-        $this->db->join('qyura_usersFamily','qyura_usersFamily.usersfamily_usersId=qyura_quotations.quotation_familyId','left');
+        $this->db->join('qyura_usersFamily', 'qyura_usersFamily.usersfamily_usersId=qyura_quotations.quotation_familyId', 'left');
         $this->db->join('qyura_hospital AS hos', 'hos.hospital_usersId = qyura_quotations.quotation_MiId', 'left');
         $this->db->join('qyura_city AS hoscity', 'hoscity.city_id = hos.hospital_cityId', 'left');
         $this->db->join('qyura_diagnostic AS diag', 'diag.diagnostic_usersId = qyura_quotations.quotation_MiId', 'left');
         $this->db->join('qyura_city AS diagcity', 'diagcity.city_id = diag.diagnostic_cityId', 'left');
 //        $this->db->join('qyura_hospitalTimeSlot AS hosTime', 'hosTime.hospitalTimeSlot_id = qyura_quotations.quotation_timeSlotId', 'left');
 //        $this->db->join('qyura_diagnosticCenterTimeSlot AS diagTime', 'diagTime.diagnosticCenterTimeSlot_id = qyura_quotations.quotation_timeSlotId', 'left');
-        
+
         $this->db->where($con);
         $result = $this->db->get()->row();
         return $result;
-        
     }
 
 }

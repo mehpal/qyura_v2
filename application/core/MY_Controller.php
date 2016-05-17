@@ -556,4 +556,67 @@ class MY_Controller extends CI_Controller {
         }
     }
 
+    function deliveryOrderSentMail($orderDetails) {
+        
+//        $config['protocol'] = 'sendmail';
+//        $config['mailpath'] = '/usr/sbin/sendmail';
+        $config['mailtype'] = 'html';
+        $config['charset'] = 'utf-8';
+        $config['wordwrap'] = TRUE;
+        $sender_email = 'yummylbox@gmail.com';
+        $config['protocol'] = 'smtp';
+
+        $config['smtp_host'] = 'ssl://smtp.googlemail.com';
+
+        $config['smtp_port'] = 465;
+
+        $config['smtp_user'] = $sender_email;
+
+        $config['smtp_pass'] = "@yummy12";
+
+        $this->load->library('email', $config);
+        $this->email->set_newline("\r\n");
+        $this->email->from($sender_email, 'YUMMY TEAM');
+        $this->email->to($orderDetails['userInfo']->email);
+        $body = $this->load->view('mail_template', $orderDetails, TRUE);
+        $this->email->subject('yummylunchbox New Order from yummy');
+        $this->email->message($body);
+        $this->email->set_mailtype("html");
+        if ($this->email->send()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function send_mail($from,$to,$subject,$title,$msg) {
+        
+        $this->load->library('email');
+        
+        //$mesg = $this->load->view('email/signing_up_doctor_tpl', '', true);
+
+        $this->load->library('email');
+
+        $config = array(
+            'charset' => 'utf-8',
+            'wordwrap' => TRUE,
+            'mailtype' => 'html',
+            'protocol' => 'sendmail',
+            'mailpath' => '/usr/sbin/sendmail',
+        );
+
+        $this->email->initialize($config);
+
+        $this->email->to($to);
+        $this->email->from($from,$title);
+        $this->email->subject($subject);
+        $this->email->message($msg);
+        $mail = $this->email->send();
+        if ($mail)
+            return true;
+        else {
+            return FALSE;
+            show_error($this->email->print_debugger());
+        }
+    }
+
 }
