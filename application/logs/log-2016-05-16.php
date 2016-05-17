@@ -27,3 +27,18 @@ ERROR - 2016-05-16 06:39:11 --> Query error: You have an error in your SQL synta
                 AND `qyura_doctorAppointment`.`doctorAppointment_date` <> 0
 ERROR - 2016-05-16 07:13:01 --> 404 Page Not Found: ../modules/auth/controllers/Auth/assets
 ERROR - 2016-05-16 09:22:15 --> 404 Page Not Found: ../modules/auth/controllers/Auth/assets
+ERROR - 2016-05-16 12:58:00 --> 404 Page Not Found: ../modules/auth/controllers/Auth/assets
+ERROR - 2016-05-16 13:02:31 --> 404 Page Not Found: ../modules/auth/controllers/Auth/assets
+ERROR - 2016-05-16 16:19:45 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IS NULL
+ORDER BY `distance` ASC
+ LIMIT 70' at line 9 - Invalid query: SELECT `qyura_pharmacy`.`pharmacy_id` as `id`, `pharmacy_name` `name`, `pharmacy_address` `adr`, `pharmacy_img` `imUrl`, `pharmacy_usersId` as `userId`, `pharmacy_lat` as `lat`, `pharmacy_long` as `lng`, (6371 * acos( cos( radians( 22.718410 ) ) * cos( radians( pharmacy_lat ) ) * cos( radians( pharmacy_long ) - radians( 75.855896 ) ) + sin( radians( 22.718410 ) ) * sin( radians( pharmacy_lat ) ) )
+                ) AS distance, CONCAT("0", "", pharmacy_phn) as  phn, `qyura_pharmacy`.`pharmacy_27Src` `isEmergency`
+FROM `qyura_pharmacy`
+LEFT JOIN `qyura_usersRoles` ON `qyura_usersRoles`.`usersRoles_userId`=`qyura_pharmacy`.`pharmacy_usersId`
+WHERE `qyura_pharmacy`.`pharmacy_deleted` =0
+AND `qyura_pharmacy`.`pharmacy_cityId` = '705'
+AND `qyura_pharmacy`.`pharmacy_id` NOT IN('0')
+GROUP BY `pharmacy_id`
+HAVING  IS NULL
+ORDER BY `distance` ASC
+ LIMIT 70
