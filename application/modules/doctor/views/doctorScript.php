@@ -252,6 +252,7 @@ if ($current != 'detailDoctor'):
             event.preventDefault();
             var url = '<?php echo site_url(); ?>/doctor/changeDetailDoctor/';
             var formData = new FormData(this);
+	    var count = check_qap();
             if(count == 0){
                 submitData(url,formData);
             }
