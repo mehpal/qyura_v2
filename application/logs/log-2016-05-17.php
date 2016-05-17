@@ -17,3 +17,4 @@ ERROR - 2016-05-17 08:03:28 --> 404 Page Not Found: ../modules/auth/controllers/
 ERROR - 2016-05-17 08:21:21 --> 404 Page Not Found: ../modules/auth/controllers/Auth/assets
 ERROR - 2016-05-17 09:09:21 --> 404 Page Not Found: ../modules/auth/controllers/Auth/assets
 ERROR - 2016-05-17 09:29:09 --> 404 Page Not Found: ../modules/api/controllers//index
+ERROR - 2016-05-17 09:56:56 --> Unable to save the image. Please make sure the image and file directory are writable.
