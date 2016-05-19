@@ -46,6 +46,8 @@ if ($current == 'detailBloodBank'):
      * @description get records in listing using datatables
      */
      $(document).ready(function () {
+         
+         
         // alert('test');
         var appointmentTable = $('#doctorAppointmentTable').DataTable({
              "processing": true,
@@ -140,4 +142,178 @@ function changestatus(myid, appfor, status_value)
         });
     }
     
+</script>
+
+<script> 
+    function changeDoctorStatus(myid, appfor, status_value)
+    {
+        //appfor 1=Consultation
+        if (status_value == 11)
+            var con_mess = "Pending";
+        else if(status_value == 12)
+            con_mess = "Confirm";
+        else if(status_value == 13)
+            con_mess = "Canceled";
+        else if(status_value == 19)
+            con_mess = "Expired";
+	else if(status_value == 14)
+            con_mess = "Completed";
+        bootbox.confirm('Do you really want to change status to ' + con_mess + '?', function (result) {
+            if (result) {
+
+                var url = '<?php echo site_url(); ?>' + '/docappointment/changeDoctorStatus';
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: 'POST',
+                    data: {'myid': myid, 'ele': appfor, 'status': status_value},
+                    beforeSend: function (xhr) {
+                        qyuraLoader.startLoader();
+                    },
+                    success: function (data) {
+                        location.reload(); 
+                    }
+                });
+            }
+            else
+            {
+               $('#doctorAppointmentTable').DataTable().ajax.reload();
+              // $('#datatable_diagnostic').DataTable().ajax.reload();
+            }
+        });
+    }
+    
+    
+          function getTimeSlot(docid=false,appdate=false,h_d_id=false,center_type=false) {
+        
+//        var h_d_id = $('#mi_centre').val();
+//        var docid = $('#docid').val();
+
+//        var appdate = $('#date-7').val();
+        $('#timeSlot').selectpicker('refresh');
+//        var type = $("#centerType").val();
+        var url = '<?php echo site_url(); ?>/docappointment/appointDoctortimeSlot';
+        
+            $.ajax({
+                url: url,
+                async: false,
+                type: 'POST',
+                data: {'docid': docid, 'appdate': appdate,'h_d_id':h_d_id,'centertype':center_type},
+                beforeSend: function (xhr) {
+                    //qyuraLoader.startLoader();
+                },
+                success: function (data) {
+                    
+                    $('#timeSlot').html(data);
+                }
+            });
+            //qyuraLoader.stopLoader();
+            
+    }
+    
+    
+        function getDrTimeSloat(id, docId, Miid, centerType,status)
+    {
+       if(status=="13" || status=="14" || status=="19")
+        {
+            bootbox.alert({closeButton: true, message: "Access Denied..!!", callback: function () {
+                    
+                            }});
+        }
+        else
+        {  
+        $("#docid").val(docId);
+
+        $("#appid").val(id);
+        $("#h_d_id").val(Miid);
+
+         $("#center_type").val(centerType);
+
+         $('#myModal1').modal('show');
+         
+         <?php $date = date('m/d/Y'); ?>
+          $('#date-7').datepicker({
+              autoclose: true,
+               startDate: '<?php echo $date; ?>',
+            });
+     }
+    }
+    
+
+</script>
+
+<script>
+        var url = "<?php echo base_url(); ?>";
+        $("#changetimeform").validate({
+            rules: {
+                appdate: {
+                    required: true
+                },
+                timeSlot: {
+                    required: true,
+                },
+                finaltime: {
+                    required: true,
+                    remote: {
+                    url: url + 'index.php/docappointment/check_timeslot',
+                    type: "post",
+                    data: {
+                        timeslot_id: function () {var timeSlot = $("#timeSlot").val().split(',');return timeSlot[0];},
+                        final_timing: function () {return $("#timepicker3").val();},
+                    }
+                }
+                }
+            },
+            messages: {
+                appdate: {
+                    required: "Please select App Date",
+                     },
+                timeSlot: {
+                    required: "Please select Time Slot!",
+                     },
+                finaltime: {
+                    required: "Please select Final Time",
+                    remote: "Please select correct time slot."
+                     }
+            },
+            submitHandler: function(form)
+             {
+                var appdate = $("#date-7").val();
+                var timeSlot = $("#timeSlot").val();
+                var finaltime = $("#timepicker3").val();
+                var appid = $("#appid").val();
+                var url = '<?php echo site_url(); ?>' + '/docappointment/savetimeSlot';
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: 'POST',
+                    data: {'appdate': appdate, 'timeSlot': timeSlot, 'finaltime': finaltime,'appid':appid},
+                    beforeSend: function (xhr) {
+                        qyuraLoader.startLoader();
+                },
+                success: function (data) {
+                     qyuraLoader.stopLoader();
+                if(data==0)
+                {
+                    var msg = "Please select proper Date & Time";
+                     bootbox.alert({closeButton: false, message: msg, callback: function () {
+                                
+                            }});
+                }
+                else
+                {
+                    var msg = "Appointment Rescheduled Successfully";
+                     bootbox.alert({closeButton: false, message: msg, callback: function () {
+                              location.reload();  
+                            }});
+                }
+                
+
+                }
+            });
+           
+            //$form.submit();
+            
+            }
+        });
 </script>

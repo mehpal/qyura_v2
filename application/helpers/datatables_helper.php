@@ -10,7 +10,7 @@ if (!function_exists('getStatusDropDown')) {
         $Expired = ($status == 19)?'selected="selected"':'';
         $Canceled = ($status == 13)?'selected="selected"':'';
         $Complete = ($status == 14)?'selected="selected"':'';
-        
+        if($status == 12 || $status == 11){
         $dropdwon  = '<select class = "appstatus form-control status-select" onchange="changestatus('.$selid.','.$selname.',this.value)">
         <option '.$Pending.' value="11">Pending</option>
         <option '.$Confirmed.' value="12">Confirmed</option>
@@ -19,7 +19,17 @@ if (!function_exists('getStatusDropDown')) {
         <option '.$Complete.' value="14">Completed</option>
         </select>';
         
-        return $dropdwon;
+        }elseif($status == 19){
+         $dropdwon = '<input type ="text" value = "Expire" readonly="" class = "form-control" style="max-width:100px">';
+               
+        }elseif($status == 13){
+         $dropdwon = '<input type ="text" value = "Cancel" readonly="" class = "form-control" style="max-width:100px">';
+               
+        }else{
+             $dropdwon = '<input type ="text" value = "Complete" readonly="" class = "form-control" style="max-width:100px">';
+            
+        }
+         return $dropdwon;
     }
     
     
