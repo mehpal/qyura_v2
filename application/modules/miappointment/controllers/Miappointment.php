@@ -6,7 +6,6 @@ class Miappointment extends MY_Controller {
 
     public $error_message = array();
     public $filesUpload = array();
-    
     public $perPage = 5;
 
     public function __construct() {
@@ -27,12 +26,12 @@ class Miappointment extends MY_Controller {
      * @return html
      */
     public function index() {
-      
-       $data = array();
-       $data['title'] = 'List Mi Appointment';
+
+        $data = array();
+        $data['title'] = 'List Mi Appointment';
 //       $msg = $this->load->view('email/signing_up_doctor_tpl', '', true);
 //       $this->send_mail("prachi.pj@gmail.com","pj.mobileappz@gmail.com","testing","Test Mail",$msg);
-       $this->load->super_admin_template('miAppList', $data, 'miAppScript');
+        $this->load->super_admin_template('miAppList', $data, 'miAppScript');
     }
 
     /**
@@ -91,27 +90,27 @@ class Miappointment extends MY_Controller {
         $data = array();
         $data['qtnDetail'] = $this->miappointment->getDetail($qtnId);
         $data['quotationTests'] = $this->miappointment->getQuotationTests($qtnId);
-        
+
         $options = array(
             'table' => 'qyura_quotationBooking',
-            'where' => array('qyura_quotationBooking.quotationBooking_quotationId' => $qtnId,'qyura_quotationBooking.quotationBooking_deleted' => 0, ),
+            'where' => array('qyura_quotationBooking.quotationBooking_quotationId' => $qtnId, 'qyura_quotationBooking.quotationBooking_deleted' => 0,),
             'join' => array(
                 array('qyura_quotationDetail', 'qyura_quotationDetail.quotationDetail_quotationId = qyura_quotationBooking.quotationBooking_quotationId', 'left'),
             ),
         );
 
         $data['quotationTestsNew'] = $this->common_model->customGet($options);
-        
+
         $optionsNew = array(
             'table' => 'qyura_quotationBooking',
-            'where' => array('qyura_quotationBooking.quotationBooking_quotationId' => $qtnId,'qyura_quotationBooking.quotationBooking_deleted' => 0, ),
+            'where' => array('qyura_quotationBooking.quotationBooking_quotationId' => $qtnId, 'qyura_quotationBooking.quotationBooking_deleted' => 0,),
             'join' => array(
                 array('qyura_reports', 'qyura_reports.report_bookingOrderId = qyura_quotationBooking.	quotationBooking_orderId', 'left'),
             ),
         );
         $data['title'] = 'Quotation Listing';
         $data['quotationReportNew'] = $this->common_model->customGet($optionsNew);
-        
+
         $data['userDetail'] = $this->miappointment->getQuotationUserDetail($qtnId);
         $data['qtnAmount'] = $this->miappointment->qtTestTotalAmount($qtnId);
         $data['qtnId'] = $qtnId;
@@ -301,6 +300,16 @@ class Miappointment extends MY_Controller {
                 'where' => array('doctorAppointment_id' => $myid)
             );
             $isUpdate = $this->common_model->customUpdate($updateOption);
+
+            $data = $this->common_model->fetchSingleData("doctorAppointment_pntUserId", "qyura_doctorAppointment", array("doctorAppointment_id" => $myid));
+            $patuserid = $data->doctorAppointment_pntUserId;
+
+            $data = $this->common_model->fetchSingleData("users_email", "qyura_users", array("users_id" => $myid));
+            $patemail = $data->users_email;
+            $msg = $this->load->view('email/appoitment', '', true);
+            $this->send_mail("support@qyura.com", $patemail,"Consultation Appointment Reschedule","Consultation Appointment Reschedule", $msg);
+
+
             $this->session->set_flashdata('message', 'Data updated successfully !');
             redirect('miappointment/consultingDetail/');
         } else {
@@ -331,6 +340,12 @@ class Miappointment extends MY_Controller {
                 'where' => array('quotation_id' => $myid)
             );
             $isUpdate = $this->common_model->customUpdate($updateOption);
+            
+            $data = $this->common_model->fetchSingleData("quotation_userId", "qyura_quotations", array("quotation_id" => $myid));
+            $msg = $this->load->view('email/appoitment', '', true);
+            $this->send_mail("support@qyura.com", $patemail,"Consultation Appointment Reschedule","Consultation Appointment Reschedule", $msg);
+            
+            $patuserid = $data->quotation_userId;
 
             echo 1;
         } else
@@ -396,6 +411,10 @@ class Miappointment extends MY_Controller {
         );
         $this->db->where(array('doctorAppointment_id' => $appointmentId));
         $is_update = $this->db->update('qyura_doctorAppointment', $timeSlotArray);
+
+        $msg = $this->load->view('email/appoitment', '', true);
+        $this->send_mail("support@qyura.com", "pj.mobileappz@gmail.com", "Diagnostic Appointment Recsheduled", "Diagnostic Appointment Recsheduled", $msg);
+
         if ($is_update)
             echo 1;
         else
@@ -625,8 +644,10 @@ class Miappointment extends MY_Controller {
                 $patient_remarks = $this->input->post('input13');
                 if ($centre_type == 0) {
                     $newType = 1;
+                    $ctype = "Consultation";
                 } else {
                     $newType = 2;
+                    $ctype = "Diagnostic";
                 }
 
                 $records_array1 = array('creationTime' => strtotime(date('Y-m-d H:i:s')),
@@ -795,7 +816,8 @@ class Miappointment extends MY_Controller {
 
             $cronId = $this->common_model->customInsert($options);
             if ($cronItemId) {
-
+                $msg = $this->load->view('email/appoitment', '', true);
+                $this->send_mail("support@qyura.com", $email, $ctype . "Appointment", $ctype . "Appointment", $msg);
                 $responce = array('status' => 1, 'msg' => "Appointment created successfully", 'url' => "miappointment");
             } else {
                 $error = array("TopError" => "<strong>Something went wrong while updating your data... sorry.</strong>");
@@ -1136,7 +1158,7 @@ class Miappointment extends MY_Controller {
         $this->ajax_pagination->initialize($config);
 
         $data['reports'] = $reports = $this->miappointment->getUploadReportsList(array('limit' => $this->perPage));
-        
+
         $this->load->super_admin_template('completedAppList', $data, 'completedAppScript');
     }
 
@@ -1233,88 +1255,101 @@ class Miappointment extends MY_Controller {
         $myid = $this->input->post('myid');
         $appfor = $this->input->post('ele');
         $status = $this->input->post('status');
+        if ($status == 11)
+            $appstatus = "Pending";
+        if ($status == 12)
+            $appstatus = "Confirmed";
+        if ($status == 13)
+            $appstatus = "Canceled";
+        if ($status == 14)
+            $appstatus = "Completed";
+        if ($status == 19)
+            $appstatus = "Expired";
 
         if ($appfor == "1") {
+            $ctype = "Consultation";
             $update = array("doctorAppointment_status" => $status);
             $this->db->where(array('doctorAppointment_id' => $myid));
             $this->db->update('qyura_doctorAppointment', $update);
+            $data = $this->common_model->fetchSingleData("doctorAppointment_pntUserId", "qyura_doctorAppointment", array("doctorAppointment_id" => $myid));
+            $patuserid = $data->doctorAppointment_pntUserId;
         } else {
+            $ctype = "Diagnostic";
             $update = array("quotation_qtStatus" => $status);
             $this->db->where(array('quotation_id' => $myid));
             $this->db->update('qyura_quotations', $update);
+            $data = $this->common_model->fetchSingleData("quotation_userId", "qyura_quotations", array("quotation_id" => $myid));
+            $patuserid = $data->quotation_userId;
         }
-        echo $this->db->last_query();
+        $data = $this->common_model->fetchSingleData("users_email", "qyura_users", array("users_id" => $myid));
+        $patemail = $data->users_email;
+        $msg = $this->load->view('email/appoitment', '', true);
+        $this->send_mail("support@qyura.com", $patemail, $ctype . "Appointment " . $appstatus, $ctype . "Appointment " . $appstatus, $msg);
+        exit;
     }
-    
-    public function ajaxfileUpload()
-    {
+
+    public function ajaxfileUpload() {
         $this->load->library('upload');
         $files = $_FILES;
         $cpt = count($_FILES['image']['name']);
-        for($i=0; $i<$cpt; $i++)
-        {           
-            $_FILES['userfile']['name']= $files['image']['name'][$i];
-            $_FILES['userfile']['type']= $files['image']['type'][$i];
-            $_FILES['userfile']['tmp_name']= $files['image']['tmp_name'][$i];
-            $_FILES['userfile']['error']= $files['image']['error'][$i];
-            $_FILES['userfile']['size']= $files['image']['size'][$i];    
-            
+        for ($i = 0; $i < $cpt; $i++) {
+            $_FILES['userfile']['name'] = $files['image']['name'][$i];
+            $_FILES['userfile']['type'] = $files['image']['type'][$i];
+            $_FILES['userfile']['tmp_name'] = $files['image']['tmp_name'][$i];
+            $_FILES['userfile']['error'] = $files['image']['error'][$i];
+            $_FILES['userfile']['size'] = $files['image']['size'][$i];
+
             $temp = explode(".", $files['image']['name'][$i]);
             $microtime = round(microtime(true));
             $newfilename = "Report_" . $microtime . '.' . end($temp);
-            
+
             $config['file_name'] = $newfilename;
-            $result = array_merge($config,$this->set_upload_options());
+            $result = array_merge($config, $this->set_upload_options());
             $this->upload->initialize($result);
-            
+
             if (!$this->upload->do_upload('userfile')) {
                 $data = array();
                 $this->error_message[$files['image']['name'][$i]] = $this->upload->display_errors();
-            }
-            else
-            {
+            } else {
                 $this->filesUpload[] = $newfilename;
             }
         }
-        
-        if(count($this->error_message) > 0)
-        {
+
+        if (count($this->error_message) > 0) {
             $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $this->error_message);
-            
-        }else {
-            foreach ($this->filesUpload as $file){
-            $data = array('report_bookingOrderId' => $this->input->post('orderId'),
-                'report_type' =>1,
-                'report_report'=>$file,
-                'creationTime' =>time(),
-                'status'=>1);
-            
+        } else {
+            foreach ($this->filesUpload as $file) {
+                $data = array('report_bookingOrderId' => $this->input->post('orderId'),
+                    'report_type' => 1,
+                    'report_report' => $file,
+                    'creationTime' => time(),
+                    'status' => 1);
+
                 $options = array(
                     'data' => $data,
                     'table' => 'qyura_reports'
                 );
                 $this->common_model->customInsert($options);
             }
-            
-            
-            
-            $responce = array('status' => 1, 'isAlive' => TRUE,'errors' => $this->error_message,'filesUpload'=>$this->filesUpload);
+
+
+
+            $responce = array('status' => 1, 'isAlive' => TRUE, 'errors' => $this->error_message, 'filesUpload' => $this->filesUpload);
         }
-        
+
         echo json_encode($responce);
         exit();
     }
-    
-    private function set_upload_options()
-    {   
+
+    private function set_upload_options() {
         //upload an image options
         $config = array();
         $config['upload_path'] = './assets/report';
         $config['allowed_types'] = 'gif|jpg|png|jpeg|doc|docx|pdf|text|txt|rtf';
-        $config['max_size']      = '0';
-        $config['overwrite']     = FALSE;
+        $config['max_size'] = '0';
+        $config['overwrite'] = FALSE;
 
         return $config;
     }
-    
+
 }
