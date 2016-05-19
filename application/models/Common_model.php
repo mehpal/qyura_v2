@@ -212,6 +212,41 @@ class Common_model extends MY_Model {
         }else
             return FALSE;
     }
+    public function change_appointment_status()
+    {
+       $today = strtotime(date("Y-m-d"));
+        $mydata = $this->fetchAllData("*","qyura_doctorAppointment",array("($today - cast(doctorAppointment_date AS SIGNED))="=>"86400","(doctorAppointment_status=11 OR doctorAppointment_status=12)"=>NULL,"doctorAppointment_status!=19"=>NULL));
+//        echo $this->db->last_query();
+//        echo "<pre>";
+//        print_r($mydata);
+//        exit;
+        if(!empty($mydata))
+        {
+             $updateOption = array(
+                'data' => array(
+                    'doctorAppointment_status' => 19,
+                ),
+                'table' => 'qyura_doctorAppointment',
+                'where' => array("($today - cast(doctorAppointment_date AS SIGNED))="=>"86400","(quotation_qtStatus=11 OR quotation_qtStatus=12)"=>NULL,"doctorAppointment_status!=19"=>NULL)
+            );
+            $isUpdate = $this->customUpdate($updateOption);
+        }
+        
+        $mydata = $this->fetchAllData("*","qyura_quotations",array("($today - cast(quotation_dateTime AS SIGNED))="=>"86400","(quotation_qtStatus=11 OR quotation_qtStatus=12)"=>NULL,"quotation_qtStatus!=19"=>NULL));
+        if(!empty($mydata))
+        {
+             $updateOption = array(
+                'data' => array(
+                    'quotation_qtStatus' => 19,
+                ),
+                'table' => 'qyura_quotations',
+                'where' => array("($today-cast(quotation_dateTime AS SIGNED))="=>"86400","(quotation_qtStatus=11 OR quotation_qtStatus=12)"=>NULL,"quotation_qtStatus!=19"=>NULL)
+            );
+            $isUpdate = $this->customUpdate($updateOption);
+        }
+        
+        exit;
+    }
     
 
     
