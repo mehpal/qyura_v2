@@ -1,3 +1,4 @@
+<script src="<?php echo base_url(); ?>assets/vendor/select2/select2.min.js" type="text/javascript"></script>
 <script>
     var urls = "<?php echo site_url() ?>";
     /**
@@ -57,14 +58,18 @@
                 {
                     var data = $.parseJSON(data);
                     console.log(data);
-                    console.log(data.data.file_error);
-                    if (data.data.file_error == '') {
-                        var html = '<i class="fa fa-clipboard"></i>' + data.data.doc_name;
-                        //$('#docname_'+docid[1]).html(html);
+                    
+                    if (data.status == 1) {
+                       bootbox.alert("Report Upload successfully");
                     }
                     else
                     {
-                        alert(data.data.file_error);
+                        //for (var i=0;i < data.errors.length;i++)
+                        for(var key in data.errors) {
+                            var value = data.errors[key];
+                            bootbox.alert('error in file >> '+key+' '+value);
+                            $('#' + prdoc + ' .progress-bar').css('width', 0 + '%');
+                        }
                     }
                 },
                 error: function ()

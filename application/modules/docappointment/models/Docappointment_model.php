@@ -376,10 +376,10 @@ CASE
     
     function fetchDoctorAppointmentDataTables( $condition = NULL){
         
-         $this->datatables->select('qyura_doctorAppointment.doctorAppointment_id as appoint_id,qyura_doctorAppointment.doctorAppointment_unqId as ApptId,qyura_doctorAppointment.doctorAppointment_date as appoint_date,qyura_doctorAppointment.doctorAppointment_finalTiming as appoint_time,qyura_doctorAppointment.doctorAppointment_status as appoint_status,qyura_patientDetails.patientDetails_patientName as patientName, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS doc_name,patientDetails_gender as userGender,patientDetails_dob as dob,');
+         $this->datatables->select('qyura_doctorAppointment.doctorAppointment_id as appoint_id,qyura_doctorAppointment.doctorAppointment_unqId as ApptId,qyura_doctorAppointment.doctorAppointment_date as appoint_date,qyura_doctorAppointment.doctorAppointment_finalTiming as appoint_time,qyura_doctorAppointment.doctorAppointment_status as appoint_status,qyura_patientDetails.patientDetails_patientName as patientName, CONCAT(qyura_doctors.doctors_fName, " ",  qyura_doctors.doctors_lName) AS doc_name,patientDetails_gender as userGender,patientDetails_dob as dob,qyura_doctors.doctors_id as docid,qyura_doctorAppointment.doctorAppointment_docType as centerType');
         $this->datatables->from('qyura_doctorAppointment');
         $search = $this->input->post('name');
-        if ($search) {
+        if ($search){
             $this->db->group_start();
             $this->db->or_like('doctorAppointment_unqId', $search);
             $this->db->or_like('doctorAppointment_date', $search);
@@ -408,8 +408,9 @@ CASE
 
         $this->datatables->edit_column('bookStatus', '$1', 'getStatusDropDown(appoint_status,appoint_id,"1")');
 
-        $this->datatables->add_column('Action', '<p><a  class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="' . site_url('docappointment/appointment_view') . '/$1">View Detail</a></p>', 'appoint_id,quotation_MiId');
+        $this->datatables->add_column('Action', '<p><a  class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="' . site_url('docappointment/appointment_view') . '/$1">View Detail</a></p><button type="button" onclick="getDrTimeSloat($1,$2,$3,$4,$5)" class="btn btn-success waves-effect waves-light m-b-5 applist-btn">Change Timing</button>', 'appoint_id,docid,0,centerType,appoint_status');
         return  $this->datatables->generate();
+//        quotation_MiId
     }
 }
 

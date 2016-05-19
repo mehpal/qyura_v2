@@ -82,6 +82,15 @@
                                 </article>
                             </div>
 
+                            
+                               <div class="clearfix m-t-20 text-right">
+                                <?php if($doctorAppointment->doctorAppointment_status != "13"){ ?>
+                                <button type="button" class="btn btn-danger waves-effect m-r-10" onclick="changeDoctorStatus(<?php echo $appid;?>,1,13)">Cancel</button>
+                                <?php } ?>
+                                </div>
+                            
+                            
+                            
                         </aside>
                     </article>
 

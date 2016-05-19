@@ -506,6 +506,7 @@ class Docappointment extends MY_Controller {
         $id = explode(',', $id);
         $doc_id = $id[0];
         $doc_userid = $id[1];
+       
         $date = $this->input->post('date');
         $day = date('l', strtotime($date));
         $day_no = getDay($day);
@@ -619,9 +620,9 @@ class Docappointment extends MY_Controller {
                 array('qyura_docTimeDay', 'qyura_docTimeDay.docTimeDay_id = qyura_doctorAppointment.doctorAppointment_slotId', 'left'),
             ),
         );
+        $data['appid'] = $appoint_id  ;
         $data['title'] = 'View Appointments';
         $data['doctorAppointmentDetails'] = $this->common_model->customGet($options);
-       // print_r($data['doctorAppointmentDetails']);exit;
         $this->load->super_admin_template('doctor_appointment_detail', $data, 'miAppScript');
     }
  
@@ -662,4 +663,118 @@ class Docappointment extends MY_Controller {
         }
         echo $this->db->last_query();
     }
+    
+        public function changeDoctorStatus() {
+        $myid = $this->input->post('myid');
+        $appfor = $this->input->post('ele');
+        $status = $this->input->post('status');
+
+        if ($appfor == "1") {
+            $update = array("doctorAppointment_status" => $status);
+            $this->db->where(array('doctorAppointment_id' => $myid));
+            $this->db->update('qyura_doctorAppointment', $update);
+        } else {
+            $update = array("quotation_qtStatus" => $status);
+            $this->db->where(array('quotation_id' => $myid));
+            $this->db->update('qyura_quotations', $update);
+        }
+        echo $this->db->last_query();
+    }
+    
+        function appointDoctortimeSlot(){
+        $id = $this->input->post('docid');
+       
+        $id = explode(',', $id);
+        $doc_id = $id[0];
+        $doc_userid = $id[1];
+        $appDate = $this->input->post('appdate');
+        $date = $this->input->post('date');
+        $day = date('l', strtotime($date));
+        $day_no = getDay($day);
+        $option = '';
+        $options = array(
+            'table' => 'qyura_docTimeTable',
+            'where' => array('docTimeTable_doctorId' => $doc_id,'qyura_docTimeTable.docTimeTable_deleted' => 0,'qyura_docTimeDay.docTimeDay_deleted' => 0,'qyura_docTimeDay.docTimeDay_day' => $day_no),
+            'join' => array(
+                array('qyura_docTimeDay', 'qyura_docTimeDay.docTimeDay_docTimeTableId = qyura_docTimeTable.docTimeTable_id', 'left'),
+            ),
+        );
+        $timeSlot = $this->common_model->customGet($options);
+        
+        if (isset($timeSlot) && $timeSlot != NULL) {
+            $option .= '<option value="">Select Time Slot</option>';
+            foreach ($timeSlot as $time) {
+                $stay = $time->docTimeTable_stayAt;
+                if($stay == 1){
+                    $mitype = $time->docTimeTable_MItype;
+                    if($mitype == 1){
+                        $options = array(
+                            'table' => 'qyura_hospital',
+                            'select' => 'hospital_name,hospital_id',
+                            'where' => array('hospital_id' => $time->docTimeTable_MIprofileId,'hospital_deleted' => 0),
+                            'single' => TRUE,
+                        );
+                        $mi = $this->common_model->customGet($options);
+                        $miName = $mi->hospital_name;
+                    }else{
+                        $options = array(
+                            'table' => 'qyura_diagnostic',
+                            'select' => 'diagnostic_name,diagnostic_id',
+                            'where' => array('diagnostic_id' => $time->docTimeTable_MIprofileId,'diagnostic_deleted' => 0),
+                            'single' => TRUE,
+                        );
+                        $mi = $this->common_model->customGet($options);
+                        $miName = $mi->diagnostic_name;
+                    }
+                }else{
+                    $miName = 'Personal Chamber';
+                }
+                $option .= '<option value="' . $time->docTimeDay_id .','. $time->docTimeTable_id. '">' .date("H:i", strtotime($time->docTimeDay_open))  ." to ". date("H:i", strtotime($time->docTimeDay_close)) ." | ". $miName. '</option>';
+            }
+        } else {
+            $option .= '<option value="">Time slot not available. </option>';
+        }
+        echo $option;
+    }
+    
+        public function savetimeSlot() {
+
+        $final_timing = strtotime($this->input->post('finaltime'));
+        $timeslot = $this->input->post('timeSlot');
+        $appdate = strtotime($this->input->post('appdate'));
+        $myid = $this->input->post('appid');
+
+        $timeslot = explode(',', $timeslot);
+        $timeslot_id = $timeslot[0];
+        if ($timeslot[1]) {
+            $time_session = $timeslot[1];
+        }
+        if ($timeslot[1] == 0) {
+            $time_session = '0';
+        }
+        $dt = date('Y-m-d', $appdate);
+        $tm = date('H:i:s', $final_timing);
+        $appdatetime = strtotime($dt . " " . $tm);
+        if ($appdatetime >= (strtotime(date("Y-m-d H:i:s")))) {
+
+            $updateOption = array(
+                'data' => array(
+                    'doctorAppointment_date' => $appdate,
+                    'doctorAppointment_slotId' => $timeslot_id,
+                    'doctorAppointment_finalTiming' => $final_timing,
+                    'modifyTime' => strtotime(date("Y-m-d")),
+                ),
+                'table' => 'qyura_doctorAppointment',
+                'where' => array('doctorAppointment_id' => $myid)
+            );
+            $isUpdate = $this->common_model->customUpdate($updateOption);
+            $this->session->set_flashdata('message', 'Data updated successfully !');
+            redirect('miappointment/consultingDetail/');
+        } else {
+            $this->session->set_flashdata('message', 'Data not updated successfully !');
+            redirect('miappointment/consultingDetail/');
+        }
+    }
+    
+    
 }

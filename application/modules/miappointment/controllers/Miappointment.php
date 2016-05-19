@@ -4,7 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Miappointment extends MY_Controller {
 
-    public $error_message = '';
+    public $error_message = array();
+    public $filesUpload = array();
+    
     public $perPage = 5;
 
     public function __construct() {
@@ -86,7 +88,27 @@ class Miappointment extends MY_Controller {
         $data = array();
         $data['qtnDetail'] = $this->miappointment->getDetail($qtnId);
         $data['quotationTests'] = $this->miappointment->getQuotationTests($qtnId);
+        
+        $options = array(
+            'table' => 'qyura_quotationBooking',
+            'where' => array('qyura_quotationBooking.quotationBooking_quotationId' => $qtnId,'qyura_quotationBooking.quotationBooking_deleted' => 0, ),
+            'join' => array(
+                array('qyura_quotationDetail', 'qyura_quotationDetail.quotationDetail_quotationId = qyura_quotationBooking.quotationBooking_quotationId', 'left'),
+            ),
+        );
 
+        $data['quotationTestsNew'] = $this->common_model->customGet($options);
+        
+        $optionsNew = array(
+            'table' => 'qyura_quotationBooking',
+            'where' => array('qyura_quotationBooking.quotationBooking_quotationId' => $qtnId,'qyura_quotationBooking.quotationBooking_deleted' => 0, ),
+            'join' => array(
+                array('qyura_reports', 'qyura_reports.report_bookingOrderId = qyura_quotationBooking.	quotationBooking_orderId', 'left'),
+            ),
+        );
+
+        $data['quotationReportNew'] = $this->common_model->customGet($optionsNew);
+        
         $data['userDetail'] = $this->miappointment->getQuotationUserDetail($qtnId);
         $data['qtnAmount'] = $this->miappointment->qtTestTotalAmount($qtnId);
         $data['qtnId'] = $qtnId;
@@ -1110,6 +1132,7 @@ class Miappointment extends MY_Controller {
         $this->ajax_pagination->initialize($config);
 
         $data['reports'] = $reports = $this->miappointment->getUploadReportsList(array('limit' => $this->perPage));
+        
         $this->load->super_admin_template('completedAppList', $data, 'completedAppScript');
     }
 
@@ -1218,5 +1241,76 @@ class Miappointment extends MY_Controller {
         }
         echo $this->db->last_query();
     }
+    
+    public function ajaxfileUpload()
+    {
+        $this->load->library('upload');
+        $files = $_FILES;
+        $cpt = count($_FILES['image']['name']);
+        for($i=0; $i<$cpt; $i++)
+        {           
+            $_FILES['userfile']['name']= $files['image']['name'][$i];
+            $_FILES['userfile']['type']= $files['image']['type'][$i];
+            $_FILES['userfile']['tmp_name']= $files['image']['tmp_name'][$i];
+            $_FILES['userfile']['error']= $files['image']['error'][$i];
+            $_FILES['userfile']['size']= $files['image']['size'][$i];    
+            
+            $temp = explode(".", $files['image']['name'][$i]);
+            $microtime = round(microtime(true));
+            $newfilename = "Report_" . $microtime . '.' . end($temp);
+            
+            $config['file_name'] = $newfilename;
+            $result = array_merge($config,$this->set_upload_options());
+            $this->upload->initialize($result);
+            
+            if (!$this->upload->do_upload('userfile')) {
+                $data = array();
+                $this->error_message[$files['image']['name'][$i]] = $this->upload->display_errors();
+            }
+            else
+            {
+                $this->filesUpload[] = $newfilename;
+            }
+        }
+        
+        if(count($this->error_message) > 0)
+        {
+            $responce = array('status' => 0, 'isAlive' => TRUE, 'errors' => $this->error_message);
+            
+        }else {
+            foreach ($this->filesUpload as $file){
+            $data = array('report_bookingOrderId' => $this->input->post('orderId'),
+                'report_type' =>1,
+                'report_report'=>$file,
+                'creationTime' =>time(),
+                'status'=>1);
+            
+                $options = array(
+                    'data' => $data,
+                    'table' => 'qyura_reports'
+                );
+                $this->common_model->customInsert($options);
+            }
+            
+            
+            
+            $responce = array('status' => 1, 'isAlive' => TRUE,'errors' => $this->error_message,'filesUpload'=>$this->filesUpload);
+        }
+        
+        echo json_encode($responce);
+        exit();
+    }
+    
+    private function set_upload_options()
+    {   
+        //upload an image options
+        $config = array();
+        $config['upload_path'] = './assets/report';
+        $config['allowed_types'] = 'gif|jpg|png|jpeg|doc|docx|pdf|text|txt|rtf';
+        $config['max_size']      = '0';
+        $config['overwrite']     = FALSE;
 
+        return $config;
+    }
+    
 }

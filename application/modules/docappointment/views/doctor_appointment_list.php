@@ -55,3 +55,4 @@
         </div>
         <!-- container -->
     </div>
+<?php echo $this->load->view('change_timeslot'); ?>

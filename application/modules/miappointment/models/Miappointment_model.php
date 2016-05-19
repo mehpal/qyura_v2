@@ -424,7 +424,7 @@ CASE
 
         $searchHavingAry = array("miName LIKE '%{$search}%'" => null, "city_name LIKE '%{$search}%'" => null, "userName LIKE '%{$search}%'" => null, "userGender LIKE '%{$search}%'" => null, "userAge LIKE '%{$search}%'" => null);
 
-        $this->db->select("qyura_quotationBooking.quotationBooking_quotationId AS id,qyura_quotationBooking.quotationBooking_orderId AS orderId,(CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_name WHEN(hospital_usersId is not null) THEN hospital_name END) as miName,CASE WHEN (qyura_city.city_name  IS NOT NULL  ) THEN qyura_city.city_name ELSE digCity.city_name END AS city_name,CASE WHEN (qyura_quotationBooking.quotation_familyId <> 0 ) THEN qyura_usersFamily.usersfamily_name ELSE qyura_patientDetails.patientDetails_patientName END AS userName, CASE WHEN (qyura_quotationBooking.quotation_familyId = 0 ) THEN CASE usersfamily_gender WHEN '1' THEN 'Male' WHEN '2' THEN 'Female' WHEN '3' THEN 'Other' END  ELSE CASE patientDetails_gender WHEN '1' THEN 'Male' WHEN '2' THEN 'Female' WHEN '3' THEN 'Other' END END AS userGender, CASE WHEN (qyura_quotationBooking.quotation_familyId <> 0 ) THEN qyura_usersFamily.usersfamily_age ELSE (CASE patientDetails_dob WHEN 0 THEN '' ELSE FROM_UNIXTIME('{$now}', '%Y') - FROM_UNIXTIME(patientDetails_dob, '%Y') END ) END AS userAge, users_mobile AS usersMobile,  users_email AS email,'Diagnostic' AS type");
+        $this->db->select("qyura_quotationBooking.quotationBooking_quotationId AS id,qyura_quotationBooking.quotationBooking_orderId AS orderId,(CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_name WHEN(hospital_usersId is not null) THEN hospital_name END) as miName,CASE WHEN (qyura_city.city_name  IS NOT NULL  ) THEN qyura_city.city_name ELSE digCity.city_name END AS city_name,CASE WHEN (qyura_quotationBooking.quotation_familyId <> 0 ) THEN qyura_usersFamily.usersfamily_name ELSE qyura_patientDetails.patientDetails_patientName END AS userName, CASE WHEN (qyura_quotationBooking.quotation_familyId <> 0 ) THEN CASE usersfamily_gender WHEN '1' THEN 'Male' WHEN '2' THEN 'Female' WHEN '3' THEN 'Other' END  ELSE CASE patientDetails_gender WHEN '1' THEN 'Male' WHEN '2' THEN 'Female' WHEN '3' THEN 'Other' END END AS userGender, CASE WHEN (qyura_quotationBooking.quotation_familyId <> 0 ) THEN qyura_usersFamily.usersfamily_age ELSE (CASE patientDetails_dob WHEN 0 THEN '' ELSE FROM_UNIXTIME('{$now}', '%Y') - FROM_UNIXTIME(patientDetails_dob, '%Y') END ) END AS userAge, users_mobile AS usersMobile,  users_email AS email,'Diagnostic' AS type");
 
         $this->db->from("qyura_quotationBooking");
 
@@ -505,7 +505,9 @@ CASE
 
 
 
-        $sql = $query1 . " union all " . $query2 . " union all " . $query3 . " " . $limit;
+        //$sql = $query1 . " union all " . $query2 . " union all " . $query3 . " " . $limit;
+        
+         $sql = $query1 . " " . $limit;
 
         //dump($sql);
 

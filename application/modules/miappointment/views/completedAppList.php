@@ -14,26 +14,27 @@
 
                 <!-- Left Section Start -->
                 <section class="col-md-12 detailbox">
-
+                    
 
                     <!-- Form Section Start -->
                     <article class="row p-b-10">
                         <form>
-                            <aside class="col-md-2 col-sm-3">
+                            <!--<aside class="col-md-2 col-sm-3">
                                 <a href="#" title="Upload New Report" class="btn btn-appointment waves-effect waves-light">Upload New</a>
-                            </aside>
+                            </aside>-->
                             <aside class="col-md-3 col-sm-5 m-tb-xs-5">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-search"></i></span>
                                     <input id="search" type="text" name="search" class="form-control" placeholder="Search" />
                                 </div>
                             </aside>
-                            <aside class="col-md-2 col-sm-2 pull-right">
+<!--                            <aside class="col-md-2 col-sm-2 pull-right">
                                 <button class="btn btn-appointment waves-effect waves-light m-l-10 pull-right" type="submit">Export</button>
-                            </aside>
+                            </aside>-->
 
                         </form>
                     </article>
+                    <?php  ?>
                     <!-- Form Section End -->
 
                     <div class="bg-white" id="reportList">

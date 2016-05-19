@@ -264,14 +264,14 @@
                                 </div>
 
                                 <?php
-                                if (isset($quotationTests) && $quotationTests != null) {
-                                    foreach ($quotationTests as $quotationTest) {
+                                if (isset($quotationTestsNew) && $quotationTestsNew != null) {
+                                    foreach ($quotationTestsNew as $quotationTest) {
                                         $path = FCPATH . BS_PRS_IMG_PATH;
-                                        //echo base_url(BS_PRS_IMG_PATH); ?>/<?php //echo $quotationTest->prescription;
-                                        if (file_exists(realpath($path) . '/' . $quotationTest->prescription)) {
+                                        //base_url(BS_PRS_IMG_PATH); ?><?php //echo $quotationTest->quotationDetail_prescription;
+                                        if (file_exists(realpath($path) . '/' . $quotationTest->quotationDetail_prescription)) {
                                             ?>
                                             <article class="img m-t-20">
-                                                <img src="<?php echo base_url(BS_PRS_IMG_PATH); ?>/<?php echo $quotationTest->prescription; ?>" alt="">
+                                                <img src="<?php echo base_url(); ?><?php echo $quotationTest->quotationDetail_prescription; ?>" alt="">
                                                 <div class="overlay">
                                                     <a href=""><i class="fa fa-search"></i></a>&nbsp;
                                                     <a href="#"><i class="fa fa-download"></i></a>
@@ -292,20 +292,21 @@
                                 </div>
                                 
                                 <?php
-                                if (isset($quotationTests) && $quotationTests != null) {
-                                    foreach ($quotationTests as $quotationTest) {
+                                if (isset($quotationReportNew) && $quotationReportNew != null) {
+                                    foreach ($quotationReportNew as $quotationTest) {
                                         $path = FCPATH . BS_REPO_PATH;
-                                        //echo base_url(BS_PRS_IMG_PATH); ?>/<?php //echo $quotationTest->report;
-                                        if (file_exists(realpath($path) . '/' . $quotationTest->report)) {
+                                        if (file_exists(realpath($path) . '/' . $quotationTest->report_report)) {
                                             ?>
-                                            <article class="img m-t-20">
-                                                <img src="<?php echo base_url(BS_PRS_IMG_PATH); ?>/<?php echo $quotationTest->report; ?>" alt="">
+<!--                                            <article class="img m-t-20">-->
+<div class="col-md-4">
+                                                <img src="<?php echo base_url(BS_REPO_PATH); ?>/<?php echo $quotationTest->report_report; ?>" alt="" style="width: 80px;height: 80px">
                                                 <div class="overlay">
                                                     <a href=""><i class="fa fa-search"></i></a>&nbsp;
                                                     <a href="#"><i class="fa fa-download"></i></a>
                                                     <a class="close-overlay hidden">x</a>
                                                 </div>
-                                            </article>
+</div>
+<!--                                            </article>-->
                                             <?php
                                         }
                                     }
