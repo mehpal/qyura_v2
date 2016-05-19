@@ -11,7 +11,7 @@ class Miappointment extends MY_Controller {
     public function __construct() {
         parent:: __construct();
         $this->load->model('miappointment_model', 'miappointment', 'common_model');
-        $this->common_model->change_appointment_status();
+       // $this->common_model->change_appointment_status();
 //        $this->load->library(array('api/ion_auth_api', 'bf_form_validation'));
 //        $this->load->helper(array('url', 'language','common','string'));
 //        $this->bf_bf_form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'api/auth_conf_api'), $this->config->item('error_end_delimiter', 'api/auth_conf_api'));
