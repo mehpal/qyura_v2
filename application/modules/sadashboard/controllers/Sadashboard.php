@@ -12,7 +12,7 @@ class SaDashboard extends MY_Controller {
     public function index() {
         $this->common_model->mypermission("7");
         //echo strtotime(date('2016-05-15'));
-        //$data['MI'] = $this->dashboard_model->getMiCount();
+        $data['MI'] = $this->dashboard_model->getMiCount();
         $data['Doctor'] = $this->dashboard_model->getDoctorCount();
         $data['User'] = $this->dashboard_model->getUserCount();
         $data['MiList'] = $this->dashboard_model->getMiList();
@@ -24,6 +24,12 @@ class SaDashboard extends MY_Controller {
         $data['doctorOfMonth'] = $this->dashboard_model->getDoctorOfMonth();
         $data['consultAppoinement'] = $this->dashboard_model->getConsultAppointment();
         $data['diagnosticAppointmnt'] = $this->dashboard_model->getDoagnosticAppointment();
+        
+        $data['ambulance'] = $this->dashboard_model->getAmbulance();
+        $data['pharmacy'] = $this->dashboard_model->getPharmacy();
+        $data['bloodbank'] = $this->dashboard_model->getBloodbank();
+        $data['hospital'] = $this->dashboard_model->getHospital();
+        $data['diagnostic'] = $this->dashboard_model->getDiagnostic();
         $data['title'] = 'SuperAdmin Dashboard';
         $this->load->super_admin_template('Superadmin_dashboard', $data, 'dashboardScript');
     }
