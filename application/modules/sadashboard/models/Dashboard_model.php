@@ -24,7 +24,7 @@ class Dashboard_model extends CI_Model {
     function getMiCount() {
 
         $sql = "SELECT (SELECT COUNT(*) FROM qyura_hospital  WHERE status = 1 AND hospital_deleted = 0) +"
-                . " (SELECT COUNT(*) FROM qyura_diagnostic WHERE status = 1 AND diagnostic_deleted = 0) as totalMi";
+                . " (SELECT COUNT(*) FROM qyura_diagnostic WHERE status = 1 AND diagnostic_deleted = 0) as t";
 
         $qry = $this->db->query($sql);
         return $qry->result();
@@ -294,6 +294,40 @@ class Dashboard_model extends CI_Model {
         $totalData = (!empty($rs)) ? $rs[0]->total : 0;
 
         return $new_width = round(($yearData / $totalData) * 100,1);
+    }
+    
+     function getAmbulance() {
+        $sql = "SELECT COUNT(*) as t FROM qyura_ambulance   WHERE status = 1 AND ambulance_deleted = 0";
+
+        $qry = $this->db->query($sql);
+        return $qry->result();
+    }
+    
+     function getPharmacy() {
+        $sql = "SELECT COUNT(*) as t FROM qyura_pharmacy   WHERE status = 1 AND pharmacy_deleted = 0";
+
+        $qry = $this->db->query($sql);
+        return $qry->result();
+    }
+    
+     function getBloodbank() {
+        $sql = "SELECT COUNT(*) as t FROM qyura_bloodBank   WHERE status = 1 AND bloodBank_deleted = 0";
+
+        $qry = $this->db->query($sql);
+        return $qry->result();
+    }
+    
+     function getHospital() {
+        $sql = "SELECT COUNT(*) as t FROM qyura_hospital   WHERE status = 1 AND hospital_deleted = 0";
+
+        $qry = $this->db->query($sql);
+        return $qry->result();
+    }
+     function getDiagnostic() {
+        $sql = "SELECT COUNT(*) as t FROM qyura_diagnostic   WHERE status = 1 AND diagnostic_deleted = 0";
+
+        $qry = $this->db->query($sql);
+        return $qry->result();
     }
 
 }

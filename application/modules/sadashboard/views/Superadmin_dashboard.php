@@ -7,35 +7,83 @@
             <!--   start section 1 -->
             <section class="clearfix">
                 <!--start MI-->
-                <aside class=" col-md-4 col-sm-6 m-b-10">
+<!--                <aside class=" col-md-3 col-sm-6 m-b-10">
                     <article class="clearfix  r-box">
                         <h4 class="">Total Registered <br>Medical Institutions</h4>
 
-                        <p><?php if(isset($MiList) && !empty($MiList)): echo count($MiList);else: echo '0';endif;?></p>
+                        <p><?php //if(isset($MI) && !empty($MI)): echo $MI[0]->t;else: echo '0';endif;?></p>
                     </article>
-                    <article class="r-box-bottom"><a href="<?php echo site_url('hospital');?>">view all</a></article>
-                </aside>
+                    <article class="r-box-bottom"><a href="<?php //echo site_url('hospital');?>">view all</a></article>
+                </aside>-->
                 <!--end MI-->
-                <!--start total DOC-->
-                <aside class="col-md-4 col-sm-6 m-b-10">
+                  <aside class="col-md-3 col-sm-6 m-b-10">
+                    <article class="clearfix  b-box">
+                        <h4 class="">Total Registered <br>
+                            Ambulance</h4>
+
+                        <p><?php if(isset($ambulance) && !empty($ambulance)): echo $ambulance[0]->t;else: echo '0';endif;?></p>
+                    </article>
+                    <article class="b-box-bottom"><a href="<?php echo site_url('ambulance');?>">view all</a></article>
+                </aside>
+                
+                  <aside class="col-md-3 col-sm-6 m-b-10">
                     <article class="clearfix  y-box">
+                        <h4 class="">Total Registered <br>
+                            Pharmacy</h4>
+
+                        <p><?php if(isset($pharmacy) && !empty($pharmacy)): echo $pharmacy[0]->t;else: echo '0';endif;?></p>
+                    </article>
+                    <article class="y-box-bottom"><a href="<?php echo site_url('pharmacy');?>">view all</a></article>
+                </aside>
+                
+                  <aside class="col-md-3 col-sm-6 m-b-10">
+                    <article class="clearfix  g-box">
+                        <h4 class="">Total Registered <br>
+                            BloodBank</h4>
+
+                        <p><?php if(isset($bloodbank) && !empty($bloodbank)): echo $bloodbank[0]->t;else: echo '0';endif;?></p>
+                    </article>
+                    <article class="g-box-bottom"><a href="<?php echo site_url('bloodbank');?>">view all</a></article>
+                </aside>
+                  <aside class="col-md-3 col-sm-6 m-b-10">
+                    <article class="clearfix  a-box">
+                        <h4 class="">Total Registered <br>
+                            Diagnostic</h4>
+
+                        <p><?php if(isset($diagnostic) && !empty($diagnostic)): echo $diagnostic[0]->t;else: echo '0';endif;?></p>
+                    </article>
+                    <article class="a-box-bottom"><a href="<?php echo site_url('diagnostic');?>">view all</a></article>
+                </aside>
+                  <aside class="col-md-3 col-sm-6 m-b-10">
+                    <article class="clearfix  c-box">
+                        <h4 class="">Total Registered <br>
+                            Hospital</h4>
+
+                        <p><?php if(isset($hospital) && !empty($hospital)): echo $hospital[0]->t;else: echo '0';endif;?></p>
+                    </article>
+                    <article class="c-box-bottom"><a href="<?php echo site_url('hospital');?>">view all</a></article>
+                </aside>
+                
+                <!--start total DOC-->
+                <aside class="col-md-3 col-sm-6 m-b-10">
+                    <article class="clearfix  d-box">
                         <h4 class="">Total Registered <br>
                             Doctors</h4>
 
                         <p><?php if(isset($doctorList) && !empty($doctorList)): echo count($doctorList);else: echo '0';endif;?></p>
                     </article>
-                    <article class="y-box-bottom"><a href="<?php echo site_url('doctor');?>">view all</a></article>
+                    <article class="d-box-bottom"><a href="<?php echo site_url('doctor');?>">view all</a></article>
                 </aside>
                 <!--end total Doc-->
                 <!--start profile visits-->
-                <aside class="col-md-4 col-sm-6 m-b-10">
-                    <article class="clearfix  g-box">
+                <aside class="col-md-3 col-sm-6 m-b-10">
+                    <article class="clearfix  r-box">
                         <h4 class="">Total Registered <br>
                             Users</h4>
 
                         <p><?php if(isset($User) && !empty($User)): echo $User[0]->totalUser;else: echo '0';endif;?></p>
                     </article>
-                    <article class="g-box-bottom"><a href="<?php echo site_url('users');?>">view all</a></article>
+                    <article class="r-box-bottom"><a href="<?php echo site_url('users');?>">view all</a></article>
                 </aside>
                 <!--end profile visits-->
             </section>
