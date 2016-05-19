@@ -27,6 +27,7 @@ class Miappointment extends MY_Controller {
      */
     public function index() {
        $data = array();
+       $data['title'] = 'List Mi Appointment';
 //       $msg = $this->load->view('email/signing_up_doctor_tpl', '', true);
 //       $this->send_mail("prachi.pj@gmail.com","pj.mobileappz@gmail.com","testing","Test Mail",$msg);
        $this->load->super_admin_template('miAppList', $data, 'miAppScript');
@@ -106,7 +107,7 @@ class Miappointment extends MY_Controller {
                 array('qyura_reports', 'qyura_reports.report_bookingOrderId = qyura_quotationBooking.	quotationBooking_orderId', 'left'),
             ),
         );
-
+        $data['title'] = 'Quotation Listing';
         $data['quotationReportNew'] = $this->common_model->customGet($optionsNew);
         
         $data['userDetail'] = $this->miappointment->getQuotationUserDetail($qtnId);
@@ -125,6 +126,7 @@ class Miappointment extends MY_Controller {
      */
     public function consultingDetail($appointmentId = '') {
         $data = array();
+        $data['title'] = 'Consultation Appointment Listing';
         $data['appid'] = $appointmentId;
         $data['conDetail'] = $this->miappointment->getConsultingData($appointmentId);
         $data['reports'] = $this->miappointment->getConsultingReport($appointmentId);
