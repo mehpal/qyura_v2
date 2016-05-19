@@ -548,7 +548,7 @@ class Docappointment extends MY_Controller {
                 }else{
                     $miName = 'Personal Chamber';
                 }
-                $option .= '<option value="' . $time->docTimeDay_id .','. $time->docTimeTable_id. '">' .date("H:i", strtotime($time->docTimeDay_open))  ." to ". date("H:i", strtotime($time->docTimeDay_close)) ." | ". $miName. '</option>';
+                $option .= '<option value="' . $time->docTimeDay_id .','. $time->docTimeTable_id. '">' .date("h:i A", strtotime($time->docTimeDay_open))  ." to ". date("h:i A", strtotime($time->docTimeDay_close)) ." | ". $miName. '</option>';
             }
         } else {
             $option .= '<option value="">Time slot not available. </option>';
