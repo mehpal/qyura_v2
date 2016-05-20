@@ -52,5 +52,20 @@ if (!function_exists('sendQuoteBtn')) {
 
 }
 
+if (!function_exists('viewQuoteBtn')) {
+
+    function viewQuoteBtn($qid,$status) {
+        
+        $disabled =  ($status != 'Sent') ? 'disabled="disabled"' : '';
+        $sendLink =  ($status != 'Sent') ? '#' : site_url('quotation/viewPrescription').'/'.$qid;
+        
+    	$btn = '<a type="button" href="'.$sendLink.'" '.$disabled.' class="btn btn-warning waves-effect waves-light m-b-5 applist-btn">View Prescription</a>';
+        return $btn;
+    }
+    
+    
+
+}
+
 
 ?>
