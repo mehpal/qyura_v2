@@ -229,7 +229,7 @@
                                 </article>
                                 <article class="form-group m-lr-0 m-t-xs-10">
                                     <div class="col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4">
-                                        <input type="text" value="<?php echo set_value('zip'); ?>" class="form-control" id="address" name="address" placeholder="Address"/>
+                                        <input type="text" value="<?php echo set_value('address'); ?>" class="form-control" id="address" name="address" placeholder="Address"/>
                                         <div class="has-error "  id="err_address" ><?php echo form_error("address"); ?></div>
                                     </div>
                                 </article>

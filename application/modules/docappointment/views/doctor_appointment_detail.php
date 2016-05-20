@@ -38,14 +38,14 @@
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4">Session :</label>
                                 <p class="col-md-8">
-                                    <?php echo date("H:i", strtotime($doctorAppointment->docTimeDay_open)). " - " .date("H:i", strtotime($doctorAppointment->docTimeDay_close)); ?>
+                                    <?php echo date("h:i A", strtotime($doctorAppointment->docTimeDay_open)). " - " .date("h:i A", strtotime($doctorAppointment->docTimeDay_close)); ?>
                                 </p>
                             </div>
 
 
                             <div class="clearfix m-t-10">
                                 <label class="col-md-4">Final Time :</label>
-                                <p class="col-md-8"> <?php echo date("g:i a" ,$doctorAppointment->doctorAppointment_finalTiming); ?></p>
+                                <p class="col-md-8"> <?php echo date("h:i A" ,$doctorAppointment->doctorAppointment_finalTiming); ?></p>
                             </div>
 
                             <div class="clearfix m-t-10">

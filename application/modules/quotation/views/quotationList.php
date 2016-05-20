@@ -28,8 +28,8 @@
                         <aside class="col-lg-2 col-md-2 col-sm-3 m-tb-xs-3">
                             <select class="form-control selectpicker" name="isSent" id="isSent" data-width="100%" >
                                 <option  value="" >Select Option</option>
-                                <option value="1">Sent</option>
-                                <option value="0">Not Sent</option>
+                                <option value="25">Sent</option>
+                                <option value="26">Not Sent</option>
                             </select>
                         </aside>
 

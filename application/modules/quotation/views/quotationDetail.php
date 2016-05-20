@@ -163,11 +163,11 @@
                                 <?php //}else{    ?>
                                 <!--                                         <button type="button" class="btn btn-danger waves-effect m-r-10" >Rejected</button>-->
 <?php // }    ?>
-                                <?php if ($isActive == 1) { ?> <a class="btn btn-success waves-effect waves-light m-r-10" href="<?php echo site_url('quotation/editQuotation') . '/' . $quotationDetail[0]->qId; ?>">Modify Quotation</a>
+                                <?php if ($isActive == 0 && $quotationDetail[0]->qStatus == 25) { ?> <a class="btn btn-success waves-effect waves-light m-r-10" href="<?php echo site_url('quotation/editQuotation') . '/' . $quotationDetail[0]->qId; ?>">Modify Quotation</a>
                                 <?php } else { ?>
                                     <a class="btn btn-success waves-effect waves-light m-r-10" href="javascript:void(0)">Modify Quotation</a>
                                 <?php } ?>
-                                <?php if ($isActive == 1) { ?>
+                                <?php if ($isActive == 0 && $quotationDetail[0]->qStatus == 25 ) { ?>
                                     <a class="btn btn-appointment waves-effect waves-light m-t-sm-10" href="<?php echo site_url('quotation/sendQuotationToUser') . '/' . $quotationDetail[0]->qId; ?>">Send Quotation</a>
                                 <?php } else { ?>
                                     <a class="btn btn-appointment waves-effect waves-light m-t-sm-10" href="javascript:void(0)">Send Quotation</a>
@@ -200,7 +200,7 @@
                                     if (isset($quotationTest) && !empty($quotationTest)) {
                                         foreach ($quotationTest as $key => $val) {
                                             $total = $total + $val->price; ?>
-                                            <tr id="<?php echo $val->testId; ?>" class="edit_tr">
+                                            <tr id="<?php echo $val->testId; ?>" >
                                                 <td class="edit_td">
                                                     <h6 class="text" id="catName<?php echo $val->testId; ?>"><?php echo $val->catName; ?></h6>
                                                     <article id="catName_input_l<?php echo $val->testId; ?>" class="editbox" style="display: none; position: absolute; width: 18%">

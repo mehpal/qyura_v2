@@ -44,7 +44,7 @@ class Quotation extends MY_Controller {
             $this->session->set_flashdata('message', 'Some error occurde when sending mail!');
         }
 
-        redirect("quotation/editQuotation/$qId");
+        redirect("quotation/viewPrescription/$qId");
     }
 
     function createQuoteCSV() {
@@ -288,6 +288,22 @@ class Quotation extends MY_Controller {
             // var_dump($updateData); exit;
             $response = $this->Quotation_model->UpdateTableData($updateData, $where, 'qyura_quotations');
             if ($response) {
+                
+              $con = array('qyura_quotations.quotation_id' => $qId);
+              $qtRow = $this->Quotation_model->getQuotationDetail($con);  
+              $crnMsg     =  replaceStr($this->lang->line("quotationNotification"), array("<ID>"), array($qtRow->quotation_unqId));
+              $currentDate = strtotime(date("d-m-Y"));
+              $cronArray = array("qyura_fkModuleId" => 1, "qyura_fkUserId" => $qtRow->quotation_userId, "qyura_cronMsg" => $crnMsg, "qyura_cronTitle" => $this->lang->line("quotationNotificationTag"), "qyura_fkItemId" => $qId,  "qyura_multiObject" => '{"subType":1}',"qyura_cronDate"=>$currentDate,"qyura_cronMsgsCreation"=>  $currentDate);
+
+              $options = array(
+              'data' => $cronArray,
+              'table' => 'qyura_cronMsgs'
+              );
+
+              $cronId = $this->common_model->customInsert($options);
+                
+                
+                $isSent = $this->Quotation_model->sendQuotationToUser($qId);
                 $this->session->set_flashdata('message', 'Data updated successfully !');
                 redirect("quotation/editQuotation/$qId");
             }
@@ -598,7 +614,7 @@ class Quotation extends MY_Controller {
         $this->bf_form_validation->set_rules("countryId", "Country ", 'required');
         $this->bf_form_validation->set_rules("userStateId", "State ", 'required');
         $this->bf_form_validation->set_rules("userCityId", "User City", 'required');
-        $this->bf_form_validation->set_rules("zip", "Zip", 'required|callback_numeric_wcomma');
+        $this->bf_form_validation->set_rules("zip", "Zip", 'required');
         $this->bf_form_validation->set_rules("address", "Address", 'required');
         $this->bf_form_validation->set_rules("consulationFee", "Consulation Fee", 'required');
         $this->bf_form_validation->set_rules("tax", "Tax", 'required');
@@ -625,6 +641,7 @@ class Quotation extends MY_Controller {
             $errors = validation_errors();
             $this->sendQuotation($rowData);
         } else {
+            
             //print_r($_POST);exit;
             $user_id = $this->input->post('user_id');
             $quoDatetime = str_replace($this->input->post('quotationDate')).' '.$this->input->post('quotationTime'); 
@@ -660,6 +677,7 @@ class Quotation extends MY_Controller {
             $user_dob = strtotime($this->input->post('input26'));
             $user_gender = $this->input->post('input27');
 
+            
             if (empty($user_id)) {
                 if(empty($email_status)){    
                     $optionAuotation = array(
@@ -699,7 +717,7 @@ class Quotation extends MY_Controller {
                         )
                     );
                     $patitentId = $this->common_model->customInsert($optionAuotation);
-
+                    
                     $optionAuotation = array(
                         'table' => 'qyura_usersRoles',
                         'data' => array(
@@ -731,7 +749,7 @@ class Quotation extends MY_Controller {
                 'quotation_userId' => $user_id,
                 'quotation_familyId' => $familyID,
                 'quotation_otherFee' => $this->input->post('otherFee'),
-                'quotation_qtStatus' => 1,
+                'quotation_qtStatus' => 25,
                 'quotation_dateTime' => strtotime($quoDatetime),
                 'quotations_finalTime' => strtotime($quotationTime),
                 'quotation_tex' => $this->input->post('tax'),
@@ -852,6 +870,7 @@ class Quotation extends MY_Controller {
                 if(isset($password) && $password != '')
                     $this->send_mail($from,$to,$subject,$title,$msg);
 		
+                $isSent = $this->Quotation_model->sendQuotationToUser($quotation_id);
 	
                 $this->session->set_flashdata('message', 'Successfully send quotation.');
                 redirect('quotation/sendQuotation');
@@ -1072,7 +1091,7 @@ class Quotation extends MY_Controller {
                 'quotation_otherFee' => $this->input->post('otherFee'),
                // 'quotation_docRefeId' => $dr_user_id,
                // 'quotation_docName' => $dr_Name,
-                'quotation_qtStatus' => 1,
+                'quotation_qtStatus' => 25,
                // 'quotation_timeSlotId'=>$this->input->post('timeslot'),
                 'quotations_finalTime' => strtotime($this->input->post('quotationTime')),
                 'quotation_dateTime' => strtotime($quoDatetime),
@@ -1167,8 +1186,13 @@ class Quotation extends MY_Controller {
               );
 
               $cronId = $this->common_model->customInsert($options);
+              
+              
              
-            if ($isUpdate) {
+            if ($cronId) {
+                
+                $isSent = $this->Quotation_model->sendQuotationToUser($quotation_id);
+                
 //                $responce = array('status' => 1, 'isAlive' => TRUE, 'message' => 'Successfully send quotation.');
 //            echo json_encode($responce);
                 $this->session->set_flashdata('message', 'Successfully send quotation.');

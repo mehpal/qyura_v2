@@ -108,6 +108,7 @@
                                 </div>
                                 <div class="clearfix m-t-20">
                                     <article class="col-md-2 p-0 pull-right m-r-20">
+                                        <?php  ?>
                                         <img src="<?php if (!empty($quotationDetail) && $quotationDetail[0]->miImg != '') { echo base_url($quotationDetail[0]->miImg); } else { echo base_url('assets/images/noImage.png'); } ?>" alt="" class="img-responsive patient-pic">
                                     </article>
                                     <article class="col-md-5 text-right pull-right">
@@ -116,15 +117,16 @@
                                     </article>
                                 </div>
                                 <div class="clearfix m-t-20 text-right">
-                                    <?php if ($isActive == 1) { ?>
-                                        <button  class="btn btn-success waves-effect waves-light m-r-10" type="submit">Modify Quotation </button>
+                                    <?php if ($isActive == 0) { ?>
+                                        <button  class="btn btn-success waves-effect waves-light m-r-10" type="submit">Modify & Send Quotation </button>
                                     <?php } else { ?>
                                         <a  class="btn btn-success waves-effect waves-light m-r-10" href="javascript:void(0)">Modify Quotation </a>
                                     <?php } ?>
-                                    <?php if ($isActive == 1) { ?>
-                                        <a class="btn btn-appointment waves-effect waves-light m-t-sm-10" href="<?php echo site_url('quotation/sendQuotationToUser') . '/' . $quotationDetail[0]->qId; ?>">Send Quotation</a>
+                                        
+                                    <?php if ($isActive == 0) { ?>
+<!--                                        <a class="btn btn-appointment waves-effect waves-light m-t-sm-10" href="////<?php // echo site_url('quotation/sendQuotationToUser') . '/' . $quotationDetail[0]->qId; ?>">Send Quotation</a>-->
                                     <?php } else { ?>
-                                        <a class="btn btn-appointment waves-effect waves-light m-t-sm-10" href="javascript:void(0)">Send Quotation</a>
+<!--                                        <a class="btn btn-appointment waves-effect waves-light m-t-sm-10" href="javascript:void(0)">Send Quotation</a>-->
                                     <?php } ?>
                                 </div>
                             </aside>
@@ -147,7 +149,7 @@
                                         <th>Test Name</th>
                                         <th>Instruction</th>
                                         <th>Pricing</th>
-                                        <?php if ($isActive == 1) { ?>
+                                        <?php if ($isActive == 0 && $quotationDetail[0]->qStatus == 25) { ?>
                                             <th>Action</th>
                                         <?php } ?>
                                     </tr>
@@ -156,7 +158,7 @@
                                     if (isset($quotationTest) && !empty($quotationTest)) {
                                         foreach ($quotationTest as $key => $val) {
                                             $total = $total + $val->price; ?>
-                                            <tr id="<?php echo $val->testId; ?>" class="edit_tr">
+                                            <tr id="<?php echo $val->testId; ?>" class="<?php echo ($isActive == 0 && $quotationDetail[0]->qStatus == 25)?'edit_tr': ''; ?>">
                                                 <td class="edit_td">
                                                     <h6 class="text" id="catName<?php echo $val->testId; ?>"><?php echo $val->catName; ?></h6>
                                                     <article id="catName_input_l<?php echo $val->testId; ?>" class="editbox" style="display:none">
@@ -189,7 +191,7 @@
                                                         <label class="error" style="display:none;" id="error-price<?php echo $val->testId; ?>">Price should be a number</label>
                                                     </article>
                                                 </td>
-                                                <?php if ($isActive == 1) { ?>
+                                                <?php if ($isActive == 0 && $quotationDetail[0]->qStatus == 25) { ?>
                                                 <td class="edit_td"> 
                                                     <a  onclick="deleteFn(<?php echo $val->testId; ?>)"  class="btn btn-danger btn-sm waves-effect waves-light m-tb-sm-3" href="javascript:void(0)">Delete</a>
                                                     <a  id="edit<?php echo $val->testId; ?>" class="btn btn-success btn-sm waves-effect waves-light m-tb-sm-3 text" href="javascript:void(0)" >Edit</a>
