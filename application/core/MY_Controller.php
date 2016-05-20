@@ -468,7 +468,7 @@ class MY_Controller extends CI_Controller {
 
         $this->email->initialize($config);
         $this->email->set_newline("\r\n");
-        $this->email->from('admin@qyuram.com', 'QYURA TEAM');
+        $this->email->from('support@qyura.com', 'QYURA TEAM');
         $this->email->to($emailId);
         $body = "Hello " . $emailId;
         $this->email->subject('Conguratilation! Welcome to Qyura');
@@ -588,14 +588,9 @@ class MY_Controller extends CI_Controller {
             return false;
         }
     }
+    
     function send_mail($from,$to,$subject,$title,$msg) {
         
-        $this->load->library('email');
-        
-        //$mesg = $this->load->view('email/signing_up_doctor_tpl', '', true);
-
-        $this->load->library('email');
-
         $config = array(
             'charset' => 'utf-8',
             'wordwrap' => TRUE,
@@ -603,19 +598,20 @@ class MY_Controller extends CI_Controller {
             'protocol' => 'sendmail',
             'mailpath' => '/usr/sbin/sendmail',
         );
-
+        
         $this->email->initialize($config);
-
+	$this->email->set_newline("\r\n");
         $this->email->to($to);
         $this->email->from($from,$title);
         $this->email->subject($subject);
         $this->email->message($msg);
         $mail = $this->email->send();
+        show_error($this->email->print_debugger());
         if ($mail)
             return true;
         else {
             return FALSE;
-            show_error($this->email->print_debugger());
+            
         }
     }
 

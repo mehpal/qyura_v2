@@ -657,7 +657,7 @@ class Quotation extends MY_Controller {
             $quotationType = $this->input->post('quotationType');  //0 for cunslting 1 for diagnostic
             $email_status = $this->input->post('email_status');
             
-            $email = $this->email = strtolower($this->input->post('patient_email'));
+            $email = strtolower($this->input->post('patient_email'));
             $username = explode('@', $email);
             $username = $this->username = $username[0];
             $length = 10;
@@ -860,7 +860,7 @@ class Quotation extends MY_Controller {
             $cronId = $this->common_model->customInsert($options);
             
             if ($isUpdate || $quotation_id) {
-		$from = "suport@qyura.com";
+		$from = "support@qyura.com";
                 $title = "QYURA TEAM";
                 $to = $email;
                 $subject = "Conguratilation! Welcome to Qyura";

