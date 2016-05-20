@@ -327,7 +327,7 @@ class Doctor extends MY_Controller {
             $this->email->initialize($config);
             $this->email->set_newline("\r\n");
             $this->email->to($to);
-            $this->email->from('admin@qyuram.com', 'QYURA TEAM');
+            $this->email->from('support@qyura.com', 'QYURA TEAM');
             $this->email->subject('Doctor');
             $body = $this->load->view('email/signing_up_doctor_tpl', $data, TRUE);
             $this->email->message($body);
