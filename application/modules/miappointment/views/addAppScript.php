@@ -666,5 +666,8 @@
             }
         });
     }
+     $('#resetButton').click(function() {
+     location.reload();
+ });
 
 </script>
