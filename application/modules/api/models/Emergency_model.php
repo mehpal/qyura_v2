@@ -171,7 +171,7 @@ class Emergency_model extends CI_Model {
         }
     }
 
-    public function getAmbulanceList($lat, $long, $notIn, $cityId = null,$openNow,$radius,$docOnBoard) {
+    public function getAmbulanceList($lat, $long, $notIn, $cityId = null,$openNow,$radius,$docOnBoard,$search) {
 
         $lat = isset($lat) ? $lat : '';
         $long = isset($long) ? $long : '';
@@ -189,6 +189,10 @@ class Emergency_model extends CI_Model {
             $havingRadius = array('distance <=' => $radius);
         }
 
+        $array = NULL;
+        if($search != NULL){
+            $array = array('ambulance_name' => $search, 'ambulance_address' => $search, 'diagnostic_address' => $search, 'hospital_address' => $search);
+        }
 
         $this->db->select('ambulance_id id, ambulance_name name, CONCAT("0","",SUBSTR(ambulance_phn, -10)) phn,
 (CASE WHEN(hospital_usersId is not null) THEN hospital_usersId WHEN(diagnostic_usersId is not null) THEN diagnostic_usersId ELSE  qyura_ambulance.ambulance_usersId END) as userId,
@@ -204,11 +208,20 @@ class Emergency_model extends CI_Model {
                 ->where($where)
                 ->where_not_in('ambulance_id', $notIn)
                 ->order_by('distance', 'ASC')
-                ->group_by('ambulance_id')
-                ->limit(DATA_LIMIT)
+                ->group_by('ambulance_id');
+                 
+                if($search != NULL){
+                    $this->db->group_start();
+                    $this->db->or_like($array); 
+                    $this->db->group_end();                    
+                }
+                
+                $this->db->limit(DATA_LIMIT)
                 ->having($havingRadius);
 
         $response = $this->db->get()->result();
+
+        // echo $this->db->last_query(); die();
         $finalResult = array();
         if (!empty($response)) {
             foreach ($response as $row) { 

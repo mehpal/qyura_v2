@@ -10,7 +10,7 @@ class Pharmacy_model extends CI_Model {
         parent::__construct();
     }
 
-    public function getPhamacyList($lat, $long, $notIn, $isemergency, $search, $cityId = NULL, $openNow,$radius) {
+    public function getPhamacyList($lat, $long, $notIn, $isemergency, $search, $cityId = NULL, $openNow,$radius,$homeD) {
 
         $lat = isset($lat) ? $lat : '';
         $long = isset($long) ? $long : '';
@@ -22,6 +22,11 @@ class Pharmacy_model extends CI_Model {
             $where['qyura_pharmacy.pharmacy_27Src'] = $isemergency;
         }
         
+        if($homeD == 1){
+                 $where['qyura_pharmacy.pharmecy_homeDelivery'] = $homeD;
+        }
+        
+        $havingRadius = NULL ;
         if ($cityId != NULL) {
             $where['qyura_pharmacy.pharmacy_cityId'] = $cityId;
         } else {

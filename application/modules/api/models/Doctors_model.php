@@ -91,6 +91,7 @@ CASE
 
         if ($cityId != NULL) {
             $cityCon = array('doctors_cityId' => $cityId);
+            $having['distance <='] = $radius;
             $this->db->where($cityCon);
         } else {
             $having['distance <='] = $radius;

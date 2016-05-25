@@ -27,12 +27,10 @@ class Medicart_model extends Common_model {
             return $this->db->get()->result();
              
         } else {
-            $this->db->select("(CASE WHEN(speciality_display_format = '0') THEN specialities_name ELSE specialities_drName END) as name, specialities_id, CONCAT('assets/specialityImages/3x','/',specialities_img) img,  (SELECT count(medicartSpecialities_medicartId) from qyura_medicartSpecialities JOIN `qyura_medicartOffer` ON `qyura_medicartOffer`.`medicartOffer_id` = `medicartSpecialities_medicartId` where `qyura_medicartOffer`.`status` = 1 AND medicartSpecialities_deleted = 0 AND `qyura_medicartSpecialities`.`status` = 1 AND `medicartSpecialities_specialitiesId` = `specialities_id`) as specialityCount, qyura_medicartOffer.modifyTime, medicartOffer_id,"
+            $this->db->select("(CASE WHEN(speciality_display_format = '0') THEN specialities_name ELSE specialities_drName END) as name, specialities_id, CONCAT('assets/specialityImages/3x','/',specialities_img) img ,  qyura_medicartOffer.modifyTime, medicartOffer_id,"
                             . "CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN qyura_hospital.hospital_name ELSE qyura_diagnostic.diagnostic_name END AS `MIName`,"
                             . "CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN qyura_hospital.hospital_lat ELSE qyura_diagnostic.diagnostic_lat END AS `lat`,"
-                            . "CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN qyura_hospital.hospital_long ELSE qyura_diagnostic.diagnostic_long END AS `long`, "
-                            . '(6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN qyura_hospital.hospital_lat ELSE qyura_diagnostic.diagnostic_lat END ) ) * cos( radians( CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN qyura_hospital.hospital_long ELSE qyura_diagnostic.diagnostic_long END ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN qyura_hospital.hospital_lat ELSE qyura_diagnostic.diagnostic_lat END ) ) )
-                ) AS distance')
+                            . "CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN qyura_hospital.hospital_long ELSE qyura_diagnostic.diagnostic_long END AS `long`")
                     ->from("qyura_specialities")
                     ->join('qyura_medicartSpecialities', 'qyura_medicartSpecialities.medicartSpecialities_specialitiesId=qyura_specialities.specialities_id', "inner")
                     ->join('qyura_medicartOffer', 'qyura_medicartOffer.medicartOffer_id = qyura_medicartSpecialities.medicartSpecialities_medicartId', 'inner')
@@ -40,8 +38,7 @@ class Medicart_model extends Common_model {
                     ->join('qyura_hospital', 'qyura_hospital.hospital_usersId=qyura_users.users_id', 'left')
                     ->join('qyura_diagnostic', 'qyura_diagnostic.diagnostic_usersId=qyura_users.users_id', 'left')
                     ->where(array("qyura_specialities.status" => 1, "specialities_deleted" => 0, "type" => 0))
-                    ->group_by("specialities_id")
-                    ->having(array("distance < " => 60));
+                    ->group_by("specialities_id");
 
             return $this->db->get()->result();
             
@@ -132,8 +129,10 @@ class Medicart_model extends Common_model {
                     ->or_where(array('qyura_diagnostic.diagnostic_deleted' => 0, 'qyura_hospital.hospital_deleted' => 0))
                     ->group_by('qyura_medicartOffer.medicartOffer_id')
                     ->limit(20);
-
-            return $this->db->get()->result();
+//                    ->having( "distance < 70" );
+                    
+            return $this->db->get()->result(); 
+            $this->db->last_query(); die();
         }
     }
 

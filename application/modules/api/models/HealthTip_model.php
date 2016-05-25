@@ -10,12 +10,11 @@ class HealthTip_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
-	
     }
     
     public function getSponsorTip($city, $date) {
         
-        $this->db->select('healthTips_id as tipId,category_name as tipCategory,healthTips_detail as tipDetail, CONCAT("assets/Health_tipimages","/",healthTips_image) as tipImage,(CASE WHEN (hospital_name is not null) THEN hospital_name WHEN (diagnostic_name is not null) THEN diagnostic_name WHEN (doctors_fName is not null) THEN CONCAT(doctors_fName, " ",doctors_lName) END) AS `sponsorBy`');
+        $this->db->select('healthTips_id as tipId,category_name as tipCategory,healthTips_detail as tipDetail, CONCAT("assets/Health_tipimages","/",healthTips_image) as tipImage,(CASE WHEN (hospital_name is not null) THEN hospital_name WHEN (diagnostic_name is not null) THEN diagnostic_name WHEN (doctors_fName is not null) THEN CONCAT(doctors_fName, " ",doctors_lName) END) AS `sponsorBy`, (CASE WHEN (hospital_name is not null) THEN hospital_usersId WHEN (diagnostic_name is not null) THEN diagnostic_usersId WHEN (doctors_fName is not null) THEN doctors_userId END) AS `sponsorId`, (CASE WHEN (hospital_name is not null) THEN "1" WHEN (diagnostic_name is not null) THEN "2" WHEN (doctors_fName is not null) THEN "3" END) AS `sponsorType`');
         $this->db->from('qyura_healthTipSponsor as hSponsor');
         
         $this->db->join('qyura_healthTips as htip', 'htip.healthTips_id = hSponsor.sponsor_tipId', 'inner');
@@ -30,9 +29,10 @@ class HealthTip_model extends CI_Model
         $this->db->group_by('tipId');
         $this->db->limit(20);
         $data = $this->db->get()->result();
+        // print_r($data);
 //        dump();
         return $data;
-//        echo $this->db->last_query();die();
+       // echo $this->db->last_query();die();
     }
     
     
@@ -40,7 +40,7 @@ class HealthTip_model extends CI_Model
         $date = date("Y-m-d");
         $date = strtotime($date);
         
-        $select = 'healthTips_id as tipId, category_name as tipCategory,healthTips_detail as tipDetail, CONCAT("assets/Health_tipimages","/",healthTips_image) as tipImage,0 as sponsorBy';
+        $select = 'healthTips_id as tipId, category_name as tipCategory,healthTips_detail as tipDetail, CONCAT("assets/Health_tipimages","/",healthTips_image) as tipImage,0 as sponsorBy, 0 AS `sponsorId`';    
         $tbl = "qyura_healthTips as htip";
         $this->db->select($select)->from($tbl)
                 ->join('qyura_healthCategory as hCat', 'hCat.category_id = htip.healthTips_categoryId', 'inner')

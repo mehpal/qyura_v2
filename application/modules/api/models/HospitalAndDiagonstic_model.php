@@ -78,16 +78,22 @@ class HospitalAndDiagonstic_model extends CI_Model {
 	$HAVING =  " HAVING `distance` <= ".$radius;
          
          if($search != null){
-             
+
+
              $hospitalJoin .= 'LEFT JOIN `qyura_hospitalServices` ON `qyura_hospitalServices`.`hospitalServices_hospitalId` = `qyura_hospital`.`hospital_id`';
              
              $hospitalJoin .= 'LEFT JOIN `qyura_hospitalDiagnosticsCat` ON `qyura_hospitalDiagnosticsCat`.`hospitalDiagnosticsCat_hospitalId` = `qyura_hospital`.`hospital_id`';
              
-            $hospitalJoin .= 'LEFT JOIN `qyura_diagnosticsCat` ON `qyura_diagnosticsCat`.`diagnosticsCat_catId` = `qyura_hospitalDiagnosticsCat`.`hospitalDiagnosticsCat_diagnosticsCatId`';
+             $hospitalJoin .= 'LEFT JOIN `qyura_diagnosticsCat` ON `qyura_diagnosticsCat`.`diagnosticsCat_catId` = `qyura_hospitalDiagnosticsCat`.`hospitalDiagnosticsCat_diagnosticsCatId`';
              
+               //$hospitalLike .= " AND `qyura_specialities`.`speciality_tag` LIKE '%$search%' ";
+             
+
              $hospitalLike = " AND (`hospital_name` LIKE '%$search%' OR `hospital_address` LIKE '%$search%' OR `hospitalServices_serviceName` LIKE  '%$search%' OR `diagnosticsCat_catName` LIKE '%$search%')  ";
              
              $dignoJoin .= 'LEFT JOIN `qyura_diagnosticServices` ON `qyura_diagnosticServices`.`diagnosticServices_diagnosticId` = `qyura_diagnostic`.`diagnostic_id`';
+             
+              //$diagnoLike .= " AND `qyura_specialities`.`speciality_tag` LIKE '%$search%' ";
              
              $diagnoLike = " AND (`diagnostic_name` LIKE '%$search%' OR `diagnostic_address` LIKE '%$search%' OR `diagnosticServices_serviceName` LIKE  '%$search%' OR `diagnosticsCat_catName` LIKE '%$search%') ";
              

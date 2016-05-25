@@ -19,7 +19,7 @@ class Hospital_model extends CI_Model {
 
         $where = array('hospital_deleted' => 0, 'qyura_hospital.status' => 1);
 
-        if ($isemergency != '' && $isemergency != NULL && $isemergency != 1) {
+        if ($isemergency != '' && $isemergency != NULL && $isemergency != 0) {
             $where['qyura_hospital.isEmergency'] = $isemergency;
         }
 
@@ -43,7 +43,11 @@ class Hospital_model extends CI_Model {
             $having['rat >= '] = $rating;
         }
 
-        $this->db->select('hospital_usersId as userId,hospital_id as id, availibility_24_7 as fullTime,  (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, hospital_address as adr ,hospital_name name, CONCAT("0","",hospital_phn) as  phn, hospital_lat lat, hospital_long long, qyura_hospital.modifyTime upTm, hospital_img imUrl, (
+        $this->db->select('hospital_usersId as userId,hospital_id as id, availibility_24_7 as fullTime, 
+         (CASE WHEN(fav_userId is not null ) THEN fav_isFav ELSE 0 END) fav, hospital_address as adr ,hospital_name name, 
+         CONCAT("0","",hospital_phn) as  phn, hospital_lat lat, 
+         hospital_long long, qyura_hospital.modifyTime upTm,
+          hospital_img imUrl, (
                 6371 * acos( cos( radians( ' . $lat . ' ) ) * cos( radians( hospital_lat ) ) * cos( radians( hospital_long ) - radians( ' . $long . ' ) ) + sin( radians( ' . $lat . ' ) ) * sin( radians( hospital_lat ) ) )
                 ) AS distance, Group_concat(DISTINCT insurance_Name SEPARATOR ", ") as insurance, Group_concat(DISTINCT (CASE specialityNameFormate WHEN 1 THEN qyura_specialities.specialities_drName WHEN 0 THEN qyura_specialities.specialities_name END) order by qyura_specialities.specialities_name SEPARATOR ", ") as specialities, isEmergency ' . $ambulance . ' ,(
 CASE 
@@ -85,7 +89,7 @@ CASE
             $this->db->join('qyura_hospitalDiagnosticsCat', 'qyura_hospitalDiagnosticsCat.hospitalDiagnosticsCat_hospitalId = qyura_hospital.hospital_id', 'left');
             $this->db->join('qyura_diagnosticsCat', 'qyura_diagnosticsCat.diagnosticsCat_catId = qyura_hospitalDiagnosticsCat.hospitalDiagnosticsCat_diagnosticsCatId', 'left');
 
-            $array = array('hospital_name' => $search, 'hospital_address' => $search, 'specialities_name' => $search, 'hospitalServices_serviceName' => $search, 'diagnosticsCat_catName' => $search);
+            $array = array('qyura_specialities.speciality_tag' => $search, 'hospital_name' => $search, 'hospital_address' => $search, 'specialities_name' => $search, 'hospitalServices_serviceName' => $search, 'diagnosticsCat_catName' => $search);
 
             $this->db->group_start();
             $this->db->or_like($array);
@@ -131,6 +135,7 @@ CASE
                 $finalTemp[] = isset($row->isAmbulance) && $row->isAmbulance > 0 ? "1" : "0";
                 $finalTemp[] = isset($row->isHealtPkg) && $row->isHealtPkg > 0 ? "1" : "0";
                 $finalTemp[] = isset($row->isInsurance) && $row->isInsurance > 0 ? "1" : "0";
+                $finalTemp[] = isset($row->userId) && $row->userId > 0 ? $row->userId : "";
                 $finalTemp[] = isset($row->insurance) && $row->insurance != "" ? $row->insurance : "0";
 
                 if ($openNow == 1) {
@@ -223,7 +228,17 @@ CASE
         $this->db->where(array('qyura_hospitalSpecialities.hospitalSpecialities_hospitalId' => $hospitalId, 'qyura_hospitalSpecialities.hospitalSpecialities_deleted' => 0, 'qyura_specialities.specialities_deleted' => 0));
         if ($limit != NULL)
             $this->db->limit($limit);
-        return $this->db->get()->result();
+        
+        $res = $this->db->get()->result();
+        
+//        dump($res);
+        
+        if( $res[0]-> specialitiesName != NULL)
+             return $res;
+        else
+            return array();
+        
+//        return $this->db->get()->result();
     }
 
     public function getHosHelthPkg($hospitalId) {
@@ -271,7 +286,7 @@ CASE
         $this->db->select('doctors_id, CONCAT("assets/doctorsImages/thumb/thumb_100","/",doctors_img) as doctors_img, doctors_fName, doctors_lName');
         $this->db->from('qyura_doctors');
         // $this->db->join('qyura_doctors','qyura_doctors.doctors_userId = qyura_usersRoles.usersRoles_userId','left');
-        $this->db->where(array('qyura_doctors.doctors_parentId' => $hospitalUsersId, 'qyura_doctors.doctors_roll' => ROLE_DOCTORE_CHILD));
+        $this->db->where(array('qyura_doctors.doctors_parentId' => $hospitalUsersId, 'qyura_doctors.doctors_roll' => ROLE_DOCTORE_CHILD, 'qyura_doctors.status' => 1));
         if ($limit != NULL)
             $this->db->limit($limit);
         $doctors = $this->db->get()->result();
@@ -301,7 +316,7 @@ CASE
     }
 
     public function getHosInsurance($hospitalId, $limit = NULL) {
-        $this->db->select('insurance_Name,insurance_id,CONCAT("assets/insuranceImages","/",insurance_img)insurance_img ');
+        $this->db->select('insurance_Name,insurance_id,CONCAT("assets/insuranceImages","/3x/",insurance_img)insurance_img ');
         $this->db->from('qyura_hospitalInsurance');
         $this->db->join('qyura_insurance', 'qyura_insurance.insurance_id=qyura_hospitalInsurance.hospitalInsurance_insuranceId', 'right');
         $this->db->where(array('qyura_hospitalInsurance.hospitalInsurance_hospitalId' => $hospitalId, 'qyura_hospitalInsurance.hospitalInsurance_deleted' => 0));

@@ -117,6 +117,8 @@ AND `healthPkgBooking_deleted` = 0';
                 ." `qyura_users`.`users_mobile` AS `usersMobile`,"
                 ."CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN qyura_hospital.hospital_address ELSE qyura_diagnostic.diagnostic_address END AS `address`,"
                 ."CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN qyura_hospital.hospital_name ELSE qyura_diagnostic.diagnostic_name END AS `miName`,"
+                        
+                ."CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN qyura_hospital.hospital_usersId ELSE qyura_diagnostic.diagnostic_usersId END AS `miID`,"
                 ."'' AS `remark`,"
                 ." 'Cash'  AS paymentMood, "
                 ." 'Paid'  AS paymentStatus, "
@@ -154,6 +156,7 @@ AND `healthPkgBooking_deleted` = 0';
                         ." `qyura_users`.`users_mobile` AS `usersMobile`,"
                         ."(CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_address WHEN(hospital_usersId is not null) THEN `hospital_address` END) as `address`,"
                         ."(CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_name WHEN(hospital_usersId is not null) THEN hospital_name END) as `miName`,"
+                        ."(CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_usersId WHEN(hospital_usersId is not null) THEN hospital_usersId END) as `miID`,"
                         ."healthPkgBooking_message AS `remark`,"
                         ."CASE WHEN (healthPkgBooking_bkStatus = 4) THEN (CASE WHEN (`reviews_details` <> '') THEN `reviews_details` ELSE 'Not Given' END ) ELSE '' END  AS `reviews`,"
                         ."CASE WHEN (healthPkgBooking_bkStatus = 4) THEN (CASE WHEN (`reviews_rating` <> 0) THEN `reviews_rating` ELSE '0' END ) ELSE '0' END  AS `rating`, "    
@@ -180,40 +183,51 @@ AND `healthPkgBooking_deleted` =0";
                     . "`qyura_doctorAppointment`.`doctorAppointment_unqId` AS `orderId`,"
                     . "`qyura_specialities`.`specialities_name` AS `speciality`,"
                     . "DATE_FORMAT(FROM_UNIXTIME(`qyura_doctorAppointment`.`doctorAppointment_date`),'%d %b, %Y') as date,"
-                    . "DATE_FORMAT(`doctorAvailabilitySession_start`,'%h:%i%p') as startTime,"
-                    . "DATE_FORMAT(`doctorAvailabilitySession_end`,'%h:%i%p') as endTime,"
+                    . "DATE_FORMAT(`docTimeDay_open`,'%h:%i%p') as startTime,"
+                    . "DATE_FORMAT(`docTimeDay_close`,'%h:%i%p') as endTime,"
                     . " CASE WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 1 ) THEN `qyura_hospital`.`hospital_address` WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 2 ) THEN `qyura_diagnostic`.`diagnostic_address` ELSE `qyura_doctors`.`doctor_addr` END AS `address`,"
+                    
                     ." CASE WHEN (docTimeTable_stayAt = 0) THEN psChamber_name ELSE  CASE WHEN (docTimeTable_MItype = 1) THEN hospital_name WHEN (docTimeTable_MItype = 2) THEN diagnostic_name ELSE '' END END AS name," 
+                       
                     . "CASE WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 1 ) THEN `qyura_hospital`.`hospital_name` WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 2 ) THEN `qyura_diagnostic`.`diagnostic_name` ELSE CONCAT(`qyura_doctors`.`doctors_fName`,' ',`qyura_doctors`.`doctors_lName`) END AS `miName`,"
+                     . "CASE WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 1 ) THEN `qyura_hospital`.`hospital_usersId` WHEN (`qyura_doctorAppointment`.`doctorAppointment_docType` = 2 ) THEN `qyura_diagnostic`.`diagnostic_usersId` ELSE  `qyura_doctors`.`doctors_userId` END AS `miID`,"
                     ."qyura_doctorAppointment.doctorAppointment_ptRmk AS `remark`,"
                     . "CASE WHEN (qyura_doctorAppointment.doctorAppointment_memberId <> 0 ) THEN qyura_usersFamily.usersfamily_name ELSE qyura_patientDetails.patientDetails_patientName END AS `userName`, "
                     . "CASE WHEN (qyura_doctorAppointment.doctorAppointment_memberId <> 0 ) THEN qyura_usersFamily.usersfamily_gender ELSE qyura_patientDetails.patientDetails_gender END AS `userGender`,"
                     . "`qyura_users`.`users_mobile` AS `usersMobile`, "
                     . "CASE WHEN (`qyura_doctorAppointment`.`doctorAppointment_memberId` <> 0 ) THEN qyura_usersFamily.usersfamily_age ELSE (FROM_UNIXTIME('{$now}', '%Y') - FROM_UNIXTIME(qyura_patientDetails.patientDetails_dob, '%Y')) END AS `userAge`,"
-                    ."CASE qyura_doctorAppointment.doctorAppointment_status WHEN '1' THEN 'Confirmed' WHEN '2' THEN 'Cancelled' WHEN '3' THEN 'Pending' WHEN '4' THEN 'Completed' ELSE '' END  AS `bookingStatus`,"
+                    
+                    . " CASE qyura_doctorAppointment.doctorAppointment_status WHEN '12' THEN 'Confirmed' WHEN '13' THEN 'Cancelled' WHEN '11' THEN 'Pending' WHEN '14' THEN 'Completed' WHEN '19' THEN 'Expired' ELSE '' END  AS `bookingStatus`,"
+                
                     ."CASE WHEN (doctorAppointment_status = 4) THEN (CASE WHEN (`reviews_details` <> '') THEN `reviews_details` ELSE 'Not Given' END ) ELSE '' END  AS `reviews`,"
                         ."CASE WHEN (doctorAppointment_status = 4) THEN (CASE WHEN (`reviews_rating` <> 0) THEN `reviews_rating` ELSE '0' END ) ELSE '0' END  AS `rating`, "
-                ." CASE WHEN (doctorAppointment_payStatus = 17 ) 'Cash' THEN 'Credit Card' ELSE '' END AS payStatus, "
-                . "CASE WHEN (doctorAppointment_payMode = 16 ) 'Paid' THEN 'Unpaid' ELSE '' END AS paymentMood, "
+                            
+                ." 'Cash'  AS paymentMood, "
+                ." 'Paid'  AS paymentStatus "
                 . "FROM `qyura_doctorAppointment`
             
                 LEFT JOIN `transactionInfo` ON `transactionInfo`.`order_no` = `qyura_doctorAppointment`.`doctorAppointment_unqId`
                 LEFT JOIN `qyura_users` ON `qyura_users`.`users_id`=`qyura_doctorAppointment`.`doctorAppointment_doctorUserId`
                 LEFT JOIN `qyura_hospital` ON `qyura_hospital`.`hospital_usersId`=`qyura_doctorAppointment`.`doctorAppointment_doctorParentId`
                 LEFT JOIN `qyura_diagnostic` ON `qyura_diagnostic`.`diagnostic_usersId`=`qyura_doctorAppointment`.`doctorAppointment_doctorParentId` 
-                LEFT JOIN `qyura_doctors` ON `qyura_doctors`.`doctors_userId` = `qyura_doctorAppointment`.`doctorAppointment_doctorUserId`
+                LEFT JOIN `qyura_doctors` ON `qyura_doctors`.`doctors_id` = `qyura_doctorAppointment`.`doctorAppointment_doctorUserId`
                 LEFT JOIN `qyura_specialities` ON `qyura_specialities`.`specialities_id`=`qyura_doctorAppointment`.`doctorAppointment_specialitiesId`
 
                 LEFT JOIN `qyura_usersFamily` ON `qyura_usersFamily`.`usersfamily_id`=`qyura_doctorAppointment`.`doctorAppointment_memberId`
                 LEFT JOIN `qyura_patientDetails` ON `qyura_patientDetails`.`patientDetails_usersId` = `qyura_doctorAppointment`.`doctorAppointment_pntUserId`
                 LEFT JOIN `qyura_reviews` ON `qyura_reviews`.`reviews_aptmntId`=`qyura_doctorAppointment`.`doctorAppointment_unqId`
-                LEFT JOIN `qyura_docTimeDay` ON `qyura_docTimeDay`.`reviews_aptmntId`=`qyura_doctorAppointment`.`doctorAppointment_unqId`
+                LEFT JOIN `qyura_docTimeDay` ON `qyura_docTimeDay`.`docTimeDay_id`=`qyura_doctorAppointment`.`doctorAppointment_slotId`
+                LEFT JOIN `qyura_docTimeTable` ON `qyura_docTimeTable`.`docTimeTable_id`=`qyura_docTimeDay`.`docTimeDay_docTimeTableId`
                 
+                    LEFT JOIN qyura_psChamber ON qyura_psChamber.psChamber_id = qyura_docTimeTable.docTimeTable_MIprofileId AND docTimeTable_stayAt = 0 AND qyura_psChamber.status = 1 
+                    
 
                 WHERE `qyura_doctorAppointment`.`doctorAppointment_pntUserId` = '{$userId}'
                 AND `doctorAppointment_unqId` = '".$orderId."'
                 AND `qyura_doctorAppointment`.`doctorAppointment_deleted` = 0
-                AND `qyura_doctorAppointment`.`doctorAppointment_date` <> 0";
+                AND `qyura_doctorAppointment`.`doctorAppointment_date` <> 0
+                
+                group by doctorAppointment_unqId ";
                 
                 return $sql3;
     }
