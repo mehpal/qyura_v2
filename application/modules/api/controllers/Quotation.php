@@ -180,9 +180,9 @@ class Quotation extends MyRest {
         $this->bf_form_validation->set_rules('familyId', 'Family Id', 'xss_clean|trim|numeric|max_length[11]|is_natural_no_zero');
         //$this->bf_form_validation->set_rules('testId[]', 'Test Id', 'xss_clean|trim|required|numeric|is_natural_no_zero');
 
-        $this->bf_form_validation->set_rules('totalAmount', 'Total Amount', 'xss_clean|trim|required|numeric|is_natural_no_zero|callback__checkTotalAmount');
+        $this->bf_form_validation->set_rules('totalAmount', 'Total Amount', 'xss_clean|trim|required|numeric|is_natural_no_zero');
 
-        //$this->bf_form_validation->set_rules('testAmount[]', 'test Amount', 'xss_clean|trim|required|numeric|is_natural_no_zero');
+        //$this->bf_form_validation->set_rules('testAmount[]', 'test Amount', 'xss_clean|trim|required|numeric|is_natural_no_zero'); |callback__checkTotalAmount
 
         if ($this->bf_form_validation->run($this) == FALSE) {
             // setup the input

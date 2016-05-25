@@ -61,6 +61,7 @@ class Auth extends CI_Controller {
                     //if the login is successful
                     //redirect them back to the home page
                     //$this->session->set_flashdata('message', $this->ion_auth->messages());
+                    
                     if(USER==13)
                     {
                         $userid = $this->session->userdata('ses_mi_userid');
@@ -75,6 +76,8 @@ class Auth extends CI_Controller {
                                           "ses_mi_profileid" => $result->hospital_id,
                                           "ses_mi_image" => $result->hospital_img,
                             ));
+                            
+                           
                         }
                         else
                         {

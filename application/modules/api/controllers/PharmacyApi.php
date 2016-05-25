@@ -39,8 +39,9 @@ class PharmacyApi extends MyRest {
             //city
             $cityId = isset($_POST['cityId']) ? $this->input->post('cityId') : NULL;
             $openNow = (isset($_POST['openNow'] )&& $_POST['openNow'] != 0) ? $this->input->post('openNow') : NULL;
+            $homeD = (isset($_POST['homeD'] )&& $_POST['homeD'] != 0) ? $this->input->post('homeD') : NULL;
 
-            $response['data'] = $this->pharmacy_model->getPhamacyList($lat, $long, $notIn, $isemergency, $search, $cityId, $openNow, $radius);
+            $response['data'] = $this->pharmacy_model->getPhamacyList($lat, $long, $notIn, $isemergency, $search, $cityId, $openNow, $radius,$homeD);
             $option = array('table' => 'pharmacy', 'select' => 'pharmacy_deleted');
             $deleted = $this->singleDelList($option);
             $response['pharmacy_deleted'] = $deleted;

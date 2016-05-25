@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Quotation extends MY_Controller {
+class Quotation extends Sub_Controller {
 
     public function __construct() {
         parent:: __construct();
@@ -8,6 +8,10 @@ class Quotation extends MY_Controller {
         $this->load->model('Quotation_model');
         $this->load->library('datatables');
         $this->load->helper('common_helper');
+        if(Users == 13)
+            $this->Common_model->mypermission("13");
+        if(USER == 7)
+            $this->Common_model->mypermission("7");
     }
 
     function index() {
@@ -16,12 +20,20 @@ class Quotation extends MY_Controller {
 
         //print_r($data);exit;
         $data['title'] = 'Quotations';
+        
+        if(USER==13)
+        $this->load->mi_template('quotationList', $data,'scriptQuotation');
+        else
         $this->load->super_admin_template('quotationList', $data, 'scriptQuotation');
     }
 
     function getQuotationDl() {
+        $condition = null;
         //echo 'test'; exit;
-        echo $this->Quotation_model->fetchQuotationDataTables();
+        if(USER==13)
+        $condition = array('quote.quotation_MiId'=>$this->miData->users_id); 
+        
+        echo $this->Quotation_model->fetchQuotationDataTables($condition);
     }
 
     function getQuotationHistoryDl() {
@@ -32,7 +44,13 @@ class Quotation extends MY_Controller {
         $data = array();
         $data['allCities'] = $this->Quotation_model->fetchCity();
         $data['title'] = 'Quotation History';
+        
+        if(USER==13)
+        $this->load->mi_template('quotationHistory', $data,'scriptQuotation');
+        else
         $this->load->super_admin_template('quotationHistory', $data, 'scriptQuotation');
+        
+        
     }
 
     function sendQuotationToUser($qId) {
@@ -106,10 +124,22 @@ class Quotation extends MY_Controller {
         $data['title'] = 'Quotation request';
         $data['quotationDetail'] = $this->Quotation_model->fetchQuotationData($conditionId);
         
+        if(USER==13 && $data['quotationDetail'][0]->MI != $this->miData->users_id){
+        $this->ion_auth->logout();
+        $this->session->set_flashdata('message', 'You do not have access to this page!');
+        redirect('auth/login/err', "refresh");
+        }
+        
         $data['quotationPrescription'] = $this->Quotation_model->fetchQuotationPrescription($conditionId);
         $data['quotationTest'] = $this->Quotation_model->getQuotationTests($conditionId);
         $data['dignoCat'] = $this->Quotation_model->getDiagnoCat();
+        
+        if(USER==13)
+        $this->load->mi_template('quotationDetail', $data,'scriptQuotation');
+        else
         $this->load->super_admin_template('quotationDetail', $data, 'scriptQuotation');
+        
+        
     }
 
     function fileDownload() {
@@ -131,6 +161,12 @@ class Quotation extends MY_Controller {
         $data = array();
         $data['title'] = 'Quotation modify';
         $data['quotationDetail'] = $this->Quotation_model->fetchQuotationData($conditionId);
+        
+        if(USER==13 && $data['quotationDetail'][0]->MI != $this->miData->users_id){
+        $this->ion_auth->logout();
+        $this->session->set_flashdata('message', 'You do not have access to this page!');
+        redirect('auth/login/err', "refresh");
+        }
 
         $type = $data['quotationDetail'][0]->miType != 'diagnostic' ? 0 : 1;
         //$data['mITimeSloat'] = $this->Quotation_model->getTimeSloat($type, $data['quotationDetail'][0]->miPfId);
@@ -140,7 +176,12 @@ class Quotation extends MY_Controller {
         $data['quotationPrescription'] = $this->Quotation_model->fetchQuotationPrescription($conditionId);
         $data['quotationTest'] = $this->Quotation_model->getQuotationTests($conditionId);
         $data['dignoCat'] = $this->Quotation_model->getDiagnoCat();
+        
+        if(USER==13)
+        $this->load->mi_template('quotationEdit', $data,'scriptQuotation');
+        else
         $this->load->super_admin_template('quotationEdit', $data, 'scriptQuotation');
+        
     }
 
     /**
@@ -336,7 +377,12 @@ class Quotation extends MY_Controller {
         //fetch from uri
         $data['quotationId'] = isset($_GET['qid']) ? $this->input->get('qid') : '';
         $data['title'] = 'Send Quotations';
+        
+        if(USER==13)
+        $this->load->mi_template('sendQuotation', $data,'scriptQuotation');
+        else
         $this->load->super_admin_template('sendQuotation', $data, 'scriptQuotation');
+        
     }
 
     function getMI() {
@@ -631,7 +677,7 @@ class Quotation extends MY_Controller {
             $this->bf_form_validation->set_rules("input30_$j", "Price $j", 'required');
             $this->bf_form_validation->set_rules("input31_$j", "Instruction $j", 'required');
         }
-
+        
         if ($this->bf_form_validation->run() == FALSE) {
 
             $userStateId = isset($_POST['userStateId']) ? $_POST['userStateId'] : NULL;
@@ -648,7 +694,7 @@ class Quotation extends MY_Controller {
          //   $quoDatetime = str_replace('/', '-', $quoDatetime);
             $MIprofileId = $this->input->post('miId'); 
             $MIprofileId = explode(',', $MIprofileId);
-
+            
             $consultFee = $this->input->post('consulationFee');
             $tax = $this->input->post('tax');
 
@@ -804,6 +850,7 @@ class Quotation extends MY_Controller {
                 $quotationDetail = $this->common_model->customInsert($options);
             }
 
+            
             /* insert data in transaction table */
 
 //            $transaction_array2 = array(
@@ -858,8 +905,9 @@ class Quotation extends MY_Controller {
             );
 
             $cronId = $this->common_model->customInsert($options);
-            
+               
             if ($isUpdate || $quotation_id) {
+                
 		$from = "support@qyura.com";
                 $title = "QYURA TEAM";
                 $to = $email;
@@ -875,6 +923,7 @@ class Quotation extends MY_Controller {
                 $this->session->set_flashdata('message', 'Successfully send quotation.');
                 redirect('quotation/sendQuotation');
             } else {
+               
 //                $responce = array('status' => 0, 'isAlive' => TRUE, 'message' => 'Failed to send quotation.');
 //               echo json_encode($responce);
                 $this->session->set_flashdata('error', 'Failed to send quotation.');
@@ -908,6 +957,12 @@ class Quotation extends MY_Controller {
         $data['quotationId'] = $quotationId = isset($_GET['qid']) ? $this->input->get('qid') : '';
         $con = array('qyura_quotations.quotation_id' => $quotationId);
         $data['qtRow'] = $qtRow = $this->Quotation_model->getQuotationDetail($con);
+        
+        if(USER==13 && $qtRow->quotation_MiId != $this->miData->users_id){
+        $this->ion_auth->logout();
+        $this->session->set_flashdata('message', 'You do not have access to this page!');
+        redirect('auth/login/err', "refresh");
+        }
         
 //        dump(qyura_city);
 //        exit();
@@ -946,6 +1001,10 @@ class Quotation extends MY_Controller {
 
 
         $data['title'] = 'Repy Quotations';
+        
+        if(USER==13)
+        $this->load->mi_template('replyQuotation', $data,'scriptQuotation');
+        else
         $this->load->super_admin_template('replyQuotation', $data, 'scriptQuotation');
     }
 

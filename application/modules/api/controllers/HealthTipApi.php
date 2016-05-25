@@ -9,14 +9,16 @@ class HealthTipApi extends MyRest {
     function __construct() {
         // Construct our parent class
         parent::__construct();
-//        echo "HI    ";
-//        exit();
+       // echo $this->common_model->encryptPassword("123456");
+       // exit();
+        // echo "Hi";
         $this->load->model(array('HealthTip_model'));
     }
 
     function todaytip_post() {
            
-            $cityId = isset($_POST['cityId']) ? $this->input->post('cityId') : NULL; 
+           $cityId = isset($_POST['cityId']) ? $this->input->post('cityId') : NULL; 
+            
             $date = strtotime(date("Y-m-d")); 
            
             $sponserTip = NULL;
@@ -32,11 +34,10 @@ class HealthTipApi extends MyRest {
                 $response['status'] = TRUE;
                 $response["data"] = $sponserTip;
                 $response['msg'] = 'success';
-                $this->response($response, 200);
-                return;
+                $this->response($response, 200); 
             }else{
 //                echo "HERE";
-                $response['data'] = $sponserTip = $this->HealthTip_model->getRandomTip($date);
+                $response['data'][] = $sponserTip = $this->HealthTip_model->getRandomTip($date);
                 
                 if(isset($sponserTip) && $sponserTip != NULL){
                     $response['status'] = TRUE;

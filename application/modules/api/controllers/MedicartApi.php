@@ -43,25 +43,47 @@ class MedicartApi extends MyRest {
                 $all["specialityCount"] = $count;
                 $finalArray[] = $all;
                 $dateArray = array();
+                $uniqueArray = array();
+
                 foreach ($specialities as $sp) {
 
-                    $medicartCount = (isset($sp->specialityCount) && $sp->specialityCount != NULL) ? $sp->specialityCount : "0";
-                    
-//                    if ($medicartCount != 0) {
+                    if ((!in_array($sp->specialities_id, $uniqueArray) ) && $sp->distance < 70) {
+
+                        $uniqueArray[] = $id = $sp->specialities_id;
+                        $sql = "";
+                        if ($lat != NULL && $lang != NULL) {
+                            $sql = "SELECT  (6371 * acos( cos( radians(  $lat  ) ) * cos( radians( CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN qyura_hospital.hospital_lat ELSE qyura_diagnostic.diagnostic_lat END ) ) * cos( radians( CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN qyura_hospital.hospital_long ELSE qyura_diagnostic.diagnostic_long END ) - radians(  $lang ) ) + sin( radians(  $lat ) ) * sin( radians( CASE WHEN (`qyura_hospital`.`hospital_usersId` <> 0 ) THEN qyura_hospital.hospital_lat ELSE qyura_diagnostic.diagnostic_lat END ) ) )
+                ) AS distance FROM qyura_medicartOffer 
+JOIN `qyura_medicartSpecialities` ON `qyura_medicartOffer`.`medicartOffer_id` = `qyura_medicartSpecialities`.`medicartSpecialities_medicartId` 
+LEFT JOIN `qyura_users` ON `qyura_users`.`users_id`=`qyura_medicartOffer`.`medicartOffer_MIId`
+LEFT JOIN `qyura_hospital` ON `qyura_hospital`.`hospital_usersId`=`qyura_users`.`users_id`
+LEFT JOIN `qyura_diagnostic` ON `qyura_diagnostic`.`diagnostic_usersId`=`qyura_users`.`users_id` 
+WHERE `qyura_medicartOffer`.`status` = 1 
+AND medicartSpecialities_deleted = 0 
+AND `qyura_medicartSpecialities`.`status` = 1 
+AND `medicartSpecialities_specialitiesId` = {$id} 
+HAVING distance < 70";
+                        } else {
+                            $sql = "SELECT count(medicartSpecialities_medicartId)  as specialityCount from qyura_medicartSpecialities
+                JOIN `qyura_medicartOffer` ON `qyura_medicartOffer`.`medicartOffer_id` = `medicartSpecialities_medicartId`  
+                where `qyura_medicartOffer`.`status` = 1 AND medicartSpecialities_deleted = 0 AND `qyura_medicartSpecialities`.`status` = 1 AND `medicartSpecialities_specialitiesId` = {$id} AND city = {$city } ";
+                        }
+                        $countValu = $this->db->query($sql)->num_rows();
+                        $medicartCount = (isset($countValu) && $countValu != NULL) ? $countValu : "0";
 
                         $array["specialities_id"] = (isset($sp->specialities_id) && $sp->specialities_id != NULL) ? $sp->specialities_id : "";
-                        $dateArray[] =$sp->medicartOffer_id;
-                        
+                        $dateArray[] = $sp->medicartOffer_id;
+
                         $array["name"] = (isset($sp->name) && $sp->name != NULL) ? $sp->name : "";
                         $array["specialitiesImg"] = (isset($sp->img) && $sp->img != NULL) ? $sp->img : "";
 
-                        $array["specialityCount"] = (isset($sp->specialityCount) && $sp->specialityCount != NULL) ? $sp->specialityCount : "";
+                        $array["specialityCount"] = $medicartCount;
+
                         $count = $count + $array['specialityCount'];
                         $finalArray[] = $array;
-//                    }
+                    }
                 }
-                
-//                $vals = array_count_values($dateArray); 
+
                 $finalArray[0]["specialityCount"] = "" . count(array_unique($dateArray)) . "";
             }
 
@@ -101,7 +123,7 @@ class MedicartApi extends MyRest {
 
             $option['notIn'] = explode(',', $notIn);
 
-            $aoClumns = array("medicartOffer_id", "MIId", "offerCategory", "title", "image", "description", "endDate", "actualPrice", "discountPrice", "by", "allowBooking", "maximumBooking", "phnNo", "remainBookings");
+            $aoClumns = array("medicartOffer_id", "MIId", "offerCategory", "title", "image", "description", "endDate", "actualPrice", "discountPrice", "by", "allowBooking", "maximumBooking", "phnNo", "remainBookings",);
 
             $medList = $this->medicart_model->getMedlists($option);
             $finalResult = array();
@@ -110,51 +132,63 @@ class MedicartApi extends MyRest {
                 if (!empty($medList)) {
                     foreach ($medList as $row) {
 
-                        $finalTemp = array();
+                        if ($row->diagDistance > 70 || $row->hosDistance > 70) {
+                            
+                        } else {
 
-                        $finalTemp[] = $medicartOffer_id = isset($row->medicartOffer_id) ? $row->medicartOffer_id : "";
-                        $finalTemp[] = isset($row->medicartOffer_MIId) ? $row->medicartOffer_MIId : "";
-                        $finalTemp[] = isset($row->medicartOffer_offerCategory) ? $row->medicartOffer_offerCategory : "";
-                        $finalTemp[] = isset($row->medicartOffer_title) ? $row->medicartOffer_title : "";
-                        $finalTemp[] = isset($row->medicartOffer_image) ? $row->medicartOffer_image : "";
-                        $finalTemp[] = isset($row->medicartOffer_description) ? $row->medicartOffer_description : "";
-                        $finalTemp[] = isset($row->medicartOffer_endDate) ? $row->medicartOffer_endDate : "";
-                        $finalTemp[] = (isset($row->medicartOffer_actualPrice) && $row->medicartOffer_actualPrice != "") ? $row->medicartOffer_actualPrice : "0";
-                        $finalTemp[] = (isset($row->medicartOffer_discount) && $row->medicartOffer_discount == 0) ? "0" : isset($row->medicartOffer_discountPrice) ? $row->medicartOffer_discountPrice : "0";
 
-                        $diagnostic_name = (isset($row->diagnostic_name) && $row->diagnostic_name != null && $row->diagnostic_name != '') ? $row->diagnostic_name : "";
-                        $hospital_name = (isset($row->hospital_name) && $row->hospital_name != null && $row->hospital_name != '') ? $row->hospital_name : "";
 
-                        $diagnostic_phn = (isset($row->diagnostic_phn) && $row->diagnostic_phn != null && $row->diagnostic_phn != '') ? $row->diagnostic_phn : "";
+                            $finalTemp = array();
+//
+                            $finalTemp[] = $medicartOffer_id = isset($row->medicartOffer_id) ? $row->medicartOffer_id : "";
+                            $finalTemp[] = isset($row->medicartOffer_MIId) ? $row->medicartOffer_MIId : "";
+//                            $finalTemp[] = $medicartOffer_id = isset($row->diagDistance) ? $row->diagDistance : "";
+//                            $finalTemp[] = isset($row->hosDistance) ? $row->hosDistance : "";
+                            $finalTemp[] = isset($row->medicartOffer_offerCategory) ? $row->medicartOffer_offerCategory : "";
+                            $finalTemp[] = isset($row->medicartOffer_title) ? $row->medicartOffer_title : "";
+                            $finalTemp[] = isset($row->medicartOffer_image) ? $row->medicartOffer_image : "";
+                            $finalTemp[] = isset($row->medicartOffer_description) ? $row->medicartOffer_description : "";
+                            $finalTemp[] = isset($row->medicartOffer_endDate) ? $row->medicartOffer_endDate : "";
+                            $finalTemp[] = (isset($row->medicartOffer_actualPrice) && $row->medicartOffer_actualPrice != "") ? $row->medicartOffer_actualPrice : "0";
+                            $finalTemp[] = (isset($row->medicartOffer_discount) && $row->medicartOffer_discount == 0) ? "0" : isset($row->medicartOffer_discountPrice) ? $row->medicartOffer_discountPrice : "0";
 
-                        $hospital_phn = (isset($row->hospital_phn) && $row->hospital_phn != null && $row->hospital_phn != '') ? $row->hospital_phn : "";
-                        $by = "";
+                            $diagnostic_name = (isset($row->diagnostic_name) && $row->diagnostic_name != null && $row->diagnostic_name != '') ? $row->diagnostic_name : "";
+                            $hospital_name = (isset($row->hospital_name) && $row->hospital_name != null && $row->hospital_name != '') ? $row->hospital_name : "";
 
-                        if ($hospital_name != "")
-                            $by = $hospital_name;
-                        elseif ($diagnostic_name != "") {
-                            $by = $diagnostic_name;
+                            $diagnostic_phn = (isset($row->diagnostic_phn) && $row->diagnostic_phn != null && $row->diagnostic_phn != '') ? $row->diagnostic_phn : "";
+
+                            $hospital_phn = (isset($row->hospital_phn) && $row->hospital_phn != null && $row->hospital_phn != '') ? $row->hospital_phn : "";
+                            $by = "";
+
+                            if ($hospital_name != "")
+                                $by = $hospital_name;
+                            elseif ($diagnostic_name != "") {
+                                $by = $diagnostic_name;
+                            }
+                            if ($hospital_phn != "")
+                                $phnNo = $hospital_phn;
+                            elseif ($diagnostic_phn != "") {
+                                $phnNo = $diagnostic_phn;
+                            }
+
+                            $phnNo = str_replace('0', '', $phnNo);
+                            $phnNo = str_replace(' ', '', $phnNo);
+                            $phnNo = trim($phnNo);
+
+                            $finalTemp[] = $by;
+
+                            $finalTemp[] = 1;
+                            // isset($row->medicartOffer_allowBooking) ? $row->medicartOffer_allowBooking : "";
+                            $finalTemp[] = 1;
+                            // isset($row->medicartOffer_maximumBooking) ? $row->medicartOffer_maximumBooking : "";
+                            $finalTemp[] = $phnNo;
+
+                            $count = 10;
+                            // $this->getBoookingCount($medicartOffer_id);
+                            $finalTemp[] = $count;
+
+                            $finalResult[] = $finalTemp;
                         }
-                        if ($hospital_phn != "")
-                            $phnNo = $hospital_phn;
-                        elseif ($diagnostic_phn != "") {
-                            $phnNo = $diagnostic_phn;
-                        }
-
-                        $phnNo = str_replace('0', '', $phnNo);
-                        $phnNo = str_replace(' ', '', $phnNo);
-                        $phnNo = trim($phnNo);
-
-                        $finalTemp[] = $by;
-
-                        $finalTemp[] = isset($row->medicartOffer_allowBooking) ? $row->medicartOffer_allowBooking : "";
-                        $finalTemp[] = isset($row->medicartOffer_maximumBooking) ? $row->medicartOffer_maximumBooking : "";
-                        $finalTemp[] = $phnNo;
-
-                        $count = $this->getBoookingCount($medicartOffer_id);
-                        $finalTemp[] = $count;
-
-                        $finalResult[] = $finalTemp;
                     }
                 }
             }
@@ -320,7 +354,7 @@ class MedicartApi extends MyRest {
             $this->response($response, 400);
         } else {
             $medicartOfferId = isset($_POST['medicartOfferId']) ? $this->input->post('medicartOfferId') : '';
-            
+
             if ($this->getBoookingCount($medicartOfferId) <= 0) {
                 $response = array('status' => FALSE, 'message' => "Sorry!! Bookings are full for this medicart.");
                 $this->response($response, 400);
@@ -336,9 +370,9 @@ class MedicartApi extends MyRest {
 //                    'medicartBooking_deleted' => 0);
 //
 //                $booking_check = $this->medicart_model->booking_check($where);
-                
+
                 $booking_check = 0; // No Limit of booking for a user
-                
+
                 if (!$booking_check) {
 
                     $data = array(

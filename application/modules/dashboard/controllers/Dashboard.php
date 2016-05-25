@@ -127,7 +127,7 @@ class Dashboard extends CI_Controller {
 
 
 	}
- public function docdashboard()
+        public function docdashboard()
 	{
             echo "Doctor Dashboard";
             $this->Common_model->mypermission("4");

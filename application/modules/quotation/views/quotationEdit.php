@@ -207,8 +207,8 @@
                             </section>
                             <h5 class="h5-title text-right">Tax : <?php echo $tex = $quotationDetail[0]->tex; ?> %</h5>
                             <h5 class="h5-title text-right">Other Fee :<?php echo $otherFee = $quotationDetail[0]->otherFee; ?></h5>
-                                <?php $price = $otherFee + $total; ?>
-                            <h5 class="h5-title text-right">Total Quotation Amount : <?php echo getIntrast($price, $tex); ?></h5>
+                                <?php $price = getIntrast($total, $tex); ?>
+                            <h5 class="h5-title text-right">Total Quotation Amount : <?php echo $otherFee + $price; ?></h5>
                         </aside>
                     </article>
                     <!-- Bottom Secton Ends-->

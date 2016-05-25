@@ -5,12 +5,18 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <link href="<?php echo base_url();?>assets/images/fevicon-m.ico" rel="shortcut icon">
-    <title>Dashboard</title>
+    <title>Qyura | <?php if(isset($title) && !empty($title)): echo ucwords($title); endif; ?></title>
     <link href="<?php echo base_url();?>assets/css/framework.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/datepicker.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/css/custom-g.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/css/custom-r.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/vendor/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+    <link href="<?php echo base_url();?>assets/vendor/select2/select2.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url();?>assets/css/responsive-r.css" rel="stylesheet" />
-    <link type="text/css" href="<?php echo base_url();?>assets/vendor/js-scroll/style/scroll-2.css" rel="stylesheet" />
+    <!-- DataTables -->
+    <link href="<?php echo base_url(); ?>assets/js/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <script src="<?php echo base_url();?>assets/js/modernizr.min.js"></script>
+    <link href="<?php echo base_url();?>assets/vendor/timepicker/bootstrap-timepicker.min.css" rel="stylesheet" />
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -169,7 +175,7 @@
                             <li><a href="upload-reports.html">Upload Test Reports</a></li>
                         </ul>
                     </li>
-                    <li class="has_sub">
+<!--                    <li class="has_sub">
                         <a class="waves-effect" href="#"><i class="ion-clipboard"></i> 
                             <span>Quotations</span><span class="pull-right"><i class="md md-add"></i></span></a>
                         <ul class="list-unstyled">
@@ -177,7 +183,17 @@
                             <li><a href="send-quote.html">Send a Quote</a></li>
                             <li><a href="quote-history.html">Quotation History</a></li>
                         </ul>
-                    </li>
+                    </li>-->
+                        <li class="has_sub">
+                             <a class="waves-effect <?php if($this->router->fetch_class() == 'quotation'):echo"boldTitle  active";endif;?>" href="#"><i class="ion-clipboard"></i> 
+                        <span>Quotations</span><span class="pull-right"><i class="md md-add"></i></span></a>
+                            <ul class="list-unstyled">
+<!--                                <li><a href="#">Pending Quotation Req.</a></li>-->
+                                <li class="<?php if($this->router->fetch_class() == 'quotation' && $this->router->fetch_method() != 'sendQuotation' && $this->router->fetch_method() != 'quotationHistory'):echo"boldTitle  active";endif;?>"><a href="<?php echo base_url();?>index.php/quotation">All Quotation Requests</a></li>
+                                <li class="<?php if($this->router->fetch_class() == 'quotation' && $this->router->fetch_method() == 'sendQuotation'):echo"boldTitle  active";endif;?>"><a href="<?php echo base_url();?>index.php/quotation/sendQuotation">Send a Quote</a></li>
+                                <li class="<?php if($this->router->fetch_class() == 'quotation' && $this->router->fetch_method() == 'quotationHistory'):echo"boldTitle  active";endif;?>"><a href="<?php echo base_url();?>index.php/quotation/quotationHistory">Quotation History</a></li>
+                            </ul>
+                        </li>
                     <li class="has_sub">
                         <a class="waves-effect" href="#"><i class="fa fa-newspaper-o"></i><span>Healthcare Packag.</span><span class="pull-right"><i class="md md-add"></i></span></a>
                         <ul class="list-unstyled">
@@ -257,6 +273,4 @@
         </div>
     </div>
     <!-- Left Sidebar End -->
-      <!-- Start right Content here -->
-    <div class="content-page">
-        <!-- Start content -->
+    

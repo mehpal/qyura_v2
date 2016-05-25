@@ -21,7 +21,7 @@ class DoctorBooking extends MyRest {
         $this->bf_form_validation->set_rules('parentId','Mi Id','xss_clean|numeric|required|trim'); // 0=indi Doctor
         $this->bf_form_validation->set_rules('consulationFee','consulationFee','xss_clean|required|trim|numeric');
         $this->bf_form_validation->set_rules('tax','tax','xss_clean|trim|numeric');
-        $this->bf_form_validation->set_rules('remark','Remark','xss_clean|required|trim|max_length[100]'); // Remark
+        $this->bf_form_validation->set_rules('remark','Remark','xss_clean|trim|max_length[100]'); // Remark
        
         if ($this->bf_form_validation->run($this) == FALSE) {
             // setup the input

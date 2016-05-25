@@ -785,8 +785,8 @@ class Auth extends MyRest {
         $this->bf_form_validation->set_rules('userId', 'user id', 'required|numeric|xss_clean');
         //|matches[new_confirm]
         $this->bf_form_validation->set_rules('new', $this->lang->line('change_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'auth_conf_api') . ']|max_length[' . $this->config->item('max_password_length', 'auth_conf_api') . ']|xss_clean');
-        //$this->bf_form_validation->set_rules('new_confirm', $this->lang->line('change_password_validation_new_password_confirm_label'), 'required');
-        //$this->bf_form_validation->set_rules('old', $this->lang->line('change_password_validation_old_password_label'), 'required');
+        $this->bf_form_validation->set_rules('new_confirm', $this->lang->line('change_password_validation_new_password_confirm_label'), 'required');
+        $this->bf_form_validation->set_rules('old', $this->lang->line('change_password_validation_old_password_label'), 'required');
 
         if (isset($_POST['userId']))
             $user = $this->ion_auth_api->user($this->input->post('userId'))->row();
@@ -801,8 +801,8 @@ class Auth extends MyRest {
             $identityCol = $this->config->item('identity', 'auth_conf_api');
             $identity = $user->$identityCol;
 
-            //$change = $this->ion_auth_api->change_password($identity, $this->input->post('old'), $this->input->post('new'));
-            $change = $this->ion_auth_api->change_password($identity, '', $this->input->post('new'));
+            $change = $this->ion_auth_api->change_password($identity, $this->input->post('old'), $this->input->post('new'));
+           // $change = $this->ion_auth_api->change_password($identity, '', $this->input->post('new'));
 
             if ($change) {
                 $response = array('status' => TRUE, 'message' => $this->ion_auth_api->messages());
@@ -819,7 +819,7 @@ class Auth extends MyRest {
     function edit_user_post() {
 
         $this->bf_form_validation->set_rules('name', 'name', 'required|callback__alpha_dash_space|max_length[80]|xss_clean');
-        $this->bf_form_validation->set_rules('lname', 'last name', 'required|callback__alpha_dash_space|max_length[60]|xss_clean');
+        $this->bf_form_validation->set_rules('lname', 'last name', 'max_length[60]|xss_clean');
         $this->bf_form_validation->set_rules('logintype', 'logintype', 'required|min_length[1]|max_length[1]|numeric|xss_clean');
         $this->bf_form_validation->set_rules('mobileNo', 'mobileNo', 'required|min_length[10]|max_length[10]|numeric|xss_clean');
         $this->bf_form_validation->set_rules('userId', 'user id', 'required|numeric');
@@ -1082,7 +1082,7 @@ class Auth extends MyRest {
     }
 
 function send_mail_user($from,$to,$subject,$title,$msg) {
-
+	$this->load->library('email');
         $config = array(
             'charset' => 'utf-8',
             'wordwrap' => TRUE,
@@ -1092,7 +1092,7 @@ function send_mail_user($from,$to,$subject,$title,$msg) {
         );
 
         $this->email->initialize($config);
-
+	$this->email->set_newline("\r\n");
         $this->email->to($to);
         $this->email->from($from,$title);
         $this->email->subject($subject);

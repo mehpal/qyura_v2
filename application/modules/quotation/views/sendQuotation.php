@@ -1,4 +1,5 @@
 <!-- Start right Content here -->
+<?php //dump($this->miData); exit(); ?>
 <div class="content-page">
     <!-- Start content -->
     <div class="content">
@@ -23,6 +24,10 @@
                                 <article class="clearfix m-t-10">
                                     <label class="control-label col-md-4 col-sm-4">Select City :</label>
                                     <div class="col-md-8 col-sm-8">
+                                        <?php  if($this->miData){ ?>
+                                        <input type="hidden" name="city_id" id="appointment_city" value="<?php echo $this->miData->cityId; ?>" />
+                                        <label><?php echo $this->miData->city_name; ?></label>
+                                        <?php }else { ?>
                                         <select class="form-control select2" data-width="100%" name="city_id" onchange="getMI()" id="appointment_city">
                                             <option value="">Select City</option>
                                             <?php if (isset($qyura_city) && $qyura_city != NULL) {
@@ -30,26 +35,41 @@
                                                     <option <?php echo set_select('city_id', $city->city_id); ?> value="<?php echo $city->city_id; ?>"><?php echo $city->city_name; ?></option>
                                                     <?php } } ?>
                                         </select>
+                                        <?php } ?>
+                                        
+                                        
+                                        
                                         <div class="has-error " id="err_city_id" ><?php echo form_error("city_id"); ?></div>
                                     </div>
                                 </article>
                                 <article class="clearfix m-t-10">
                                     <label class="control-label col-md-4 col-sm-4">MI Type :</label>
                                     <div class="col-md-8 col-sm-8">
+                                        <?php  if($this->miData){ ?>
+                                        <input type="hidden" name="miType" id="centerType" value="<?php echo $this->miData->miOptLabel; ?>" />
+                                        <label><?php echo $this->miData->label; ?></label>
+                                        <?php }else { ?>
+                                        
                                         <select class="form-control select2" data-width="100%" name="miType" onchange="getMI();" id="centerType">
                                             <option <?php echo set_select('miType', '', true); ?> value="">Select Type</option>
                                             <option <?php echo set_select('miType', 0); ?> value="0">Hospitals</option>
                                             <option <?php echo set_select('miType', 1); ?> value="1">Diagnostic Center</option>
                                         </select>
+                                         <?php } ?>
                                         <div class="has-error " id="err_miType" ><?php echo form_error("miType"); ?></div>
                                     </div>
                                 </article>
                                 <article class="clearfix m-t-10 ">
                                     <label class="control-label col-md-4 col-sm-4">MI Name :</label>
                                     <div class="col-md-8 col-sm-8">
+                                        <?php  if($this->miData){ ?>
+                                        <input type="hidden" name="miId" id="mi_centre" value="<?php echo $this->miData->miId.','.$this->miData->users_id; ?>" />
+                                        <label><?php echo $this->miData->miName; ?></label>
+                                        <?php }else { ?>
                                         <select class="form-control select2" data-width="100%" id="mi_centre" name="miId" onchange="changeForm();" >
                                             <option value="">Select Hospital/Diagnostic</option>
                                         </select>
+                                        <?php } ?>
                                         <div class="has-error " id="err_miId" ><?php echo form_error("miId"); ?></div>
                                     </div>
                                 </article>
@@ -81,7 +101,7 @@
                                         <article class="clearfix m-t-10">
                                             <label for="cname" class="control-label col-md-4 col-sm-4">Diagnostic Type :</label>
                                             <div class="col-md-8 col-sm-8">
-                                                <select class="form-control select2" data-width="100%" name="input28_1" id="input28_1" >
+                                                <select class="form-control selectpicker" data-width="100%" name="input28_1" id="input28_1" >
                                                     <option value="">Select Hospital/Diagnostic Category</option>
                                                 </select>
                                                 <div class="has-error " id="err_input28_1" ><?php echo form_error("input28_1"); ?></div>

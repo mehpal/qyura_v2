@@ -30,13 +30,14 @@
                                     <div class="col-md-8 col-sm-8">
 <!--                                                <select class="form-control selectpicker" data-width="100%" name="city_id" onchange="getMI()" id="appointment_city">
                                               <option name="city_id" value="">Select City</option>
-                                        <?php if (isset($qyura_city) && $qyura_city != NULL) {
-                                            foreach ($qyura_city as $city) {
+                                        <?php // if (isset($qyura_city) && $qyura_city != NULL) {
+                                           // foreach ($qyura_city as $city) {
                                                 ?>
-                                                    <option <?php echo set_select('city_id', $city->city_id); ?> value="<?php echo $city->city_id; ?>"><?php echo $city->city_name; ?></option>
-    <?php }
-} ?>
+                                                    <option <?php //echo set_select('city_id', $city->city_id); ?> value="<?php ///echo $city->city_id; ?>"><?php //echo $city->city_name; ?></option>
+    <?php // }
+// } ?>
                                         </select>-->
+                                        
                                         <label><?php echo $qtRow->cityName ?></label>
                                         <div class="has-error " id="err_input1" ><?php echo form_error("city_id"); ?></div>
                                     </div>
@@ -61,8 +62,8 @@
 <!--                                            <select class="form-control selectpicker" data-width="100%" id="mi_centre" name="miId" onchange="getMIDoctorList();changeForm();getTimeSlot();" >
                                         <option value="">Select Hospital/Diagnostic</option>
                                     </select>-->
-                                        <?php  ?>
-                                        <input type="hidden" id="mi_centre_1" value="<?php echo $qtRow->miPfId.','.$qtRow->quotation_MiId; ?>" >
+                                        
+                                        <input type="hidden" id="mi_centre" value="<?php echo $qtRow->miPfId.','.$qtRow->quotation_MiId; ?>" >
                                         <?php
                                         $mitytype = 1;
                                         if($qtRow->miType == 'diagnostic')
@@ -367,13 +368,15 @@ echo form_radio(array('name' => 'existsDr', 'value' => '1', 'checked' => ($qtRow
                                         <div class="has-error " id="err_input17" ><?php echo form_error("users_username"); ?></div>
                                     </div>
                                 </article>
+                                <!-- comment code on shilky order
+                                
                                 <article class="form-group m-lr-0">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Address:</label>
                                     <div class="col-md-8 col-sm-8">
                                         <select class="form-control selectpicker" id="countryId" name="countryId" data-size="4" data-width="100%" >
                                             <option value="1">India</option>
                                         </select>
-                                        <div class="has-error " id="err_input18" ><?php echo form_error("countryId"); ?></div>
+                                        <div class="has-error " id="err_input18" ><?php //echo form_error("countryId"); ?></div>
                                     </div>
                                 </article>
 
@@ -381,11 +384,11 @@ echo form_radio(array('name' => 'existsDr', 'value' => '1', 'checked' => ($qtRow
                                     <div class="col-sm-8 col-sm-offset-4">
                                         <select class="form-control selectpicker" disabled="" data-width="100%" name="userStateId" Id="stateId" data-size="4" onchange ="fetchCity(this.value)" >
                                             <option value="">Select State</option>
-                                            <?php foreach ($allStates as $key => $val) { ?>
-                                                <option <?php echo  ($qtRow->patientDetails_stateId == $val->state_id) ? 'selected':''; ?> value="<?php echo $val->state_id; ?>"><?php echo $val->state_statename; ?></option>
-<?php } ?>
+                                            <?php //foreach ($allStates as $key => $val) { ?>
+                                                <option <?php //echo  ($qtRow->patientDetails_stateId == $val->state_id) ? 'selected':''; ?> value="<?php // echo $val->state_id; ?>"><?php // echo $val->state_statename; ?></option>
+<?php // } ?>
                                         </select>
-                                        <div class="has-error " id="err_input19" ><?php echo form_error("userStateId"); ?> </div>
+                                        <div class="has-error " id="err_input19" ><?php // echo form_error("userStateId"); ?> </div>
 
                                     </div>
                                 </article>
@@ -395,14 +398,14 @@ echo form_radio(array('name' => 'existsDr', 'value' => '1', 'checked' => ($qtRow
                                     <div class="col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4">
                                         <select disabled="" name="userCityId" id="cityId" data-size="4" class="form-control selectpicker" data-width="100%" >
                                             <option value="">Select City</option>
-                                            <?php if (isset($qyura_city) && $qyura_city != NULL) {
-                                                foreach ($qyura_city as $key => $val) { ?>
-                                                    <option <?php echo  $val->city_id == $qtRow->patientDetails_cityId ? 'selected':'' ?>  value="<?php echo $val->city_id; ?>"><?php echo $val->city_name; ?></option>
-    <?php }
-} ?>
+                                            <?php // if (isset($qyura_city) && $qyura_city != NULL) {
+                                                // foreach ($qyura_city as $key => $val) { ?>
+                                                    <option <?php // echo  $val->city_id == $qtRow->patientDetails_cityId ? 'selected':'' ?>  value="<?php // echo $val->city_id; ?>"><?php // echo $val->city_name; ?></option>
+    <?php // }
+ // } ?>
 
                                         </select>
-                                        <div class="has-error " id="err_input32" ><?php echo form_error("userCityId"); ?></div>
+                                        <div class="has-error " id="err_input32" ><?php // echo form_error("userCityId"); ?></div>
                                     </div>
                                 </article>
 
@@ -414,11 +417,13 @@ echo form_radio(array('name' => 'existsDr', 'value' => '1', 'checked' => ($qtRow
                                 </article>
                                 <article class="form-group m-lr-0 m-t-xs-10">
                                     <div class="col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4">
-                                        <input type="text" disabled="" value="<?php echo $qtRow->patientDetails_address; ?>" class="form-control" id="address" name="address" placeholder="209, ABC Road, near XYZ Building "  />
-                                        <div class="has-error "  id="err_input21" ><?php echo form_error("address"); ?></div>
+                                        <input type="text" disabled="" value="<?php // echo $qtRow->patientDetails_address; ?>" class="form-control" id="address" name="address" placeholder="209, ABC Road, near XYZ Building "  />
+                                        <div class="has-error "  id="err_input21" ><?php // echo form_error("address"); ?></div>
                                     </div>
                                 </article>
-
+                                
+                                -->
+                                
                                 <article class="form-group m-lr-0" id="familyDiv" style="display: none">
                                     <label for="cname" class="control-label col-md-4 col-sm-4">For Your Family Member</label>
                                     <div class="col-md-8 col-sm-8">

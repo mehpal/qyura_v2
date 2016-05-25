@@ -12,7 +12,7 @@ class City extends MyRest {
     }
 
     public function list_get() {
-        $options = array('table' => 'qyura_city', 'order' => array('city_name' => 'asc'));
+        $options = array('table' => 'qyura_city', 'order' => array('city_name' => 'asc'), 'where' => array('status' => '1'));
         $datas = $this->common_model->customGet($options);
         $response = array();
         if($datas != null && $datas)

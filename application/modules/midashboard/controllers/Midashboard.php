@@ -2,13 +2,13 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class MiDashboard extends MY_Controller {
+class MiDashboard extends Sub_Controller {
     public $mi_user_id = "";
     public $mi_role_id = "";
     public function __construct() {
         parent:: __construct();
         $this->load->model(array("Common_model", "midashboard_model"));
-        $this->Common_model->mypermission("3");
+        //$this->Common_model->mypermission("13");
         $this->mi_user_id = $this->session->userdata('ses_mi_userid');
         $this->mi_role_id = $this->session->userdata('ses_mi_roleid');
     }

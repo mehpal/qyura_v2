@@ -184,7 +184,7 @@ class Common_model extends MY_Model {
     
     public function mypermission($roleid = NULL) {
 
-        if ($roleid == 1 || $roleid == 3) {
+        if ($roleid == 1 || $roleid == 3 || $roleid == 13) {
             $roleid = 13;
             $ses_roleid = $this->session->userdata('ses_mi_roleid');
         } else if ($roleid == 7) {
@@ -192,6 +192,12 @@ class Common_model extends MY_Model {
         } else if ($roleid == 4) {
             $ses_roleid = $this->session->userdata('ses_doc_roleid');
         }
+        
+        if($roleid == 13)
+        {
+            return TRUE;
+        }
+        
         if(!preg_match('/'.$roleid.'/',$ses_roleid)){ 
             $this->ion_auth->logout();
             $this->session->set_flashdata('message', 'You do not have access to this page!');
@@ -246,6 +252,76 @@ class Common_model extends MY_Model {
         }
         
         exit;
+    }
+    
+    function fetchHospitalData($conditionId = NULL) {
+        $this->db->select(
+        '"Hospital" as label,0 as miOptLabel,Hos.hospital_id as miId, usr.users_id as users_id, Hos.hospital_name as miName,
+        Hos.hospital_type as miType, usr.users_email as miEmail, usr.users_mobile as userMobile, City.city_name as city_name, 
+        State.state_statename as statename, 
+        Hos.hospital_countryId as countryId, Hos.hospital_stateId as stateId, Hos.hospital_cityId as cityId,
+        Hos.hospital_zip as zip, Hos.hospital_phn as phn, Hos.hospital_address as address, Hos.hospital_long as long, 
+        Hos.hospital_lat as lat, Hos.hospital_img as img, Hos.hospital_cntPrsn as cntPrsn, Hos.docatId as docatId,
+        Hos.hospital_mbl as miMobile, Hos.hospital_aboutUs as aboutUs, Hos.specialityNameFormate as specialityNameFormate, Hos.hospital_dsgn as dsgn,
+        Hos.hospital_mmbrTyp as miMbrTyp,
+        Hos.availibility_24_7 as availibility_24_7, Hos.isEmergency as isEmergency, Hos.isManual as isManual,  
+        Hos.hasPharmacy as hasPharmacy, Hos.hasBloodbank as hasBloodbank, Hos.isBloodBankOutsource,Hos.hospital_background_img as background_img,
+        
+        Blood.bloodBank_id, Blood.bloodBank_name, Blood.bloodBank_phn, Blood.bloodBank_photo, 
+        
+        Pharmacy.pharmacy_id, Pharmacy.pharmacy_name, Pharmacy.pharmacy_phn,
+        
+        Ambu.ambulance_id, Ambu.ambulance_name,Ambu.ambulance_phn,Ambu.ambulance_img, Ambu.docOnBoard'
+        );
+        
+        $this->db->from('qyura_hospital AS Hos');
+        $this->db->join('qyura_city AS City', 'City.city_id = Hos.hospital_cityId', 'left');
+        $this->db->join('qyura_state AS State', 'State.state_id = Hos.hospital_stateId', 'left');
+        $this->db->join('qyura_users AS usr', 'usr.users_id = Hos.hospital_usersId', 'left');
+        
+        $this->db->join('qyura_bloodBank AS Blood', 'Blood.users_id = Hos.hospital_usersId', 'left');
+        $this->db->join('qyura_pharmacy AS Pharmacy', 'Pharmacy.pharmacy_usersId = Hos.hospital_usersId', 'left');
+        $this->db->join('qyura_ambulance AS Ambu', 'Ambu.ambulance_usersId = Hos.hospital_usersId', 'left');
+        
+        $this->db->join('qyura_hospitalType AS hosType', 'hosType.hospitalType_id = Hos.hospital_type', 'left');
+        
+        if ($conditionId) {
+            $this->db->where($conditionId);
+        }
+        
+        $this->db->where(array('Hos.hospital_deleted' => 0));
+        $this->db->where_in('Hos.status', array(0,1));
+        $this->db->order_by("Hos.creationTime", "desc");
+        $data = $this->db->get();
+        return $data->row();
+    }
+    
+    function fetchdiagnosticDataDetails($conditionId = NULL) {
+
+        $this->db->select(
+        "'Diagnostic' as label,1 as miOptLabel,diag.diagnostic_id as miId, usr.users_id as users_id, diag.diagnostic_name as miName,
+        diag.diagnostic_type as miType,usr.users_email as miEmail, usr.users_mobile as userMobile, City.city_name as city_name, 
+        State.state_statename as statename, 
+        diag.diagnostic_countryId as countryId, diag.diagnostic_stateId as stateId, diag.diagnostic_cityId as cityId,
+        diag.diagnostic_zip as zip, diag.diagnostic_phn as phn, diag.diagnostic_address as address, diag.diagnostic_long as long,
+        diag.diagnostic_lat as lat, diag.diagnostic_img as img, diag.diagnostic_cntPrsn as cntPrsn, diag.diagnostic_docatId as docatId,
+        diagnostic_mblNo as as miMobile, diag.diagnostic_aboutUs as aboutUs, diag.diagnostic_specialityNameFormate as specialityNameFormate, diag.diagnostic_dsgn as dsgn,
+        diag.diagnostic_mbrTyp as miMbrTyp,
+        diag.diagnostic_availibility_24_7 as availibility_24_7, diag.diagnostic_isEmergency as isEmergency, diag.isManual as isManual,  
+        diag.diagnostic_hasPharmacy as hasPharmacy, diag.diagnostic_hasBloodbank as hasBloodbank, diag.diagnostic_isBloodBankOutsource as isBloodBankOutsource,diag.diagnostic_background_img as background_img
+        ");
+        $this->db->from('qyura_diagnostic AS diag');
+        $this->db->join('qyura_city AS City', 'City.city_id = diag.diagnostic_cityId', 'left');
+        $this->db->join('qyura_state AS State', 'State.state_id = diag.diagnostic_stateId', 'left');
+        $this->db->join('qyura_users AS usr', 'usr.users_id = diag.diagnostic_usersId', 'left');
+        if ($conditionId) {
+            $this->db->where($conditionId);
+        }
+        $this->db->where(array('diag.diagnostic_deleted' => 0));
+        $this->db->where_in('diag.status', array(0,1));
+        $this->db->order_by("diag.creationTime", "desc");
+        $data = $this->db->get();
+        return $data->row();
     }
     
 

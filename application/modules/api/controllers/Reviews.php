@@ -16,7 +16,7 @@ class Reviews extends MyRest {
         $this->bf_form_validation->set_rules('reviewBy', 'Reviewed By', 'xss_clean|numeric|required|trim');
         $this->bf_form_validation->set_rules('reviewTo', 'Reviewed To', 'xss_clean|numeric|required|trim');
         $this->bf_form_validation->set_rules('aptmntId', 'aptmntId', 'xss_clean|trim|alpha_numeric|required');
-        $this->bf_form_validation->set_rules('review', 'Review', 'xss_clean|trim|required|min_length[20]|max_length[300]|callback__alpha_dash_space');
+        $this->bf_form_validation->set_rules('review', 'Review', 'xss_clean|trim|required|max_length[300]');
         $this->bf_form_validation->set_rules('rating', 'Rating', 'xss_clean|trim|required|numeric|is_natural_no_zero|min_length[1]|max_length[1]|callback__rating_check');
 
         if ($this->bf_form_validation->run($this) == FALSE) {

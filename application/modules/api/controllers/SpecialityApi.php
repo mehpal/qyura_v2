@@ -21,16 +21,22 @@ class SpecialityApi extends MyRest {
             $this->response($response, 400);
         } else {
 
-            $miId   = (isset($_POST['miID']) && $_POST['miID'] != "") ? $_POST['miID'] : NULL; // USER ID OF HOSPI / Diagno
-            $type   = (isset($_POST['type']) && $_POST['type'] != "") ? $_POST['type'] : NULL;
+            $miId = (isset($_POST['miID']) && $_POST['miID'] != "") ? $_POST['miID'] : NULL; // USER ID OF HOSPI / Diagno
+            $type = (isset($_POST['type']) && $_POST['type'] != "") ? $_POST['type'] : NULL;
+            $commonPlace = (isset($_POST['commonPlace']) && $_POST['commonPlace'] != "") ? $_POST['commonPlace'] : NULL;
 
             $specialityList = NULL;
-            
-            if ($miId != NULL)
-                $specialityList = $this->specialityApi_model->getDocSpecialityList($miId);
-            else 
-                $specialityList = $this->specialityApi_model->getSpecialityList($type);
 
+            if ($commonPlace != NULL) {
+                $specialityList = $this->specialityApi_model->getMISpeciality();
+            }else{
+                if ($miId != NULL)
+                    $specialityList = $this->specialityApi_model->getDocSpecialityList($miId);
+                else
+                    $specialityList = $this->specialityApi_model->getSpecialityList($type);
+        }
+            
+            
             if (!empty($specialityList) && $specialityList != NULL) {
                 $response['specialityList'] = $specialityList;
                 $response['status'] = TRUE;

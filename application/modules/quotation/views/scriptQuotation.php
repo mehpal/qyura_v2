@@ -597,11 +597,18 @@
         });
         changeFormReply();
     }
-
+    
+<?php 
+    if($this->miData && $this->ci_method == 'sendQuotation'){
+     ?>
+     changeForm();
+     <?php
+    }
+?>
 
     function changeFormReply() {
 
-        var id = $('#mi_centre_1').val();
+        var id = $('#mi_centre').val();
         console.log(id);
         id = id.split(',');
         console.log(id);
@@ -655,7 +662,6 @@
                 type: 'POST',
                 data: {'h_d_id': h_d_id, 'type': type},
                 beforeSend: function (xhr) {
-                    $("#input28_" + total_test).addClass('loadinggif');
                 },
                 success: function (data) {
                     console.log(data);
@@ -664,7 +670,6 @@
                     $("#input28_" + total_test).html(data);
                     $("#input28_" + total_test).selectpicker('refresh');
                     //$("#input28_"+total_test).selectpicker('refresh');
-                    $("#input28_" + total_test).removeClass('loadinggif');
                 }
             });
         }
@@ -849,14 +854,14 @@
                 newPrice = price + newPrice;
             }
         }
+        
+        if (tax && tax != '') {
+            tax_amount = (newPrice / 100) * tax;
+        }
         $("#input22").val(newPrice);
         if (oth_fee && oth_fee != '') {
             newPrice = newPrice + oth_fee;
         }
-        if (tax && tax != '') {
-            tax_amount = (newPrice / 100) * tax;
-        }
-
         var total_amount = newPrice + tax_amount;
 
         if (total_amount) {

@@ -29,7 +29,7 @@ class Appointment extends MyRest {
             $sql3 = $this->Appointment_model->DoctorAppointmentList($now,$userId);
             
             $colName = array("id","title", "orderId", "date", "startTime", "endTime", "address","upcomingStatus", "bookingStatus", "type", "typeId");
-            $sql = $sql1 . " UNION " .$sql2 . " UNION " . $sql3; 
+            $sql = $sql1 . " UNION " .$sql2 . " UNION " . $sql3. ' order by date desc'; 
         $queryResult = $this->db->query($sql)->result();
 
             $finalResult = array();
@@ -89,7 +89,7 @@ class Appointment extends MyRest {
 
             $queryResult = $this->db->query($sql)->result();
 //            echo $this->db->last_query();
-            $colName = array("orderId", "speciality", "doctor", "date", "startTime", "endTime", "userName", "userGender", "usersMobile", "userAge", "bookingStatus", "remark", "reviews", "rating", "miName", "address", "paymentMood", "paymentStatus");
+            $colName = array("orderId", "speciality", "doctor", "date", "startTime", "endTime", "userName", "userGender", "usersMobile", "userAge", "bookingStatus", "remark", "reviews", "rating", "miName","miID", "address", "paymentMood", "paymentStatus");
 
             $finalResult = array();
             if (!empty($queryResult)) {
@@ -110,6 +110,7 @@ class Appointment extends MyRest {
                     $finalTemp[] = isset($row->reviews) && $row->reviews != '' ? $row->reviews : "";
                     $finalTemp[] = isset($row->rating) && $row->rating != '' ? $row->rating : "";
                     $finalTemp[] = isset($row->miName) && $row->miName != '' ? $row->miName : "";
+                    $finalTemp[] = isset($row->miID) && $row->miID != '' ? $row->miID : "";
                     $finalTemp[] = isset($row->address) && $row->address != '' ? $row->address : "";
                     $finalTemp[] = isset($row->paymentMood) && $row->paymentMood != '' ? $row->paymentMood : "";
                     $finalTemp[] = isset($row->paymentStatus) && $row->paymentStatus != '' ? $row->paymentStatus : "";
