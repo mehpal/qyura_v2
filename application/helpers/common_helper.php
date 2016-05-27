@@ -305,7 +305,42 @@ if (!function_exists('getBookQuoteStatus')) {
 if (!function_exists('getQuoteStatus')) {
 
     function getQuoteStatus($qStatus) {
-        return isset($qStatus) && $qStatus == 1 ? 'Sent' : 'Pending';
+        $status = '';
+
+        switch ($qStatus) {
+            case 11:
+                $status = 'Pending';
+                break;
+            case 12:
+                $status = 'Confirmed';
+                break;
+            case 13:
+                $status = 'Canceled';
+                break;
+            case 14:
+                $status = 'Complete';
+                break;
+            case 15:
+                $status = 'Unpaid';
+                break;
+            case 16:
+                $status = 'Paid';
+                break;
+            case 17:
+                $status = 'Cash';
+                break;
+            case 19:
+                $status = 'Expired';
+                break;
+            case 25:
+                $status = 'Sent';
+                break;
+            case 26:
+                $status = 'Not Send';
+                break;
+        }
+
+        return $status;
     }
 
 }
@@ -443,7 +478,7 @@ if (!function_exists('statusCheck')) {
             $template = '<a class="btn btn-success waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)" onclick="statusFn(\'' . $controller . '\',\'' . $table_name . '\',\'' . $table_field_name . '\',\'' . $table_field_value . '\',\'' . $status_value . '\')">Active</a>';
         } else {
 
-            $template = '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)" onclick="statusFn(\'' . $controller . '\',\'' . $table_name . '\',\'' . $table_field_name . '\',\'' . $table_field_value . '\',\'' . $status_value . '\')">Inactive</a>';
+            $template = '<a class="btn btn-danger waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)" onclick="statusFn(\'' . $controller . '\',\'' . $table_name . '\',\'' . $table_field_name . '\',\'' . $table_field_value . '\',\'' . $status_value . '\')">Inactive</a>';
         }
 
         return $template;
@@ -459,7 +494,7 @@ if (!function_exists('puStatusCheck')) {
         if ($status_value == 2) {
             $template = '<a class="btn btn-danger waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)" onclick="puStatusFn(\'' . $controller . '\',\'' . $table_name . '\',\'' . $table_field_name . '\',\'' . $table_field_value . '\',\'' . $status_value . '\')">Unverified</a>';
         } else if ($status_value == 0) {
-            $template = '<a class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)">Inactive</a>';
+            $template = '<a class="btn btn-danger waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)">Inactive</a>';
         } else if ($status_value == 1) {
             $template = '<a class="btn btn-success waves-effect waves-light m-b-5 applist-btn" href="javascript:void(0)">Active</a>';
         } else {
@@ -642,21 +677,21 @@ if (!function_exists("getBookStatus")) {
 
     function getBookStatus($check) {
         $status = "";
-            switch ($check) {
-                case 1:
-                    $status = "Pending";
-                    break;
-                case 2:
-                   $status = "Confirm";
-                    break;
-                case 3:
-                    $status = "Cancle";
-                    break;
-                case 4:
-                    $status = "Completed";
-                    break;
-            }
-        
+        switch ($check) {
+            case 1:
+                $status = "Pending";
+                break;
+            case 2:
+                $status = "Confirm";
+                break;
+            case 3:
+                $status = "Cancle";
+                break;
+            case 4:
+                $status = "Completed";
+                break;
+        }
+
         return $status;
     }
 

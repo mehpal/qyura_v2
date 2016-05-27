@@ -2,20 +2,28 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Miappointment extends MY_Controller {
+class Miappointment extends Sub_Controller {
 
     public $error_message = array();
     public $filesUpload = array();
     public $perPage = 5;
+    public $con = null;
 
     public function __construct() {
         parent:: __construct();
         $this->load->model('miappointment_model', 'miappointment', 'common_model');
-       // $this->common_model->change_appointment_status();
-//        $this->load->library(array('api/ion_auth_api', 'bf_form_validation'));
-//        $this->load->helper(array('url', 'language','common','string'));
-//        $this->bf_bf_form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'api/auth_conf_api'), $this->config->item('error_end_delimiter', 'api/auth_conf_api'));
-//        $this->lang->load('api/auth_api');
+
+        if (USER == 13 || USER == 7)
+            $this->Common_model->mypermission(USER);
+        else
+            $this->Common_model->mypermission("");
+
+        if ($this->roleIdScope == ROLE_HOSPITAL) {
+            $this->con = array('qyura_hospital.hospital_usersId' => $this->miData->users_id);
+        }
+        if ($this->roleIdScope == ROLE_DIAGNOSTICS) {
+            $this->con = array('qyura_diagnostic.diagnostic_usersId' => $this->miData->users_id);
+        }
     }
 
     /**
@@ -31,7 +39,12 @@ class Miappointment extends MY_Controller {
         $data['title'] = 'List Mi Appointment';
 //       $msg = $this->load->view('email/signing_up_doctor_tpl', '', true);
 //       $this->send_mail("prachi.pj@gmail.com","pj.mobileappz@gmail.com","testing","Test Mail",$msg);
-        $this->load->super_admin_template('miAppList', $data, 'miAppScript');
+
+
+        if (USER == 13)
+            $this->load->mi_template('miAppList', $data, 'miAppScript');
+        else
+            $this->load->super_admin_template('miAppList', $data, 'miAppScript');
     }
 
     /**
@@ -42,7 +55,8 @@ class Miappointment extends MY_Controller {
      * @return json data for datatable
      */
     public function getDignostiData() {
-        echo $this->miappointment->getDiagnostic();
+
+        echo $this->miappointment->getDiagnostic($this->con);
     }
 
     /**
@@ -53,7 +67,8 @@ class Miappointment extends MY_Controller {
      * @return json data for datatable
      */
     public function getConsultingList() {
-        echo $this->miappointment->getConsultingList();
+
+        echo $this->miappointment->getConsultingList($this->con);
     }
 
     /**
@@ -169,7 +184,12 @@ class Miappointment extends MY_Controller {
         $data['spOptions'] = $this->common_model->customGet($spOptions);
         $data['title'] = "Add Miappointment";
         $data['allStates'] = $this->miappointment->fetchStates();
-        $this->load->super_admin_template('addappointment', $data, 'addAppScript');
+
+
+        if (USER == 13)
+            $this->load->mi_template('addappointment', $data, 'addAppScript');
+        else
+            $this->load->super_admin_template('addappointment', $data, 'addAppScript');
     }
 
     function getpatient() {
@@ -191,7 +211,7 @@ class Miappointment extends MY_Controller {
                 'select' => 'qyura_users.users_id as user_id,qyura_users.users_mobile as mobile,qyura_patientDetails.patientDetails_cityId as cityId,qyura_patientDetails.patientDetails_stateId as stateId,qyura_patientDetails.patientDetails_countryId as countryId,qyura_patientDetails.patientDetails_patientName as patientName,qyura_patientDetails.patientDetails_address as address,qyura_patientDetails.patientDetails_unqId as unqId,qyura_patientDetails.patientDetails_pin as pin,FROM_UNIXTIME(qyura_patientDetails.patientDetails_dob,"%d/%m/%Y") as dob,qyura_patientDetails.patientDetails_gender as gender',
                 'table' => 'qyura_users',
                 'where' => array('qyura_users.users_deleted' => 0, 'qyura_users.users_email' => $patient_email, 'qyura_usersRoles.usersRoles_roleId' => 6),
-                'or_where' => array('qyura_users.users_mobile' => $patient_mobile),
+                // 'or_where' => array('qyura_users.users_mobile' => $patient_mobile),
                 'join' => array(
                     array('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId = qyura_users.users_id', 'left'),
                     array('qyura_patientDetails', 'qyura_patientDetails.patientDetails_usersId = qyura_users.users_id', 'left'),
@@ -307,7 +327,7 @@ class Miappointment extends MY_Controller {
             $data = $this->common_model->fetchSingleData("users_email", "qyura_users", array("users_id" => $myid));
             $patemail = $data->users_email;
             $msg = $this->load->view('email/appoitment', '', true);
-            $this->send_mail("support@qyura.com", $patemail,"Consultation Appointment Reschedule","Consultation Appointment Reschedule", $msg);
+            $this->send_mail("support@qyura.com", $patemail, "Consultation Appointment Reschedule", "Consultation Appointment Reschedule", $msg);
 
 
             $this->session->set_flashdata('message', 'Data updated successfully !');
@@ -340,11 +360,11 @@ class Miappointment extends MY_Controller {
                 'where' => array('quotation_id' => $myid)
             );
             $isUpdate = $this->common_model->customUpdate($updateOption);
-            
+
             $data = $this->common_model->fetchSingleData("quotation_userId", "qyura_quotations", array("quotation_id" => $myid));
             $msg = $this->load->view('email/appoitment', '', true);
-            $this->send_mail("support@qyura.com", $patemail,"Consultation Appointment Reschedule","Consultation Appointment Reschedule", $msg);
-            
+            $this->send_mail("support@qyura.com", $patemail, "Consultation Appointment Reschedule", "Consultation Appointment Reschedule", $msg);
+
             $patuserid = $data->quotation_userId;
 
             echo 1;
@@ -512,7 +532,7 @@ class Miappointment extends MY_Controller {
             $user_id = $this->input->post('user_id');
             $email_status = $this->input->post('email_status');
             //insert new user
-            $email = $this->email = strtolower($this->input->post('input14'));
+            $email = strtolower($this->input->post('input14'));
             $username = explode('@', $email);
             $username = $this->username = $username[0];
             $length = 10;
@@ -892,7 +912,7 @@ class Miappointment extends MY_Controller {
                 } else {
                     $miName = 'Personal Chamber';
                 }
-                $option .= '<option value="' . $time->docTimeDay_id . ',' . $time->docTimeTable_id . '">' . date("H:i", strtotime($time->docTimeDay_open)) . " to " . date("H:i", strtotime($time->docTimeDay_close)) . " | " . $miName . '</option>';
+                $option .= '<option value="' . $time->docTimeDay_id . ',' . $time->docTimeTable_id . '">' . date("h:i A", strtotime($time->docTimeDay_open)) . " to " . date("h:i A", strtotime($time->docTimeDay_close)) . " | " . $miName . '</option>';
             }
         } else {
             $option .= '<option value="">Time slot not available. </option>';
@@ -930,6 +950,30 @@ class Miappointment extends MY_Controller {
             echo json_encode(TRUE);
         } else {
             echo json_encode(FALSE);
+        }
+    }
+
+    function check_mobile() {
+        $patient_email = $this->input->post("patient_email");
+        $users_mobile = $this->input->post("users_mobile");
+        $options = array(
+            'select' => 'qyura_users.users_id as user_id,qyura_users.users_mobile as mobile,qyura_users.users_email as users_email',
+            'table' => 'qyura_users',
+            'where' => array('qyura_users.users_deleted' => 0, 'qyura_users.users_mobile' => $users_mobile, 'qyura_usersRoles.usersRoles_roleId' => 6),
+            'join' => array(
+                array('qyura_usersRoles', 'qyura_usersRoles.usersRoles_userId = qyura_users.users_id', 'left'),
+            ),
+            'single' => true
+        );
+        $data = $this->common_model->customGet($options);
+        if (isset($data) && $data != NULL) {
+            if ($data->users_email == $patient_email) {
+                echo "0";
+            } else {
+                echo "1";
+            }
+        } else {
+            echo "0";
         }
     }
 

@@ -343,15 +343,15 @@ class Quotation_model extends CI_Model {
 
         $this->datatables->from('qyura_quotations AS quote');
 
-        $this->db->join('qyura_patientDetails AS pd', 'pd.patientDetails_usersId = quote.quotation_userId', 'left');
-        $this->db->join('qyura_quotationBooking AS quoteBook', 'quoteBook.quotationBooking_quotationId = quote.quotation_id', 'left');
+        $this->datatables->join('qyura_patientDetails AS pd', 'pd.patientDetails_usersId = quote.quotation_userId', 'left');
+        $this->datatables->join('qyura_quotationBooking AS quoteBook', 'quoteBook.quotationBooking_quotationId = quote.quotation_id', 'left');
 //        $this->db->join('qyura_hospitalTimeSlot AS hosT', 'hosT.hospitalTimeSlot_id = quote.quotation_timeSlotId', 'left');
 //        $this->db->join('qyura_diagnosticCenterTimeSlot AS diagT', 'diagT.diagnosticCenterTimeSlot_id = quote.quotation_timeSlotId', 'left');
-        $this->db->join('qyura_users AS usr', 'usr.users_id = pd.patientDetails_usersId', 'left');
-        $this->db->join('qyura_hospital AS hos', 'hos.hospital_usersId = quote.quotation_MiId', 'left');
-        $this->db->join('qyura_diagnostic AS diag', 'diag.diagnostic_usersId = quote.quotation_MiId', 'left');
-        $this->db->group_by('quotation_id');
-        $this->db->order_by('quote.creationTime', 'desc');
+        $this->datatables->join('qyura_users AS usr', 'usr.users_id = pd.patientDetails_usersId', 'left');
+        $this->datatables->join('qyura_hospital AS hos', 'hos.hospital_usersId = quote.quotation_MiId', 'left');
+        $this->datatables->join('qyura_diagnostic AS diag', 'diag.diagnostic_usersId = quote.quotation_MiId', 'left');
+        $this->datatables->group_by('quote.quotation_id');
+        $this->datatables->order_by('quote.creationTime', 'desc');
         // $this->db->get(); 
         //  echo $this->db->last_query(); exit;
         $fromDate = $this->input->post('fromDate');
@@ -375,13 +375,13 @@ class Quotation_model extends CI_Model {
             $this->db->or_like('quotationBooking_amount', $search);
             $this->db->group_end();
         }
-
+        
         $this->datatables->add_column('uniqueId', '<h6>$1</h6>', 'uniqueId');
         $this->datatables->add_column('pName', '<h6>$1</h6><p>$2  $3</p>', 'pName, getGender(gender), isBlank(userAge)');
         $this->datatables->add_column('amount', '<h6>$1</h6>', 'amount');
         $this->datatables->add_column('miName', '<h6>$1</h6><p>$2</p>', 'miName,cityName');
         $this->datatables->add_column('dt', '<h6>$1</h6>', 'getDateFormat(dt)');
-        $this->datatables->edit_column('qStatus', '<h6>$1</h6>', 'getQuoteStatus(qStatus)');
+        $this->datatables->edit_column('qStatus', '<h6>$1</h6>', 'getQuoteStatus(convertStatus)');
 
 
         $this->datatables->add_column('action', '<h6><a type="button" class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="quotation/viewPrescription/$1/history">View Prescription</a></h6>
@@ -397,8 +397,8 @@ class Quotation_model extends CI_Model {
         $this->db->from('qyura_quotations AS quote');
 
         $this->db->join('qyura_patientDetails AS pd', 'pd.patientDetails_usersId = quote.quotation_userId', 'left');
-        $this->db->join('qyura_hospitalTimeSlot AS hosT', 'hosT.hospitalTimeSlot_id = quote.quotation_timeSlotId', 'left');
-        $this->db->join('qyura_diagnosticCenterTimeSlot AS diagT', 'diagT.diagnosticCenterTimeSlot_id = quote.quotation_timeSlotId', 'left');
+        
+        
         $this->db->join('qyura_users AS usr', 'usr.users_id = pd.patientDetails_usersId', 'left');
         $this->db->join('qyura_hospital AS hos', 'hos.hospital_usersId = quote.quotation_MiId', 'left');
         $this->db->join('qyura_diagnostic AS diag', 'diag.diagnostic_usersId = quote.quotation_MiId', 'left');
@@ -446,8 +446,7 @@ class Quotation_model extends CI_Model {
 
         $this->db->join('qyura_patientDetails AS pd', 'pd.patientDetails_usersId = quote.quotation_userId', 'left');
         $this->db->join('qyura_quotationBooking AS quoteBook', 'quoteBook.quotationBooking_quotationId = quote.quotation_id', 'left');
-        $this->db->join('qyura_hospitalTimeSlot AS hosT', 'hosT.hospitalTimeSlot_id = quote.quotation_timeSlotId', 'left');
-        $this->db->join('qyura_diagnosticCenterTimeSlot AS diagT', 'diagT.diagnosticCenterTimeSlot_id = quote.quotation_timeSlotId', 'left');
+       
         $this->db->join('qyura_users AS usr', 'usr.users_id = pd.patientDetails_usersId', 'left');
         $this->db->join('qyura_hospital AS hos', 'hos.hospital_usersId = quote.quotation_MiId', 'left');
         $this->db->join('qyura_diagnostic AS diag', 'diag.diagnostic_usersId = quote.quotation_MiId', 'left');

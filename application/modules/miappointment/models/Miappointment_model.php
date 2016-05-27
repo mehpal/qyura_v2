@@ -32,6 +32,9 @@ class Miappointment_model extends Common_model {
         if ($dateFilter != NULL && $dateFilter != '')
             $this->datatables->where($dateFilter);
 
+        if($condition != null)
+        $this->datatables->where($condition);    
+        
         $this->datatables->where(array("qyura_quotationBooking.quotationBooking_deleted" => 0, "qyura_quotations.quotation_dateTime <>" => 0));
 
         $this->datatables->edit_column('orderId', '<h6>$1</h6><p>$2</p>$3', 'orderId,dateFn(dateTime),timeFn(finaltime)');
@@ -50,7 +53,7 @@ class Miappointment_model extends Common_model {
 //        echo $this->datatables->last_query();
 //        exit;
     }
-
+    
     public function date_range($startdateTime = false, $enddateTime = false, $colName = 'date') {
         /* dateTime range filtartion */
         $startdateTime = strtotime($startdateTime);
@@ -73,7 +76,7 @@ class Miappointment_model extends Common_model {
     public function getDetail($qtnId) {
         $now = time();
         //,CASE when qyura_quotations.quotation_payMode=17 THEN 'CASH'end as paymode
-        $this->db->select("qyura_quotations.quotation_timeSlotId as timeSlotId,qyura_quotations.quotation_MiId,qyura_quotations.quotation_id, qyura_quotations.quotation_dateTime as dateTime, (CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_mblNo WHEN(hospital_usersId is not null) THEN hospital_mblNo END) as MImblNo, (CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_name WHEN(hospital_usersId is not null) THEN hospital_name END) as MIname, (CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_hmsId WHEN(hospital_usersId is not null) THEN hospital_hmsId END) as hmsId, qyura_diagnosticsCat.diagnosticsCat_catName AS diagCatName, qyura_quotationBooking.quotationBooking_orderId AS orderId, qyura_quotationBooking.quotationBooking_bookStatus as bookStatus, qyura_quotationBooking.quotationBooking_orderId AS orderId,CASE qyura_quotations.quotation_qtStatus WHEN '11' THEN 'Pending' WHEN '12' THEN 'Confirmed' WHEN '13' THEN 'Canceled'  WHEN '19' THEN 'Expired' WHEN '14' THEN 'Completed' ELSE NULL END AS bookingStatus,qyura_quotations.quotation_qtStatus, CASE qyura_quotations.	quotation_payStatus WHEN '16' THEN 'Paid' WHEN '15' THEN 'Unpaid'ELSE NULL END AS paymentStatus, transactionInfo.payment_method AS paymentMethod,(CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_img WHEN(hospital_usersId is not null) THEN hospital_img END) as MIimg,(CASE WHEN(diagnostic_usersId is not null) THEN 'diagnostic' WHEN(hospital_usersId is not null) THEN 'hospital' END) as type,CASE when qyura_quotations.quotation_payMode=17 THEN 'CASH' when qyura_quotations.quotation_payMode=20 THEN 'Credit Card' when qyura_quotations.quotation_payMode=21 THEN 'Net banking' when qyura_quotations.quotation_payMode=22 THEN 'Debit Card' when qyura_quotations.quotation_payMode=23 THEN 'Cash Card' when qyura_quotations.quotation_payMode=24 THEN 'Mobile Payment'ELSE 'TEST AVENUE' end as paymode,qyura_quotations.quotations_finalTime as finalTime,quotation_otherFee,quotation_tex,qyura_patientDetails.patientDetails_address as pataddress");
+        $this->db->select("qyura_quotations.quotation_timeSlotId as timeSlotId,qyura_quotations.quotation_MiId,qyura_quotations.quotation_id, qyura_quotations.quotation_dateTime as dateTime, (CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_mblNo WHEN(hospital_usersId is not null) THEN hospital_mblNo END) as MImblNo, (CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_name WHEN(hospital_usersId is not null) THEN hospital_name END) as MIname, (CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_hmsId WHEN(hospital_usersId is not null) THEN hospital_hmsId END) as hmsId, qyura_diagnosticsCat.diagnosticsCat_catName AS diagCatName, qyura_quotationBooking.quotationBooking_orderId AS orderId, qyura_quotationBooking.quotationBooking_bookStatus as bookStatus, qyura_quotationBooking.quotationBooking_orderId AS orderId,CASE qyura_quotations.quotation_qtStatus WHEN '11' THEN 'Pending' WHEN '12' THEN 'Confirmed' WHEN '13' THEN 'Canceled'  WHEN '19' THEN 'Expired' WHEN '14' THEN 'Completed' ELSE NULL END AS bookingStatus,qyura_quotations.quotation_qtStatus, CASE qyura_quotations.	quotation_payStatus WHEN '16' THEN 'Paid' WHEN '15' THEN 'Unpaid'ELSE NULL END AS paymentStatus, transactionInfo.payment_method AS paymentMethod,(CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_img WHEN(hospital_usersId is not null) THEN hospital_img END) as MIimg,(CASE WHEN(diagnostic_usersId is not null) THEN 'diagnostic' WHEN(hospital_usersId is not null) THEN 'hospital' END) as type,CASE when qyura_quotations.quotation_payMode=17 THEN 'CASH' when qyura_quotations.quotation_payMode=20 THEN 'Credit Card' when qyura_quotations.quotation_payMode=21 THEN 'Net banking' when qyura_quotations.quotation_payMode=22 THEN 'Debit Card' when qyura_quotations.quotation_payMode=23 THEN 'Cash Card' when qyura_quotations.quotation_payMode=24 THEN 'Mobile Payment'ELSE 'TEST AVENUE' end as paymode,qyura_quotations.quotations_finalTime as finalTime,quotation_otherFee,quotation_tex,qyura_patientDetails.patientDetails_address as pataddress,qyura_quotations.quotation_qtStatus as apstatus");
 
         $this->db->from("qyura_quotationBooking");
         $this->db->join("transactionInfo", "transactionInfo.order_no = qyura_quotationBooking.quotationBooking_orderId", "left");
@@ -155,9 +158,6 @@ class Miappointment_model extends Common_model {
     }
 //Consultation detail
     public function getConsultingData($appointmentId) {
-
-//qyura_doctorAvailabilitySession
-        // CASE transactionInfo.payment_status WHEN '1' THEN 'Success' WHEN 4 THEN 'Aborted' WHEN 5 THEN 'Failure' ELSE NULL END AS paymentStatus
         $now = time();
         $this->db->select("qyura_doctors.doctors_id as docid,qyura_doctorAppointment.doctorAppointment_doctorUserId as doctorUserId,qyura_doctorAppointment.doctorAppointment_docType as centerType,qyura_doctorAppointment.doctorAppointment_doctorParentId as doctorParentId,qyura_doctorAppointment.doctorAppointment_id as id,qyura_users.users_username AS title, qyura_doctorAppointment.doctorAppointment_date AS appdate, CASE WHEN (qyura_doctorAppointment.doctorAppointment_docType = 1 ) THEN qyura_hospital.hospital_address WHEN (qyura_doctorAppointment.doctorAppointment_docType = 2 ) THEN qyura_diagnostic.diagnostic_address ELSE qyura_doctors.doctor_addr END AS address, CASE WHEN (qyura_doctorAppointment.doctorAppointment_docType = 1 ) THEN qyura_hospital.hospital_img WHEN (qyura_doctorAppointment.doctorAppointment_docType = 2 ) THEN qyura_diagnostic.diagnostic_img ELSE qyura_doctors.doctors_img END AS MIimg, CASE WHEN (qyura_doctorAppointment.doctorAppointment_docType = 1 ) THEN qyura_hospital.hospital_name WHEN (qyura_doctorAppointment.doctorAppointment_docType = 2 ) THEN qyura_diagnostic.diagnostic_name ELSE qyura_doctors.doctor_addr END AS MIname, CASE WHEN (qyura_doctorAppointment.doctorAppointment_docType = 1 ) THEN qyura_hospital.hospital_address WHEN (qyura_doctorAppointment.doctorAppointment_docType = 2 ) THEN qyura_diagnostic.diagnostic_address ELSE qyura_doctors.doctor_addr END AS address, CASE WHEN (qyura_doctorAppointment.doctorAppointment_docType = 1 ) THEN qyura_hospital.hospital_img WHEN (qyura_doctorAppointment.doctorAppointment_docType = 2 ) THEN qyura_diagnostic.diagnostic_img ELSE qyura_doctors.doctors_img END AS MIimg, CASE WHEN (qyura_doctorAppointment.doctorAppointment_docType = 1 ) THEN qyura_hospital.hospital_id WHEN (qyura_doctorAppointment.doctorAppointment_docType = 2 ) THEN qyura_diagnostic.diagnostic_id ELSE qyura_doctors.doctors_id END AS MIid, qyura_doctorAppointment.doctorAppointment_unqId AS orderId, CASE qyura_doctorAppointment.doctorAppointment_status WHEN '11' THEN 'Pending' WHEN '12' THEN 'Confirmed' WHEN '13' THEN 'Canceled' WHEN '19' THEN 'Expired' WHEN '14' THEN 'Completed' ELSE NULL END AS bookingStatus, CASE qyura_doctorAppointment.	doctorAppointment_payStatus WHEN '16' THEN 'Paid' WHEN '15' THEN 'Unpaid'ELSE NULL END AS paymentStatus, CASE WHEN (qyura_doctorAppointment.doctorAppointment_memberId <> 0 ) THEN qyura_usersFamily.usersfamily_name ELSE qyura_patientDetails.patientDetails_patientName END AS userName, CASE WHEN (qyura_doctorAppointment.doctorAppointment_memberId <> 0 ) THEN qyura_usersFamily.usersfamily_gender ELSE qyura_patientDetails.patientDetails_gender END AS userGender, qyura_users.users_mobile AS usersMobile, CASE WHEN (qyura_doctorAppointment.doctorAppointment_memberId <> 0 ) THEN qyura_usersFamily.usersfamily_age ELSE (FROM_UNIXTIME('{$now}', '%Y') - FROM_UNIXTIME(qyura_patientDetails.patientDetails_dob, '%Y')) END AS userAge, transactionInfo.payment_method AS paymentMethod, qyura_doctorAppointment.doctorAppointment_ptRmk AS remark, '' AS diagCatName, qyura_specialities.specialities_name AS speciality, 'Consultation' AS type, (CASE WHEN(qyura_doctorAppointment.doctorAppointment_date > CURRENT_TIMESTAMP ) THEN 'Upcoming' ELSE 'Completed' END) AS upcomingStatus,patient.users_mobile as mobile,doctorAppointment_ptRmk as remarks,qyura_patientDetails.patientDetails_patientImg as patientImg,qyura_country.country,qyura_state.state_statename,qyura_city.city_name,qyura_doctorAppointment.doctorAppointment_consulationFee as consulationFee,qyura_doctorAppointment.doctorAppointment_otherFee as otherFee,qyura_doctorAppointment.doctorAppointment_tax as tax,qyura_doctorAppointment.doctorAppointment_totPayAmount as totPayAmount,qyura_patientDetails.patientDetails_pin as pin,CASE when qyura_doctorAppointment.doctorAppointment_payMode=17 THEN 'CASH' when qyura_doctorAppointment.doctorAppointment_payMode=20 THEN 'Credit Card' when qyura_doctorAppointment.doctorAppointment_payMode=21 THEN 'Net banking' when qyura_doctorAppointment.doctorAppointment_payMode=22 THEN 'Debit Card' when qyura_doctorAppointment.doctorAppointment_payMode=23 THEN 'Cash Card' when qyura_doctorAppointment.doctorAppointment_payMode=24 THEN 'Mobile Payment'ELSE 'TEST AVENUE' end as paymode,qyura_doctorAppointment.doctorAppointment_finalTiming as finalTime,qyura_doctorAppointment.doctorAppointment_status as apstatus,qyura_patientDetails.patientDetails_address as pataddress");
 
@@ -189,7 +189,7 @@ class Miappointment_model extends Common_model {
             return FALSE;
     }
 //Display COnsulting List
-    public function getConsultingList() {
+    public function getConsultingList($con = null) {
         $now = time();
         $this->datatables->select("qyura_doctorAppointment.doctorAppointment_doctorUserId as doctorUserId,qyura_doctorAppointment.doctorAppointment_doctorParentId as doctorParentId,qyura_doctorAppointment.doctorAppointment_id as id,qyura_doctors.doctors_fName AS title, qyura_doctorAppointment.doctorAppointment_date AS dateTime, CASE WHEN (qyura_doctorAppointment.doctorAppointment_docType = 1 ) THEN qyura_hospital.hospital_address WHEN (qyura_doctorAppointment.doctorAppointment_docType = 2 ) THEN qyura_diagnostic.diagnostic_address ELSE qyura_doctors.doctor_addr END AS address, CASE WHEN (qyura_doctorAppointment.doctorAppointment_docType = 1 ) THEN qyura_hospital.hospital_name WHEN (qyura_doctorAppointment.doctorAppointment_docType = 2 ) THEN qyura_diagnostic.diagnostic_name ELSE qyura_doctors.doctor_addr END AS MIname, qyura_doctorAppointment.doctorAppointment_unqId AS orderId,qyura_doctorAppointment.doctorAppointment_status  AS bookingStatus, CASE transactionInfo.payment_status WHEN '1' THEN 'Success' WHEN 4 THEN 'Aborted' WHEN 5 THEN 'Failure' ELSE NULL END AS paymentStatus, CASE WHEN (qyura_doctorAppointment.doctorAppointment_memberId <> 0 ) THEN qyura_usersFamily.usersfamily_name ELSE qyura_patientDetails.patientDetails_patientName END AS userName, CASE WHEN (qyura_doctorAppointment.doctorAppointment_memberId <> 0 ) THEN qyura_usersFamily.usersfamily_gender ELSE qyura_patientDetails.patientDetails_gender END AS userGender, qyura_users.users_mobile AS usersMobile, CASE WHEN (qyura_doctorAppointment.doctorAppointment_memberId <> 0 ) THEN qyura_usersFamily.usersfamily_age ELSE (FROM_UNIXTIME('{$now}', '%Y') - FROM_UNIXTIME(qyura_patientDetails.patientDetails_dob, '%Y')) END AS userAge, transactionInfo.payment_method AS paymentMethod, qyura_doctorAppointment.doctorAppointment_ptRmk AS remark, '' AS diagCatName, qyura_specialities.specialities_name AS speciality, 'Consultation' AS type, (CASE WHEN(qyura_doctorAppointment.doctorAppointment_date > CURRENT_TIMESTAMP ) THEN 'Upcoming' ELSE 'Completed' END) AS upcomingStatus,doctorAppointment_pntUserId AS pntUserId,doctorAppointment_slotId as slotId, qyura_doctorAppointment.doctorAppointment_finalTiming as finalTime,CASE WHEN (qyura_doctorAppointment.doctorAppointment_docType = 1 ) THEN qyura_hospital.hospital_id WHEN (qyura_doctorAppointment.doctorAppointment_docType = 2 ) THEN qyura_diagnostic.diagnostic_id ELSE qyura_doctors.doctors_id END AS MIid,qyura_doctorAppointment.doctorAppointment_docType as centerType,qyura_doctors.doctors_id as docid");
 
@@ -205,6 +205,10 @@ class Miappointment_model extends Common_model {
 
         $dateFilter = $this->date_range($_POST['startDate'], $_POST['endDate'], 'qyura_doctorAppointment.doctorAppointment_date');
 
+        if($con != null)
+        $this->datatables->where($con);    
+            
+        
         if ($dateFilter != NULL && $dateFilter != '')
             $this->datatables->where($dateFilter);
 
@@ -219,85 +223,7 @@ class Miappointment_model extends Common_model {
 
         return $this->datatables->generate();
     }
-/*
-    public function getHealthpkgList() {
-        $now = time();
-        $this->datatables->select('healthPackage_packageTitle as title, healthPkgBooking_finalBookingDate as dateTime, (CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_name WHEN(hospital_usersId is not null) THEN hospital_name END) as address, healthPkgBooking_orderNo as orderId, ( CASE healthPkgBooking_bkStatus WHEN 0 THEN "Pending" WHEN 1 THEN "Completed" WHEN 2 THEN "Cancelled" END) as bookingStatus, CASE WHEN (healthPkgBooking_memberId <> 0 ) THEN qyura_usersFamily.usersfamily_name ELSE qyura_patientDetails.patientDetails_patientName END AS userName, CASE WHEN (healthPkgBooking_memberId <> 0 ) THEN CASE usersfamily_gender WHEN 0 THEN "Male" WHEN 1 THEN "Female" WHEN 3 THEN "Other" END  ELSE CASE patientDetails_gender WHEN "M" THEN "Male" WHEN "F" THEN "Female" WHEN "O" THEN "Other" END END AS userGender, users_mobile AS usersMobile, CASE WHEN (healthPkgBooking_memberId <> 0 ) THEN qyura_usersFamily.usersfamily_age ELSE (CASE patientDetails_dob WHEN 0 THEN "" ELSE FROM_UNIXTIME(UNIX_TIMESTAMP(), "%Y") - FROM_UNIXTIME(patientDetails_dob, "%Y") END ) END AS userAge, ( CASE payment_status WHEN 1 THEN "Success" WHEN 4 THEN "Aborted" WHEN 5 THEN "Failure" END) as paymentStatus, payment_method as paymentMethod, "" as remark, "" as diagCatName, "" as speciality, "Health Package" as type, (CASE WHEN(healthPkgBooking_finalBookingDate > UNIX_TIMESTAMP()) THEN "Upcoming" ELSE "Completed" END) as upcomingStatus,(CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_usersId WHEN(hospital_usersId is not null) THEN hospital_usersId END) as miId');
-        $this->datatables->from("qyura_healthPkgBooking");
-        $this->datatables->join("qyura_healthPackage", "qyura_healthPackage.healthPackage_id = qyura_healthPkgBooking.healthPkgBooking_healthPackageId", "left");
-        $this->datatables->join("transactionInfo", "transactionInfo.order_no = qyura_healthPkgBooking.healthPkgBooking_orderNo", "left");
-        $this->datatables->join("qyura_hospital", "qyura_hospital.hospital_usersId = qyura_healthPkgBooking.healthPkgBooking_miId", "left");
-        $this->datatables->join("qyura_diagnostic", "qyura_diagnostic.diagnostic_usersId = qyura_healthPkgBooking.healthPkgBooking_miId", "left");
-        $this->datatables->join("qyura_users", "qyura_users.users_id = qyura_healthPkgBooking.healthPkgBooking_userId", "left");
-        $this->datatables->join("qyura_patientDetails", "qyura_patientDetails.patientDetails_usersId = qyura_users.users_id", "left");
-        $this->datatables->join("qyura_usersFamily", "qyura_usersFamily.usersfamily_id = qyura_healthPkgBooking.healthPkgBooking_memberId", "left");
-        
-        $dateFilter = $this->date_range($_POST['startDate'], $_POST['endDate'], 'healthPkgBooking_finalBookingDate');
-
-        if ($dateFilter != NULL && $dateFilter != '')
-            $this->datatables->where($dateFilter);
-
-        $this->datatables->where(array("healthPkgBooking_deleted" => 0, "healthPkgBooking_finalBookingDate <>" => 0));
-        
-        $this->datatables->group_by('healthPkgBooking_orderNo');
-        
-        $this->datatables->edit_column('orderId', '<h6>$1</h6><p>$2</p>', 'orderId,dateFormate(dateTime)');
-        $this->datatables->add_column('userName', '<h6>$1</h6><p>$2|$3</p>', 'userName,getGender(userGender),userAge');
-        $this->datatables->add_column('title', '<h6>$1</h6>', 'title');
-        $this->datatables->edit_column('bookStatus', '$1', 'bookingStatus');
-        $this->datatables->add_column('action', '<p><a  class="btn btn-warning waves-effect waves-light m-b-5 applist-btn" href="' . site_url('miappointment/healthPkgDetail') . '/$1">View Detail</a></p>', 'orderId');
-
-        return $this->datatables->generate();
-        
-        
-    }
     
-    public function getHealthPkgDetail($appointmentId){
-        $now = time();
-        $this->db->select('healthPackage_packageTitle as title, healthPkgBooking_finalBookingDate as dateTime, (CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_name WHEN(hospital_usersId is not null) THEN hospital_name END) as address, healthPkgBooking_orderNo as orderId, ( CASE healthPkgBooking_bkStatus WHEN 0 THEN "Pending" WHEN 1 THEN "Completed" WHEN 2 THEN "Cancelled" END) as bookingStatus, CASE WHEN (healthPkgBooking_memberId <> 0 ) THEN qyura_usersFamily.usersfamily_name ELSE qyura_patientDetails.patientDetails_patientName END AS userName, CASE WHEN (healthPkgBooking_memberId <> 0 ) THEN CASE usersfamily_gender WHEN 0 THEN "Male" WHEN 1 THEN "Female" WHEN 3 THEN "Other" END  ELSE CASE patientDetails_gender WHEN "M" THEN "Male" WHEN "F" THEN "Female" WHEN "O" THEN "Other" END END AS userGender, users_mobile AS usersMobile, CASE WHEN (healthPkgBooking_memberId <> 0 ) THEN qyura_usersFamily.usersfamily_age ELSE (CASE patientDetails_dob WHEN 0 THEN "" ELSE FROM_UNIXTIME(UNIX_TIMESTAMP(), "%Y") - FROM_UNIXTIME(patientDetails_dob, "%Y") END ) END AS userAge, ( CASE payment_status WHEN 1 THEN "Success" WHEN 4 THEN "Aborted" WHEN 5 THEN "Failure" END) as paymentStatus, payment_method as paymentMethod, "" as remark, "" as diagCatName, "" as speciality, "Health Package" as type, (CASE WHEN(healthPkgBooking_finalBookingDate > UNIX_TIMESTAMP()) THEN "Upcoming" ELSE "Completed" END) as upcomingStatus,(CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_usersId WHEN(hospital_usersId is not null) THEN hospital_usersId END) as miId,qyura_patientDetails.patientDetails_patientImg as patientImg,qyura_country.country,qyura_state.state_statename,qyura_city.city_name,(CASE WHEN(diagnostic_usersId is not null) THEN diagnostic_img WHEN(hospital_usersId is not null) THEN hospital_img END) as MIimg');
-        $this->db->from("qyura_healthPkgBooking");
-        $this->db->join("qyura_healthPackage", "qyura_healthPackage.healthPackage_id = qyura_healthPkgBooking.healthPkgBooking_healthPackageId", "left");
-        $this->db->join("transactionInfo", "transactionInfo.order_no = qyura_healthPkgBooking.healthPkgBooking_orderNo", "left");
-        $this->db->join("qyura_hospital", "qyura_hospital.hospital_usersId = qyura_healthPkgBooking.healthPkgBooking_miId", "left");
-        $this->db->join("qyura_diagnostic", "qyura_diagnostic.diagnostic_usersId = qyura_healthPkgBooking.healthPkgBooking_miId", "left");
-        $this->db->join("qyura_users", "qyura_users.users_id = qyura_healthPkgBooking.healthPkgBooking_userId", "left");
-        $this->db->join("qyura_patientDetails", "qyura_patientDetails.patientDetails_usersId = qyura_users.users_id", "left");
-        $this->db->join("qyura_country", "qyura_country.country_id=qyura_patientDetails.patientDetails_countryId", "left");
-        $this->db->join("qyura_state", "qyura_state.state_id=qyura_patientDetails.patientDetails_stateId", "left");
-        $this->db->join("qyura_city", "qyura_city.city_id=qyura_patientDetails.patientDetails_cityId", "left");
-        $this->db->join("qyura_usersFamily", "qyura_usersFamily.usersfamily_id = qyura_healthPkgBooking.healthPkgBooking_memberId", "left");
-        
-        
-
-        $this->db->where(array("healthPkgBooking_deleted" => 0, "healthPkgBooking_orderNo" => $appointmentId));
-        
-        $this->db->group_by('healthPkgBooking_orderNo');
-        
-        $data = $this->db->get()->row();
-        //dump($this->db->last_query());
-        if (isset($data) && !empty($data) && $data != null)
-            return $data;
-        else
-            return FALSE;
-        
-        
-    }
-public function getHealthPkgReport($appointmentId) {
-
-        $option = array(
-            'select' => 'qyura_reports.report_report as report',
-            'table' => 'qyura_reports',
-            'where' => array('qyura_reports.report_bookingOrderId' => $appointmentId, 'qyura_reports.report_deleted' => 0)
-        );
-
-        $quotationTests = $this->customGet($option);
-
-        if (isset($quotationTests) && $quotationTests != null) {
-            return $quotationTests;
-        } else
-            return false;
-    }
-*/
     public function getConsultingReport($appointmentId) {
 
         $option = array(
@@ -316,7 +242,6 @@ public function getHealthPkgReport($appointmentId) {
         } else
             return false;
     }
-    
     
     public function getTimeSlot($Mid, $quotation_id) {
         $this->db->select("(CASE WHEN(diagnostic_usersId IS NOT NULL) THEN CONCAT_WS(' - ',diagnosticCenterTimeSlot_startTime, diagnosticCenterTimeSlot_endTime,diagnosticCenterTimeSlot_sessionType) WHEN(hospital_usersId IS NOT NULL) THEN CONCAT_WS('-',hospitalTimeSlot_startTime, hospitalTimeSlot_endTime,hospitalTimeSlot_sessionType) END) AS timeSlot,

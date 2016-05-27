@@ -99,6 +99,5 @@ defined('BS_REPO_PATH')      OR define('BS_REPO_PATH', 'assets/report'); // high
 defined('BS_PROF_PATH')      OR define('BS_PROF_PATH', 'assets/proImg'); // highest automatically-assigned error code
 defined('BS_HOSIMG_PATH')      OR define('BS_HOSIMG_PATH', 'assets/hospitalsImages'); // highest automatically-assigned error 
 defined('BS_DIAGIMG_PATH')      OR define('BS_DIAGIMG_PATH', 'assets/diagnosticsImage'); // highest automatically-assigned error
-defined('WEEK_DAYS_INDEX')      OR define('WEEK_DAYS_INDEX', array(0,1,2,3,4,5,6)); // WEEK_DAYS_INDEX
-defined('WEEK_DAYS')      OR define('WEEK_DAYS', array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')); // WEEK_DAYS_INDEX
+
 

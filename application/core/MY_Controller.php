@@ -606,7 +606,7 @@ class MY_Controller extends CI_Controller {
         $this->email->subject($subject);
         $this->email->message($msg);
         $mail = $this->email->send();
-        show_error($this->email->print_debugger());
+        //show_error($this->email->print_debugger());
         if ($mail)
             return true;
         else {

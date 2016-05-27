@@ -31,6 +31,10 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Select City:</label>
                                         <div class="col-md-8 col-sm-8">
+                                             <?php  if($this->miData){ ?>
+                                        <input type="hidden" name="input1" id="appointment_city" value="<?php echo $this->miData->cityId; ?>" />
+                                        <label><?php echo $this->miData->city_name; ?></label>
+                                        <?php }else { ?>
                                             <select class="select2" onchange="getMI()" id="appointment_city" name="input1" data-width="100%" >
                                                 <option value="">Select City</option>
                                                 <?php if (isset($qyura_city) && $qyura_city != NULL) {
@@ -40,6 +44,7 @@
     <?php }
 } ?>
                                             </select>
+                                             <?php } ?>
                                             <div class="error-city"></div>
                                             <div class="has-error " id="err_input1" ><?php echo form_error("input1"); ?></div>
                                         </div>
@@ -47,11 +52,16 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Appointment For :</label>
                                         <div class="col-md-8 col-sm-8">
+                                            <?php  if($this->miData){ ?>
+                                        <input type="hidden" name="input2" id="centerType" value="<?php echo $this->miData->miOptLabel; ?>" />
+                                        <label><?php echo $this->miData->label; ?></label>
+                                        <?php }else { ?>
                                             <select class="select2" data-width="100%" onchange="getMI()" id="centerType" name="input2" >
                                                 <option value="">Select Type</option>
                                                 <option value="0">Hospitals</option>
                                                 <option value="1">Diagnostic Center</option>
                                             </select>
+                                        <?php } ?>
                                             <div class="error-appt"></div>
                                             <div class="has-error " id="err_input2" ><?php echo form_error("input2"); ?></div>
                                         </div>
@@ -59,9 +69,14 @@
                                     <article class="form-group m-lr-0">
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Select Hospital/Diagnostic:</label>
                                         <div class="col-md-8 col-sm-8">
+                                            <?php  if($this->miData){ ?>
+                                        <input type="hidden" name="input3" id="mi_centre" value="<?php echo $this->miData->miId.','.$this->miData->users_id; ?>" />
+                                        <label><?php echo $this->miData->miName; ?></label>
+                                        <?php }else { ?>
                                             <select class="select2" data-width="100%" id="mi_centre" name="input3" onchange="getTimeSlot()" >
                                                 <option value="">Select Hospital/Diagnostic</option>
                                             </select>
+                                        <?php } ?>
                                             <div class="error-hosdiag"></div>
                                             <div class="has-error " id="err_input3" ><?php echo form_error("input3"); ?></div>
                                         </div>
@@ -144,7 +159,7 @@
                                         <label for="cname" class="control-label col-md-4 col-sm-4">Date :</label>
                                         <div class="col-md-8 col-sm-8">
                                             <div class="input-group">
-                                                <input class="form-control pickDate"  id="date-3" type="text" onkeyup="return false;" onblur="getTimeSlot()" name="input6" />
+                                                <input class="form-control pickDate"  id="date-3" type="text" onkeyup="return false;"  name="input6" />
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                             </div>
                                             <div class="has-error " id="err_input6" ><?php echo form_error("input6"); ?></div>

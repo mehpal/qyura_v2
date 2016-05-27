@@ -7,6 +7,7 @@ if (!defined('BASEPATH')) {
 class Sub_Controller extends MY_Controller {
 
     public $miData = false;
+    public $roleIdScope = false;
     public $ci_class = '';
     public $ci_method = '';
     public function __construct() {
@@ -19,7 +20,7 @@ class Sub_Controller extends MY_Controller {
             $userid = $this->session->userdata('ses_mi_userid');
             $profileid = $this->session->userdata('ses_mi_profileid');
             $roleid = $this->session->userdata('ses_mi_roleid');
-
+            $this->roleIdScope = $roleid;
             if($roleid==1)
             {
                 $result = $this->Common_model->fetchHospitalData(array("Hos.hospital_id"=>$profileid));

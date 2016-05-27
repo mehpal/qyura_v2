@@ -308,8 +308,8 @@
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Payment Status :</label>
                                     <div class="col-md-8 col-sm-8">
                                         <select class="selectpicker" name="pay_status" id="pay_status" data-width="100%" >
-                                            <option value="1" >Paid</option>
-                                            <option value="0" >Unpaid</option>
+                                            <option value="16" >Paid</option>
+                                            <option value="15" >Unpaid</option>
                                         </select>
                                         <div class="has-error " id="err_pay_status" ><?php echo form_error("pay_status"); ?></div>
                                     </div>
@@ -318,7 +318,7 @@
                                     <label for="cname" class="control-label col-md-4 col-sm-4">Payment Mode:</label>
                                     <div class="col-md-8 col-sm-8">
                                         <select type="text" class="selectpicker" id="pay_mode" name="pay_mode" data-width="100%" >
-                                            <option value="1" >Cash</option>
+                                            <option value="17" >Cash</option>
                                         </select>
                                         <div class="has-error " id="err_input27" ><?php echo form_error("pay_mode"); ?></div>
                                     </div>

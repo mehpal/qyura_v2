@@ -79,11 +79,11 @@
                 qyuraLoader.startLoader();
             },
             success: function (data) {
-                
+
                 if (data && data != 0) {
-                   
+
                     var data = JSON.parse(data);
-                    if (data.email_status != 1) {    
+                    if (data.email_status != 1) {
                         $('#users_mobile').val(data.mobile);
                         $('#stateId').val(data.stateId);
                         $('#stateId').selectpicker('refresh');
@@ -123,7 +123,7 @@
                     $('#familyListDiv').hide();
                     $("#p_unqId").hide();
                 }
-                
+
             }
         });
         qyuraLoader.stopLoader();
@@ -155,7 +155,7 @@
                         console.log(data);
                         $('#speciallity').html(data);
                         $('#speciallity').selectpicker('refresh');
-                        
+
                     }
                 });
                 qyuraLoader.stopLoader();
@@ -187,7 +187,7 @@
 
                         $("#input28_" + total_test).html(data);
                         $("#input28_" + total_test).selectpicker('refresh');
-                        
+
                     }
                 });
                 qyuraLoader.stopLoader();
@@ -205,28 +205,28 @@
         var appdate = $('#date-3').val();
 
         var type = $("#centerType").val();
-        
-        if(type=="0")
-           var type1 = 1;
+
+        if (type == "0")
+            var type1 = 1;
         else
             var type1 = 2;
-        
+
         var url = '<?php echo site_url(); ?>/miappointment/appoint_timeSlot';
         if (typeof h_d_id == 'string' && typeof type == 'string') {
             $.ajax({
                 url: url,
                 async: false,
                 type: 'POST',
-                data: {'h_d_id': h_d_id, 'type': type, 'docid': docid, 'appdate': appdate,'centertype':type1},
+                data: {'h_d_id': h_d_id, 'type': type, 'docid': docid, 'appdate': appdate, 'centertype': type1},
                 beforeSend: function (xhr) {
-                   qyuraLoader.startLoader();
+                    qyuraLoader.startLoader();
                 },
                 success: function (data) {
-                    
-                    
+
+
                     $('#timeSlot').html(data);
                     $('#timeSlot').selectpicker('refresh');
-                    
+
                 }
             });
             qyuraLoader.stopLoader();
@@ -282,7 +282,8 @@
     }
 
     function removeTest(div_no) {
-        $("#diagnosticClon_" + div_no).slideUp(function () { });
+        $("#diagnosticClon_" + div_no).slideUp(function () {
+        });
 
         var typeVal = parseInt(div_no) - parseInt(1);
         $("#total_test").val(typeVal);
@@ -295,13 +296,13 @@
         var amount = 0;
         var con_fee = parseInt($('#input22').val());
         var oth_fee = parseInt($('#input23').val());
-        if(!oth_fee)
+        if (!oth_fee)
             oth_fee = 0;
         var tax = parseInt($('#input24').val());
-        if(!tax)
+        if (!tax)
             tax = 0;
-        var amount = con_fee + oth_fee;
-        
+        var amount = con_fee;
+
         if (type == 1) {
             var total_test = $("#total_test").val();
             var a;
@@ -314,6 +315,7 @@
 
         var tax_amount = (amount / parseInt(100)) * tax;
         var total_amount = (amount + tax_amount).toFixed(2);
+        total_amount = parseFloat(total_amount) + parseFloat(oth_fee);
 
         if (total_amount) {
             $("#input25").val(total_amount);
@@ -323,6 +325,29 @@
             $("#input25").val(amount);
         } else {
             $("#input25").val('');
+        }
+    }
+
+    function checkMobile() {
+        var patient_email = $("#patient_email").val();
+        var users_mobile = $("#users_mobile").val();
+        if (users_mobile != '') {
+            var url = '<?php echo site_url(); ?>/miappointment/check_mobile';
+            if (typeof patient_email == 'string' && typeof users_mobile == 'string') {
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: 'POST',
+                    data: {'patient_email': patient_email, 'users_mobile': users_mobile},
+                    success: function (data) {
+                        if (data == 1) {
+                            $("#users_mobile").val('');
+                            bootbox.alert("This Mobile Number already used with another user");
+
+                        }
+                    }
+                });
+            }
         }
     }
 
@@ -355,295 +380,304 @@
     }
 
     $(document).ready(function () {
-        <?php $date = date('m/d/Y'); ?>
+<?php $date = date('m/d/Y'); ?>
         $('.timepicker').timepicker({showMeridian: false});
-        $('#date-3,#date-5').datepicker({
+        $('#date-5').datepicker({
             autoclose: true,
-            startDate: '<?php echo $date; ?>', 
+            startDate: '<?php echo $date; ?>',
         });
+        $('#date-3').datepicker({
+            autoclose: true,
+            startDate: '<?php echo $date; ?>',
+        }).on('changeDate', function (e) {
+            getTimeSlot();
+        });
+
         $('#date-4').datepicker({autoclose: true});
-         
-        $('.selectpicker').selectpicker().change(function(){
+
+        $('.selectpicker').selectpicker().change(function () {
             $(this).valid();
-            
+
         });
         $("#setData").validate({
-
-        
-        rules: {
-            input1: {
-                required: true
-            },
-            input2: {
-                required: true
-            },
-            input3: {
-                required: true
-            },
-            input5: {
-                required: true
-            },
-            input10: {
-                required: true
-            },
-            input12: {
-                required: true
-            },
-            input13: {
-                required: true
-            },
-            input6: {
-                required: true
-            },
-            input4: {
-                required: true,
-            },
-            input34: {
-                required: true,
-                remote: {
-                url: '<?php echo base_url() ?>' + 'index.php/miappointment/check_timeslot',
-                type: "post",
-                data: {
-                    timeslot_id: function () {var timeSlot = $("#timeSlot").val().split(',');return timeSlot[0];},
-                    final_timing: function () {return $("#timepicker4").val();},
+            rules: {
+                input1: {
+                    required: true
+                },
+                input2: {
+                    required: true
+                },
+                input3: {
+                    required: true
+                },
+                input5: {
+                    required: true
+                },
+                input10: {
+                    required: true
+                },
+                input12: {
+                    required: true
+                },
+                input13: {
+                    required: true
+                },
+                input6: {
+                    required: true
+                },
+                input4: {
+                    required: true,
+                },
+                input34: {
+                    required: true,
+                    remote: {
+                        url: '<?php echo base_url() ?>' + 'index.php/miappointment/check_timeslot',
+                        type: "post",
+                        data: {
+                            timeslot_id: function () {
+                                var timeSlot = $("#timeSlot").val().split(',');
+                                return timeSlot[0];
+                            },
+                            final_timing: function () {
+                                return $("#timepicker4").val();
+                            },
+                        }
+                    }
+                },
+                input7: {
+                    required: true
+                },
+                input37: {
+                    required: true
+                },
+                'input28[]': {
+                    required: true
+                },
+                'input29[]': {
+                    required: true,
+                    lettersonly: true,
+                },
+                'input30[]': {
+                    required: true,
+                    digits: true,
+                },
+                'input31[]': {
+                    required: true
+                },
+                input14: {
+                    required: true
+                },
+                input15: {
+                    required: true,
+                    digits: true,
+                },
+                input17: {
+                    required: true,
+                    lettersonly: true,
+                },
+                input18: {
+                    required: true
+                },
+                input19: {
+                    required: true
+                },
+                input20: {
+                    required: true,
+                    digits: true,
+                },
+                input21: {
+                    required: true
+                },
+                input22: {
+                    required: true,
+                    digits: true,
+                },
+                input23: {
+                    required: true,
+                    digits: true,
+                },
+                input24: {
+                    required: true,
+                    digits: true,
+                },
+                input32: {
+                    required: true
+                },
+                input35: {
+                    required: true
+                },
+                input36: {
+                    required: true
                 }
-            }
             },
-            input7: {
-                required: true
-            },
-            input37: {
-                required: true
-            },
-            'input28[]': {
-                required: true
-            },
-            'input29[]': {
-                required: true,
-                lettersonly:true,
-            },
-            'input30[]': {
-                required: true,
-                digits:true,
-            },
-            'input31[]': {
-                required: true
-            },
-            input14: {
-                required: true
-            },
-            input15: {
-                required: true,
-                digits: true,
-            },
-            input17: {
-                required: true,
-                lettersonly:true,
-            },
-            input18: {
-                required: true
-            },
-            input19: {
-                required: true
-            },
-            input20: {
-                required: true,
-                digits:true,
-            },
-            input21: {
-                required: true
-            },
-            input22: {
-                required: true,
-                digits:true,
-            },
-            input23: {
-                required: true,
-                digits:true,
-            },
-            input24: {
-                required: true,
-                digits:true,
-            },
-            input32: {
-                required: true
-            },
-            input35: {
-                required: true
-            },
-            input36: {
-                required: true
-            }
-        },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "input1")
+                {
+                    error.insertAfter('.error-city');
+                }
+                else if (element.attr("name") == "input2")
+                {
+                    error.insertAfter('.error-appt');
+                }
+                else if (element.attr("name") == "input3")
+                {
+                    error.insertAfter('.error-hosdiag');
+                }
+                else if (element.attr("name") == "input5")
+                {
+                    error.insertAfter('.error-type');
+                }
+                else if (element.attr("name") == "input10")
+                {
+                    error.insertAfter('.error-spec');
+                }
+                else if (element.attr("name") == "input12")
+                {
+                    error.insertAfter('.error-doc');
+                }
+                else if (element.attr("name") == "input4")
+                {
+                    error.insertAfter('.error-ts');
+                }
+                else if (element.attr("name") == "input28[]")
+                {
+                    error.insertAfter('.error-diagcat');
+                }
+                else if (element.attr("name") == "input29[]")
+                {
+                    error.insertAfter('.error-diagtest');
+                }
+                else if (element.attr("name") == "input30[]")
+                {
+                    error.insertAfter('.error-diagprice');
+                }
+                else if (element.attr("name") == "input30[]")
+                {
+                    error.insertAfter('.error-diagins');
+                }
+                else if (element.attr("name") == "input36")
+                {
+                    error.insertAfter('.error-gender');
+                }
+                else if (element.attr("name") == "input19")
+                {
+                    error.insertAfter('.error-state');
+                }
+                else if (element.attr("name") == "input32")
+                {
+                    error.insertAfter('.error-c');
+                }
 
-        errorPlacement: function(error, element) {
-        if (element.attr("name") == "input1")
-        {
-            error.insertAfter('.error-city');
-        }
-        else if (element.attr("name") == "input2")
-        {
-            error.insertAfter('.error-appt');
-        }
-        else if (element.attr("name") == "input3")
-        {
-            error.insertAfter('.error-hosdiag');
-        }
-        else if (element.attr("name") == "input5")
-        {
-            error.insertAfter('.error-type');
-        }
-        else if (element.attr("name") == "input10")
-        {
-            error.insertAfter('.error-spec');
-        }
-        else if (element.attr("name") == "input12")
-        {
-            error.insertAfter('.error-doc');
-        }
-        else if (element.attr("name") == "input4")
-        {
-            error.insertAfter('.error-ts');
-        }
-        else if (element.attr("name") == "input28[]")
-        {
-            error.insertAfter('.error-diagcat');
-        }
-         else if (element.attr("name") == "input29[]")
-        {
-            error.insertAfter('.error-diagtest');
-        }
-        else if (element.attr("name") == "input30[]")
-        {
-            error.insertAfter('.error-diagprice');
-        }
-        else if (element.attr("name") == "input30[]")
-        {
-            error.insertAfter('.error-diagins');
-        }
-        else if (element.attr("name") == "input36")
-        {
-            error.insertAfter('.error-gender');
-        }
-        else if (element.attr("name") == "input19")
-        {
-            error.insertAfter('.error-state');
-        }
-        else if (element.attr("name") == "input32")
-        {
-            error.insertAfter('.error-c');
-        }
-        
-        else{
-            error.insertAfter(element);
-        }
-        
-        },
-        messages: {
-            input1: {
-                required: "Please select a city!",
+                else {
+                    error.insertAfter(element);
+                }
+
             },
-            input2: {
-                required: "Please select appointment for!",
+            messages: {
+                input1: {
+                    required: "Please select a city!",
+                },
+                input2: {
+                    required: "Please select appointment for!",
+                },
+                input3: {
+                    required: "Please select MI!",
+                },
+                input5: {
+                    required: "Please select appointment type!",
+                },
+                input10: {
+                    required: "Please select a speciality!",
+                },
+                input12: {
+                    required: "Please select a doctor!",
+                },
+                input13: {
+                    required: "Please enter remarks!",
+                },
+                input6: {
+                    required: "Please select a date!",
+                },
+                input4: {
+                    required: "Please select a time slot!",
+                    remote: "Please select a correct time slot!",
+                },
+                input34: {
+                    required: "Please select a final time!",
+                },
+                input7: {
+                    required: "Please select a date!",
+                },
+                input37: {
+                    required: "Please select a final time!",
+                },
+                'input28[]': {
+                    required: "Please select a diagnostic type!",
+                },
+                'input29[]': {
+                    required: "Please enter a test name! ",
+                },
+                'input30[]': {
+                    required: "Please enter price! ",
+                },
+                'input31[]': {
+                    required: "Please enter instructions! ",
+                },
+                input14: {
+                    required: "Please enter an email-id!"
+                },
+                input15: {
+                    required: "Please enter a mobile number!",
+                    digits: "Please enter digits only!"
+                },
+                input17: {
+                    required: "Please enter a name!",
+                    lettersonly: "Please enter characters only!"
+                },
+                input18: {
+                    required: "Please select a country!"
+                },
+                input19: {
+                    required: "Please select a state!"
+                },
+                input20: {
+                    required: "Please enter zip code!",
+                    digits: "Please enter digits only!",
+                },
+                input21: {
+                    required: "Please enter an address!"
+                },
+                input22: {
+                    required: "Please enter consultation fees!",
+                    digits: "Please enter digits only!",
+                },
+                input23: {
+                    required: "Please enter any other fees!",
+                    digits: "Please enter digits only!",
+                },
+                input24: {
+                    required: "Please enter tax!",
+                    digits: "Please enter digits only!",
+                },
+                input32: {
+                    required: "Please select City!"
+                },
+                input35: {
+                    required: "Please select a DOB!"
+                },
+                input36: {
+                    required: "Please select a gender!"
+                }
+
             },
-            input3: {
-                required: "Please select MI!", 
-            },
-            input5: {
-                required: "Please select appointment type!",
-            },
-            input10: {
-                required: "Please select a speciality!",
-            },
-            input12: {
-                required: "Please select a doctor!",
-            },
-            input13: {
-                required: "Please enter remarks!",
-            },
-            input6: {
-                required: "Please select a date!", 
-            },
-            input4: {
-                required: "Please select a time slot!",
-                remote: "Please select a correct time slot!",
-            },
-            input34: {
-                required: "Please select a final time!", 
-            },
-            input7: {
-                required: "Please select a date!",
-            },
-            input37: {
-                required: "Please select a final time!",
-            },
-            'input28[]': {
-                required: "Please select a diagnostic type!",
-            },
-            'input29[]': {
-                required: "Please enter a test name! ",
-            },
-            'input30[]': {
-                required: "Please enter price! ",
-            },
-            'input31[]': {
-                required: "Please enter instructions! ",
-            },
-            input14: {
-                required: "Please enter an email-id!"
-            },
-            input15: {
-                required: "Please enter a mobile number!",
-                digits: "Please enter digits only!"
-            },
-            input17: {
-                required: "Please enter a name!",
-                lettersonly:"Please enter characters only!"
-            },
-            input18: {
-                required: "Please select a country!"
-            },
-            input19: {
-                required: "Please select a state!"
-            },
-            input20: {
-                required: "Please enter zip code!",
-                digits: "Please enter digits only!",
-            },
-            input21: {
-                required: "Please enter an address!"
-            },
-            input22: {
-                required: "Please enter consultation fees!",
-                digits: "Please enter digits only!",
-            },
-            input23: {
-                required: "Please enter any other fees!",
-                digits: "Please enter digits only!",
-            },
-            input24: {
-                required: "Please enter tax!",
-                digits: "Please enter digits only!",
-            },
-            input32: {
-                required: "Please select City!"
-            },
-            input35: {
-                required: "Please select a DOB!"
-            },
-            input36: {
-                required: "Please select a gender!"
-            }
-                
-        },
-        submitHandler: function(form)
-             {
-                
+            submitHandler: function (form)
+            {
+
                 form.submit();
-                
+
             }
         });
-        
+
     });
     function check_validaton() {
         var url = '<?php echo site_url(); ?>/docappointment/check_timeslot/';
@@ -666,8 +700,8 @@
             }
         });
     }
-     $('#resetButton').click(function() {
-     location.reload();
- });
+    $('#resetButton').click(function () {
+        location.reload();
+    });
 
 </script>

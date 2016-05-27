@@ -177,7 +177,7 @@
                                 $dt = date('Y-m-d', $qtnDetail->dateTime);
                                 $tm = date('H:i:s', $qtnDetail->finalTime);
                                 $appdate = strtotime($dt." ".$tm);
-                                if($appdate>= (strtotime(date("Y-m-d H:i:s"))) && ($conDetail->apstatus!="13" && $conDetail->apstatus!="14" && $conDetail->apstatus!="19")){
+                                if($appdate>= (strtotime(date("Y-m-d H:i:s"))) && ($qtnDetail->apstatus!="13" && $qtnDetail->apstatus!="14" && $qtnDetail->apstatus!="19")){
                                 ?>
                                 <button data-toggle="modal" data-target="#myModal2" class="btn btn-success waves-effect waves-light m-b-5 applist-btn" type="button">Reschedule</button>
                                 <?php } ?> 
